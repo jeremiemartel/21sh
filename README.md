@@ -42,4 +42,4 @@ ft_get_command
   
 Jour 1:
 
- http://pubs.opengroup.org/onlinepubs/9699919799/
+http://pubs.opengroup.org/onlinepubs/9699919799/
