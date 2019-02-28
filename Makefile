@@ -6,7 +6,7 @@
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/02/28 18:01:31 by ldedier          ###   ########.fr        #
+#    Updated: 2019/02/28 18:13:05 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
-INC = -I $(INCLUDESDIR) -I $(LIBFTDIR)/$(LIBFT_INCLUDEDIR)\
+INC = -I $(INCLUDESDIR) -I $(LIBFTDIR)
 
 CFLAGS = -DPATH=$(PWD) -Wall -Wextra -Werror $(INC)
 LFLAGS = -L $(LIBFTDIR) -lft -ltermcap
