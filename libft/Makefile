@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/01/22 09:34:46 by jmartel          ###   ########.fr        #
+#    Updated: 2019/03/01 11:58:49 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ OBJS			= $(SRCS:%.c=%.o)
 
 HEADERS		= ./ft_printf/ft_printf.h ./libft.h
 
-INCLUDES	= -I. -I./ft_printf/ -I./gnl/
+INCLUDES	= -I. -I./ft_printf/
 
 CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra $(INCLUDES)

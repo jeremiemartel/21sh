@@ -6,17 +6,25 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/01/28 12:57:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/01 11:57:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include "./gnl/get_next_line.h"
 # include "ft_printf.h"
+
+/*
+** read(2)
+*/
+# include <sys/types.h>
+# include <sys/uio.h>
 # include <unistd.h>
-# include <string.h>
+
+/*
+** malloc, free
+*/
 # include <stdlib.h>
 
 typedef struct		s_list
@@ -27,7 +35,7 @@ typedef struct		s_list
 }					t_list;
 
 /*
-********************************** ATOI  **************************************
+********************************** atoi  **************************************
 */
 char				*ft_itoa(int n);
 char				*ft_ltoa(long l, int base);
@@ -146,6 +154,15 @@ void				ft_strtab_free(char **tabl);
 void				ft_strtab_put(char **tabl);
 int					ft_strtab_len(char **tabl);
 char				**ft_strtab_new_line(char **tabl, int free);
+
+/*
+******************************** get_next_line  *******************************
+*/
+# define BUFF_SIZE	32
+# define GNL_MAX_FD	2000
+
+int			get_next_line(const int fd, char **line);
+
 /*
 ********************************** ft_printf  *********************************
 */

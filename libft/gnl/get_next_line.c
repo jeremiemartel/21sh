@@ -5,108 +5,107 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 11:41:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/01/08 12:54:05 by jmartel          ###   ########.fr       */
+/*   Created: 2019/02/12 10:28:11 by jmartel           #+#    #+#             */
+/*   Updated: 2019/03/01 11:58:35 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "get_next_line.h"
 
-void		ft_realloc(char **line, t_file_gnl *file)
+/*
+** gnl_join_free : used to join line and the currently readed buffer
+**		it's only copy up to the first '/n', or '\0'
+**			if param is true, s1 will be freed
+**		it return the address of the new malloced string
+*/
+
+static char		*gnl_join_free(char *s1, char *s2, int param)
 {
-	char	*new;
+	int		len1;
+	int		len2;
+	char	*res;
 
-	if (!(new = malloc(sizeof(**line) * (file->l_s + BUFF_SIZE))))
-		return ;
-	ft_memcpy(new, *line, file->l_s);
-	free(*line);
-	file->l_s += BUFF_SIZE;
-	*line = new;
-}
-
-void		check_lst(t_file_gnl **lst, int fd)
-{
-	t_file_gnl		*new;
-
-	if (!(new = (t_file_gnl*)malloc(sizeof(t_file_gnl))))
-		return ;
-	new->fd = fd;
-	if (!(new->b_s = (char*)malloc(sizeof(char) * BUFF_SIZE)))
-		return ;
-	new->b = new->b_s;
-	new->size = read(new->fd, new->b_s, BUFF_SIZE);
-	new->l_s = new->size;
-	new->i = 0;
-	new->next = NULL;
-	if (lst == NULL || *lst == NULL)
-		(*lst) = new;
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s2)
+		res = ft_strdup(s1);
 	else
-		(*lst)->next = new;
-	return ;
+	{
+		len1 = ft_strlen(s1);
+		len2 = 0;
+		while (s2[len2] && s2[len2] != '\n')
+			len2++;
+		if (!(res = malloc(sizeof(char) * (len1 + len2 + 1))))
+			return (NULL);
+		if (len1)
+			ft_strncpy(res, s1, len1);
+		ft_strncpy(res + len1, s2, len2);
+		res[len1 + len2] = 0;
+	}
+	if (param & 0x0001 && s1)
+		free(s1);
+	return (res);
 }
 
-int			ft_read2(t_file_gnl *file, char **line)
-{
-	int		res;
+/*
+** gnl_read :
+**	look if their are datas associated to the fd,
+**	else it read on fd and stock it in the linked
+**		it join to the line full or part of the
+**		buffer
+**		Function call herself recursively until
+**		it met the end of the line
+**	Return values: same as get_next_line
+*/
 
-	if (file->b >= file->b_s + file->size)
-	{
-		ft_realloc(line, file);
-		res = ft_read(file, line);
-		file->i = 0;
-		return (res);
-	}
-	file->fd = -1;
-	return (0);
-}
-
-int			ft_read(t_file_gnl *file, char **line)
+static int		gnl_read(char *gnl, int fd, char **line)
 {
-	if (file->b == file->b_s + file->size)
+	int		ret;
+
+	ret = BUFF_SIZE;
+	if (gnl[0] == 0)
 	{
-		file->size = read(file->fd, file->b_s, BUFF_SIZE);
-		file->b = file->b_s;
-		file->l_s += file->size;
+		if ((ret = read(fd, gnl, BUFF_SIZE)) == -1)
+			return (-1);
+		if (ret == 0)
+			return (0);
+		gnl[ret] = 0;
 	}
-	if (file->size == 0 && file->i != 0)
+	*line = gnl_join_free(*line, gnl, 1);
+	if (ft_strchr(gnl, '\n'))
 	{
-		(*line)[file->i] = 0;
+		ft_strcpy(gnl, ft_strchr(gnl, '\n') + 1);
 		return (1);
 	}
-	if (file->size == 0)
-		return (0);
-	while (*file->b != '\n' && file->b < file->b_s + file->size)
-		(*line)[file->i++] = *(file->b++);
-	if (*(file->b) == '\n')
-	{
-		(file->b)++;
-		(*line)[file->i] = 0;
-		file->i = 0;
+	ft_bzero(gnl, BUFF_SIZE + 1);
+	if (!**line)
 		return (1);
-	}
-	return (ft_read2(file, line));
+	if (gnl_read(gnl, fd, line) == -1)
+		return (-1);
+	return (1);
 }
 
-int			get_next_line(const int fd, char **line)
-{
-	static t_file_gnl	*lst = NULL;
-	t_file_gnl			*file;
+/*
+**	get_next_line :
+**		Read on the fd, and malloc line, to stock the first line
+**		It can read on multiple file descriptors at the same time
+**		Can cause leaks if you don't read the file until the end
+**	Return values:
+**		-1 : if any error occured
+**		0 : if EOF had been encountered
+**		1 : if any line had been read
+*/
 
-	if (fd < 0 || line == NULL)
+int				get_next_line(const int fd, char **line)
+{
+	static char		gnl[GNL_MAX_FD][BUFF_SIZE + 1];
+	int				ret;
+
+	if (BUFF_SIZE < 1 || BUFF_SIZE > INT32_MAX)
 		return (-1);
-	if (lst == NULL)
-		check_lst(&lst, fd);
-	file = lst;
-	while (file != NULL)
-	{
-		if (file->fd == fd)
-			break ;
-		if (file->next == NULL)
-			check_lst(&file, fd);
-		file = file->next;
-	}
-	if (!(*line = malloc(sizeof(**line) * file->l_s)))
+	if (fd < 0 || fd >= GNL_MAX_FD || !line)
 		return (-1);
-	return (ft_read(file, line));
+	*line = NULL;
+	ret = gnl_read(gnl[fd], fd, line);
+	return (ret);
 }
