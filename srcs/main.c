@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/01 18:57:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/02 11:17:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@ int			sh_lexer(char *input);
 
 int			main(int argc, char **argv)
 {
+	int		token;
+
 	if (argc == 1)
 		return (0);
-	sh_lexer(argv[1]);
+	token = sh_lexer(argv[1]);
 	return (0);
 	(void)argc;
 	(void)argv;
 }
-
+/*
 int			sh_lexer_auto_while(int status, char c)
 {
 	if (Status == error)
@@ -47,3 +49,4 @@ int			sh_lexer_auto_while(int status, char c)
 	}
 	return (error);
 }
+*/

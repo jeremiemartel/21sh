@@ -6,12 +6,88 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 18:47:20 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/01 18:11:42 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/02 14:56:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+int			ft_isseparator(char c)
+{
+	if (c == '<' || c == '>' || c == ';' || c == '|' || c == '\0')
+		return (1);
+	return (ft_iswhite(c));
+}
+
+int			sh_lexer(char *input)
+{
+	int			i;
+	int			start;
+	int			token;
+	t_automate	automates[SH_LEXER_AUTO_LEN];
+
+	i = 0;
+	start = 0;
+	sh_lexer_automate_init(automates);
+//	sh_lexer_automate_show_status(automates, ' ');
+	while (input[start])
+	{
+		i = start;
+		while (input[i])
+		{
+			sh_lexer_automate_run(automates, input[i]);
+			if ((token = sh_lexer_automate_check(automates)) != UNKNOWN)
+			{
+				sh_lexer_show_token(token);
+				ft_putstrn(ft_strsub(input, start, i - start));
+				ft_putnbrn(start);
+				sh_lexer_automate_init(automates);
+				break ;
+			}
+			i++;
+		}
+		while (ft_iswhite(input[i]))
+			i++;
+//		sh_lexer_automate_show_status(automates, input[i]);
+		start = i;
+//		if (input[start])
+//			start++;
+			
+//		if (ft_iswhite(input[i]))
+//			start = i + 1;
+	}
+	sh_lexer_automate_run(automates, input[i]);
+//	sh_lexer_automate_show_status(automates, input[i]);
+	if ((token = sh_lexer_automate_check(automates)) != UNKNOWN)
+		sh_lexer_show_token(token);
+	return (UNKNOWN);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 #define SH_LEX_NO	-1
 #define SH_LEX_YES	-2
 
@@ -81,3 +157,4 @@ int			sh_lexer(char *input)
 	}
 	return (1);
 }
+*/

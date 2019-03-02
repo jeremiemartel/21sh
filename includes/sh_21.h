@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/01 19:00:36 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/02 11:32:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,50 @@
 
 #include "libft.h"
 
-typedef struct		s_io//
-{
-	int				fdin;
-	int				fdout;
-	int				fderr;
-}					t_io;
+# define SH_LEXER_AUTO_LEN	4
 
-typedef struct		s_command//
-{
-	t_io			io;
-	t_list			*args;
-}					t_command;
+# define end	-1
+# define error	-2
 
+typedef struct		s_automate
+{
+	int				status;
+	int				(*automate)(int status, char c);
+}					t_automate;
+
+typedef enum		e_tokenlist
+{
+	UNKNOWN = -1,
+	WHILE,
+	GREAT,
+	LESS,
+	WORD
+}					t_tokenlist;
+
+/*
+** lexer.c
+*/
+int			ft_isseparator(char c);
+int			sh_lexer(char *input);
+
+/*
+** lexer_automates.c
+*/
+int			sh_lexer_auto_while(int status, char c);
+int			sh_lexer_auto_less(int status, char c);
+int			sh_lexer_auto_great(int status, char c);
+int			sh_lexer_auto_word(int status, char c);
+
+/*
+** lexer_automates_tools.c
+*/
+void		sh_lexer_automate_init(t_automate automates[]);
+void		sh_lexer_automate_run(t_automate automates[], char c);
+int			sh_lexer_automate_check(t_automate automates[]);
+void		sh_lexer_automate_show_status(t_automate automates[], char c);
+void		sh_lexer_show_token(int token);
+
+/*
 typedef enum		e_tokenlist
 {
 	UNKNOWN,	//May be useless, need to see later
@@ -46,19 +77,6 @@ typedef enum		e_tokenlist
 	DLESSDASH,	//'<<-'
 	CLOBBER		//'>|'
 }					t_tokenlist;
-
-typedef struct 		s_token
-{
-	t_tokenlist		token;
-	char			value[250];	//adjust size
-}					t_token;
-
-/*
-** t_command.c
 */
-t_command		*t_command_new(void);
-void			t_command_free(t_list *cmd);
-void			t_command_free_args(t_list *arg);
-void			t_command_free_list(t_list *cmd);
 
 #endif
