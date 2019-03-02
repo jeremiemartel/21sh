@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_21.h                                            :+:      :+:    :+:   */
+/*   process_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/02/28 18:28:11 by ldedier          ###   ########.fr       */
+/*   Created: 2019/02/28 18:24:34 by ldedier           #+#    #+#             */
+/*   Updated: 2019/02/28 20:34:02 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SH_21_H
-# define SH_21_H
+#include "sh_21.h"
 
-#include "libft.h"
-
-typedef struct		s_io
+int			process_commands(t_list *commands)
 {
-	int				fdin;
-	int				fdout;
-	int				fderr;
-}					t_io;
+	t_list		*ptr;
+	t_command	*command;
 
-typedef struct		s_command
-{
-	t_io			io;
-	t_list			*args;
-}					t_command;
-
-#endif
+	while (commands)
+	{
+		command = (t_command *)(ptr->content);
+		ptr = ptr->next;
+	}
+	return (0);
+}
