@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
+#    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/02/28 18:13:05 by jmartel          ###   ########.fr        #
+#    Updated: 2019/03/02 11:25:59 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX		=	main.c
+SRCS_NO_PREFIX		=	main.c lexer.c lexer_automates.c lexer_automates_tools.c
 
 INCLUDES_NO_PREFIX	= sh_21.h
 
@@ -40,7 +40,7 @@ INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
 INC = -I $(INCLUDESDIR) -I $(LIBFTDIR)
 
-CFLAGS = -DPATH=$(PWD) -Wall -Wextra -Werror $(INC)
+CFLAGS = -DPATH=$(PWD) -Wall -Wextra -Werror $(INC) -g3 -fsanitize=address
 LFLAGS = -L $(LIBFTDIR) -lft -ltermcap
 
 ifeq ($(DEBUG), 1)

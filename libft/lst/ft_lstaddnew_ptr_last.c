@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_last.c                                   :+:      :+:    :+:   */
+/*   ft_lstaddnew_ptr_last.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/12 16:24:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/04 21:06:39 by ldedier          ###   ########.fr       */
+/*   Created: 2019/03/04 21:05:23 by ldedier           #+#    #+#             */
+/*   Updated: 2019/03/04 21:05:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_last(t_list **start, t_list *new)
+int		ft_lstaddnew_ptr_last(t_list **list, void *content, size_t size)
 {
-	t_list		*head;
+	t_list *node;
 
-	if (!start || !new)
-		return ;
-	if (!*start)
-	{
-		*start = new;
-		return ;
-	}
-	head = *start;
-	while (head->next != NULL)
-		head = head->next;
-	head->next = new;
-	new->next = NULL;
-	return ;
+	if (!(node = ft_lstnew_ptr(content, size)))
+		return (1);
+	else
+		ft_lstadd_last(list, node);
+	return (0);
 }

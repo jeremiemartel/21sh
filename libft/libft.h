@@ -6,17 +6,25 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/01/28 12:57:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/04 21:12:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include "./gnl/get_next_line.h"
 # include "ft_printf.h"
+
+/*
+** read(2)
+*/
+# include <sys/types.h>
+# include <sys/uio.h>
 # include <unistd.h>
-# include <string.h>
+
+/*
+** malloc, free
+*/
 # include <stdlib.h>
 
 typedef struct		s_list
@@ -27,7 +35,7 @@ typedef struct		s_list
 }					t_list;
 
 /*
-********************************** ATOI  **************************************
+********************************** atoi  **************************************
 */
 char				*ft_itoa(int n);
 char				*ft_ltoa(long l, int base);
@@ -49,6 +57,11 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 size_t				ft_lstlen(t_list *start);
 void				ft_lstadd_last(t_list **start, t_list *new);
 void				ft_lstput_fd(t_list *start, int fd);
+int					ft_lstaddnew_ptr_last(t_list **list, void *content,
+						size_t size);
+int					ft_lstaddnew_ptr(t_list **list, void *content, size_t size);
+int					ft_lstaddnew_last(t_list **lst, void *content, size_t size);
+t_list				*ft_lstnew_ptr(void const *content, size_t content_size);
 
 /*
 ********************************** math  **************************************
@@ -146,6 +159,15 @@ void				ft_strtab_free(char **tabl);
 void				ft_strtab_put(char **tabl);
 int					ft_strtab_len(char **tabl);
 char				**ft_strtab_new_line(char **tabl, int free);
+
+/*
+******************************** get_next_line  *******************************
+*/
+# define BUFF_SIZE	32
+# define GNL_MAX_FD	2000
+
+int			get_next_line(const int fd, char **line);
+
 /*
 ********************************** ft_printf  *********************************
 */

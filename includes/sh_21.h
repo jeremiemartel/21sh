@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_21.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/02/28 18:28:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/04 19:53:14 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,70 @@
 
 #include "libft.h"
 
-typedef struct		s_io
-{
-	int				fdin;
-	int				fdout;
-	int				fderr;
-}					t_io;
+# define SH_LEXER_AUTO_LEN	5
 
-typedef struct		s_command
+# define end	-1
+# define error	-2
+
+typedef struct		s_automate
 {
-	t_io			io;
-	t_list			*args;
-}					t_command;
+	int				status;
+	int				(*automate)(int status, char c);
+}					t_automate;
+
+typedef enum		e_tokenlist
+{
+	UNKNOWN = -1,
+	SPACE,
+	WHILE,
+	GREAT,
+	LESS,
+	WORD,
+}					t_tokenlist;
+
+/*
+** lexer.c
+*/
+int			ft_isseparator(char c);
+int			sh_lexer(char *input);
+
+/*
+** lexer_automates.c
+*/
+int			sh_lexer_auto_while(int status, char c);
+int			sh_lexer_auto_less(int status, char c);
+int			sh_lexer_auto_great(int status, char c);
+int			sh_lexer_auto_word(int status, char c);
+int			sh_lexer_auto_space(int status, char c);
+
+/*
+** lexer_automates_tools.c
+*/
+void		sh_lexer_automate_init(t_automate automates[]);
+void		sh_lexer_automate_run(t_automate automates[], char c);
+int			sh_lexer_automate_check(t_automate automates[]);
+void		sh_lexer_automate_show_status(t_automate automates[], char c);
+void		sh_lexer_show_token(int token);
+
+/*
+typedef enum		e_tokenlist
+{
+	UNKNOWN,	//May be useless, need to see later
+	TOKEN,		//token context dependent, transition state
+	WORD,
+	NAME,
+	ASSIGMENT,
+	IO_NUMBER,	//only digits and oneof '<' or '>'
+	NEWLINE,	//'\n'
+	DELIMITOR,	//';'
+	DLESS,		//'<<'
+	DGREAT,		//'>>'
+	LESSAND,	//'<&'
+	GREADAND,	//'>&'
+	LESSGREAT,	//'<>'
+	DLESSDASH,	//'<<-'
+	CLOBBER		//'>|'
+}					t_tokenlist;
+*/
 
 #endif
