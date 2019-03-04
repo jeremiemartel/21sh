@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/11 19:37:36 by jmartel           #+#    #+#             */
-/*   Updated: 2019/01/12 16:13:41 by jmartel          ###   ########.fr       */
+/*   Created: 2019/03/04 22:09:43 by ldedier           #+#    #+#             */
+/*   Updated: 2019/03/04 22:09:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 
 t_list	*ft_lstnew(void const *content, size_t content_size)
 {
-	t_list	*new;
+	t_list	*new_node;
 
-	if (!(new = (t_list*)malloc(sizeof(t_list))))
+	if (!(new_node = (t_list *)malloc(sizeof(t_list))))
 		return (NULL);
-	if (content == NULL || content_size == 0)
+	if (content == NULL)
 	{
-		new->content = NULL;
-		new->content_size = 0;
-		new->next = NULL;
-		return (new);
+		new_node->content = NULL;
+		new_node->content_size = 0;
 	}
-	new->content = (void*)content;
-	new->content_size = content_size;
-	new->next = NULL;
-	return (new);
+	else
+	{
+		new_node->content = (void *)content;
+		new_node->content_size = content_size;
+	}
+	new_node->next = NULL;
+	return (new_node);
 }

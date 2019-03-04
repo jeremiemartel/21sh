@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstaddnew_ptr.c                                 :+:      :+:    :+:   */
+/*   ft_lstpop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/04 20:58:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/04 22:10:15 by ldedier          ###   ########.fr       */
+/*   Created: 2019/03/04 22:20:49 by ldedier           #+#    #+#             */
+/*   Updated: 2019/03/04 22:26:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_lstaddnew_ptr(t_list **list, void *content, size_t size)
+void		ft_lstpop(t_list **list)
 {
-	t_list *node;
+	t_list *to_free;
 
-	if (!(node = ft_lstnew(content, size)))
-		return (1);
-	else
-		ft_lstadd(list, node);
-	return (0);
+	if (*list)
+	{
+		to_free = *list;
+		*list = (*list)->next;
+		free(to_free->content);
+		free(to_free);
+	}
 }

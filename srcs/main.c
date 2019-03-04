@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/02 11:17:56 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/04 22:03:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ int			main(int argc, char **argv)
 {
 	int		token;
 
+	sh_process_test();
 	if (argc == 1)
 		return (0);
 	token = sh_lexer(argv[1]);
+	
 	return (0);
 	(void)argc;
 	(void)argv;
