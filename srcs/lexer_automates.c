@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 11:21:37 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/02 11:33:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/04 18:10:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			sh_lexer_auto_less(int status, char c)
 
 	if (status == error || status == end)
 		return (error);
-	if (ft_iswhite(c))
+	if (c != *pattern && ft_isseparator(c))
 		return (0);
 	if (pattern[status] == c)
 	{
@@ -57,7 +57,7 @@ int			sh_lexer_auto_great(int status, char c)
 
 	if (status == error || status == end)
 		return (error);
-	if (ft_iswhite(c))
+	if (c != *pattern && ft_isseparator(c))
 		return (0);
 	if (pattern[status] == c)
 	{
@@ -72,11 +72,26 @@ int			sh_lexer_auto_word(int status, char c)
 {
 	if (status == error)
 		return (error);
-	if (ft_isseparator(c))
+	if (ft_iswhite(c))
 	{
 		if (status > 0)
 			return (end);
-		return (0);
+		return (error);
+	}
+	if (ft_isseparator(c))
+	{
+//		if (status > 0)
+//			return (end);
+		return (end);
 	}
 	return (status + 1);
+}
+
+int			sh_lexer_auto_space(int status, char c)
+{
+	if (status == error)
+		return (error);
+	if (ft_iswhite(c))
+		return (end);
+	return (error);
 }

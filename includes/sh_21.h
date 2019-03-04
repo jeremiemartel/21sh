@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/02 11:32:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/04 18:20:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "libft.h"
 
-# define SH_LEXER_AUTO_LEN	4
+# define SH_LEXER_AUTO_LEN	5
 
 # define end	-1
 # define error	-2
@@ -29,10 +29,11 @@ typedef struct		s_automate
 typedef enum		e_tokenlist
 {
 	UNKNOWN = -1,
+	SPACE,
 	WHILE,
 	GREAT,
 	LESS,
-	WORD
+	WORD,
 }					t_tokenlist;
 
 /*
@@ -48,6 +49,7 @@ int			sh_lexer_auto_while(int status, char c);
 int			sh_lexer_auto_less(int status, char c);
 int			sh_lexer_auto_great(int status, char c);
 int			sh_lexer_auto_word(int status, char c);
+int			sh_lexer_auto_space(int status, char c);
 
 /*
 ** lexer_automates_tools.c

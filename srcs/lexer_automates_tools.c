@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 11:23:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/02 11:39:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/04 18:19:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ void		sh_lexer_automate_init(t_automate automates[])
 		automates[i].status = 0;
 		i++;
 	}
-	automates[0].automate = &sh_lexer_auto_while;
-	automates[1].automate = &sh_lexer_auto_great;
-	automates[2].automate = &sh_lexer_auto_less;
-	automates[3].automate = &sh_lexer_auto_word;
+	automates[SPACE].automate = &sh_lexer_auto_space;
+	automates[WHILE].automate = &sh_lexer_auto_while;
+	automates[GREAT].automate = &sh_lexer_auto_great;
+	automates[LESS].automate = &sh_lexer_auto_less;
+	automates[WORD].automate = &sh_lexer_auto_word;
 	return ;
 }
 

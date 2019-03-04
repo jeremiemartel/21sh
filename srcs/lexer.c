@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 18:47:20 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/02 14:56:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/04 18:23:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int			ft_isseparator(char c)
 {
 	if (c == '<' || c == '>' || c == ';' || c == '|' || c == '\0')
+		return (1);
+	if (c == '(' || c == ')' || c == '{' || c == '}' || c == '[' || c == ']')
 		return (1);
 	return (ft_iswhite(c));
 }
@@ -33,21 +35,28 @@ int			sh_lexer(char *input)
 	while (input[start])
 	{
 		i = start;
+//		while (ft_iswhite(input[i]))
+//			i++;
 		while (input[i])
 		{
 			sh_lexer_automate_run(automates, input[i]);
 			if ((token = sh_lexer_automate_check(automates)) != UNKNOWN)
 			{
 				sh_lexer_show_token(token);
-				ft_putstrn(ft_strsub(input, start, i - start));
-				ft_putnbrn(start);
+//				ft_printf("start : %d, i %d, i - start %d\n", start, i, i - start);
+				if (i - start)
+					ft_putstrn(ft_strsub(input, start, i - start));
+				else if (token != SPACE)
+					ft_putcharn(input[start]);
+//				ft_putnbrn(start);
 				sh_lexer_automate_init(automates);
+				i++;
 				break ;
 			}
 			i++;
 		}
-		while (ft_iswhite(input[i]))
-			i++;
+//		while (ft_iswhite(input[i]))
+//			i++;
 //		sh_lexer_automate_show_status(automates, input[i]);
 		start = i;
 //		if (input[start])
@@ -56,11 +65,11 @@ int			sh_lexer(char *input)
 //		if (ft_iswhite(input[i]))
 //			start = i + 1;
 	}
-	sh_lexer_automate_run(automates, input[i]);
+/*	sh_lexer_automate_run(automates, input[i]);
 //	sh_lexer_automate_show_status(automates, input[i]);
 	if ((token = sh_lexer_automate_check(automates)) != UNKNOWN)
 		sh_lexer_show_token(token);
-	return (UNKNOWN);
+*/	return (UNKNOWN);
 }
 
 
