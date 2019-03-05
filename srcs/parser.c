@@ -12,8 +12,13 @@
 
 #include "sh_21.h"
 
+int		sh_is_term(int id)
+{
+	return (id >= 0 && id < NB_TERMS);
+}
+
 void	sh_populate_token(t_token *token, t_test_token_id id,
-			int val, t_token_type type)
+		int val, t_token_type type)
 {
 	token->token_union.ival = val;
 	token->token_id = id;
@@ -80,7 +85,7 @@ int		sh_process_test(void)
 }
 
 int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
-			t_list **symbols, int nb_symbols, ...)
+		t_list **symbols, int nb_symbols, ...)
 {
 	int		i;
 	va_list	ap;
@@ -93,7 +98,7 @@ int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
 	{
 		symbol_index = va_arg(ap, int);
 		if (ft_lstaddnew_ptr_last(symbols, &cfg_symbols[symbol_index],
-				sizeof(t_symbol *)))
+					sizeof(t_symbol *)))
 			return (1);
 		i++;
 	}
@@ -119,17 +124,24 @@ int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 //		(1) E → int
 //		(2) E → (E Op E)
 
+void	print_symbol(t_symbol *symbol)
+{
+	if (sh_is_term(symbol->id))
+		ft_printf("%s%s%s", BLUE, symbol->debug, EOC);
+	else
+		ft_printf("%s%s%s", RED, symbol->debug, EOC);
+}
+
 int		init_E(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-				INT); //(1)
+			INT); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 5,
-					OPN_PARENT, E, OP, E, CLS_PARENT); //(2)
+			OPN_PARENT, E, OP, E, CLS_PARENT); //(2)
 	ft_add_prod(symbol, prod_symbols);
-	ft_strlcat(symbol->debug, "E", DEBUG_BUFFER);
 	return (0);
 }
 
@@ -140,7 +152,13 @@ int		init_Op(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
-	ft_strlcat(symbol->debug, "Op", DEBUG_BUFFER);
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
+			PLUS); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, MULT); //(2)
+	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
@@ -150,21 +168,36 @@ int		init_End_of_line(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
-	ft_strlcat(symbol->debug, "", DEBUG_BUFFER);
 	return (0);
 }
 
 /*
-** attributes for each non_terminal every single of its productions
-*/
+ ** attributes for each non_terminal every single of its productions
+ */
 
 static	int (*g_init_grammar_productions[NB_NOTERMS])
-				(t_cfg *, t_symbol *symbol) = 
+	(t_cfg *, t_symbol *symbol) = 
 {
 	init_E,
 	init_Op,
 	init_End_of_line
 };
+
+char		*get_debug(int index)
+{
+	static char *debug_str_tab[NB_SYMBOLS] = {
+		"(",
+		")",
+		"+",
+		"*",
+		"INT",
+		"ε",
+		"E",
+		"OP",
+		"$"
+	};
+	return (debug_str_tab[index]);
+}
 
 
 void	init_symbol(t_symbol *symbol, t_test_token_id id)
@@ -172,11 +205,7 @@ void	init_symbol(t_symbol *symbol, t_test_token_id id)
 	symbol->productions = NULL;
 	symbol->first_sets = NULL;
 	symbol->id = id;
-}
-
-int		sh_is_term(int id)
-{
-	return (id >= 0 && id < NB_TERMS);
+	ft_strlcat(symbol->debug, get_debug(id), DEBUG_BUFFER);
 }
 
 void	print_production(t_production *production)
@@ -187,15 +216,13 @@ void	print_production(t_production *production)
 
 	start = 1;
 	ptr = production->symbols;
+	ft_printf("	");
 	while (ptr != NULL)
 	{
 		symbol = (t_symbol *)(ptr->content);
-		if(!start)
+		if (!start)
 			ft_printf(" ");
-		if (sh_is_term(symbol->id))
-			ft_printf("T%d", symbol->id);
-		else
-			ft_printf("%s", symbol->debug);
+		print_symbol(symbol);
 		ptr = ptr->next;
 		start = 0;
 	}
@@ -225,7 +252,9 @@ void	print_non_terminals_productions(t_cfg *cfg)
 	j = 0;
 	while (j < NB_NOTERMS)
 	{
-		ft_printf("Non terminal [%s] Productions:\n", cfg->symbols[i].debug);
+		print_symbol(&(cfg->symbols[i]));
+		ft_printf(" → \n");
+	//	ft_printf("Non terminal [%s] Productions:\n", cfg->symbols[i].debug);
 		print_non_terminal_production(&cfg->symbols[i++]);
 		j++;
 	}
