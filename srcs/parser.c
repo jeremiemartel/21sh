@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 00:38:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/05 16:31:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,8 @@ void	init_symbol(t_symbol *symbol, t_test_token_id id)
 	symbol->productions = NULL;
 	symbol->first_sets = NULL;
 	symbol->id = id;
-	ft_strlcat(symbol->debug, get_debug(id), DEBUG_BUFFER);
+
+	ft_strcpy(symbol->debug, get_debug(id));
 }
 
 void	print_production(t_production *production)

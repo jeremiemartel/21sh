@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 00:29:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/05 16:16:23 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef enum		e_tokenlist
 	LESS,
 	WORD,
 }					t_tokenlist;
-
 
 typedef enum		e_test_token_id
 {
@@ -94,7 +93,7 @@ typedef struct		s_cfg
 {
 	t_symbol		symbols[NB_SYMBOLS];
 	int				start_index;
-	t_production	***ll_table;
+	t_production	*ll_table[NB_NOTERMS][NB_TERMS];
 }					t_cfg;
 
 /*
