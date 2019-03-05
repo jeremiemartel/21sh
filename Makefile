@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/03/05 00:02:46 by ldedier          ###   ########.fr        #
+#    Updated: 2019/03/05 19:52:01 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
 SRCS_NO_PREFIX		=	main.c lexer.c lexer_automates.c\
-						lexer_automates_tools.c parser.c
+						lexer_automates_tools.c parser.c\
+						first_sets.c debug.c ll_table.c
+
 INCLUDES_NO_PREFIX	= sh_21.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
