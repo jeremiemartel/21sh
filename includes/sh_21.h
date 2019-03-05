@@ -6,20 +6,22 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 16:16:23 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/05 21:13:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_21_H
 # define SH_21_H
 
-#include "libft.h"
+# include <stdarg.h>
+
+# include "libft.h"
 
 # define SH_LEXER_AUTO_LEN	5
 
 # define end	-1
 # define error	-2
-# define DEBUG_BUFFER	50
+# define SYMB_VALUE_LEN	50
 
 typedef struct		s_automate
 {
@@ -83,7 +85,7 @@ typedef struct		s_symbol
 	t_list			*productions;
 	t_list			*first_sets;
 	int				id;
-	char			debug[DEBUG_BUFFER];
+	char			value[SYMB_VALUE_LEN];
 }					t_symbol;
 
 # define NB_TERMS	E
@@ -176,5 +178,35 @@ typedef enum		e_tokenlist
 	CLOBBER		//'>|'
 }					t_tokenlist;
 */
+
+/*
+** parser.c
+*/
+int			sh_process_test(void);
+
+/*
+** t_cfg_init.c
+*/
+int			t_cfg_init_productions_E(t_symbol *symbol);
+int			t_cfg_init_productions_OP(t_symbol *symbol);
+int			t_cfg_init_productions_EOL(t_symbol *symbol);
+int			t_cfg_init_productions(t_cfg *cfg);
+char		*t_cfg_init_symbol_get_value(int id);
+void		t_cfg_init_symbol(t_symbol *symbol, int id);
+t_cfg		*t_cfg_init(void);
+
+/*
+** t_token.c
+*/
+t_token		*t_token_new(t_test_token_id token_id, int token_union, t_token_type token_type);
+void		t_token_debog_show(t_token *token);
+void		t_token_debog_show_list(t_list *tokens);
+
+/*
+** t_symbol.c
+*/
+t_symbol	*t_symbol_new(int id);
+int			t_symbol_add_prod(t_symbol *symbol, int len, ...);
+void		t_symbol_show(int id);
 
 #endif
