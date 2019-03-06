@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:51:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 19:52:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/06 21:35:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "sh_21.h"
@@ -18,7 +18,9 @@ void	sh_process_populate_ll_table(t_cfg *cfg, int no_term_index,
 
 	old_prod = cfg->ll_table[no_term_index][term_index];
 	if (old_prod)
-		ft_printf("j'ai R compris\n");
+	{
+		ft_printf("ambiguous warning !\n");
+	}
 	cfg->ll_table[no_term_index][term_index] = production;
 }
 

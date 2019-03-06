@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 23:00:15 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/07 00:37:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,10 @@ int		sh_init_guess(t_list **guess, t_cfg *cfg)
 
 int		process_ll_parsing(t_parser *parser)
 {
-	(void)parser;
+	sh_init_guess(&parser->guess, &parser->cfg);
+	sh_print_guess(parser->guess);
+
+	
 	return (0);
 }
 
@@ -230,8 +233,6 @@ int		sh_parse_token_list(t_list *tokens)
 	if (init_context_free_grammar(&parser.cfg))
 		return (1);
 	print_cfg(&parser.cfg);
-	sh_init_guess(&parser.guess, &parser.cfg);
-	sh_print_guess(parser.guess);
 	process_ll_parsing(&parser);
 	return (0);
 }
