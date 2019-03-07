@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 21:13:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/07 18:35:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,196 +17,78 @@
 
 # include "libft.h"
 
-# define SH_LEXER_AUTO_LEN	5
-
-# define end	-1
-# define error	-2
-# define SYMB_VALUE_LEN	50
-
-typedef struct		s_automate
+typedef enum	e_token_id
 {
-	int				status;
-	int				(*automate)(int status, char c);
-}					t_automate;
+	LEX_TOK_UNKNOWN = 0,
+	//simple operators
+	LEX_TOK_PIPE = '|',
+	LEX_TOK_AND = '&',
+	LEX_TOK_SEMICOL = ';',
+	LEX_TOK_LESS = '<',
+	LEX_TOK_GREAT = '>',
+	LEX_TOK_OPN_PAR = '(',
+	LEX_TOK_CLS_PAR = ')',
+	LEX_TOK_DOLLAR = '$',
+	//Quoting tokens
+	LEX_TOK_BACK_SLASH ='\\',
+	LEX_TOK_QUOTE_BACK = '`',
+	LEX_TOK_QUOTE_SPL = '\'',
+	LEX_TOK_QUOTE_DBL = '"',
+	LEX_TOK_SPACE = ' ',
+	LEX_TOK_TAB = '\t',
+	LEX_TOK_NEWLINE = '\n',
+	//Special chars
+	LEX_TOK_STAR = '*',
+	LEX_TOK_QUEST = '?',
+	LEX_TOK_HASH = '#',
+	LEX_TOK_TILD = '~',
+	LEX_TOK_EQUAL = '=',
+	LEX_TOK_PERCENT = '%',
+	//Composed operators
+	LEX_TOK_AND_IF = 130,
+	LEX_TOK_OR_IF,
+	LEX_TOK_DSEMI,
+	LEX_TOK_DLESS,
+	LEX_TOK_DGREAT,
+	LEX_TOK_LESSAND,
+	LEX_TOK_GREATAND,
+	LEX_TOK_LESSGREAT,
+	LEX_TOK_DLESSDASH,
+	LEX_TOK_CLOBBER,
+	//Other
+	LEX_TOK_WORD,
+}				t_token_id;
 
-typedef enum		e_tokenlist
+typedef struct	s_lexer
 {
-	UNKNOWN = -1,
-	SPACE,
-	WHILE,
-	GREAT,
-	LESS,
-	WORD,
-}					t_tokenlist;
+	char	c;
+	char	*input;
+	int		tok_start;
+	int		tok_len;
+	int		current_id;
+	int		quoted;
+	t_list	*list;
+}				t_lexer;
 
-typedef enum		e_test_token_id
+# define LEX_TOKEN_VALUE_LEN	250
+
+# define LEX_END		3
+# define LEX_ERR		2
+# define LEX_CONTINUE	1
+# define LEX_OK			0
+
+# define LEX_EOF	-1		//char used to stop lexer
+
+typedef struct	s_token
 {
-	OPN_PARENT,
-	CLS_PARENT,
-	PLUS,
-	MULT,
-	INT,
-	EPSILON, //end of terminals
-	E,
-	OP,
-	END_OF_LINE, //end of non terminals
-	NB_SYMBOLS
-}					t_test_token_id;
-
-typedef struct		u_token_union
-{
-	int				ival;
-	double			fval;
-	char			*str;
-}					t_token_union;
-
-typedef enum		e_token_type
-{
-	TYPE_INT,
-	TYPE_FLOAT,
-	TYPE_STR
-}					t_token_type;
-
-typedef struct		s_token
-{
-	t_token_type	token_type;
-	t_token_union	token_union;
-	t_test_token_id	token_id;
-}					t_token;
-
-typedef struct		s_production
-{
-	t_list			*symbols;
-	//function ?
-}					t_production;
-
-typedef struct		s_symbol
-{
-	t_list			*productions;
-	t_list			*first_sets;
-	int				id;
-	char			value[SYMB_VALUE_LEN];
-}					t_symbol;
-
-# define NB_TERMS	E
-# define NB_NOTERMS	NB_SYMBOLS - E
-
-typedef struct		s_cfg
-{
-	t_symbol		symbols[NB_SYMBOLS];
-	int				start_index;
-	t_production	*ll_table[NB_NOTERMS][NB_TERMS];
-}					t_cfg;
-
-/*
-** ll_table:
-**
-**
-**
-**  				_____________________________________________________
-**  				|				|				|					|
-**  				|				|				|					|
-**  				|      Term1	|	Term2		|		Term3		|
-**  				|				|				|					|
-**   _______________|_______________|_______________|___________________|
-**  |				|				|				|					|
-**  |				|				|				|					|
-**  |	NoTerm1		|		NULL	|	&prod2		|		NULL		|
-**  |				|				|				|					|
-**	|_______________|_______________|_______________|___________________|
-**  |				|				|				|					|
-**  |				|				|				|					|
-**  |	NoTerm2		|	&prod7		|	&prod2		|		&prod4		|
-**  |				|				|				|					|
-**  |_______________|_______________|_______________|___________________|
-**	
-**
-** double table (NB_TERMS columns and NB_NO_TERMS lines) 
-**
-** says which production to choose for a non terminal given a terminal
-*/
+	t_token_id	id;
+	char		value[LEX_TOKEN_VALUE_LEN + 1];
+}				t_token;
 
 
 /*
 ** lexer.c
 */
-int			ft_isseparator(char c);
-int			sh_lexer(char *input);
-
-/*
-** lexer_automates.c
-*/
-int			sh_lexer_auto_while(int status, char c);
-int			sh_lexer_auto_less(int status, char c);
-int			sh_lexer_auto_great(int status, char c);
-int			sh_lexer_auto_word(int status, char c);
-int			sh_lexer_auto_space(int status, char c);
-
-/*
-** lexer_automates_tools.c
-*/
-void		sh_lexer_automate_init(t_automate automates[]);
-void		sh_lexer_automate_run(t_automate automates[], char c);
-int			sh_lexer_automate_check(t_automate automates[]);
-void		sh_lexer_automate_show_status(t_automate automates[], char c);
-void		sh_lexer_show_token(int token);
-
-
-/*
-** parser.c
-*/
-int			sh_process_test(void);
-int			sh_parse_token_list(t_list *tokens);
-
-/*
-typedef enum		e_tokenlist
-{
-	UNKNOWN,	//May be useless, need to see later
-	TOKEN,		//token context dependent, transition state
-	WORD,
-	NAME,
-	ASSIGMENT,
-	IO_NUMBER,	//only digits and oneof '<' or '>'
-	NEWLINE,	//'\n'
-	DELIMITOR,	//';'
-	DLESS,		//'<<'
-	DGREAT,		//'>>'
-	LESSAND,	//'<&'
-	GREADAND,	//'>&'
-	LESSGREAT,	//'<>'
-	DLESSDASH,	//'<<-'
-	CLOBBER		//'>|'
-}					t_tokenlist;
-*/
-
-/*
-** parser.c
-*/
-int			sh_process_test(void);
-
-/*
-** t_cfg_init.c
-*/
-int			t_cfg_init_productions_E(t_symbol *symbol);
-int			t_cfg_init_productions_OP(t_symbol *symbol);
-int			t_cfg_init_productions_EOL(t_symbol *symbol);
-int			t_cfg_init_productions(t_cfg *cfg);
-char		*t_cfg_init_symbol_get_value(int id);
-void		t_cfg_init_symbol(t_symbol *symbol, int id);
-t_cfg		*t_cfg_init(void);
-
-/*
-** t_token.c
-*/
-t_token		*t_token_new(t_test_token_id token_id, int token_union, t_token_type token_type);
-void		t_token_debog_show(t_token *token);
-void		t_token_debog_show_list(t_list *tokens);
-
-/*
-** t_symbol.c
-*/
-t_symbol	*t_symbol_new(int id);
-int			t_symbol_add_prod(t_symbol *symbol, int len, ...);
-void		t_symbol_show(int id);
+int			lexer(char *input);
 
 #endif

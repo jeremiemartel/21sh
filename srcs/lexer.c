@@ -5,165 +5,143 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 18:47:20 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/04 18:23:40 by jmartel          ###   ########.fr       */
+/*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
+/*   Updated: 2019/03/07 18:43:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int			ft_isseparator(char c)
+char	g_operator[] = "|&;<>()";
+char	g_quotes[] = "`'\"";
+
+void	lexer_init(t_lexer *lexer, int tok_start, char *input)
 {
-	if (c == '<' || c == '>' || c == ';' || c == '|' || c == '\0')
-		return (1);
-	if (c == '(' || c == ')' || c == '{' || c == '}' || c == '[' || c == ']')
-		return (1);
-	return (ft_iswhite(c));
+	lexer->input = input;
+	lexer->quoted = LEX_TOK_UNKNOWN;
+	lexer->tok_start = tok_start;
+	lexer->tok_len = 0;
+	lexer->current_id = LEX_TOK_UNKNOWN;
+	lexer->list = NULL;
+	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
 }
 
-int			sh_lexer(char *input)
+int		lexer_add_token(t_lexer *lexer)
 {
-	int			i;
-	int			start;
-	int			token;
-	t_automate	automates[SH_LEXER_AUTO_LEN];
+	t_list		*new;
+	t_token		*token;
 
-	i = 0;
-	start = 0;
-	sh_lexer_automate_init(automates);
-//	sh_lexer_automate_show_status(automates, ' ');
-	while (input[start])
+	if (lexer->tok_len == 0 || lexer->current_id == LEX_TOK_UNKNOWN)
 	{
-		i = start;
-//		while (ft_iswhite(input[i]))
-//			i++;
-		while (input[i])
+		lexer_init(lexer, lexer->tok_start + lexer->tok_len, lexer->input);
+		return (LEX_OK);
+	}
+	if (!(token = malloc(sizeof(*token))))
+		return (LEX_ERR);
+	if (!(new = ft_lstnew(token, sizeof(token))))
+	{
+		free(token);
+		return (LEX_ERR);
+	}
+	ft_lstadd_last(&lexer->list, new);
+	token->id = lexer->current_id;
+	ft_strncpy(token->value, lexer->input + lexer->tok_start, lexer->tok_len);
+	lexer_init(lexer, lexer->tok_start + lexer->tok_len, lexer->input);
+	ft_printf("Token added\n");
+	return (LEX_OK);
+}
+
+int		lexer_rule1(t_lexer *lexer)
+{
+	if (lexer->c == LEX_TOK_NEWLINE || lexer->c == '\0')//
+	{
+		lexer_add_token(lexer);
+		return (LEX_END);
+	}
+	return (LEX_CONTINUE);
+}
+
+int		lexer_rule7(t_lexer *lexer)
+{
+	if (lexer->c == LEX_TOK_SPACE && lexer->quoted == LEX_TOK_UNKNOWN)
+		return (lexer_add_token(lexer));
+	return (LEX_CONTINUE);
+}
+
+int		lexer_rule8(t_lexer *lexer)
+{
+	if (lexer->current_id == LEX_TOK_WORD)
+	{
+		lexer->tok_len++;
+		return (LEX_OK);
+	}
+	return (LEX_CONTINUE);
+}
+
+int		lexer_rule10(t_lexer *lexer)
+{
+	lexer->tok_len = 1;
+	lexer->current_id = LEX_TOK_WORD;
+	return (LEX_OK);
+}
+
+void	lexer_show(t_lexer *lexer)
+{
+	t_list	*head;
+
+	head = lexer->list;
+	while (head)
+	{
+		ft_printf("%s ", ((t_token*)head->content)->value);
+		head = head->next;
+	}
+	ft_putstrn("");
+}
+
+int		lexer(char *input)
+{
+	t_lexer		lexer;
+	int			ret;
+
+	lexer_init(&lexer, 0, input);
+	ft_putstrn("Lexer initialized");
+	ret = LEX_CONTINUE;
+	while (ret != LEX_ERR && ret != LEX_END)//comparison to \0 shall be removed
+	{
+//		ft_printf("lexer in progress on : %c\n", lexer.c);
+		if ((ret = lexer_rule1(&lexer)) != LEX_CONTINUE)
 		{
-			sh_lexer_automate_run(automates, input[i]);
-			if ((token = sh_lexer_automate_check(automates)) != UNKNOWN)
-			{
-				sh_lexer_show_token(token);
-//				ft_printf("start : %d, i %d, i - start %d\n", start, i, i - start);
-				if (i - start)
-					ft_putstrn(ft_strsub(input, start, i - start));
-				else if (token != SPACE)
-					ft_putcharn(input[start]);
-//				ft_putnbrn(start);
-				sh_lexer_automate_init(automates);
-				i++;
+			// ft_printf("rule1\n");
+			if (ret == LEX_ERR)
 				break ;
-			}
-			i++;
 		}
-//		while (ft_iswhite(input[i]))
-//			i++;
-//		sh_lexer_automate_show_status(automates, input[i]);
-		start = i;
-//		if (input[start])
-//			start++;
-			
-//		if (ft_iswhite(input[i]))
-//			start = i + 1;
-	}
-/*	sh_lexer_automate_run(automates, input[i]);
-//	sh_lexer_automate_show_status(automates, input[i]);
-	if ((token = sh_lexer_automate_check(automates)) != UNKNOWN)
-		sh_lexer_show_token(token);
-*/	return (UNKNOWN);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-#define SH_LEX_NO	-1
-#define SH_LEX_YES	-2
-
-int			sh_lexer_is_reserved(char c)
-{
-	if (c == '<' || c == '>' || c == '&')
-		return (1);
-	return (0);
-}
-
-int			sh_lexer_is_separator(char c)
-{
-	if (ft_iswhite(c))
-		return (1);
-	if (c == '\0' || c == ';')
-		return (1);
-	return (0);
-}
-
-int			sh_lexer_automate_redirection(char *buffer)
-{
-	int		i;
-
-	i = 0;
-	if (ft_strstr(buffer, "<<"))
-	if (ft_strchr(buffer, '<') || ft_strchr(buffer, '>'))
-		return (IO_NUMBER);
-	return (SH_LEX_NO);
-}
-
-int			sh_lexer_automate_word(char *buffer)
-{
-	int		i;
-
-	i = 0;
-	while (buffer[i])
-	{
-		if (sh_lexer_is_reserved(buffer[i]))
-			return (SH_LEX_NO);
-		i++;		
-	}
-	return (WORD);
-}
-
-int			sh_lexer(char *input)
-{
-	int		i;
-	int		ib;
-	char	buffer[128];
-
-	i = 0;
-	while (input[i])
-	{
-		ib = 0;
-		while (!sh_lexer_is_separator(input[i]))
+		else if ((ret = lexer_rule7(&lexer)) != LEX_CONTINUE)
 		{
-			buffer[ib] = input[i];
-			i++;
+			// ft_printf("rule7\n");
+			lexer.tok_start++;
+			if (ret == LEX_ERR)
+				break ;
 		}
-		if (sh_lexer_automate_word(buffer) == WORD)
-			ft_putstr("WORD ");
-		if (sh_lexer_automate_redirection(buffer) == IO_NUMBER)
-			ft_putstr("REDIR ");
-		ft_putstrn("");
-		while (input[i] && sh_lexer_is_separator(input[i]))
-			i++;
+		else if ((ret = lexer_rule8(&lexer)) != LEX_CONTINUE)
+		{
+			// ft_printf("rule8\n");
+			if (ret == LEX_ERR)
+				break ;
+		}
+		else if ((ret = lexer_rule10(&lexer)) != LEX_CONTINUE)
+		{
+			// ft_printf("rule10\n");
+			if (ret == LEX_ERR)
+				break ;
+		}
+		else
+		{
+			ret = LEX_ERR;
+			ft_putstrn("No lexer rule applied");
+			break ;
+		}
+		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
-	return (1);
+	lexer_show(&lexer);
+	return (0);
 }
-*/
