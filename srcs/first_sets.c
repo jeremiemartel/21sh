@@ -6,11 +6,21 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:46:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 18:59:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/09 00:47:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+void	sh_process_transitive_first_set(t_symbol *symbol,
+			int index, int *changes)
+{
+	if (symbol->first_sets[index] == 0)
+	{
+		symbol->first_sets[index] = 1;
+		*changes = 1;
+	}
+}
 
 void	sh_process_transitive_first_sets(t_symbol *symbol,
 			t_symbol *prod_symbol, int *changes)
@@ -18,35 +28,60 @@ void	sh_process_transitive_first_sets(t_symbol *symbol,
 	int i;
 
 	i = 0;
-	while (i < NB_TERMS)
+	while (i < NB_TERMS - 1) // don't make ε belong to first if start with ε cause
+		//						if might have others stuff behind
 	{
-		if (prod_symbol->first_sets[i] == 1 && symbol->first_sets[i] == 0)
-		{
-			symbol->first_sets[i] = 1;
-			*changes = 1;
-		}
+		if (prod_symbol->first_sets[i] == 1)
+			sh_process_transitive_first_set(symbol, i, changes);
 		i++;
 	}
+}
+void	sh_process_transitive_first_sets_2(char first_sets[NB_TERMS],
+			t_symbol *prod_symbol)
+{
+	int i;
+
+	i = 0;
+	while (i < NB_TERMS - 1) 	// don't make ε belong to first if start with ε cause
+								// if might have others stuff behind
+	{
+		if (first_sets[i] == 0 && prod_symbol->first_sets[i] == 1)
+			first_sets[i] = 1;
+		i++;
+	}
+}
+
+int		sh_add_to_first_sets_by_prod(t_symbol *symbol,
+			t_production *production, int *changes)
+{
+	t_list		*ptr;
+	t_symbol	*prod_symbol;
+
+	ptr = production->symbols;
+	while (ptr != NULL)
+	{
+		prod_symbol = (t_symbol *)(ptr->content);
+		sh_process_transitive_first_sets(symbol, prod_symbol, changes);
+		if (!prod_symbol->first_sets[EPS])
+			return (0);
+		ptr = ptr->next;
+	}
+	return (1);
 }
 
 int		sh_add_to_first_sets(t_symbol *symbol)
 {
 	t_list			*ptr;
 	t_production	*production;
-	t_symbol		*prod_symbol;
 	int				changes;
 
 	changes = 0;
 	ptr = symbol->productions;
 	while (ptr != NULL)
 	{
-		production = (t_production *)(ptr->content);
-		if (production->symbols)
-		{
-			prod_symbol = (t_symbol *)(production->symbols->content);
-			if (!sh_is_term(prod_symbol->id))
-				sh_process_transitive_first_sets(symbol, prod_symbol, &changes);
-		}
+		production = (t_production *)(ptr->content); //itere sur chaque prod
+		if (sh_add_to_first_sets_by_prod(symbol, production, &changes))
+			sh_process_transitive_first_set(symbol, EPS, &changes);
 		ptr = ptr->next;
 	}
 	return (changes);
@@ -71,37 +106,69 @@ int		sh_process_first_sets(t_cfg *cfg)
 	return (changes);
 }
 
-void	sh_init_process_first_sets(t_symbol *symbol)
+int		is_eps_prod(t_production *production)
 {
-	t_list			*ptr;
-	t_production	*production;
-	t_symbol		*prod_symbol;
+	t_list *symbols;
+	t_symbol *symbol;
+
+	symbols = production->symbols;
+	symbol = symbols->content;
+	if (ft_lstlen(symbols) == 1 && symbol->id == EPS)
+		return (1);
+	else
+		return (0);
+}
+
+int		has_eps_prod(t_symbol *symbol)
+{
+	t_list *ptr;
+	t_production *production;
 
 	ptr = symbol->productions;
 	while (ptr != NULL)
 	{
-		production = (t_production *)(ptr->content);
-		if (production->symbols)
-		{
-			prod_symbol = (t_symbol *)(production->symbols->content);
-			if (sh_is_term(prod_symbol->id))
-				symbol->first_sets[prod_symbol->id] = 1;
-		}
+		production = (t_production *)ptr->content;
+		if (is_eps_prod(production))
+			return (1);
 		ptr = ptr->next;
 	}
+	return (0);
 }
 
-int		sh_init_first_sets(t_cfg *cfg)
+void	sh_init_process_first_sets(t_symbol *symbol)
+{
+	if (sh_is_term(symbol))
+		symbol->first_sets[symbol->id] = 1;
+	else if (has_eps_prod(symbol))
+		symbol->first_sets[EPS] = 1;
+}
+
+int		sh_compute_first_sets_str(char first_sets[NB_TERMS], t_list *w)
+{
+	t_list *ptr;
+	t_symbol *symbol;
+
+	ptr = w;
+	while (ptr != NULL)
+	{
+		symbol = (t_symbol *)ptr->content;
+		sh_process_transitive_first_sets_2(first_sets, prod_symbol);
+		if (!symbol->first_sets[EPS])
+			return (0);
+		ptr = ptr->next;
+	}
+	return (0);
+}
+
+int		sh_compute_first_sets(t_cfg *cfg)
 {
 	int i;
-	int j;
 
-	i = NB_TERMS;
-	j = 0;
-	while (j < NB_NOTERMS)
+	i = 0;
+	while (i < NB_SYMBOLS)
 	{
-		sh_init_process_first_sets(&cfg->symbols[i++]);
-		j++;
+		sh_init_process_first_sets(&cfg->symbols[i]);
+		i++;
 	}
 	while (sh_process_first_sets(cfg))
 		;

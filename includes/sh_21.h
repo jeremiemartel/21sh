@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 22:57:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/08 23:57:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ typedef enum		e_test_token_id
 	PLUS,
 	MULT,
 	INT,
-	EPSILON, //end of terminals
+	END_OF_INPUT, 
+	EPS, //end of terminals
 	E,
-	OP,
-	END_OF_INPUT, //end of non terminals
+	OP, //end of non terminals
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -84,9 +84,9 @@ typedef struct		s_production
 typedef struct		s_symbol
 {
 	t_list			*productions;
-//	t_list			*first_sets;
 	int				id;
 	char			first_sets[NB_TERMS];
+	char			follow_sets[NB_TERMS];
 	char			debug[DEBUG_BUFFER];
 }					t_symbol;
 
@@ -94,9 +94,8 @@ typedef struct		s_symbol
 typedef struct		s_cfg
 {
 	t_symbol		symbols[NB_SYMBOLS];
-	int				start_index;
 	t_production	*ll_table[NB_NOTERMS][NB_TERMS];
-	t_list			*guess;
+	int				start_index;
 }					t_cfg;
 
 /*
@@ -131,7 +130,7 @@ typedef struct		s_cfg
 typedef struct		s_parser
 {
 	t_cfg			cfg;
-	t_list			*guess;
+	t_list			*pda_stack;
 	t_list			*tokens;
 }					t_parser;
 
@@ -165,27 +164,34 @@ void		sh_lexer_show_token(int token);
 */
 int			sh_process_test(void);
 int			sh_parse_token_list(t_list *tokens);
-int			sh_is_term(int id);
+int			sh_is_term(t_symbol *symbol);
 /*
 ** first_sets.c
 */
-int			sh_init_first_sets(t_cfg *cfg);
+void		sh_init_first_sets(char first_sets[NB_TERMS]);
+int			sh_compute_first_sets(t_cfg *cfg);
+
+/*
+** follow_sets.c
+*/
+int     sh_compute_follow_sets(t_cfg *cfg);
 
 /*
 ** debug.c
 */
 void  	sh_print_symbol_list(t_list *symbols);
-void  	sh_print_guess(t_list *symbols);
+void  	sh_print_pda(t_list *symbols);
 void	sh_print_symbol(t_symbol *symbol);
 void	sh_print_token_list(t_list *list);
 void	print_non_terminals_productions(t_cfg *cfg);
 void	print_first_sets(t_cfg *cfg);
+void	print_follow_sets(t_cfg *cfg);
 void	print_ll_table(t_cfg *cfg);
 void	print_cfg(t_cfg *cfg);
 /*
 ** lltable.c
 */
-int		sh_init_ll_table(t_cfg *cfg);
+int		sh_compute_ll_table(t_cfg *cfg);
 /*
 typedef enum		e_tokenlist
 {

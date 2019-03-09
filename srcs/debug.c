@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/05 22:58:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/08 23:56:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    sh_print_symbol(t_symbol *symbol)
 {
-	if (sh_is_term(symbol->id))
+	if (sh_is_term(symbol))
 		ft_printf("%s%s%s", BLUE, symbol->debug, EOC);
 	else
 		ft_printf("%s%s%s", RED, symbol->debug, EOC);
@@ -134,6 +134,46 @@ void	sh_print_first_set(t_cfg *cfg, t_symbol *symbol)
 	ft_printf("\n\n");
 }
 
+
+void	sh_print_follow_set(t_cfg *cfg, t_symbol *symbol)
+{
+	int i;
+	int first;
+
+	ft_printf("follow sets of ");
+	sh_print_symbol(symbol);
+	ft_printf(" :\n");
+	i = 0;
+	first = 1;
+	while (i < NB_TERMS)
+	{
+		if (symbol->follow_sets[i])
+		{
+			if (!first)
+				ft_printf(" ; ");
+			sh_print_symbol(&cfg->symbols[i]);
+			first = 0;
+		}
+		i++;
+	}
+	ft_printf("\n\n");
+}
+
+void	print_follow_sets(t_cfg *cfg)
+{
+	int i;
+	int j;
+
+	i = NB_TERMS;
+	j = 0;
+	ft_printf(BOLD UNDERLINE"FOLLOW SETS:\n\n"EOC);
+	while (j < NB_NOTERMS)
+	{
+		sh_print_follow_set(cfg, &cfg->symbols[i++]);
+		j++;
+	}
+}
+
 void	print_first_sets(t_cfg *cfg)
 {
 	int i;
@@ -235,7 +275,7 @@ void	print_ll_table(t_cfg *cfg)
 		i++;
 	}
 }
-void	sh_print_guess(t_list *guess)
+void	sh_print_pda(t_list *guess)
 {
 	ft_printf("guess: ");
 	sh_print_symbol_list(guess);
@@ -246,5 +286,6 @@ void	print_cfg(t_cfg *cfg)
 {
 	print_non_terminals_productions(cfg);
 	print_first_sets(cfg);
+	print_follow_sets(cfg);
 	print_ll_table(cfg);
 }

@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/03/05 19:52:01 by ldedier          ###   ########.fr        #
+#    Updated: 2019/03/08 23:38:26 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ EOC = \033[0m
 
 SRCS_NO_PREFIX		=	main.c lexer.c lexer_automates.c\
 						lexer_automates_tools.c parser.c\
-						first_sets.c debug.c ll_table.c
+						first_sets.c debug.c ll_table.c follow_sets.c
 
 INCLUDES_NO_PREFIX	= sh_21.h
 

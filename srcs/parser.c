@@ -6,15 +6,15 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/07 00:37:37 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/09 00:03:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_is_term(int id)
+int		sh_is_term(t_symbol *symbol)
 {
-	return (id >= 0 && id < NB_TERMS);
+	return (symbol->id >= 0 && symbol->id < NB_TERMS);
 }
 
 void	sh_populate_token(t_token *token, t_test_token_id id,
@@ -98,13 +98,6 @@ int		init_Op(t_cfg *cfg, t_symbol *symbol)
 
 //		None
 
-int		init_End_of_line(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	return (0);
-}
-
 /*
  ** attributes for each non_terminal every single of its productions
  */
@@ -114,7 +107,6 @@ static	int (*g_init_grammar_productions[NB_NOTERMS])
 {
 	init_E,
 	init_Op,
-	init_End_of_line
 };
 
 char		*get_debug(int index)
@@ -125,14 +117,13 @@ char		*get_debug(int index)
 		"+",
 		"*",
 		"int",
+		"$",
 		"ε",
 		"E",
 		"OP",
-		"$"
 	};
 	return (debug_str_tab[index]);
 }
-
 
 void	init_symbol(t_symbol *symbol, t_test_token_id id)
 {
@@ -142,6 +133,7 @@ void	init_symbol(t_symbol *symbol, t_test_token_id id)
 	while (i < NB_TERMS)
 	{
 		symbol->first_sets[i] = 0;
+		symbol->follow_sets[i] = 0;
 		i++;
 	}
 	symbol->productions = NULL;
@@ -168,9 +160,11 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
 			return (1);
 	}
-	if (sh_init_first_sets(cfg))
+	if (sh_compute_first_sets(cfg))
 		return (1);
-	if (sh_init_ll_table(cfg))
+	if (sh_compute_follow_sets(cfg))
+		return (1);
+	if (sh_compute_ll_table(cfg))
 		return (1);
 	return (0);
 }
@@ -203,24 +197,22 @@ int		sh_process_test(void)
 	return (0);
 }
 
-int		sh_init_guess(t_list **guess, t_cfg *cfg)
+int		sh_init_pda_stack(t_list **stack, t_cfg *cfg)
 {
-	*guess = NULL;
-	if (ft_lstaddnew_ptr_last(guess, &cfg->symbols[E],
-			sizeof(t_symbol *)))
+	*stack = NULL;
+	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[E],
+				sizeof(t_symbol *)))
 		return (1);
-	if (ft_lstaddnew_ptr_last(guess, &cfg->symbols[END_OF_INPUT],
-			sizeof(t_symbol *)))
+//	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[END_OF_INPUT],
+//				sizeof(t_symbol *)))
 		return (1);
 	return (0);
 }
 
 int		process_ll_parsing(t_parser *parser)
 {
-	sh_init_guess(&parser->guess, &parser->cfg);
-	sh_print_guess(parser->guess);
-
-	
+	sh_init_pda_stack(&parser->pda_stack, &parser->cfg);
+	sh_print_pda(parser->pda_stack);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:51:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/06 21:35:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/08 22:25:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "sh_21.h"
@@ -51,7 +51,7 @@ void	sh_add_symbol_prods(t_cfg *cfg, t_symbol *symbol, int no_term_index)
 		if (production->symbols)
 		{
 			prod_symbol = (t_symbol *)(production->symbols->content);
-			if (sh_is_term(prod_symbol->id))
+			if (sh_is_term(prod_symbol))
 				sh_process_populate_ll_table(cfg, no_term_index,
 					prod_symbol->id, production);
 			else
@@ -76,7 +76,7 @@ void	sh_process_ll_table(t_cfg *cfg)
 	}
 }
 
-int		sh_init_ll_table(t_cfg *cfg)
+int		sh_compute_ll_table(t_cfg *cfg)
 {
 	int i;
 	int j;
