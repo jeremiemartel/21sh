@@ -1,0 +1,71 @@
+https://www.cs.uaf.edu/~cs331/notes/FirstFollow.pdf
+
+this is only a check to see if the follow set computation gives the same
+outputs as this example
+
+which is now validated :
+
+PRODUCTIONS:
+
+E →
+	T E'
+E' →
+	+ T E'
+	ε
+T →
+	F T'
+T' →
+	* F T'
+	ε
+F →
+	( E )
+	id
+
+
+
+
+FIRST SETS:
+
+
+
+first sets of E :
+
+( ; id
+
+first sets of E' :
+
++ ; ε
+
+first sets of T :
+( ; id
+
+first sets of T' :
+* ; ε
+
+first sets of F :
+( ; id
+
+
+
+
+FOLLOW SETS:
+
+follow sets of E :
+
+) ; $
+
+follow sets of E' :
+
+) ; $
+
+follow sets of T :
+
+) ; + ; $
+
+follow sets of T' :
+
+) ; + ; $
+
+follow sets of F :
+
+) ; + ; * ; $

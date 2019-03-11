@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/09 00:03:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 00:16:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,35 +63,80 @@ int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 	return (0);
 }
 
-//		(1) E → int
-//		(2) E → (E Op E)
+//		(1) E → T E'
 
 int		init_E(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			INT); //(1)
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 5,
-			OPN_PARENT, E, OP, E, CLS_PARENT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
+			T, EPRIME); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
-//		(3) Op → +
-//		(4) Op → *
+//		(2) E' → + T E'
+//		(3) E' → ε
 
-int		init_Op(t_cfg *cfg, t_symbol *symbol)
+int		init_EPRIME(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			PLUS); //(1)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3,
+			PLUS, T, EPRIME); //(1)
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, MULT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, EPS); //(2)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+//		(2) T → F T'
+
+int		init_T(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
+			F, TPRIME); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+
+//		(3) T' → * F T'
+//		(3) T' → ε
+
+int		init_TPRIME(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3,
+			MULT, F, TPRIME); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, EPS); //(2)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+//		(3) F → (E)
+//		(4) F → ID
+
+int		init_F(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3,
+			OPN_PARENT, E, CLS_PARENT); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, ID); //(2)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -106,7 +151,10 @@ static	int (*g_init_grammar_productions[NB_NOTERMS])
 	(t_cfg *, t_symbol *symbol) = 
 {
 	init_E,
-	init_Op,
+	init_EPRIME,
+	init_T,
+	init_TPRIME,
+	init_F
 };
 
 char		*get_debug(int index)
@@ -116,11 +164,14 @@ char		*get_debug(int index)
 		")",
 		"+",
 		"*",
-		"int",
+		"id",
 		"$",
 		"ε",
 		"E",
-		"OP",
+		"E'",
+		"T",
+		"T'",
+		"F",
 	};
 	return (debug_str_tab[index]);
 }
@@ -176,7 +227,7 @@ int		sh_process_test(void)
 
 	tokens = NULL;  // ((4 + 9) * 5)
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
-	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
+/*	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, INT, 4, TYPE_INT);
@@ -193,6 +244,7 @@ int		sh_process_test(void)
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, CLS_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
+*/
 	sh_parse_token_list(tokens);
 	return (0);
 }

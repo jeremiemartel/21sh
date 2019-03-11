@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/11 23:33:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 00:08:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ typedef enum		e_test_token_id
 	CLS_PARENT,
 	PLUS,
 	MULT,
-	INT,
+	ID,
 	END_OF_INPUT, 
 	EPS, //end of terminals
 	E,
-	OP, //end of non terminals
+	EPRIME,
+	T,
+	TPRIME,
+	F, //end of non terminals
 	NB_SYMBOLS
 }					t_test_token_id;
 
