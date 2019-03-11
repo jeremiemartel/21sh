@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/08 23:56:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/11 23:22:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,54 +110,44 @@ void	print_non_terminals_productions(t_cfg *cfg)
 	ft_printf("\n");
 }
 
-void	sh_print_first_set(t_cfg *cfg, t_symbol *symbol)
+void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS])
 {
 	int i;
 	int first;
 
+	i = 0;
+	first = 1;
+	while (i < NB_TERMS)
+	{
+		if (sets[i])
+		{
+			if (!first)
+				ft_printf(" ; ");
+			sh_print_symbol(&cfg->symbols[i]);
+			first = 0;
+		}
+		i++;
+	}
+}
+
+void	sh_print_first_set(t_cfg *cfg, t_symbol *symbol)
+{
 	ft_printf("first sets of ");
 	sh_print_symbol(symbol);
 	ft_printf(" :\n");
-	i = 0;
-	first = 1;
-	while (i < NB_TERMS)
-	{
-		if (symbol->first_sets[i])
-		{
-			if (!first)
-				ft_printf(" ; ");
-			sh_print_symbol(&cfg->symbols[i]);
-			first = 0;
-		}
-		i++;
-	}
+	sh_process_print_set(cfg, symbol->first_sets);
 	ft_printf("\n\n");
 }
-
 
 void	sh_print_follow_set(t_cfg *cfg, t_symbol *symbol)
 {
-	int i;
-	int first;
-
 	ft_printf("follow sets of ");
 	sh_print_symbol(symbol);
 	ft_printf(" :\n");
-	i = 0;
-	first = 1;
-	while (i < NB_TERMS)
-	{
-		if (symbol->follow_sets[i])
-		{
-			if (!first)
-				ft_printf(" ; ");
-			sh_print_symbol(&cfg->symbols[i]);
-			first = 0;
-		}
-		i++;
-	}
+	sh_process_print_set(cfg, symbol->follow_sets);
 	ft_printf("\n\n");
 }
+
 
 void	print_follow_sets(t_cfg *cfg)
 {

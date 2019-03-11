@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/08 23:57:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/11 23:33:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int			sh_is_term(t_symbol *symbol);
 */
 void		sh_init_first_sets(char first_sets[NB_TERMS]);
 int			sh_compute_first_sets(t_cfg *cfg);
-
+int			sh_compute_first_sets_str(t_cfg *cfg, char first_sets[NB_TERMS], t_list *w);
 /*
 ** follow_sets.c
 */
@@ -186,6 +186,7 @@ void	sh_print_token_list(t_list *list);
 void	print_non_terminals_productions(t_cfg *cfg);
 void	print_first_sets(t_cfg *cfg);
 void	print_follow_sets(t_cfg *cfg);
+void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS]);
 void	print_ll_table(t_cfg *cfg);
 void	print_cfg(t_cfg *cfg);
 /*
