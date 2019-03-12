@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 18:25:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/13 00:22:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ void	print_ll_table(t_cfg *cfg)
 }
 void	sh_print_pda(t_list *guess)
 {
-	ft_printf("guess: ");
+	ft_printf("PDA STACK:\t");
 	sh_print_symbol_list(guess);
 	ft_printf("\n");
 }
