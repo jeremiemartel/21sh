@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 18:54:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 00:32:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ typedef enum	e_token_id
 	LEX_TOK_DLESSDASH	= '<' + 0xff00 * '<' + 0xff0000 * '-',	//<<-
 	LEX_TOK_CLOBBER		= '>' + 0xff00 * '|',				//>|
 	//Other
-	LEX_TOK_WORD = 130,
+	LEX_TOK_TOKEN = 130,
+	LEX_TOK_WORD,
+	LEX_TOK_ASSIGMENT_NAME,
+	LEX_TOK_NAME,
+	LEX_TOK_IO_NUMBER,
 }				t_token_id;
 
 typedef struct	s_lexer

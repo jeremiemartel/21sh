@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 19:04:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/12 20:09:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 int			main(int argc, char **argv)
 {
-	int		c;
-
-	c = '>' + 0xff00 * '>';
-	ft_printf("%c\n", c & 0xff00 >> 8);
-
-
 	if (argc == 1)
 		return (0);
 	lexer(argv[1]);

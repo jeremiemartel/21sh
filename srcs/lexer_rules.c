@@ -6,32 +6,32 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/12 19:31:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 00:38:15 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-// char	g_quotes[] =  "`'\"";
-# define	LEX_OPERATOR_TAB "|&;<>()"
+# define LEX_OPERATOR_TAB	"|&;<>()"
+# define LEX_QUOTING_TAB	"`'\"\\"
 
 int		lex_rules_is_valid_operator(int op)
 {
-	if (op == LEX_TOK_AND_IF ||
-		op == LEX_TOK_OR_IF ||
-		op == LEX_TOK_DSEMI ||
-		op == LEX_TOK_DLESS ||
-		op == LEX_TOK_DGREAT ||
-		op == LEX_TOK_LESSAND ||
-		op == LEX_TOK_GREATAND ||
-		op == LEX_TOK_LESSGREAT ||
-		op == LEX_TOK_DLESSDASH ||
-		op == LEX_TOK_CLOBBER ||
-		op == LEX_TOK_PIPE ||
-		op == LEX_TOK_AND ||
-		op == LEX_TOK_SEMICOL ||
-		op == LEX_TOK_LESS ||
-		op == LEX_TOK_GREAT)
+	if (op == LEX_TOK_AND_IF
+	|| op == LEX_TOK_OR_IF
+	|| op == LEX_TOK_DSEMI
+	|| op == LEX_TOK_DLESS
+	|| op == LEX_TOK_DGREAT
+	|| op == LEX_TOK_LESSAND
+	|| op == LEX_TOK_GREATAND
+	|| op == LEX_TOK_LESSGREAT
+	|| op == LEX_TOK_DLESSDASH
+	|| op == LEX_TOK_CLOBBER
+	|| op == LEX_TOK_PIPE
+	|| op == LEX_TOK_AND
+	|| op == LEX_TOK_SEMICOL
+	|| op == LEX_TOK_LESS
+	|| op == LEX_TOK_GREAT)
 		return (1);
 	return (0);
 }
@@ -84,6 +84,45 @@ int		lexer_rule3(t_lexer *lexer)
 		}
 		return (LEX_ERR);//
 	}
+	return (LEX_CONTINUE);
+}
+
+int		lexer_rule4(t_lexer *lexer)
+{
+	static char		quoting[] = LEX_QUOTING_TAB;
+
+	if (lexer->c == '\\')
+	{
+		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+		lexer->tok_len++;
+	}
+	else if (!lexer->quoted && ft_strchr(quoting, lexer->c))
+	{
+		lexer->quoted = lexer->c;
+		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+		ft_printf("concatenated input: %s\n", lexer->input);
+		return (LEX_OK);
+	}
+	else if (lexer->quoted)
+	{
+		if (lexer->c == lexer->quoted)
+		{
+			ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+			lexer->quoted = 0;
+		}
+		lexer->tok_len++;
+		return (LEX_OK);
+	}
+	return (LEX_CONTINUE);
+}
+
+int		lexer_rule5(t_lexer *lexer)
+{
+	if (lexer->c != LEX_TOK_DOLLAR || lexer->c != LEX_TOK_QUOTE_BACK)
+		return (LEX_CONTINUE);
+	if (lexer->quoted)
+		return (LEX_CONTINUE);
+	ft_putstrn("Expansions and substitutions are not implemented yet");
 	return (LEX_CONTINUE);
 }
 

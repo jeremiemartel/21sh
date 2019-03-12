@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/12 19:34:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 00:33:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ int		lexer(char *input)
 		{
 			if (DEBUG)
 				ft_printf("rule3\n");
+			if (ret == LEX_ERR)
+				break ;
+		}
+		else if ((ret = lexer_rule4(&lexer)) != LEX_CONTINUE)
+		{
+			if (DEBUG)
+				ft_printf("rule4\n");
 			if (ret == LEX_ERR)
 				break ;
 		}
