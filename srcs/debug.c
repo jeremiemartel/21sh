@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/11 23:22:44 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 17:57:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    sh_print_symbol(t_symbol *symbol)
 	else
 		ft_printf("%s%s%s", RED, symbol->debug, EOC);
 }
-
+/*
 void	sh_print_token(t_token *token)
 {
 	if (token->token_type == TYPE_INT)
@@ -36,7 +36,6 @@ void	sh_print_token(t_token *token)
 			ft_printf(")");
 	}
 }
-
 void	sh_print_token_list(t_list *list)
 {
 	t_list *ptr;
@@ -50,6 +49,7 @@ void	sh_print_token_list(t_list *list)
 	}
 	ft_printf("\n\n");
 }
+*/
 
 void	sh_print_symbol_list(t_list *symbols)
 {

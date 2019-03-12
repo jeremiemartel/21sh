@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:51:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/08 22:25:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 17:48:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "sh_21.h"
@@ -17,22 +17,22 @@ void	sh_process_populate_ll_table(t_cfg *cfg, int no_term_index,
 	t_production *old_prod;
 
 	old_prod = cfg->ll_table[no_term_index][term_index];
-	if (old_prod)
+	if (old_prod && old_prod != production)
 	{
 		ft_printf("ambiguous warning !\n");
 	}
 	cfg->ll_table[no_term_index][term_index] = production;
 }
 
-void	populate_ll_table_by_first_sets(t_cfg *cfg,
-			int no_term_index, t_symbol *no_term, t_production *production )
+void	populate_ll_table_by_sets(t_cfg *cfg, int no_term_index,
+			char sets[NB_TERMS], t_production *production)
 {
 	int i;
 
 	i = 0;
-	while (i < NB_TERMS)
+	while (i < NB_TERMS - 1) //not taking ε
 	{
-		if (no_term->first_sets[i])
+		if (sets[i])
 			sh_process_populate_ll_table(cfg, no_term_index, i, production);
 		i++;
 	}
@@ -42,21 +42,18 @@ void	sh_add_symbol_prods(t_cfg *cfg, t_symbol *symbol, int no_term_index)
 {
 	t_list			*ptr;
 	t_production	*production;
-	t_symbol		*prod_symbol;
+	char			first_sets[NB_TERMS];
 
 	ptr = symbol->productions;
 	while (ptr != NULL)
 	{
 		production = (t_production *)(ptr->content);
-		if (production->symbols)
+		sh_compute_first_sets_str(cfg, first_sets, production->symbols);
+		populate_ll_table_by_sets(cfg, no_term_index, first_sets, production);
+		if (first_sets[EPS])
 		{
-			prod_symbol = (t_symbol *)(production->symbols->content);
-			if (sh_is_term(prod_symbol))
-				sh_process_populate_ll_table(cfg, no_term_index,
-					prod_symbol->id, production);
-			else
-				populate_ll_table_by_first_sets(cfg, no_term_index,
-						prod_symbol, production);
+			populate_ll_table_by_sets(cfg, no_term_index,
+				symbol->follow_sets, production);
 		}
 		ptr = ptr->next;
 	}

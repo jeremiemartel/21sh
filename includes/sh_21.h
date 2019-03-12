@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/11 23:33:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 18:13:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,18 @@ typedef enum		e_tokenlist
 
 typedef enum		e_test_token_id
 {
-	OPN_PARENT,
-	CLS_PARENT,
-	PLUS,
-	MULT,
-	INT,
-	END_OF_INPUT, 
+	T_A,
+	T_B,
+	T_C,
+	T_D,
+	END_OF_INPUT,
 	EPS, //end of terminals
-	E,
-	OP, //end of non terminals
+	S,
+	A,
+	C,
+	CPRIME,
+	X,
+	Y,
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -78,8 +81,8 @@ typedef struct		s_production
 	//function ?
 }					t_production;
 
-# define NB_TERMS	E
-# define NB_NOTERMS	NB_SYMBOLS - E
+# define NB_TERMS	S
+# define NB_NOTERMS	NB_SYMBOLS - S
 
 typedef struct		s_symbol
 {

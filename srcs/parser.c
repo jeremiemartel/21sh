@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/09 00:03:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 18:20:29 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,11 @@ int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 //		(1) E → int
 //		(2) E → (E Op E)
 
-int		init_E(t_cfg *cfg, t_symbol *symbol)
+int		init_S(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			INT); //(1)
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 5,
-			OPN_PARENT, E, OP, E, CLS_PARENT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, A, END_OF_INPUT);
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -82,22 +78,78 @@ int		init_E(t_cfg *cfg, t_symbol *symbol)
 //		(3) Op → +
 //		(4) Op → *
 
-int		init_Op(t_cfg *cfg, t_symbol *symbol)
+int		init_A(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
+			T_A, X); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+int		init_Y(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			PLUS); //(1)
+			T_D); //(1)
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, MULT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
+			C); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+int		init_X(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
+			C);
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
+			T_D);
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
+			T_A, Y);
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+int		init_C(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
+			T_B, CPRIME);
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+int		init_CPRIME(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
+			T_C, CPRIME);
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, EPS);
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
 //		None
-
 /*
  ** attributes for each non_terminal every single of its productions
  */
@@ -105,22 +157,29 @@ int		init_Op(t_cfg *cfg, t_symbol *symbol)
 static	int (*g_init_grammar_productions[NB_NOTERMS])
 	(t_cfg *, t_symbol *symbol) = 
 {
-	init_E,
-	init_Op,
+	init_S,
+	init_A,
+	init_C,
+	init_CPRIME,
+	init_X,
+	init_Y
 };
 
 char		*get_debug(int index)
 {
 	static char *debug_str_tab[NB_SYMBOLS] = {
-		"(",
-		")",
-		"+",
-		"*",
-		"int",
+		"a",
+		"b",
+		"c",
+		"d",
 		"$",
 		"ε",
-		"E",
-		"OP",
+		"S",
+		"A",
+		"C",
+		"C'",
+		"X",
+		"Y"
 	};
 	return (debug_str_tab[index]);
 }
@@ -146,7 +205,7 @@ int		init_context_free_grammar(t_cfg *cfg)
 	int i;
 	int j;
 
-	cfg->start_index = E;
+	cfg->start_index = S;
 	i = 0;
 	while (i < NB_SYMBOLS)
 	{
@@ -172,9 +231,10 @@ int		init_context_free_grammar(t_cfg *cfg)
 int		sh_process_test(void)
 {
 	t_list	*tokens;
-	t_token	token;
+//	t_token	token;
 
 	tokens = NULL;  // ((4 + 9) * 5)
+/*
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
@@ -194,17 +254,19 @@ int		sh_process_test(void)
 	sh_populate_token(&token, CLS_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_parse_token_list(tokens);
+*/
+	sh_parse_token_list(tokens);
 	return (0);
 }
 
 int		sh_init_pda_stack(t_list **stack, t_cfg *cfg)
 {
 	*stack = NULL;
-	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[E],
+	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[S],
 				sizeof(t_symbol *)))
 		return (1);
-//	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[END_OF_INPUT],
-//				sizeof(t_symbol *)))
+	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[END_OF_INPUT],
+				sizeof(t_symbol *)))
 		return (1);
 	return (0);
 }
@@ -221,7 +283,7 @@ int		sh_parse_token_list(t_list *tokens)
 	t_parser parser;
 
 	parser.tokens = tokens;
-	sh_print_token_list(parser.tokens);
+//	sh_print_token_list(parser.tokens);
 	if (init_context_free_grammar(&parser.cfg))
 		return (1);
 	print_cfg(&parser.cfg);
