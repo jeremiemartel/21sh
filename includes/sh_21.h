@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/07 18:35:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/12 18:54:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,18 @@ typedef enum	e_token_id
 	LEX_TOK_EQUAL = '=',
 	LEX_TOK_PERCENT = '%',
 	//Composed operators
-	LEX_TOK_AND_IF = 130,
-	LEX_TOK_OR_IF,
-	LEX_TOK_DSEMI,
-	LEX_TOK_DLESS,
-	LEX_TOK_DGREAT,
-	LEX_TOK_LESSAND,
-	LEX_TOK_GREATAND,
-	LEX_TOK_LESSGREAT,
-	LEX_TOK_DLESSDASH,
-	LEX_TOK_CLOBBER,
+	LEX_TOK_AND_IF		= '&' + 0xff00 * '&',				//&&
+	LEX_TOK_OR_IF		= '|' + 0xff00 * '|',				//||
+	LEX_TOK_DSEMI		= ';' + 0xff00 * ';',				//;;
+	LEX_TOK_DLESS		= '<' + 0xff00 * '<',				//<<
+	LEX_TOK_DGREAT		= '>' + 0xff00 * '>',				//>>
+	LEX_TOK_LESSAND		= '<' + 0xff00 * '&',				//<&
+	LEX_TOK_GREATAND	= '>' + 0xff00 * '&',				//>&
+	LEX_TOK_LESSGREAT	= '<' + 0xff00 * '>',				//<>
+	LEX_TOK_DLESSDASH	= '<' + 0xff00 * '<' + 0xff0000 * '-',	//<<-
+	LEX_TOK_CLOBBER		= '>' + 0xff00 * '|',				//>|
 	//Other
-	LEX_TOK_WORD,
+	LEX_TOK_WORD = 130,
 }				t_token_id;
 
 typedef struct	s_lexer
@@ -90,5 +90,34 @@ typedef struct	s_token
 ** lexer.c
 */
 int			lexer(char *input);
+
+/*
+** t_lexer.c
+*/
+void		lexer_init(t_lexer *lexer, int tok_start, char *input);
+int			lexer_add_token(t_lexer *lexer);
+void		lexer_show(t_lexer *lexer);
+
+/*
+** lexer_rules.c
+*/
+int			lexer_rule1(t_lexer *lexer);
+int			lexer_rule2(t_lexer *lexer);
+int			lexer_rule3(t_lexer *lexer);
+int			lexer_rule4(t_lexer *lexer);
+int			lexer_rule5(t_lexer *lexer);
+int			lexer_rule6(t_lexer *lexer);
+int			lexer_rule7(t_lexer *lexer);
+int			lexer_rule8(t_lexer *lexer);
+int			lexer_rule9(t_lexer *lexer);
+int			lexer_rule10(t_lexer *lexer);
+int			lexer_rule11(t_lexer *lexer);
+
+/*
+** t_token.c
+*/
+t_token		*t_token_new(int id, char *value);
+void		t_token_show(t_token *token);
+void		t_token_show_id(int i);
 
 #endif
