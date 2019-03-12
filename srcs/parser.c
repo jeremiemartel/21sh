@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/09 00:03:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 21:37:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,8 +203,8 @@ int		sh_init_pda_stack(t_list **stack, t_cfg *cfg)
 	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[E],
 				sizeof(t_symbol *)))
 		return (1);
-//	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[END_OF_INPUT],
-//				sizeof(t_symbol *)))
+	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[END_OF_INPUT],
+				sizeof(t_symbol *)))
 		return (1);
 	return (0);
 }

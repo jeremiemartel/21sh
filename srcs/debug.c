@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/11 23:22:44 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/12 18:25:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void	print_ll_table(t_cfg *cfg)
 	ft_printf(BOLD UNDERLINE"LL TABLE:\n\n"EOC);
 	j = 0;
 	ft_printf("\t\t");
-	while (j < NB_TERMS)
+	while (j < NB_TERMS - 1)
 	{
 		ft_printf("%s%s%s\t\t",BLUE, cfg->symbols[j].debug, EOC);
 		j++;
@@ -243,7 +243,7 @@ void	print_ll_table(t_cfg *cfg)
 	{
 		j = 0;
 		ft_printf("%s%s%s\t\t", RED, cfg->symbols[NB_TERMS + i].debug, EOC);
-		while (j < NB_TERMS)
+		while (j < NB_TERMS - 1)
 		{
 			production = cfg->ll_table[i][j];
 			if (production == NULL)
