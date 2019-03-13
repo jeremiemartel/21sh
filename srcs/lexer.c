@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 00:33:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 14:05:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		lexer(char *input)
 	int			ret;
 
 	lexer_init(&lexer, 0, input);
+	ft_printf("Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;
 	while (ret != LEX_ERR && ret != LEX_END)//comparison to \0 shall be removed
@@ -103,4 +104,9 @@ int		lexer(char *input)
 		ft_putstrn("Error returned by lexer");
 	lexer_show(&lexer);
 	return (0);
+}
+
+void	ft_putstr_len(char *str, int len)
+{
+	write(1, str, len);
 }

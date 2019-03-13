@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 00:38:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 14:35:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,21 +89,35 @@ int		lexer_rule3(t_lexer *lexer)
 
 int		lexer_rule4(t_lexer *lexer)
 {
-	static char		quoting[] = LEX_QUOTING_TAB;
+	// static char		quoting[] = LEX_QUOTING_TAB;
 
-	if (lexer->c == '\\')
+	if (!lexer->quoted && lexer->c == '\\')
 	{
 		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
 		lexer->tok_len++;
+		ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
+		return (LEX_OK);
 	}
-	else if (!lexer->quoted && ft_strchr(quoting, lexer->c))
+	else if (!lexer->quoted && lexer->c == '\'')
 	{
 		lexer->quoted = lexer->c;
 		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
-		ft_printf("concatenated input: %s\n", lexer->input);
+		if (lexer->current_id == LEX_TOK_UNKNOWN)
+			lexer->current_id = LEX_TOK_WORD;
 		return (LEX_OK);
 	}
-	else if (lexer->quoted)
+	if (lexer->quoted == '\'')
+	{
+		if (lexer->c == '\'')
+		{
+			lexer->quoted = 0;
+			ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+		}
+		else
+			lexer->tok_len++;
+		return (LEX_OK);
+	}
+/*	else if (lexer->quoted)
 	{
 		if (lexer->c == lexer->quoted)
 		{
@@ -113,7 +127,7 @@ int		lexer_rule4(t_lexer *lexer)
 		lexer->tok_len++;
 		return (LEX_OK);
 	}
-	return (LEX_CONTINUE);
+*/	return (LEX_CONTINUE);
 }
 
 int		lexer_rule5(t_lexer *lexer)
@@ -140,10 +154,13 @@ int		lexer_rule6(t_lexer *lexer)
 	return (LEX_CONTINUE);
 }
 
-int		lexer_rule7(t_lexer *lexer) // Need to add quoted option
+int		lexer_rule7(t_lexer *lexer)
 {
+	if (lexer->quoted)
+		return (LEX_CONTINUE);
 	if (lexer->c == LEX_TOK_SPACE && lexer->quoted == LEX_TOK_UNKNOWN)
 	{
+		ft_printf("blank used to delimit a token\n");
 		lexer_add_token(lexer);
 		lexer->tok_start++;
 		return (LEX_OK);

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/12 18:43:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 13:39:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	*t_token_new(int id, char *value)
 void	t_token_show(t_token *token)
 {
 	t_token_show_id(token->id);
-	ft_printf(":%s ", token->value);
+	ft_printf(":%s", token->value);
 }
 
 void	t_token_show_id(int i)
