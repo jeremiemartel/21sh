@@ -34,6 +34,8 @@ void	sh_print_token(t_token *token)
 			ft_printf("(");
 		else if (token->token_id == CLS_PARENT)
 			ft_printf(")");
+		else if (token->token_id == END_OF_INPUT)
+			ft_printf("$");
 	}
 }
 

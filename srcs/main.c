@@ -18,7 +18,7 @@ int			main(int argc, char **argv)
 {
 	int		token;
 
-	sh_process_test();
+	return (sh_process_test());
 	if (argc == 1)
 		return (0);
 	token = sh_lexer(argv[1]);

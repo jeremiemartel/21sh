@@ -193,6 +193,8 @@ int		sh_process_test(void)
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, CLS_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
+	sh_populate_token(&token, END_OF_INPUT, 0, TYPE_STR);
+	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_parse_token_list(tokens);
 	return (0);
 }
@@ -211,23 +213,18 @@ int		sh_init_pda_stack(t_list **stack, t_cfg *cfg)
 
 int		sh_match(t_list **pda_ptr, t_list **tokens_ptr)
 {
-	t_symbol *token;
+	t_token *token;
 	t_symbol *stack_symbol;
 
-	ft_printf("IT'S A MATCH\n");
+//	ft_printf("IT'S A MATCH\n");
 	if (!(token = ft_lstpop_ptr(tokens_ptr)))
 		return (1);
 	if (!(stack_symbol = ft_lstpop_ptr(pda_ptr)))
 		return (1);
-	if (token->id == stack_symbol->id)
+	if (token->token_id == stack_symbol->id)
 		return (0);
 	else
-	{
-		ft_printf("PA CONTENT\n");
-		sh_print_symbol(token);
-		sh_print_symbol(stack_symbol);
 		return (1);
-	}
 }
 
 t_list	*ft_lstdup_ptr(t_list *list)
@@ -264,7 +261,7 @@ int		push_prod_to_stack(t_production *production, t_list **pda_stack)
 	return (0);
 }
 
-int		sh_predict(t_parser *parser, t_symbol *token)
+int		sh_predict(t_parser *parser, t_token *token)
 {
 	t_symbol		*stack_no_term;
 	t_production	*production;
@@ -272,18 +269,13 @@ int		sh_predict(t_parser *parser, t_symbol *token)
 	ft_printf("PREDICTION\n");
 	if (!(stack_no_term = ft_lstpop_ptr(&parser->pda_stack)))
 		return (1);
-	sh_print_symbol(stack_no_term);
-	ft_printf("%d\n", token->id);
-	if ((production = parser->cfg.ll_table[stack_no_term->id - NB_TERMS][token->id]))
+	if ((production = parser->cfg.ll_table[stack_no_term->id - NB_TERMS][token->token_id]))
 	{
-		push_prod_to_stack(production, &parser->pda_stack);
+		if (push_prod_to_stack(production, &parser->pda_stack))
+			return (2);
 	}
 	else
-	{
-//		sh_print_symbol(cfg.["stack_no_term->id - NB_TERMS
-		ft_printf("oallalalla\n");
 		return (1);
-	}
 	return (0);
 }
 
@@ -299,16 +291,19 @@ int		process_ll_parsing(t_parser *parser)
 		if (sh_is_term(symbol))
 		{
 			if (sh_match(&parser->pda_stack, &parser->tokens))
-			{
 				return (1);
-			}
 		}
-		else if (sh_predict(parser, (t_symbol *)parser->tokens->content))
+		else if (sh_predict(parser, (t_token *)parser->tokens->content))
 			return (1);
 		sh_print_pda(parser->pda_stack);
 		sh_print_token_list(parser->tokens);
 	}
-	return (0);
+	if (parser->tokens == NULL)
+	{
+		return (0);
+	}
+	else
+		return (1);
 }
 
 int		sh_parse_token_list(t_list *tokens)
@@ -319,11 +314,12 @@ int		sh_parse_token_list(t_list *tokens)
 	sh_print_token_list(parser.tokens);
 	if (init_context_free_grammar(&parser.cfg))
 		return (1);
-
 	print_cfg(&parser.cfg);
 	if (process_ll_parsing(&parser))
+	{
+		ft_printf("syntaxical error\n");
 		return (1);
+	}
 	else
 		return (0);
-	return (0);
 }
