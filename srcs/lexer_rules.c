@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 16:01:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 17:52:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int		lexer_rule3(t_lexer *lexer)
 	return (LEX_CONTINUE);
 }
 
+//Need to add distinction between simple and double quotes
 int		lexer_rule4(t_lexer *lexer)
 {
 	// static char		quoting[] = LEX_QUOTING_TAB;
@@ -123,13 +124,31 @@ int		lexer_rule4(t_lexer *lexer)
 
 int		lexer_rule5(t_lexer *lexer)
 {
-/*	if (lexer->c != LEX_TOK_DOLLAR || lexer->c != LEX_TOK_QUOTE_BACK)
-		return (LEX_CONTINUE);
+	char	c2;
+
 	if (lexer->quoted)
-		return (LEX_CONTINUE);
-	ft_putstrn("Expansions and substitutions are not implemented yet");
-*/	return (LEX_CONTINUE);
-	(void)lexer;
+			return (LEX_CONTINUE);
+	if (lexer->c == '$')
+	{
+		ft_dprintf(2, "\t\tExpansions and substitutions are not implemented yet\n");
+		c2 = lexer->input[lexer->tok_start + lexer->tok_len + 1];
+		if(c2 == '{')
+			return (lexer_parameter_expansion(lexer));
+		else if (lexer->c == '$' && c2 == '(')
+		{
+			c2 = lexer->input[lexer->tok_start + lexer->tok_len + 2];
+			if (c2 == '(')
+				return (lexer_arithmetic_expression(lexer));
+			else
+				return (lexer_command_substitution(lexer));
+		}
+	}
+	if (lexer->c == '`')
+	{
+		ft_dprintf(2, "\t\tExpansions and substitutions are not implemented yet\n");
+		return (lexer_command_substitution(lexer));
+	}
+	return (LEX_ERR);
 }
 
 int		lexer_rule6(t_lexer *lexer)

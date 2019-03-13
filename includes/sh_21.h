@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/13 13:34:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 17:48:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,13 @@ typedef struct	s_token
 */
 int			lexer(char *input);
 void		ft_putstr_len(char *str, int len);
+
+/*
+** lexer_expansions.c
+*/
+int			lexer_parameter_expansion(t_lexer *lexer);
+int			lexer_arithmetic_expression(t_lexer *lexer);
+int			lexer_command_substitution(t_lexer *lexer);
 
 /*
 ** t_lexer.c

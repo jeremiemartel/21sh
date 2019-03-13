@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/03/12 11:40:39 by jmartel          ###   ########.fr        #
+#    Updated: 2019/03/13 16:40:32 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX		=	main.c lexer.c t_lexer.c t_token.c lexer_rules.c
+SRCS_NO_PREFIX		=	main.c lexer.c t_lexer.c t_token.c lexer_rules.c lexer_expansions.c
+
 
 INCLUDES_NO_PREFIX	= sh_21.h
 
