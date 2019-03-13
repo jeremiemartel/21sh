@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 14:35:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/13 16:01:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,12 @@ int		lexer_rule4(t_lexer *lexer)
 	if (!lexer->quoted && lexer->c == '\\')
 	{
 		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+		if (lexer->current_id == LEX_TOK_UNKNOWN)
+			lexer->current_id = LEX_TOK_WORD;
 		lexer->tok_len++;
-		ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
 		return (LEX_OK);
 	}
-	else if (!lexer->quoted && lexer->c == '\'')
+	else if (!lexer->quoted && (lexer->c == '\'' || lexer->c == '"'))
 	{
 		lexer->quoted = lexer->c;
 		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
@@ -117,27 +118,18 @@ int		lexer_rule4(t_lexer *lexer)
 			lexer->tok_len++;
 		return (LEX_OK);
 	}
-/*	else if (lexer->quoted)
-	{
-		if (lexer->c == lexer->quoted)
-		{
-			ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
-			lexer->quoted = 0;
-		}
-		lexer->tok_len++;
-		return (LEX_OK);
-	}
-*/	return (LEX_CONTINUE);
+	return (LEX_CONTINUE);
 }
 
 int		lexer_rule5(t_lexer *lexer)
 {
-	if (lexer->c != LEX_TOK_DOLLAR || lexer->c != LEX_TOK_QUOTE_BACK)
+/*	if (lexer->c != LEX_TOK_DOLLAR || lexer->c != LEX_TOK_QUOTE_BACK)
 		return (LEX_CONTINUE);
 	if (lexer->quoted)
 		return (LEX_CONTINUE);
 	ft_putstrn("Expansions and substitutions are not implemented yet");
-	return (LEX_CONTINUE);
+*/	return (LEX_CONTINUE);
+	(void)lexer;
 }
 
 int		lexer_rule6(t_lexer *lexer)
