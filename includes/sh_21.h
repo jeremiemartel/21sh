@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/11 23:33:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/18 07:05:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SH_21_H
 
 #include "libft.h"
+#include <stdio.h> //todel
 
 # define SH_LEXER_AUTO_LEN	5
 
@@ -88,6 +89,8 @@ typedef struct		s_symbol
 	char			first_sets[NB_TERMS];
 	char			follow_sets[NB_TERMS];
 	char			debug[DEBUG_BUFFER];
+	char			relevant;
+	char			replacing;
 }					t_symbol;
 
 
@@ -126,11 +129,24 @@ typedef struct		s_cfg
 ** says which production to choose for a non terminal given a terminal
 */
 
+typedef struct			s_ast_node
+{
+	t_token				*token;
+	struct s_ast_node	*parent;
+	t_list				*children;
+}						t_ast_node;
+
+typedef struct			s_ast_builder
+{
+	t_ast_node			*node;
+	t_symbol			*symbol;
+}						t_ast_builder;
 
 typedef struct		s_parser
 {
 	t_cfg			cfg;
 	t_list			*pda_stack;
+	t_ast_node		*root;
 	t_list			*tokens;
 }					t_parser;
 
@@ -165,6 +181,7 @@ void		sh_lexer_show_token(int token);
 int			sh_process_test(void);
 int			sh_parse_token_list(t_list *tokens);
 int			sh_is_term(t_symbol *symbol);
+int			traverse(t_ast_node *node);
 /*
 ** first_sets.c
 */
@@ -188,11 +205,28 @@ void	print_first_sets(t_cfg *cfg);
 void	print_follow_sets(t_cfg *cfg);
 void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS]);
 void	print_ll_table(t_cfg *cfg);
+void    sh_print_ast(t_ast_node *node, int depth);
+void    sh_print_ast_parser(t_parser *parser);
 void	print_cfg(t_cfg *cfg);
+
 /*
 ** lltable.c
 */
 int		sh_compute_ll_table(t_cfg *cfg);
+
+/*
+** init_cfg.c
+*/
+int		init_context_free_grammar(t_cfg *cfg);
+
+/*
+** ast_node.c
+*/
+
+t_ast_node			*sh_new_node(t_token *token);
+t_ast_builder		*sh_new_ast_builder(t_ast_node **node, t_symbol *symbol);
+int					sh_add_new_node(t_ast_node **node_ptr, t_ast_node *node);
+
 /*
 typedef enum		e_tokenlist
 {

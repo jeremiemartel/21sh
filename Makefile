@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/03/08 23:38:26 by ldedier          ###   ########.fr        #
+#    Updated: 2019/03/18 04:50:34 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,9 @@ OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
 SRCS_NO_PREFIX		=	main.c lexer.c lexer_automates.c\
-						lexer_automates_tools.c parser.c\
-						first_sets.c debug.c ll_table.c follow_sets.c
+						lexer_automates_tools.c parser.c init_cfg.c\
+						first_sets.c debug.c ll_table.c follow_sets.c\
+						ast_node.c
 
 INCLUDES_NO_PREFIX	= sh_21.h
 
@@ -42,7 +43,7 @@ INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
 INC = -I $(INCLUDESDIR) -I $(LIBFTDIR)
 
-CFLAGS = -DPATH=$(PWD) -Wall -Wextra -Werror $(INC) -g3 -fsanitize=address
+CFLAGS = -DPATH=$(PWD) -Wall -Wextra -Werror $(INC) -g3 
 LFLAGS = -L $(LIBFTDIR) -lft -ltermcap
 
 ifeq ($(DEBUG), 1)

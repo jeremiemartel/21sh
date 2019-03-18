@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/13 00:40:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/18 07:07:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,150 +23,6 @@ void	sh_populate_token(t_token *token, t_test_token_id id,
 	token->token_union.ival = val;
 	token->token_id = id;
 	token->token_type = type;
-}
-
-
-int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
-		t_list **symbols, int nb_symbols, ...)
-{
-	int		i;
-	va_list	ap;
-	int		symbol_index;
-
-	*symbols = NULL;
-	va_start(ap, nb_symbols);
-	i = 0;
-	while (i < nb_symbols)
-	{
-		symbol_index = va_arg(ap, int);
-		if (ft_lstaddnew_ptr_last(symbols, &cfg_symbols[symbol_index],
-					sizeof(t_symbol *)))
-			return (1);
-		i++;
-	}
-	va_end(ap);
-	return (0);
-}
-
-int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
-{
-	t_production *res;
-
-	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
-		return (1);
-	res->symbols = prod_symbols;
-	if (ft_lstaddnew_ptr_last(&symbol->productions, res, sizeof(*res)))
-	{
-		free(res);
-		return (1);
-	}
-	return (0);
-}
-
-//		(1) E → int
-//		(2) E → (E Op E)
-
-int		init_E(t_cfg *cfg, t_symbol *symbol)
-{
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			INT); //(1)
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 5,
-			OPN_PARENT, E, OP, E, CLS_PARENT); //(2)
-	ft_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-//		(3) Op → +
-//		(4) Op → *
-
-int		init_Op(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			PLUS); //(1)
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, MULT); //(2)
-	ft_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-//		None
-
-/*
- ** attributes for each non_terminal every single of its productions
- */
-
-static	int (*g_init_grammar_productions[NB_NOTERMS])
-	(t_cfg *, t_symbol *symbol) = 
-{
-	init_E,
-	init_Op,
-};
-
-char		*get_debug(int index)
-{
-	static char *debug_str_tab[NB_SYMBOLS] = {
-		"(",
-		")",
-		"+",
-		"*",
-		"int",
-		"$",
-		"ε",
-		"E",
-		"OP",
-	};
-	return (debug_str_tab[index]);
-}
-
-void	init_symbol(t_symbol *symbol, t_test_token_id id)
-{
-	int i;
-
-	i = 0;
-	while (i < NB_TERMS)
-	{
-		symbol->first_sets[i] = 0;
-		symbol->follow_sets[i] = 0;
-		i++;
-	}
-	symbol->productions = NULL;
-	symbol->id = id;
-	ft_strcpy(symbol->debug, get_debug(id));
-}
-
-int		init_context_free_grammar(t_cfg *cfg)
-{
-	int i;
-	int j;
-
-	cfg->start_index = E;
-	i = 0;
-	while (i < NB_SYMBOLS)
-	{
-		init_symbol(&cfg->symbols[i], i);
-		i++;
-	}
-	i = NB_TERMS;
-	j = 0;
-	while (j < NB_NOTERMS)
-	{
-		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
-			return (1);
-	}
-	if (sh_compute_first_sets(cfg))
-		return (1);
-	if (sh_compute_follow_sets(cfg))
-		return (1);
-	if (sh_compute_ll_table(cfg))
-		return (1);
-	return (0);
 }
 
 int		sh_process_test(void)
@@ -199,46 +55,67 @@ int		sh_process_test(void)
 	return (0);
 }
 
-int		sh_init_pda_stack(t_list **stack, t_cfg *cfg)
+
+t_token *ntoken(int id)
 {
-	*stack = NULL;
-	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[E],
-				sizeof(t_symbol *)))
+	t_token *res;
+
+	res = malloc(sizeof(t_token));
+	res->token_id = id;
+	return (res);
+}
+
+
+int		sh_init_ll_parsing(t_parser *parser) //to free if fail
+{
+	t_ast_node *node;
+	t_ast_builder *ast_builder;
+
+	parser->pda_stack = NULL;
+	parser->root = NULL;
+	if (!(node = sh_new_node(NULL)))
 		return (1);
-	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[END_OF_INPUT],
-				sizeof(t_symbol *)))
+	if (sh_add_new_node(&parser->root, node))
+		return (1);
+	if (!(ast_builder = sh_new_ast_builder(&parser->root, &parser->cfg.symbols[E])))
+		return (1);
+	if (ft_lstaddnew_last(&parser->pda_stack, ast_builder, sizeof(t_ast_builder)))
 		return (1);
 	return (0);
 }
 
-int		sh_match(t_list **pda_ptr, t_list **tokens_ptr)
+
+t_list	*ft_lstdup_ast_builder(t_list *symbols, t_ast_node **parent_node)
 {
-	t_token *token;
-	t_symbol *stack_symbol;
+	t_list			*res;
+	t_list			*ptr;
+	t_ast_builder	ast_builder;
+	t_ast_node		*node;
+	static int i = 0;
 
-//	ft_printf("IT'S A MATCH\n");
-	if (!(token = ft_lstpop_ptr(tokens_ptr)))
-		return (1);
-	if (!(stack_symbol = ft_lstpop_ptr(pda_ptr)))
-		return (1);
-	if (token->token_id == stack_symbol->id)
-		return (0);
-	else
-		return (1);
-}
-
-t_list	*ft_lstdup_ptr(t_list *list)
-{
-	t_list *res;
-	t_list *ptr;
-
+	i++;
 	res = NULL;
-	ptr = list;
+	ptr = symbols;
 	while (ptr != NULL)
 	{
-		if (ft_lstaddnew_ptr_last(&res, ptr->content, ptr->content_size))
+		ast_builder.symbol = (t_symbol *)ptr->content;
+		ast_builder.node = NULL;
+		if (ast_builder.symbol->relevant)
 		{
-	//		ft_lstdel_ptr(&res);
+			if (!ast_builder.symbol->replacing && !sh_is_term(ast_builder.symbol))
+			{
+				if (!(node = sh_new_node(NULL)))
+					return (NULL);
+				if (sh_add_new_node(parent_node, node))
+					return (NULL);
+				ast_builder.node = node;
+			}
+			else
+				ast_builder.node = *parent_node;
+		}
+		if (ft_lstaddnew_last(&res, &ast_builder, sizeof(t_ast_builder)))
+		{
+			//ft_lstdel_ptr(&res);
 			return (NULL);
 		}
 		ptr = ptr->next;
@@ -246,12 +123,12 @@ t_list	*ft_lstdup_ptr(t_list *list)
 	return (res);
 }
 
-int		push_prod_to_stack(t_production *production, t_list **pda_stack)
+int		push_prod_to_stack(t_production *production, t_list **pda_stack, t_ast_node **parent_node)
 {
 	t_list *res;
 	t_list *ptr;
 
-	if (!(res = ft_lstdup_ptr(production->symbols)))
+	if (!(res = ft_lstdup_ast_builder(production->symbols, parent_node)))
 		return (1);
 	ptr = res;
 	while (ptr->next != NULL)
@@ -263,15 +140,15 @@ int		push_prod_to_stack(t_production *production, t_list **pda_stack)
 
 int		sh_predict(t_parser *parser, t_token *token)
 {
-	t_symbol		*stack_no_term;
+	t_ast_builder	*ast_builder;
 	t_production	*production;
 
 	ft_printf("PREDICTION\n");
-	if (!(stack_no_term = ft_lstpop_ptr(&parser->pda_stack)))
+	if (!(ast_builder = ft_lstpop_ptr(&parser->pda_stack)))
 		return (1);
-	if ((production = parser->cfg.ll_table[stack_no_term->id - NB_TERMS][token->token_id]))
+	if ((production = parser->cfg.ll_table[ast_builder->symbol->id - NB_TERMS][token->token_id]))
 	{
-		if (push_prod_to_stack(production, &parser->pda_stack))
+		if (push_prod_to_stack(production, &parser->pda_stack, &ast_builder->node))
 			return (2);
 	}
 	else
@@ -279,31 +156,107 @@ int		sh_predict(t_parser *parser, t_token *token)
 	return (0);
 }
 
-int		process_ll_parsing(t_parser *parser)
+int		sh_match(t_list **pda_ptr, t_list **tokens_ptr)
 {
-	t_symbol	*symbol;
+	t_token			*token;
+	t_ast_builder	*ast_builder;
 
-	sh_init_pda_stack(&parser->pda_stack, &parser->cfg);
-	sh_print_pda(parser->pda_stack);
-	while (parser->pda_stack)
+	if (*tokens_ptr == NULL)
+		return (1);
+	//	ft_printf("IT'S A MATCH\n");
+	token = (*tokens_ptr)->content;
+	*tokens_ptr = (*tokens_ptr)->next;
+	if (!(ast_builder = ft_lstpop_ptr(pda_ptr)))
+		return (1);
+	if (token->token_id == ast_builder->symbol->id)
 	{
-		symbol = (t_symbol *)(parser->pda_stack->content);
-		if (sh_is_term(symbol))
+		ft_printf("matching: ");
+		sh_print_symbol(ast_builder->symbol);
+		ft_printf("\n");
+		if (ast_builder->symbol->relevant)
 		{
-			if (sh_match(&parser->pda_stack, &parser->tokens))
-				return (1);
+			//(*(ast_builder->node))->token = token;
+			ast_builder->node->token = token;
+			ft_printf("YOPLAA\n");
 		}
-		else if (sh_predict(parser, (t_token *)parser->tokens->content))
-			return (1);
-		sh_print_pda(parser->pda_stack);
-		sh_print_token_list(parser->tokens);
-	}
-	if (parser->tokens == NULL)
-	{
 		return (0);
 	}
 	else
 		return (1);
+}
+
+int		iz_okay_parsing(t_list *tokens)
+{
+	t_token *token;
+
+	if (tokens == NULL)
+		return (0);
+	else
+	{
+		token = tokens->content;
+		return (token->token_id == END_OF_INPUT);
+	}
+}
+
+int		process_ll_parsing(t_parser *parser)
+{
+	t_ast_builder	*ast_builder;
+	t_list			*tokens;
+
+	tokens = parser->tokens;
+	sh_init_ll_parsing(parser);
+	sh_print_pda(parser->pda_stack);
+	while (parser->pda_stack)
+	{
+		ast_builder = (t_ast_builder *)(parser->pda_stack->content);
+		if (sh_is_term(ast_builder->symbol))
+		{
+			if (sh_match(&parser->pda_stack, &tokens))
+				return (1);
+		}
+		else if (sh_predict(parser, (t_token *)tokens->content))
+			return (1);
+		sh_print_pda(parser->pda_stack);
+		//		sh_print_token_list(tokens);
+		//		sh_print_ast_parser(parser);
+	}
+	return (iz_okay_parsing(tokens) ? 0 : 1);
+}
+
+int		op_nothing(t_ast_node *node)
+{
+	(void)node;
+	return (0);
+}
+
+int		op_plus(t_ast_node *node)
+{
+	return (traverse(node->children->content) + traverse(node->children->next->content));
+}
+
+int		op_mult(t_ast_node *node)
+{
+	return (traverse(node->children->content) * traverse(node->children->next->content));
+}
+
+int		op_int(t_ast_node *node)
+{
+	return (node->token->token_union.ival);
+}
+
+static  int (*g_operator_token[NB_TERMS - 1])
+	(t_ast_node *) =
+{
+	op_nothing,
+	op_nothing,
+	op_plus,
+	op_mult,
+	op_int,
+};
+
+int		traverse(t_ast_node *node)
+{
+	return ((g_operator_token[node->token->token_id])(node));
 }
 
 int		sh_parse_token_list(t_list *tokens)
@@ -317,9 +270,14 @@ int		sh_parse_token_list(t_list *tokens)
 	print_cfg(&parser.cfg);
 	if (process_ll_parsing(&parser))
 	{
-		ft_printf("syntaxical error\n");
+		ft_printf(RED"syntaxical error\n"EOC);
 		return (1);
 	}
 	else
+	{
+		ft_printf(GREEN"syntax OK\n"EOC);
+		sh_print_ast_parser(&parser);
+		ft_printf("%d\n", traverse(parser.root));
 		return (0);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/04 22:03:37 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/18 06:02:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int			sh_lexer(char *input);
 
+
 int			main(int argc, char **argv)
 {
 	int		token;
+
 
 	return (sh_process_test());
 	if (argc == 1)

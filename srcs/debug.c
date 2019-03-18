@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/13 00:22:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/18 06:43:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	sh_print_token(t_token *token)
 			ft_printf(")");
 		else if (token->token_id == END_OF_INPUT)
 			ft_printf("$");
+		else if (token->token_id == E)
+			ft_printf("E");
+		else if (token->token_id == OP)
+			ft_printf("OP");
+		else if (token->token_id == INT)
+			ft_printf("INT");
 	}
 }
 
@@ -267,10 +273,65 @@ void	print_ll_table(t_cfg *cfg)
 		i++;
 	}
 }
-void	sh_print_pda(t_list *guess)
+
+
+void	sh_print_ast(t_ast_node *node, int depth)
+{
+	t_list *ptr;
+	int i;
+
+	i = depth;
+	if (!node)
+	{
+		ft_printf("LEAF NODE\n");
+		return ;
+	}
+	while (i--)
+		ft_printf("\t");
+	if (node->token)
+		sh_print_token(node->token);
+	else
+		ft_printf("NOT A TOKEN YET");
+	ft_printf("\n");
+	ptr = node->children;
+	if (ptr)
+		ft_printf("children:\n");
+	i = 0;
+	while (ptr != NULL)
+	{
+		ft_printf("child #%d: ", ++i);
+		sh_print_ast(ptr->content, depth + 1);
+		ft_printf("\n");
+		ptr = ptr->next;
+	}
+}
+
+void	sh_print_ast_parser(t_parser *parser)
+{
+	ft_printf(GREEN"//////////START AST///////////\n"EOC);
+	sh_print_ast(parser->root, 0);
+	ft_printf(RED"//////////END AST///////////\n"EOC);
+}
+
+void	sh_print_pda(t_list *stack)
 {
 	ft_printf("PDA STACK:\t");
-	sh_print_symbol_list(guess);
+	t_ast_builder	*ast_builder;
+	t_list			*ptr;
+
+	ptr = stack;
+	while (ptr != NULL)
+	{
+		ast_builder = (t_ast_builder *)ptr->content;
+		if (ptr != stack)
+			ft_printf(" ");
+		sh_print_symbol(ast_builder->symbol);
+//		if (!ast_builder->node)
+//			ft_printf("node: address: %p\n", NULL);
+//		else
+//			ft_printf("node: address: %p\n", ast_builder->node);
+		ptr = ptr->next;
+	}
 	ft_printf("\n");
 }
 
