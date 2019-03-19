@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/19 07:39:44 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 12:10:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum	e_token_id
 	LEX_TOK_CLS_PAR = ')',
 	LEX_TOK_DOLLAR = '$',
 	//Quoting tokens
-	LEX_TOK_BACK_SLASH ='\\',
+	LEX_TOK_BACK_SLASH = '\\',
 	LEX_TOK_QUOTE_BACK = '`',
 	LEX_TOK_QUOTE_SPL = '\'',
 	LEX_TOK_QUOTE_DBL = '"',
@@ -45,16 +45,16 @@ typedef enum	e_token_id
 	LEX_TOK_EQUAL = '=',
 	LEX_TOK_PERCENT = '%',
 	//Composed operators
-	LEX_TOK_AND_IF		= '&' + 0xff00 * '&',				//&&
-	LEX_TOK_OR_IF		= '|' + 0xff00 * '|',				//||
-	LEX_TOK_DSEMI		= ';' + 0xff00 * ';',				//;;
-	LEX_TOK_DLESS		= '<' + 0xff00 * '<',				//<<
-	LEX_TOK_DGREAT		= '>' + 0xff00 * '>',				//>>
-	LEX_TOK_LESSAND		= '<' + 0xff00 * '&',				//<&
-	LEX_TOK_GREATAND	= '>' + 0xff00 * '&',				//>&
-	LEX_TOK_LESSGREAT	= '<' + 0xff00 * '>',				//<>
-	LEX_TOK_DLESSDASH	= '<' + 0xff00 * '<' + 0xff0000 * '-',	//<<-
-	LEX_TOK_CLOBBER		= '>' + 0xff00 * '|',				//>|
+	LEX_TOK_AND_IF = '&' + 0xff00 * '&',				//&&
+	LEX_TOK_OR_IF = '|' + 0xff00 * '|',				//||
+	LEX_TOK_DSEMI = ';' + 0xff00 * ';',				//;;
+	LEX_TOK_DLESS = '<' + 0xff00 * '<',				//<<
+	LEX_TOK_DGREAT = '>' + 0xff00 * '>',				//>>
+	LEX_TOK_LESSAND = '<' + 0xff00 * '&',				//<&
+	LEX_TOK_GREATAND = '>' + 0xff00 * '&',				//>&
+	LEX_TOK_LESSGREAT = '<' + 0xff00 * '>',				//<>
+	LEX_TOK_DLESSDASH = '<' + 0xff00 * '<' + 0xff0000 * '-',	//<<-
+	LEX_TOK_CLOBBER = '>' + 0xff00 * '|',				//>|
 	//Other
 	LEX_TOK_TOKEN = 130,
 	LEX_TOK_WORD,
@@ -74,6 +74,26 @@ typedef struct	s_lexer
 	t_list	*list;
 }				t_lexer;
 
+/*
+** Expansion header
+*/
+typedef enum	e_exp_type
+{
+	LEX_EXP_ERR = -1,
+	LEX_EXP_OK = 0,
+	LEX_EXP_VAR,
+	LEX_EXP_PARAM,
+	LEX_EXP_CMD,
+	LEX_EXP_ARITH,
+}				t_exp_type;
+
+typedef struct s_expansion
+{
+	t_dystr		*dystr;
+	char		pattern[2];
+	t_exp_type	exp_type;
+}				t_expansion;
+
 # define LEX_TOKEN_VALUE_LEN	250
 
 # define LEX_END		3
@@ -89,7 +109,6 @@ typedef struct	s_token
 	char		value[LEX_TOKEN_VALUE_LEN + 1];
 }				t_token;
 
-
 /*
 ** lexer.c
 */
@@ -99,11 +118,14 @@ void		ft_putstr_len(char *str, int len);
 /*
 ** lexer_expansions.c
 */
-int         lexer_expansion(t_lexer *lexer);
-int			lexer_parameter_expansion(t_lexer *lexer);
-int			lexer_arithmetic_expression(t_lexer *lexer);
-int			lexer_command_substitution(t_lexer *lexer);
-
+int			lexer_expansion_identify(char *input, t_expansion *expansion);
+int			lexer_expansion_create_dystr(char *input, t_expansion *expansion);
+int         lexer_expansion(char *input, t_lexer *lexer);
+int			lexer_expansion_process(t_expansion *expansion, t_lexer *lexer);
+int			lexer_variable_expansion(t_expansion *expansion, t_lexer *lexer);
+int         lexer_parameter_expansion(t_expansion *expansion, t_lexer *lexer);
+int         lexer_arithmetic_expression(t_expansion *expansion, t_lexer *lexer);
+int         lexer_command_substitution(t_expansion *expansion, t_lexer *lexer);
 /*
 ** t_lexer.c
 */

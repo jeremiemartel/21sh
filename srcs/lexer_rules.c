@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 07:08:36 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 12:13:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,12 @@ int		lexer_rule4(t_lexer *lexer)
 
 int		lexer_rule5(t_lexer *lexer)
 {
-	char	c2;
-
 	if (lexer->quoted)
 			return (LEX_CONTINUE);
 	if (lexer->c == '$' || lexer->c == '`')
 	{
 		ft_dprintf(2, "\t\tExpansions and substitutions are not implemented yet\n");
-		return (lexer_parameter_expansion(lexer));
+		return (lexer_expansion(lexer->input + lexer->tok_start + lexer->tok_len, lexer));
 	}
 	return (LEX_CONTINUE);
 }
