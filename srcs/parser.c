@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/18 07:07:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/18 21:43:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ int		process_ll_parsing(t_parser *parser)
 		else if (sh_predict(parser, (t_token *)tokens->content))
 			return (1);
 		sh_print_pda(parser->pda_stack);
-		//		sh_print_token_list(tokens);
+		sh_print_token_list(tokens);
 		//		sh_print_ast_parser(parser);
 	}
 	return (iz_okay_parsing(tokens) ? 0 : 1);
