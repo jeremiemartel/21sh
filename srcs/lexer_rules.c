@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 17:52:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 07:08:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,27 +128,12 @@ int		lexer_rule5(t_lexer *lexer)
 
 	if (lexer->quoted)
 			return (LEX_CONTINUE);
-	if (lexer->c == '$')
+	if (lexer->c == '$' || lexer->c == '`')
 	{
 		ft_dprintf(2, "\t\tExpansions and substitutions are not implemented yet\n");
-		c2 = lexer->input[lexer->tok_start + lexer->tok_len + 1];
-		if(c2 == '{')
-			return (lexer_parameter_expansion(lexer));
-		else if (lexer->c == '$' && c2 == '(')
-		{
-			c2 = lexer->input[lexer->tok_start + lexer->tok_len + 2];
-			if (c2 == '(')
-				return (lexer_arithmetic_expression(lexer));
-			else
-				return (lexer_command_substitution(lexer));
-		}
+		return (lexer_parameter_expansion(lexer));
 	}
-	if (lexer->c == '`')
-	{
-		ft_dprintf(2, "\t\tExpansions and substitutions are not implemented yet\n");
-		return (lexer_command_substitution(lexer));
-	}
-	return (LEX_ERR);
+	return (LEX_CONTINUE);
 }
 
 int		lexer_rule6(t_lexer *lexer)
@@ -171,7 +156,6 @@ int		lexer_rule7(t_lexer *lexer)
 		return (LEX_CONTINUE);
 	if (lexer->c == LEX_TOK_SPACE && lexer->quoted == LEX_TOK_UNKNOWN)
 	{
-		ft_printf("blank used to delimit a token\n");
 		lexer_add_token(lexer);
 		lexer->tok_start++;
 		return (LEX_OK);

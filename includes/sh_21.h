@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/13 17:48:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 07:39:44 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void		ft_putstr_len(char *str, int len);
 /*
 ** lexer_expansions.c
 */
+int         lexer_expansion(t_lexer *lexer);
 int			lexer_parameter_expansion(t_lexer *lexer);
 int			lexer_arithmetic_expression(t_lexer *lexer);
 int			lexer_command_substitution(t_lexer *lexer);

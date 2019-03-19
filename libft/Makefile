@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/03/04 22:26:48 by ldedier          ###   ########.fr        #
+#    Updated: 2019/03/19 09:18:04 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,9 @@ SRCS	+=	./ft_printf/ft_printf.c ./ft_printf/ft_dprintf.c \
 			./ft_printf/ft_printf_flag_size.c \
 			./ft_printf/ft_printf_flag_size2.c \
 			./ft_printf/ft_printf_flag_hash.c
+
+SRCS	+=	./dystr/ft_dystr_new.c ./dystr/ft_dystr_free.c \
+			./dystr/ft_dystr_realloc.c ././dystr/ft_dystr_check.c
 
 OBJS			= $(SRCS:%.c=%.o)
 

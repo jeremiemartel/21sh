@@ -6,11 +6,16 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:40:46 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 17:47:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 07:08:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int         lexer_expansion(t_lexer *lexer)
+{
+    return (LEX_OK);
+}
 
 int         lexer_parameter_expansion(t_lexer *lexer)
 {

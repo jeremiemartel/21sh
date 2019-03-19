@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/04 22:26:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/19 09:16:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct		s_dystr
+{
+	char			*str;
+	int				len;
+	int				size;
+}					t_dystr;
+
 
 /*
 ********************************** atoi  **************************************
@@ -160,6 +168,15 @@ void				ft_strtab_free(char **tabl);
 void				ft_strtab_put(char **tabl);
 int					ft_strtab_len(char **tabl);
 char				**ft_strtab_new_line(char **tabl, int free);
+
+/*
+******************************** get_next_line  *******************************
+*/
+t_dystr				*ft_dystr_check(t_dystr *dystr, int new_offset);
+t_dystr				*ft_dystr_realloc(t_dystr *dystr);
+t_dystr				*ft_dystr_new(char *str, size_t size, size_t len);
+void				ft_dystr_free(t_dystr *dystr);
+
 
 /*
 ******************************** get_next_line  *******************************

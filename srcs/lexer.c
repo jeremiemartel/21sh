@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 16:03:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/14 21:21:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-# define DEBUG		1
+# define DEBUG		0
 
 # define LEX_RULES_LEN	10
 
