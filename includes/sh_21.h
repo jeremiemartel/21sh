@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/19 12:10:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 19:07:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ typedef enum	e_exp_type
 
 typedef struct s_expansion
 {
-	t_dystr		*dystr;
-	char		pattern[2];
-	t_exp_type	exp_type;
+	t_dystr		*res;
+	char		*original;
+	char		*expansion;
+	t_exp_type	type;
 }				t_expansion;
 
 # define LEX_TOKEN_VALUE_LEN	250
@@ -118,20 +119,34 @@ void		ft_putstr_len(char *str, int len);
 /*
 ** lexer_expansions.c
 */
-int			lexer_expansion_identify(char *input, t_expansion *expansion);
-int			lexer_expansion_create_dystr(char *input, t_expansion *expansion);
-int         lexer_expansion(char *input, t_lexer *lexer);
-int			lexer_expansion_process(t_expansion *expansion, t_lexer *lexer);
-int			lexer_variable_expansion(t_expansion *expansion, t_lexer *lexer);
-int         lexer_parameter_expansion(t_expansion *expansion, t_lexer *lexer);
-int         lexer_arithmetic_expression(t_expansion *expansion, t_lexer *lexer);
-int         lexer_command_substitution(t_expansion *expansion, t_lexer *lexer);
+int			lexer_expansion(t_lexer *lexer, char **input);
+
+/*
+** lexer_expansion_detect.c
+*/
+int			lexer_expansion_detect(char *input, t_expansion *expansion);
+int			lexer_expansion_detect_command(char *input, t_expansion *expansion);
+int			lexer_expansion_detect_arithmetic(char *input, t_expansion *expansion);
+int			lexer_expansion_detect_parameter(char *input, t_expansion *expansion);
+int			lexer_expansion_detect_variable(char *input, t_expansion *expansion);
+
+/*
+** lexer_expansion_process.c
+*/
+int			lexer_expansion_process(t_lexer *lexer, t_expansion *expansion);
+int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion);
+int			lexer_expansion_process_arithmetic(t_lexer *lexer, t_expansion *expansion);
+int			lexer_expansion_process_parameter(t_lexer *lexer, t_expansion *expansion);
+int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion);
+
+
 /*
 ** t_lexer.c
 */
 void		lexer_init(t_lexer *lexer, int tok_start, char *input);
 int			lexer_add_token(t_lexer *lexer);
 void		lexer_show(t_lexer *lexer);
+void		t_lexer_free(t_lexer *lexer);
 
 /*
 ** lexer_rules.c

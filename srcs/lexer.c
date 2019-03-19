@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/14 21:21:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 14:18:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int		lexer(char *input)
 	if (ret == LEX_ERR)
 		ft_putstrn("Error returned by lexer");
 	lexer_show(&lexer);
+	t_lexer_free(&lexer);
 	return (0);
 }
 

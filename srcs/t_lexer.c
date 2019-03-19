@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:39:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 14:06:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 14:19:15 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@ void	lexer_init(t_lexer *lexer, int tok_start, char *input)
 	lexer->tok_len = 0;
 	lexer->current_id = LEX_TOK_UNKNOWN;
 	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
+}
+
+void	t_lexer_free(t_lexer *lexer)
+{
+	t_list		*head;
+	t_list		*buf;
+
+	head = lexer->list;
+	while (head)
+	{
+		buf = head;
+		head = head->next;
+		free(buf->content);
+		free(buf);
+	}
 }
 
 int		lexer_add_token(t_lexer *lexer)

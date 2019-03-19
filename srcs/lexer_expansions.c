@@ -6,84 +6,134 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:40:46 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 12:13:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 19:20:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int			lexer_expansion_identify(char *input, t_expansion *expansion)
+int			lexer_expansion_replace(t_expansion *expansion, char **input)
 {
-	if (*input == '`')
-	{
-		ft_strcpy(expansion->pattern, "`");
-		expansion->exp_type = LEX_EXP_CMD;
-	}
-	else if (ft_strnstr(input, "$((", 3))
-	{
-		ft_strcpy(expansion->pattern, "))");
-		expansion->exp_type = LEX_EXP_ARITH;
-	}
-	else if (ft_strnstr(input, "$(", 2))
-	{
-		ft_strcpy(expansion->pattern, ")");
-		expansion->exp_type = LEX_EXP_CMD;
-	}
-	else if (ft_strnstr(input, "${", 2))
-	{
-		ft_strcpy(expansion->pattern, "}");
-		expansion->exp_type = LEX_EXP_PARAM;
-	}
-	else if (ft_strnstr(input, "$", 1))
-	{
-		ft_strcpy(expansion->pattern, NULL);
-		expansion->exp_type = LEX_EXP_VAR;
-	}
-	else
+	*input = ft_strrep_free(*input, expansion->res->str, expansion->original, 0x1);
+	if (!(*input))
 		return (LEX_EXP_ERR);
 	return (LEX_EXP_OK);
 }
 
-int			lexer_expansion_create_dystr(char *input, t_expansion *expansion)
-{
-	int		len;
 
-	len = ft_strstr(input, expansion->pattern) - input;
-	if (len <= 0)
+int			lexer_expansion(t_lexer *lexer, char **input)
+{
+	t_expansion		expansion;
+
+	ft_printf("Initial expansion : %s\n", *input);
+	if (lexer_expansion_detect(*input, &expansion) == LEX_EXP_ERR)
 		return (LEX_EXP_ERR);
-	if (!(expansion->dystr = ft_dystr_new(input, 2 * len, len)))
+	ft_putstrn("Command detected !");
+	lexer_expansion_process(lexer, &expansion);
+	ft_putstrn("Command processed !");
+	lexer_expansion_replace(&expansion, input);
+	ft_printf("expansion output : %s\n", *input);
+	return (ft_strlen(expansion.res->str));
+	(void)input;
+	(void)lexer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+int			lexer_expansion_identify(char *input, t_expansion *expansion)
+{
+	if (!(expansion->dystr = ft_dystr_new(NULL, 0, 0)))
 		return (LEX_EXP_ERR);
-	return (LEX_EXP_OK);
+	if (*input == '`')
+	{
+		// ft_strcpy(expansion->pattern, "`");
+		// expansion->exp_type = LEX_EXP_CMD;
+		return (LEX_EXP_ERR);
+	}
+	else if (ft_strnstr(input, "$((", 3))
+	{
+		// ft_strcpy(expansion->pattern, "))");
+		// expansion->exp_type = LEX_EXP_ARITH;
+		return (LEX_EXP_ERR);
+	}
+	else if (ft_strnstr(input, "$(", 2))
+	{
+		// ft_strcpy(expansion->pattern, ")");
+		// expansion->exp_type = LEX_EXP_CMD;
+		return (LEX_EXP_ERR);
+	}
+	else if (ft_strnstr(input, "${", 2))
+	{
+		ft_strcpy(expansion->endpattern, "}");
+		expansion->exp_type = LEX_EXP_PARAM;
+		expansion->original = ft_strndup(input, ft_strstr(input, expansion->endpattern) - input + 1);
+		expansion->dystr->str = ft_strndup(input + 2, ft_strstr(input, expansion->endpattern) - (input + 2));
+		expansion->dystr->size = ft_strlen(expansion->dystr->str);
+		expansion->dystr->len = expansion->dystr->size;
+		return (LEX_EXP_OK);
+	}
+	else if (ft_strnstr(input, "$", 1))
+	{
+		// ft_strcpy(expansion->pattern, "");
+		// expansion->exp_type = LEX_EXP_VAR;
+		return (LEX_EXP_ERR);
+	}
+	else
+		return (LEX_EXP_ERR);
 }
 
 int         lexer_expansion(char *input, t_lexer *lexer)
 {
 	t_expansion		expansion;
-	char			*pattern;
 	char			*buf;
 
-	if (lexer_expansion_identify(input, &expansion) == LEX_ERR)
+	if (lexer_expansion_identify(input, &expansion) == LEX_EXP_ERR)
+	{
+		free(expansion.original);
+		ft_dystr_free(expansion.dystr);
 		return (LEX_EXP_ERR);
-	lexer_expansion_create_dystr(input, &expansion);
+	}
+	ft_printf("lexer expansion dystr : %s\n", expansion.dystr->str);
 	while ((buf = ft_strchr(expansion.dystr->str, '$')) || (buf = ft_strchr(expansion.dystr->str, '`')))
 	{
+		ft_putstrn("while check 0\n");
 		if (*buf == '$')
 			expansion.dystr->size = lexer_expansion(ft_strchr(expansion.dystr->str, '$'), lexer);
 		else
 			expansion.dystr->size = lexer_expansion(ft_strchr(expansion.dystr->str, '`'), lexer);
 		if (expansion.dystr->size == LEX_EXP_ERR)
 		{
+			free(expansion.original);
 			ft_dystr_free(expansion.dystr);
 			return (LEX_EXP_ERR);
 		}
 	}
+	ft_putstrn("lexer_expansion check 4");
 	if (lexer_expansion_process(&expansion, lexer) == LEX_EXP_ERR)
 	{
+		ft_putstrn("lexer_expansion error (1)");
 		ft_dystr_free(expansion.dystr);
+		free(expansion.original);
 		return (LEX_EXP_ERR);
 	}
-	pattern = ft_strndup(input, ft_strstr(input, expansion.pattern) - input);
-	input = ft_strrep_free(input, expansion.dystr->str, pattern, 0x0001 + 0x0004);
+	ft_putstrn("lexer_expansion check 5");
+	// pattern = ft_strndup(input, ft_strstr(input, expansion.pattern) - input);
+	ft_printf("pattern for replace : %s\n", expansion.original);
+	lexer->input = ft_strrep_free(input, expansion.dystr->str, expansion.original, 0x0001 + 0x0004);
+	ft_printf("new lexer->input : %s\n", lexer->input);
 	ft_dystr_free(expansion.dystr);
 	return (expansion.dystr->size);
 }
@@ -112,7 +162,11 @@ int			lexer_variable_expansion(t_expansion *expansion, t_lexer *lexer)
 int         lexer_parameter_expansion(t_expansion *expansion, t_lexer *lexer)
 {
     ft_putstrn("parameter expansion");
-    return (LEX_EXP_ERR);
+	free(expansion->dystr->str);
+	expansion->dystr->str = ft_strdup("parameter");
+	expansion->dystr->len = ft_strlen(expansion->dystr->str);
+	expansion->dystr->size = ft_strlen(expansion->dystr->str);
+    return (expansion->dystr->size);
     (void)lexer;
 	(void)expansion;
 }
@@ -132,3 +186,4 @@ int         lexer_command_substitution(t_expansion *expansion, t_lexer *lexer)
     (void)lexer;
 	(void)expansion;
 }
+*/

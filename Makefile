@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/03/13 16:40:32 by jmartel          ###   ########.fr        #
+#    Updated: 2019/03/19 19:00:17 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX		=	main.c lexer.c t_lexer.c t_token.c lexer_rules.c lexer_expansions.c
+SRCS_NO_PREFIX		=	main.c lexer.c t_lexer.c t_token.c lexer_rules.c \
+						lexer_expansions.c lexer_expansions_detect.c \
+						lexer_expansions_process.c
 
 
 INCLUDES_NO_PREFIX	= sh_21.h
@@ -41,7 +43,7 @@ INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
 INC = -I $(INCLUDESDIR) -I $(LIBFTDIR)
 
-CFLAGS = -DPATH=$(PWD) -Wall -Wextra -Werror $(INC) -g3 -fsanitize=address
+CFLAGS = -DPATH=$(PWD) -Wall -Wextra -Werror $(INC) -g3
 LFLAGS = -L $(LIBFTDIR) -lft -ltermcap
 
 ifeq ($(DEBUG), 1)
