@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 09:16:51 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/19 10:31:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,13 +170,12 @@ int					ft_strtab_len(char **tabl);
 char				**ft_strtab_new_line(char **tabl, int free);
 
 /*
-******************************** get_next_line  *******************************
+************************************ dystr  ***********************************
 */
 t_dystr				*ft_dystr_check(t_dystr *dystr, int new_offset);
 t_dystr				*ft_dystr_realloc(t_dystr *dystr);
 t_dystr				*ft_dystr_new(char *str, size_t size, size_t len);
 void				ft_dystr_free(t_dystr *dystr);
-
 
 /*
 ******************************** get_next_line  *******************************
