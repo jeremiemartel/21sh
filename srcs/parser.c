@@ -26,20 +26,22 @@ void	sh_populate_token(t_token *token, t_test_token_id id,
 }
 
 
-int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
+int		sh_add_to_prod(void **vcfg_symbols,
 		t_list **symbols, int nb_symbols, ...)
 {
 	int		i;
 	va_list	ap;
 	int		symbol_index;
+	t_symbol **cfg_symbols;
 
+	cfg_symbols = (t_symbol **)vcfg_symbols;
 	*symbols = NULL;
 	va_start(ap, nb_symbols);
 	i = 0;
 	while (i < nb_symbols)
 	{
 		symbol_index = va_arg(ap, int);
-		if (ft_lstaddnew_ptr_last(symbols, &cfg_symbols[symbol_index],
+		if (ft_lstaddnew_ptr_last(symbols, cfg_symbols[symbol_index],
 					sizeof(t_symbol *)))
 			return (1);
 		i++;
@@ -70,7 +72,7 @@ int		init_S(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, A, END_OF_INPUT);
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, A, END_OF_INPUT);
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -84,41 +86,24 @@ int		init_A(t_cfg *cfg, t_symbol *symbol)
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
-			T_A, X); //(1)
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
+			B, T_A, C); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
+			B, T_A, T_D); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
-int		init_Y(t_cfg *cfg, t_symbol *symbol)
+int		init_B(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			T_D); //(1)
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_A); //(1)
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			C); //(1)
-	ft_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-int		init_X(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			C);
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			T_D);
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
-			T_A, Y);
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, EPS);
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -129,22 +114,20 @@ int		init_C(t_cfg *cfg, t_symbol *symbol)
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
-			T_B, CPRIME);
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, D);
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_B);
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
-int		init_CPRIME(t_cfg *cfg, t_symbol *symbol)
+int		init_D(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
-			T_C, CPRIME);
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, EPS);
+	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, C, T_C);
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -159,10 +142,9 @@ static	int (*g_init_grammar_productions[NB_NOTERMS])
 {
 	init_S,
 	init_A,
+	init_B,
 	init_C,
-	init_CPRIME,
-	init_X,
-	init_Y
+	init_D
 };
 
 char		*get_debug(int index)
@@ -176,18 +158,20 @@ char		*get_debug(int index)
 		"ε",
 		"S",
 		"A",
+		"B",
 		"C",
-		"C'",
-		"X",
-		"Y"
+		"D",
 	};
 	return (debug_str_tab[index]);
 }
 
-void	init_symbol(t_symbol *symbol, t_test_token_id id)
+t_symbol	*new_symbol(t_test_token_id id)
 {
-	int i;
-
+	t_symbol	*symbol;
+	int			i;
+	
+	if (!(symbol = (t_symbol *)malloc(sizeof(t_symbol))))
+		return (NULL);
 	i = 0;
 	while (i < NB_TERMS)
 	{
@@ -198,30 +182,49 @@ void	init_symbol(t_symbol *symbol, t_test_token_id id)
 	symbol->productions = NULL;
 	symbol->id = id;
 	ft_strcpy(symbol->debug, get_debug(id));
+	return (symbol);
 }
 
 int		init_context_free_grammar(t_cfg *cfg)
 {
-	int i;
-	int j;
+	int			i;
+	int			j;
+	int			ret;
+	t_symbol	*new;
 
 	cfg->start_index = S;
 	i = 0;
+	if (ft_dy_tab_init(&cfg->symbols, 128))
+		return (1);
 	while (i < NB_SYMBOLS)
 	{
-		init_symbol(&cfg->symbols[i], i);
+		if (!((new = new_symbol(i))))
+		{
+			//free dy tab
+			return (1);
+		}
+		if (ft_dy_tab_add_ptr(&cfg->symbols, new))
+		{
+			free(new);
+			//free dy tab
+			return (1);
+		}
 		i++;
 	}
 	i = NB_TERMS;
 	j = 0;
 	while (j < NB_NOTERMS)
 	{
-		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
+		if (g_init_grammar_productions[j++](cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]))
 			return (1);
 	}
 	if (sh_compute_first_sets(cfg))
 		return (1);
 	if (sh_compute_follow_sets(cfg))
+		return (1);
+	while ((ret = sh_refine_grammar(cfg)) == 1)
+		;
+	if (ret == -1)
 		return (1);
 	if (sh_compute_ll_table(cfg))
 		return (1);
@@ -262,10 +265,10 @@ int		sh_process_test(void)
 int		sh_init_pda_stack(t_list **stack, t_cfg *cfg)
 {
 	*stack = NULL;
-	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[S],
+	if (ft_lstaddnew_ptr_last(stack, cfg->symbols.tbl[S],
 				sizeof(t_symbol *)))
 		return (1);
-	if (ft_lstaddnew_ptr_last(stack, &cfg->symbols[END_OF_INPUT],
+	if (ft_lstaddnew_ptr_last(stack, cfg->symbols.tbl[END_OF_INPUT],
 				sizeof(t_symbol *)))
 		return (1);
 	return (0);

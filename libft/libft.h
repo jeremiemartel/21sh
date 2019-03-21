@@ -16,15 +16,15 @@
 # include "ft_printf.h"
 
 /*
-** read(2)
-*/
+ ** read(2)
+ */
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
 
 /*
-** malloc, free
-*/
+ ** malloc, free
+ */
 # include <stdlib.h>
 
 typedef struct		s_list
@@ -34,9 +34,18 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_dy_tab
+{
+	void			**tbl;
+	size_t			max_size;
+	size_t			current_size;
+}					t_dy_tab;
+
+
+
 /*
-********************************** atoi  **************************************
-*/
+ ********************************** atoi  **************************************
+ */
 char				*ft_itoa(int n);
 char				*ft_ltoa(long l, int base);
 char				*ft_lltoa(long long l, int base);
@@ -46,8 +55,8 @@ int					ft_atoi(const char *str);
 long				ft_atol(const char *str);
 
 /*
-********************************** lst  ***************************************
-*/
+ ********************************** lst  ***************************************
+ */
 t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_lstdelone(t_list **alst, t_list *elem, int param);
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
@@ -58,15 +67,15 @@ size_t				ft_lstlen(t_list *start);
 void				ft_lstadd_last(t_list **start, t_list *new);
 void				ft_lstput_fd(t_list *start, int fd);
 int					ft_lstaddnew_ptr_last(t_list **list, void *content,
-						size_t size);
+		size_t size);
 int					ft_lstaddnew_ptr(t_list **list, void *content, size_t size);
 int					ft_lstaddnew_last(t_list **lst, void *content, size_t size);
 t_list				*ft_lstnew_value(void const *content, size_t content_size);
 void				*ft_lstpop_ptr(t_list **list);
 void				ft_lstpop(t_list **list);
 /*
-********************************** math  **************************************
-*/
+ ********************************** math  **************************************
+ */
 int					ft_max(int a, int b);
 int					ft_min(int a, int b);
 int					ft_abs(int a);
@@ -76,8 +85,8 @@ long double			ft_roundl(long double x);
 size_t				ft_longlen(long nb);
 
 /*
-********************************** mem  ***************************************
-*/
+ ********************************** mem  ***************************************
+ */
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void	*s, size_t n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
@@ -89,8 +98,8 @@ void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);
 
 /*
-********************************** put  ***************************************
-*/
+ ********************************** put  ***************************************
+ */
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);
@@ -104,8 +113,8 @@ void				ft_putstrn(char *str);
 void				ft_putnbrn(int nb);
 
 /*
-********************************** str  ***************************************
-*/
+ ********************************** str  ***************************************
+ */
 
 size_t				ft_strlen(const char *s);
 size_t				ft_strnlen(const char *s, size_t maxlen);
@@ -162,18 +171,35 @@ int					ft_strtab_len(char **tabl);
 char				**ft_strtab_new_line(char **tabl, int free);
 
 /*
-******************************** get_next_line  *******************************
-*/
+ ******************************** get_next_line  *******************************
+ */
 # define BUFF_SIZE	32
 # define GNL_MAX_FD	2000
 
 int			get_next_line(const int fd, char **line);
 
 /*
-********************************** ft_printf  *********************************
-*/
+ ********************************** ft_printf  *********************************
+ */
 int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
 char				*ft_asprintf(const char *format, ...);
 
+/*
+ ******************************* dy_tab ****************************************
+ */
+
+t_dy_tab			*ft_dy_tab_new(size_t max_size);
+int					ft_dy_tab_add_ptr(t_dy_tab *d_tab, void *to_add);
+int					ft_dy_tab_add_str(t_dy_tab *d_tab, void *to_add);
+int					ft_dy_tab_add_index_ptr(t_dy_tab *d_tab, void *to_add,
+						size_t index);
+void				ft_dy_tab_suppr_index(t_dy_tab *d_tab, size_t index);
+void				ft_dy_tab_del_ptr(t_dy_tab *d_tab);
+void				ft_dy_tab_del(t_dy_tab *d_tab);
+void				ft_dy_tab_suppr_index_ptr(t_dy_tab *d_tab, size_t index);
+int					ft_dy_tab_realloc(t_dy_tab *d_tab);
+t_dy_tab			*ft_dy_tab_cpy_ptr(t_dy_tab *d_tab);
+t_dy_tab			*ft_dy_tab_cpy_str(t_dy_tab *d_tab);
+int					ft_dy_tab_init(t_dy_tab *dy_tab, size_t max_size);
 #endif

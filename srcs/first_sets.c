@@ -97,17 +97,14 @@ int		sh_add_to_first_sets(t_symbol *symbol)
 int		sh_process_first_sets(t_cfg *cfg)
 {
 	int i;
-	int j;
 	int changes;
 
 	i = NB_TERMS;
-	j = 0;
 	changes = 0;
-	while (j < NB_NOTERMS)
+	while (i < (int)cfg->symbols.current_size)
 	{
-		if (sh_add_to_first_sets(&cfg->symbols[i]))
+		if (sh_add_to_first_sets(cfg->symbols.tbl[i]))
 			changes = 1;
-		j++;
 		i++;
 	}
 	return (changes);
@@ -191,9 +188,9 @@ int		sh_compute_first_sets(t_cfg *cfg)
 	int i;
 
 	i = 0;
-	while (i < NB_SYMBOLS)
+	while (i < (int)cfg->symbols.current_size)
 	{
-		sh_init_process_first_sets(&cfg->symbols[i]);
+		sh_init_process_first_sets(cfg->symbols.tbl[i]);
 		i++;
 	}
 	while (sh_process_first_sets(cfg))

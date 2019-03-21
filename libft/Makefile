@@ -82,6 +82,20 @@ SRCS	+=	./ft_printf/ft_printf.c ./ft_printf/ft_dprintf.c \
 			./ft_printf/ft_printf_flag_size2.c \
 			./ft_printf/ft_printf_flag_hash.c
 
+
+SRCS	+=	./dy_tab/ft_dy_tab_add_index_ptr.c \
+			./dy_tab/ft_dy_tab_cpy_str.c \
+			./dy_tab/ft_dy_tab_realloc.c \
+			./dy_tab/ft_dy_tab_add_ptr.c \
+			./dy_tab/ft_dy_tab_del.c \
+			./dy_tab/ft_dy_tab_suppr_index.c \
+			./dy_tab/ft_dy_tab_add_str.c \
+			./dy_tab/ft_dy_tab_del_ptr.c \
+			./dy_tab/ft_dy_tab_suppr_index_ptr.c \
+			./dy_tab/ft_dy_tab_cpy_ptr.c \
+			./dy_tab/ft_dy_tab_new.c \
+			./dy_tab/ft_dy_tab_init.c
+
 OBJS			= $(SRCS:%.c=%.o)
 
 HEADERS		= ./ft_printf/ft_printf.h ./libft.h

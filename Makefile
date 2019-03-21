@@ -32,7 +32,8 @@ EOC = \033[0m
 
 SRCS_NO_PREFIX		=	main.c lexer.c lexer_automates.c\
 						lexer_automates_tools.c parser.c\
-						first_sets.c debug.c ll_table.c follow_sets.c
+						first_sets.c debug.c ll_table.c follow_sets.c\
+						refine_grammar.c
 
 INCLUDES_NO_PREFIX	= sh_21.h
 

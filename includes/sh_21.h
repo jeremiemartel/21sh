@@ -14,6 +14,7 @@
 # define SH_21_H
 
 #include "libft.h"
+#include <stdio.h> //todel
 
 # define SH_LEXER_AUTO_LEN	5
 
@@ -47,10 +48,9 @@ typedef enum		e_test_token_id
 	EPS, //end of terminals
 	S,
 	A,
+	B,
 	C,
-	CPRIME,
-	X,
-	Y,
+	D,
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -93,11 +93,10 @@ typedef struct		s_symbol
 	char			debug[DEBUG_BUFFER];
 }					t_symbol;
 
-
 typedef struct		s_cfg
 {
-	t_symbol		symbols[NB_SYMBOLS];
-	t_production	*ll_table[NB_NOTERMS][NB_TERMS];
+	t_dy_tab		symbols;
+	t_production	***ll_table;
 	int				start_index;
 }					t_cfg;
 
@@ -185,6 +184,7 @@ int     sh_compute_follow_sets(t_cfg *cfg);
 void  	sh_print_symbol_list(t_list *symbols);
 void  	sh_print_pda(t_list *symbols);
 void	sh_print_symbol(t_symbol *symbol);
+void	sh_print_production(t_production *prod);
 void	sh_print_token_list(t_list *list);
 void	print_non_terminals_productions(t_cfg *cfg);
 void	print_first_sets(t_cfg *cfg);
@@ -196,6 +196,13 @@ void	print_cfg(t_cfg *cfg);
 ** lltable.c
 */
 int		sh_compute_ll_table(t_cfg *cfg);
+
+/*
+** refine_grammar.c
+*/
+
+int		sh_refine_grammar(t_cfg *cfg);
+
 /*
 typedef enum		e_tokenlist
 {

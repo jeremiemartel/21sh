@@ -126,19 +126,16 @@ int		sh_process_follow_sets_symbol_ref(t_cfg *cfg, t_symbol *prod_symbol, t_symb
 int		sh_process_follow_sets_symbol(t_cfg *cfg, t_symbol *symbol)
 {
 	int i;
-	int j;
 
 	int changes;
 
 	changes = 0;
 	i = NB_TERMS;
-	j = 0;
-	while (j < NB_NOTERMS)
+	while (i < (int)cfg->symbols.current_size)
 	{
-		if (sh_process_follow_sets_symbol_ref(cfg, &cfg->symbols[i], symbol))
+		if (sh_process_follow_sets_symbol_ref(cfg, cfg->symbols.tbl[i], symbol))
 			changes = 1;
 		i++;
-		j++;
 	}
 	return (changes);
 }
@@ -147,24 +144,21 @@ int		sh_process_follow_sets(t_cfg *cfg)
 {
 	int changes;
 	int i;
-	int j;
 
 	changes = 0;
 	i = NB_TERMS;
-	j = 0;
-	while (j < NB_NOTERMS)
+	while (i < (int)cfg->symbols.current_size)
 	{
-		if (sh_process_follow_sets_symbol(cfg, &cfg->symbols[i]))
+		if (sh_process_follow_sets_symbol(cfg, cfg->symbols.tbl[i]))
 			changes = 1;
 		i++;
-		j++;
 	}
 	return (changes);
 }
 
 int		sh_compute_follow_sets(t_cfg *cfg)
 {
-	cfg->symbols[cfg->start_index].follow_sets[END_OF_INPUT] = 1;
+	((t_symbol **)cfg->symbols.tbl)[cfg->start_index]->follow_sets[END_OF_INPUT] = 1;
 	while (sh_process_follow_sets(cfg))
 		;
 	return (0);
