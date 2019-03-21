@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 10:53:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 11:06:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int		lexer(char *input)
 		&lexer_rule10,
 	};
 
-	lexer_init(&lexer, 0);
 	if (!(lexer.input = ft_strdup(input)))
 	{
 		t_lexer_free(&lexer);
 		return (LEX_ERR);
 	}
+	lexer_init(&lexer, 0);
 	ft_printf("Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;

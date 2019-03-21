@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 19:00:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 19:20:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 11:09:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int			lexer_expansion_process(t_lexer *lexer, t_expansion *expansion)
 int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion)
 {
 	ft_putstrn("process command : Check 0");
-	if (!(expansion->res))////
-		if (!(expansion->res = ft_dystr_new("Command res", 11, 11)))
+//	if (!(expansion->res))////
+		if (!(expansion->res = ft_dystr_new(expansion->expansion, 11, 11)))
 			return (LEX_EXP_ERR);
 	ft_putstrn("process command : Check 1");
 	expansion->res->size = ft_strlen(expansion->res->str);
