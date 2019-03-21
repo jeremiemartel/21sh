@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 08:41:05 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 15:27:52 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 12:34:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_dystr		*ft_dystr_new(char *str, size_t size, size_t len)
 		free(dystr);
 		return (NULL);
 	}
-	ft_strncpy(dystr->str, str, size);
+	ft_strncpy(dystr->str, str, len + 1);
 	dystr->len = len;
 	dystr->size = size;
 	return (dystr);

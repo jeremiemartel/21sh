@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:40:46 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 10:48:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 12:32:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int			lexer_expansion(t_lexer *lexer, char **input)
 	t_expansion		expansion;
 	char			*buffer;
 
-	ft_printf("Initial expansion : %s\n", *input);
 	//First  call to recursive function
+	ft_putstrn("\n");
 	if (input == &lexer->input)
 	{
 		if (!(buffer = ft_strdup(lexer->input + lexer->tok_start + lexer->tok_len)))
@@ -44,16 +44,15 @@ int			lexer_expansion(t_lexer *lexer, char **input)
 	}
 	else
 		buffer = *input;
+	ft_printf("Initial expansion : %s\n", buffer);
 	if (lexer_expansion_detect(buffer, &expansion) == LEX_EXP_ERR)
 		return (LEX_EXP_ERR);
 	if (input == &lexer->input)
 		free(buffer);
-//	ft_printf("expansion->original : %s\n", expansion.original);
-	ft_putstrn("Command detected !");
 	lexer_expansion_process(lexer, &expansion);
-	ft_putstrn("Command processed !");
 	if (lexer_expansion_replace(&expansion, input) == LEX_EXP_ERR)
 		return (LEX_EXP_ERR);
+	ft_printf("expansion processed res : %s\n", expansion.res->str);
 	ft_printf("expansion output : %s\n", *input);
 	lexer->tok_len += ft_strlen(expansion.res->str);
 	lexer_expansion_free(&expansion);
