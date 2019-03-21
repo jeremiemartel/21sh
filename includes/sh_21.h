@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/21 10:52:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 15:14:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ typedef struct s_expansion
 # define LEX_ERR		2
 # define LEX_CONTINUE	1
 # define LEX_OK			0
-
-# define LEX_EOF	-1		//char used to stop lexer
 
 typedef struct	s_token
 {
