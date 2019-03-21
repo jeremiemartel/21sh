@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 16:27:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 18:37:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ char				*ft_strstr(const char *str, const char *find);
 char				*ft_strnstr(const char *str, const char *find, size_t len);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-char				*strpbrk(const char *s, const char *accept);
+char				*ft_strpbrk(const char *s, const char *accept);
 
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);

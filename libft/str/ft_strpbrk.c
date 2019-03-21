@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 16:27:52 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 16:39:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 18:40:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 **		NULL else
 */
 
-char		*strpbrk(const char *s, const char *charset)
+char		*ft_strpbrk(const char *s, const char *charset)
 {
 	int		i;
 	int		j;

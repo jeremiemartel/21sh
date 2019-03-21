@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:40:46 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 15:18:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 17:59:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ void		lexer_expansion_free(t_expansion *expansion)
 		ft_dystr_free(expansion->res);
 }
 
-int			lexer_expansion_recursive_check(t_lexer *lexer, char **input)
-{
-	return (LEX_EXP_OK);
-}
-
 int			lexer_expansion(t_lexer *lexer, char **input)
 {
 	t_expansion		expansion;
@@ -52,7 +47,7 @@ int			lexer_expansion(t_lexer *lexer, char **input)
 	// ft_printf("Initial expansion : %s\n", buffer);
 	if (lexer_expansion_detect(buffer, &expansion) == LEX_EXP_ERR)
 		return (LEX_EXP_ERR);
-	lexer_expansion_recursive_check(lexer, &buffer);
+	// lexer_expansion_recursive_check(lexer, &buffer);
 	if (input == &lexer->input)
 		free(buffer);
 	lexer_expansion_process(lexer, &expansion);

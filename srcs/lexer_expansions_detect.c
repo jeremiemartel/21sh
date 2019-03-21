@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:54:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 16:04:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 18:38:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			lexer_expansion_detect(char *input, t_expansion *expansion)
 		return (lexer_expansion_detect_variable(input, expansion));
 	else
 	{
-		ft_putstrn("\033[31mNo expansions detectd in expasion_detect%s\033[0m");
+		ft_putstrn("\033[31mNo expansions detectd in expasion_detect%s\033[0m");//
 		return (LEX_EXP_ERR);
 	}
 	return (LEX_EXP_ERR);
@@ -96,14 +96,27 @@ int			lexer_expansion_detect_arithmetic(char *input, t_expansion *expansion)
 	(void)input;
 }
 
-int			lexer_expansion_detect_parameter(char *input, t_expansion *expansion)
+int			lexer_expansion_detect_parameter(char *input, t_expansion *expa)
 {
-	lexer_expansion_fill_pattern(expansion, "${", "}", 2 + 10 * 1);
-	if (!(ft_strchrr(input + expansion->pattern.len_s, expansion->pattern.end)))
+	char	*start;
+
+	expa->type = LEX_EXP_PARAM;
+	lexer_expansion_fill_pattern(expa, "${", "}", 2 + 10 * 1);
+	if (!(start = ft_strpbrk(input + expa->pattern.len_s, expa->pattern.end)))
 		return (LEX_EXP_ERR);
+	expa->original = ft_strndup(input, start - input + 1);
+	expa->expansion = ft_strndup(input + expa->pattern.len_s, start - (input - expa->pattern.len_s));
+	if (!expa->original || !expa->expansion)
+	{
+		if (expa->original)
+			free(expa->original);
+		if (expa->expansion)
+			free(expa->expansion);
+		return (LEX_EXP_ERR);
+	}
+	lexer_expansion_fill_pattern(expa, "$((", ")", 3 + 10 * 1);
+	ft_printf("detecting arithmetic : \n\toriginal : %s\n\texpansion: %s\n", expa->original, expa->expansion);
 	return (LEX_EXP_OK);
-	(void)expansion;
-	(void)input;
 }
 
 int			lexer_expansion_detect_variable(char *input, t_expansion *expansion)
