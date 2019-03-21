@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 18:19:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 10:42:10 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,23 +125,14 @@ int		lexer_rule4(t_lexer *lexer)
 int		lexer_rule5(t_lexer *lexer)
 {
 	int		ret;
-	char	*input;
 
 	if (lexer->quoted)
 			return (LEX_CONTINUE);
 	if (lexer->c == '$' || lexer->c == '`')
 	{
-		input = ft_strdup(lexer->input + lexer->tok_len + lexer->tok_start);
-		ret = lexer_expansion(lexer, &input);
+		ret = lexer_expansion(lexer, &(lexer->input));
 		if (ret == LEX_EXP_ERR)
-		{
-			if (input)
-				free(input);
 			return (LEX_ERR);
-		}
-		free(lexer->input);
-		lexer->input = input;
-		lexer->tok_len += ret;
 		return (LEX_CONTINUE);
 	}
 	return (LEX_CONTINUE);

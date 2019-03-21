@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/19 19:07:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 10:52:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion);
 /*
 ** t_lexer.c
 */
-void		lexer_init(t_lexer *lexer, int tok_start, char *input);
+void		lexer_init(t_lexer *lexer, int tok_start);
 int			lexer_add_token(t_lexer *lexer);
 void		lexer_show(t_lexer *lexer);
 void		t_lexer_free(t_lexer *lexer);

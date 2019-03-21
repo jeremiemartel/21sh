@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:54:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 19:17:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 10:13:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			lexer_expansion_detect_command(char *input, t_expansion *expansion)
 	expansion->res = NULL;
 	if (*input == '`')
 	{
-		expansion->original = ft_strndup(input, ft_strchr(input + 1, '`') - input); //+1 ??
+		expansion->original = ft_strndup(input, ft_strchr(input + 1, '`') - input + 1); //+1 ??
 		expansion->expansion = ft_strndup(input + 1, ft_strchr(input + 1, '`') - input);
 	}
 	else

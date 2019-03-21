@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:40:46 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 19:20:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 10:48:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,50 @@
 
 int			lexer_expansion_replace(t_expansion *expansion, char **input)
 {
-	*input = ft_strrep_free(*input, expansion->res->str, expansion->original, 0x1);
+	*input = ft_strrep_free(*input, expansion->res->str, expansion->original, 1);
 	if (!(*input))
 		return (LEX_EXP_ERR);
 	return (LEX_EXP_OK);
 }
 
+void		lexer_expansion_free(t_expansion *expansion)
+{
+	if (expansion->original)
+		free(expansion->original);
+	if (expansion->expansion)
+		free(expansion->expansion);
+	if (expansion->res)
+		ft_dystr_free(expansion->res);
+}
 
 int			lexer_expansion(t_lexer *lexer, char **input)
 {
 	t_expansion		expansion;
+	char			*buffer;
 
 	ft_printf("Initial expansion : %s\n", *input);
-	if (lexer_expansion_detect(*input, &expansion) == LEX_EXP_ERR)
+	//First  call to recursive function
+	if (input == &lexer->input)
+	{
+		if (!(buffer = ft_strdup(lexer->input + lexer->tok_start + lexer->tok_len)))
+			return (LEX_EXP_ERR);
+	}
+	else
+		buffer = *input;
+	if (lexer_expansion_detect(buffer, &expansion) == LEX_EXP_ERR)
 		return (LEX_EXP_ERR);
+	if (input == &lexer->input)
+		free(buffer);
+//	ft_printf("expansion->original : %s\n", expansion.original);
 	ft_putstrn("Command detected !");
 	lexer_expansion_process(lexer, &expansion);
 	ft_putstrn("Command processed !");
-	lexer_expansion_replace(&expansion, input);
+	if (lexer_expansion_replace(&expansion, input) == LEX_EXP_ERR)
+		return (LEX_EXP_ERR);
 	ft_printf("expansion output : %s\n", *input);
-	return (ft_strlen(expansion.res->str));
+	lexer->tok_len += ft_strlen(expansion.res->str);
+	lexer_expansion_free(&expansion);
+	return (LEX_EXP_OK);
 	(void)input;
 	(void)lexer;
 }
