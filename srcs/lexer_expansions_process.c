@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 19:00:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 12:34:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 14:13:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,30 @@ int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion)
 	(void)lexer;
 	(void)expansion;
 }
+
 int			lexer_expansion_process_arithmetic(t_lexer *lexer, t_expansion *expansion)
 {
-	return (LEX_EXP_ERR);
+	ft_printf("processing : \n\texpansion : %s\n", expansion->expansion);
+	if (!(expansion->res = ft_dystr_new(expansion->expansion, ft_strlen(expansion->expansion), ft_strlen(expansion->expansion))))
+		return (LEX_EXP_ERR);
+	ft_printf("processing : \n\texpansion : %s\n\tres : %s\n", expansion->expansion, expansion->res->str);
+	expansion->res->size = ft_strlen(expansion->res->str);
+	expansion->res->len = expansion->res->size;
+	return (LEX_EXP_OK);
 	(void)lexer;
 	(void)expansion;
 }
+
 int			lexer_expansion_process_parameter(t_lexer *lexer, t_expansion *expansion)
 {
 	return (LEX_EXP_ERR);
 	(void)lexer;
 	(void)expansion;
 }
+
 int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion)
 {
 	return (LEX_EXP_ERR);
 	(void)lexer;
 	(void)expansion;
 }
-

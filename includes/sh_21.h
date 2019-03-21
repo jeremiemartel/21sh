@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/21 15:14:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/21 15:18:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,17 @@ typedef struct s_expansion
 	char		*original;
 	char		*expansion;
 	t_exp_type	type;
+	t_pattern	pattern;
 }				t_expansion;
+
+typedef struct	s_pattern
+{
+	char	start[4];
+	char	end[4];
+	int		len_s;
+	int		len_e;
+}				t_pattern;
+
 
 # define LEX_TOKEN_VALUE_LEN	250
 

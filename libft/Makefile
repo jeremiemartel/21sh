@@ -6,12 +6,12 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/03/19 09:18:04 by jmartel          ###   ########.fr        #
+#    Updated: 2019/03/21 16:45:16 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libft.a
-EXEC	= printf
+EXEC	= exec
 
 SRCS	=	./lst/ft_lstnew.c ./lst/ft_lstdelone.c \
 			./lst/ft_lstdel.c ./lst/ft_lstadd.c \
@@ -60,7 +60,8 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_strstr_count.c ./str/ft_strtolower.c \
 			./str/ft_strjoin_free.c ./str/ft_strinsert_free.c \
 			./str/ft_strjoin_path.c ./str/ft_strndup.c \
-			./str/ft_split_whitespaces.c ./str/ft_strrep_free.c
+			./str/ft_split_whitespaces.c ./str/ft_strrep_free.c \
+			./str/ft_strpbrk.c
 
 SRCS	+=	./str/ft_strtab_free.c ./str/ft_strtab_put.c \
 			./str/ft_strtab_len.c ./str/ft_strtab_new_line.c
@@ -100,16 +101,18 @@ $(NAME): $(OBJS)
 	@ar -rcs $(NAME) $(OBJS) && echo "\033[32mSuccessfully compiled $(NAME) \033[0m"
 
 $(EXEC): $(NAME) main.c
-	@gcc $(INCLUDE) $(CFLAGS) -o $(EXEC) main.c libftprintf.a && echo "\033[32mSuccessfully compiled $(EXEC) \033[0m"
+	@gcc $(INCLUDE) $(CFLAGS) -o $(EXEC) main.c $(NAME) && echo "\033[32mSuccessfully compiled $(EXEC) \033[0m"
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
 	@rm -f $(OBJS) && echo "\033[32mSuccessfully cleaned $(NAME) objects files \033[0m"
+	@rm -f main.o
 
 fclean: clean
 	@rm -f $(NAME) && echo "\033[32mSuccessfully cleaned $(NAME) \033[0m"
+	@rm -f $(EXEC)
 
 
 re: fclean all
