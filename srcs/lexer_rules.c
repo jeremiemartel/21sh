@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 14:09:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/03/22 13:47:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,11 @@ int		lexer_rule5(t_lexer *lexer)
 			return (LEX_CONTINUE);
 	if (lexer->c == '$' || lexer->c == '`')
 	{
-		ft_putstr("current token before exp: ");ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
+		// ft_putstr("current token before exp: ");ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
 		ret = lexer_expansion(lexer, &(lexer->input));
-		ft_putstr("current token after exp: ");ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
 		if (ret == LEX_EXP_ERR)
 			return (LEX_ERR);
+		// ft_putstr("current token after exp: ");ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
 		return (LEX_OK);
 	}
 	return (LEX_CONTINUE);
