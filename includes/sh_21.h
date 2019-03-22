@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 18:13:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/22 00:05:28 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,10 @@ int			sh_compute_first_sets_str(t_cfg *cfg, char first_sets[NB_TERMS], t_list *w
 /*
 ** follow_sets.c
 */
-int     sh_compute_follow_sets(t_cfg *cfg);
-
+int				sh_compute_follow_sets(t_cfg *cfg);
+t_production	*sh_get_null_production(t_symbol *symbol);
+int				sh_intersect_sets(char set1[NB_TERMS], char set2[NB_TERMS]);
+int				sh_nullable(t_symbol *symbol);
 /*
 ** debug.c
 */

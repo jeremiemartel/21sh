@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 18:20:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/21 23:33:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,10 +218,10 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]))
 			return (1);
 	}
-	if (sh_compute_first_sets(cfg))
-		return (1);
-	if (sh_compute_follow_sets(cfg))
-		return (1);
+//	if (sh_compute_first_sets(cfg))
+//		return (1);
+//	if (sh_compute_follow_sets(cfg))
+//		return (1);
 	while ((ret = sh_refine_grammar(cfg)) == 1)
 		;
 	if (ret == -1)
