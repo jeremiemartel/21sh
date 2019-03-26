@@ -68,6 +68,8 @@ int		sh_process_add_eps_combinaisons(t_symbol *symbol, t_list_manager *lm,
 {
 	t_symbol		*prod_symbol;
 	t_production	*prod;
+	t_list			*tmp;
+	t_list			*tmp2;
 
 	if (lm->current == NULL)
 	{
@@ -81,26 +83,39 @@ int		sh_process_add_eps_combinaisons(t_symbol *symbol, t_list_manager *lm,
 	prod_symbol = (t_symbol *)lm->current->content;
 	if (prod_symbol == ref)
 	{
-		lm->previous = lm->current;
-		lm->current = lm->current->next;
 		if (lm->previous == NULL)
 		{
-
+			tmp = lm->head;
+			tmp2 = lm->current;
+			lm->head = lm->head->next;
+			lm->current = lm->current->next;
+			if (sh_process_add_eps_combinaisons(symbol, lm, ref))
+				return (1);
+			lm->head = tmp;
+			lm->current = tmp2;
 		}
 		else
 		{
+			tmp = lm->current;
+			tmp2 = lm->previous;
 
+			lm->previous->next = lm->current->next;
+			lm->current = lm->current->next;
+
+		//	lm->previous = lm->current;
+		//	lm->current = lm->current->next;
+			
+			if (sh_process_add_eps_combinaisons(symbol, lm, ref))
+				return (1);
+
+			lm->current = tmp;
+			lm->previous = tmp2;
+			lm->previous->next = lm->current;
 		}
-		if (sh_process_add_eps_combinaisons(symbol, lm, ref))
-			return (1);
 	}
-	else
-	{
-		lm->previous = lm->current;
-		lm->current = lm->current->next;
-		return (sh_process_add_eps_combinaisons(symbol, lm, ref));
-	}
-	return (0);
+	lm->previous = lm->current;
+	lm->current = lm->current->next;
+	return (sh_process_add_eps_combinaisons(symbol, lm, ref));
 }
 
 int		sh_process_prod_first_follow_consume_list(t_symbol *symbol,
