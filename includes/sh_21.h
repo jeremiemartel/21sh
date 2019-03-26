@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/22 00:05:28 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/26 16:45:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define end	-1
 # define error	-2
-# define DEBUG_BUFFER	50
+# define DEBUG_BUFFER_SIZE	50
 
 typedef struct		s_automate
 {
@@ -90,7 +90,7 @@ typedef struct		s_symbol
 	int				id;
 	char			first_sets[NB_TERMS];
 	char			follow_sets[NB_TERMS];
-	char			debug[DEBUG_BUFFER];
+	char			debug[DEBUG_BUFFER_SIZE];
 }					t_symbol;
 
 typedef struct		s_cfg
@@ -171,10 +171,14 @@ void		sh_lexer_show_token(int token);
 /*
 ** parser.c
 */
+t_symbol		*sh_new_symbol_from(t_symbol *from, t_test_token_id id);
 int				sh_process_test(void);
 int				sh_parse_token_list(t_list *tokens);
 int				sh_is_term(t_symbol *symbol);
 t_production	*sh_production_lst_dup_ptr(t_list *ptr);
+int				sh_add_prod(t_symbol *symbol, t_list *prod_symbols);
+int				sh_add_to_prod(void **vcfg_symbols, t_list **symbols,
+					int nb_symbols, ...);
 /*
 ** first_sets.c
 */
@@ -196,7 +200,8 @@ void  	sh_print_pda(t_list *symbols);
 void	sh_print_symbol(t_symbol *symbol);
 void	sh_print_production(t_production *prod);
 void	sh_print_token_list(t_list *list);
-void	print_non_terminals_productions(t_cfg *cfg);
+void	sh_print_non_terminals_productions(t_cfg *cfg);
+void	sh_print_non_terminal_production(t_symbol *symbol);
 void	print_first_sets(t_cfg *cfg);
 void	print_follow_sets(t_cfg *cfg);
 void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS]);
@@ -211,6 +216,7 @@ int		sh_compute_ll_table(t_cfg *cfg);
 ** refine_grammar.c
 */
 
+int		sh_process_production_left_recursion(t_symbol *symbol, t_list *symbols);
 int		sh_refine_grammar(t_cfg *cfg);
 
 /*

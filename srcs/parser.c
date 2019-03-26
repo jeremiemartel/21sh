@@ -6,8 +6,8 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/21 23:33:06 by ldedier          ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2019/03/26 18:53:12 by ldedier          ###   ########.fr       */
+/*      h                                                                     */
 /* ************************************************************************** */
 
 #include "sh_21.h"
@@ -71,9 +71,7 @@ t_production	*sh_production_lst_dup_ptr(t_list *symbols)
 	return (res);
 }
 
-
-
-int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
+int		sh_add_prod(t_symbol *symbol, t_list *prod_symbols)
 {
 	t_production *res;
 
@@ -96,7 +94,7 @@ int		init_S(t_cfg *cfg, t_symbol *symbol)
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, A, END_OF_INPUT);
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
@@ -111,10 +109,10 @@ int		init_A(t_cfg *cfg, t_symbol *symbol)
 
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
 			B, T_A, C); //(1)
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
 			B, T_A, T_D); //(1)
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
@@ -125,9 +123,9 @@ int		init_B(t_cfg *cfg, t_symbol *symbol)
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_A); //(1)
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, EPS);
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
@@ -138,9 +136,9 @@ int		init_C(t_cfg *cfg, t_symbol *symbol)
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, D);
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_B);
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
@@ -151,7 +149,7 @@ int		init_D(t_cfg *cfg, t_symbol *symbol)
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, C, T_C);
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, prod_symbols);
 	return (0);
 }
 
@@ -205,6 +203,27 @@ t_symbol	*new_symbol(t_test_token_id id)
 	symbol->productions = NULL;
 	symbol->id = id;
 	ft_strcpy(symbol->debug, get_debug(id));
+	return (symbol);
+}
+
+t_symbol	*sh_new_symbol_from(t_symbol *from, t_test_token_id id)
+{
+	t_symbol	*symbol;
+	int			i;
+	
+	if (!(symbol = (t_symbol *)ft_memalloc(sizeof(t_symbol))))
+		return (NULL);
+	i = 0;
+	while (i < NB_TERMS)
+	{
+		symbol->first_sets[i] = 0;
+		symbol->follow_sets[i] = 0;
+		i++;
+	}
+	symbol->productions = NULL;
+	symbol->id = id;
+	ft_strcpy(symbol->debug, from->debug);
+	ft_strlcat(symbol->debug, "'", sizeof(symbol->debug));
 	return (symbol);
 }
 

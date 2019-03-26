@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:46:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/11 23:55:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/26 08:02:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,15 @@ int		has_eps_prod(t_symbol *symbol)
 
 void	sh_init_process_first_sets(t_symbol *symbol)
 {
+	int i;
+
+	i = 0;
+	while (i < NB_TERMS)
+	{
+		symbol->first_sets[i] = 0;
+		symbol->follow_sets[i] = 0;
+		i++;
+	}
 	if (sh_is_term(symbol))
 		symbol->first_sets[symbol->id] = 1;
 	else if (has_eps_prod(symbol))

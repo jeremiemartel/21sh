@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:51:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 17:48:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/26 15:19:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "sh_21.h"
@@ -73,9 +73,9 @@ void	sh_process_ll_table(t_cfg *cfg)
 	int i;
 	int j;
 
-	i = NB_TERMS;
 	j = 0;
-	while (j < NB_NOTERMS)
+	i = NB_TERMS;
+	while (i < (int)cfg->symbols.current_size)
 	{
 		sh_add_symbol_prods(cfg, cfg->symbols.tbl[i++], j);
 		j++;
@@ -88,9 +88,9 @@ int		sh_compute_ll_table(t_cfg *cfg)
 	int j;
 
 	i = 0;
-	if (!(cfg->ll_table = (t_production ***)malloc((int)(NB_NOTERMS) * (int)(sizeof(t_production **)))))
+	if (!(cfg->ll_table = (t_production ***)malloc((int)(cfg->symbols.current_size - NB_TERMS) * (int)(sizeof(t_production **)))))
 		return (1);
-	while (i < NB_NOTERMS)
+	while (i < (int)cfg->symbols.current_size - (int)NB_TERMS)
 	{
 		if (!(cfg->ll_table[i] = (t_production **)malloc((int)(NB_TERMS) * (int)(sizeof(t_production *)))))
 			return (1);

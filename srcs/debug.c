@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 17:57:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/26 15:28:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ void	sh_print_production(t_production *production)
 	sh_print_symbol_list(production->symbols);
 }
 
-
-void	print_non_terminal_production(t_symbol *symbol)
+void	sh_print_non_terminal_production(t_symbol *symbol)
 {
 	t_list			*ptr;
 	t_production	*production;
@@ -92,20 +91,17 @@ void	print_non_terminal_production(t_symbol *symbol)
 	}
 }
 
-void	print_non_terminals_productions(t_cfg *cfg)
+void	sh_print_non_terminals_productions(t_cfg *cfg)
 {
 	int i;
-	int j;
 
 	i = NB_TERMS;
-	j = 0;
 	ft_printf(BOLD UNDERLINE"PRODUCTIONS:\n\n"EOC);
-	while (j < NB_NOTERMS)
+	while (i < (int)cfg->symbols.current_size)
 	{
 		sh_print_symbol(((t_symbol **)(cfg->symbols.tbl))[i]);
 		ft_printf(" → \n");
-		print_non_terminal_production(((t_symbol **)(cfg->symbols.tbl))[i++]);
-		j++;
+		sh_print_non_terminal_production(((t_symbol **)(cfg->symbols.tbl))[i++]);
 	}
 	ft_printf("\n");
 }
@@ -152,31 +148,21 @@ void	sh_print_follow_set(t_cfg *cfg, t_symbol *symbol)
 void	print_follow_sets(t_cfg *cfg)
 {
 	int i;
-	int j;
 
 	i = NB_TERMS;
-	j = 0;
 	ft_printf(BOLD UNDERLINE"FOLLOW SETS:\n\n"EOC);
-	while (j < NB_NOTERMS)
-	{
+	while (i < (int)cfg->symbols.current_size)
 		sh_print_follow_set(cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]);
-		j++;
-	}
 }
 
 void	print_first_sets(t_cfg *cfg)
 {
 	int i;
-	int j;
 
 	i = NB_TERMS;
-	j = 0;
 	ft_printf(BOLD UNDERLINE"FIRST SETS:\n\n"EOC);
-	while (j < NB_NOTERMS)
-	{
+	while (i < (int)cfg->symbols.current_size)
 		sh_print_first_set(cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]);
-		j++;
-	}
 }
 
 int     ft_strlen_utf8(char *str)
@@ -238,14 +224,14 @@ void	print_ll_table(t_cfg *cfg)
 		j++;
 	}
 	ft_printf("\n");
-	i = 0;
-	while (i < NB_NOTERMS)
+	i = NB_TERMS;
+	while (i < (int)cfg->symbols.current_size)
 	{
 		j = 0;
-		ft_printf("%s%s%s\t\t", RED, ((t_symbol **)(cfg->symbols.tbl))[NB_TERMS + i]->debug, EOC);
+		ft_printf("%s%s%s\t\t", RED, ((t_symbol **)(cfg->symbols.tbl))[i]->debug, EOC);
 		while (j < NB_TERMS)
 		{
-			production = cfg->ll_table[i][j];
+			production = cfg->ll_table[i - NB_TERMS][j];
 			if (production == NULL)
 				ft_printf("NULL\t\t");
 			else
@@ -274,8 +260,9 @@ void	sh_print_pda(t_list *guess)
 
 void	print_cfg(t_cfg *cfg)
 {
-	print_non_terminals_productions(cfg);
+	sh_print_non_terminals_productions(cfg);
 	print_first_sets(cfg);
 	print_follow_sets(cfg);
 	print_ll_table(cfg);
+	exit(0);
 }
