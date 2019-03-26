@@ -63,24 +63,58 @@ void	sh_remove_prod(t_symbol *symbol, t_production *production)
 	}
 }
 
+int		sh_process_add_eps_combinaisons(t_symbol *symbol, t_list_manager *lm,
+			t_symbol *ref)
+{
+	t_symbol		*prod_symbol;
+	t_production	*prod;
+
+	if (lm->current == NULL)
+	{
+		if (!(prod = sh_production_lst_dup_ptr(lm->head)))
+			return (1);
+		if (ft_lstaddnew_ptr_last(&symbol->productions, prod,
+				sizeof(t_production)))
+			return (1);
+		return (0);
+	}
+	prod_symbol = (t_symbol *)lm->current->content;
+	if (prod_symbol == ref)
+	{
+		lm->previous = lm->current;
+		lm->current = lm->current->next;
+		if (lm->previous == NULL)
+		{
+
+		}
+		else
+		{
+
+		}
+		if (sh_process_add_eps_combinaisons(symbol, lm, ref))
+			return (1);
+	}
+	else
+	{
+		lm->previous = lm->current;
+		lm->current = lm->current->next;
+		return (sh_process_add_eps_combinaisons(symbol, lm, ref));
+	}
+	return (0);
+}
+
 int		sh_process_prod_first_follow_consume_list(t_symbol *symbol,
 			t_list **list, t_symbol *ref)
 {
 	t_production	*prod;
-	t_list			*ptr;
-	t_symbol		*symbol_iter;
+	t_list_manager	lm;
 
 	prod = (t_production *)(*list)->content;
-	ptr = prod->symbols;
-	while (ptr != NULL)
-	{
-		symbol_iter = (t_symbol *)ptr->content;
-		if (symbol_iter == ref)
-		{
-
-		}
-		ptr = ptr->next;
-	}
+	lm.head = prod->symbols;
+	lm.current = prod->symbols;
+	lm.previous = NULL;
+	if (sh_process_add_eps_combinaisons(symbol, &lm, ref))
+		return (1);
 	*list = (*list)->next;
 	(void)symbol;
 	return (0);
@@ -123,12 +157,15 @@ int		sh_process_null_prod_first_follow_conflict(t_cfg *cfg, t_symbol *symbol)
 		{
 			if (sh_has_symbol((t_production *)ptr->content, symbol))
 			{
+				ft_printf("MEHH\n");
 				tmp = ptr->next;
 				if (prev == NULL)
 				{
 					ptr->next = NULL;
 					ft_lstadd(&to_redispatch_prods, ptr);
 					symbol_iter->productions = tmp;
+					ptr = symbol_iter->productions;
+					continue;
 				}
 				else
 				{

@@ -100,6 +100,13 @@ typedef struct		s_cfg
 	int				start_index;
 }					t_cfg;
 
+typedef struct		s_list_manager
+{
+	t_list			*head;
+	t_list			*previous;
+	t_list			*current;
+}					t_list_manager;
+
 /*
 ** ll_table:
 **
@@ -164,9 +171,10 @@ void		sh_lexer_show_token(int token);
 /*
 ** parser.c
 */
-int			sh_process_test(void);
-int			sh_parse_token_list(t_list *tokens);
-int			sh_is_term(t_symbol *symbol);
+int				sh_process_test(void);
+int				sh_parse_token_list(t_list *tokens);
+int				sh_is_term(t_symbol *symbol);
+t_production	*sh_production_lst_dup_ptr(t_list *ptr);
 /*
 ** first_sets.c
 */

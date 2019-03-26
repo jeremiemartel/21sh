@@ -50,6 +50,29 @@ int		sh_add_to_prod(void **vcfg_symbols,
 	return (0);
 }
 
+t_production	*sh_production_lst_dup_ptr(t_list *symbols)
+{
+	t_production *res;
+	t_list *ptr;
+
+	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
+		return (NULL);
+	res->symbols = NULL;
+	ptr = symbols;
+	while (ptr != NULL)
+	{
+		if (ft_lstaddnew_ptr_last(&res->symbols, ptr->content, sizeof(t_symbol)))
+		{
+			//free
+			return (NULL);
+		}
+		ptr = ptr->next;
+	}
+	return (res);
+}
+
+
+
 int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 {
 	t_production *res;
