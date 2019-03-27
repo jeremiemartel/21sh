@@ -202,6 +202,7 @@ t_symbol	*new_symbol(t_test_token_id id)
 	}
 	symbol->productions = NULL;
 	symbol->id = id;
+	symbol->splits = 0;
 	ft_strcpy(symbol->debug, get_debug(id));
 	return (symbol);
 }
@@ -210,7 +211,8 @@ t_symbol	*sh_new_symbol_from(t_symbol *from, t_test_token_id id)
 {
 	t_symbol	*symbol;
 	int			i;
-	
+	char		*str;
+
 	if (!(symbol = (t_symbol *)ft_memalloc(sizeof(t_symbol))))
 		return (NULL);
 	i = 0;
@@ -222,8 +224,13 @@ t_symbol	*sh_new_symbol_from(t_symbol *from, t_test_token_id id)
 	}
 	symbol->productions = NULL;
 	symbol->id = id;
+	if (!(str = ft_itoa(++from->splits)))
+		return (symbol);
 	ft_strcpy(symbol->debug, from->debug);
-	ft_strlcat(symbol->debug, "'", sizeof(symbol->debug));
+	ft_strlcat(symbol->debug, "(", sizeof(symbol->debug));
+	ft_strlcat(symbol->debug, str, sizeof(symbol->debug));
+	ft_strlcat(symbol->debug, ")", sizeof(symbol->debug));
+	free(str);
 	return (symbol);
 }
 

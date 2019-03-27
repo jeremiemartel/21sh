@@ -147,7 +147,6 @@ void	sh_init_process_first_sets(t_symbol *symbol)
 	while (i < NB_TERMS)
 	{
 		symbol->first_sets[i] = 0;
-		symbol->follow_sets[i] = 0;
 		i++;
 	}
 	if (sh_is_term(symbol))

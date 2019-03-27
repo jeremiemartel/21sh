@@ -122,19 +122,19 @@ int		sh_process_follow_sets_symbol_ref_prod(t_cfg *cfg, t_symbol *prod_symbol,
 				   ft_printf("\nfirst_sets de ");
 				   sh_print_symbol_list(ptr->next);
 				   ft_printf(":\n");
-				   */
+				 */
 				sh_compute_first_sets_str(cfg, first_sets, ptr->next);
 
 				/*sh_process_print_set(cfg, first_sets);
 				  ft_printf("\nfollow_sets de ");
 				  sh_print_symbol(ref);
 				  ft_printf(":\n");
-				  */
+				 */
 				sh_process_fill_sets(first_sets, ref->follow_sets, 1, &changes);
 				/*
 				   sh_process_print_set(cfg, ref->follow_sets);
 				   ft_printf("\n");
-				   */
+				 */
 				if (first_sets[EPS]) //(2) b)
 				{
 					sh_process_fill_sets(prod_symbol->follow_sets,
@@ -206,6 +206,14 @@ int		sh_process_follow_sets(t_cfg *cfg)
 
 int		sh_compute_follow_sets(t_cfg *cfg)
 {
+	int i;
+
+	i = 0;
+	while (i < NB_TERMS)
+	{
+		((t_symbol **)cfg->symbols.tbl)[i]->follow_sets[i] = 0;
+		i++;
+	}
 	((t_symbol **)cfg->symbols.tbl)[cfg->start_index]->follow_sets[END_OF_INPUT] = 1;
 	while (sh_process_follow_sets(cfg))
 		;

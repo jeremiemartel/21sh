@@ -1,3 +1,9 @@
 this branch was used to check if the computations of the lltable are giving the same output as this grammar example
 
 https://www.cs.bgu.ac.il/~comp171/wiki.files/ps5.pdf (4.2)
+
+which is the case !
+
+with	C' = C(1)
+		X = A(1)
+		Y = A(1)(1)

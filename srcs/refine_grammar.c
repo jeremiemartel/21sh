@@ -102,9 +102,6 @@ int		sh_process_add_eps_combinaisons(t_symbol *symbol, t_list_manager *lm,
 			lm->previous->next = lm->current->next;
 			lm->current = lm->current->next;
 
-			//	lm->previous = lm->current;
-			//	lm->current = lm->current->next;
-
 			if (sh_process_add_eps_combinaisons(symbol, lm, ref))
 				return (1);
 
@@ -131,7 +128,6 @@ int		sh_process_prod_first_follow_consume_list(t_symbol *symbol,
 	if (sh_process_add_eps_combinaisons(symbol, &lm, ref))
 		return (1);
 	*list = (*list)->next;
-	(void)symbol;
 	return (0);
 }
 
@@ -165,7 +161,6 @@ int		sh_process_null_prod_first_follow_conflict(t_cfg *cfg, t_symbol *symbol)
 	{
 		to_redispatch_prods = NULL;
 		symbol_iter = (t_symbol *)(cfg->symbols.tbl[i]);
-		//if (symbol_iter != symbol)
 		ptr = symbol_iter->productions;
 		prev = NULL;
 		while (ptr != NULL)
@@ -547,6 +542,36 @@ int		sh_refine_grammar_left_recursion(t_cfg *cfg)
 	return (ret2);
 }
 
+int		sh_add_prod_single_symbol(t_symbol *symbol, t_symbol *to_add_as_prod)
+{
+	t_list *prod_symbols;
+
+	prod_symbols = NULL;
+	if (ft_lstaddnew_ptr_last(&prod_symbols, to_add_as_prod, sizeof(t_symbol *)))
+		return (1);
+	if (sh_add_prod(symbol, prod_symbols))
+		return (1);
+	return (0);
+}
+
+int		sh_add_common_prod(t_symbol *symbol, t_symbol *factor, t_symbol *new)
+{
+	t_list *prod_symbols;
+
+	prod_symbols = NULL;
+	if (ft_lstaddnew_ptr_last(&prod_symbols, factor, sizeof(t_symbol *)))
+		return (1);
+	if (ft_lstaddnew_ptr_last(&prod_symbols, new, sizeof(t_symbol *)))
+		return (1);
+	if (sh_add_prod(symbol, prod_symbols))
+		return (1);
+	return (0);
+}
+
+/*
+** split symbol into some new_symbol, based of the factor symbol
+*/
+
 int		sh_process_grammar_factoring(t_cfg *cfg,
 			t_symbol *factor, t_symbol *symbol)
 {
@@ -556,6 +581,10 @@ int		sh_process_grammar_factoring(t_cfg *cfg,
 	t_list			*prev;
 	t_list			*tmp;
 
+//	ft_printf(GREEN"FOR SYMBOL: "EOC);
+//	sh_print_symbol(symbol);
+//	ft_printf("\n");
+//	sh_print_non_terminal_production(symbol);
 	if (!(new_symbol = sh_new_symbol_from(symbol, cfg->symbols.current_size)))
 		return (1);
 	if (ft_dy_tab_add_ptr(&cfg->symbols, new_symbol))
@@ -564,28 +593,48 @@ int		sh_process_grammar_factoring(t_cfg *cfg,
 		return (1);
 	}
 	ptr = symbol->productions;
+	prev = NULL;
 	while (ptr != NULL)
 	{
 		production = (t_production *)ptr->content;
 		if (production->symbols->content == factor) //pop then make new prod from it to new_symbol
 		{
-			tmp = ptr;
+			tmp = ptr->next;
 			if (prev == NULL)
 				symbol->productions = symbol->productions->next;
 			else
 				prev->next = ptr->next;
-			ptr = ptr->next;
-			// sh_production_lst_dup_ptr(production->symbols->next))) //if null ε ?
-			//		return (1);
-			//	if (ft_lstaddnew_ptr(&new_symbol->productions, new_prod, sizeof(t_production *)))
-			//		return (1);
+			ft_lstpop_ptr(&production->symbols); //on supprime le facteur commun
+			if (production->symbols)
+			{
+				ft_lstadd_last(&new_symbol->productions, ptr);
+				ptr->next = NULL;
+			}
+			else
+			{
+				if (sh_add_prod_single_symbol(new_symbol, cfg->symbols.tbl[EPS]))
+					return (1);
+				free(ptr);
+			}
+			ptr = tmp;
 			continue ;
 		}
 		prev = ptr;
 		ptr = ptr->next;
 	}
+	if (sh_add_common_prod(symbol, factor, new_symbol))
+		return (1);
+//	ft_printf("old symbol productions:\n");
+//	sh_print_non_terminal_production(symbol);
+//	ft_printf("new symbol productions:\n");
+//	sh_print_non_terminal_production(new_symbol);
 	return (0);
 }
+
+
+/*
+** iterate over symbols, and split productions when factoring should be done
+*/
 
 int		sh_refine_grammar_factoring(t_cfg *cfg)
 {
@@ -615,6 +664,15 @@ int		sh_refine_grammar_factoring(t_cfg *cfg)
 	return (ret2);
 }
 
+int		sh_compute_sets(t_cfg *cfg)
+{
+	if (sh_compute_first_sets(cfg))
+		return (1);
+	if (sh_compute_follow_sets(cfg))
+		return (1);
+	return (0);
+}
+
 int		sh_process_refine_grammar(t_cfg *cfg)
 {
 	int changes;
@@ -623,13 +681,22 @@ int		sh_process_refine_grammar(t_cfg *cfg)
 	changes = 0;
 	if ((ret = sh_refine_grammar_symbol_eps(cfg)) == -1)
 		return (-1);
+	if (ret && sh_compute_sets(cfg))
+		return (-1);
 	changes |= ret;
 	if ((ret = sh_refine_grammar_left_recursion(cfg)) == -1)
 		return (-1);
-	changes |= ret;
-	if ((ret = sh_refine_grammar_factoring(cfg)) == -1)
+	if (ret && sh_compute_sets(cfg))
 		return (-1);
 	changes |= ret;
+	if (!changes)
+	{
+		if ((ret = sh_refine_grammar_factoring(cfg)) == -1)
+			return (-1);
+		if (ret && sh_compute_sets(cfg))
+			return (-1);
+		changes |= ret;
+	}
 	return (changes);
 }
 
@@ -638,9 +705,7 @@ int		sh_refine_grammar(t_cfg *cfg)
 	static int i = 0;
 
 	ft_printf("passage refine: %d\n", ++i);
-	if (sh_compute_first_sets(cfg))
-		return (-1);
-	if (sh_compute_follow_sets(cfg))
-		return (-1);
+	if (sh_compute_sets(cfg))
+		return (1);
 	return (sh_process_refine_grammar(cfg));
 }

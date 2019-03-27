@@ -91,6 +91,7 @@ typedef struct		s_symbol
 	char			first_sets[NB_TERMS];
 	char			follow_sets[NB_TERMS];
 	char			debug[DEBUG_BUFFER_SIZE];
+	int				splits;
 }					t_symbol;
 
 typedef struct		s_cfg
