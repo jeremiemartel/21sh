@@ -4,6 +4,7 @@ https://www.cs.bgu.ac.il/~comp171/wiki.files/ps5.pdf (4.2)
 
 which is the case !
 
-with	C' = C(1)
+with
+		C' = C(1)
 		X = A(1)
 		Y = A(1)(1)
