@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:51:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 17:48:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 14:18:14 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "sh_21.h"
@@ -19,7 +19,15 @@ void	sh_process_populate_ll_table(t_cfg *cfg, int no_term_index,
 	old_prod = cfg->ll_table[no_term_index][term_index];
 	if (old_prod && old_prod != production)
 	{
-		ft_printf("ambiguous warning !\n");
+		ft_printf("conflict for symbol: ");
+		sh_print_symbol(&cfg->symbols[no_term_index + NB_TERMS]);
+		ft_printf("\nwhen consuming token:");
+		sh_print_symbol(&cfg->symbols[term_index]);
+		ft_printf("\nold_prod: ");
+		sh_print_production(old_prod);
+		ft_printf("\nnew prod:");
+		sh_print_production(production);
+		ft_printf("\n");
 	}
 	cfg->ll_table[no_term_index][term_index] = production;
 }

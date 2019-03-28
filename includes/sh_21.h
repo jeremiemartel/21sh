@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/28 13:35:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 14:22:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,8 @@ int     sh_compute_follow_sets(t_cfg *cfg);
 void  	sh_print_symbol_list(t_list *symbols);
 void  	sh_print_pda(t_list *symbols);
 void	sh_print_symbol(t_symbol *symbol);
-void	sh_print_token_list(t_list *list);
+void	sh_print_token_listwye(t_list *list);
+void	sh_print_production(t_production *production);
 void	print_non_terminals_productions(t_cfg *cfg);
 void	print_first_sets(t_cfg *cfg);
 void	print_follow_sets(t_cfg *cfg);

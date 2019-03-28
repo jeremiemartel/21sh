@@ -1,0 +1,73 @@
+PRODUCTIONS:
+S →
+	A $
+A →
+	a A(1)
+B →
+	a
+C →
+	b C(1)
+D →
+	C c
+C(1) →
+	c C(1)
+	ε
+A(1) →
+	d
+	C
+	a A(1)(1)
+A(1)(1) →
+	d
+	C
+
+FIRST SETS:
+
+first sets of S :
+a
+
+first sets of A :
+a
+
+first sets of B :
+a
+first sets of C :
+b
+first sets of D :
+b
+first sets of C(1) :
+c ; ε
+first sets of A(1) :
+a ; b ; d
+F
+irst sets of A(1)(1) :
+b ; d
+
+FOLLOW SETS:
+follow sets of S :
+$
+follow sets of A :
+$
+follow sets of B :
+
+follow sets of C :
+c ; $
+
+follow sets of D :
+
+follow sets of C(1) :
+
+follow sets of A(1) :
+$
+follow sets of A(1)(1) :
+$
+LL TABLE:
+
+		a				b			c			d			$			ε
+S		A $				NULL		NULL		NULL		NULL		NULL
+A		a A(1)			NULL		NULL		NULL		NULL		NULL
+B		a				NULL		NULL		NULL		NULL		NULL
+C		NULL			b C(1)		NULL		NULL		NULL		NULL
+D		NULL			C c			NULL		NULL		NULL		NULL
+C(1)	NULL			NULL		c C(1)		NULL		NULL		NULL
+A(1)	a A(1)(1)		C			NULL		d			NULL		NULL
+A(1)(1)	NULL			C			NULL		d			NULL		NULL
