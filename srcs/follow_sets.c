@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:46:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 00:02:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:30:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int		sh_process_follow_sets_symbol_ref_prod(t_cfg *cfg, t_symbol *prod_symbol,
 			}
 			else // (2) a)
 			{
+					ft_printf("OLALALA\n");
+					sh_print_symbol(ref);
 		//		ft_printf("ouai\n");
 				sh_process_fill_sets(prod_symbol->follow_sets,
 					ref->follow_sets, 0, &changes);

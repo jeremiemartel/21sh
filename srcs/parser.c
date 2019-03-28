@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 18:20:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:38:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,29 @@ int		init_A(t_cfg *cfg, t_symbol *symbol)
 	return (0);
 }
 
-int		init_Y(t_cfg *cfg, t_symbol *symbol)
+int		init_B(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
+			T_A); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+int		init_D(t_cfg *cfg, t_symbol *symbol)
+{
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, C, T_C); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+int		init_Y(t_cfg *cfg, t_symbol *symbol)
+{
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
@@ -107,8 +126,6 @@ int		init_Y(t_cfg *cfg, t_symbol *symbol)
 
 int		init_X(t_cfg *cfg, t_symbol *symbol)
 {
-	(void)symbol;
-	(void)cfg;
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
@@ -125,8 +142,6 @@ int		init_X(t_cfg *cfg, t_symbol *symbol)
 
 int		init_C(t_cfg *cfg, t_symbol *symbol)
 {
-	(void)symbol;
-	(void)cfg;
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
@@ -137,8 +152,6 @@ int		init_C(t_cfg *cfg, t_symbol *symbol)
 
 int		init_CPRIME(t_cfg *cfg, t_symbol *symbol)
 {
-	(void)symbol;
-	(void)cfg;
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 2,
@@ -159,7 +172,9 @@ static	int (*g_init_grammar_productions[NB_NOTERMS])
 {
 	init_S,
 	init_A,
+	init_B,
 	init_C,
+	init_D,
 	init_CPRIME,
 	init_X,
 	init_Y
@@ -176,7 +191,9 @@ char		*get_debug(int index)
 		"ε",
 		"S",
 		"A",
+		"B",
 		"C",
+		"D",
 		"C'",
 		"X",
 		"Y"
@@ -197,6 +214,8 @@ void	init_symbol(t_symbol *symbol, t_test_token_id id)
 	}
 	symbol->productions = NULL;
 	symbol->id = id;
+	get_debug(id);
+	ft_printf("%d\n", id);
 	ft_strcpy(symbol->debug, get_debug(id));
 }
 

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/12 18:13:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 13:35:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ typedef enum		e_test_token_id
 	EPS, //end of terminals
 	S,
 	A,
+	B,
 	C,
+	D,
 	CPRIME,
 	X,
 	Y,
