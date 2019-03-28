@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:46:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/22 00:04:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 12:05:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,11 +207,17 @@ int		sh_process_follow_sets(t_cfg *cfg)
 int		sh_compute_follow_sets(t_cfg *cfg)
 {
 	int i;
+	int j;
 
 	i = 0;
-	while (i < NB_TERMS)
+	while (i < (int)cfg->symbols.current_size)
 	{
-		((t_symbol **)cfg->symbols.tbl)[i]->follow_sets[i] = 0;
+		j = 0;
+		while (j < NB_TERMS)
+		{
+			((t_symbol **)cfg->symbols.tbl)[i]->follow_sets[j] = 0;
+			j++;
+		}
 		i++;
 	}
 	((t_symbol **)cfg->symbols.tbl)[cfg->start_index]->follow_sets[END_OF_INPUT] = 1;
