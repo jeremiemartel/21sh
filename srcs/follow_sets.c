@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:46:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/28 12:05:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 18:10:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,15 +173,17 @@ int		sh_process_follow_sets_symbol_ref(t_cfg *cfg, t_symbol *prod_symbol, t_symb
 
 int		sh_process_follow_sets_symbol(t_cfg *cfg, t_symbol *symbol)
 {
-	int i;
-
-	int changes;
+	int			i;
+	int			changes;
+	t_symbol	*iter_symbol;
 
 	changes = 0;
 	i = NB_TERMS;
 	while (i < (int)cfg->symbols.current_size)
 	{
-		if (sh_process_follow_sets_symbol_ref(cfg, cfg->symbols.tbl[i], symbol))
+		iter_symbol = (t_symbol *)cfg->symbols.tbl[i];
+		if (iter_symbol->follow_sets[END_OF_INPUT] &&
+			sh_process_follow_sets_symbol_ref(cfg, iter_symbol, symbol))
 			changes = 1;
 		i++;
 	}
