@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/26 15:28:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 12:13:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,5 +264,4 @@ void	print_cfg(t_cfg *cfg)
 	print_first_sets(cfg);
 	print_follow_sets(cfg);
 	print_ll_table(cfg);
-	exit(0);
 }

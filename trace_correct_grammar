@@ -1,0 +1,60 @@
+S →
+	A $
+
+A →
+	a X
+
+C →
+	b C'
+
+C' →
+	c C'
+	ε
+
+X →
+	C
+	d
+	a Y
+Y →
+	d
+	C
+
+FIRST SETS:
+
+first sets of S :
+a
+
+first sets of A :
+a
+
+first sets of C :
+b
+
+first sets of C' :
+c ; ε
+
+first sets of X :
+a ; b ; d
+
+first sets of Y :
+b ; d
+
+FOLLOW SETS:
+
+follow sets of S :
+$
+
+follow sets of A :
+$
+
+follow sets of C :
+$
+
+follow sets of C' :
+$
+
+follow sets of X :
+$
+
+follow sets of Y :
+$

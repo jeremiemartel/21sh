@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 06:11:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/26 18:53:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/28 12:22:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -656,8 +656,8 @@ int		sh_refine_grammar_factoring(t_cfg *cfg)
 			{
 				if (ret == -1)
 					return (-1);
-				ret2 = 1;
 			}
+			ret2 = 1;
 		}
 		i++;
 	}
