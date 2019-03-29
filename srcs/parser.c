@@ -234,6 +234,19 @@ t_symbol	*sh_new_symbol_from(t_symbol *from, t_test_token_id id)
 	return (symbol);
 }
 
+void	ft_swap_first(t_symbol *symbol)
+{
+	t_list *tmp;
+	t_list *tmp2;
+
+	tmp = symbol->productions->next;
+	tmp2 = symbol->productions->next->next;
+	tmp->next = symbol->productions;
+
+	symbol->productions = tmp;
+	symbol->productions->next->next = tmp2;
+}
+
 int		init_context_free_grammar(t_cfg *cfg)
 {
 	int			i;
@@ -267,14 +280,20 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]))
 			return (1);
 	}
-//	if (sh_compute_first_sets(cfg))
-//		return (1);
-//	if (sh_compute_follow_sets(cfg))
-//		return (1);
+	if (sh_compute_first_sets(cfg))
+		return (1);
+	if (sh_compute_follow_sets(cfg))
+		return (1);
 	while ((ret = sh_refine_grammar(cfg)) == 1)
 		;
 	if (ret == -1)
 		return (1);
+	
+	t_symbol *tmp;
+
+	tmp = cfg->symbols.tbl[NB_SYMBOLS + 1];
+	sh_print_symbol(tmp);
+	//ft_swap_first(tmp);
 	if (sh_compute_ll_table(cfg))
 		return (1);
 	return (0);
