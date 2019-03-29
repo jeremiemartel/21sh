@@ -1,3 +1,9 @@
+program          : linebreak complete_commands linebreak
+| linebreak
+;
+complete_commands: complete_commands newline_list complete_command
+|                                complete_command
+;
 complete_command : list separator
 | list
 ;
@@ -41,9 +47,9 @@ for_clause       : For name linebreak                            do_group
 | For name linebreak in          sequential_sep do_group
 | For name linebreak in wordlist sequential_sep do_group
 ;
-name             : NAME                     /* Apply rule 5 */
+name             : NAME                    
 ;
-in               : In                       /* Apply rule 6 */
+in               : In                      
 ;
 wordlist         : wordlist WORD
 |          WORD
@@ -68,8 +74,8 @@ case_item        :     pattern ')' linebreak     DSEMI linebreak
 | '(' pattern ')' linebreak     DSEMI linebreak
 | '(' pattern ')' compound_list DSEMI linebreak
 ;
-pattern          :             WORD         /* Apply rule 4 */
-| pattern '|' WORD         /* Do not apply rule 4 */
+pattern          :             WORD       
+| pattern '|' WORD        
 ;
 if_clause        : If compound_list Then compound_list else_part Fi
 | If compound_list Then compound_list           Fi
@@ -83,14 +89,14 @@ until_clause     : Until compound_list do_group
 ;
 function_definition : fname '(' ')' linebreak function_body
 ;
-function_body    : compound_command                /* Apply rule 9 */
-| compound_command redirect_list  /* Apply rule 9 */
+function_body    : compound_command        
+| compound_command redirect_list  
 ;
-fname            : NAME                            /* Apply rule 8 */
+fname            : NAME                           
 ;
 brace_group      : Lbrace compound_list Rbrace
 ;
-do_group         : Do compound_list Done           /* Apply rule 6 */
+do_group         : Do compound_list Done        
 ;
 simple_command   : cmd_prefix cmd_word cmd_suffix
 | cmd_prefix cmd_word
@@ -98,9 +104,9 @@ simple_command   : cmd_prefix cmd_word cmd_suffix
 | cmd_name cmd_suffix
 | cmd_name
 ;
-cmd_name         : WORD                   /* Apply rule 7a */
+cmd_name         : WORD                
 ;
-cmd_word         : WORD                   /* Apply rule 7b */
+cmd_word         : WORD               
 ;
 cmd_prefix       :            io_redirect
 | cmd_prefix io_redirect
@@ -128,18 +134,18 @@ io_file          : '<'       filename
 | LESSGREAT filename
 | CLOBBER   filename
 ;
-filename         : WORD                      /* Apply rule 2 */
+filename         : WORD             
 ;
 io_here          : DLESS     here_end
 | DLESSDASH here_end
 ;
-here_end         : WORD                      /* Apply rule 3 */
+here_end         : WORD              
 ;
 newline_list     :              NEWLINE
 | newline_list NEWLINE
 ;
 linebreak        : newline_list
-| /* empty */
+| EPS
 ;
 separator_op     : '&'
 | ';'

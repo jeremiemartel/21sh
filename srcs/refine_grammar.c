@@ -299,7 +299,7 @@ int		sh_process_production_left_recursion(t_symbol *symbol,
 	//		ft_printf("on add:\n");
 	//		sh_print_symbol_list(symbols);
 	//		ft_printf("\n");
-		sh_add_prod(symbol, symbols);
+		sh_add_prod_from_symbols(symbol, symbols);
 		//add prod from symbols to symbol
 	}
 	return (ret);
@@ -350,8 +350,9 @@ int		sh_add_prod_new_symbol(t_cfg *cfg, t_symbol *new_symbol,
 		return (1);
 	if (!(prod = sh_production_lst_dup_ptr(production->symbols->next)))
 		return (1);
-	sh_add_to_prod(cfg->symbols.tbl, &symbols, 1, EPS);
-	sh_add_prod(new_symbol, symbols);
+	if (ft_lstaddnew_ptr(&symbols, cfg->symbols.tbl[EPS], sizeof(t_symbol *)))
+		return (1);
+	sh_add_prod_from_symbols(new_symbol, symbols);
 	return (0);
 }
 
@@ -580,7 +581,7 @@ int		sh_add_prod_single_symbol(t_symbol *symbol, t_symbol *to_add_as_prod)
 	prod_symbols = NULL;
 	if (ft_lstaddnew_ptr_last(&prod_symbols, to_add_as_prod, sizeof(t_symbol *)))
 		return (1);
-	if (sh_add_prod(symbol, prod_symbols))
+	if (sh_add_prod_from_symbols(symbol, prod_symbols))
 		return (1);
 	return (0);
 }
@@ -594,7 +595,7 @@ int		sh_add_common_prod(t_symbol *symbol, t_symbol *factor, t_symbol *new)
 		return (1);
 	if (ft_lstaddnew_ptr_last(&prod_symbols, new, sizeof(t_symbol *)))
 		return (1);
-	if (sh_add_prod(symbol, prod_symbols))
+	if (sh_add_prod_from_symbols(symbol, prod_symbols))
 		return (1);
 	return (0);
 }

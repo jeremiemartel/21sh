@@ -38,21 +38,119 @@ typedef enum		e_tokenlist
 	WORD,
 }					t_tokenlist;
 
-typedef enum		e_test_token_id
+typedef enum		e_token_id
 {
-	T_A,
-	T_B,
-	T_C,
-	T_D,
+	LEX_TOK_PIPE ,// '|',
+	LEX_TOK_AND ,// '&',
+	LEX_TOK_SEMICOL ,// ';',
+	LEX_TOK_LESS ,// '<',
+	LEX_TOK_GREAT ,// '>',
+	LEX_TOK_OPN_PAR ,// '(',
+	LEX_TOK_CLS_PAR ,// ')',
+	LEX_TOK_LBRACE ,// '{',
+	LEX_TOK_RBRACE ,// '}',
+	LEX_TOK_BANG ,// '!',
+	LEX_TOK_DOLLAR ,// '$',
+	//Quoting tokens
+	LEX_TOK_BACK_SLASH ,//'\\',
+	LEX_TOK_QUOTE_BACK ,// '`',
+	LEX_TOK_QUOTE_SPL ,// '\'',
+	LEX_TOK_QUOTE_DBL ,// '"',
+	LEX_TOK_SPACE ,// ' ',
+	LEX_TOK_TAB ,// '\t',
+	LEX_TOK_NEWLINE ,// '\n',
+	//Special chars
+	LEX_TOK_STAR ,// '*',
+	LEX_TOK_QUEST ,// '?',
+	LEX_TOK_HASH ,// '#',
+	LEX_TOK_TILD ,// '~',
+	LEX_TOK_EQUAL,// '='
+	LEX_TOK_PERCENT ,// '%',
+	//Composed operators
+	LEX_TOK_AND_IF      ,// '&' + 0xff00 * '&',               //&&
+	LEX_TOK_OR_IF       ,// '|' + 0xff00 * '|',               //||
+	LEX_TOK_DSEMI       ,// ';' + 0xff00 * ';',               //;;
+	LEX_TOK_DLESS       ,// '<' + 0xff00 * '<',               //<<
+	LEX_TOK_DGREAT      ,// '>' + 0xff00 * '>',               //>>
+	LEX_TOK_LESSAND     ,// '<' + 0xff00 * '&',               //<&
+	LEX_TOK_GREATAND    ,// '>' + 0xff00 * '&',               //>&
+	LEX_TOK_LESSGREAT   ,// '<' + 0xff00 * '>',               //<>
+	LEX_TOK_DLESSDASH   ,// '<' + 0xff00 * '<' + 0xff0000 * '-',  //<<-
+	LEX_TOK_CLOBBER     ,// '>' + 0xff00 * '|',               //>|
+	LEX_TOK_IF,
+	LEX_TOK_THEN,
+	LEX_TOK_ELSE,
+	LEX_TOK_ELIF,
+	LEX_TOK_FI,
+	LEX_TOK_DO,
+	LEX_TOK_DONE,
+	LEX_TOK_CASE,
+	LEX_TOK_ESAC,
+	LEX_TOK_WHILE,
+	LEX_TOK_UNTIL,
+	LEX_TOK_FOR,
+	LEX_TOK_IN,
+	//Other
+	LEX_TOK_TOKEN,
+	LEX_TOK_WORD,
+	LEX_TOK_ASSIGNMENT_WORD,
+	LEX_TOK_NAME,
+	LEX_TOK_IO_NUMBER,
+	//Specials
 	END_OF_INPUT,
-	EPS, //end of terminals
-	S,
-	A,
-	B,
-	C,
-	D,
+	EPS,
+
+	//Non Terminals
+	
+	PROGRAM,
+	COMPLETE_COMMANDS,
+	COMPLETE_COMMAND,
+	LIST,
+	AND_OR,
+	PIPELINE,
+	PIPE_SEQUENCE,
+	COMMAND,
+	COMPOUND_COMMAND,
+	SUBSHELL,
+	COMPOUND_LIST,
+	TERM,
+	FOR_CLAUSE,
+	NAME,
+	IN,
+	WORDLIST,
+	CASE_CLAUSE,
+	CASE_LIST_NS,
+	CASE_LIST,
+	CASE_ITEM_NS,
+	CASE_ITEM,
+	PATTERN,
+	IF_CLAUSE,
+	ELSE_PART,
+	WHILE_CLAUSE,
+	UNTIL_CLAUSE,
+	FUNCTION_DEFINITION,
+	FUNCTION_BODY,
+	FNAME,
+	BRACE_GROUP,
+	DO_GROUP,
+	SIMPLE_COMMAND,
+	CMD_NAME,
+	CMD_WORD,
+	CMD_PREFIX,
+	CMD_SUFFIX,
+	REDIRECT_LIST,
+	IO_REDIRECT,
+	IO_FILE,
+	FILENAME,
+	IO_HERE,
+	HERE_END,
+	NEWLINE_LIST,
+	LINEBREAK,
+	SEPARATOR_OP,
+	SEPARATOR,
+	SEQUENTIAL_SEP,
 	NB_SYMBOLS
-}					t_test_token_id;
+}					t_token_id;
 
 typedef struct		u_token_union
 {
@@ -72,7 +170,7 @@ typedef struct		s_token
 {
 	t_token_type	token_type;
 	t_token_union	token_union;
-	t_test_token_id	token_id;
+	t_token_id		token_id;
 }					t_token;
 
 typedef struct		s_production
@@ -81,8 +179,8 @@ typedef struct		s_production
 	//function ?
 }					t_production;
 
-# define NB_TERMS	S
-# define NB_NOTERMS	NB_SYMBOLS - S
+# define NB_TERMS	PROGRAM
+# define NB_NOTERMS	NB_SYMBOLS - NB_TERMS
 
 typedef struct		s_symbol
 {
@@ -136,6 +234,13 @@ typedef struct		s_list_manager
 ** says which production to choose for a non terminal given a terminal
 */
 
+typedef struct		s_grammar_holder
+{
+	char			*debug;
+	char			relevant;
+	char			replacing;
+	int 			(*init_prod)(t_cfg *, t_symbol *);
+}					t_grammar_holder;
 
 typedef struct		s_parser
 {
@@ -172,14 +277,16 @@ void		sh_lexer_show_token(int token);
 /*
 ** parser.c
 */
-t_symbol		*sh_new_symbol_from(t_symbol *from, t_test_token_id id);
+t_symbol		*sh_new_symbol_from(t_symbol *from, t_token_id id);
 int				sh_process_test(void);
 int				sh_parse_token_list(t_list *tokens);
 int				sh_is_term(t_symbol *symbol);
 t_production	*sh_production_lst_dup_ptr(t_list *ptr);
-int				sh_add_prod(t_symbol *symbol, t_list *prod_symbols);
-int				sh_add_to_prod(void **vcfg_symbols, t_list **symbols,
+int				sh_add_prod(t_symbol *symbol, t_dy_tab symbols,
 					int nb_symbols, ...);
+int				sh_add_prod_from_symbols(t_symbol *symbol, t_list *symbols);
+//int				sh_add_to_prod(void **vcfg_symbols, t_list **symbols,
+//					int nb_symbols, ...);
 /*
 ** first_sets.c
 */
@@ -220,25 +327,6 @@ int		sh_compute_ll_table(t_cfg *cfg);
 int		sh_process_production_left_recursion(t_symbol *symbol, t_list *symbols);
 int		sh_refine_grammar(t_cfg *cfg);
 
-/*
-typedef enum		e_tokenlist
-{
-	UNKNOWN,	//May be useless, need to see later
-	TOKEN,		//token context dependent, transition state
-	WORD,
-	NAME,
-	ASSIGMENT,
-	IO_NUMBER,	//only digits and oneof '<' or '>'
-	NEWLINE,	//'\n'
-	DELIMITOR,	//';'
-	DLESS,		//'<<'
-	DGREAT,		//'>>'
-	LESSAND,	//'<&'
-	GREADAND,	//'>&'
-	LESSGREAT,	//'<>'
-	DLESSDASH,	//'<<-'
-	CLOBBER		//'>|'
-}					t_tokenlist;
-*/
+t_grammar_holder    g_grammar[NB_SYMBOLS];
 
 #endif

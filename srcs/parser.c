@@ -17,7 +17,7 @@ int		sh_is_term(t_symbol *symbol)
 	return (symbol->id >= 0 && symbol->id < NB_TERMS);
 }
 
-void	sh_populate_token(t_token *token, t_test_token_id id,
+void	sh_populate_token(t_token *token, t_token_id id,
 		int val, t_token_type type)
 {
 	token->token_union.ival = val;
@@ -25,7 +25,7 @@ void	sh_populate_token(t_token *token, t_test_token_id id,
 	token->token_type = type;
 }
 
-
+/*
 int		sh_add_to_prod(void **vcfg_symbols,
 		t_list **symbols, int nb_symbols, ...)
 {
@@ -49,13 +49,16 @@ int		sh_add_to_prod(void **vcfg_symbols,
 	va_end(ap);
 	return (0);
 }
+*/
+
+
 
 t_production	*sh_production_lst_dup_ptr(t_list *symbols)
 {
 	t_production *res;
 	t_list *ptr;
 
-	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
+	if (!(res = (t_production *)malloc(sizeof(t_production))))
 		return (NULL);
 	res->symbols = NULL;
 	ptr = symbols;
@@ -71,93 +74,52 @@ t_production	*sh_production_lst_dup_ptr(t_list *symbols)
 	return (res);
 }
 
-int		sh_add_prod(t_symbol *symbol, t_list *prod_symbols)
+int		sh_add_prod_from_symbols(t_symbol *symbol, t_list *symbols)
 {
 	t_production *res;
 
-	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
+	if (!(res = sh_production_lst_dup_ptr(symbols)))
 		return (1);
-	res->symbols = prod_symbols;
+	if (ft_lstaddnew_ptr_last(&symbol->productions, res,
+		sizeof(t_production *)))
+			return (1);
+	return (0);
+}
+
+
+int		sh_add_prod(t_symbol *symbol, t_dy_tab symbols, int nb_symbols, ...)
+{
+	t_production *res;
+	va_list		ap;
+	int			symbol_index;
+	t_symbol	**cfg_symbols;
+	int 		i;
+
+	cfg_symbols = (t_symbol **)symbols.tbl;
+	if (!(res = (t_production *)malloc(sizeof(t_production))))
+		return (1);
 	if (ft_lstaddnew_ptr_last(&symbol->productions, res, sizeof(*res)))
-	{
-		free(res);
 		return (1);
+	va_start(ap, nb_symbols);
+	i = 0;
+	res->symbols = NULL;
+	while (i < nb_symbols)
+	{
+		symbol_index = va_arg(ap, int);
+		if (ft_lstaddnew_ptr_last(&res->symbols, cfg_symbols[symbol_index],
+				sizeof(t_symbol *)))
+			return (1);
+		i++;
 	}
+	va_end(ap);
 	return (0);
 }
 
-//		(1) E → int
-//		(2) E → (E Op E)
-
-int		init_S(t_cfg *cfg, t_symbol *symbol)
-{
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, A, END_OF_INPUT);
-	sh_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-//		(3) Op → +
-//		(4) Op → *
-
-int		init_A(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
-			B, T_A, C); //(1)
-	sh_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
-			B, T_A, T_D); //(1)
-	sh_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-int		init_B(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_A); //(1)
-	sh_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, EPS);
-	sh_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-int		init_C(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, D);
-	sh_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_B);
-	sh_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-int		init_D(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, C, T_C);
-	sh_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-//		None
 /*
- ** attributes for each non_terminal every single of its productions
- */
+** attributes for each non_terminal every single of its productions
+*/
 
+/*
 static	int (*g_init_grammar_productions[NB_NOTERMS])
 	(t_cfg *, t_symbol *symbol) = 
 {
@@ -185,14 +147,12 @@ char		*get_debug(int index)
 	};
 	return (debug_str_tab[index]);
 }
+*/
 
-t_symbol	*new_symbol(t_test_token_id id)
+void		sh_process_init_symbol(t_symbol *symbol, t_token_id id)
 {
-	t_symbol	*symbol;
-	int			i;
-	
-	if (!(symbol = (t_symbol *)malloc(sizeof(t_symbol))))
-		return (NULL);
+	int i;
+
 	i = 0;
 	while (i < NB_TERMS)
 	{
@@ -203,27 +163,27 @@ t_symbol	*new_symbol(t_test_token_id id)
 	symbol->productions = NULL;
 	symbol->id = id;
 	symbol->splits = 0;
-	ft_strcpy(symbol->debug, get_debug(id));
+}
+
+t_symbol	*new_symbol(t_token_id id)
+{
+	t_symbol	*symbol;
+	
+	if (!(symbol = (t_symbol *)malloc(sizeof(t_symbol))))
+		return (NULL);
+	sh_process_init_symbol(symbol, id);
+	ft_strcpy(symbol->debug, g_grammar[id].debug);
 	return (symbol);
 }
 
-t_symbol	*sh_new_symbol_from(t_symbol *from, t_test_token_id id)
+t_symbol	*sh_new_symbol_from(t_symbol *from, t_token_id id)
 {
 	t_symbol	*symbol;
-	int			i;
 	char		*str;
 
 	if (!(symbol = (t_symbol *)ft_memalloc(sizeof(t_symbol))))
 		return (NULL);
-	i = 0;
-	while (i < NB_TERMS)
-	{
-		symbol->first_sets[i] = 0;
-		symbol->follow_sets[i] = 0;
-		i++;
-	}
-	symbol->productions = NULL;
-	symbol->id = id;
+	sh_process_init_symbol(symbol, id);
 	if (!(str = ft_itoa(++from->splits)))
 		return (symbol);
 	ft_strcpy(symbol->debug, from->debug);
@@ -250,11 +210,10 @@ void	ft_swap_first(t_symbol *symbol)
 int		init_context_free_grammar(t_cfg *cfg)
 {
 	int			i;
-	int			j;
 	int			ret;
 	t_symbol	*new;
 
-	cfg->start_index = S;
+	cfg->start_index = PROGRAM;
 	i = 0;
 	if (ft_dy_tab_init(&cfg->symbols, 128))
 		return (1);
@@ -274,11 +233,11 @@ int		init_context_free_grammar(t_cfg *cfg)
 		i++;
 	}
 	i = NB_TERMS;
-	j = 0;
-	while (j < NB_NOTERMS)
+	while (i < NB_SYMBOLS)
 	{
-		if (g_init_grammar_productions[j++](cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]))
+		if (g_grammar[i].init_prod(cfg, ((t_symbol **)(cfg->symbols.tbl))[i]))
 			return (1);
+		i++;
 	}
 	while ((ret = sh_refine_grammar(cfg)) == 1)
 		;
@@ -323,7 +282,7 @@ int		sh_process_test(void)
 int		sh_init_pda_stack(t_list **stack, t_cfg *cfg)
 {
 	*stack = NULL;
-	if (ft_lstaddnew_ptr_last(stack, cfg->symbols.tbl[S],
+	if (ft_lstaddnew_ptr_last(stack, cfg->symbols.tbl[cfg->start_index],
 				sizeof(t_symbol *)))
 		return (1);
 	if (ft_lstaddnew_ptr_last(stack, cfg->symbols.tbl[END_OF_INPUT],

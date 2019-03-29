@@ -1,0 +1,228 @@
+In file included from srcs/main.c:13:
+includes/sh_21.h:142:16: error: missing ',' between enumerators
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+1 error generated.
+In file included from srcs/lexer.c:13:
+includes/sh_21.h:142:16: error: missing ',' between enumerators
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+make[1]: *** [objs/main.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+srcs/lexer.c:43:56: error: use of undeclared identifier 'UNKNOWN'
+                        if ((token = sh_lexer_automate_check(automates)) != UNKNOWN)
+                                                                            ^
+srcs/lexer.c:49:23: error: use of undeclared identifier 'SPACE'
+In file included from srcs/lexer_automates.c:13                                else if (token != SPACE)
+                                                  ^
+:
+includes/sh_21.h:142:16: error: missing ',' between enumerators
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+srcs/lexer.c:72:12: error: use of undeclared identifier 'UNKNOWN'
+*/      return (UNKNOWN);
+                ^
+4 errors generated.
+1 error generated.
+make[1]: *** [objs/lexer.o] Error 1
+make[1]: *** [objs/lexer_automates.o] Error 1
+In file included from srcs/lexer_automates_tools.c:13:
+includes/sh_21.h:142:16: error: missing ',' between enumerators
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+srcs/lexer_automates_tools.c:25:12: error: use of undeclared identifier 'SPACE'
+        automates[SPACE].automate = &sh_lexer_auto_space;
+                  ^
+srcs/lexer_automates_tools.c:26:12: error: use of undeclared identifier 'WHILE'
+        automates[WHILE].automate = &sh_lexer_auto_while;
+                  ^
+srcs/lexer_automates_tools.c:27:12: error: use of undeclared identifier 'GREAT'
+        automates[GREAT].automate = &sh_lexer_auto_great;
+                  ^
+srcs/lexer_automates_tools.c:28:12: error: use of undeclared identifier 'LESS'
+        automates[LESS].automate = &sh_lexer_auto_less;
+                  ^
+srcs/lexer_automates_tools.c:29:12: error: use of undeclared identifier 'WORD'
+        automates[WORD].automate = &sh_lexer_auto_word;
+                  ^
+srcs/lexer_automates_tools.c:57:10: error: use of undeclared identifier 'UNKNOWN'
+        return (UNKNOWN);
+                ^
+srcs/lexer_automates_tools.c:81:15: error: use of undeclared identifier 'UNKNOWN'
+        if (token == UNKNOWN)
+                     ^
+srcs/lexer_automates_tools.c:83:20: error: use of undeclared identifier 'WHILE'
+        else if (token == WHILE)
+                          ^
+srcs/lexer_automates_tools.c:85:20: error: use of undeclared identifier 'GREAT'
+        else if (token == GREAT)
+                          ^
+srcs/lexer_automates_tools.c:87:20: error: use of undeclared identifier 'LESS'
+        else if (token == LESS)
+                          ^
+srcs/lexer_automates_tools.c:89:20: error: use of undeclared identifier 'WORD'
+        else if (token == WORD)
+                          ^
+12 errors generated.
+In file included from srcs/parser.c:13:
+includes/sh_21.h:142:16: error: missing ',' between enumerators
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+In file included from srcs/first_sets.c:13:
+includes/sh_21.h:142:16: errormake[1]: : missing ',' between enumerators
+*** [objs/lexer_automates_tools.o] Error 1
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+srcs/parser.c:20:40: error: unknown type name 't_test_token_id'; did you mean 't_token_id'?
+void    sh_populate_token(t_token *token, t_test_token_id id,
+                                          ^~~~~~~~~~~~~~~
+                                          t_token_id
+includes/sh_21.h:144:17: note: 't_token_id' declared here
+}               t_token_id;
+                ^
+srcs/first_sets.c:104:30:srcs/parser.c:96:29: error error: member reference base type 't_symbol [98]' is not a structure or union
+: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, A, END_OF_INPUT);
+                       ~~~~~~~~~~~~^~~~
+srcs/first_sets.c:106:40: error: member reference base type 't_symbol [98]' is not a structure or union
+                if (sh_add_to_first_sets(cfg->symbols.tbl[i]))
+                                         ~~~~~~~~~~~~^~~~
+srcs/first_sets.c:199:30: error: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/first_sets.c:201:42: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_init_process_first_sets(cfg->symbols.tbl[i]);
+                                           ~~~~~~~~~~~~^~~~
+5 errors generated.
+srcs/parser.c:96:53: error: use of undeclared identifier 'A'
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, A, END_OF_INPUT);
+                                                           ^
+srcs/parser.c:96:56: error: use of undeclared identifier 'END_OF_INPUT'
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 2, A, END_OF_INPUT);
+                                                              ^
+srcs/parser.c:110:29: error: member reference base type 't_symbol [98]' is not a structure or union
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
+                       ~~~~~~~~~~~~^~~~
+srcs/parser.c:111:4: error: use of undeclared identifier 'B'
+                        B, T_A, C); //(1)
+                        ^
+srcs/parser.c:111:7: error: use of undeclared identifier 'T_A'
+                        B, T_A, C); //(1)
+                           ^
+srcs/parser.c:111:12: error: use of undeclared identifier 'C'
+                        B, T_A, C); //(1)
+                                ^
+srcs/parser.c:113:29: error: member reference base type 't_symbol [98]' is not a structure or union
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 3,
+                       ~~~~~~~~~~~~^~~~
+srcs/parser.c:114:4: error: use of undeclared identifier 'B'
+                        B, T_A, T_D); //(1)
+                        ^
+srcs/parser.c:114:7: error: use of undeclared identifier 'T_A'
+                        B, T_A, T_D); //(1)
+                           ^
+srcs/parser.c:114:12: error: use of undeclared identifier 'T_D'
+make[1]: *** [objs/first_sets.o] Error 1
+                        B, T_A, T_D); //(1)
+                                ^
+srcs/parser.c:125:29: error: member reference base type 't_symbol [98]' is not a structure or union
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_A); //(1)
+                       ~~~~~~~~~~~~^~~~
+srcs/parser.c:125:53: error: use of undeclared identifier 'T_A'
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_A); //(1)
+                                                           ^
+srcs/parser.c:127:29: error: member reference base type 't_symbol [98]' is not a structure or union
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, EPS);
+                       ~~~~~~~~~~~~^~~~
+srcs/parser.c:138:29: error: member reference base type 't_symbol [98]' is not a structure or union
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, D);
+                       ~~~~~~~~~~~~^~~~
+srcs/parser.c:138:53: error: use of undeclared identifier 'D'
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, D);
+                                                           ^
+srcs/parser.c:140:29: error: member reference base type 't_symbol [98]' is not a structure or union
+        sh_add_to_prod(cfg->symbols.tbl, &prod_symbols, 1, T_B);
+                       ~~~~~~~~~~~~^~~~
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+In file included from srcs/debug.c:13:
+includes/sh_21.h:142:16: error: missing ',' between enumerators
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+20 errors generated.
+srcs/debug.c:100:30: error: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/debug.c:102:46: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_print_symbol(((t_symbol **)(cfg->symbols.tbl))[i]);
+                                               ~~~~~~~~~~~~^~~~
+srcs/debug.c:104:63: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_print_non_terminal_production(((t_symbol **)(cfg->symbols.tbl))[i++]);
+                                                                ~~~~~~~~~~~~^~~~
+srcs/debug.c:122:47: error: member reference base type 't_symbol [98]' is not a structure or union
+                        sh_print_symbol(((t_symbol **)(cfg->symbols.tbl))[i]);
+                                                       ~~~~~~~~~~~~^~~~
+srcs/debug.c:154:30: error: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/debug.c:155:55: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_print_follow_set(cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]);
+                                                        ~~~~~~~~~~~~^~~~
+srcs/debug.c:164:30: error: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/debug.c:165:54: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_print_first_set(cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]);
+                                                       ~~~~~~~~~~~~^~~~
+srcs/debug.c:223:59: error: member reference base type 't_symbol [98]' is not a structure or union
+                ft_printf("%s%s%s\t\t",BLUE, ((t_symbol **)(cfg->symbols.tbl))[j]->debug, EOC);
+                                                            ~~~~~~~~~~~~^~~~
+srcs/debug.c:228:30: error: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/debug.c:231:59: error: member reference base type 't_symbol [98]' is not a structure or union
+make[1]: *** [objs/parser.o] Error 1
+                ft_printf("%s%s%s\t\t", RED, ((t_symbol **)(cfg->symbols.tbl))[i]->debug, EOC);
+                                                            ~~~~~~~~~~~~^~~~
+12 errors generated.
+make[1]: *** [objs/debug.o] Error 1
+In file included from srcs/ll_table.c:12:
+includes/sh_21.h:142:16: error: missing ',' between enumerators
+        SEQUENTIAL_SEP
+                      ^
+                      , 
+srcs/ll_table.c:23:31: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_print_symbol(cfg->symbols.tbl[NB_TERMS + no_term_index]);
+                                ~~~~~~~~~~~~^~~~
+srcs/ll_table.c:25:31: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_print_symbol(cfg->symbols.tbl[term_index]);
+                                ~~~~~~~~~~~~^~~~
+srcs/ll_table.c:28:3: error: implicit declaration of function 'sh_print_production' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                sh_print_production(old_prod);
+                ^
+srcs/ll_table.c:78:30: error: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/ll_table.c:80:40: error: member reference base type 't_symbol [98]' is not a structure or union
+                sh_add_symbol_prods(cfg, cfg->symbols.tbl[i++], j);
+                                         ~~~~~~~~~~~~^~~~
+srcs/ll_table.c:91:67: error: member reference base type 't_symbol [98]' is not a structure or union
+        if (!(cfg->ll_table = (t_production ***)malloc((int)(cfg->symbols.current_size - NB_TERMS) * (int)(sizeof(t_production **)))))
+                                                             ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/ll_table.c:93:30: error: member reference base type 't_symbol [98]' is not a structure or union
+        while (i < (int)cfg->symbols.current_size - (int)NB_TERMS)
+                        ~~~~~~~~~~~~^~~~~~~~~~~~~
+srcs/ll_table.c:95:26: error: array type 't_production *[53]' is not assignable
+                if (!(cfg->ll_table[i] = (t_production **)malloc((int)(NB_TERMS) * (int)(sizeof(t_production *)))))
+                      ~~~~~~~~~~~~~~~~ ^
+9 errors generated.
+make[1]: *** [objs/ll_table.o] Error 1
+make: *** [all] Error 2
