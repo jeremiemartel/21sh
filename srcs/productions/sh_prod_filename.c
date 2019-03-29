@@ -12,7 +12,7 @@
 
 #include "sh_21.h"
 
-int		init_prod_filename(t_cfg *cfg, t_symbol *symbol)
+int		sh_init_prod_filename(t_cfg *cfg, t_symbol *symbol)
 {
 	if (sh_add_prod(symbol, cfg->symbols, 1,
 		LEX_TOK_WORD))

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io_file.c                                          :+:      :+:    :+:   */
+/*   complete_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,35 +12,15 @@
 
 #include "sh_21.h"
 
-int		sh_init_prod_io_file(t_cfg *cfg, t_symbol *symbol)
+int		sh_init_prod_complete_commands(t_cfg *cfg, t_symbol *symbol)
 {
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		LEX_TOK_LESS,
-		FILENAME))
+	if (sh_add_prod(symbol, cfg->symbols, 3,
+		COMPLETE_COMMANDS,
+		NEWLINE_LIST,
+		COMPLETE_COMMAND))
 		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		LEX_TOK_LESSAND,
-		FILENAME))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		LEX_TOK_GREAT,
-		FILENAME))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		LEX_TOK_GREATAND,
-		FILENAME))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		LEX_TOK_DGREAT,
-		FILENAME))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		LEX_TOK_LESSGREAT,
-		FILENAME))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		LEX_TOK_CLOBBER,
-		FILENAME))
+	if (sh_add_prod(symbol, cfg->symbols, 1,
+		COMPLETE_COMMAND))
 		return (1);
 	return (0);
 }

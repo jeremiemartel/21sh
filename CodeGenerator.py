@@ -35,7 +35,7 @@ class Symbol:
 		fd.write("#include \"sh_21.h\"")
 		fd.write("\n")
 		fd.write("\n")
-		fd.write("int\t\tinit_prod_" + self.name + "(t_cfg *cfg, t_symbol *symbol)\n")
+		fd.write("int\t\tsh_init_prod_" + self.name + "(t_cfg *cfg, t_symbol *symbol)\n")
 		fd.write("{\n")
 		for prod in self.prods:
 			fd.write("\tif (sh_add_prod(symbol, cfg->symbols, " + str(len(prod)) + ",")
@@ -84,6 +84,9 @@ class CodeGenerator:
 
 	@classmethod
 	def generateCode(self):
+		grammar_file = open("srcs/grammar_2.c", "w")
+		header_file = open("includes/21_sh_2.h", "w")
+
 		print("Processing code generation for grammar '%s'" % path)
 		for line in fd:
 			split = line.rstrip().split(" ")
@@ -98,6 +101,11 @@ class CodeGenerator:
 				currentSymbol.prods.append(split[1:])
 			elif len(split) == 1 and split[0] == ';':
 				currentSymbol.generateCodeSymbol()
+
+				grammar_file.write("{\"" + CodeGenerator.getTranslatedStr(currentSymbol.name)\
+				 +"\", 0, 1, &sh_init_prod_"+ currentSymbol.name + "},\n")
+				header_file.write("int\t\tsh_init_prod_"  + currentSymbol.name + \
+				"(t_cfg *cfg, t_symbol *symbol);\n")
 
 if len(sys.argv) >= 2:
 	path = sys.argv[1]

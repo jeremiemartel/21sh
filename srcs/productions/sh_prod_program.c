@@ -12,7 +12,7 @@
 
 #include "sh_21.h"
 
-int		init_prod_program(t_cfg *cfg, t_symbol *symbol)
+int		sh_init_prod_program(t_cfg *cfg, t_symbol *symbol)
 {
 	if (sh_add_prod(symbol, cfg->symbols, 3,
 		LINEBREAK,
@@ -21,14 +21,6 @@ int		init_prod_program(t_cfg *cfg, t_symbol *symbol)
 		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 1,
 		LINEBREAK))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 3,
-		COMPLETE_COMMANDS,
-		NEWLINE_LIST,
-		COMPLETE_COMMAND))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 1,
-		COMPLETE_COMMAND))
 		return (1);
 	return (0);
 }

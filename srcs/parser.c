@@ -239,6 +239,7 @@ int		init_context_free_grammar(t_cfg *cfg)
 			return (1);
 		i++;
 	}
+	sh_print_non_terminals_productions(cfg);
 	while ((ret = sh_refine_grammar(cfg)) == 1)
 		;
 	if (ret == -1)

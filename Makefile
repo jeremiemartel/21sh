@@ -58,7 +58,8 @@ PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_separator_op.c sh_prod_sequential_sep.c\
 						sh_prod_simple_command.c sh_prod_subshell.c\
 						sh_prod_term.c sh_prod_until_clause.c\
-						sh_prod_while_clause.c sh_prod_wordlist.c
+						sh_prod_while_clause.c sh_prod_wordlist.c\
+						sh_prod_complete_commands.c 
 
 INCLUDES_NO_PREFIX	= sh_21.h
 
