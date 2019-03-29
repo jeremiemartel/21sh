@@ -14,19 +14,12 @@
 
 int		sh_init_prod_compound_list(t_cfg *cfg, t_symbol *symbol)
 {
-	if (sh_add_prod(symbol, cfg->symbols, 1,
-		TERM))
-		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 2,
-		NEWLINE_LIST,
+		LINEBREAK,
 		TERM))
-		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 2,
-		TERM,
-		SEPARATOR))
 		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 3,
-		NEWLINE_LIST,
+		LINEBREAK,
 		TERM,
 		SEPARATOR))
 		return (1);

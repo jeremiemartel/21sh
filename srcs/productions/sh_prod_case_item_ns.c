@@ -19,11 +19,10 @@ int		sh_init_prod_case_item_ns(t_cfg *cfg, t_symbol *symbol)
 		LEX_TOK_CLS_PAR,
 		LINEBREAK))
 		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 4,
+	if (sh_add_prod(symbol, cfg->symbols, 3,
 		PATTERN,
 		LEX_TOK_CLS_PAR,
-		COMPOUND_LIST,
-		LINEBREAK))
+		COMPOUND_LIST))
 		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 4,
 		LEX_TOK_OPN_PAR,
@@ -31,12 +30,11 @@ int		sh_init_prod_case_item_ns(t_cfg *cfg, t_symbol *symbol)
 		LEX_TOK_CLS_PAR,
 		LINEBREAK))
 		return (1);
-	if (sh_add_prod(symbol, cfg->symbols, 5,
+	if (sh_add_prod(symbol, cfg->symbols, 4,
 		LEX_TOK_OPN_PAR,
 		PATTERN,
 		LEX_TOK_CLS_PAR,
-		COMPOUND_LIST,
-		LINEBREAK))
+		COMPOUND_LIST))
 		return (1);
 	return (0);
 }

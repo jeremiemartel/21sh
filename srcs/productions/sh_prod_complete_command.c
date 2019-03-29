@@ -16,7 +16,7 @@ int		sh_init_prod_complete_command(t_cfg *cfg, t_symbol *symbol)
 {
 	if (sh_add_prod(symbol, cfg->symbols, 2,
 		LIST,
-		SEPARATOR))
+		SEPARATOR_OP))
 		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 1,
 		LIST))

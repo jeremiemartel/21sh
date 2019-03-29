@@ -14,10 +14,15 @@
 
 int		sh_init_prod_for_clause(t_cfg *cfg, t_symbol *symbol)
 {
+	if (sh_add_prod(symbol, cfg->symbols, 3,
+		LEX_TOK_FOR,
+		NAME,
+		DO_GROUP))
+		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 4,
 		LEX_TOK_FOR,
 		NAME,
-		LINEBREAK,
+		SEQUENTIAL_SEP,
 		DO_GROUP))
 		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 6,

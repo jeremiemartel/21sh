@@ -4,7 +4,7 @@ program          : linebreak complete_commands linebreak
 complete_commands : complete_commands newline_list complete_command
 |                                complete_command
 ;
-complete_command : list separator
+complete_command : list separator_op
 | list
 ;
 list             : list separator_op and_or
@@ -35,19 +35,18 @@ compound_command : brace_group
 ;
 subshell         : '(' compound_list ')'
 ;
-compound_list    :              term
-| newline_list term
-|              term separator
-| newline_list term separator
+compound_list    : linebreak term
+| linebreak term separator
 ;
 term             : term separator and_or
 |                and_or
 ;
-for_clause       : For name linebreak                            do_group
+for_clause       : For name                                      do_group
+| For name                       sequential_sep do_group
 | For name linebreak in          sequential_sep do_group
 | For name linebreak in wordlist sequential_sep do_group
 ;
-name             : NAME                    
+name             : NAME                     
 ;
 in               : In                      
 ;
@@ -64,10 +63,10 @@ case_list_ns     : case_list case_item_ns
 case_list        : case_list case_item
 |           case_item
 ;
-case_item_ns     :     pattern ')'               linebreak
-|     pattern ')' compound_list linebreak
-| '(' pattern ')'               linebreak
-| '(' pattern ')' compound_list linebreak
+case_item_ns     :     pattern ')' linebreak
+|     pattern ')' compound_list
+| '(' pattern ')' linebreak
+| '(' pattern ')' compound_list
 ;
 case_item        :     pattern ')' linebreak     DSEMI linebreak
 |     pattern ')' compound_list DSEMI linebreak
@@ -75,12 +74,13 @@ case_item        :     pattern ')' linebreak     DSEMI linebreak
 | '(' pattern ')' compound_list DSEMI linebreak
 ;
 pattern          :             WORD       
-| pattern '|' WORD        
+| pattern '|' WORD         
 ;
 if_clause        : If compound_list Then compound_list else_part Fi
 | If compound_list Then compound_list           Fi
 ;
-else_part        : Elif compound_list Then else_part
+else_part        : Elif compound_list Then compound_list
+| Elif compound_list Then compound_list else_part
 | Else compound_list
 ;
 while_clause     : While compound_list do_group
@@ -89,14 +89,14 @@ until_clause     : Until compound_list do_group
 ;
 function_definition : fname '(' ')' linebreak function_body
 ;
-function_body    : compound_command        
+function_body    : compound_command       
 | compound_command redirect_list  
 ;
-fname            : NAME                           
+fname            : NAME                   
 ;
 brace_group      : Lbrace compound_list Rbrace
 ;
-do_group         : Do compound_list Done        
+do_group         : Do compound_list Done     
 ;
 simple_command   : cmd_prefix cmd_word cmd_suffix
 | cmd_prefix cmd_word
@@ -104,9 +104,9 @@ simple_command   : cmd_prefix cmd_word cmd_suffix
 | cmd_name cmd_suffix
 | cmd_name
 ;
-cmd_name         : WORD                
+cmd_name         : WORD                  
 ;
-cmd_word         : WORD               
+cmd_word         : WORD                 
 ;
 cmd_prefix       :            io_redirect
 | cmd_prefix io_redirect
@@ -134,12 +134,12 @@ io_file          : '<'       filename
 | LESSGREAT filename
 | CLOBBER   filename
 ;
-filename         : WORD             
+filename         : WORD                
 ;
 io_here          : DLESS     here_end
 | DLESSDASH here_end
 ;
-here_end         : WORD              
+here_end         : WORD               
 ;
 newline_list     :              NEWLINE
 | newline_list NEWLINE

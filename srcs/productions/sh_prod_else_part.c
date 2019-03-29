@@ -18,6 +18,13 @@ int		sh_init_prod_else_part(t_cfg *cfg, t_symbol *symbol)
 		LEX_TOK_ELIF,
 		COMPOUND_LIST,
 		LEX_TOK_THEN,
+		COMPOUND_LIST))
+		return (1);
+	if (sh_add_prod(symbol, cfg->symbols, 5,
+		LEX_TOK_ELIF,
+		COMPOUND_LIST,
+		LEX_TOK_THEN,
+		COMPOUND_LIST,
 		ELSE_PART))
 		return (1);
 	if (sh_add_prod(symbol, cfg->symbols, 2,

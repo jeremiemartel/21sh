@@ -711,6 +711,7 @@ int		sh_process_refine_grammar(t_cfg *cfg)
 	int ret;
 
 	changes = 0;
+	
 	if ((ret = sh_refine_grammar_symbol_eps(cfg)) == -1)
 		return (-1);
 	if (ret && sh_compute_sets(cfg))
@@ -721,6 +722,7 @@ int		sh_process_refine_grammar(t_cfg *cfg)
 	if (ret && sh_compute_sets(cfg))
 		return (-1);
 	changes |= ret;
+			return (changes);
 	if (!changes)
 	{
 		if ((ret = sh_refine_grammar_factoring(cfg)) == -1)
@@ -729,7 +731,7 @@ int		sh_process_refine_grammar(t_cfg *cfg)
 			return (-1);
 		changes |= ret;
 	}
-	return (changes);
+
 }
 
 int		sh_refine_grammar(t_cfg *cfg)
