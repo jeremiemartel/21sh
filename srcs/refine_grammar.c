@@ -218,9 +218,11 @@ int		sh_refine_grammar_symbol_eps(t_cfg *cfg)
 			if (sh_process_null_prod_first_follow_conflict(cfg, symbol))
 				return (-1);
 			ret = 1;
+			/*
 			ft_printf("eps refine: ");
 			sh_print_symbol(symbol);
 			ft_printf("\n");
+			*/
 		}
 		i++;
 	}
@@ -257,17 +259,19 @@ int		sh_process_indirect_left_recursion(t_symbol *symbol,
 		production = (t_production *)ptr->content;	
 		if (!(symbols_dup = ft_lstdup_ptr(production->symbols)))
 			return (-1);
-		//		usleep(1000000);
+		/*
 		ft_printf("for symbol: ");
 		sh_print_symbol(symbol);
 		sh_print_symbol(head_symbol);
 		ft_printf("\navant");
 		sh_print_symbol_list(symbols_dup);
+		*/
 		link_lst(&symbols_dup, symbols);
+		/*
 		ft_printf("\napres");
 		sh_print_symbol_list(symbols_dup);
 		ft_printf("\n");
-		//		usleep(1000000);
+		*/
 		ret |= sh_process_production_left_recursion(symbol, symbols_dup);
 		ptr = ptr->next;
 	}
@@ -292,9 +296,9 @@ int		sh_process_production_left_recursion(t_symbol *symbol,
 	{
 		if (head_symbol == symbol)
 			ret = 1;
-		ft_printf("on add:\n");
-		sh_print_symbol_list(symbols);
-		ft_printf("\n");
+	//		ft_printf("on add:\n");
+	//		sh_print_symbol_list(symbols);
+	//		ft_printf("\n");
 		sh_add_prod(symbol, symbols);
 		//add prod from symbols to symbol
 	}
@@ -313,15 +317,29 @@ int		sh_direct_left_recursive(t_symbol *from, t_production *production)
 	return (0);
 }
 
+/*
+**		when direct left recursion occurs:
+**
+**			A -> A⍺ | β gets transformed into:
+**			
+**					A -> βA'
+**					A'-> ⍺A' | ε
+**
+**			this function takes care of this part
+**
+**					A'-> ⍺A' | ε
+**
+**			with
+**				⍺ => production->symbols->next
+**				A'=> new_symbol
+*/
+
 int		sh_add_prod_new_symbol(t_cfg *cfg, t_symbol *new_symbol,
-		t_production *production, t_symbol *from)
+		t_production *production)
 {
-	t_symbol		*ptr;
 	t_production	*prod;
 	t_list			*symbols;
 
-	(void)ptr;
-	(void)from;
 	if (!(prod = sh_production_lst_dup_ptr(production->symbols->next)))
 		return (1);
 	if (ft_lstaddnew_ptr_last(&prod->symbols,
@@ -345,13 +363,26 @@ int		sh_add_replace_prod_left_rec(t_symbol *symbol, t_symbol *new_symbol,
 	(void)new_symbol;
 	if (!(prod = sh_production_lst_dup_ptr(production->symbols)))
 		return (1);
-	ft_printf("////////////////////////////////////////////////////\n");
-	if (ft_lstaddnew_last(&prod->symbols, new_symbol, sizeof(t_symbol)))
+	if (ft_lstaddnew_ptr_last(&prod->symbols, new_symbol, sizeof(t_symbol)))
 		return (1);
 	if (ft_lstaddnew_ptr_last(&symbol->productions, prod, sizeof(t_production)))
 		return (1);
 	return (0);
 }
+
+/*
+** split production when direct left recursion occurs 
+**			
+**			A -> A⍺ | β gets transformed into:
+**			
+**					A -> βA'
+**					A'-> ⍺A' | ε
+**
+**			with 
+**				A  => symbol
+**				A' => new_symbol
+				(A -> A⍺) => productions
+*/
 
 int		sh_direct_left_recursion_translate(t_cfg *cfg, t_symbol *symbol,
 		t_production *production)
@@ -362,7 +393,7 @@ int		sh_direct_left_recursion_translate(t_cfg *cfg, t_symbol *symbol,
 
 	if (!(new_symbol = sh_new_symbol_from(symbol, cfg->symbols.current_size)))
 		return (-1);
-	if (sh_add_prod_new_symbol(cfg, new_symbol, production, symbol))
+	if (sh_add_prod_new_symbol(cfg, new_symbol, production))
 		return (-1);
 	if (ft_dy_tab_add_ptr(&cfg->symbols, new_symbol))
 	{
@@ -411,7 +442,7 @@ int		sh_process_symbol_direct_left_recursion(t_cfg *cfg, t_symbol *symbol)
 		prev = ptr;
 		ptr = ptr->next;
 	}
-	sh_print_non_terminal_production(symbol);
+//	sh_print_non_terminal_production(symbol);
 	return (0);
 }
 
@@ -435,10 +466,10 @@ int		sh_process_symbol_left_recursion(t_cfg *cfg, t_symbol *symbol)
 		{
 			if (!(symbols_dup = ft_lstdup_ptr(production->symbols)))
 				return (-1);
-			sh_print_symbol(symbol);
-			ft_printf("\n");
-			sh_print_symbol_list(symbols_dup);
-			ft_printf("\n");
+	//		sh_print_symbol(symbol);
+	//		ft_printf("\n");
+	//		sh_print_symbol_list(symbols_dup);
+	//		ft_printf("\n");
 			if ((ret = sh_process_production_left_recursion(symbol,
 							symbols_dup)))
 			{
