@@ -105,6 +105,10 @@ int		sh_process_follow_sets_symbol_ref_prod(t_cfg *cfg, t_symbol *prod_symbol,
 
 	changes = 0;
 	ptr = production->symbols;
+
+
+	if (ref == cfg->symbols.tbl[NB_SYMBOLS])
+		sh_print_symbol(cfg->symbols.tbl[NB_SYMBOLS]);
 	while (ptr != NULL)
 	{
 		symbol = (t_symbol *)ptr->content;
@@ -112,7 +116,6 @@ int		sh_process_follow_sets_symbol_ref_prod(t_cfg *cfg, t_symbol *prod_symbol,
 		{
 			if (ptr->next != NULL) //(1) a) aBb with b = ptr->next
 			{
-				/*
 				   ft_printf("B: ");
 				   sh_print_symbol(ref);
 				   ft_printf("\n");
@@ -122,7 +125,6 @@ int		sh_process_follow_sets_symbol_ref_prod(t_cfg *cfg, t_symbol *prod_symbol,
 				   ft_printf("\nfirst_sets de ");
 				   sh_print_symbol_list(ptr->next);
 				   ft_printf(":\n");
-				 */
 				sh_compute_first_sets_str(cfg, first_sets, ptr->next);
 
 				/*sh_process_print_set(cfg, first_sets);
@@ -143,7 +145,23 @@ int		sh_process_follow_sets_symbol_ref_prod(t_cfg *cfg, t_symbol *prod_symbol,
 			}
 			else // (2) a)
 			{
-				//		ft_printf("ouai\n");
+	//			if (cfg->symbols.current_size > NB_SYMBOLS)
+	//				sh_print_symbol(cfg->symbols.tbl[NB_SYMBOLS]);
+				if (ref == cfg->symbols.tbl[NB_SYMBOLS] || 1)
+				{
+					sh_print_production(production);
+					ft_printf("\n");
+					sh_print_symbol(prod_symbol);
+					ft_printf(GREEN" follow sets:\n"EOC);
+					sh_process_print_set(cfg, prod_symbol->follow_sets);
+					ft_printf("\n");
+					sh_print_symbol(ref);
+					ft_printf(CYAN" follow sets:\n"EOC);
+					sh_process_print_set(cfg, ref->follow_sets);
+					ft_printf("\n");
+					ft_printf("\n");
+					ft_printf("ouai\n");
+				}
 				sh_process_fill_sets(prod_symbol->follow_sets,
 						ref->follow_sets, 0, &changes);
 			}
@@ -183,7 +201,7 @@ int		sh_process_follow_sets_symbol(t_cfg *cfg, t_symbol *symbol)
 	{
 		iter_symbol = (t_symbol *)cfg->symbols.tbl[i];
 		if (iter_symbol->follow_sets[END_OF_INPUT] &&
-			sh_process_follow_sets_symbol_ref(cfg, iter_symbol, symbol))
+				sh_process_follow_sets_symbol_ref(cfg, iter_symbol, symbol))
 			changes = 1;
 		i++;
 	}
