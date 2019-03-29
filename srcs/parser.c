@@ -280,20 +280,10 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, ((t_symbol **)(cfg->symbols.tbl))[i++]))
 			return (1);
 	}
-	if (sh_compute_first_sets(cfg))
-		return (1);
-	if (sh_compute_follow_sets(cfg))
-		return (1);
 	while ((ret = sh_refine_grammar(cfg)) == 1)
 		;
 	if (ret == -1)
 		return (1);
-	
-	t_symbol *tmp;
-
-	tmp = cfg->symbols.tbl[NB_SYMBOLS + 1];
-	sh_print_symbol(tmp);
-	//ft_swap_first(tmp);
 	if (sh_compute_ll_table(cfg))
 		return (1);
 	return (0);
