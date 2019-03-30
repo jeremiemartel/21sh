@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 06:11:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/28 12:22:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/03/30 16:04:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,13 +178,10 @@ int		sh_direct_left_recursive(t_symbol *from, t_production *production)
 **				A'=> new_symbol
 */
 
-int		sh_add_prod_new_symbol(t_cfg *cfg, t_symbol *new_symbol,
+int		sh_add_prod_new_symbol(t_symbol *new_symbol,
 		t_production *production)
 {
 	t_production	*prod;
-	t_list			*symbols;
-
-	symbols = NULL;
 
 	if (!(prod = sh_production_lst_dup_ptr(production->symbols->next)))
 		return (1);
@@ -196,9 +193,6 @@ int		sh_add_prod_new_symbol(t_cfg *cfg, t_symbol *new_symbol,
 		return (1);
 	if (!(prod = sh_production_lst_dup_ptr(production->symbols->next)))
 		return (1);
-	if (ft_lstaddnew_ptr(&symbols, cfg->symbols.tbl[EPS], sizeof(t_symbol *)))
-		return (1);
-	sh_add_prod_from_symbols(new_symbol, symbols);
 	return (0);
 }
 
@@ -234,28 +228,30 @@ int		sh_add_replace_prod_left_rec(t_symbol *symbol, t_symbol *new_symbol,
 */
 
 int		sh_direct_left_recursion_translate(t_cfg *cfg, t_symbol *symbol,
-		t_production *production)
+		t_production *production, t_symbol **new_symbol)
 {
 	t_production	*iter_prod;
-	t_symbol		*new_symbol;
 	t_list			*ptr;
 
-	if (!(new_symbol = sh_new_symbol_from(symbol, cfg->symbols.current_size)))
-		return (-1);
-	if (sh_add_prod_new_symbol(cfg, new_symbol, production))
-		return (-1);
-	if (ft_dy_tab_add_ptr(&cfg->symbols, new_symbol))
+	if (!*new_symbol)
 	{
-		free(new_symbol);
-		return (-1);
+		if (!(*new_symbol = sh_new_symbol_from(symbol, cfg->symbols.current_size)))
+			return (-1);
+		if (ft_dy_tab_add_ptr(&cfg->symbols, *new_symbol))
+		{
+			free(*new_symbol);
+			return (-1);
+		}
 	}
+	if (sh_add_prod_new_symbol(*new_symbol, production))
+		return (-1);
 	ptr = symbol->productions;
 	while (ptr != NULL)
 	{
 		iter_prod = (t_production *)(ptr->content);
 		// iif (iter_prod != production)
 		// {
-			if (sh_add_replace_prod_left_rec(symbol, new_symbol, iter_prod, ptr))
+			if (sh_add_replace_prod_left_rec(symbol, *new_symbol, iter_prod, ptr))
 				return (1);
 		// }
 		ptr = ptr->next;
@@ -269,7 +265,10 @@ int		sh_process_symbol_direct_left_recursion(t_cfg *cfg, t_symbol *symbol)
 	t_list			*prev;
 	t_production	*production;
 	t_list			*tmp;
+	t_symbol		*new_symbol;
+	t_list			*symbols;
 
+	new_symbol = NULL;
 	prev = NULL;
 	ptr = symbol->productions;
 	while (ptr != NULL)
@@ -283,13 +282,20 @@ int		sh_process_symbol_direct_left_recursion(t_cfg *cfg, t_symbol *symbol)
 			else
 				prev->next = ptr->next;
 			ptr = ptr->next;
-			sh_direct_left_recursion_translate(cfg, symbol, production);
+			sh_direct_left_recursion_translate(cfg, symbol, production, &new_symbol);
 			free(tmp);
 			//	free(tmp->content);
 			continue ;
 		}
 		prev = ptr;
 		ptr = ptr->next;
+	}
+	if (new_symbol)
+	{
+		symbols = NULL;
+		if (ft_lstaddnew_ptr(&symbols, cfg->symbols.tbl[EPS], sizeof(t_symbol *)))
+			return (1);
+		sh_add_prod_from_symbols(new_symbol, symbols);
 	}
 //	sh_print_non_terminal_production(symbol);
 	return (0);
@@ -413,8 +419,8 @@ int		sh_refine_grammar_left_recursion(t_cfg *cfg)
 		symbol = (t_symbol *)(cfg->symbols.tbl[i]);
 		if (sh_shows_first_to_first_conflicts(cfg, symbol, &dummy))
 		{
-			ft_printf("SYMBOL:::\n");
-			sh_print_symbol(cfg->symbols.tbl[dummy]);
+	//		ft_printf("SYMBOL:::\n");
+	//		sh_print_symbol(cfg->symbols.tbl[dummy]);
 			if ((ret = sh_process_symbol_left_recursion(cfg, symbol)))
 			{
 				if (ret == -1)
