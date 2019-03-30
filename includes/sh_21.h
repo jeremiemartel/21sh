@@ -300,6 +300,7 @@ int				sh_compute_follow_sets(t_cfg *cfg);
 t_production	*sh_get_null_production(t_symbol *symbol);
 int				sh_intersect_sets(char set1[NB_TERMS], char set2[NB_TERMS]);
 int				sh_nullable(t_symbol *symbol);
+int				sh_is_eps_production(t_production *production);
 /*
 ** debug.c
 */
@@ -320,12 +321,20 @@ void	print_cfg(t_cfg *cfg);
 */
 int		sh_compute_ll_table(t_cfg *cfg);
 
+
+int		sh_refine_grammar_symbol_eps(t_cfg *cfg);
+
 /*
 ** refine_grammar.c
 */
 
 int		sh_process_production_left_recursion(t_symbol *symbol, t_list *symbols);
 int		sh_refine_grammar(t_cfg *cfg);
+int		sh_intersect_sets_2(char set1[NB_TERMS], char set2[NB_TERMS], int *ind);
+int		sh_has_symbol(t_production *production, t_symbol *ref);
+int		sh_shows_first_to_first_conflicts(t_cfg *cfg,
+				t_symbol *symbol, int *index);
+int		sh_refine_grammar_left_recursion(t_cfg *cfg);
 
 
 int		sh_init_prod_program(t_cfg *cfg, t_symbol *symbol);

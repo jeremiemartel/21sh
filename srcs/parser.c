@@ -7,7 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
 /*   Updated: 2019/03/28 12:22:06 by ldedier          ###   ########.fr       */
-/*      h                                                                     */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
@@ -24,34 +24,6 @@ void	sh_populate_token(t_token *token, t_token_id id,
 	token->token_id = id;
 	token->token_type = type;
 }
-
-/*
-int		sh_add_to_prod(void **vcfg_symbols,
-		t_list **symbols, int nb_symbols, ...)
-{
-	int		i;
-	va_list	ap;
-	int		symbol_index;
-	t_symbol **cfg_symbols;
-
-	cfg_symbols = (t_symbol **)vcfg_symbols;
-	*symbols = NULL;
-	va_start(ap, nb_symbols);
-	i = 0;
-	while (i < nb_symbols)
-	{
-		symbol_index = va_arg(ap, int);
-		if (ft_lstaddnew_ptr_last(symbols, cfg_symbols[symbol_index],
-					sizeof(t_symbol *)))
-			return (1);
-		i++;
-	}
-	va_end(ap);
-	return (0);
-}
-*/
-
-
 
 t_production	*sh_production_lst_dup_ptr(t_list *symbols)
 {
@@ -86,7 +58,6 @@ int		sh_add_prod_from_symbols(t_symbol *symbol, t_list *symbols)
 	return (0);
 }
 
-
 int		sh_add_prod(t_symbol *symbol, t_dy_tab symbols, int nb_symbols, ...)
 {
 	t_production *res;
@@ -114,40 +85,6 @@ int		sh_add_prod(t_symbol *symbol, t_dy_tab symbols, int nb_symbols, ...)
 	va_end(ap);
 	return (0);
 }
-
-/*
-** attributes for each non_terminal every single of its productions
-*/
-
-/*
-static	int (*g_init_grammar_productions[NB_NOTERMS])
-	(t_cfg *, t_symbol *symbol) = 
-{
-	init_S,
-	init_A,
-	init_B,
-	init_C,
-	init_D
-};
-
-char		*get_debug(int index)
-{
-	static char *debug_str_tab[NB_SYMBOLS] = {
-		"a",
-		"b",
-		"c",
-		"d",
-		"$",
-		"ε",
-		"S",
-		"A",
-		"B",
-		"C",
-		"D",
-	};
-	return (debug_str_tab[index]);
-}
-*/
 
 void		sh_process_init_symbol(t_symbol *symbol, t_token_id id)
 {
@@ -242,6 +179,8 @@ int		init_context_free_grammar(t_cfg *cfg)
 	sh_print_non_terminals_productions(cfg);
 	while ((ret = sh_refine_grammar(cfg)) == 1)
 		;
+	sh_print_non_terminals_productions(cfg);
+//	exit(0);
 	if (ret == -1)
 		return (1);
 	if (sh_compute_ll_table(cfg))

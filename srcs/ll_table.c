@@ -19,6 +19,7 @@ void	sh_process_populate_ll_table(t_cfg *cfg, int no_term_index,
 	old_prod = cfg->ll_table[no_term_index][term_index];
 	if (old_prod && old_prod != production)
 	{
+		exit(53);
 		ft_printf("ambiguous warning for symbol: ");
 		sh_print_symbol(cfg->symbols.tbl[NB_TERMS + no_term_index]);
 		ft_printf("\nwhen meeting token: ");
