@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/18 07:05:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/03 18:22:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 # define end	-1
 # define error	-2
 # define DEBUG_BUFFER	50
+
+/*
+** S → E
+** E → T
+** E → E + T
+** T → int
+** T → (E)
+*/
 
 typedef struct		s_automate
 {
@@ -43,12 +51,11 @@ typedef enum		e_test_token_id
 	OPN_PARENT,
 	CLS_PARENT,
 	PLUS,
-	MULT,
 	INT,
 	END_OF_INPUT, 
 	EPS, //end of terminals
 	E,
-	OP, //end of non terminals
+	T,//end of non terminals
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -73,14 +80,8 @@ typedef struct		s_token
 	t_test_token_id	token_id;
 }					t_token;
 
-typedef struct		s_production
-{
-	t_list			*symbols;
-	//function ?
-}					t_production;
-
 # define NB_TERMS	E
-# define NB_NOTERMS	NB_SYMBOLS - E
+# define NB_NOTERMS	NB_SYMBOLS - NB_TERMS
 
 typedef struct		s_symbol
 {
@@ -93,62 +94,46 @@ typedef struct		s_symbol
 	char			replacing;
 }					t_symbol;
 
+typedef struct		s_production
+{
+	t_symbol		*from;
+	t_list			*symbols;
+}					t_production;
+
+typedef struct		s_state
+{
+	t_list			*transitions;
+	t_list			*items;
+	int				number;
+}					t_state;
+
+typedef struct		s_transition
+{
+	int				symbol_id;
+	t_state			*state;
+}					t_transition;
+
+typedef struct		s_item
+{
+	t_production	*production;
+	t_list			*progress;
+	int				symbol_id;
+}					t_item;
 
 typedef struct		s_cfg
 {
+	t_symbol		start_symbol;
 	t_symbol		symbols[NB_SYMBOLS];
-	t_production	*ll_table[NB_NOTERMS][NB_TERMS];
-	int				start_index;
 }					t_cfg;
 
-/*
-** ll_table:
-**
-**
-**
-**  				_____________________________________________________
-**  				|				|				|					|
-**  				|				|				|					|
-**  				|      Term1	|	Term2		|		Term3		|
-**  				|				|				|					|
-**   _______________|_______________|_______________|___________________|
-**  |				|				|				|					|
-**  |				|				|				|					|
-**  |	NoTerm1		|		NULL	|	&prod2		|		NULL		|
-**  |				|				|				|					|
-**	|_______________|_______________|_______________|___________________|
-**  |				|				|				|					|
-**  |				|				|				|					|
-**  |	NoTerm2		|	&prod7		|	&prod2		|		&prod4		|
-**  |				|				|				|					|
-**  |_______________|_______________|_______________|___________________|
-**	
-**
-** double table (NB_TERMS columns and NB_NO_TERMS lines) 
-**
-** says which production to choose for a non terminal given a terminal
-*/
 
-typedef struct			s_ast_node
+typedef struct		s_lr_parser
 {
-	t_token				*token;
-	struct s_ast_node	*parent;
-	t_list				*children;
-}						t_ast_node;
-
-typedef struct			s_ast_builder
-{
-	t_ast_node			*node;
-	t_symbol			*symbol;
-}						t_ast_builder;
-
-typedef struct		s_parser
-{
+	t_list			*states;
+	//table[NB_SYMBOLS];
 	t_cfg			cfg;
-	t_list			*pda_stack;
-	t_ast_node		*root;
 	t_list			*tokens;
-}					t_parser;
+}					t_lr_parser;
 
 /*
 ** lexer.c
@@ -181,7 +166,6 @@ void		sh_lexer_show_token(int token);
 int			sh_process_test(void);
 int			sh_parse_token_list(t_list *tokens);
 int			sh_is_term(t_symbol *symbol);
-int			traverse(t_ast_node *node);
 /*
 ** first_sets.c
 */
@@ -205,47 +189,29 @@ void	print_first_sets(t_cfg *cfg);
 void	print_follow_sets(t_cfg *cfg);
 void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS]);
 void	print_ll_table(t_cfg *cfg);
-void    sh_print_ast(t_ast_node *node, int depth);
-void    sh_print_ast_parser(t_parser *parser);
 void	print_cfg(t_cfg *cfg);
+void	sh_print_lr_table(t_lr_parser *parser);
+void	sh_print_automata(t_lr_parser *parser);
+void	sh_print_parser(t_lr_parser *parser);
+/*
+** lr_parse.c
+*/
+
+int		sh_lr_parse(t_lr_parser *parser, t_list *tokens);
 
 /*
-** lltable.c
+** compute_lr_automata.c
 */
-int		sh_compute_ll_table(t_cfg *cfg);
+int     sh_compute_lr_automata(t_lr_parser *parser);
+
+/*
+** compute_lr_tables.c
+*/
+int     sh_compute_lr_tables(t_lr_parser *parser);
 
 /*
 ** init_cfg.c
 */
 int		init_context_free_grammar(t_cfg *cfg);
-
-/*
-** ast_node.c
-*/
-
-t_ast_node			*sh_new_node(t_token *token);
-t_ast_builder		*sh_new_ast_builder(t_ast_node **node, t_symbol *symbol);
-int					sh_add_new_node(t_ast_node **node_ptr, t_ast_node *node);
-
-/*
-typedef enum		e_tokenlist
-{
-	UNKNOWN,	//May be useless, need to see later
-	TOKEN,		//token context dependent, transition state
-	WORD,
-	NAME,
-	ASSIGMENT,
-	IO_NUMBER,	//only digits and oneof '<' or '>'
-	NEWLINE,	//'\n'
-	DELIMITOR,	//';'
-	DLESS,		//'<<'
-	DGREAT,		//'>>'
-	LESSAND,	//'<&'
-	GREADAND,	//'>&'
-	LESSGREAT,	//'<>'
-	DLESSDASH,	//'<<-'
-	CLOBBER		//'>|'
-}					t_tokenlist;
-*/
 
 #endif

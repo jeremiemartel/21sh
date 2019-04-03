@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/18 06:43:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/03 17:47:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	sh_print_token(t_token *token)
 	{
 		if (token->token_id == PLUS)
 			ft_printf("+");
-		else if (token->token_id == MULT)
-			ft_printf("*");
 		else if (token->token_id == OPN_PARENT)
 			ft_printf("(");
 		else if (token->token_id == CLS_PARENT)
@@ -38,8 +36,6 @@ void	sh_print_token(t_token *token)
 			ft_printf("$");
 		else if (token->token_id == E)
 			ft_printf("E");
-		else if (token->token_id == OP)
-			ft_printf("OP");
 		else if (token->token_id == INT)
 			ft_printf("INT");
 	}
@@ -186,7 +182,7 @@ void	print_first_sets(t_cfg *cfg)
 		j++;
 	}
 }
-
+/*
 int     ft_strlen_utf8(char *str)
 {
 	int i;
@@ -229,52 +225,6 @@ int		prod_debug_len(t_production *production)
 	}
 	return (res);
 }
-
-void	print_ll_table(t_cfg *cfg)
-{
-	int				i;
-	int				j;
-	t_production	*production;
-	int				len;
-
-	ft_printf(BOLD UNDERLINE"LL TABLE:\n\n"EOC);
-	j = 0;
-	ft_printf("\t\t");
-	while (j < NB_TERMS - 1)
-	{
-		ft_printf("%s%s%s\t\t",BLUE, cfg->symbols[j].debug, EOC);
-		j++;
-	}
-	ft_printf("\n");
-	i = 0;
-	while (i < NB_NOTERMS)
-	{
-		j = 0;
-		ft_printf("%s%s%s\t\t", RED, cfg->symbols[NB_TERMS + i].debug, EOC);
-		while (j < NB_TERMS - 1)
-		{
-			production = cfg->ll_table[i][j];
-			if (production == NULL)
-				ft_printf("NULL\t\t");
-			else
-			{
-				len = prod_debug_len(production);
-				//		ft_printf("%d\n", len);
-				sh_print_production(production);
-				while (len <= 16)
-				{
-					ft_printf("\t");
-					len += 8;
-				}
-			}
-			j++;
-		}
-		ft_printf("\n");
-		i++;
-	}
-}
-
-
 void	sh_print_ast(t_ast_node *node, int depth)
 {
 	t_list *ptr;
@@ -305,7 +255,6 @@ void	sh_print_ast(t_ast_node *node, int depth)
 		ptr = ptr->next;
 	}
 }
-
 void	sh_print_ast_parser(t_parser *parser)
 {
 	ft_printf(GREEN"//////////START AST///////////\n"EOC);
@@ -334,11 +283,30 @@ void	sh_print_pda(t_list *stack)
 	}
 	ft_printf("\n");
 }
+*/
+
+void	sh_print_lr_table(t_lr_parser *parser)
+{
+	(void)parser;
+}
+
+
+void	sh_print_automata(t_lr_parser *parser)
+{
+//	print_cfg(&parser->cfg);
+	(void)parser;
+}
 
 void	print_cfg(t_cfg *cfg)
 {
 	print_non_terminals_productions(cfg);
 	print_first_sets(cfg);
 	print_follow_sets(cfg);
-	print_ll_table(cfg);
+}
+
+void	sh_print_parser(t_lr_parser *parser)
+{
+	print_cfg(&parser->cfg);
+	sh_print_automata(parser);
+	sh_print_lr_table(parser);
 }

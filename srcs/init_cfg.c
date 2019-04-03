@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/18 00:42:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/03 18:24:14 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 
 	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
 		return (1);
+	res->from = symbol;
 	res->symbols = prod_symbols;
 	if (ft_lstaddnew_ptr_last(&symbol->productions, res, sizeof(*res)))
 	{
@@ -49,6 +50,16 @@ int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 	return (0);
 }
 
+int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
+{
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, E); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
+
 //		(1) E → int
 //		(2) E → (E Op E)
 
@@ -56,11 +67,9 @@ int		init_E(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			INT); //(1)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, T); //(1)
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 5,
-			OPN_PARENT, E, OP, E, CLS_PARENT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3, E, PLUS, T); //(2)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -68,16 +77,16 @@ int		init_E(t_cfg *cfg, t_symbol *symbol)
 //		(3) Op → +
 //		(4) Op → *
 
-int		init_Op(t_cfg *cfg, t_symbol *symbol)
+int		init_T(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
 	t_list *prod_symbols;
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-			PLUS); //(1)
+		INT); //(1)
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, MULT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3, OPN_PARENT, E, CLS_PARENT); //(2)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -92,7 +101,7 @@ static	int (*g_init_grammar_productions[NB_NOTERMS])
 	(t_cfg *, t_symbol *symbol) = 
 {
 	init_E,
-	init_Op,
+	init_T
 };
 
 char		*get_debug(int index)
@@ -101,12 +110,11 @@ char		*get_debug(int index)
 		"(",
 		")",
 		"+",
-		"*",
 		"int",
 		"$",
 		"ε",
 		"E",
-		"OP",
+		"T"
 	};
 	return (debug_str_tab[index]);
 }
@@ -134,16 +142,16 @@ int		init_context_free_grammar(t_cfg *cfg)
 	int i;
 	int j;
 
-	cfg->start_index = E;
 	i = 0;
 	while (i < NB_SYMBOLS)
 	{
 		init_symbol(&cfg->symbols[i], i);
 		i++;
 	}
+	init_symbol(&cfg->start_symbol, i);
+
 	cfg->symbols[OPN_PARENT].relevant = 0;
 	cfg->symbols[CLS_PARENT].relevant = 0;
-	cfg->symbols[OP].replacing = 1;
 	i = NB_TERMS;
 	j = 0;
 	while (j < NB_NOTERMS)
@@ -151,11 +159,24 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
 			return (1);
 	}
+	init_start_symbol(cfg, &cfg->start_symbol);
 	if (sh_compute_first_sets(cfg))
 		return (1);
 	if (sh_compute_follow_sets(cfg))
 		return (1);
-	if (sh_compute_ll_table(cfg))
-		return (1);
+	return (0);
+}
+
+int sh_parse_token_list(t_list *tokens)
+{
+	t_lr_parser	parser;
+
+	init_context_free_grammar(&parser.cfg);
+	print_cfg(&parser.cfg);
+	sh_compute_lr_automata(&parser);
+	sh_print_automata(&parser);
+	sh_compute_lr_tables(&parser);
+	sh_print_parser(&parser);
+	sh_lr_parse(&parser, tokens);
 	return (0);
 }
