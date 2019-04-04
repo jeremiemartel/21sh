@@ -6,201 +6,210 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:39:13 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 15:50:00 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/04 20:11:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-
-int			sh_is_in_state_item(t_production *production,
-				t_state *state, t_symbol *lookahead)
+int		sh_is_eligible_for_transition(t_state *state, t_item *item)
 {
-	t_list	*ptr;
-	t_item	*item;
+	t_list *ptr;
+	t_item *item_ptr;
 
 	ptr = state->items;
 	while (ptr != NULL)
 	{
-		item = (t_item *)ptr->content;
-		if (item->lookahead == lookahead
-				&& item->production == production
-				&& item->progress == item->production->symbols)
+		item_ptr = (t_item *)ptr->content;
+		if (item_ptr->lookahead == item->lookahead &&
+				item->production == item_ptr->production &&
+				item->progress->next == item_ptr->progress)
 			return (1);
 		ptr = ptr->next;
 	}
 	return (0);
 }
 
-t_item		*sh_new_item(t_production *production,
-				t_symbol *lookahead)
+t_state *sh_get_state_by_symbol(t_item *item, t_lr_parser *parser)
 {
-	t_item	*res;
+	t_list *ptr;
+	t_state *state;
 
-	if (!(res = malloc(sizeof(t_item))))
+	ptr = parser->states;
+	while (ptr != NULL)
+	{
+		state = (t_state *)ptr->content;
+		if (sh_is_eligible_for_transition(state, item))
+		{
+			return (state);
+		}
+		ptr = ptr->next;
+	}
+	return (NULL);
+}
+
+t_state	*sh_get_state_by_transition(t_state *state, t_symbol *symbol)
+{
+	t_list			*ptr;
+	t_transition	*transition;
+
+	ptr = state->transitions;
+	while (ptr != NULL)
+	{
+		transition = (t_transition *)ptr->content;
+		if (transition->symbol == symbol)
+			return (transition->state);
+		ptr = ptr->next;
+	}
+	return (NULL);
+}
+
+t_transition	*sh_new_transition(t_state *to, t_symbol *symbol)
+{
+	t_transition *res;
+
+	if (!(res = (t_transition *)malloc(sizeof(t_transition))))
 		return (NULL);
-	res->production = production;
-	res->progress = production->symbols;
-	res->lookahead = lookahead;
-	res->parsed = 0;
+	res->state = to;
+	res->symbol = symbol;
 	return (res);
 }
 
-int			sh_process_add_to_closure(t_production *production,
-				t_state *state, t_symbol *lookahead)
+int		sh_add_transition(t_state *from, t_state *to, t_symbol *symbol)
 {
-	t_item *item;
+	t_transition *transition;
 
-	if (!(item = sh_new_item(production, lookahead)))
-		return (-1);
-	if (ft_lstaddnew_ptr_last(&state->items, item, sizeof(t_item *)))
+	if (!(transition = sh_new_transition(to, symbol)))
+		return (1);
+	if (ft_lstaddnew_ptr_last(&from->transitions,
+			transition, sizeof(t_transition)))
 	{
-		free(item);
-		return (-1);
+		free(transition);
+		return (1);
 	}
 	return (0);
 }
 
-
-t_symbol	*sh_get_next_non_terminal(t_item *item, t_list **w_ptr)
+t_item	*sh_new_item_advance(t_item *item)
 {
-	t_symbol *res;
+	t_item *res;
 
-	if (item->progress == NULL)
+	if (!(res = (t_item *)malloc(sizeof(t_item))))
 		return (NULL);
-	else
-	{
-		res = (t_symbol *)item->progress->content;
-		*w_ptr = item->progress->next;
-		return (res);
-	}
+	res->production = item->production;
+	res->progress = item->progress->next;
+	res->lookahead = item->lookahead;
+	res->parsed = 0;
+	return (res);
 }
 
-int		sh_add_to_closure(t_state *state,
-			t_symbol *new_item, char first_sets[NB_TERMS], t_lr_parser *parser)
+t_state *sh_new_parser_state_from_item(t_item *item, t_lr_parser *parser)
 {
-	t_list			*ptr;
-	t_production	*production;
-	int				changes;
-	int				i;
+	t_state *res;
+	t_item	*new_item;
 
-	changes = 0;
-	i = 0;
-	while (i < NB_TERMS)
+	if (!(res = sh_new_state()))
+		return (NULL);
+	if (!(new_item = sh_new_item_advance(item)))
 	{
-		if (first_sets[i])
-		{
-			ptr = new_item->productions;
-			while (ptr != NULL)
-			{
-				production = (t_production *)ptr->content;
-				if (!sh_is_in_state_item(production, state,
-							&parser->cfg.symbols[i]))
-				{
-					if (sh_process_add_to_closure(production, state,
-					 		&parser->cfg.symbols[i]))
-						 return (-1);
-					changes = 1;
-				}
-				ptr = ptr->next;
-			}
-		}
-		i++;
+		free(res);
+		return (NULL);
 	}
-	return (changes);
+	if (ft_lstaddnew_ptr_last(&res->items, new_item, sizeof(t_item *)))
+	{
+		free(res);
+		return (NULL);
+	}
+	if (ft_lstaddnew_ptr_last(&parser->states, res, sizeof(t_state *)))
+	{
+		sh_free_state(res);
+		return (NULL);
+	}
+	return (res);
 }
 
-void	sh_compute_first_sets_str_append(char first_sets[NB_TERMS],
-		t_list *w, t_symbol *append)
+int		sh_is_in_state_progress_item(t_state *state, t_item *item)
 {
-	t_list		*ptr;
-	int			i;
-	t_symbol	*symbol;
+	t_list *ptr;
+	t_item *item_ptr;
 
-	i = 0;
-	while (i < NB_TERMS)
-		first_sets[i++] = 0;
-	ptr = w;
+	ptr = state->items;
 	while (ptr != NULL)
 	{
-		symbol = (t_symbol *)ptr->content;
-		sh_process_transitive_first_sets_2(first_sets, symbol);
-		if (!symbol->first_sets[EPS])
-			return ;
+		item_ptr = (t_item *)ptr->content;
+		if (item_ptr->lookahead == item->lookahead &&
+				item->production == item_ptr->production &&
+				item->progress->next == item_ptr->progress)
+			return (1);
 		ptr = ptr->next;
 	}
-	sh_process_transitive_first_sets_2(first_sets, append);
-	if (!append->first_sets[EPS])
-		return ;
-	sh_process_transitive_first_set_2(first_sets, EPS);
+	return (0);
+}
+
+int		sh_add_to_state_check(t_state *state, t_item *item)
+{
+	t_item *new_item;
+
+	if (sh_is_in_state_progress_item(state, item))
+		return (1);
+	else
+	{
+		if (!(new_item = sh_new_item_advance(item)))
+			return (1);
+		if (ft_lstaddnew_ptr_last(&state->items, new_item, sizeof(t_item *)))
+		{
+			free(new_item);
+			return (1);
+		}
+	}
+	return (0);
 }
 
 /*
-** If A → α · Bω [t] is in the state, add B → · γ [t]
-** to the state for each production B → γ and for
-** each terminal t ∈ FIRST*(ω t)
+** gets the state where the transition leads to for this item and creates the
+** transition or both the state and the transition if necessary
+** then add the convenient item as necessary in the given state
 **
-**
-**		w_ptr				=>	ω
-**		next_non_terminal	=>	B
-**		item->lookahead		=>	t
 */
 
-int		sh_process_compute_closure_item(t_item *item, t_state *state,
-			t_lr_parser *parser)
+int		sh_add_transition_item(t_item *item,
+			t_state *state, t_lr_parser *parser)
 {
-	t_symbol	*next_non_terminal;
-	t_list		*w_ptr;
-	int			ret;
-	int			changes;
-	char		first_sets[NB_TERMS];
+	t_state *res;
 
-	changes = 0;
-	if ((next_non_terminal = sh_get_next_non_terminal(item, &w_ptr)))
+	if ((res = sh_get_state_by_transition(state,
+			(t_symbol *)item->progress->content)))
 	{
-		sh_compute_first_sets_str_append(first_sets, w_ptr, item->lookahead);
-		if ((ret = sh_add_to_closure(state, next_non_terminal, first_sets, parser)))
-		{
-			if (ret == -1)
-				return (-1);
-			changes = 1;
-		}
+		if (sh_add_to_state_check(res, item))
+			return (1);
+		return (0);
 	}
-	item->parsed = !changes;
-	return (changes);
+	else
+	{
+		if (!(res = sh_get_state_by_symbol(item, parser)))
+		{
+			if (!(res = sh_new_parser_state_from_item(item, parser))) //ajouter dans tout les cas done
+				return (1);
+		}
+		if (sh_add_transition(state, res, item->progress->content))
+			return (1);
+		return (0);
+	}
 }
 
-int		sh_process_compute_closure(t_state *state, t_lr_parser *parser)
+int		sh_add_transitions(t_state *state, t_lr_parser *parser)
 {
-	int		changes;
-	t_list	*ptr;
-	t_item	*item;
-	int		ret;
+	t_list		*ptr;
+	t_item		*item;
 
-	changes = 0;
 	ptr = state->items;
 	while (ptr != NULL)
 	{
 		item = (t_item *)ptr->content;
-		if (!item->parsed && (ret = sh_process_compute_closure_item(item, state, parser)))
-		{
-			if (ret == -1)
-				return (-1);
-			changes = 1;
-		}
+		if (item->progress && sh_add_transition_item(item, state, parser))
+			return (1);
 		ptr = ptr->next;
 	}
-	return (changes);
-}
-
-int		sh_compute_closure(t_state *state, t_lr_parser *parser)
-{
-	int ret;
-
-	while ((ret = sh_process_compute_closure(state, parser)) == 1)
-		;
-	if (ret == -1)
-		return (1);
 	return (0);
 }
 
@@ -216,5 +225,6 @@ int		sh_compute_lr_automata(t_lr_parser *parser)
 		return (1);
 	}
 	sh_compute_closure(first_state, parser);
+	sh_add_transitions(first_state, parser);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 15:57:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/04 17:39:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,8 @@ int		sh_lr_parse(t_lr_parser *parser, t_list *tokens);
 */
 int     sh_compute_lr_automata(t_lr_parser *parser);
 t_state	*sh_compute_first_state(t_lr_parser *parser);
+
+int		sh_compute_closure(t_state *state, t_lr_parser *parser);
 
 /*
 ** state.c

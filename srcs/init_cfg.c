@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 12:17:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/04 19:38:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int sh_parse_token_list(t_list *tokens)
 	print_cfg(&parser.cfg);
 	if (sh_compute_lr_automata(&parser))
 		return (1);
-	sh_print_automata(&parser, 0);
+	sh_print_automata(&parser, 1);
 //	sh_compute_lr_tables(&parser);
 //	sh_print_parser(&parser, 0);
 	sh_lr_parse(&parser, tokens);

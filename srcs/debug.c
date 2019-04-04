@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 12:19:18 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/04 19:41:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,8 +303,10 @@ void	sh_print_item(t_item *item)
 		symbol = (t_symbol *)ptr->content;
 		sh_print_symbol(symbol);
 		ptr = ptr->next;
-		ft_printf(" ");
+//		ft_printf(" ");
 	}
+	if (ptr == item->progress)
+		ft_printf(BOLD"·"EOC);
 	ft_printf("\t(for symbol: [");
 	sh_print_symbol(item->lookahead);
 	ft_printf("])\n");
@@ -313,7 +315,7 @@ void	sh_print_item(t_item *item)
 void	sh_print_transition(t_transition *transition, int depth)
 {
 	sh_print_symbol(transition->symbol);
-	ft_printf("→");
+	ft_printf(" → ");
 	sh_print_state(transition->state, depth);
 }
 
@@ -323,7 +325,7 @@ void	sh_print_state(t_state *state, int depth)
 	t_item			*item;
 	t_transition	*transition;
 
-	ft_printf("State #%d\n\n", state->number);
+	ft_printf(YELLOW"State #%d\n\n"EOC, state->number);
 	ptr = state->items;
 	while (ptr != NULL)
 	{
@@ -331,7 +333,7 @@ void	sh_print_state(t_state *state, int depth)
 		sh_print_item(item);
 		ptr = ptr->next;
 	}
-	if (depth > 0)
+	if (depth > 0 && state->transitions)
 	{
 		ft_printf("State transitions: \n");
 		ptr = state->transitions;
@@ -360,6 +362,7 @@ void	sh_print_automata(t_lr_parser *parser, int depth)
 	{
 		state = (t_state *)ptr->content;
 		sh_print_state(state, depth);
+		ft_printf("/////////////////////////////////\n");
 		ptr = ptr->next;
 	}
 }
