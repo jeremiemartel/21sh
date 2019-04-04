@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/03 17:53:56 by ldedier          ###   ########.fr        #
+#    Updated: 2019/04/04 12:25:17 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS_NO_PREFIX		=	main.c lexer.c lexer_automates.c\
 						lexer_automates_tools.c parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
 						compute_lr_automata.c compute_lr_tables.c\
-						lr_parse.c
+						lr_parse.c compute_first_state.c state.c
 
 INCLUDES_NO_PREFIX	= sh_21.h
 

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/03 18:24:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/04 12:17:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, E); //(1)
 	ft_add_prod(symbol, prod_symbols);
+	ft_strcpy(symbol->debug, "S");
 	return (0);
 }
 
@@ -173,10 +174,11 @@ int sh_parse_token_list(t_list *tokens)
 
 	init_context_free_grammar(&parser.cfg);
 	print_cfg(&parser.cfg);
-	sh_compute_lr_automata(&parser);
-	sh_print_automata(&parser);
-	sh_compute_lr_tables(&parser);
-	sh_print_parser(&parser);
+	if (sh_compute_lr_automata(&parser))
+		return (1);
+	sh_print_automata(&parser, 0);
+//	sh_compute_lr_tables(&parser);
+//	sh_print_parser(&parser, 0);
 	sh_lr_parse(&parser, tokens);
 	return (0);
 }

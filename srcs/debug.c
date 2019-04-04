@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/03 17:47:57 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/04 12:19:18 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	sh_print_symbol_list(t_list *symbols)
 
 void	sh_print_production(t_production *production)
 {
+	sh_print_symbol(production->from);
+	ft_printf(" → ");
 	sh_print_symbol_list(production->symbols);
 }
 
@@ -107,7 +109,7 @@ void	print_non_terminals_productions(t_cfg *cfg)
 	while (j < NB_NOTERMS)
 	{
 		sh_print_symbol(&(cfg->symbols[i]));
-		ft_printf(" → \n");
+		ft_printf(" : \n");
 		print_non_terminal_production(&cfg->symbols[i++]);
 		j++;
 	}
@@ -255,6 +257,7 @@ void	sh_print_ast(t_ast_node *node, int depth)
 		ptr = ptr->next;
 	}
 }
+
 void	sh_print_ast_parser(t_parser *parser)
 {
 	ft_printf(GREEN"//////////START AST///////////\n"EOC);
@@ -285,16 +288,80 @@ void	sh_print_pda(t_list *stack)
 }
 */
 
+void	sh_print_item(t_item *item)
+{
+	t_list		*ptr;
+	t_symbol	*symbol;
+
+	sh_print_symbol(item->production->from);
+	ft_printf(" → ");
+	ptr = item->production->symbols;
+	while (ptr != NULL)
+	{
+		if (ptr == item->progress)
+			ft_printf(BOLD"·"EOC);
+		symbol = (t_symbol *)ptr->content;
+		sh_print_symbol(symbol);
+		ptr = ptr->next;
+		ft_printf(" ");
+	}
+	ft_printf("\t(for symbol: [");
+	sh_print_symbol(item->lookahead);
+	ft_printf("])\n");
+}
+
+void	sh_print_transition(t_transition *transition, int depth)
+{
+	sh_print_symbol(transition->symbol);
+	ft_printf("→");
+	sh_print_state(transition->state, depth);
+}
+
+void	sh_print_state(t_state *state, int depth)
+{
+	t_list			*ptr;
+	t_item			*item;
+	t_transition	*transition;
+
+	ft_printf("State #%d\n\n", state->number);
+	ptr = state->items;
+	while (ptr != NULL)
+	{
+		item = (t_item *)ptr->content;
+		sh_print_item(item);
+		ptr = ptr->next;
+	}
+	if (depth > 0)
+	{
+		ft_printf("State transitions: \n");
+		ptr = state->transitions;
+		while (ptr != NULL)
+		{
+			transition = (t_transition *)ptr->content;
+			sh_print_transition(transition, depth - 1);
+			ptr = ptr->next;
+		}
+	}
+}
+
 void	sh_print_lr_table(t_lr_parser *parser)
 {
 	(void)parser;
 }
 
-
-void	sh_print_automata(t_lr_parser *parser)
+void	sh_print_automata(t_lr_parser *parser, int depth)
 {
-//	print_cfg(&parser->cfg);
-	(void)parser;
+	t_list	*ptr;
+	t_state	*state;
+
+	ft_printf(BOLD UNDERLINE"AUTOMATA STATES:\n\n"EOC);
+	ptr = parser->states;
+	while (ptr != NULL)
+	{
+		state = (t_state *)ptr->content;
+		sh_print_state(state, depth);
+		ptr = ptr->next;
+	}
 }
 
 void	print_cfg(t_cfg *cfg)
@@ -304,9 +371,9 @@ void	print_cfg(t_cfg *cfg)
 	print_follow_sets(cfg);
 }
 
-void	sh_print_parser(t_lr_parser *parser)
+void	sh_print_parser(t_lr_parser *parser, int depth)
 {
 	print_cfg(&parser->cfg);
-	sh_print_automata(parser);
+	sh_print_automata(parser, depth);
 	sh_print_lr_table(parser);
 }

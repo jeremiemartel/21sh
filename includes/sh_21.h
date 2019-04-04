@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/03 18:22:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/04 15:57:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct		s_state
 
 typedef struct		s_transition
 {
-	int				symbol_id;
+	t_symbol		*symbol;
 	t_state			*state;
 }					t_transition;
 
@@ -117,7 +117,8 @@ typedef struct		s_item
 {
 	t_production	*production;
 	t_list			*progress;
-	int				symbol_id;
+	t_symbol		*lookahead;
+	char			parsed;
 }					t_item;
 
 typedef struct		s_cfg
@@ -172,6 +173,8 @@ int			sh_is_term(t_symbol *symbol);
 void		sh_init_first_sets(char first_sets[NB_TERMS]);
 int			sh_compute_first_sets(t_cfg *cfg);
 int			sh_compute_first_sets_str(t_cfg *cfg, char first_sets[NB_TERMS], t_list *w);
+void		sh_process_transitive_first_set_2(char first_sets[NB_TERMS], int index);
+void		sh_process_transitive_first_sets_2(char first_sets[NB_TERMS], t_symbol *prod_symbol);
 /*
 ** follow_sets.c
 */
@@ -191,8 +194,9 @@ void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS]);
 void	print_ll_table(t_cfg *cfg);
 void	print_cfg(t_cfg *cfg);
 void	sh_print_lr_table(t_lr_parser *parser);
-void	sh_print_automata(t_lr_parser *parser);
-void	sh_print_parser(t_lr_parser *parser);
+void	sh_print_automata(t_lr_parser *parser, int depth);
+void	sh_print_parser(t_lr_parser *parser, int depth);
+void	sh_print_state(t_state *state, int depth);
 /*
 ** lr_parse.c
 */
@@ -203,7 +207,14 @@ int		sh_lr_parse(t_lr_parser *parser, t_list *tokens);
 ** compute_lr_automata.c
 */
 int     sh_compute_lr_automata(t_lr_parser *parser);
+t_state	*sh_compute_first_state(t_lr_parser *parser);
 
+/*
+** state.c
+*/
+t_state	*sh_new_state(void);
+void	sh_free_state(t_state *state);
+t_item      *sh_new_item(t_production *production, t_symbol *lookahead);
 /*
 ** compute_lr_tables.c
 */
