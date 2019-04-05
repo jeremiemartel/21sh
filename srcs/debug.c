@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 15:25:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 17:11:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,7 +384,7 @@ void	sh_print_lr_table(t_lr_parser *parser)
 			}
 			else if (parser->lr_tables[i][j].action_enum == SHIFT)
 			{
-				ft_printf("\t\tS%d", parser->lr_tables[i][j].action_union.state->index + 1);
+				ft_printf("\t\tS%d", parser->lr_tables[i][j].action_union.state->index);
 			}
 			j++;
 		}
@@ -408,6 +408,15 @@ void	sh_print_automata(t_lr_parser *parser, int depth)
 		ft_printf("/////////////////////////////////\n");
 		ptr = ptr->next;
 	}
+}
+
+void	sh_print_parser_state(t_lr_parser *parser)
+{
+	ft_printf("input tokens:\n");
+	sh_print_token_list(parser->tokens);
+
+	ft_printf("PDA stack:\n");
+	sh_print_symbol_list(parser->stack);
 }
 
 void	print_cfg(t_cfg *cfg)

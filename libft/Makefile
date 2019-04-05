@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/04/04 11:33:00 by ldedier          ###   ########.fr        #
+#    Updated: 2019/04/05 17:00:36 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRCS	=	./lst/ft_lstnew.c ./lst/ft_lstdelone.c \
 			./lst/ft_lstaddnew_last.c ./lst/ft_lstaddnew_ptr.c\
 			./lst/ft_lstaddnew_ptr_last.c ./lst/ft_lstnew_value.c\
 			./lst/ft_lstpop.c ./lst/ft_lstpop_ptr.c\
-			./lst/ft_lstdel_value.c ./lst/ft_lstdel_ptr.c
+			./lst/ft_lstdel_value.c ./lst/ft_lstdel_ptr.c\
+			./lst/ft_lstpop_node.c
 
 SRCS	+=	./math/ft_max.c ./math/ft_min.c ./math/ft_abs.c \
 			./math/ft_pow.c ./math/ft_roundf.c \

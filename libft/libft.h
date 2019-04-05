@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/04 11:33:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 17:00:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void				*ft_lstpop_ptr(t_list **list);
 void				ft_lstpop(t_list **list);
 void				ft_lstdel_value(t_list **list);
 void				ft_lstdel_ptr(t_list **list);
+t_list				*ft_lstpop_node(t_list **list);
 /*
 ********************************** math  **************************************
 */

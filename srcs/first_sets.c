@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:46:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 14:59:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 16:07:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		is_eps_prod(t_production *production)
 
 	symbols = production->symbols;
 	symbol = symbols->content;
-	if (ft_lstlen(symbols) == 1 && symbol->id == EPS)
+	if (ft_lstlen(symbols) == 0)
 		return (1);
 	else
 		return (0);

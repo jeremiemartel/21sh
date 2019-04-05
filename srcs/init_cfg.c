@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 15:39:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 17:13:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,13 +174,20 @@ int sh_parse_token_list(t_list *tokens)
 {
 	t_lr_parser	parser;
 
+	parser.tokens = tokens;
 	init_context_free_grammar(&parser.cfg);
 //	print_cfg(&parser.cfg);
 	if (sh_compute_lr_automata(&parser))
 		return (1);
 //	sh_print_automata(&parser, 1);
 	sh_compute_lr_tables(&parser);
-	sh_print_parser(&parser, 0);
-	sh_lr_parse(&parser, tokens);
+	sh_print_parser(&parser, 1);
+	if (sh_lr_parse(&parser))
+	{
+		ft_printf("LEXICAL ERROR\n");
+		return (1);
+	}
+	else
+		ft_printf("OK !\n");
 	return (0);
 }

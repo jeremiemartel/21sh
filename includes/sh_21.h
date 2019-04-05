@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 15:20:28 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 17:13:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ typedef struct		s_lr_parser
 	t_action		**lr_tables;
 	t_cfg			cfg;
 	t_list			*tokens;
+	t_list			*stack;
+	t_state			*current_state;
 }					t_lr_parser;
 
 /*
@@ -217,11 +219,13 @@ void	sh_print_lr_table(t_lr_parser *parser);
 void	sh_print_automata(t_lr_parser *parser, int depth);
 void	sh_print_parser(t_lr_parser *parser, int depth);
 void	sh_print_state(t_state *state, int depth);
+void    sh_print_parser_state(t_lr_parser *parser);
+void	sh_print_token(t_token *token);
 /*
 ** lr_parse.c
 */
 
-int		sh_lr_parse(t_lr_parser *parser, t_list *tokens);
+int		sh_lr_parse(t_lr_parser *parser);
 
 /*
 ** compute_lr_automata.c
