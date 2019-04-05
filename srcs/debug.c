@@ -335,7 +335,7 @@ void	sh_print_state(t_state *state, int depth)
 	}
 	if (depth > 0 && state->transitions)
 	{
-		ft_printf("State transitions: \n");
+		ft_printf(UNDERLINE"\nState transitions:%s \n\n", EOC);
 		ptr = state->transitions;
 		while (ptr != NULL)
 		{

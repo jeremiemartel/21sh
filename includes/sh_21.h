@@ -208,8 +208,8 @@ int		sh_lr_parse(t_lr_parser *parser, t_list *tokens);
 */
 int     sh_compute_lr_automata(t_lr_parser *parser);
 t_state	*sh_compute_first_state(t_lr_parser *parser);
-
 int		sh_compute_closure(t_state *state, t_lr_parser *parser);
+int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
 
 /*
 ** state.c

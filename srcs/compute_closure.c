@@ -195,10 +195,12 @@ int		sh_process_compute_closure(t_state *state, t_lr_parser *parser)
 int		sh_compute_closure(t_state *state, t_lr_parser *parser)
 {
 	int ret;
+	int changes;
 
+	changes = 0;
 	while ((ret = sh_process_compute_closure(state, parser)) == 1)
-		;
+		changes = 1;
 	if (ret == -1)
-		return (1);
-	return (0);
+		return (-1);
+	return (changes);
 }
