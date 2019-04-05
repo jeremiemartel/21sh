@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 17:39:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 15:20:28 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct		s_symbol
 
 typedef struct		s_production
 {
+	int				index;
 	t_symbol		*from;
 	t_list			*symbols;
 }					t_production;
@@ -104,7 +105,7 @@ typedef struct		s_state
 {
 	t_list			*transitions;
 	t_list			*items;
-	int				number;
+	int				index;
 }					t_state;
 
 typedef struct		s_transition
@@ -127,11 +128,30 @@ typedef struct		s_cfg
 	t_symbol		symbols[NB_SYMBOLS];
 }					t_cfg;
 
+typedef enum		e_action_enum
+{
+	ERROR,
+	ACCEPT,
+	SHIFT,
+	REDUCE
+}					t_action_enum;
+
+typedef union		u_action_union
+{
+	t_state			*state;
+	t_production	*production;
+}					t_action_union;
+
+typedef struct		s_action
+{
+	t_action_enum	action_enum;
+	t_action_union	action_union;
+}					t_action;
 
 typedef struct		s_lr_parser
 {
 	t_list			*states;
-	//table[NB_SYMBOLS];
+	t_action		**lr_tables;
 	t_cfg			cfg;
 	t_list			*tokens;
 }					t_lr_parser;

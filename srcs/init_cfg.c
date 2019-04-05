@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 19:38:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 15:39:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
 
 int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 {
-	t_production *res;
+	t_production	*res;
+	static int		index = 2;
 
 	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
 		return (1);
+	res->index = index++;
 	res->from = symbol;
 	res->symbols = prod_symbols;
 	if (ft_lstaddnew_ptr_last(&symbol->productions, res, sizeof(*res)))
@@ -173,12 +175,12 @@ int sh_parse_token_list(t_list *tokens)
 	t_lr_parser	parser;
 
 	init_context_free_grammar(&parser.cfg);
-	print_cfg(&parser.cfg);
+//	print_cfg(&parser.cfg);
 	if (sh_compute_lr_automata(&parser))
 		return (1);
-	sh_print_automata(&parser, 1);
-//	sh_compute_lr_tables(&parser);
-//	sh_print_parser(&parser, 0);
+//	sh_print_automata(&parser, 1);
+	sh_compute_lr_tables(&parser);
+	sh_print_parser(&parser, 0);
 	sh_lr_parse(&parser, tokens);
 	return (0);
 }

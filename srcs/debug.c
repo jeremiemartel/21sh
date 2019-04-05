@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 19:41:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 15:25:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	sh_print_production(t_production *production)
 	sh_print_symbol(production->from);
 	ft_printf(" → ");
 	sh_print_symbol_list(production->symbols);
+	ft_printf("\t(%d)", production->index);
 }
 
 
@@ -325,7 +326,7 @@ void	sh_print_state(t_state *state, int depth)
 	t_item			*item;
 	t_transition	*transition;
 
-	ft_printf(YELLOW"State #%d\n\n"EOC, state->number);
+	ft_printf(YELLOW"State #%d\n\n"EOC, state->index);
 	ptr = state->items;
 	while (ptr != NULL)
 	{
@@ -346,8 +347,50 @@ void	sh_print_state(t_state *state, int depth)
 	}
 }
 
+
 void	sh_print_lr_table(t_lr_parser *parser)
 {
+	int i;
+	int j;
+	int height;
+
+	height = ft_lstlen(parser->states);
+	i = 0;
+	while (i < NB_SYMBOLS)
+	{
+		ft_printf("\t\t");
+		sh_print_symbol(&parser->cfg.symbols[i]);
+		i++;
+	}
+	ft_printf("\n");
+	i = 0;
+	while (i < height)
+	{
+		ft_printf("%#d", i);
+		j = 0;
+		while (j < NB_SYMBOLS)
+		{
+			if (parser->lr_tables[i][j].action_enum == ERROR)
+			{
+				ft_printf(RED"\t\tERROR"EOC);
+			}
+			else if (parser->lr_tables[i][j].action_enum == REDUCE)
+			{
+				ft_printf("\t\tR%d", parser->lr_tables[i][j].action_union.production->index);
+			}
+			else if (parser->lr_tables[i][j].action_enum == ACCEPT)
+			{
+				ft_printf("\t\tACCEPT");
+			}
+			else if (parser->lr_tables[i][j].action_enum == SHIFT)
+			{
+				ft_printf("\t\tS%d", parser->lr_tables[i][j].action_union.state->index + 1);
+			}
+			j++;
+		}
+		ft_printf("\n");
+		i++;
+	}
 	(void)parser;
 }
 

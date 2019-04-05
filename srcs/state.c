@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:23:57 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 12:24:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/05 15:18:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 t_state *sh_new_state(void)
 {
 	t_state		*res;
-	static int	number = 0;
+	static int	index = 0;
 
 	if (!(res = (t_state *)malloc(sizeof(t_state))))
 		return (NULL);
 	res->transitions = NULL;
 	res->items = NULL;
-	res->number = number++;
+	res->index = index++;
 	return (res);
 }
 
