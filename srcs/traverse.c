@@ -38,9 +38,7 @@ static  int (*g_operator_token[NB_TERMS - 1])
 {
 	op_nothing,
 	op_nothing,
-	op_plus,
-	op_mult,
-	op_int,
+	op_nothing,
 };
 
 int		sh_traverse(t_ast_node *node)

@@ -56,7 +56,8 @@ int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, E); //(1)
+	symbol->productions = NULL;
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, S2); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	ft_strcpy(symbol->debug, "S");
 	return (0);
@@ -66,13 +67,11 @@ int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 //		(1) E → int
 //		(2) E → (E Op E)
 
-int		init_E(t_cfg *cfg, t_symbol *symbol)
+int		init_S2(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, INT); //(1)
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 5, OPN_PARENT, E, OP, E, CLS_PARENT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, T_A, X); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -80,15 +79,15 @@ int		init_E(t_cfg *cfg, t_symbol *symbol)
 //		(3) Op → +
 //		(4) Op → *
 
-int		init_OP(t_cfg *cfg, t_symbol *symbol)
+int		init_X(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, PLUS); //(1)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, X,  T_B); //(2)
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, MULT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 0); //(2)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -100,22 +99,19 @@ int		init_OP(t_cfg *cfg, t_symbol *symbol)
 static	int (*g_init_grammar_productions[NB_NOTERMS])
 	(t_cfg *, t_symbol *symbol) = 
 {
-	init_E,
-	init_OP,
+	init_S2,
+	init_X,
 };
 
 char		*get_debug(int index)
 {
 	static char *debug_str_tab[NB_SYMBOLS] = {
-		"(",
-		")",
-		"+",
-		"*",
-		"int",
+		"a",
+		"b",
 		"$",
 		"ε",
-		"E",
-		"OP"
+		"S2",
+		"X"
 	};
 	return (debug_str_tab[index]);
 }
@@ -149,9 +145,9 @@ int		init_context_free_grammar(t_cfg *cfg)
 		init_symbol(&cfg->symbols[i], i);
 		i++;
 	}
-	cfg->symbols[OPN_PARENT].relevant = 0;
-	cfg->symbols[CLS_PARENT].relevant = 0;
-	cfg->symbols[OP].replacing = 1;
+//	cfg->symbols[OPN_PARENT].relevant = 0;
+//	cfg->symbols[CLS_PARENT].relevant = 0;
+//	cfg->symbols[OP].replacing = 1;
 	i = NB_TERMS;
 	j = 0;
 	while (j < NB_NOTERMS)
@@ -164,29 +160,5 @@ int		init_context_free_grammar(t_cfg *cfg)
 		return (1);
 	if (sh_compute_follow_sets(cfg))
 		return (1);
-	return (0);
-}
-
-int sh_parse_token_list(t_list *tokens)
-{
-	t_lr_parser	parser;
-
-	parser.tokens = tokens;
-	init_context_free_grammar(&parser.cfg);
-	if (sh_compute_lr_automata(&parser))
-		return (1);
-	sh_compute_lr_tables(&parser);
-	sh_print_parser(&parser, 0);
-	if (sh_lr_parse(&parser))
-	{
-		ft_printf("LEXICAL ERROR\n");
-		return (1);
-	}
-	else
-	{
-		ft_printf("OK !\n");
-		sh_print_ast_parser(&parser);
-		ft_printf("%d\n", sh_traverse(parser.root));
-	}
 	return (0);
 }

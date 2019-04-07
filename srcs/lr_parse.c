@@ -12,6 +12,17 @@
 
 #include "sh_21.h"
 
+t_ast_builder	*sh_new_ast_builder_no_node(t_symbol *symbol)
+{
+	t_ast_builder *res;
+
+	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
+		return (NULL);
+	res->symbol = symbol;
+	res->node = NULL;
+	return (res);
+}
+
 t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 {
 	t_ast_builder *res;
@@ -52,6 +63,16 @@ int		sh_is_replacing(t_ast_builder *ast_builder)
 			sh_is_term(ast_builder->symbol));
 }
 
+t_token		*sh_new_token(int id)
+{
+	t_token *res;
+
+	if (!(res = (t_token *)malloc(sizeof(t_token))))
+		return (NULL);
+	res->token_id = id;
+	return (res);
+}
+
 int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 {
 	int				length;
@@ -61,9 +82,11 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 	t_list			*replacing_ast_ptr;
 	t_list			*ptr;
 	t_ast_builder	*ast_builder;
+	t_ast_builder	*new_ast_builder;
 
 	ast_builder_list = NULL;
 	length = ft_lstlen(production->symbols);
+	replacing_ast_ptr = NULL;
 	while (length)
 	{
 		if (!ft_lstpop_ptr(&parser->stack)) //state
@@ -71,7 +94,7 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 		if (!(ptr = ft_lstpop_node(&parser->stack))) //ast_builder
 			return (1);
 		ast_builder = (t_ast_builder *)ptr->content;
-		if (ast_builder->symbol->relevant)
+		if (ast_builder->symbol->relevant && ast_builder->node)
 		{
 			if (sh_is_replacing(ast_builder))
 				replacing_ast_ptr = ptr;
@@ -80,13 +103,15 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 		}
 		else
 		{
-			free(ast_builder->node);
+			if (ast_builder->node)
+				free(ast_builder->node);
 			free(ast_builder);
 			free(ptr);
 		}
 		length--;
 	}
-	parser->root = ((t_ast_builder *)replacing_ast_ptr->content)->node;
+	if (replacing_ast_ptr)
+		parser->root = ((t_ast_builder *)replacing_ast_ptr->content)->node;
 	while (ast_builder_list != NULL)
 	{
 		ast_builder = (t_ast_builder *)ft_lstpop_ptr(&ast_builder_list);
@@ -94,12 +119,21 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 			content)->node->children, ast_builder->node, sizeof(t_ast_node *)))
 			return (1);
 	}
-	parser->root = ((t_ast_builder *)replacing_ast_ptr->content)->node;
 	state_from = (t_state *)parser->stack->content;
 	state = parser->lr_tables[state_from->index]
 		[production->from->id].action_union.state;
-	((t_ast_builder *)replacing_ast_ptr->content)->symbol = production->from;
-	ft_lstadd(&parser->stack, replacing_ast_ptr);
+	if (replacing_ast_ptr == NULL)
+	{
+		if (!(new_ast_builder = sh_new_ast_builder_no_node(production->from)))
+			return (1);
+		if (ft_lstaddnew_ptr(&parser->stack, new_ast_builder, sizeof(t_ast_builder)))
+			return (1);
+	}
+	else
+	{
+		((t_ast_builder *)replacing_ast_ptr->content)->symbol = production->from;
+		ft_lstadd(&parser->stack, replacing_ast_ptr);
+	}
 	if (ft_lstaddnew_ptr(&parser->stack, state, sizeof(t_state *)))
 		return (1);
 	return (0);

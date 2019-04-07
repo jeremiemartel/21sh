@@ -164,7 +164,7 @@ int		sh_process_follow_sets(t_cfg *cfg)
 
 int		sh_compute_follow_sets(t_cfg *cfg)
 {
-	cfg->symbols[E].follow_sets[END_OF_INPUT] = 1;
+	cfg->symbols[NB_TERMS].follow_sets[END_OF_INPUT] = 1;
 	while (sh_process_follow_sets(cfg))
 		;
 	return (0);

@@ -115,15 +115,7 @@ int		sh_process_first_sets(t_cfg *cfg)
 
 int		is_eps_prod(t_production *production)
 {
-	t_list *symbols;
-	t_symbol *symbol;
-
-	symbols = production->symbols;
-	symbol = symbols->content;
-	if (ft_lstlen(symbols) == 0)
-		return (1);
-	else
-		return (0);
+	return (ft_lstlen(production->symbols) == 0);
 }
 
 int		has_eps_prod(t_symbol *symbol)

@@ -40,15 +40,12 @@ typedef enum		e_tokenlist
 
 typedef enum		e_test_token_id
 {
-	OPN_PARENT,
-	CLS_PARENT,
-	PLUS,
-	MULT,
-	INT,
+	T_A,
+	T_B,
 	END_OF_INPUT, 
 	EPS, //end of terminals
-	E,
-	OP,//end of non terminals
+	S2,
+	X,//end of non terminals
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -73,7 +70,7 @@ typedef struct		s_token
 	t_test_token_id	token_id;
 }					t_token;
 
-# define NB_TERMS	E
+# define NB_TERMS	S2
 # define NB_NOTERMS	NB_SYMBOLS - NB_TERMS
 
 typedef struct		s_symbol
@@ -193,7 +190,7 @@ void		sh_lexer_show_token(int token);
 ** parser.c
 */
 int			sh_process_test(void);
-int			sh_parse_token_list(t_list *tokens);
+int			sh_parse_token_list(t_lr_parser *parser);
 int			sh_is_term(t_symbol *symbol);
 /*
 ** first_sets.c
@@ -227,6 +224,7 @@ void	sh_print_parser(t_lr_parser *parser, int depth);
 void	sh_print_state(t_state *state, int depth);
 void    sh_print_parser_state(t_lr_parser *parser);
 void	sh_print_token(t_token *token);
+void	sh_print_production(t_production *production);
 void	sh_print_ast_builder(t_ast_builder *ast_builder);
 void	sh_print_ast_parser(t_lr_parser *parser);
 
@@ -259,6 +257,9 @@ int     sh_compute_lr_tables(t_lr_parser *parser);
 ** init_cfg.c
 */
 int		init_context_free_grammar(t_cfg *cfg);
+
+
+int		init_parsing(t_lr_parser *parser);
 
 /*
 ** traverse.c

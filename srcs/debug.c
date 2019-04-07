@@ -26,22 +26,10 @@ void	sh_print_token(t_token *token)
 		ft_printf("%d", token->token_union.ival);
 	else
 	{
-		if (token->token_id == PLUS)
-			ft_printf("+");
-		if (token->token_id == MULT)
-			ft_printf("*");
-		else if (token->token_id == OPN_PARENT)
-			ft_printf("(");
-		else if (token->token_id == CLS_PARENT)
-			ft_printf(")");
-		else if (token->token_id == END_OF_INPUT)
-			ft_printf("$");
-		else if (token->token_id == E)
-			ft_printf("E");
-		else if (token->token_id == OP)
-			ft_printf("OP");
-		else if (token->token_id == INT)
-			ft_printf("INT");
+		if (token->token_id == T_A)
+			ft_printf("a");
+		if (token->token_id == T_B)
+			ft_printf("b");
 	}
 }
 
@@ -189,109 +177,6 @@ void	print_first_sets(t_cfg *cfg)
 		j++;
 	}
 }
-/*
-int     ft_strlen_utf8(char *str)
-{
-	int i;
-	int res;
-
-	i = 0;
-	res = 0;
-	while (str[i])
-	{
-		if (!(str[i] & 0b10000000))
-			i++;
-		else if (str[i] & 0b01000000 && !(str[i] & 0b00100000))
-			i += 2;
-		else if (str[i] & 0b00100000 && !(str[i] & 0b00010000))
-			i += 3;
-		else if (str[i] & 0b000100000 && !(str[i] & 0b00001000))
-			i += 4;
-		else
-			i++;
-		res++;
-	}
-	return (res);
-}
-
-int		prod_debug_len(t_production *production)
-{
-	int			res;
-	t_list		*ptr;
-	t_symbol	*symbol;
-
-	res = 0;
-	ptr = production->symbols;
-	while (ptr != NULL)
-	{
-		if (ptr != production->symbols)
-			res++;
-		symbol = (t_symbol *)(ptr->content);
-		res += ft_strlen_utf8(symbol->debug);
-		ptr = ptr->next;
-	}
-	return (res);
-}
-void	sh_print_ast(t_ast_node *node, int depth)
-{
-	t_list *ptr;
-	int i;
-
-	i = depth;
-	if (!node)
-	{
-		ft_printf("LEAF NODE\n");
-		return ;
-	}
-	while (i--)
-		ft_printf("\t");
-	if (node->token)
-		sh_print_token(node->token);
-	else
-		ft_printf("NOT A TOKEN YET");
-	ft_printf("\n");
-	ptr = node->children;
-	if (ptr)
-		ft_printf("children:\n");
-	i = 0;
-	while (ptr != NULL)
-	{
-		ft_printf("child #%d: ", ++i);
-		sh_print_ast(ptr->content, depth + 1);
-		ft_printf("\n");
-		ptr = ptr->next;
-	}
-}
-
-void	sh_print_ast_parser(t_parser *parser)
-{
-	ft_printf(GREEN"//////////START AST///////////\n"EOC);
-	sh_print_ast(parser->root, 0);
-	ft_printf(RED"//////////END AST///////////\n"EOC);
-}
-
-void	sh_print_pda(t_list *stack)
-{
-	ft_printf("PDA STACK:\t");
-	t_ast_builder	*ast_builder;
-	t_list			*ptr;
-
-	ptr = stack;
-	while (ptr != NULL)
-	{
-		ast_builder = (t_ast_builder *)ptr->content;
-		if (ptr != stack)
-			ft_printf(" ");
-		sh_print_symbol(ast_builder->symbol);
-//		if (!ast_builder->node)
-//			ft_printf("node: address: %p\n", NULL);
-//		else
-//			ft_printf("node: address: %p\n", ast_builder->node);
-		ptr = ptr->next;
-	}
-	ft_printf("\n");
-}
-*/
 
 void	sh_print_item(t_item *item)
 {
@@ -355,7 +240,6 @@ void	sh_print_state(t_state *state, int depth)
 		}
 	}
 }
-
 
 void	sh_print_lr_table(t_lr_parser *parser)
 {
@@ -463,6 +347,11 @@ void	sh_print_ast(t_ast_node *node, int depth)
 	if (!node)
 	{
 		ft_printf("LEAF NODE\n");
+		return ;
+	}
+	if (!node->token)
+	{
+		ft_printf("not a token\n");
 		return ;
 	}
 	while (i--)
