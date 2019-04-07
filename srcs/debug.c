@@ -28,6 +28,8 @@ void	sh_print_token(t_token *token)
 	{
 		if (token->token_id == PLUS)
 			ft_printf("+");
+		if (token->token_id == MULT)
+			ft_printf("*");
 		else if (token->token_id == OPN_PARENT)
 			ft_printf("(");
 		else if (token->token_id == CLS_PARENT)
@@ -36,8 +38,8 @@ void	sh_print_token(t_token *token)
 			ft_printf("$");
 		else if (token->token_id == E)
 			ft_printf("E");
-		else if (token->token_id == F)
-			ft_printf("F");
+		else if (token->token_id == OP)
+			ft_printf("OP");
 		else if (token->token_id == INT)
 			ft_printf("INT");
 	}
@@ -419,12 +421,12 @@ void	sh_print_automata(t_lr_parser *parser, int depth)
 
 void	sh_print_parser_state(t_lr_parser *parser)
 {
-	t_list *ptr;
-	int		i;
+	t_list			*ptr;
+	t_ast_builder	*ast_builder;
+	int				i;
 
 	ft_printf("input tokens:\n");
 	sh_print_token_list(parser->tokens);
-
 	ft_printf("PDA stack:\n");
 	i = 0;
 	ptr = parser->stack;
@@ -433,7 +435,10 @@ void	sh_print_parser_state(t_lr_parser *parser)
 		if (i % 2 == 0)
 			sh_print_state(ptr->content, -1);
 		else
-			sh_print_symbol(ptr->content);
+		{
+			ast_builder = (t_ast_builder *)ptr->content;
+			sh_print_symbol(ast_builder->symbol);
+		}
 		ptr = ptr->next;
 		i++;
 	}
@@ -448,9 +453,56 @@ void	print_cfg(t_cfg *cfg)
 	print_follow_sets(cfg);
 }
 
+
+void	sh_print_ast(t_ast_node *node, int depth)
+{
+	t_list *ptr;
+	int i;
+
+	i = depth;
+	if (!node)
+	{
+		ft_printf("LEAF NODE\n");
+		return ;
+	}
+	while (i--)
+		ft_printf("\t");
+	ft_printf("token: ");
+	sh_print_token(node->token);
+	ft_printf("\n");
+	ptr = node->children;
+	if (ptr)
+		ft_printf("children:\n");
+	i = 0;
+	while (ptr != NULL)
+	{
+		ft_printf("child #%d: ", ++i);
+		sh_print_ast(ptr->content, depth + 1);
+		ft_printf("\n");
+		ptr = ptr->next;
+	}
+}
+
+void	sh_print_ast_parser(t_lr_parser *parser)
+{
+	ft_printf(GREEN"//////////START AST///////////\n"EOC);
+	sh_print_ast(parser->root, 0);
+	ft_printf(RED"//////////END AST///////////\n"EOC);
+}
+
 void	sh_print_parser(t_lr_parser *parser, int depth)
 {
 	print_cfg(&parser->cfg);
 	sh_print_automata(parser, depth);
 	sh_print_lr_table(parser);
+}
+
+void	sh_print_ast_builder(t_ast_builder *ast_builder)
+{
+	ft_printf("symbol: ");
+	sh_print_symbol(ast_builder->symbol);
+	ft_printf("\n");
+	ft_printf("tree: \n");
+	sh_print_ast(ast_builder->node, 0);
+	ft_printf("\n");
 }

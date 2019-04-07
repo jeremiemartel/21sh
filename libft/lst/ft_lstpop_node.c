@@ -22,6 +22,7 @@ t_list		*ft_lstpop_node(t_list **list)
 		ptr = *list;
 		content = ptr->content;
 		*list = (*list)->next;
+		ptr->next = NULL;
 		return (ptr);
 	}
 	return (NULL);

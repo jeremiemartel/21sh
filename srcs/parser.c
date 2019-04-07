@@ -30,7 +30,7 @@ int		sh_process_test(void)
 	t_list	*tokens;
 	t_token	token;
 
-	tokens = NULL;  // ((4 + 9) + 5)
+	tokens = NULL;  // ((4 + 9) * 5) = 65
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
@@ -43,7 +43,7 @@ int		sh_process_test(void)
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, CLS_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
-	sh_populate_token(&token, PLUS, 0, TYPE_STR);
+	sh_populate_token(&token, MULT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, INT, 5, TYPE_INT);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
@@ -54,5 +54,3 @@ int		sh_process_test(void)
 	sh_parse_token_list(tokens);
 	return (0);
 }
-
-

@@ -22,14 +22,6 @@
 # define error	-2
 # define DEBUG_BUFFER	50
 
-/*
-** S → E
-** E → T
-** E → E + T
-** T → int
-** T → (E)
-*/
-
 typedef struct		s_automate
 {
 	int				status;
@@ -56,8 +48,7 @@ typedef enum		e_test_token_id
 	END_OF_INPUT, 
 	EPS, //end of terminals
 	E,
-	T,//end of non terminals
-	F,
+	OP,//end of non terminals
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -150,6 +141,19 @@ typedef struct		s_action
 	t_action_union	action_union;
 }					t_action;
 
+typedef struct			s_ast_node
+{
+	t_token				*token;
+	struct s_ast_node	*parent;
+	t_list				*children;
+}						t_ast_node;
+
+typedef struct			s_ast_builder
+{
+	t_ast_node			*node;
+	t_symbol			*symbol;
+}						t_ast_builder;
+
 typedef struct		s_lr_parser
 {
 	t_list			*states;
@@ -157,7 +161,7 @@ typedef struct		s_lr_parser
 	t_cfg			cfg;
 	t_list			*tokens;
 	t_list			*stack;
-	t_state			*current_state;
+	t_ast_node		*root;
 }					t_lr_parser;
 
 /*
@@ -223,10 +227,12 @@ void	sh_print_parser(t_lr_parser *parser, int depth);
 void	sh_print_state(t_state *state, int depth);
 void    sh_print_parser_state(t_lr_parser *parser);
 void	sh_print_token(t_token *token);
+void	sh_print_ast_builder(t_ast_builder *ast_builder);
+void	sh_print_ast_parser(t_lr_parser *parser);
+
 /*
 ** lr_parse.c
 */
-
 int		sh_lr_parse(t_lr_parser *parser);
 
 /*
@@ -243,6 +249,7 @@ int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
 t_state		*sh_new_state(void);
 void		sh_free_state(t_state *state);
 t_item		*sh_new_item(t_production *production, t_symbol *lookahead);
+
 /*
 ** compute_lr_tables.c
 */
@@ -253,4 +260,8 @@ int     sh_compute_lr_tables(t_lr_parser *parser);
 */
 int		init_context_free_grammar(t_cfg *cfg);
 
+/*
+** traverse.c
+*/
+int		sh_traverse(t_ast_node *node);
 #endif
