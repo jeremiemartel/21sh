@@ -37,7 +37,7 @@ int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
 int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 {
 	t_production	*res;
-	static int		index = 2;
+	static int		index = 1;
 
 	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
 		return (1);
@@ -70,9 +70,9 @@ int		init_E(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, T); //(1)
-	ft_add_prod(symbol, prod_symbols);
 	sh_add_to_prod(cfg->symbols, &prod_symbols, 3, E, PLUS, T); //(2)
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, T); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
@@ -86,13 +86,27 @@ int		init_T(t_cfg *cfg, t_symbol *symbol)
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
-		INT); //(1)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3, T, MULT, F); //(2)
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 3, OPN_PARENT, E, CLS_PARENT); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1,
+		F); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
+
+int		init_F(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3, OPN_PARENT, E, CLS_PARENT); //(2)
+	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, INT); //(1)
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
 
 //		None
 
@@ -104,7 +118,8 @@ static	int (*g_init_grammar_productions[NB_NOTERMS])
 	(t_cfg *, t_symbol *symbol) = 
 {
 	init_E,
-	init_T
+	init_T,
+	init_F
 };
 
 char		*get_debug(int index)
@@ -113,11 +128,13 @@ char		*get_debug(int index)
 		"(",
 		")",
 		"+",
+		"*",
 		"int",
 		"$",
 		"ε",
 		"E",
-		"T"
+		"T",
+		"F"
 	};
 	return (debug_str_tab[index]);
 }
@@ -181,7 +198,7 @@ int sh_parse_token_list(t_list *tokens)
 		return (1);
 //	sh_print_automata(&parser, 1);
 	sh_compute_lr_tables(&parser);
-	sh_print_parser(&parser, 1);
+	sh_print_parser(&parser, 0);
 	if (sh_lr_parse(&parser))
 	{
 		ft_printf("LEXICAL ERROR\n");

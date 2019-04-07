@@ -36,6 +36,8 @@ void	sh_print_token(t_token *token)
 			ft_printf("$");
 		else if (token->token_id == E)
 			ft_printf("E");
+		else if (token->token_id == F)
+			ft_printf("F");
 		else if (token->token_id == INT)
 			ft_printf("INT");
 	}
@@ -326,6 +328,11 @@ void	sh_print_state(t_state *state, int depth)
 	t_item			*item;
 	t_transition	*transition;
 
+	if (depth == -1)
+	{
+		ft_printf(YELLOW"S%d"EOC, state->index);
+		return ;
+	}
 	ft_printf(YELLOW"State #%d\n\n"EOC, state->index);
 	ptr = state->items;
 	while (ptr != NULL)
@@ -358,7 +365,7 @@ void	sh_print_lr_table(t_lr_parser *parser)
 	i = 0;
 	while (i < NB_SYMBOLS)
 	{
-		ft_printf("\t\t");
+		ft_printf("\t");
 		sh_print_symbol(&parser->cfg.symbols[i]);
 		i++;
 	}
@@ -372,19 +379,19 @@ void	sh_print_lr_table(t_lr_parser *parser)
 		{
 			if (parser->lr_tables[i][j].action_enum == ERROR)
 			{
-				ft_printf(RED"\t\tERROR"EOC);
+				ft_printf(RED"\tERROR"EOC);
 			}
 			else if (parser->lr_tables[i][j].action_enum == REDUCE)
 			{
-				ft_printf("\t\tR%d", parser->lr_tables[i][j].action_union.production->index);
+				ft_printf("\tR%d", parser->lr_tables[i][j].action_union.production->index);
 			}
 			else if (parser->lr_tables[i][j].action_enum == ACCEPT)
 			{
-				ft_printf("\t\tACCEPT");
+				ft_printf("\tACCEPT");
 			}
 			else if (parser->lr_tables[i][j].action_enum == SHIFT)
 			{
-				ft_printf("\t\tS%d", parser->lr_tables[i][j].action_union.state->index);
+				ft_printf("\tS%d", parser->lr_tables[i][j].action_union.state->index);
 			}
 			j++;
 		}
@@ -412,11 +419,26 @@ void	sh_print_automata(t_lr_parser *parser, int depth)
 
 void	sh_print_parser_state(t_lr_parser *parser)
 {
+	t_list *ptr;
+	int		i;
+
 	ft_printf("input tokens:\n");
 	sh_print_token_list(parser->tokens);
 
 	ft_printf("PDA stack:\n");
-	sh_print_symbol_list(parser->stack);
+	i = 0;
+	ptr = parser->stack;
+	while (ptr != NULL)
+	{
+		if (i % 2 == 0)
+			sh_print_state(ptr->content, -1);
+		else
+			sh_print_symbol(ptr->content);
+		ptr = ptr->next;
+		i++;
+	}
+	ft_printf("\n");
+//	sh_print_symbol_list(parser->stack);
 }
 
 void	print_cfg(t_cfg *cfg)

@@ -51,11 +51,13 @@ typedef enum		e_test_token_id
 	OPN_PARENT,
 	CLS_PARENT,
 	PLUS,
+	MULT,
 	INT,
 	END_OF_INPUT, 
 	EPS, //end of terminals
 	E,
 	T,//end of non terminals
+	F,
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -238,9 +240,9 @@ int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
 /*
 ** state.c
 */
-t_state	*sh_new_state(void);
-void	sh_free_state(t_state *state);
-t_item      *sh_new_item(t_production *production, t_symbol *lookahead);
+t_state		*sh_new_state(void);
+void		sh_free_state(t_state *state);
+t_item		*sh_new_item(t_production *production, t_symbol *lookahead);
 /*
 ** compute_lr_tables.c
 */

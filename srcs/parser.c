@@ -30,7 +30,7 @@ int		sh_process_test(void)
 	t_list	*tokens;
 	t_token	token;
 
-	tokens = NULL;  // ((4 + 9) * 5)
+	tokens = NULL;  // ((4 + 9) + 5)
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, OPN_PARENT, 0, TYPE_STR);
