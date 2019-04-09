@@ -211,7 +211,7 @@ void	sh_print_state(t_state *state, int depth)
 	t_list			*ptr;
 	t_item			*item;
 	t_transition	*transition;
-	int				i;
+	
 	if (depth == -1)
 	{
 		ft_printf(YELLOW"S%d"EOC, state->index);
@@ -219,17 +219,12 @@ void	sh_print_state(t_state *state, int depth)
 	}
 	ft_printf(YELLOW"State #%d\n\n"EOC, state->index);
 	
-	i = 0;
-	while(i < NB_PRODUCTIONS)
-	{
-	ptr = state->items[i];
+	ptr = state->items;
 	while (ptr != NULL)
 	{
 		item = (t_item *)ptr->content;
 		sh_print_item(item);
 		ptr = ptr->next;
-	}
-	i++;
 	}
 	if (depth > 0 && state->transitions)
 	{

@@ -16,30 +16,19 @@ t_state *sh_new_state(void)
 {
 	t_state		*res;
 	static int	index = 0;
-	int			i;
 
 	if (!(res = (t_state *)malloc(sizeof(t_state))))
 		return (NULL);
 	res->transitions = NULL;
-	res->parsed = 0;
+	res->items = NULL;
 	res->index = index++;
-	i = 0;
-	while (i < NB_PRODUCTIONS)
-	{
-		res->items[i] = NULL;
-		i++;
-	}
 	return (res);
 }
 
 void	sh_free_state(t_state *state)
 {
-	int i;
-
-	i = 0;
-	while (i < NB_PRODUCTIONS)
-		ft_lstdel_ptr(&state->items[i++]);
 	ft_lstdel_value(&state->transitions);
+	ft_lstdel_ptr(&state->items);
 	free(state);
 	state = NULL;
 }

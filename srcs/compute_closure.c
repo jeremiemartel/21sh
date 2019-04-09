@@ -18,12 +18,13 @@ int			sh_is_in_state_item(t_production *production,
 	t_list	*ptr;
 	t_item	*item;
 
-	ptr = state->items[production->index];
+	ptr = state->items;
 	while (ptr != NULL)
 	{
 		item = (t_item *)ptr->content;
 		if (item->lookahead == lookahead
-			&& item->progress == item->production->symbols)
+				&& item->production == production
+				&& item->progress == item->production->symbols)
 			return (1);
 		ptr = ptr->next;
 	}
@@ -51,7 +52,7 @@ int			sh_process_add_to_closure(t_production *production,
 
 	if (!(item = sh_new_item(production, lookahead)))
 		return (-1);
-	if (ft_lstaddnew_ptr_last(&state->items[production->index], item, sizeof(t_item *)))
+	if (ft_lstaddnew_ptr_last(&state->items, item, sizeof(t_item *)))
 	{
 		free(item);
 		return (-1);
@@ -59,10 +60,6 @@ int			sh_process_add_to_closure(t_production *production,
 	return (0);
 }
 
-/*
-** returns the next symbol of an item progression
-** and put the list of the progressed production in 'w_ptr'
-*/
 
 t_symbol	*sh_get_next_non_terminal(t_item *item, t_list **w_ptr)
 {
@@ -153,61 +150,57 @@ int		sh_process_compute_closure_item(t_item *item, t_state *state,
 {
 	t_symbol	*next_non_terminal;
 	t_list		*w_ptr;
-	char		first_sets[NB_TERMS];
 	int			ret;
-	
-	ret = 0;
+	int			changes;
+	char		first_sets[NB_TERMS];
+
+	changes = 0;
 	if ((next_non_terminal = sh_get_next_non_terminal(item, &w_ptr)))
 	{
 		sh_compute_first_sets_str_append(first_sets, w_ptr, item->lookahead);
-		ret = sh_add_to_closure(state, next_non_terminal, first_sets, parser);
+		if ((ret = sh_add_to_closure(state, next_non_terminal, first_sets, parser)))
+		{
+			if (ret == -1)
+				return (-1);
+			changes = 1;
+		}
 	}
-	return (ret);
+	item->parsed = !changes;
+	return (changes);
 }
 
 int		sh_process_compute_closure(t_state *state, t_lr_parser *parser)
 {
-	int i;
-	int changes;
-	int ret;
-	t_list *ptr;
-	t_item *item;
+	int		changes;
+	t_list	*ptr;
+	t_item	*item;
+	int		ret;
 
-	i = 0;
 	changes = 0;
-	while (i < NB_PRODUCTIONS)
+	ptr = state->items;
+	while (ptr != NULL)
 	{
-		ptr = state->items[i];
-		while (ptr != NULL)
+		item = (t_item *)ptr->content;
+		if (!item->parsed && (ret = sh_process_compute_closure_item(item, state, parser)))
 		{
-			item = (t_item *)ptr->content;
-			if (!item->parsed && (ret = sh_process_compute_closure_item(item, state, parser)))
-			{
-				if (ret == -1)
-					return (-1);
-				changes = 1;
-			}
-			ptr = ptr->next;
+			if (ret == -1)
+				return (-1);
+			changes = 1;
 		}
-		i++;
+		ptr = ptr->next;
 	}
 	return (changes);
 }
 
-/*
-** compute the closure of a state
-*/
-
 int		sh_compute_closure(t_state *state, t_lr_parser *parser)
 {
 	int ret;
-	int i;
+	int changes;
 
-	i = 0;
+	changes = 0;
 	while ((ret = sh_process_compute_closure(state, parser)) == 1)
-	{	ft_printf("%d\n", i++);
-	}
+		changes = 1;
 	if (ret == -1)
 		return (-1);
-	return (0);
+	return (changes);
 }
