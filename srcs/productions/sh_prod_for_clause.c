@@ -1,25 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*   for_clause.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/07 23:40:02 by ldedier          ###   ########.fr       */
+/*   Created: 2019/03/28 11:02:58 by ldedier           #+#    #+#             */
+/*   Updated: 2019/03/28 11:02:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		init_parsing(t_lr_parser *parser)
+int		sh_init_prod_for_clause(t_cfg *cfg, t_symbol *symbol)
 {
-	parser->root = NULL;
-	if (init_context_free_grammar(&parser->cfg))
+	if (sh_add_prod(symbol, cfg, 3,
+		LEX_TOK_FOR,
+		NAME,
+		DO_GROUP))
 		return (1);
-	if (sh_compute_lr_automata(parser))
+	if (sh_add_prod(symbol, cfg, 4,
+		LEX_TOK_FOR,
+		NAME,
+		SEQUENTIAL_SEP,
+		DO_GROUP))
 		return (1);
-	if (sh_compute_lr_tables(parser))
+	if (sh_add_prod(symbol, cfg, 6,
+		LEX_TOK_FOR,
+		NAME,
+		LINEBREAK,
+		IN,
+		SEQUENTIAL_SEP,
+		DO_GROUP))
+		return (1);
+	if (sh_add_prod(symbol, cfg, 7,
+		LEX_TOK_FOR,
+		NAME,
+		LINEBREAK,
+		IN,
+		WORDLIST,
+		SEQUENTIAL_SEP,
+		DO_GROUP))
 		return (1);
 	return (0);
 }

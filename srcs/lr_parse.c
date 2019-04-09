@@ -48,7 +48,7 @@ int		sh_process_shift(t_state *state, t_lr_parser *parser)
 
 	token = ft_lstpop_ptr(&parser->tokens);
 	if (!(ast_builder = sh_new_ast_builder(token,
-			&parser->cfg.symbols[token->token_id])))
+			&parser->cfg.symbols[token->id])))
 		return (1);
 	if (ft_lstaddnew_ptr(&parser->stack, ast_builder, sizeof(t_ast_builder *)))
 		return (1);
@@ -61,16 +61,6 @@ int		sh_is_replacing(t_ast_builder *ast_builder)
 {
 	return (ast_builder->symbol->replacing == 1 ||
 			sh_is_term(ast_builder->symbol));
-}
-
-t_token		*sh_new_token(int id)
-{
-	t_token *res;
-
-	if (!(res = (t_token *)malloc(sizeof(t_token))))
-		return (NULL);
-	res->token_id = id;
-	return (res);
 }
 
 int		sh_process_reduce(t_production *production, t_lr_parser *parser)
@@ -157,7 +147,7 @@ int		sh_lr_parse(t_lr_parser *parser)
 			return (1);
 		state = (t_state *)parser->stack->content;
 		token = (t_token *)parser->tokens->content;
-		action = parser->lr_tables[state->index][token->token_id];
+		action = parser->lr_tables[state->index][token->id];
 		if (action.action_enum == SHIFT)
 		{
 			ft_printf("SHIFT\n");

@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*   cmd_prefix.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/07 23:40:02 by ldedier          ###   ########.fr       */
+/*   Created: 2019/03/28 11:02:58 by ldedier           #+#    #+#             */
+/*   Updated: 2019/03/28 11:02:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		init_parsing(t_lr_parser *parser)
+int		sh_init_prod_cmd_prefix(t_cfg *cfg, t_symbol *symbol)
 {
-	parser->root = NULL;
-	if (init_context_free_grammar(&parser->cfg))
+	if (sh_add_prod(symbol, cfg, 1,
+		IO_REDIRECT))
 		return (1);
-	if (sh_compute_lr_automata(parser))
+	if (sh_add_prod(symbol, cfg, 2,
+		CMD_PREFIX,
+		IO_REDIRECT))
 		return (1);
-	if (sh_compute_lr_tables(parser))
+	if (sh_add_prod(symbol, cfg, 1,
+		LEX_TOK_ASSIGNMENT_WORD))
+		return (1);
+	if (sh_add_prod(symbol, cfg, 2,
+		CMD_PREFIX,
+		LEX_TOK_ASSIGNMENT_WORD))
 		return (1);
 	return (0);
 }

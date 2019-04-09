@@ -17,11 +17,11 @@ int		sh_is_term(t_symbol *symbol)
 	return (symbol->id >= 0 && symbol->id < NB_TERMS);
 }
 
-void	sh_populate_token(t_token *token, t_test_token_id id,
+void	sh_populate_token(t_token *token, t_symbol_id id,
 		int val, t_token_type type)
 {
 	token->token_union.ival = val;
-	token->token_id = id;
+	token->id = id;
 	token->token_type = type;
 }
 
@@ -30,6 +30,7 @@ void	sh_create_moke_list(t_list **tokens)
 	t_token	token;
 
 	*tokens = NULL;  // ((4 + 9) * 5) = 65
+	/*
 	sh_populate_token(&token, T_A, 0, TYPE_STR);
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, T_B, 0, TYPE_STR);
@@ -46,6 +47,7 @@ void	sh_create_moke_list(t_list **tokens)
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, T_B, 0, TYPE_STR);
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
+	*/
 	sh_populate_token(&token, END_OF_INPUT, 0, TYPE_STR);
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
 }
@@ -75,7 +77,8 @@ int		sh_process_test(void)
 	if (init_parsing(&parser))
 		return (1);
 	parser.tokens = tokens;
-	sh_print_parser(&parser, 1);
+//	sh_print_lr_table(&parser);
+	ft_printf("%d\n", ft_lstlen(parser.states));
 	sh_parse_token_list(&parser);
 	return (0);
 }

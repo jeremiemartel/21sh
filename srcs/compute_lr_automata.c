@@ -12,48 +12,39 @@
 
 #include "sh_21.h"
 
+/*
+** compute closure and transitions of a state via
+** fixed point iteration
+*/
+
 int		sh_compute_state(t_state *state, t_lr_parser *parser)
 {
-	int ret;
-	int changes;
-
-	changes = 0;
-	if ((ret = sh_compute_closure(state, parser))) //to opti: don't check all items
-	{
-		if (ret == -1)
-			return (-1);
-		changes = 1;
-	}
-	if ((ret = sh_compute_transitions(state, parser))) //to opti don't check all items
-	{
-		if (ret == -1)
-			return (-1);
-		changes = 1;
-	}
-	return (changes);
+	if (sh_compute_closure(state, parser) == -1) //to opti: don't check all items
+		return (-1);
+	if (sh_compute_transitions(state, parser) == -1) //to opti don't check all items
+		return (-1);
+	return (0);
 }
+
+/*
+** compute all automata states and transitions via
+** fixed point iteration method
+*/
 
 int		sh_compute_states(t_lr_parser *parser)
 {
 	t_list	*ptr;
 	t_state	*state;
-	int		changes;
-	int		ret;
 
-	changes = 0;
 	ptr = parser->states;
 	while (ptr != NULL)
 	{
 		state = (t_state *)ptr->content;
-		if ((ret = sh_compute_state(state, parser)))
-		{
-			if (ret == -1)
-				return (-1);
-			changes = 1;
-		}
+		if (sh_compute_state(state, parser) == -1)
+			return (-1);
 		ptr = ptr->next;
 	}
-	return (changes);
+	return (0);
 }
 
 int		sh_compute_lr_automata(t_lr_parser *parser)
@@ -69,11 +60,5 @@ int		sh_compute_lr_automata(t_lr_parser *parser)
 		sh_free_state(first_state);
 		return (1);
 	}
-	while ((ret = sh_compute_states(parser)) == 1)
-		;
-	if (ret == -1)
-		return (1);
-	sh_compute_closure(first_state, parser);
-	sh_compute_transitions(first_state, parser);
-	return (0);
+	return (sh_compute_states(parser));
 }

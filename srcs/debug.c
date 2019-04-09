@@ -26,10 +26,7 @@ void	sh_print_token(t_token *token)
 		ft_printf("%d", token->token_union.ival);
 	else
 	{
-		if (token->token_id == T_A)
-			ft_printf("a");
-		if (token->token_id == T_B)
-			ft_printf("b");
+
 	}
 }
 
@@ -75,7 +72,7 @@ void	sh_print_production(t_production *production)
 }
 
 
-void	print_non_terminal_production(t_symbol *symbol)
+void	sh_print_non_terminal_production(t_symbol *symbol)
 {
 	t_list			*ptr;
 	t_production	*production;
@@ -91,7 +88,7 @@ void	print_non_terminal_production(t_symbol *symbol)
 	}
 }
 
-void	print_non_terminals_productions(t_cfg *cfg)
+void	sh_print_non_terminals_productions(t_cfg *cfg)
 {
 	int i;
 	int j;
@@ -103,7 +100,7 @@ void	print_non_terminals_productions(t_cfg *cfg)
 	{
 		sh_print_symbol(&(cfg->symbols[i]));
 		ft_printf(" : \n");
-		print_non_terminal_production(&cfg->symbols[i++]);
+		sh_print_non_terminal_production(&cfg->symbols[i++]);
 		j++;
 	}
 	ft_printf("\n");
@@ -214,19 +211,25 @@ void	sh_print_state(t_state *state, int depth)
 	t_list			*ptr;
 	t_item			*item;
 	t_transition	*transition;
-
+	int				i;
 	if (depth == -1)
 	{
 		ft_printf(YELLOW"S%d"EOC, state->index);
 		return ;
 	}
 	ft_printf(YELLOW"State #%d\n\n"EOC, state->index);
-	ptr = state->items;
+	
+	i = 0;
+	while(i < NB_PRODUCTIONS)
+	{
+	ptr = state->items[i];
 	while (ptr != NULL)
 	{
 		item = (t_item *)ptr->content;
 		sh_print_item(item);
 		ptr = ptr->next;
+	}
+	i++;
 	}
 	if (depth > 0 && state->transitions)
 	{
@@ -330,11 +333,11 @@ void	sh_print_parser_state(t_lr_parser *parser)
 //	sh_print_symbol_list(parser->stack);
 }
 
-void	print_cfg(t_cfg *cfg)
+void	sh_print_cfg(t_cfg *cfg)
 {
-	print_non_terminals_productions(cfg);
-	print_first_sets(cfg);
-	print_follow_sets(cfg);
+	sh_print_non_terminals_productions(cfg);
+//	print_first_sets(cfg);
+//	print_follow_sets(cfg);
 }
 
 
@@ -346,7 +349,7 @@ void	sh_print_ast(t_ast_node *node, int depth)
 	i = depth;
 	if (!node)
 	{
-		ft_printf("LEAF NODE\n");
+		ft_printf("* empty tree *\n");
 		return ;
 	}
 	if (!node->token)
@@ -381,7 +384,7 @@ void	sh_print_ast_parser(t_lr_parser *parser)
 
 void	sh_print_parser(t_lr_parser *parser, int depth)
 {
-	print_cfg(&parser->cfg);
+	sh_print_cfg(&parser->cfg);
 	sh_print_automata(parser, depth);
 	sh_print_lr_table(parser);
 }

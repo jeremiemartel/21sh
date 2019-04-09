@@ -27,7 +27,7 @@ t_state	*sh_compute_first_state(t_lr_parser *parser)
 		free(first_state);
 		return (NULL);
 	}
-	if (ft_lstaddnew_ptr(&first_state->items, first_item, sizeof(t_item *)))
+	if (ft_lstaddnew_ptr(&first_state->items[NB_PRODUCTIONS - 1], first_item, sizeof(t_item *)))
 	{
 		free(first_state);
 		free(first_item);

@@ -12,111 +12,44 @@
 
 #include "sh_21.h"
 
-int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
-		t_list **symbols, int nb_symbols, ...)
+int		sh_add_prod(t_symbol *symbol, t_cfg *cfg, int nb_symbols, ...)
 {
-	int		i;
-	va_list	ap;
-	int		symbol_index;
+	va_list		ap;
+	int			symbol_index;
+	int 		i;
+	static int	index = 0;
 
-	*symbols = NULL;
+	if (ft_lstaddnew_ptr_last(&symbol->productions,
+			&cfg->productions[index], sizeof(t_production *)))
+		return (1);
 	va_start(ap, nb_symbols);
 	i = 0;
+	cfg->productions[index].symbols = NULL;
+	cfg->productions[index].from = symbol;
+	cfg->productions[index].index = index;
 	while (i < nb_symbols)
 	{
 		symbol_index = va_arg(ap, int);
-		if (ft_lstaddnew_ptr_last(symbols, &cfg_symbols[symbol_index],
-					sizeof(t_symbol *)))
+		if (ft_lstaddnew_ptr_last(&cfg->productions[index].symbols,
+					&cfg->symbols[symbol_index], sizeof(t_symbol *)))
 			return (1);
 		i++;
 	}
+	index++;
 	va_end(ap);
-	return (0);
-}
-
-int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
-{
-	t_production	*res;
-	static int		index = 1;
-
-	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
-		return (1);
-	res->index = index++;
-	res->from = symbol;
-	res->symbols = prod_symbols;
-	if (ft_lstaddnew_ptr_last(&symbol->productions, res, sizeof(*res)))
-	{
-		free(res);
-		return (1);
-	}
 	return (0);
 }
 
 int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 {
-	t_list *prod_symbols;
-
+	symbol->id = NB_SYMBOLS + 1;
 	symbol->productions = NULL;
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, S2); //(1)
-	ft_add_prod(symbol, prod_symbols);
+	sh_add_prod(symbol, cfg, 1, PROGRAM); //(1)
 	ft_strcpy(symbol->debug, "S");
 	return (0);
 }
 
-
-//		(1) E → int
-//		(2) E → (E Op E)
-
-int		init_S2(t_cfg *cfg, t_symbol *symbol)
-{
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, T_A, X); //(1)
-	ft_add_prod(symbol, prod_symbols);
-	return (0);
-}
-
-//		(3) Op → +
-//		(4) Op → *
-
-int		init_X(t_cfg *cfg, t_symbol *symbol)
-{
-	(void)symbol;
-	(void)cfg;
-	t_list *prod_symbols;
-
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, X,  T_B); //(2)
-	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 0); //(2)
-	ft_add_prod(symbol, prod_symbols);
-	return (0);
-}
-//		None
-/*
- ** attributes for each non_terminal every single of its productions
- */
-
-static	int (*g_init_grammar_productions[NB_NOTERMS])
-	(t_cfg *, t_symbol *symbol) = 
-{
-	init_S2,
-	init_X,
-};
-
-char		*get_debug(int index)
-{
-	static char *debug_str_tab[NB_SYMBOLS] = {
-		"a",
-		"b",
-		"$",
-		"ε",
-		"S2",
-		"X"
-	};
-	return (debug_str_tab[index]);
-}
-
-void	init_symbol(t_symbol *symbol, t_test_token_id id)
+void	init_symbol(t_symbol *symbol, t_symbol_id id)
 {
 	int i;
 
@@ -129,9 +62,9 @@ void	init_symbol(t_symbol *symbol, t_test_token_id id)
 	}
 	symbol->productions = NULL;
 	symbol->id = id;
-	symbol->relevant = 1;
-	symbol->replacing = 0;
-	ft_strcpy(symbol->debug, get_debug(id));
+	symbol->relevant = g_grammar[id].relevant;
+	symbol->replacing = g_grammar[id].replacing;
+	ft_strcpy(symbol->debug, g_grammar[id].debug);
 }
 
 int		init_context_free_grammar(t_cfg *cfg)
@@ -145,20 +78,20 @@ int		init_context_free_grammar(t_cfg *cfg)
 		init_symbol(&cfg->symbols[i], i);
 		i++;
 	}
-//	cfg->symbols[OPN_PARENT].relevant = 0;
-//	cfg->symbols[CLS_PARENT].relevant = 0;
-//	cfg->symbols[OP].replacing = 1;
 	i = NB_TERMS;
 	j = 0;
 	while (j < NB_NOTERMS)
 	{
-		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
+		if (g_grammar[i].init_prod(cfg, &cfg->symbols[i]))
 			return (1);
+		i++;
+		j++;
 	}
 	init_start_symbol(cfg, &cfg->start_symbol);
 	if (sh_compute_first_sets(cfg))
 		return (1);
-	if (sh_compute_follow_sets(cfg))
-		return (1);
+//	if (sh_compute_follow_sets(cfg))
+//		return (1);
+	sh_print_cfg(cfg);
 	return (0);
 }

@@ -43,5 +43,8 @@ static  int (*g_operator_token[NB_TERMS - 1])
 
 int		sh_traverse(t_ast_node *node)
 {
-	return ((g_operator_token[node->token->token_id])(node));
+	if (node)
+		return ((g_operator_token[node->token->id])(node));
+	else
+		return (0);
 }
