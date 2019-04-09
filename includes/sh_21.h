@@ -21,7 +21,7 @@
 # define end	-1
 # define error	-2
 # define DEBUG_BUFFER	50
-
+# define NB_PRODUCTIONS	4
 typedef struct		s_automate
 {
 	int				status;
@@ -94,7 +94,7 @@ typedef struct		s_production
 typedef struct		s_state
 {
 	t_list			*transitions;
-	t_list			*items;
+	t_list			*items[NB_SYMBOLS];
 	int				index;
 }					t_state;
 

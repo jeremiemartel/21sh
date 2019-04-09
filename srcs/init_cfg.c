@@ -140,14 +140,12 @@ int		init_context_free_grammar(t_cfg *cfg)
 	int j;
 
 	i = 0;
+	init_start_symbol(cfg, &cfg->start_symbol);
 	while (i < NB_SYMBOLS)
 	{
 		init_symbol(&cfg->symbols[i], i);
 		i++;
 	}
-//	cfg->symbols[OPN_PARENT].relevant = 0;
-//	cfg->symbols[CLS_PARENT].relevant = 0;
-//	cfg->symbols[OP].replacing = 1;
 	i = NB_TERMS;
 	j = 0;
 	while (j < NB_NOTERMS)
@@ -155,7 +153,6 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
 			return (1);
 	}
-	init_start_symbol(cfg, &cfg->start_symbol);
 	if (sh_compute_first_sets(cfg))
 		return (1);
 	if (sh_compute_follow_sets(cfg))
