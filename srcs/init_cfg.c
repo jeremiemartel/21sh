@@ -37,7 +37,7 @@ int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
 int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 {
 	t_production	*res;
-	static int		index = 1;
+	static int		index = 0;
 
 	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
 		return (1);
