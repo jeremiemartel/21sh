@@ -23,10 +23,10 @@ int		sh_add_prod(t_symbol *symbol, t_cfg *cfg, int nb_symbols, ...)
 			&cfg->productions[index], sizeof(t_production *)))
 		return (1);
 	va_start(ap, nb_symbols);
-	i = 0;
 	cfg->productions[index].symbols = NULL;
 	cfg->productions[index].from = symbol;
 	cfg->productions[index].index = index;
+	i = 0;
 	while (i < nb_symbols)
 	{
 		symbol_index = va_arg(ap, int);
@@ -72,6 +72,7 @@ int		init_context_free_grammar(t_cfg *cfg)
 	int i;
 	int j;
 
+	init_start_symbol(cfg, &cfg->start_symbol);
 	i = 0;
 	while (i < NB_SYMBOLS)
 	{
@@ -87,7 +88,6 @@ int		init_context_free_grammar(t_cfg *cfg)
 		i++;
 		j++;
 	}
-	init_start_symbol(cfg, &cfg->start_symbol);
 	if (sh_compute_first_sets(cfg))
 		return (1);
 //	if (sh_compute_follow_sets(cfg))

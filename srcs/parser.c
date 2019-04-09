@@ -78,7 +78,7 @@ int		sh_process_test(void)
 		return (1);
 	parser.tokens = tokens;
 //	sh_print_lr_table(&parser);
-	ft_printf("%d\n", ft_lstlen(parser.states));
+	ft_printf("nb states: %d\n", ft_lstlen(parser.states));
 	sh_parse_token_list(&parser);
 	return (0);
 }

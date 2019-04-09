@@ -48,7 +48,7 @@ void	sh_fill_reduce(t_state *state, t_item *item, t_lr_parser *parser)
 			[item->lookahead->id].action_enum == REDUCE)
 	{
 		ft_printf("REDUCE REDUCE CONFLICT\n");
-		sh_print_state(state, 0);
+	//	sh_print_state(state, 0);
 		ft_printf("lookahead: ");
 		sh_print_symbol(item->lookahead);
 		ft_printf("before:\n");
@@ -85,12 +85,12 @@ void	sh_fill_tables_by_transition(t_state *state, t_transition *transition,
 		ft_printf("for symbol: ");
 		sh_print_symbol(transition->symbol);
 		ft_printf("\n");
-		sh_print_state(state, 0);
+	//	sh_print_state(state, 0);
 		ft_printf("before:\n");
 		sh_print_production(parser->lr_tables[state->index]
 			[transition->symbol->id].action_union.production);
 		ft_printf("after:\n");
-		sh_print_state(transition->state, 0);
+	//	sh_print_state(transition->state, 0);
 	}
 	else if (parser->lr_tables[state->index]
 			[transition->symbol->id].action_enum == SHIFT)
@@ -108,13 +108,20 @@ void	sh_fill_tables_by_state(t_state *state, t_lr_parser *parser)
 	t_item			*item;
 	t_transition	*transition;
 
-	ptr = state->items;
-	while (ptr != NULL)
+	int i;
+
+	i = 0;
+	while (i < NB_PRODUCTIONS)
 	{
-		item = (t_item *)ptr->content;
-		if (item->progress == NULL)
-			sh_fill_reduce(state, item, parser);
-		ptr = ptr->next;
+		ptr = state->items[i];
+		while (ptr != NULL)
+		{
+			item = (t_item *)ptr->content;
+			if (item->progress == NULL)
+				sh_fill_reduce(state, item, parser);
+			ptr = ptr->next;
+		}
+		i++;
 	}
 	ptr = state->transitions;
 	while (ptr != NULL)
@@ -131,9 +138,9 @@ void	sh_fill_tables(t_lr_parser *parser)
 	t_state	*state;
 
 	ptr = parser->states;
-	ft_printf("%d\n", ft_lstlen(parser->states));
-	if(ft_lstlen(parser->states) != 864)
-		exit(864);
+	ft_printf("nb of states: %d\n", ft_lstlen(parser->states));
+	// if (ft_lstlen(parser->states) != 864)
+		// exit(864);
 	while (ptr != NULL)
 	{
 		state = (t_state *)ptr->content;
