@@ -26,10 +26,10 @@ void	sh_print_token(t_token *token)
 		ft_printf("%d", token->token_union.ival);
 	else
 	{
-		if (token->token_id == T_A)
-			ft_printf("a");
-		if (token->token_id == T_B)
-			ft_printf("b");
+//		if (token->token_id == T_A)
+///			ft_printf("a");
+//		if (token->token_id == T_B)
+//			ft_printf("b");
 	}
 }
 
@@ -182,6 +182,7 @@ void	sh_print_item(t_item *item)
 {
 	t_list		*ptr;
 	t_symbol	*symbol;
+	int i;
 
 	sh_print_symbol(item->production->from);
 	ft_printf(" → ");
@@ -195,10 +196,18 @@ void	sh_print_item(t_item *item)
 		ptr = ptr->next;
 //		ft_printf(" ");
 	}
+	i = 0;
 	if (ptr == item->progress)
 		ft_printf(BOLD"·"EOC);
-	ft_printf("\t(for symbol: [");
-	sh_print_symbol(item->lookahead);
+	ft_printf("\t(for symbols: [");
+	while (i < NB_TERMS)
+	{
+		if (item->lookaheads[i])
+		{
+			//sh_print_symbol(cfg-)
+		}
+		i++;
+	}
 	ft_printf("])\n");
 }
 

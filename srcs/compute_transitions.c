@@ -21,8 +21,7 @@ int		sh_is_eligible_for_transition(t_state *state, t_item *item)
 	while (ptr != NULL)
 	{
 		item_ptr = (t_item *)ptr->content;
-		if (item_ptr->lookahead == item->lookahead &&
-				item->production == item_ptr->production &&
+		if (item->production == item_ptr->production &&
 				item->progress->next == item_ptr->progress)
 			return (1);
 		ptr = ptr->next;
@@ -98,7 +97,7 @@ t_item	*sh_new_item_advance(t_item *item)
 		return (NULL);
 	res->production = item->production;
 	res->progress = item->progress->next;
-	res->lookahead = item->lookahead;
+//	res->lookahead = item->lookahead;
 	res->parsed = 0;
 	return (res);
 }
@@ -137,8 +136,7 @@ int		sh_is_in_state_progress_item(t_state *state, t_item *item)
 	while (ptr != NULL)
 	{
 		item_ptr = (t_item *)ptr->content;
-		if (item_ptr->lookahead == item->lookahead &&
-				item->production == item_ptr->production &&
+		if (item->production == item_ptr->production &&
 				item->progress->next == item_ptr->progress)
 			return (1);
 		ptr = ptr->next;

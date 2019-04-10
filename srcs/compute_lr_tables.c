@@ -42,6 +42,7 @@ t_action	**sh_create_tables(t_lr_parser *parser)
 	return (res);
 }
 
+/*
 void	sh_fill_reduce(t_state *state, t_item *item, t_lr_parser *parser)
 {
 	if (parser->lr_tables[state->index]
@@ -124,7 +125,7 @@ void	sh_fill_tables_by_state(t_state *state, t_lr_parser *parser)
 		ptr = ptr->next;
 	}
 }
-
+*/
 void	sh_fill_tables(t_lr_parser *parser)
 {
 	t_list	*ptr;
@@ -134,7 +135,7 @@ void	sh_fill_tables(t_lr_parser *parser)
 	while (ptr != NULL)
 	{
 		state = (t_state *)ptr->content;
-		sh_fill_tables_by_state(state, parser);
+//		sh_fill_tables_by_state(state, parser);
 		ptr = ptr->next;
 	}
 }

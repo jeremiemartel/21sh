@@ -21,8 +21,7 @@ t_state	*sh_compute_first_state(t_lr_parser *parser)
 	if (!(first_state = sh_new_state()))
 		return (NULL);
 	if (!(first_item =
-			sh_new_item(parser->cfg.start_symbol.productions->content,
-				&parser->cfg.symbols[END_OF_INPUT])))
+			sh_new_item(parser->cfg.start_symbol.productions->content)))
 	{
 		free(first_state);
 		return (NULL);
