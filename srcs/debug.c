@@ -206,6 +206,56 @@ void	sh_print_transition(t_transition *transition, int depth)
 	sh_print_state(transition->state, depth);
 }
 
+
+void	sh_print_state_items_2(t_state *state, t_lr_parser *parser)
+{
+	t_list			*ptr;
+	t_item			*item;
+	int i;
+	int j;
+	int k;
+	
+	ft_printf(YELLOW"State #%d\n\n"EOC, state->index);
+	
+	i = 0;
+	while(i < NB_PRODUCTIONS)
+	{
+		j = 0;
+		while(j < NB_TERMS)
+		{
+			k = 0;
+			while (k < NB_SYMBOLS + 1)
+			{
+				if ((ptr = state->items_by_production[i][j][k]))
+				{
+
+					ft_printf("for prod: ");
+					sh_print_production(&parser->cfg.productions[i]);
+					ft_printf("\nfor lookahead: ");
+					sh_print_symbol(&parser->cfg.symbols[j]);
+					ft_printf("\nfor progress symbol: ");
+					if (k == NB_SYMBOLS)
+						ft_printf("NULL");
+					else
+						sh_print_symbol(&parser->cfg.symbols[k]);
+					ft_printf("\n -->\n");
+					while(ptr != NULL)
+					{
+						item = (t_item *)ptr->content;
+						sh_print_item(item);
+						ptr = ptr->next;
+					}
+					ft_printf("\n");
+				}
+				k++;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+
 void	sh_print_state(t_state *state, int depth)
 {
 	t_list			*ptr;
@@ -219,18 +269,12 @@ void	sh_print_state(t_state *state, int depth)
 	}
 	ft_printf(YELLOW"State #%d\n\n"EOC, state->index);
 	
-	int i;
-	i = 0;
-	while(i < NB_PRODUCTIONS)
-	{
-	ptr = state->items_by_production[i];
+	ptr = state->items;
 	while (ptr != NULL)
 	{
 		item = (t_item *)ptr->content;
 		sh_print_item(item);
 		ptr = ptr->next;
-	}
-	i++;
 	}
 	if (depth > 0 && state->transitions)
 	{

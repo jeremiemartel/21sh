@@ -199,7 +199,7 @@ typedef struct		s_state
 {
 	t_list			*transitions;	
 	t_list			*items;
-	t_list			*items_by_production[NB_PRODUCTIONS];
+	t_list			*items_by_production[NB_PRODUCTIONS][NB_TERMS][NB_SYMBOLS + 1];
 	int				index;
 	int				parsed;
 }					t_state;
@@ -345,7 +345,8 @@ void	sh_print_token(t_token *token);
 void	sh_print_production(t_production *production);
 void	sh_print_ast_builder(t_ast_builder *ast_builder);
 void	sh_print_ast_parser(t_lr_parser *parser);
-
+void    sh_print_state_items_2(t_state *state, t_lr_parser *parser);
+void    sh_print_item(t_item *item);
 /*
 ** lr_parse.c
 */

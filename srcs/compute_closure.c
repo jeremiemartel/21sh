@@ -16,19 +16,14 @@ int			sh_is_in_state_item(t_production *production,
 				t_state *state, t_symbol *lookahead)
 {
 	t_list	*ptr;
-	t_item	*item;
+	int id;
 
-	ptr = state->items_by_production[production->index];
-	while (ptr != NULL)
-	{
-		item = (t_item *)ptr->content;
-		if (item->lookahead == lookahead
-		//		&& item->production == production
-				&& item->progress == item->production->symbols)
-			return (1);
-		ptr = ptr->next;
-	}
-	return (0);
+	if (production->symbols)
+		id = ((t_symbol *)production->symbols->content)->id;
+	else
+		id = NB_SYMBOLS;
+	ptr = state->items_by_production[production->index][lookahead->id][id];
+	return (ptr != NULL);
 }
 
 t_item		*sh_new_item(t_production *production,
@@ -45,14 +40,19 @@ t_item		*sh_new_item(t_production *production,
 	return (res);
 }
 
-int			sh_process_add_to_closure(t_production *production,
-				t_state *state, t_symbol *lookahead)
+int			sh_process_add_to_closure(t_production *production, t_state *state,
+				t_symbol *lookahead)
 {
 	t_item *item;
+	int id;
 
+	if (production->symbols)
+		id = ((t_symbol *)production->symbols->content)->id;
+	else
+		id = NB_SYMBOLS;
 	if (!(item = sh_new_item(production, lookahead)))
 		return (-1);
-	if (ft_lstaddnew_ptr(&state->items_by_production[production->index], item, sizeof(t_item *)))
+	if (ft_lstaddnew_ptr(&state->items_by_production[production->index][lookahead->id][id], item, sizeof(t_item *)))
 	{
 		free(item);
 		return (-1);
@@ -183,5 +183,6 @@ int		sh_compute_closure(t_state *state, t_lr_parser *parser)
 {
 	if (sh_process_compute_closure(state, parser) == -1)
 		return (-1);
+//	sh_print_state_items_2(state, parser);
 	return (0);
 }
