@@ -21,8 +21,9 @@ t_state *sh_new_state(void)
 	if (!(res = (t_state *)malloc(sizeof(t_state))))
 		return (NULL);
 	i = 0;
+	res->items = NULL;
 	while (i < NB_PRODUCTIONS)
-		res->items[i++] = NULL;
+		res->items_by_production[i++] = NULL;
 	res->transitions = NULL;
 	res->index = index++;
 	return (res);
@@ -34,7 +35,8 @@ void	sh_free_state(t_state *state)
 
 	i = 0;
 	while (i < NB_PRODUCTIONS)
-		ft_lstdel_ptr(&state->items[i]);
+		ft_lstdel_ptr(&state->items_by_production[i]);
+	ft_lstdel_ptr(&state->items);
 	ft_lstdel_value(&state->transitions);
 	free(state);
 	state = NULL;

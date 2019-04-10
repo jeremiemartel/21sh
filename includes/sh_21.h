@@ -198,7 +198,8 @@ typedef struct		s_production
 typedef struct		s_state
 {
 	t_list			*transitions;	
-	t_list			*items[NB_PRODUCTIONS];
+	t_list			*items;
+	t_list			*items_by_production[NB_PRODUCTIONS];
 	int				index;
 	int				parsed;
 }					t_state;

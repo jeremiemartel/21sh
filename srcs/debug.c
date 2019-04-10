@@ -223,7 +223,7 @@ void	sh_print_state(t_state *state, int depth)
 	i = 0;
 	while(i < NB_PRODUCTIONS)
 	{
-	ptr = state->items[i];
+	ptr = state->items_by_production[i];
 	while (ptr != NULL)
 	{
 		item = (t_item *)ptr->content;

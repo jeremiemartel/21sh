@@ -108,20 +108,13 @@ void	sh_fill_tables_by_state(t_state *state, t_lr_parser *parser)
 	t_item			*item;
 	t_transition	*transition;
 
-	int i;
-
-	i = 0;
-	while (i < NB_PRODUCTIONS)
+	ptr = state->items;
+	while (ptr != NULL)
 	{
-		ptr = state->items[i];
-		while (ptr != NULL)
-		{
-			item = (t_item *)ptr->content;
-			if (item->progress == NULL)
-				sh_fill_reduce(state, item, parser);
-			ptr = ptr->next;
-		}
-		i++;
+		item = (t_item *)ptr->content;
+		if (item->progress == NULL)
+			sh_fill_reduce(state, item, parser);
+		ptr = ptr->next;
 	}
 	ptr = state->transitions;
 	while (ptr != NULL)
