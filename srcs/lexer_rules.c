@@ -128,7 +128,7 @@ int		lexer_rule5(t_lexer *lexer)
 
 	if (lexer->quoted)
 			return (LEX_CONTINUE);
-	if (lexer->c == '$' || lexer->c == '`')
+	if (lexer->c == '$' || lexer->c == '`' || lexer->c == '~')
 	{
 		// ft_putstr("current token before exp: ");ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
 		ret = lexer_expansion(lexer, &(lexer->input));
