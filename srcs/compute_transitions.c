@@ -17,13 +17,12 @@ int		sh_is_eligible_for_transition(t_state *state, t_item *item)
 	t_list *ptr;
 	t_item *item_ptr;
 
-	ptr = state->items_by_production[item->production->index];
+	ptr = state->items;
 	while (ptr != NULL)
 	{
 		item_ptr = (t_item *)ptr->content;
-		if (item_ptr->lookahead == item->lookahead
-			//	&& item->production == item_ptr->production
-			&&	item->progress->next == item_ptr->progress)
+		if (item->production == item_ptr->production &&
+				item->progress->next == item_ptr->progress)
 			return (1);
 		ptr = ptr->next;
 	}
@@ -81,7 +80,7 @@ int		sh_add_transition(t_state *from, t_state *to, t_symbol *symbol)
 
 	if (!(transition = sh_new_transition(to, symbol)))
 		return (1);
-	if (ft_lstaddnew_ptr(&from->transitions,
+	if (ft_lstaddnew_ptr_last(&from->transitions,
 			transition, sizeof(t_transition)))
 	{
 		free(transition);
@@ -92,14 +91,20 @@ int		sh_add_transition(t_state *from, t_state *to, t_symbol *symbol)
 
 t_item	*sh_new_item_advance(t_item *item)
 {
-	t_item *res;
+	t_item	*res;
+	int		i;
 
 	if (!(res = (t_item *)malloc(sizeof(t_item))))
 		return (NULL);
 	res->production = item->production;
 	res->progress = item->progress->next;
-	res->lookahead = item->lookahead;
 	res->parsed = 0;
+	i = 0;
+	while (i < NB_TERMS)
+	{
+		res->lookaheads[i] = item->lookaheads[i];
+		i++;
+	}
 	return (res);
 }
 
@@ -120,8 +125,6 @@ t_state *sh_new_parser_state_from_item(t_item *item, t_lr_parser *parser)
 		free(res);
 		return (NULL);
 	}
-	if (ft_lstaddnew_ptr(&res->items_by_production[item->production->index], new_item, sizeof(t_item *)))
-		return (NULL);
 	if (ft_lstaddnew_ptr_last(&parser->states, res, sizeof(t_state *)))
 	{
 		sh_free_state(res);
@@ -130,29 +133,11 @@ t_state *sh_new_parser_state_from_item(t_item *item, t_lr_parser *parser)
 	return (res);
 }
 
-int		sh_is_in_state_progress_item(t_state *state, t_item *item)
-{
-	t_list *ptr;
-	t_item *item_ptr;
-
-	ptr = state->items_by_production[item->production->index];
-	while (ptr != NULL)
-	{
-		item_ptr = (t_item *)ptr->content;
-		if (item_ptr->lookahead == item->lookahead
-		//	&& item->production == item_ptr->production
-			&& item->progress->next == item_ptr->progress)
-			return (1);
-		ptr = ptr->next;
-	}
-	return (0);
-}
-
-int		sh_add_to_state_check(t_state *state, t_item *item)
+int		sh_add_to_state_check(t_state *state, t_item *item, int *changes)
 {
 	t_item *new_item;
 
-	if (sh_is_in_state_progress_item(state, item))
+	if (sh_is_eligible_for_transition(state, item))
 		return (0);
 	else
 	{
@@ -163,11 +148,7 @@ int		sh_add_to_state_check(t_state *state, t_item *item)
 			free(new_item);
 			return (1);
 		}
-		if (ft_lstaddnew_ptr(&state->items_by_production[new_item->production->index], new_item, sizeof(t_item *)))
-		{
-			free(new_item);
-			return (1);
-		}
+		*changes = 1;
 		return (0);
 	}
 }
@@ -180,14 +161,14 @@ int		sh_add_to_state_check(t_state *state, t_item *item)
 */
 
 int		sh_add_transition_item(t_item *item,
-			t_state *state, t_lr_parser *parser)
+			t_state *state, t_lr_parser *parser, int *changes)
 {
 	t_state *res;
 
 	if ((res = sh_get_state_by_transition(state,
 			(t_symbol *)item->progress->content)))
 	{
-		if (sh_add_to_state_check(res, item))
+		if (sh_add_to_state_check(res, item, changes))
 			return (1);
 		return (0);
 	}
@@ -200,6 +181,7 @@ int		sh_add_transition_item(t_item *item,
 		}
 		if (sh_add_transition(state, res, item->progress->content))
 			return (1);
+		*changes = 1;
 		return (0);
 	}
 }
@@ -208,17 +190,17 @@ int		sh_compute_transitions(t_state *state, t_lr_parser *parser)
 {
 	t_list		*ptr;
 	t_item		*item;
-	int			i;
+	int			changes;
 
-	i = 0;
 	ptr = state->items;
+	changes = 0;
 	while (ptr != NULL)
 	{
 		item = (t_item *)ptr->content;
 		if (item->progress && sh_add_transition_item(item, state,
-					parser))
+					parser, &changes))
 			return (-1);
 		ptr = ptr->next;
 	}
-	return (0);
+	return (changes);
 }

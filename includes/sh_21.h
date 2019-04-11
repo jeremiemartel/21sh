@@ -214,7 +214,7 @@ typedef struct		s_item
 {
 	t_production	*production;
 	t_list			*progress;
-	t_symbol		*lookahead;
+	char			lookaheads[NB_TERMS];
 	char			parsed;
 }					t_item;
 
@@ -364,7 +364,7 @@ int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
 */
 t_state		*sh_new_state(void);
 void		sh_free_state(t_state *state);
-t_item		*sh_new_item(t_production *production, t_symbol *lookahead);
+t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS]);
 
 /*
 ** compute_lr_tables.c
@@ -386,6 +386,8 @@ int		sh_traverse(t_ast_node *node);
 
 int     sh_add_prod(t_symbol *symbol, t_cfg *cfg,
 			int nb_symbols, ...);
+
+t_cfg		*g_cfg;
 
 int		sh_init_prod_program(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_complete_commands(t_cfg *cfg, t_symbol *symbol);
