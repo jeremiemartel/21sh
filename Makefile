@@ -36,7 +36,7 @@ SRCS_NO_PREFIX		=	main.c lexer.c lexer_automates.c\
 						compute_lr_automata.c compute_lr_tables.c\
 						lr_parse.c compute_first_state.c state.c\
 						compute_closure.c compute_transitions.c traverse.c\
-						init_parsing.c
+						init_parsing.c trim_non_kernels.c
 
 INCLUDES_NO_PREFIX	= sh_21.h
 

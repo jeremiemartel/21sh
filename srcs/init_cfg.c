@@ -37,7 +37,7 @@ int		sh_add_to_prod(t_symbol cfg_symbols[NB_SYMBOLS],
 int		ft_add_prod(t_symbol *symbol, t_list *prod_symbols)
 {
 	t_production	*res;
-	static int		index = 1;
+	static int		index = 0;
 
 	if (!(res = (t_production *)malloc(sizeof(t_symbol))))
 		return (1);
@@ -158,6 +158,7 @@ int		init_context_free_grammar(t_cfg *cfg)
 	int j;
 
 	i = 0;
+	init_start_symbol(cfg, &cfg->start_symbol);
 	while (i < NB_SYMBOLS)
 	{
 		init_symbol(&cfg->symbols[i], i);
@@ -173,7 +174,6 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
 			return (1);
 	}
-	init_start_symbol(cfg, &cfg->start_symbol);
 	if (sh_compute_first_sets(cfg))
 		return (1);
 	if (sh_compute_follow_sets(cfg))

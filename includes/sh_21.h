@@ -220,6 +220,7 @@ void	print_follow_sets(t_cfg *cfg);
 void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS]);
 void	print_ll_table(t_cfg *cfg);
 void	print_cfg(t_cfg *cfg);
+void	sh_print_item(t_item * item);
 void	sh_print_lr_table(t_lr_parser *parser);
 void	sh_print_automata(t_lr_parser *parser, int depth);
 void	sh_print_parser(t_lr_parser *parser, int depth);
@@ -266,4 +267,6 @@ int		init_parsing(t_lr_parser *parser);
 ** traverse.c
 */
 int		sh_traverse(t_ast_node *node);
+
+void        sh_trim_non_kernels(t_lr_parser *parser);
 #endif

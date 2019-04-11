@@ -18,6 +18,7 @@ int		init_parsing(t_lr_parser *parser)
 		return (1);
 	if (sh_compute_lr_automata(parser))
 		return (1);
+	sh_trim_non_kernels(parser);
 	if (sh_compute_lr_tables(parser))
 		return (1);
 	return (0);
