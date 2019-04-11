@@ -12,9 +12,36 @@
 
 #include "sh_21.h"
 
-int			lexer_expansion_detect_all(char *input, t_expansion *exp);
+/*
+** lexer_expansion_detect:
+**		Function used to fill the t_expansion struct, detecting the current
+**		expansion
+*/
+int			lexer_expansion_detect(char *input, t_expansion *exp)
+{
+	if (*input == '`')
+		lexer_expansion_detect_fill_pattern(exp, "`", "`", 1 + 10 * 1 + 100 * LEX_EXP_CMD);
+	else if (ft_strnstr(input, "$((", 3))
+		lexer_expansion_detect_fill_pattern(exp, "$((", ")", 3 + 10 * 1 + 100 * LEX_EXP_ARITH);
+	else if (ft_strnstr(input, "$(", 2))
+		lexer_expansion_detect_fill_pattern(exp, "$(", ")", 2 + 10 * 1 + 100 * LEX_EXP_CMD);
+	else if (ft_strnstr(input, "${", 2))
+		lexer_expansion_detect_fill_pattern(exp, "${", "}", 2 + 10 * 1 + 100 * LEX_EXP_PARAM);
+	else if (ft_strnstr(input, "$", 1))
+		lexer_expansion_detect_fill_pattern(exp, "$", "", 1 + 10 * 0 + 100 * LEX_EXP_PARAM);
+	else
+	{
+		ft_putstrn("\033[31mNo expansions detected in lexer_expasion_detect\033[0m");//
+		return (LEX_EXP_ERR);
+	}
+	return (lexer_expansion_detect_fill_expansion(input, exp));
+}
 
-void		lexer_expansion_fill_pattern(t_expansion *expansion, char *start, char *end, int len)
+/*
+** lexer_expansion_detect_fill_pattern :
+**		Fill the t_pattern struct according to detected expansion
+*/
+void		lexer_expansion_detect_fill_pattern(t_expansion *expansion, char *start, char *end, int len)
 {
 	expansion->type = len / 100;
 	ft_strcpy(expansion->pattern.start, start);
@@ -23,30 +50,11 @@ void		lexer_expansion_fill_pattern(t_expansion *expansion, char *start, char *en
 	expansion->pattern.len_e = len / 10;
 }
 
-int			lexer_expansion_detect(char *input, t_expansion *exp)
-{
-	if (*input == '`')
-		lexer_expansion_fill_pattern(exp, "`", "`", 1 + 10 * 1 + 100 * LEX_EXP_CMD);
-	else if (ft_strnstr(input, "$((", 3))
-		lexer_expansion_fill_pattern(exp, "$((", ")", 3 + 10 * 1 + 100 * LEX_EXP_ARITH);
-	else if (ft_strnstr(input, "$(", 2))
-		lexer_expansion_fill_pattern(exp, "$(", ")", 2 + 10 * 1 + 100 * LEX_EXP_CMD);
-	else if (ft_strnstr(input, "${", 2))
-		lexer_expansion_fill_pattern(exp, "${", "}", 2 + 10 * 1 + 100 * LEX_EXP_PARAM);
-	else if (ft_strnstr(input, "$", 1))
-	{
-		ft_putstrn("\033[31mVariables expansion nor implemented yet\033[0m");//
-		return (LEX_EXP_ERR);
-	}
-	else
-	{
-		ft_putstrn("\033[31mNo expansions detected in lexer_expasion_detect\033[0m");//
-		return (LEX_EXP_ERR);
-	}
-	return (lexer_expansion_detect_all(input, exp));
-}
-
-int			lexer_expansion_detect_all(char *input, t_expansion *exp)
+/*
+** lexer_expansion_detect_fill_expansion:
+**		Fill the t_expansion struct according to detected expansion
+*/
+int			lexer_expansion_detect_fill_expansion(char *input, t_expansion *exp)
 {
 	char	*start;
 

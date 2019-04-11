@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/12 13:39:53 by ldedier           #+#    #+#              #
-#    Updated: 2019/03/19 19:00:17 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/11 16:17:49 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ EOC = \033[0m
 
 SRCS_NO_PREFIX		=	main.c lexer.c t_lexer.c t_token.c lexer_rules.c \
 						lexer_expansions.c lexer_expansions_detect.c \
-						lexer_expansions_process.c
+						lexer_expansions_process.c t_expansion.c
 
 
 INCLUDES_NO_PREFIX	= sh_21.h

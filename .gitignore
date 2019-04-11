@@ -1,5 +1,6 @@
 sh21
 21sh
+*.vscode
 
 # Prerequisites
 *.d

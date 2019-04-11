@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/21 17:32:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/11 16:17:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ typedef enum	e_exp_type
 	LEX_EXP_ARITH,
 }				t_exp_type;
 
+/*
+** pattern used to stock the expansions types
+**		start : stock the first chars (ex : `, $, $(, .. )
+**		end : stock the last chars (ex: `, ), )), }, ...)
+*/
+
 typedef struct	s_pattern
 {
 	char	start[4];
@@ -128,15 +134,16 @@ void		ft_putstr_len(char *str, int len);
 ** lexer_expansions.c
 */
 int			lexer_expansion(t_lexer *lexer, char **input);
+int			lexer_expansion_replace(t_expansion *expansion, char **input);
 
 /*
 ** lexer_expansion_detect.c
+**		Used to detect and fill a t_expansion struct, used to process
+**		later to recursively process the expansion
 */
-int			lexer_expansion_detect(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_command(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_arithmetic(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_parameter(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_variable(char *input, t_expansion *expansion);
+int			lexer_expansion_detect(char *input, t_expansion *exp);
+void		lexer_expansion_detect_fill_pattern(t_expansion *expansion, char *start, char *end, int len);
+int			lexer_expansion_detect_fill_expansion(char *input, t_expansion *exp);
 
 /*
 ** lexer_expansion_process.c
@@ -177,5 +184,10 @@ int			lexer_rule11(t_lexer *lexer);
 t_token		*t_token_new(int id, char *value);
 void		t_token_show(t_token *token);
 void		t_token_show_id(int i);
+
+/*
+** t_expansion.c
+*/
+void		t_expansion_free(t_expansion *expansion);
 
 #endif

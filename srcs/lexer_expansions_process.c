@@ -29,8 +29,6 @@ int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion)
 {
 	if (!(expansion->res = ft_dystr_new(expansion->expansion, ft_strlen(expansion->expansion), ft_strlen(expansion->expansion))))
 		return (LEX_EXP_ERR);
-	expansion->res->size = ft_strlen(expansion->res->str);
-	expansion->res->len = expansion->res->size;
 	return (LEX_EXP_OK);
 	(void)lexer;
 	(void)expansion;
@@ -40,8 +38,6 @@ int			lexer_expansion_process_arithmetic(t_lexer *lexer, t_expansion *expansion)
 {
 	if (!(expansion->res = ft_dystr_new(expansion->expansion, ft_strlen(expansion->expansion), ft_strlen(expansion->expansion))))
 		return (LEX_EXP_ERR);
-	expansion->res->size = ft_strlen(expansion->res->str);
-	expansion->res->len = expansion->res->size;
 	return (LEX_EXP_OK);
 	(void)lexer;
 	(void)expansion;
@@ -58,6 +54,8 @@ int			lexer_expansion_process_parameter(t_lexer *lexer, t_expansion *expansion)
 
 int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion)
 {
+	if (!(expansion->res = ft_dystr_new("", 0, 0)))
+		return (LEX_EXP_ERR);
 	return (LEX_EXP_ERR);
 	(void)lexer;
 	(void)expansion;
