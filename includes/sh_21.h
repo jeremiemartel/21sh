@@ -40,12 +40,14 @@ typedef enum		e_tokenlist
 
 typedef enum		e_test_token_id
 {
-	T_A,
-	T_B,
+	EQUAL,
+	ID,
+	MULT,
 	END_OF_INPUT, 
 	EPS, //end of terminals
-	S2,
-	X,//end of non terminals
+	E,
+	L,
+	R,//end of non terminals
 	NB_SYMBOLS
 }					t_test_token_id;
 
@@ -70,7 +72,7 @@ typedef struct		s_token
 	t_test_token_id	token_id;
 }					t_token;
 
-# define NB_TERMS	S2
+# define NB_TERMS	E
 # define NB_NOTERMS	NB_SYMBOLS - NB_TERMS
 
 typedef struct		s_symbol
@@ -108,7 +110,7 @@ typedef struct		s_item
 {
 	t_production	*production;
 	t_list			*progress;
-	t_symbol		*lookahead;
+	char			lookaheads[NB_TERMS];
 	char			parsed;
 }					t_item;
 
@@ -227,7 +229,7 @@ void	sh_print_token(t_token *token);
 void	sh_print_production(t_production *production);
 void	sh_print_ast_builder(t_ast_builder *ast_builder);
 void	sh_print_ast_parser(t_lr_parser *parser);
-
+void	sh_print_item(t_item *item);
 /*
 ** lr_parse.c
 */
@@ -246,7 +248,7 @@ int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
 */
 t_state		*sh_new_state(void);
 void		sh_free_state(t_state *state);
-t_item		*sh_new_item(t_production *production, t_symbol *lookahead);
+t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS]);
 
 /*
 ** compute_lr_tables.c
@@ -265,4 +267,5 @@ int		init_parsing(t_lr_parser *parser);
 ** traverse.c
 */
 int		sh_traverse(t_ast_node *node);
+t_cfg 		*g_cfg;
 #endif

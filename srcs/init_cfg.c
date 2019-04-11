@@ -57,7 +57,7 @@ int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 	t_list *prod_symbols;
 
 	symbol->productions = NULL;
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, S2); //(1)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, E); //(1)
 	ft_add_prod(symbol, prod_symbols);
 	ft_strcpy(symbol->debug, "S");
 	return (0);
@@ -67,30 +67,45 @@ int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 //		(1) E → int
 //		(2) E → (E Op E)
 
-int		init_S2(t_cfg *cfg, t_symbol *symbol)
+int		init_E(t_cfg *cfg, t_symbol *symbol)
 {
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, T_A, X); //(1)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 3, L, EQUAL, R); //(1)
 	ft_add_prod(symbol, prod_symbols);
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, R); //(1)
+	ft_add_prod(symbol, prod_symbols);
+
 	return (0);
 }
 
 //		(3) Op → +
 //		(4) Op → *
 
-int		init_X(t_cfg *cfg, t_symbol *symbol)
+int		init_L(t_cfg *cfg, t_symbol *symbol)
 {
 	(void)symbol;
 	(void)cfg;
 	t_list *prod_symbols;
 
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, X,  T_B); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, ID);
 	ft_add_prod(symbol, prod_symbols);
-	sh_add_to_prod(cfg->symbols, &prod_symbols, 0); //(2)
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 2, MULT, R); //(2)
 	ft_add_prod(symbol, prod_symbols);
 	return (0);
 }
+
+int		init_R(t_cfg *cfg, t_symbol *symbol)
+{
+	(void)symbol;
+	(void)cfg;
+	t_list *prod_symbols;
+
+	sh_add_to_prod(cfg->symbols, &prod_symbols, 1, L);
+	ft_add_prod(symbol, prod_symbols);
+	return (0);
+}
+
 //		None
 /*
  ** attributes for each non_terminal every single of its productions
@@ -99,19 +114,22 @@ int		init_X(t_cfg *cfg, t_symbol *symbol)
 static	int (*g_init_grammar_productions[NB_NOTERMS])
 	(t_cfg *, t_symbol *symbol) = 
 {
-	init_S2,
-	init_X,
+	init_E,
+	init_L,
+	init_R
 };
 
 char		*get_debug(int index)
 {
 	static char *debug_str_tab[NB_SYMBOLS] = {
-		"a",
-		"b",
+		"=",
+		"id",
+		"*",
 		"$",
 		"ε",
-		"S2",
-		"X"
+		"E",
+		"L",
+		"R"
 	};
 	return (debug_str_tab[index]);
 }
@@ -131,6 +149,7 @@ void	init_symbol(t_symbol *symbol, t_test_token_id id)
 	symbol->id = id;
 	symbol->relevant = 1;
 	symbol->replacing = 0;
+	ft_printf("%s\n", get_debug(id));
 	ft_strcpy(symbol->debug, get_debug(id));
 }
 
@@ -139,7 +158,9 @@ int		init_context_free_grammar(t_cfg *cfg)
 	int i;
 	int j;
 
+	g_cfg = cfg; //todel
 	i = 0;
+	init_start_symbol(cfg, &cfg->start_symbol);
 	while (i < NB_SYMBOLS)
 	{
 		init_symbol(&cfg->symbols[i], i);
@@ -155,7 +176,6 @@ int		init_context_free_grammar(t_cfg *cfg)
 		if (g_init_grammar_productions[j++](cfg, &cfg->symbols[i++]))
 			return (1);
 	}
-	init_start_symbol(cfg, &cfg->start_symbol);
 	if (sh_compute_first_sets(cfg))
 		return (1);
 	if (sh_compute_follow_sets(cfg))

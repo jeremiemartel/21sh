@@ -30,7 +30,8 @@ void	sh_create_moke_list(t_list **tokens)
 	t_token	token;
 
 	*tokens = NULL;  // ((4 + 9) * 5) = 65
-	sh_populate_token(&token, T_A, 0, TYPE_STR);
+/*
+sh_populate_token(&token, T_A, 0, TYPE_STR);
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, T_B, 0, TYPE_STR);
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
@@ -46,6 +47,7 @@ void	sh_create_moke_list(t_list **tokens)
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
 	sh_populate_token(&token, T_B, 0, TYPE_STR);
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
+*/
 	sh_populate_token(&token, END_OF_INPUT, 0, TYPE_STR);
 	ft_lstaddnew_last(tokens, &token, sizeof(t_token));
 }
@@ -75,7 +77,7 @@ int		sh_process_test(void)
 	if (init_parsing(&parser))
 		return (1);
 	parser.tokens = tokens;
-	sh_print_parser(&parser, 1);
+	sh_print_parser(&parser, 0);
 	sh_parse_token_list(&parser);
 	return (0);
 }

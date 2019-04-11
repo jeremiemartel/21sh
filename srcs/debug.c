@@ -26,10 +26,12 @@ void	sh_print_token(t_token *token)
 		ft_printf("%d", token->token_union.ival);
 	else
 	{
+		/*
 		if (token->token_id == T_A)
 			ft_printf("a");
 		if (token->token_id == T_B)
 			ft_printf("b");
+			*/
 	}
 }
 
@@ -197,8 +199,17 @@ void	sh_print_item(t_item *item)
 	}
 	if (ptr == item->progress)
 		ft_printf(BOLD"·"EOC);
+	int i;
 	ft_printf("\t(for symbol: [");
-	sh_print_symbol(item->lookahead);
+	i = 0;
+	while (i < NB_TERMS)
+	{
+		if (item->lookaheads[i])
+			sh_print_symbol(&g_cfg->symbols[i]);
+			ft_printf(" ");
+		i++;
+	}
+//	sh_print_symbol(item->lookahead);
 	ft_printf("])\n");
 }
 
