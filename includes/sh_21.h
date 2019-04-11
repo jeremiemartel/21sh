@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/11 16:17:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/11 17:21:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef enum	e_exp_type
 	LEX_EXP_PARAM,
 	LEX_EXP_CMD,
 	LEX_EXP_ARITH,
+	LEX_EXP_TILDE,
 }				t_exp_type;
 
 /*
@@ -153,7 +154,7 @@ int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion);
 int			lexer_expansion_process_arithmetic(t_lexer *lexer, t_expansion *expansion);
 int			lexer_expansion_process_parameter(t_lexer *lexer, t_expansion *expansion);
 int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion);
-
+int			lexer_expansion_process_tilde(t_lexer *lexer, t_expansion *expansion);
 
 /*
 ** t_lexer.c
@@ -189,5 +190,6 @@ void		t_token_show_id(int i);
 ** t_expansion.c
 */
 void		t_expansion_free(t_expansion *expansion);
+void		t_expansion_show(t_expansion *exp);
 
 #endif

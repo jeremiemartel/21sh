@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:54:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/22 13:50:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/11 16:30:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int			lexer_expansion_detect(char *input, t_expansion *exp)
 	else if (ft_strnstr(input, "${", 2))
 		lexer_expansion_detect_fill_pattern(exp, "${", "}", 2 + 10 * 1 + 100 * LEX_EXP_PARAM);
 	else if (ft_strnstr(input, "$", 1))
-		lexer_expansion_detect_fill_pattern(exp, "$", "", 1 + 10 * 0 + 100 * LEX_EXP_PARAM);
+		lexer_expansion_detect_fill_pattern(exp, "$", " \t\n\0", 1 + 10 * 0 + 100 * LEX_EXP_VAR);
+	else if (ft_strnstr(input, "~", 1))
+		lexer_expansion_detect_fill_pattern(exp, "$", "/ \t\n\0", 1 + 10 * 0 + 100 * LEX_EXP_TILDE);
 	else
 	{
 		ft_putstrn("\033[31mNo expansions detected in lexer_expasion_detect\033[0m");//
