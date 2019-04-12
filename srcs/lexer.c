@@ -16,11 +16,27 @@
 
 # define LEX_RULES_LEN	10
 
-int		lexer(char *input)
+int		ft_lstdup(t_list **to, t_list *from)
+{
+	t_list *ptr;
+
+	*to = NULL;
+	ptr = from;
+	while (ptr != NULL)
+	{
+		if (ft_lstaddnew_last(to, ptr->content, ptr->content_size))
+			return (1);
+		ptr = ptr->next;
+	}
+	return (0);
+}
+
+int		lexer(char *input, t_list **tokens)
 {
 	t_lexer		lexer;
 	int			ret;
 	int			i;
+
 	int (*rules[LEX_RULES_LEN]) (t_lexer *) =
 	{
 		&lexer_rule1,
@@ -66,7 +82,10 @@ int		lexer(char *input)
 	}
 	if (ret == LEX_ERR)
 		ft_putstrn("Error returned by lexer");
-	lexer_show(&lexer);
+	lexer_show(&lexer);	
+	if (ft_lstdup(tokens, lexer.list))
+		return (LEX_ERR);
+	*tokens = lexer.list;
 	t_lexer_free(&lexer);
 	return (0);
 }

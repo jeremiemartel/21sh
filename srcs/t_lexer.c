@@ -23,19 +23,19 @@ void	lexer_init(t_lexer *lexer, int tok_start)
 
 void	t_lexer_free(t_lexer *lexer)
 {
-	t_list		*head;
-	t_list		*buf;
+//	t_list		*head;
+//	t_list		*buf;
 
 	if (lexer->input)
 		free(lexer->input);
-	head = lexer->list;
-	while (head)
-	{
-		buf = head;
-		head = head->next;
-		free(buf->content);
-		free(buf);
-	}
+//	head = lexer->list;
+//	while (head)
+//	{
+//		buf = head;
+//		head = head->next;
+//		free(buf->content);
+//		free(buf);
+//	}
 }
 
 int		lexer_add_token(t_lexer *lexer)

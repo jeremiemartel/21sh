@@ -19,6 +19,9 @@ t_token	*t_token_new(int id, char *value)
 	if (!(token = malloc(sizeof(*token))))
 		return (NULL);
 	token->id = id;
+	token->index = sh_index(id);
+	token->token_type= TYPE_STR;
+//	ft_printf("%d => %d\n", id, token->index);
 	if (!(value))
 		ft_bzero(token->value, LEX_TOKEN_VALUE_LEN);
 	return (token);
