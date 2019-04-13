@@ -6,7 +6,7 @@
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/04/13 14:28:04 by ldedier          ###   ########.fr        #
+#    Updated: 2019/04/13 19:18:31 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_strjoin_free.c ./str/ft_strinsert_free.c \
 			./str/ft_strjoin_path.c ./str/ft_strndup.c \
 			./str/ft_split_whitespaces.c ./str/ft_strrep_free.c \
-			./str/ft_strpbrk.c
+			./str/ft_strpbrk.c ./str/ft_strnrest.c ./str/ft_strjoin_3.c
 
 SRCS	+=	./str/ft_strtab_free.c ./str/ft_strtab_put.c \
 			./str/ft_strtab_len.c ./str/ft_strtab_new_line.c

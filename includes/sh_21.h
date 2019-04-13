@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 16:22:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:15:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@
 ** index.c
 */
 int		sh_index(t_symbol_id id);
-
+int		is_key_of_entry(char *entry, char *key);
 #endif
