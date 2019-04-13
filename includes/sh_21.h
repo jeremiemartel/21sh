@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 19:15:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:49:53 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,15 @@
 /*
 ** index.c
 */
-int		sh_index(t_symbol_id id);
-int		is_key_of_entry(char *entry, char *key);
+int			sh_index(t_symbol_id id);
+int			is_key_of_entry(char *entry, char *key);
+
+/*
+** env.c
+*/
+int			is_key_of_entry(char *entry, char *key);
+char		*get_env_value(char **env, char *str);
+char		*get_env_entry(char **env, char *str);
+int			process_ms_env(t_dy_tab *env);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 22:22:46 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 19:13:57 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:49:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char		*get_env_entry(char **env, char *str)
 	return (NULL);
 }
 
-int			process_ms_env(t_dy_tab *env)
+int			process_sh_env(t_dy_tab *env)
 {
 	size_t i;
 

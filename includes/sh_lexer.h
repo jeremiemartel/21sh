@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 16:57:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:30:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,10 @@ int					lexer_expansion_process_parameter(
 						t_lexer *lexer, t_expansion *expansion);
 int					lexer_expansion_process_variable(
 						t_lexer *lexer, t_expansion *expansion);
+
+/*
+** lexer_expansion_process_tilde.c
+*/
 int					lexer_expansion_process_tilde(
 						t_lexer *lexer, t_expansion *expansion);
 

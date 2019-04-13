@@ -6,13 +6,13 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/13 19:13:28 by ldedier          ###   ########.fr        #
+#    Updated: 2019/04/13 19:41:26 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= 21sh
 
-CC		= gcc -g3
+CC		= gcc
 
 PWD = \"$(shell pwd)\"
 
@@ -49,6 +49,7 @@ LEXER_SRCS_NO_PREFIX =	lexer.c t_lexer.c \
 						lexer_expansions.c \
 						lexer_expansions_detect.c \
 						lexer_expansions_process.c \
+						lexer_expansions_process_tilde.c \
 						t_expansion.c
 						
 
