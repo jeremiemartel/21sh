@@ -41,7 +41,7 @@ SRCS_NO_PREFIX =		main.c parser.c init_cfg.c\
 						compute_closure.c compute_transitions.c traverse.c\
 						init_parsing.c grammar.c index.c\
 						
-LEXER_SRCS_NO_PREFIX =	main.c lexer.c t_lexer.c \
+LEXER_SRCS_NO_PREFIX =	lexer.c t_lexer.c \
 						t_token.c lexer_rules.c \
 						lexer_expansions.c \
 						lexer_expansions_detect.c \
