@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   traverse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 17:59:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/18 06:02:31 by ldedier          ###   ########.fr       */
+/*   Created: 2019/04/07 18:41:50 by ldedier           #+#    #+#             */
+/*   Updated: 2019/04/07 18:41:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int			main(int argc, char **argv)
+int		op_nothing(t_ast_node *node)
 {
-	char		*input;
-	t_list		*tokens;
-
-	tokens = NULL;
-	if (argc == 1)
-		return (0);
-	input = ft_strdup(argv[1]);
-	if (lexer(input, &tokens))
-		return (1);
-	if (sh_parser(tokens))
-		return (1);
-	ft_strdel(&input);
+	(void)node;
 	return (0);
-	(void)argc;
-	(void)argv;
+}
+
+int		sh_traverse(t_ast_node *node)
+{
+	(void)node;
+//	if (node)
+//		return ((g_operator_token[node->token->id])(node));
+//	else
+		return (0);
 }

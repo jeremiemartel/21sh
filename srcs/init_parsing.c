@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 17:59:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/18 06:02:31 by ldedier          ###   ########.fr       */
+/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
+/*   Updated: 2019/04/07 23:40:02 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int			main(int argc, char **argv)
+int		init_parsing(t_lr_parser *parser)
 {
-	char		*input;
-	t_list		*tokens;
-
-	tokens = NULL;
-	if (argc == 1)
-		return (0);
-	input = ft_strdup(argv[1]);
-	if (lexer(input, &tokens))
+	g_cfg = &parser->cfg;
+	parser->root = NULL;
+	if (init_context_free_grammar(&parser->cfg))
 		return (1);
-	if (sh_parser(tokens))
+	if (sh_compute_lr_automata(parser))
 		return (1);
-	ft_strdel(&input);
+	if (sh_compute_lr_tables(parser))
+		return (1);
 	return (0);
-	(void)argc;
-	(void)argv;
 }

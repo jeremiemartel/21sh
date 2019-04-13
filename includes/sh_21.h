@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/11 17:44:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 11:35:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,181 +14,244 @@
 # define SH_21_H
 
 # include <stdarg.h>
-
 # include "libft.h"
+# include "sh_tokens.h"
+# include "sh_lexer.h"
 
-typedef enum	e_token_id
+# define DEBUG_BUFFER	50
+
+typedef struct		s_symbol
 {
-	LEX_TOK_UNKNOWN = 0,
-	//simple operators
-	LEX_TOK_PIPE = '|',
-	LEX_TOK_AND = '&',
-	LEX_TOK_SEMICOL = ';',
-	LEX_TOK_LESS = '<',
-	LEX_TOK_GREAT = '>',
-	LEX_TOK_OPN_PAR = '(',
-	LEX_TOK_CLS_PAR = ')',
-	LEX_TOK_DOLLAR = '$',
-	//Quoting tokens
-	LEX_TOK_BACK_SLASH = '\\',
-	LEX_TOK_QUOTE_BACK = '`',
-	LEX_TOK_QUOTE_SPL = '\'',
-	LEX_TOK_QUOTE_DBL = '"',
-	LEX_TOK_SPACE = ' ',
-	LEX_TOK_TAB = '\t',
-	LEX_TOK_NEWLINE = '\n',
-	//Special chars
-	LEX_TOK_STAR = '*',
-	LEX_TOK_QUEST = '?',
-	LEX_TOK_HASH = '#',
-	LEX_TOK_TILD = '~',
-	LEX_TOK_EQUAL = '=',
-	LEX_TOK_PERCENT = '%',
-	//Composed operators
-	LEX_TOK_AND_IF = '&' + 0xff00 * '&',				//&&
-	LEX_TOK_OR_IF = '|' + 0xff00 * '|',				//||
-	LEX_TOK_DSEMI = ';' + 0xff00 * ';',				//;;
-	LEX_TOK_DLESS = '<' + 0xff00 * '<',				//<<
-	LEX_TOK_DGREAT = '>' + 0xff00 * '>',				//>>
-	LEX_TOK_LESSAND = '<' + 0xff00 * '&',				//<&
-	LEX_TOK_GREATAND = '>' + 0xff00 * '&',				//>&
-	LEX_TOK_LESSGREAT = '<' + 0xff00 * '>',				//<>
-	LEX_TOK_DLESSDASH = '<' + 0xff00 * '<' + 0xff0000 * '-',	//<<-
-	LEX_TOK_CLOBBER = '>' + 0xff00 * '|',				//>|
-	//Other
-	LEX_TOK_TOKEN = 130,
-	LEX_TOK_WORD,
-	LEX_TOK_ASSIGMENT_NAME,
-	LEX_TOK_NAME,
-	LEX_TOK_IO_NUMBER,
-}				t_token_id;
+	t_list			*productions;
+	int				id;
+	char			first_sets[NB_TERMS];
+	char			follow_sets[NB_TERMS];
+	char			debug[DEBUG_BUFFER];
+	char			relevant;
+	char			replacing;
+}					t_symbol;
 
-typedef struct	s_lexer
+typedef struct		s_production
 {
-	char	c;
-	char	*input;
-	int		tok_start;
-	int		tok_len;
-	int		current_id;
-	int		quoted;
-	t_list	*list;
-}				t_lexer;
+	int				index;
+	t_symbol		*from;
+	t_list			*symbols;
+}					t_production;
 
-/*
-** Expansion header
-*/
-typedef enum	e_exp_type
+typedef struct		s_state
 {
-	LEX_EXP_ERR = -1,
-	LEX_EXP_OK = 0,
-	LEX_EXP_VAR,
-	LEX_EXP_PARAM,
-	LEX_EXP_CMD,
-	LEX_EXP_ARITH,
-	LEX_EXP_TILDE,
-}				t_exp_type;
+	t_list			*transitions;
+	t_list			*items;
+	t_list			*items_by_production[NB_PRODUCTIONS];
+	int				index;
+	int				parsed;
+}					t_state;
 
-/*
-** pattern used to stock the expansions types
-**		start : stock the first chars (ex : `, $, $(, .. )
-**		end : stock the last chars (ex: `, ), )), }, ...)
-*/
-
-typedef struct	s_pattern
+typedef struct		s_transition
 {
-	char	start[4];
-	char	end[4];
-	int		len_s;
-	int		len_e;
-}				t_pattern;
+	t_symbol		*symbol;
+	t_state			*state;
+}					t_transition;
 
-typedef struct s_expansion
+typedef struct		s_item
 {
-	t_dystr		*res;
-	char		*original;
-	char		*expansion;
-	t_exp_type	type;
-	t_pattern	pattern;
-}				t_expansion;
+	t_production	*production;
+	t_list			*progress;
+	char			lookaheads[NB_TERMS];
+	char			parsed;
+}					t_item;
 
-
-# define LEX_TOKEN_VALUE_LEN	250
-
-# define LEX_END		3
-# define LEX_ERR		2
-# define LEX_CONTINUE	1
-# define LEX_OK			0
-
-typedef struct	s_token
+typedef struct s_cfg
 {
-	t_token_id	id;
-	char		value[LEX_TOKEN_VALUE_LEN + 1];
-}				t_token;
+	t_symbol		start_symbol;
+	t_symbol		symbols[NB_SYMBOLS];
+	t_production	productions[NB_PRODUCTIONS];
+}					t_cfg;
+
+typedef enum		e_action_enum
+{
+	ERROR,
+	ACCEPT,
+	SHIFT,
+	REDUCE
+}					t_action_enum;
+
+typedef union		u_action_union
+{
+	t_state			*state;
+	t_production	*production;
+}					t_action_union;
+
+typedef struct		s_action
+{
+	t_action_enum	action_enum;
+	t_action_union	action_union;
+}					t_action;
+
+typedef struct			s_ast_node
+{
+	t_token				*token;
+	struct s_ast_node	*parent;
+	t_list				*children;
+}						t_ast_node;
+
+typedef struct			s_ast_builder
+{
+	t_ast_node			*node;
+	t_symbol			*symbol;
+}						t_ast_builder;
+
+typedef struct		s_lr_parser
+{
+	t_list			*states;
+	t_action		**lr_tables;
+	t_cfg			cfg;
+	t_list			*tokens;
+	t_list			*stack;
+	t_ast_node		*root;
+}					t_lr_parser;
+
+typedef struct		s_grammar_holder
+{
+	char			*debug;
+	char			relevant;
+	char			replacing;
+	int 			(*init_prod)(t_cfg *, t_symbol *);
+}					t_grammar_holder;
+
+t_grammar_holder	g_grammar[NB_SYMBOLS];
 
 /*
-** lexer.c
+** first_sets.c
 */
-int			lexer(char *input);
-void		ft_putstr_len(char *str, int len);
+void		sh_init_first_sets(char first_sets[NB_TERMS]);
+int			sh_compute_first_sets(t_cfg *cfg);
+int			sh_compute_first_sets_str(t_cfg *cfg, char first_sets[NB_TERMS], t_list *w);
+void		sh_process_transitive_first_set_2(char first_sets[NB_TERMS], int index);
+void		sh_process_transitive_first_sets_2(char first_sets[NB_TERMS], t_symbol *prod_symbol);
+/*
+** follow_sets.c
+*/
+int     sh_compute_follow_sets(t_cfg *cfg);
 
 /*
-** lexer_expansions.c
+** debug.c
 */
-int			lexer_expansion(t_lexer *lexer, char **input);
-int			lexer_expansion_replace(t_expansion *expansion, char **input);
+void  	sh_print_symbol_list(t_list *symbols);
+void  	sh_print_pda(t_list *symbols);
+void	sh_print_symbol(t_symbol *symbol);
+void	sh_print_token_list(t_list *list, t_cfg *cfg);
+void	sh_print_non_terminals_productions(t_cfg *cfg);
+void	sh_print_non_terminal_production(t_symbol *symbol);
+void	print_first_sets(t_cfg *cfg);
+void	print_follow_sets(t_cfg *cfg);
+void	sh_process_print_set(t_cfg *cfg, char sets[NB_TERMS]);
+void	sh_print_cfg(t_cfg *cfg);
+void	sh_print_lr_table(t_lr_parser *parser);
+void	sh_print_automata(t_lr_parser *parser, int depth);
+void	sh_print_parser(t_lr_parser *parser, int depth);
+void	sh_print_state(t_state *state, int depth);
+void    sh_print_parser_state(t_lr_parser *parser);
+void	sh_print_token(t_token *token, t_cfg *cfg);
+void	sh_print_production(t_production *production);
+void	sh_print_ast_builder(t_ast_builder *ast_builder);
+void	sh_print_ast_parser(t_lr_parser *parser);
 
 /*
-** lexer_expansion_detect.c
-**		Used to detect and fill a t_expansion struct, used to process
-**		later to recursively process the expansion
+** lr_parse.c
 */
-int			lexer_expansion_detect(char *input, t_expansion *exp);
-void		lexer_expansion_detect_fill_pattern(t_expansion *expansion, char *start, char *end, int len);
-int			lexer_expansion_detect_fill_expansion(char *input, t_expansion *exp);
+int		sh_lr_parse(t_lr_parser *parser);
+int			sh_process_test(void);
+int			sh_parse_token_list(t_lr_parser *parser);
+int			sh_is_term(t_symbol *symbol);
 
 /*
-** lexer_expansion_process.c
+** compute_lr_automata.c
 */
-int			lexer_expansion_process(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_arithmetic(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_parameter(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion);
+int     sh_compute_lr_automata(t_lr_parser *parser);
+t_state	*sh_compute_first_state(t_lr_parser *parser);
+int		sh_compute_closure(t_state *state, t_lr_parser *parser);
+int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
 
 /*
-** lexer_expansion_process_tilde.c
+** state.c
 */
-int			lexer_expansion_process_tilde(t_lexer *lexer, t_expansion *expansion);
+t_state		*sh_new_state(void);
+void		sh_free_state(t_state *state);
+t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS]);
 
 /*
-** t_lexer.c
+** compute_lr_tables.c
 */
-void		lexer_init(t_lexer *lexer, int tok_start);
-int			lexer_add_token(t_lexer *lexer);
-void		lexer_show(t_lexer *lexer);
-void		t_lexer_free(t_lexer *lexer);
+int     sh_compute_lr_tables(t_lr_parser *parser);
 
 /*
-** lexer_rules.c
+** init_cfg.c
 */
-int			lexer_rule1(t_lexer *lexer);
-int			lexer_rule2(t_lexer *lexer);
-int			lexer_rule3(t_lexer *lexer);
-int			lexer_rule4(t_lexer *lexer);
-int			lexer_rule5(t_lexer *lexer);
-int			lexer_rule6(t_lexer *lexer);
-int			lexer_rule7(t_lexer *lexer);
-int			lexer_rule8(t_lexer *lexer);
-int			lexer_rule9(t_lexer *lexer);
-int			lexer_rule10(t_lexer *lexer);
-int			lexer_rule11(t_lexer *lexer);
+int		init_context_free_grammar(t_cfg *cfg);
+
+
+int		init_parsing(t_lr_parser *parser);
 
 /*
-** t_token.c
+** traverse.c
 */
-t_token		*t_token_new(int id, char *value);
-void		t_token_show(t_token *token);
-void		t_token_show_id(int i);
+int		sh_traverse(t_ast_node *node);
+
+int     sh_add_prod(t_symbol *symbol, t_cfg *cfg,
+			int nb_symbols, ...);
+
+t_cfg		*g_cfg;
+
+int		sh_index(t_symbol_id id);
+
+int		sh_init_prod_program(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_complete_commands(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_complete_command(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_list(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_and_or(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_pipeline(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_pipe_sequence(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_command(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_compound_command(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_subshell(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_compound_list(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_term(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_for_clause(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_name(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_in(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_wordlist(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_case_clause(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_case_list_ns(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_case_list(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_case_item_ns(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_case_item(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_pattern(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_if_clause(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_else_part(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_while_clause(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_until_clause(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_function_definition(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_function_body(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_fname(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_brace_group(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_do_group(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_simple_command(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_cmd_name(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_cmd_word(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_cmd_prefix(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_cmd_suffix(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_redirect_list(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_io_redirect(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_io_file(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_filename(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_io_here(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_here_end(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_newline_list(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_linebreak(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_separator_op(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_separator(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_sequential_sep(t_cfg *cfg, t_symbol *symbol);
 
 /*
 ** t_expansion.c
