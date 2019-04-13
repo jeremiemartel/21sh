@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 11:31:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 11:51:54 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef enum		e_exp_type
 	LEX_EXP_PARAM,
 	LEX_EXP_CMD,
 	LEX_EXP_ARITH,
+	LEX_EXP_TILDE,
 }					t_exp_type;
 
 typedef struct		s_pattern
@@ -90,27 +91,26 @@ typedef struct		s_token
 /*
 ** lexer.c
 */
+int					ft_lstdup(t_list **to, t_list *from);
 int					lexer(char *input, t_list **tokens);
 void				ft_putstr_len(char *str, int len);
-int					sh_parser(t_list *tokens);
 
 /*
 ** lexer_expansions.c
 */
 int					lexer_expansion(t_lexer *lexer, char **input);
+int					lexer_expansion_replace(
+						t_expansion *expansion, char **input);
 
 /*
 ** lexer_expansion_detect.c
 */
-int					lexer_expansion_detect(char *input, t_expansion *expansion);
-int					lexer_expansion_detect_command(
-						char *input, t_expansion *expansion);
-int					lexer_expansion_detect_arithmetic(
-						char *input, t_expansion *expansion);
-int					lexer_expansion_detect_parameter(
-						char *input, t_expansion *expansion);
-int					lexer_expansion_detect_variable(
-						char *input, t_expansion *expansion);
+int					lexer_expansion_detect(
+						char *input, t_expansion *exp);
+void				lexer_expansion_detect_fill_pattern(
+						t_expansion *expansion, char *start, char *end, int len);
+int					lexer_expansion_detect_fill_expansion(
+						char *input, t_expansion *exp);
 
 /*
 ** lexer_expansion_process.c
@@ -125,14 +125,8 @@ int					lexer_expansion_process_parameter(
 						t_lexer *lexer, t_expansion *expansion);
 int					lexer_expansion_process_variable(
 						t_lexer *lexer, t_expansion *expansion);
-
-/*
-** t_lexer.c
-*/
-void				lexer_init(t_lexer *lexer, int tok_start);
-int					lexer_add_token(t_lexer *lexer);
-void				lexer_show(t_lexer *lexer);
-void				t_lexer_free(t_lexer *lexer);
+int					lexer_expansion_process_tilde(
+						t_lexer *lexer, t_expansion *expansion);
 
 /*
 ** lexer_rules.c
@@ -150,10 +144,23 @@ int					lexer_rule10(t_lexer *lexer);
 int					lexer_rule11(t_lexer *lexer);
 
 /*
+** t_lexer.c
+*/
+void				lexer_init(t_lexer *lexer, int tok_start);
+int					lexer_add_token(t_lexer *lexer);
+void				lexer_show(t_lexer *lexer);
+void				t_lexer_free(t_lexer *lexer);
+
+/*
 ** t_token.c
 */
 t_token				*t_token_new(int id, char *value);
 void				t_token_show(t_token *token);
 void				t_token_show_id(int i);
+
+/*
+** t_expansion.c
+*/
+void				t_expansion_free(t_expansion *expansion);
 
 #endif

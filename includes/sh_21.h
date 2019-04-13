@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 11:26:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 11:54:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,12 @@ typedef struct		s_grammar_holder
 t_grammar_holder	g_grammar[NB_SYMBOLS];
 
 /*
+** parser.c
+*/
+int			sh_parser(t_list *tokens);
+
+
+/*
 ** first_sets.c
 */
 void		sh_init_first_sets(char first_sets[NB_TERMS]);
@@ -160,7 +166,7 @@ void	sh_print_ast_parser(t_lr_parser *parser);
 /*
 ** lr_parse.c
 */
-int		sh_lr_parse(t_lr_parser *parser);
+int			sh_lr_parse(t_lr_parser *parser);
 int			sh_process_test(void);
 int			sh_parse_token_list(t_lr_parser *parser);
 int			sh_is_term(t_symbol *symbol);
@@ -252,5 +258,11 @@ int		sh_init_prod_linebreak(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_separator_op(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_separator(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_sequential_sep(t_cfg *cfg, t_symbol *symbol);
+
+/*
+** t_expansion.c
+*/
+void		t_expansion_free(t_expansion *expansion);
+void		t_expansion_show(t_expansion *exp);
 
 #endif

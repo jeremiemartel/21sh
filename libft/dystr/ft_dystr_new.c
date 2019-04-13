@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 08:41:05 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 12:34:51 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/11 17:25:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 t_dystr		*ft_dystr_new(char *str, size_t size, size_t len)
 {
 	t_dystr		*dystr;
-
 
 	if (!(dystr = malloc(sizeof(*dystr))))
 		return (NULL);

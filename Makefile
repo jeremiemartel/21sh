@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/13 11:14:40 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/13 12:01:26 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,7 @@ INCLUDESDIR = includes
 LIBFTDIR = libft
 
 PROD_DIR   = productions
-LEXER_DIR   = lexer
-
+LEXER_DIR	= lexer
 
 SPEED = -j1
 LIBFT_INCLUDEDIR = includes
@@ -42,11 +41,14 @@ SRCS_NO_PREFIX =		main.c parser.c init_cfg.c\
 						compute_closure.c compute_transitions.c traverse.c\
 						init_parsing.c grammar.c index.c\
 						
-LEXER_SRCS_NO_PREFIX=	lexer.c t_lexer.c\
-						t_token.c lexer_rules.c\
-						lexer_expansions.c\
-						lexer_expansions_detect.c\
-						lexer_expansions_process.c
+LEXER_SRCS_NO_PREFIX =	main.c lexer.c t_lexer.c \
+						t_token.c lexer_rules.c \
+						lexer_expansions.c \
+						lexer_expansions_detect.c \
+						lexer_expansions_process.c \
+						t_expansion.c
+						
+
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_case_clause.c sh_prod_case_item.c\
@@ -72,7 +74,7 @@ PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_while_clause.c sh_prod_wordlist.c\
 						sh_prod_complete_commands.c
 
-INCLUDES_NO_PREFIX	= sh_21.h
+INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 PROD_SOURCES = $(addprefix $(SRCDIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX))
