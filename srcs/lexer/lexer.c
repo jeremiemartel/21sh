@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 11:06:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 16:31:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int		lexer(char *input, t_list **tokens)
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
 	if (ret == LEX_ERR)
+	{
 		ft_putstrn("Error returned by lexer");
+		return (1);
+	}
 	lexer_show(&lexer);	
 	if (ft_lstdup(tokens, lexer.list))
 		return (LEX_ERR);

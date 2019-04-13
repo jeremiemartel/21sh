@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 12:31:41 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 15:12:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct		s_action
 typedef struct			s_ast_node
 {
 	t_token				*token;
+	t_symbol			*symbol;
 	struct s_ast_node	*parent;
 	t_list				*children;
 }						t_ast_node;
@@ -140,6 +141,7 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser);
 ** reduce_tools.c
 */
 t_ast_builder	*sh_new_ast_builder_no_node(t_symbol *symbol);
+t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol);
 t_ast_builder   *sh_new_ast_builder(t_token *token, t_symbol *symbol);
 int				sh_is_replacing(t_ast_builder *ast_builder);
 
@@ -154,4 +156,5 @@ void	sh_print_parser_state(t_lr_parser *parser);
 void	sh_print_token(t_token *token, t_cfg *cfg);
 void    sh_print_ast_builder(t_ast_builder *ast_builder);
 void    sh_print_ast_parser(t_lr_parser *parser);
+void	sh_print_ast(t_ast_node *node, int depth);
 #endif

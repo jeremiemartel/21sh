@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 17:11:26 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 17:08:15 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void    sh_print_symbol(t_symbol *symbol)
 void	sh_print_token(t_token *token, t_cfg *cfg)
 {
 	if (token->token_type == TYPE_INT)
-		ft_printf("%d", token->token_union.ival);
+		ft_printf("%d ", token->token_union.ival);
+	else if (token->id == LEX_TOK_WORD)
+		ft_printf(YELLOW"%s "EOC, token->value);
 	else
 	{
 		ft_printf(YELLOW "%s "EOC, cfg->symbols[token->index].debug);
@@ -344,36 +346,57 @@ void	sh_print_cfg(t_cfg *cfg)
 }
 
 
+char	*sh_color_depth(int i)
+{
+	if ((i % 5) == 0)
+		return (CYAN);
+	else if (i % 5 == 1)
+		return (YELLOW);
+	else if (i % 5 == 2)
+		return (BLUE);
+	else if (i % 5 == 3)
+		return (GREEN);
+	else return (MAGENTA);
+}
+
 void	sh_print_ast(t_ast_node *node, int depth)
 {
 	t_list *ptr;
 	int i;
-
+	int j;
+	int k;
 	i = depth;
+//	while (i-- + 2)
+//		ft_printf("  ");
 	if (!node)
 	{
-		ft_printf("LEAF NODE\n");
+		ft_printf("LEAF NODE");
 		return ;
 	}
 	if (!node->token)
-	{
-		ft_printf("not a token\n");
-		return ;
-	}
-	while (i--)
-		ft_printf("\t");
+		sh_print_symbol(node->symbol);
+	else
+		sh_print_token(node->token, g_cfg);
+	ft_printf("\n");
 //	ft_printf("token: ");
 //	sh_print_token(node->token);
-	ft_printf("\n");
 	ptr = node->children;
-	if (ptr)
-		ft_printf("children:\n");
-	i = 0;
+//	if (ptr)
+//		ft_printf("children: ");
+	j = 0;
 	while (ptr != NULL)
 	{
-		ft_printf("child #%d: ", ++i);
+		i = depth;
+		k = 0;
+		while (i--)
+		{
+			ft_printf("%s| "EOC, sh_color_depth(k++));
+		}
+		if (j == 0)
+			ft_printf("%s● child #%d:"EOC,sh_color_depth(k), ++j);
+		else
+			ft_printf("%sɸ child #%d:"EOC,sh_color_depth(k), ++j);
 		sh_print_ast(ptr->content, depth + 1);
-		ft_printf("\n");
 		ptr = ptr->next;
 	}
 }
