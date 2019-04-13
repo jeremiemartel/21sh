@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/22 13:47:25 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 16:28:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 # define LEX_OPERATOR_TAB	"|&;<>()"
 # define LEX_QUOTING_TAB	"`'\"\\"
+
+void	ft_strdelchar(char *str, int index)
+{
+	ft_strcpy(str + index, str + index + 1);
+}
 
 int		lex_rules_is_valid_operator(int op)
 {
@@ -72,7 +77,7 @@ int		lexer_rule3(t_lexer *lexer)
 {
 	static char		operators[] = LEX_OPERATOR_TAB;
 
-	if (!lexer->current_id ||  !(ft_strchr(operators, lexer->current_id & 0x00ff)))
+	if (!lexer->current_id || !(ft_strchr(operators, lexer->current_id & 0x00ff)))
 		return (LEX_CONTINUE);
 	if (!ft_strchr(operators, lexer->c))
 	{
@@ -90,11 +95,9 @@ int		lexer_rule3(t_lexer *lexer)
 //Need to add distinction between simple and double quotes
 int		lexer_rule4(t_lexer *lexer)
 {
-	// static char		quoting[] = LEX_QUOTING_TAB;
-
 	if (!lexer->quoted && lexer->c == '\\')
 	{
-		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = LEX_TOK_WORD;
 		lexer->tok_len++;
@@ -103,17 +106,17 @@ int		lexer_rule4(t_lexer *lexer)
 	else if (!lexer->quoted && (lexer->c == '\'' || lexer->c == '"'))
 	{
 		lexer->quoted = lexer->c;
-		ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = LEX_TOK_WORD;
 		return (LEX_OK);
 	}
-	if (lexer->quoted == '\'')
+	if (lexer->quoted == '\'' || lexer->quoted == '"')
 	{
-		if (lexer->c == '\'')
+		if (lexer->c == '\'' || lexer->quoted == '"')
 		{
 			lexer->quoted = 0;
-			ft_strcpy(lexer->input + lexer->tok_start + lexer->tok_len, lexer->input + lexer->tok_start + lexer->tok_len + 1);
+			ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
 		}
 		else
 			lexer->tok_len++;
