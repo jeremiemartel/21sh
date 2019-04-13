@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
+#    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/03/21 16:45:16 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/13 14:28:04 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,18 @@ SRCS	+=	./ft_printf/ft_printf.c ./ft_printf/ft_dprintf.c \
 
 SRCS	+=	./dystr/ft_dystr_new.c ./dystr/ft_dystr_free.c \
 			./dystr/ft_dystr_realloc.c ././dystr/ft_dystr_check.c
+
+SRCS	+=	./dytab/ft_dy_tab_add_index_ptr.c \
+			./dytab/ft_dy_tab_add_ptr.c \
+			./dytab/ft_dy_tab_add_str.c \
+			./dytab/ft_dy_tab_cpy_ptr.c \
+			./dytab/ft_dy_tab_cpy_str.c \
+			./dytab/ft_dy_tab_del.c \
+			./dytab/ft_dy_tab_del_ptr.c \
+			./dytab/ft_dy_tab_new.c \
+			./dytab/ft_dy_tab_realloc.c \
+			./dytab/ft_dy_tab_suppr_index.c \
+			./dytab/ft_dy_tab_suppr_index_ptr.c
 
 OBJS			= $(SRCS:%.c=%.o)
 

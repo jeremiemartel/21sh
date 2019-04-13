@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/05 17:00:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 14:27:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ typedef struct		s_dystr
 	int				size;
 }					t_dystr;
 
+typedef struct		s_dy_tab
+{
+	void			**tbl;
+	size_t			current_size;
+	size_t			max_size;
+}					t_dy_tab;
 
 /*
 ********************************** atoi  **************************************
@@ -180,6 +186,22 @@ t_dystr				*ft_dystr_check(t_dystr *dystr, int new_offset);
 t_dystr				*ft_dystr_realloc(t_dystr *dystr);
 t_dystr				*ft_dystr_new(char *str, size_t size, size_t len);
 void				ft_dystr_free(t_dystr *dystr);
+
+/*
+************************************ dytab  ***********************************
+*/
+t_dy_tab			*ft_dy_tab_new(size_t max_size);
+int					ft_dy_tab_add_ptr(t_dy_tab *d_tab, void *to_add);
+int					ft_dy_tab_add_str(t_dy_tab *d_tab, void *to_add);
+int					ft_dy_tab_add_index_ptr(t_dy_tab *d_tab, void *to_add,
+		size_t index);
+void				ft_dy_tab_suppr_index(t_dy_tab *d_tab, size_t index);
+void				ft_dy_tab_del_ptr(t_dy_tab *d_tab);
+void				ft_dy_tab_del(t_dy_tab *d_tab);
+void				ft_dy_tab_suppr_index_ptr(t_dy_tab *d_tab, size_t index);
+int					ft_dy_tab_realloc(t_dy_tab *d_tab);
+t_dy_tab			*ft_dy_tab_cpy_ptr(t_dy_tab *d_tab);
+t_dy_tab			*ft_dy_tab_cpy_str(t_dy_tab *d_tab);
 
 /*
 ******************************** get_next_line  *******************************
