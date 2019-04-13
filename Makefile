@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/13 12:01:26 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/13 14:57:33 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX =		main.c index.c
+SRCS_NO_PREFIX =		main.c index.c ft_perror.c
 						
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
