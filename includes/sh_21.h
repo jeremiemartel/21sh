@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 11:23:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 11:26:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,4 +252,5 @@ int		sh_init_prod_linebreak(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_separator_op(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_separator(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_sequential_sep(t_cfg *cfg, t_symbol *symbol);
+
 #endif

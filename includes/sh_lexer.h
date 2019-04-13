@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 11:24:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 11:31:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct		s_lexer
 /*
 ** Expansion header
 */
-typedef enum	e_exp_type
+typedef enum		e_exp_type
 {
 	LEX_EXP_ERR = -1,
 	LEX_EXP_OK = 0,
@@ -38,25 +38,24 @@ typedef enum	e_exp_type
 	LEX_EXP_PARAM,
 	LEX_EXP_CMD,
 	LEX_EXP_ARITH,
-}				t_exp_type;
+}					t_exp_type;
 
-typedef struct	s_pattern
+typedef struct		s_pattern
 {
-	char	start[4];
-	char	end[4];
-	int		len_s;
-	int		len_e;
-}				t_pattern;
+	char			start[4];
+	char			end[4];
+	int				len_s;
+	int				len_e;
+}					t_pattern;
 
-typedef struct s_expansion
+typedef struct		s_expansion
 {
-	t_dystr		*res;
-	char		*original;
-	char		*expansion;
-	t_exp_type	type;
-	t_pattern	pattern;
-}				t_expansion;
-
+	t_dystr			*res;
+	char			*original;
+	char			*expansion;
+	t_exp_type		type;
+	t_pattern		pattern;
+}					t_expansion;
 
 # define LEX_TOKEN_VALUE_LEN	250
 
@@ -65,7 +64,7 @@ typedef struct s_expansion
 # define LEX_CONTINUE	1
 # define LEX_OK			0
 
-typedef struct		u_token_union
+typedef struct		s_token_union
 {
 	int				ival;
 	double			fval;
@@ -91,61 +90,70 @@ typedef struct		s_token
 /*
 ** lexer.c
 */
-int			lexer(char *input, t_list **tokens);
-void		ft_putstr_len(char *str, int len);
-int			sh_parser(t_list *tokens);
+int					lexer(char *input, t_list **tokens);
+void				ft_putstr_len(char *str, int len);
+int					sh_parser(t_list *tokens);
 
 /*
 ** lexer_expansions.c
 */
-int			lexer_expansion(t_lexer *lexer, char **input);
+int					lexer_expansion(t_lexer *lexer, char **input);
 
 /*
 ** lexer_expansion_detect.c
 */
-int			lexer_expansion_detect(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_command(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_arithmetic(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_parameter(char *input, t_expansion *expansion);
-int			lexer_expansion_detect_variable(char *input, t_expansion *expansion);
+int					lexer_expansion_detect(char *input, t_expansion *expansion);
+int					lexer_expansion_detect_command(
+						char *input, t_expansion *expansion);
+int					lexer_expansion_detect_arithmetic(
+						char *input, t_expansion *expansion);
+int					lexer_expansion_detect_parameter(
+						char *input, t_expansion *expansion);
+int					lexer_expansion_detect_variable(
+						char *input, t_expansion *expansion);
 
 /*
 ** lexer_expansion_process.c
 */
-int			lexer_expansion_process(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_arithmetic(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_parameter(t_lexer *lexer, t_expansion *expansion);
-int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion);
+int					lexer_expansion_process(
+						t_lexer *lexer, t_expansion *expansion);
+int					lexer_expansion_process_command(
+						t_lexer *lexer, t_expansion *expansion);
+int					lexer_expansion_process_arithmetic(
+						t_lexer *lexer, t_expansion *expansion);
+int					lexer_expansion_process_parameter(
+						t_lexer *lexer, t_expansion *expansion);
+int					lexer_expansion_process_variable(
+						t_lexer *lexer, t_expansion *expansion);
 
 /*
 ** t_lexer.c
 */
-void		lexer_init(t_lexer *lexer, int tok_start);
-int			lexer_add_token(t_lexer *lexer);
-void		lexer_show(t_lexer *lexer);
-void		t_lexer_free(t_lexer *lexer);
+void				lexer_init(t_lexer *lexer, int tok_start);
+int					lexer_add_token(t_lexer *lexer);
+void				lexer_show(t_lexer *lexer);
+void				t_lexer_free(t_lexer *lexer);
 
 /*
 ** lexer_rules.c
 */
-int			lexer_rule1(t_lexer *lexer);
-int			lexer_rule2(t_lexer *lexer);
-int			lexer_rule3(t_lexer *lexer);
-int			lexer_rule4(t_lexer *lexer);
-int			lexer_rule5(t_lexer *lexer);
-int			lexer_rule6(t_lexer *lexer);
-int			lexer_rule7(t_lexer *lexer);
-int			lexer_rule8(t_lexer *lexer);
-int			lexer_rule9(t_lexer *lexer);
-int			lexer_rule10(t_lexer *lexer);
-int			lexer_rule11(t_lexer *lexer);
+int					lexer_rule1(t_lexer *lexer);
+int					lexer_rule2(t_lexer *lexer);
+int					lexer_rule3(t_lexer *lexer);
+int					lexer_rule4(t_lexer *lexer);
+int					lexer_rule5(t_lexer *lexer);
+int					lexer_rule6(t_lexer *lexer);
+int					lexer_rule7(t_lexer *lexer);
+int					lexer_rule8(t_lexer *lexer);
+int					lexer_rule9(t_lexer *lexer);
+int					lexer_rule10(t_lexer *lexer);
+int					lexer_rule11(t_lexer *lexer);
 
 /*
 ** t_token.c
 */
-t_token		*t_token_new(int id, char *value);
-void		t_token_show(t_token *token);
-void		t_token_show_id(int i);
+t_token				*t_token_new(int id, char *value);
+void				t_token_show(t_token *token);
+void				t_token_show_id(int i);
 
 #endif
