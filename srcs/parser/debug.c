@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 18:59:13 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:44:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,13 +389,9 @@ void	sh_print_ast(t_ast_node *node, int depth)
 		i = depth;
 		k = 0;
 		while (i--)
-		{
 			ft_printf("%s| "EOC, sh_color_depth(k++));
-		}
-		if (j == 0)
-			ft_printf("%s● child #%d:"EOC,sh_color_depth(k), ++j);
-		else
-			ft_printf("%sɸ child #%d:"EOC,sh_color_depth(k), ++j );
+		ft_printf("%sɸ %s%schild #%d:"EOC, sh_color_depth(k), EOC,
+				sh_color_depth(k + 1), ++j);
 		sh_print_ast(ptr->content, depth + 1);
 		ptr = ptr->next;
 	}
