@@ -23,7 +23,9 @@ OBJDIR   = objs
 BINDIR   = .
 INCLUDESDIR = includes
 LIBFTDIR = libft
+
 PROD_DIR   = productions
+LEXER_DIR   = lexer
 
 
 SPEED = -j1
@@ -33,20 +35,18 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX =		parser.c init_cfg.c\
+SRCS_NO_PREFIX =		main.c parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
 						compute_lr_automata.c compute_lr_tables.c\
 						lr_parse.c compute_first_state.c state.c\
 						compute_closure.c compute_transitions.c traverse.c\
 						init_parsing.c grammar.c index.c\
 						
-## Lexer sources
-SRCS_NO_PREFIX +=		lexer/main.c lexer/lexer.c lexer/t_lexer.c \
-						lexer/t_token.c lexer/lexer_rules.c \
-						lexer/lexer_expansions.c \
-						lexer/lexer_expansions_detect.c \
-						lexer/lexer_expansions_process.c
-
+LEXER_SRCS_NO_PREFIX=	lexer.c t_lexer.c\
+						t_token.c lexer_rules.c\
+						lexer_expansions.c\
+						lexer_expansions_detect.c\
+						lexer_expansions_process.c
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_case_clause.c sh_prod_case_item.c\
@@ -76,10 +76,16 @@ INCLUDES_NO_PREFIX	= sh_21.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 PROD_SOURCES = $(addprefix $(SRCDIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX))
+LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
+
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 PROD_OBJECTS = $(addprefix $(OBJDIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX:%.c=%.o))
+LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
+
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
+
 OBJECTS += $(PROD_OBJECTS)
+OBJECTS += $(LEXER_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -94,7 +100,6 @@ else
 	SPEED = -j8
 endif
 
-
 all:
 	@make -C $(LIBFTDIR) $(SPEED)
 	@make $(BINDIR)/$(NAME) $(SPEED)
@@ -106,12 +111,15 @@ $(LIBFT):
 	@make -C $(LIBFTDIR)
 
 $(BINDIR)/$(NAME): $(OBJECTS) $(LIBFT)
-	echo $(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
 	@echo "$(OK_COLOR)$(NAME) linked with success !$(EOC)"
 
 $(OBJDIR)/$(PROD_DIR)/%.o : $(SRCDIR)/$(PROD_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PROD_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(LEXER_DIR)/%.o : $(SRCDIR)/$(LEXER_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(LEXER_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
@@ -121,7 +129,7 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
 clean:
 	@make clean -C $(LIBFTDIR)
 	@rm -f $(OBJECTS)
-	# @rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
 	@make fclean -C $(LIBFTDIR)
