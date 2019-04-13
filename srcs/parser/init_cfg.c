@@ -70,8 +70,6 @@ void	init_symbol(t_symbol *symbol, int id)
 int		init_context_free_grammar(t_cfg *cfg)
 {
 	int i;
-	int j;
-
 	init_start_symbol(cfg, &cfg->start_symbol);
 	i = 0;
 	while (i < NB_SYMBOLS)
@@ -80,13 +78,11 @@ int		init_context_free_grammar(t_cfg *cfg)
 		i++;
 	}
 	i = NB_TERMS;
-	j = 0;
-	while (j < NB_NOTERMS)
+	while (i < NB_SYMBOLS)
 	{
 		if (g_grammar[i].init_prod(cfg, &cfg->symbols[i]))
 			return (1);
 		i++;
-		j++;
 	}
 	if (sh_compute_first_sets(cfg))
 		return (1);

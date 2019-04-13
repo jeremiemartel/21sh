@@ -12,8 +12,6 @@
 
 #include "sh_21.h"
 
-#include "sh_21.h"
-
 /*
 ** describes posix grammar symbols
 **

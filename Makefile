@@ -26,6 +26,7 @@ LIBFTDIR = libft
 
 PROD_DIR   = productions
 LEXER_DIR	= lexer
+PARSER_DIR	= parser
 
 SPEED = -j1
 LIBFT_INCLUDEDIR = includes
@@ -34,13 +35,16 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX =		main.c parser.c init_cfg.c\
+SRCS_NO_PREFIX =		main.c index.c
+						
+
+PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
 						compute_lr_automata.c compute_lr_tables.c\
 						lr_parse.c compute_first_state.c state.c\
 						compute_closure.c compute_transitions.c traverse.c\
-						init_parsing.c grammar.c index.c\
-						
+						init_parsing.c grammar.c reduce.c reduce_tools.c
+
 LEXER_SRCS_NO_PREFIX =	lexer.c t_lexer.c \
 						t_token.c lexer_rules.c \
 						lexer_expansions.c \
@@ -74,20 +78,23 @@ PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_while_clause.c sh_prod_wordlist.c\
 						sh_prod_complete_commands.c
 
-INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h
+INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 PROD_SOURCES = $(addprefix $(SRCDIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
+PARSER_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 PROD_OBJECTS = $(addprefix $(OBJDIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
+PARSER_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX:%.c=%.o))
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
 OBJECTS += $(PROD_OBJECTS)
 OBJECTS += $(LEXER_OBJECTS)
+OBJECTS += $(PARSER_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -122,6 +129,10 @@ $(OBJDIR)/$(PROD_DIR)/%.o : $(SRCDIR)/$(PROD_DIR)/%.c $(INCLUDES)
 
 $(OBJDIR)/$(LEXER_DIR)/%.o : $(SRCDIR)/$(LEXER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(LEXER_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(PARSER_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(PARSER_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)

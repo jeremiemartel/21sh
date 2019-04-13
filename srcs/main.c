@@ -27,6 +27,4 @@ int			main(int argc, char **argv)
 		return (1);
 	ft_strdel(&input);
 	return (0);
-	(void)argc;
-	(void)argv;
 }
