@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 16:14:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 16:45:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 		return (FAILURE);
 	*tokens = lexer.list;
 	t_lexer_free(&lexer);
-	return (SUCCESS);
+	if (ret == LEX_OK)
+		return (SUCCESS);
+	return (FAILURE);
 }
 
 void	ft_putstr_len(char *str, int len)
