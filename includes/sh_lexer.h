@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 11:51:54 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 15:36:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,34 @@
 # include "libft.h"
 # include "sh_tokens.h"
 
+/*
+** If set to True, lexer will print additionnal informations
+*/
+# define LEX_DEBUG	0
+
+/*
+** Max len for the token value
+*/
+# define LEX_TOKEN_VALUE_LEN	250
+
+/*
+** Possible states for the lexer, returned by lexer functions
+*/
+# define LEX_END		3
+# define LEX_ERR		2
+# define LEX_CONTINUE	1
+# define LEX_OK			0
+
 typedef struct		s_lexer
 {
-	char	c;
-	char	*input;
-	int		tok_start;
-	int		tok_len;
-	int		current_id;
-	int		quoted;
-	t_list	*list;
+	char			c;
+	char			*input;
+	int				tok_start;
+	int				tok_len;
+	int				current_id;
+	int				quoted;
+	t_list			*list;
+	t_dy_tab 		*env;
 }					t_lexer;
 
 /*
@@ -58,13 +77,6 @@ typedef struct		s_expansion
 	t_pattern		pattern;
 }					t_expansion;
 
-# define LEX_TOKEN_VALUE_LEN	250
-
-# define LEX_END		3
-# define LEX_ERR		2
-# define LEX_CONTINUE	1
-# define LEX_OK			0
-
 typedef struct		s_token_union
 {
 	int				ival;
@@ -92,7 +104,7 @@ typedef struct		s_token
 ** lexer.c
 */
 int					ft_lstdup(t_list **to, t_list *from);
-int					lexer(char *input, t_list **tokens);
+int					lexer(char *input, t_list **tokens, t_dy_tab *env);
 void				ft_putstr_len(char *str, int len);
 
 /*

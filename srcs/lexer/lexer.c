@@ -6,13 +6,11 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/21 11:06:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 16:14:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-# define DEBUG		0
 
 # define LEX_RULES_LEN	10
 
@@ -31,7 +29,7 @@ int		ft_lstdup(t_list **to, t_list *from)
 	return (0);
 }
 
-int		lexer(char *input, t_list **tokens)
+int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 {
 	t_lexer		lexer;
 	int			ret;
@@ -54,16 +52,17 @@ int		lexer(char *input, t_list **tokens)
 	if (!(lexer.input = ft_strdup(input)))
 	{
 		t_lexer_free(&lexer);
-		return (LEX_ERR);
+		return (FAILURE);
 	}
 	lexer_init(&lexer, 0);
+	lexer.env = env;
 	ft_printf("Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;
 	while (ret != LEX_ERR && ret != LEX_END)
 	{
 		i = 0;
-		if (DEBUG)
+		if (LEX_DEBUG)
 			ft_printf("lexer in progress on : %c\n", lexer.c);
 		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 			i++;
@@ -72,22 +71,24 @@ int		lexer(char *input, t_list **tokens)
 			ret = LEX_ERR;
 			ft_putstrn("No lexer rule applied");
 		}
-		if (DEBUG)
+		if (LEX_DEBUG)
 		{
 			ft_printf("rule %d applied\n", i + 1);
 			ft_printf("ret : %d\n", ret);
-			// ft_printf("new start : %d, new len : %d, new c : %c\n", lexer.tok_start, lexer.tok_len, lexer.c);
+			ft_printf("new start : %d, new len : %d, new c : %c\n", lexer.tok_start, lexer.tok_len, lexer.c);
 		}
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
 	if (ret == LEX_ERR)
 		ft_putstrn("Error returned by lexer");
+	if (lexer.quoted)
+		ft_perror("Lexer", "Final result is still quoted");
 	lexer_show(&lexer);	
 	if (ft_lstdup(tokens, lexer.list))
-		return (LEX_ERR);
+		return (FAILURE);
 	*tokens = lexer.list;
 	t_lexer_free(&lexer);
-	return (0);
+	return (SUCCESS);
 }
 
 void	ft_putstr_len(char *str, int len)

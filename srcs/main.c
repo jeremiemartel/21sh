@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 15:13:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 15:54:21 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int			main(int argc, char **argv, char **original_env)
 	if (argc == 1)
 		return (SUCCESS);
 	input = ft_strdup(argv[1]);
-	if (lexer(input, &tokens))
+	if (lexer(input, &tokens, env) != SUCCESS)
 		return (FAILURE);
-	if (sh_parser(tokens))
+	// if (sh_parser(tokens))
 		return (FAILURE);
 	ft_strdel(&input);
 	return (SUCCESS);
