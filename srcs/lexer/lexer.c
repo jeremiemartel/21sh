@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 17:37:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 18:11:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 		}
 		if (LEX_DEBUG)
 		{
-			ft_printf("rule %d applied\n", i + 1);
-			ft_printf("ret : %d\n", ret);
-			ft_printf("new start : %d, new len : %d, new c : %c\n", lexer.tok_start, lexer.tok_len, lexer.c);
+			ft_printf(COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
 		}
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
