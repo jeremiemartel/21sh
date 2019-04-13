@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
+#    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/11 23:08:04 by ldedier          ###   ########.fr        #
+#    Updated: 2019/04/13 11:14:40 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,15 +33,20 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX =		main.c lexer.c\
-						parser.c init_cfg.c\
+SRCS_NO_PREFIX =		parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
 						compute_lr_automata.c compute_lr_tables.c\
 						lr_parse.c compute_first_state.c state.c\
 						compute_closure.c compute_transitions.c traverse.c\
 						init_parsing.c grammar.c index.c\
-						t_lexer.c t_token.c lexer_rules.c lexer_expansions.c\
-						lexer_expansions_detect.c lexer_expansions_process.c
+						
+## Lexer sources
+SRCS_NO_PREFIX +=		lexer/main.c lexer/lexer.c lexer/t_lexer.c \
+						lexer/t_token.c lexer/lexer_rules.c \
+						lexer/lexer_expansions.c \
+						lexer/lexer_expansions_detect.c \
+						lexer/lexer_expansions_process.c
+
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_case_clause.c sh_prod_case_item.c\
@@ -116,7 +121,7 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
 clean:
 	@make clean -C $(LIBFTDIR)
 	@rm -f $(OBJECTS)
-	@rm -rf $(OBJDIR)
+	# @rm -rf $(OBJDIR)
 
 fclean: clean
 	@make fclean -C $(LIBFTDIR)

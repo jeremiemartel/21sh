@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 17:13:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 11:10:10 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,12 @@
 
 # include <stdarg.h>
 #include "libft.h"
-#include <stdio.h> //todel
 
 # include "libft.h"
 
 # define DEBUG_BUFFER	50
 # define NB_PRODUCTIONS	112
 # define NB_SYMBOLS 102
-
-typedef struct		s_automate
-{
-	int				status;
-	int				(*automate)(int status, char c);
-}					t_automate;
 
 typedef enum		e_tokenlist
 {
