@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 18:33:46 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:00:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-# define LEX_OPERATOR_TAB	"|&;<>"
+# define LEX_OPERATOR_TAB	"|&;<>()"
 
 void	ft_strdelchar(char *str, int index)
 {
@@ -34,6 +34,9 @@ int		lex_rules_is_valid_operator(int op)
 	|| op == LEX_TOK_PIPE
 	|| op == LEX_TOK_AND
 	|| op == LEX_TOK_SEMICOL
+	|| op == LEX_TOK_AND
+	|| op == LEX_TOK_OPN_PAR
+	|| op == LEX_TOK_CLS_PAR
 	|| op == LEX_TOK_LESS
 	|| op == LEX_TOK_GREAT)
 		return (1);
