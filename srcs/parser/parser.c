@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/03 17:18:44 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 16:02:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ int	sh_parse_token_list(t_lr_parser *parser)
 	else
 	{
 		ft_printf("OK !\n");
-//		sh_print_ast_parser(parser);
-//		ft_printf("%d\n", sh_traverse(parser->root));
+	//	sh_print_ast(parser->ast_node, 0);
+		sh_print_ast(parser->cst_root, 0);
+	//	ft_printf("%d\n", sh_traverse(parser->root));
 	}
 	return (0);
 }
@@ -54,8 +55,6 @@ int		sh_parser(t_list *tokens)
 		return (1);
 	parser.tokens = tokens;
 	sh_print_token_list(tokens, &parser.cfg);
-//	sh_print_parser(&parser, 0);
-//	ft_printf("nb states: %d\n", ft_lstlen(parser.states));
 	sh_parse_token_list(&parser);
 	return (0);
 }
