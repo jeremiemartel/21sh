@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 14:27:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:18:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,9 @@ void				ft_strtab_free(char **tabl);
 void				ft_strtab_put(char **tabl);
 int					ft_strtab_len(char **tabl);
 char				**ft_strtab_new_line(char **tabl, int free);
+char				*ft_strjoin_3(char const *s1, char const *s2,
+						char const *s3);
+char				*ft_strnrest(char *str, int n);
 
 /*
 ************************************ dystr  ***********************************
