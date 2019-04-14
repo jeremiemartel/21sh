@@ -49,8 +49,8 @@ typedef struct		s_cfg
 typedef struct		s_grammar_holder
 {
 	char			*debug;
-	char			relevant;
 	char			replacing;
+	char			relevant;
 	int 			(*init_prod)(t_cfg *, t_symbol *);
 }					t_grammar_holder;
 
