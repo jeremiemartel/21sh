@@ -81,7 +81,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"COMPLETE_COMMANDS", 0, 1, &sh_init_prod_complete_commands},
 	{"COMPLETE_COMMAND", 0, 1, &sh_init_prod_complete_command},
 	{"LIST", 0, 1, &sh_init_prod_list},
-	{"AND_OR", 0, 1, &sh_init_prod_and_or},
+	{"AND_OR", 1, 1, &sh_init_prod_and_or},
 	{"PIPELINE", 0, 1, &sh_init_prod_pipeline},
 	{"PIPE_SEQUENCE", 0, 1, &sh_init_prod_pipe_sequence},
 	{"COMMAND", 0, 1, &sh_init_prod_command},

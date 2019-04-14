@@ -417,8 +417,8 @@ void	sh_print_ast_builder(t_ast_builder *ast_builder)
 	sh_print_symbol(ast_builder->symbol);
 	ft_printf("\n");
 	ft_printf("ast tree: \n");
-//	sh_print_ast(ast_builder->ast_node, 0);
-//	ft_printf("cst tree: \n");
-//	sh_print_ast(ast_builder->cst_node, 0);
-//	ft_printf("\n");
+	sh_print_ast(ast_builder->ast_node, 0);
+	ft_printf("cst tree: \n");
+	sh_print_ast(ast_builder->cst_node, 0);
+	ft_printf("\n");
 }

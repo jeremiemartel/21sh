@@ -12,6 +12,14 @@
 
 #include "sh_21.h"
 
+void	sh_init_ast_node(t_ast_node *node, t_token *token, t_symbol *symbol)
+{
+	node->children = NULL;
+	node->parent = NULL;
+	node->token = token;
+	node->symbol = symbol;
+}
+
 t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)
 {
 	t_ast_builder *res;
@@ -19,15 +27,19 @@ t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)
 	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
 		return (NULL);
 	res->symbol = symbol;
-	if (!(res->node = (t_ast_node *)malloc(sizeof(t_ast_node))))
+	if (!(res->ast_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
 	{
 		free(res);
 		return (NULL);
 	}
-	res->node->symbol = symbol;
-	res->node->children = NULL;
-	res->node->parent = NULL;
-	res->node->token = NULL;
+	if (!(res->cst_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
+	{
+		free(res);
+		free(res->ast_node);
+		return (NULL);
+	}
+	sh_init_ast_node(res->ast_node, NULL, symbol);
+	sh_init_ast_node(res->cst_node, NULL, symbol);
 	return (res);
 }
 
@@ -38,7 +50,7 @@ t_ast_builder	*sh_new_ast_builder_no_node(t_symbol *symbol)
 	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
 		return (NULL);
 	res->symbol = symbol;
-	res->node = NULL;
+	res->ast_node = NULL;
 	return (res);
 }
 
@@ -49,19 +61,23 @@ t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
 		return (NULL);
 	res->symbol = symbol;
-	if (!(res->node = (t_ast_node *)malloc(sizeof(t_ast_node))))
+	if (!(res->ast_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
 	{
 		free(res);
 		return (NULL);
 	}
-	res->node->children = NULL;
-	res->node->parent = NULL;
-	res->node->token = token;
-	res->node->symbol = symbol;
+	if (!(res->cst_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
+	{
+		free(res->ast_node);
+		free(res);
+		return (NULL);
+	}
+	sh_init_ast_node(res->ast_node, token, symbol);
+	sh_init_ast_node(res->cst_node, token, symbol);
 	return (res);
 }
 
 int		sh_is_replacing(t_ast_builder *ast_builder)
 {
-	return (ast_builder->symbol->replacing == 1); //|| sh_is_term(ast_builder->symbol));
+	return (ast_builder->symbol->replacing == 1 || sh_is_term(ast_builder->symbol));
 }

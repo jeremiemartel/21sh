@@ -71,8 +71,8 @@ typedef struct			s_ast_node
 
 typedef struct			s_ast_builder
 {
-//	t_ast_node			*cst_node;
-	t_ast_node			*node;
+	t_ast_node			*cst_node;
+	t_ast_node			*ast_node;
 	t_symbol			*symbol;
 }						t_ast_builder;
 

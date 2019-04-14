@@ -104,6 +104,7 @@ ifeq ($(DEBUG), 1)
 	LFLAGS += -fsanitize=address
 	#CFLAGS += -DDEBUG
 	CC += -g3
+	SPEED = -j8
 else
 	SPEED = -j8
 endif
