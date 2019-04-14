@@ -14,8 +14,8 @@
 
 int		init_parsing(t_lr_parser *parser)
 {
-	g_cfg = &parser->cfg; //todel : usefull for debug
-	parser->root = NULL;
+	g_cfg = &parser->cfg; //todel : usefull for debug (yes it is a global)
+	parser->ast_root = NULL;
 	parser->cst_root = NULL;
 	if (init_context_free_grammar(&parser->cfg))
 		return (1);

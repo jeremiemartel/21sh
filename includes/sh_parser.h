@@ -71,7 +71,8 @@ typedef struct			s_ast_node
 
 typedef struct			s_ast_builder
 {
-	t_ast_node			*node;
+	t_ast_node			*cst_node;
+	t_ast_node			*ast_node;
 	t_symbol			*symbol;
 }						t_ast_builder;
 
@@ -82,7 +83,7 @@ typedef struct		s_lr_parser
 	t_cfg			cfg;
 	t_list			*tokens;
 	t_list			*stack;
-	t_ast_node		*root;
+	t_ast_node		*ast_root;
 	t_ast_node		*cst_root;
 }					t_lr_parser;
 
