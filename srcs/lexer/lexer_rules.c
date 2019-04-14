@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 12:07:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 14:32:10 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		lexer_rule2(t_lexer *lexer)
 		return (LEX_CONTINUE);
 	if (!ft_strchr(operators, lexer->current_id & 0x00ff))
 		return (LEX_CONTINUE);
-	if (ft_strchr(operators, lexer->c) || lexer->c == '-')
+	if (ft_strchr(operators, lexer->c))
 	{
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = lexer->c;
@@ -70,6 +70,12 @@ int		lexer_rule2(t_lexer *lexer)
 			lexer->current_id += 0xff00 * lexer->c;
 		else
 			lexer->current_id += 0xff0000 * lexer->c;		
+		lexer->tok_len++;
+		return (LEX_OK);
+	}
+	if (lexer->c == '-' && lexer->current_id == '<' + '<' * 0xff00)
+	{
+		lexer->current_id += 0xff0000 * lexer->c;
 		lexer->tok_len++;
 		return (LEX_OK);
 	}
@@ -98,7 +104,7 @@ int		lexer_rule3(t_lexer *lexer)
 //Need to add distinction between simple and double quotes
 int		lexer_rule4(t_lexer *lexer)
 {
-	if (!lexer->quoted && lexer->c == '\\')
+	if (lexer->quoted != '\'' && lexer->c == '\\')
 	{
 		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
@@ -108,19 +114,16 @@ int		lexer_rule4(t_lexer *lexer)
 	}
 	else if (!lexer->quoted && (lexer->c == '\'' || lexer->c == '"'))
 	{
-		ft_printf("quoting char : %c\n", lexer->c);
 		lexer->quoted = lexer->c;
 		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = LEX_TOK_WORD;
 		return (LEX_OK);
 	}
-	if (lexer->quoted == '\'' || lexer->quoted == '"')
+	if (lexer->quoted == '\'')
 	{
-		ft_putstrn("Quoted char");
-		if (lexer->c == '\'' || lexer->c == '"')
+		if (lexer->c == '\'')
 		{
-			ft_putstrn("End of quoting");
 			lexer->quoted = 0;
 			ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
 		}
@@ -128,22 +131,31 @@ int		lexer_rule4(t_lexer *lexer)
 			lexer->tok_len++;
 		return (LEX_OK);
 	}
+	else if (lexer->quoted == '"')
+	{
+		if (lexer->c == '$' || lexer->c == '`' || lexer->c == '\\')
+			return (LEX_CONTINUE);
+		if (lexer->c == '"')
+		{
+			lexer->quoted = 0;
+			ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
+		}
+		else
+			lexer->tok_len++;
+		return (LEX_OK);
+	}
+	
 	return (LEX_CONTINUE);
 }
 
 int		lexer_rule5(t_lexer *lexer)
 {
-	int		ret;
-
-	if (lexer->quoted)
+	if (lexer->quoted == '\'' || lexer->quoted == '\\')
 			return (LEX_CONTINUE);
 	if (lexer->c == '$' || lexer->c == '`' || lexer->c == '~')
 	{
-		// ft_putstr("current token before exp: ");ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
-		ret = lexer_expansion(lexer, &(lexer->input));
-		if (ret == LEX_ERR)
+		if (lexer_expansion(lexer, &(lexer->input)) == LEX_ERR)
 			return (LEX_ERR);
-		// ft_putstr("current token after exp: ");ft_putstr_len(lexer->input + lexer->tok_start, lexer->tok_len); ft_putchar('\n');
 		return (LEX_OK);
 	}
 	return (LEX_CONTINUE);

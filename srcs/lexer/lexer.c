@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 13:23:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 14:21:44 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 	{
 		i = 0;
 		if (LEX_DEBUG)
-			ft_printf("lexer in progress on : %c\n", lexer.c);
+			ft_printf("lexer in progress on : %c\t", lexer.c);
 		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 			i++;
 		if (i >= LEX_RULES_LEN)
