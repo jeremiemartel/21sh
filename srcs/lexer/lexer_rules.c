@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 19:56:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 10:37:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-# define LEX_OPERATOR_TAB	"-|&;<>()"
+# define LEX_OPERATOR_TAB	"|&;<>()"
 
 void	ft_strdelchar(char *str, int index)
 {
@@ -61,7 +61,7 @@ int		lexer_rule2(t_lexer *lexer)
 		return (LEX_CONTINUE);
 	if (!ft_strchr(operators, lexer->current_id & 0x00ff))
 		return (LEX_CONTINUE);
-	if (ft_strchr(operators, lexer->c))
+	if (ft_strchr(operators, lexer->c) || lexer->c == '-')
 	{
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = lexer->c;
@@ -152,7 +152,9 @@ int		lexer_rule6(t_lexer *lexer)
 {
 	static char		operators[] = LEX_OPERATOR_TAB;
 
-	if (!lexer->quoted && ft_strchr(operators, lexer->c))
+	if (lexer->quoted)
+		return (LEX_CONTINUE);
+	if (ft_strchr(operators, lexer->c))
 	{
 		lexer_add_token(lexer);
 		lexer->tok_len = 1;

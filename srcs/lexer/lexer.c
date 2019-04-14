@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 19:19:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 10:37:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
 	if (ret == LEX_ERR)
-		ft_putstrn("Error returned by lexer");
+		ft_putstrn(COLOR_RED"Error returned by lexer"COLOR_END);
 	if (lexer.quoted)
 		ft_perror("Lexer", "Final result is still quoted");
 	lexer_show(&lexer);
