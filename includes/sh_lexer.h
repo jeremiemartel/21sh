@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 11:14:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 12:07:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 /*
 ** Possible states for the lexer, returned by lexer functions
 */
-# define LEX_END		3
-# define LEX_ERR		2
-# define LEX_CONTINUE	1
-# define LEX_OK			0
+# define LEX_END		FAILURE + SUCCESS + 2
+# define LEX_ERR		FAILURE
+# define LEX_CONTINUE	FAILURE + SUCCESS + 1
+# define LEX_OK			SUCCESS
 
 typedef struct		s_lexer
 {
@@ -51,7 +51,7 @@ typedef struct		s_lexer
 */
 typedef enum		e_exp_type
 {
-	LEX_EXP_ERR = -1,
+	LEX_ERR = -1,
 	LEX_EXP_OK = 0,
 	LEX_EXP_VAR,
 	LEX_EXP_PARAM,

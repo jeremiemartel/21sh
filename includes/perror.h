@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 14:47:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 16:22:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 11:38:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # define SH_NAME		"21sh"
 # define SH_ERR_COLOR	COLOR_PINK
 
-# define SH_ERR1_MALLOC	"Malloc error occured"
+# define SH_ERR1_MALLOC			"Malloc error occured"
+# define SH_ERR1_ENV_NOT_SET	"Environnement variable is not set"
 
 /*
 ** ft_perror.c

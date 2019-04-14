@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:54:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 19:33:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 12:07:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			lexer_expansion_detect(char *input, t_expansion *exp)
 	else
 	{
 		ft_putstrn("\033[31mNo expansions detected in lexer_expasion_detect\033[0m");//
-		return (LEX_EXP_ERR);
+		return (LEX_ERR);
 	}
 	return (lexer_expansion_detect_fill_expansion(input, exp));
 }
@@ -61,7 +61,7 @@ int			lexer_expansion_detect_fill_expansion(char *input, t_expansion *exp)
 	char	*start;
 
 	if (!(start = ft_strpbrk(input + exp->pattern.len_s, exp->pattern.end)))
-		return (LEX_EXP_ERR);
+		return (LEX_ERR);
 	exp->original = ft_strndup(input, start - input + 1);
 	exp->expansion = ft_strndup(input + exp->pattern.len_s, start - (input + exp->pattern.len_s));
 	if (!exp->original || !exp->expansion)
@@ -70,7 +70,7 @@ int			lexer_expansion_detect_fill_expansion(char *input, t_expansion *exp)
 			free(exp->original);
 		if (exp->expansion)
 			free(exp->expansion);
-		return (LEX_EXP_ERR);
+		return (LEX_ERR);
 	}
 	return (LEX_EXP_OK);
 }
