@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/13 13:39:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 11:09:59 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	t_token_show_id(int i)
 	{
 		case (LEX_TOK_UNKNOWN):
 		{
-			ft_putstr("UNKNOWN");
+			ft_putstr(COLOR_RED"UNKNOWN"COLOR_END);
 			break ;
 		}
 		case (LEX_TOK_PIPE):
@@ -203,6 +203,6 @@ void	t_token_show_id(int i)
 			break ;
 		}
 		default:
-			ft_putstr("Undefined Token");
+			ft_printf(COLOR_RED"Undefined Token (%d)"COLOR_END, i);
 	}
 }

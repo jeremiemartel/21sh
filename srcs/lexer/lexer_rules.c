@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 10:37:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 11:19:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ int		lex_rules_is_valid_operator(int op)
 	|| op == LEX_TOK_PIPE
 	|| op == LEX_TOK_AND
 	|| op == LEX_TOK_SEMICOL
-	|| op == LEX_TOK_AND
-	|| op == LEX_TOK_OPN_PAR
-	|| op == LEX_TOK_CLS_PAR
 	|| op == LEX_TOK_LESS
-	|| op == LEX_TOK_GREAT)
+	|| op == LEX_TOK_GREAT
+	|| op == LEX_TOK_OPN_PAR
+	|| op == LEX_TOK_CLS_PAR)
 		return (1);
 	return (0);
 }
@@ -58,6 +57,8 @@ int		lexer_rule2(t_lexer *lexer)
 	static char		operators[] = LEX_OPERATOR_TAB;
 
 	if (lexer->quoted)
+		return (LEX_CONTINUE);
+	if (lexer->current_id == 0)
 		return (LEX_CONTINUE);
 	if (!ft_strchr(operators, lexer->current_id & 0x00ff))
 		return (LEX_CONTINUE);
