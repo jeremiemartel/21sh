@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:23:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:37:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int			main(int argc, char **argv, char **original_env)
 	}
 	if (sh_parser(tokens))
 		return (FAILURE);
-	t_lexer_free_token_list(tokens);
 	ft_dy_tab_del(env);
 	ft_strdel(&input);
 	return (SUCCESS);

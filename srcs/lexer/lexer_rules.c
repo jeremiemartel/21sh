@@ -6,18 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:13:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:29:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 # define LEX_OPERATOR_TAB	"|&;<>()"
-
-void	ft_strdelchar(char *str, int index)
-{
-	ft_strcpy(str + index, str + index + 1);
-}
 
 int		lex_rules_is_valid_operator(int op)
 {
