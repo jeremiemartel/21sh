@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 12:07:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 13:31:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include "libft.h"
 # include "sh_tokens.h"
+
+/*
+** getpwnam: used in lexer_expansion_process_tilde.c
+*/
+# include <pwd.h>
 
 /*
 ** If set to True, lexer will print additionnal informations
@@ -72,7 +77,6 @@ typedef struct		s_expansion
 {
 	t_dystr			*res;
 	char			*original;
-	char			*expansion;
 	t_exp_type		type;
 	t_pattern		pattern;
 }					t_expansion;

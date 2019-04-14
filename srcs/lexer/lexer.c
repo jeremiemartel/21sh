@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 10:37:57 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 13:23:15 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,14 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 	if (lexer.quoted)
 		ft_perror("Lexer", "Final result is still quoted");
 	lexer_show(&lexer);
-	if (ft_lstdup(tokens, lexer.list))
-		return (FAILURE);
-	*tokens = lexer.list;
+	// if (ft_lstdup(tokens, lexer.list))
+		// return (FAILURE);
+	// *tokens = lexer.list;
 	t_lexer_free(&lexer);
 	if (ret == LEX_END)
 		return (SUCCESS);
 	return (FAILURE);
+	(void)tokens;
 }
 
 void	ft_putstr_len(char *str, int len)
