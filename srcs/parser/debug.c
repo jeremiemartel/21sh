@@ -400,7 +400,7 @@ void	sh_print_ast(t_ast_node *node, int depth)
 void	sh_print_ast_parser(t_lr_parser *parser)
 {
 	ft_printf(GREEN"//////////START AST///////////\n"EOC);
-	sh_print_ast(parser->root, 0);
+	sh_print_ast(parser->ast_root, 0);
 	ft_printf(RED"//////////END AST///////////\n"EOC);
 }
 
@@ -416,7 +416,9 @@ void	sh_print_ast_builder(t_ast_builder *ast_builder)
 	ft_printf("symbol: ");
 	sh_print_symbol(ast_builder->symbol);
 	ft_printf("\n");
-	ft_printf("tree: \n");
-	sh_print_ast(ast_builder->node, 0);
-	ft_printf("\n");
+	ft_printf("ast tree: \n");
+//	sh_print_ast(ast_builder->ast_node, 0);
+//	ft_printf("cst tree: \n");
+//	sh_print_ast(ast_builder->cst_node, 0);
+//	ft_printf("\n");
 }

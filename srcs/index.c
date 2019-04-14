@@ -18,7 +18,8 @@ int		sh_index_4(t_symbol_id id)
 		return (id - LEX_TOK_IF + 35);
 	else if (id < LEX_TOK_IF)
 		return (id - LEX_TOK_TOKEN + 48);
-	return (-1);
+	else
+		return (-1);
 }
 
 int		sh_index_3(t_symbol_id id)

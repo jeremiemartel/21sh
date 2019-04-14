@@ -49,7 +49,7 @@ int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 	return (0);
 }
 
-void	init_symbol(t_symbol *symbol, int id)
+void	init_symbol(t_symbol *symbol, int index)
 {
 	int i;
 
@@ -61,10 +61,10 @@ void	init_symbol(t_symbol *symbol, int id)
 		i++;
 	}
 	symbol->productions = NULL;
-	symbol->id = id;
-	symbol->relevant = g_grammar[id].relevant;
-	symbol->replacing = g_grammar[id].replacing;
-	ft_strcpy(symbol->debug, g_grammar[id].debug);
+	symbol->id = index;
+	symbol->relevant = g_grammar[index].relevant;
+	symbol->replacing = g_grammar[index].replacing;
+	ft_strcpy(symbol->debug, g_grammar[index].debug);
 }
 
 int		init_context_free_grammar(t_cfg *cfg)

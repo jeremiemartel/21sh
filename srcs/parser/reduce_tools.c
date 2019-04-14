@@ -63,6 +63,5 @@ t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 
 int		sh_is_replacing(t_ast_builder *ast_builder)
 {
-	return (ast_builder->symbol->replacing == 1 ||
-			sh_is_term(ast_builder->symbol));
+	return (ast_builder->symbol->replacing == 1); //|| sh_is_term(ast_builder->symbol));
 }
