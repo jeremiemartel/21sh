@@ -6,28 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 14:21:44 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:24:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 # define LEX_RULES_LEN	10
-
-int		ft_lstdup(t_list **to, t_list *from)
-{
-	t_list *ptr;
-
-	*to = NULL;
-	ptr = from;
-	while (ptr != NULL)
-	{
-		if (ft_lstaddnew_last(to, ptr->content, ptr->content_size))
-			return (1);
-		ptr = ptr->next;
-	}
-	return (0);
-}
 
 int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 {
@@ -50,10 +35,7 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 	};
 
 	if (!(lexer.input = ft_strdup(input)))
-	{
-		t_lexer_free(&lexer);
 		return (FAILURE);
-	}
 	lexer_init(&lexer, 0);
 	lexer.env = env;
 	ft_printf("Starting string :%s\n", lexer.input);
@@ -67,25 +49,18 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 			i++;
 		if (i >= LEX_RULES_LEN)
-		{
 			ret = LEX_ERR;
-			ft_putstrn("No lexer rule applied");
-		}
 		if (LEX_DEBUG)
-		{
 			ft_printf(COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
-		}
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
 	if (ret == LEX_ERR)
-		ft_putstrn(COLOR_RED"Error returned by lexer"COLOR_END);
+		ft_perror("Lexer", "Error returned");
 	if (lexer.quoted)
 		ft_perror("Lexer", "Final result is still quoted");
 	lexer_show(&lexer);
-	// if (ft_lstdup(tokens, lexer.list))
-		// return (FAILURE);
-	// *tokens = lexer.list;
-	t_lexer_free(&lexer);
+	*tokens = lexer.list;
+	free(lexer.input);
 	if (ret == LEX_END)
 		return (SUCCESS);
 	return (FAILURE);

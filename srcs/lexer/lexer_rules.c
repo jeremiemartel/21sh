@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 14:32:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:13:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int		lexer_rule3(t_lexer *lexer)
 	return (LEX_CONTINUE);
 }
 
-//Need to add distinction between simple and double quotes
 int		lexer_rule4(t_lexer *lexer)
 {
 	if (lexer->quoted != '\'' && lexer->c == '\\')

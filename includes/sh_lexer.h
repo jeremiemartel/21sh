@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 13:31:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:22:58 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,7 @@ int					lexer_rule11(t_lexer *lexer);
 void				lexer_init(t_lexer *lexer, int tok_start);
 int					lexer_add_token(t_lexer *lexer);
 void				lexer_show(t_lexer *lexer);
-void				t_lexer_free(t_lexer *lexer);
-
+void				t_lexer_free_token_list(t_list *list);
 /*
 ** t_token.c
 */
