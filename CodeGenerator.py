@@ -59,7 +59,7 @@ class Symbol:
 class CodeGenerator:
 	
 	#folder_path = "srcs/productions"
-	folder_path = "srcs/productions"
+	folder_path = "srcs/parser/productions"
 	
 	translations = {
 		"';'" : "LEX_TOK_SEMICOL",

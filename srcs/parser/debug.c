@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 18:59:13 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/13 19:44:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,13 +389,9 @@ void	sh_print_ast(t_ast_node *node, int depth)
 		i = depth;
 		k = 0;
 		while (i--)
-		{
 			ft_printf("%s| "EOC, sh_color_depth(k++));
-		}
-		if (j == 0)
-			ft_printf("%s● child #%d:"EOC,sh_color_depth(k), ++j);
-		else
-			ft_printf("%sɸ child #%d:"EOC,sh_color_depth(k), ++j );
+		ft_printf("%sɸ %s%schild #%d:"EOC, sh_color_depth(k), EOC,
+				sh_color_depth(k + 1), ++j);
 		sh_print_ast(ptr->content, depth + 1);
 		ptr = ptr->next;
 	}
@@ -404,7 +400,7 @@ void	sh_print_ast(t_ast_node *node, int depth)
 void	sh_print_ast_parser(t_lr_parser *parser)
 {
 	ft_printf(GREEN"//////////START AST///////////\n"EOC);
-	sh_print_ast(parser->root, 0);
+	sh_print_ast(parser->ast_root, 0);
 	ft_printf(RED"//////////END AST///////////\n"EOC);
 }
 
@@ -420,7 +416,9 @@ void	sh_print_ast_builder(t_ast_builder *ast_builder)
 	ft_printf("symbol: ");
 	sh_print_symbol(ast_builder->symbol);
 	ft_printf("\n");
-	ft_printf("tree: \n");
-	sh_print_ast(ast_builder->node, 0);
+	ft_printf("ast tree: \n");
+	sh_print_ast(ast_builder->ast_node, 0);
+	ft_printf("cst tree: \n");
+	sh_print_ast(ast_builder->cst_node, 0);
 	ft_printf("\n");
 }
