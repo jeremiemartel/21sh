@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 11:14:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:16:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct		s_pattern
 
 typedef struct		s_expansion
 {
-	t_dystr			*res;
+	t_dy_str			*res;
 	char			*original;
 	char			*expansion;
 	t_exp_type		type;

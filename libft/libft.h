@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 19:18:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:15:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ typedef struct		s_dystr
 	int				len;
 	int				size;
 }					t_dystr;
+
+typedef struct      s_dy_str
+{
+	char			*str;
+	size_t			current_size;
+	size_t			max_size;
+}					t_dy_str;
 
 typedef struct		s_dy_tab
 {
@@ -185,11 +192,12 @@ char				*ft_strnrest(char *str, int n);
 /*
 ************************************ dystr  ***********************************
 */
-t_dystr				*ft_dystr_check(t_dystr *dystr, int new_offset);
-t_dystr				*ft_dystr_realloc(t_dystr *dystr);
-t_dystr				*ft_dystr_new(char *str, size_t size, size_t len);
-void				ft_dystr_free(t_dystr *dystr);
-
+t_dy_str			*ft_dy_str_new(size_t max_size);
+t_dy_str			*ft_dy_str_new_from(char *str);
+int					ft_dy_str_add_index(t_dy_str *d_str, char c, size_t index);
+int					ft_dy_str_realloc(t_dy_str *d_str);
+int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
+void				ft_dy_str_free(t_dy_str *dy_str);
 /*
 ************************************ dytab  ***********************************
 */

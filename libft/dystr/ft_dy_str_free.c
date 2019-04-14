@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dystr_free.c                                    :+:      :+:    :+:   */
+/*   ft_dy_str_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/19 09:01:21 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 10:30:45 by jmartel          ###   ########.fr       */
+/*   Created: 2019/04/14 15:12:03 by ldedier           #+#    #+#             */
+/*   Updated: 2019/04/14 15:12:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** ft_dystr_free:
-**		free any t_dystr object
-*/
-
-void		ft_dystr_free(t_dystr *dystr)
+void	ft_dy_str_free(t_dy_str *dy_str)
 {
-	if (!(dystr))
-		return ;
-	if (dystr->str)
-		free(dystr->str);
-	free(dystr);
+	free(dy_str->str);
+	free(dy_str);
 }

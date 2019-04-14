@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_expansions_process_tilde.c                   :+:      :+:    :+:   */
+/*   ft_dy_str_new_from.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/11 17:43:24 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:17:47 by ldedier          ###   ########.fr       */
+/*   Created: 2019/04/14 15:10:23 by ldedier           #+#    #+#             */
+/*   Updated: 2019/04/14 15:10:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int			lexer_expansion_process_tilde(t_lexer *lexer, t_expansion *expansion)
+t_dy_str	*ft_dy_str_new_from(char *str)
 {
-	if (!(expansion->res = ft_dy_str_new_from("tildeExp")))
-		return (LEX_EXP_ERR);
-	return (LEX_EXP_OK);
-	(void)lexer;
-	(void)expansion;
+	t_dy_str *res;
+	int len;
+
+	len = ft_strlen(str);
+	if (!(res = ft_dy_str_new(len)))
+		return (NULL);
+	ft_memcpy(res->str, str, len);
+	res->current_size = len;
+	return (res);
 }

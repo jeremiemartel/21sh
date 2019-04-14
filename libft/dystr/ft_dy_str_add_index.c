@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*   ft_dy_str_add_index.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:45:51 by ldedier          ###   ########.fr       */
+/*   Created: 2019/02/14 16:19:55 by ldedier           #+#    #+#             */
+/*   Updated: 2019/02/14 16:20:02 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_init_parsing(t_lr_parser *parser)
+int		ft_dy_str_add_index(t_dy_str *d_str, char c, size_t index)
 {
-	g_cfg = &parser->cfg; //todel : usefull for debug (yes it is a global)
-	parser->ast_root = NULL;
-	parser->cst_root = NULL;
-	if (init_context_free_grammar(&parser->cfg))
-		return (1);
-	if (sh_compute_lr_automata(parser))
-		return (1);
-	if (sh_compute_lr_tables(parser))
-		return (1);
+	int i;
+
+	if (d_str->current_size >= d_str->max_size)
+	{
+		if (ft_dy_str_realloc(d_str))
+			return (1);
+	}
+	i = d_str->current_size;
+	while ((size_t)i > index)
+	{
+		d_str->str[i] = d_str->str[i - 1];
+		i--;
+	}
+	d_str->str[i] = c;
+	d_str->str[++d_str->current_size] = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/13 19:41:26 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/14 16:51:09 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,10 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c						
+SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c\
+						shell_tools.c free_all.c init_term.c signals.c keys.c\
+						cursor_motion.c edit_command.c is_printable_utf8.c\
+						get_command.c utf8_tools.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -51,8 +54,6 @@ LEXER_SRCS_NO_PREFIX =	lexer.c t_lexer.c \
 						lexer_expansions_process.c \
 						lexer_expansions_process_tilde.c \
 						t_expansion.c
-						
-
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_case_clause.c sh_prod_case_item.c\

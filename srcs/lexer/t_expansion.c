@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 16:16:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/11 17:23:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:18:23 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		t_expansion_free(t_expansion *expansion)
 	if (expansion->expansion)
 		free(expansion->expansion);
 	if (expansion->res)
-		ft_dystr_free(expansion->res);
+		ft_dy_str_free(expansion->res);
 }
 
 void		t_expansion_show(t_expansion *exp)

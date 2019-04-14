@@ -6,7 +6,7 @@
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/04/13 19:18:31 by ldedier          ###   ########.fr        #
+#    Updated: 2019/04/14 15:12:32 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,9 +85,6 @@ SRCS	+=	./ft_printf/ft_printf.c ./ft_printf/ft_dprintf.c \
 			./ft_printf/ft_printf_flag_size2.c \
 			./ft_printf/ft_printf_flag_hash.c
 
-SRCS	+=	./dystr/ft_dystr_new.c ./dystr/ft_dystr_free.c \
-			./dystr/ft_dystr_realloc.c ././dystr/ft_dystr_check.c
-
 SRCS	+=	./dytab/ft_dy_tab_add_index_ptr.c \
 			./dytab/ft_dy_tab_add_ptr.c \
 			./dytab/ft_dy_tab_add_str.c \
@@ -99,6 +96,14 @@ SRCS	+=	./dytab/ft_dy_tab_add_index_ptr.c \
 			./dytab/ft_dy_tab_realloc.c \
 			./dytab/ft_dy_tab_suppr_index.c \
 			./dytab/ft_dy_tab_suppr_index_ptr.c
+
+SRCS	+=	./dystr/ft_dy_str_new.c \
+			./dystr/ft_dy_str_add_index.c \
+			./dystr/ft_dy_str_realloc.c \
+			./dystr/ft_dy_str_suppr_index.c \
+			./dystr/ft_dy_str_free.c\
+			./dystr/ft_dy_str_new_from.c
+
 
 OBJS			= $(SRCS:%.c=%.o)
 
