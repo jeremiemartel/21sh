@@ -24,6 +24,7 @@ typedef struct		s_ast_node	t_ast_node;
 
 typedef struct		s_context
 {
+	struct termios	*term;
 	t_dy_tab		*env;
 	t_dy_tab		*params; //argv
 	//redirections...

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "sh_21.h"
 
 static pid_t g_parent = 0;
 
@@ -18,44 +18,46 @@ void	transmit_sig_and_die(int signal)
 {
 	if (g_parent)
 		kill(g_parent, signal);
-	return (exit(reset_shell(0)));
+	return (exit(sh_reset_shell(0)));
 }
 
 void	transmit_sig(int signal)
 {
 	if (g_parent)
 		kill(g_parent, signal);
-	get_down_from_command(g_glob.command);
+	get_down_from_command(&g_glob.command_line);
 	g_glob.cursor = 0;
-	g_glob.command->current_size = 0;
-	g_glob.command->current_index = 0;
-	ft_bzero(g_glob.command->str, g_glob.command->max_size);
-	g_glob.command->nb_chars = 0;
-	render_command_line(g_glob.command, 0);
+	g_glob.command_line.dy_str->current_size = 0;
+	g_glob.command_line.current_index = 0;
+	ft_bzero(g_glob.command_line.dy_str->str, g_glob.command_line.dy_str->max_size);
+	g_glob.command_line.nb_chars = 0;
+	render_command_line(g_glob.command_line.dy_str, 0);
 }
 
-int		process_execute(char *path, t_shell *shell)
+int		process_execute(char *path, t_context *context)
 {
-	if (check_execute(path, shell))
+	if (check_execute(path, context->params->tbl[0]))
 		return (1);
-	if (reset_shell(0) == -1)
+	if (sh_reset_shell(0) == -1)
 		return (1);
 	if ((g_parent = fork()) == -1)
 		return (1);
 	if (g_parent == 0)
 	{
-		if (execve(path, shell->params, (char **)shell->env->tbl) == -1)
+		if (execve(path, (char **)context->params->tbl,
+				(char **)context->env->tbl) == -1)
 		{
-			free_all(shell);
-			exit(1);
+	//		free_all(shell);
+	//		exit(1);
 		}
 	}
 	else
 	{
 		wait(NULL);
 		g_parent = 0;
-		if (set_shell(0) == -1)
-			return (1);
+		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
+			return (ft_perror("Could not modify this terminal attributes",
+				"sh_init_terminal"));
 	}
 	return (0);
 }

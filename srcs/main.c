@@ -22,7 +22,7 @@ int		sh_await_command(t_shell *shell)
 		return (FAILURE);
 	if (sh_parser(tokens, shell))
 	   	return (FAILURE);
-	return (SUCCESS);
+	return (sh_process_traverse(shell));
 }
 
 int		main(int argc, char **argv, char **env)

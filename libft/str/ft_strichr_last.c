@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse.h                                      :+:      :+:    :+:   */
+/*   ft_strichr_last.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 17:58:27 by ldedier          ###   ########.fr       */
+/*   Created: 2019/02/22 19:15:11 by ldedier           #+#    #+#             */
+/*   Updated: 2019/02/22 19:15:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SH_TRAVERSE_H
-# define SH_TRAVERSE_H
+#include "libft.h"
 
-# include "sh_21.h"
+int		ft_strichr_last(const char *s, int c)
+{
+	int i;
+	int index;
 
-int			sh_process_traverse(t_shell *shell);
-int			sh_traverse_default(t_ast_node *this, t_context *context);
-
-int			sh_traverse_cmd_name(t_ast_node *this, t_context *context);
-int			sh_traverse_cmd_suffix(t_ast_node *this, t_context *context);
-int			sh_traverse_complete_command(t_ast_node *this, t_context *context);
-#endif
+	index = -1;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			index = i;
+		i++;
+	}
+	return (index);
+}

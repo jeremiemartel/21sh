@@ -20,6 +20,8 @@
 # include <term.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
+# include <signal.h>
+# include <dirent.h>
 # include "sh_tokens.h"
 # include "sh_grammar.h"
 # include "sh_parser.h"
@@ -33,6 +35,7 @@
 
 # define PROMPT			"$21_sh(to_rework)> "
 # define READ_BUFF_SIZE	4
+# define CWD_LEN		1000
 
 /*
 ** Colors macros
@@ -217,4 +220,27 @@ int		is_printable_utf8(unsigned char *buffer, int nb_bytes);
 */
 int		 get_keys(t_shell *shell, t_command_line *command_line);
 
+/*
+** process_execute.c
+*/
+void	transmit_sig(int signal);
+void	transmit_sig_and_die(int signal);
+int		process_execute(char *path, t_context *context);
+
+/*
+** execute.c
+*/
+int		execute_command(t_context *context);
+int		execute_command_path(t_context *context, char *path_str);
+int		execute_command_no_path(t_context *context);
+/*
+** execute_tools.c
+*/
+int		check_execute(char *full_path, char *command_name);
+
+/*
+** tools.c
+*/
+int		get_file_in_dir(char *filename, char *dirname);
+int		get_path_and_file_from_str(char *str, char **path, char **file);
 #endif

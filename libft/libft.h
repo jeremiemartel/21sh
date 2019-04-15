@@ -209,7 +209,8 @@ void				ft_strdelchars(char *str, int index, int len);
 char				*ft_strjoin_3(char const *s1, char const *s2,
 						char const *s3);
 char				*ft_strnrest(char *str, int n);
-
+int					ft_strichr_last(const char *s, int c);
+int					ft_strichr(const char *s, int c);
 /*
 ************************************ dlst *************************************
 */
@@ -261,6 +262,17 @@ void				ft_dy_tab_suppr_index_ptr(t_dy_tab *d_tab, size_t index);
 int					ft_dy_tab_realloc(t_dy_tab *d_tab);
 t_dy_tab			*ft_dy_tab_cpy_ptr(t_dy_tab *d_tab);
 t_dy_tab			*ft_dy_tab_cpy_str(t_dy_tab *d_tab);
+
+/*
+******************************** free_turn ***********************************
+*/
+
+char	*ft_free_turn_str(char **to_del, char *res);
+char	*ft_free_turn_strs(char **to_del, char **to_del2, char *res);
+int		ft_free_turn_dy_str(t_dy_str *dy_str, int ret);
+int		ft_free_turn(void *to_free, int ret);
+int		ft_free_turn_2(void *to_free, void *to_free2, int ret);
+int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
 
 /*
 ******************************** get_next_line  *******************************

@@ -80,7 +80,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"ε", 0, 1, NULL, &sh_traverse_default},
 	{"PROGRAM", 0, 1, &sh_init_prod_program, &sh_traverse_default},
 	{"COMPLETE_COMMANDS", 0, 1, &sh_init_prod_complete_commands, &sh_traverse_default},
-	{"COMPLETE_COMMAND", 0, 1, &sh_init_prod_complete_command, &sh_traverse_default},
+	{"COMPLETE_COMMAND", 0, 1, &sh_init_prod_complete_command, &sh_traverse_complete_command},
 	{"LIST", 0, 1, &sh_init_prod_list, &sh_traverse_default},
 	{"AND_OR", 0, 1, &sh_init_prod_and_or, &sh_traverse_default},
 	{"PIPELINE", 0, 1, &sh_init_prod_pipeline, &sh_traverse_default},

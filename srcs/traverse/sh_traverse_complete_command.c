@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse.h                                      :+:      :+:    :+:   */
+/*   sh_traverse_default.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 17:58:27 by ldedier          ###   ########.fr       */
+/*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
+/*   Updated: 2019/04/15 18:23:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SH_TRAVERSE_H
-# define SH_TRAVERSE_H
+#include "sh_21.h"
 
-# include "sh_21.h"
+int		sh_traverse_complete_command(t_ast_node *node, t_context *context)
+{
+	t_list *ptr;
+	t_ast_node	*child;
 
-int			sh_process_traverse(t_shell *shell);
-int			sh_traverse_default(t_ast_node *this, t_context *context);
-
-int			sh_traverse_cmd_name(t_ast_node *this, t_context *context);
-int			sh_traverse_cmd_suffix(t_ast_node *this, t_context *context);
-int			sh_traverse_complete_command(t_ast_node *this, t_context *context);
-#endif
+	ptr = node->children;
+	while (ptr != NULL)
+	{
+		child = (t_ast_node *)ptr->content;
+		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+			return (FAILURE);
+		ptr = ptr->next;
+	}
+	return (execute_command(context));
+}

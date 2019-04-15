@@ -39,13 +39,15 @@ EOC = \033[0m
 
 TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
 						sh_traverse_cmd_name.c \
-						sh_traverse_cmd_suffix.c
+						sh_traverse_cmd_suffix.c \
+						sh_traverse_complete_command.c
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
-						get_command.c utf8_tools.c #\
-	#					execute.c execute_tools.c process_execute.c
+						get_command.c utf8_tools.c \
+						execute.c execute_tools.c process_execute.c tools.c\
+						traverse.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\

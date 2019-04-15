@@ -98,7 +98,7 @@ int			sh_parser(t_list *tokens, t_shell *shell);
 */
 int			sh_lr_parse(t_lr_parser *parser);
 int			sh_process_test(void);
-int			sh_parse_token_list(t_lr_parser *parser, t_shell *shell);
+int			sh_parse_token_list(t_lr_parser *parser);
 int			sh_is_term(t_symbol *symbol);
 
 /*
