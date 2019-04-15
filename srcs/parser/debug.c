@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 19:44:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/15 14:32:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	sh_print_token(t_token *token, t_cfg *cfg)
 		ft_printf("%d ", token->token_union.ival);
 	else if (token->id == LEX_TOK_WORD)
 		ft_printf(YELLOW"%s "EOC, token->value);
+	else if(token->id == LEX_TOK_IO_NUMBER)
+		ft_printf("IO_NUMBER: %s%s %s ",YELLOW, token->value, EOC);
 	else
 	{
 		ft_printf(YELLOW "%s "EOC, cfg->symbols[token->index].debug);

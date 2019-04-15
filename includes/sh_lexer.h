@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:16:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/15 14:23:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 /*
 ** If set to True, lexer will print additionnal informations
 */
-# define LEX_DEBUG	1
+# define LEX_DEBUG	0
 
 /*
 ** Max len for the token value
@@ -56,9 +56,7 @@ typedef struct		s_lexer
 */
 typedef enum		e_exp_type
 {
-	LEX_ERR = -1,
-	LEX_EXP_OK = 0,
-	LEX_EXP_VAR,
+	LEX_EXP_VAR = 1,
 	LEX_EXP_PARAM,
 	LEX_EXP_CMD,
 	LEX_EXP_ARITH,
@@ -107,9 +105,7 @@ typedef struct		s_token
 /*
 ** lexer.c
 */
-int					ft_lstdup(t_list **to, t_list *from);
 int					lexer(char *input, t_list **tokens, t_dy_tab *env);
-void				ft_putstr_len(char *str, int len);
 
 /*
 ** lexer_expansions.c
@@ -162,6 +158,7 @@ int					lexer_rule8(t_lexer *lexer);
 int					lexer_rule9(t_lexer *lexer);
 int					lexer_rule10(t_lexer *lexer);
 int					lexer_rule11(t_lexer *lexer);
+int					lexer_is_operator(int op);
 
 /*
 ** t_lexer.c
@@ -176,6 +173,7 @@ void				t_lexer_free_token_list(t_list *list);
 t_token				*t_token_new(int id, char *value);
 void				t_token_show(t_token *token);
 void				t_token_show_id(int i);
+void				t_token_update_id(int id, t_token *token);
 
 /*
 ** t_expansion.c

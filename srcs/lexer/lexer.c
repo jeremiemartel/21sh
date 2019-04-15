@@ -6,13 +6,42 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:24:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 14:27:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 # define LEX_RULES_LEN	10
+
+int		lexer_lexical_conventions(t_lexer *lexer)
+{
+	t_list	*head;
+	t_token	*token;
+	t_token	*next_token;
+
+	head = lexer->list;
+	while (head)
+	{
+		token = (t_token*)head->content;
+		if (head->next)
+			next_token = (t_token*)(head->next->content);
+		else
+			next_token = NULL;
+		//Rule 1
+		if (lexer_is_operator(token->id))
+			;
+		// Rule 2
+		else if (ft_isdigit_only(token->value) && next_token && (next_token->id == '<' || next_token->id == '>'))
+			t_token_update_id(LEX_TOK_IO_NUMBER, token);
+		// Rule 3
+//		else
+//			t_token_update_id(LEX_TOK_TOKEN, token);
+		head = head->next;
+	}
+	return (LEX_OK);
+}
+
 
 int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 {
@@ -55,9 +84,10 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
 	if (ret == LEX_ERR)
-		ft_perror("Lexer", "Error returned");
+		return (ft_perror("Lexer", "Error returned"));//Leaks
 	if (lexer.quoted)
-		ft_perror("Lexer", "Final result is still quoted");
+		return (ft_perror("Lexer", "Final result is still quoted")); // Leaks, need to check this comdition works 
+	lexer_lexical_conventions(&lexer);
 	lexer_show(&lexer);
 	*tokens = lexer.list;
 	free(lexer.input);
@@ -65,9 +95,4 @@ int		lexer(char *input, t_list **tokens, t_dy_tab *env)
 		return (SUCCESS);
 	return (FAILURE);
 	(void)tokens;
-}
-
-void	ft_putstr_len(char *str, int len)
-{
-	write(1, str, len);
 }

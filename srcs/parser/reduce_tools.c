@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 13:01:51 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 15:15:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/15 14:53:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	sh_init_ast_node(t_ast_node *node, t_token *token, t_symbol *symbol)
 {
 	node->children = NULL;
-	node->parent = NULL;
 	node->token = token;
 	node->symbol = symbol;
 }

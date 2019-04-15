@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:57:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 16:29:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/15 14:53:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 			return (1);
 		ast_builder->ast_node->symbol = production->from;
 		ast_builder->ast_node->children = NULL;
-		ast_builder->ast_node->parent = NULL;
 		ast_builder->ast_node->token = NULL;
 	}
 	else

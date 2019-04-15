@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/14 16:51:09 by ldedier          ###   ########.fr        #
+#    Updated: 2019/04/15 19:45:40 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ LIBFTDIR = libft
 PROD_DIR   = productions
 LEXER_DIR	= lexer
 PARSER_DIR	= parser
+TRAV_DIR	= traverse
 AUTO_DIR	= autocomplete
 
 SPEED = -j1
@@ -36,10 +37,15 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c\
-						shell_tools.c free_all.c init_term.c signals.c keys.c\
-						cursor_motion.c edit_command.c is_printable_utf8.c\
-						get_command.c utf8_tools.c
+TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
+						sh_traverse_cmd_name.c \
+						sh_traverse_cmd_suffix.c
+
+SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
+						shell_tools.c free_all.c init_term.c signals.c keys.c \
+						cursor_motion.c edit_command.c is_printable_utf8.c \
+						get_command.c utf8_tools.c #\
+	#					execute.c execute_tools.c process_execute.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -91,19 +97,25 @@ LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
 PARSER_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX))
 PROD_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX))
 AUTO_SOURCES = $(addprefix $(SRCDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX))
+TRAV_SOURCES = $(addprefix $(SRCDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
 PARSER_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX:%.c=%.o))
 PROD_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX:%.c=%.o))
-#AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
+TRAV_OBJECTS = $(addprefix $(OBJDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX:%.c=%.o))
+
+
+AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
 OBJECTS += $(PROD_OBJECTS)
 OBJECTS += $(LEXER_OBJECTS)
 OBJECTS += $(PARSER_OBJECTS)
-OBJECTS += $(AUTO_OBJECTS)
+OBJECTS += $(TRAV_OBJECTS)
+
+#OBJECTS += $(AUTO_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -144,6 +156,11 @@ $(OBJDIR)/$(AUTO_DIR)/%.o : $(SRCDIR)/$(AUTO_DIR)/%.c $(INCLUDES)
 $(OBJDIR)/$(LEXER_DIR)/%.o : $(SRCDIR)/$(LEXER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(LEXER_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(TRAV_DIR)/%.o : $(SRCDIR)/$(TRAV_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(TRAV_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
 
 $(OBJDIR)/$(PARSER_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)

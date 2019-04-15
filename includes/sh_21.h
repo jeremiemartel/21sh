@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:16:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/15 19:40:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include "sh_grammar.h"
 # include "sh_parser.h"
 # include "sh_lexer.h"
+# include "sh_traverse.h"
+
 # define SUCCESS		0
 # define FAILURE		1
 # define ATTR_ERROR		2
@@ -98,12 +100,6 @@ typedef struct		s_auto_complete
 	int				choices_common_len;
 }					t_auto_complete;
 
-typedef struct		s_command
-{
-	t_dy_tab		*params; //argv
-	//redirections...
-}					t_command;
-
 typedef struct		s_command_line
 {
 	t_dy_str		*dy_str;
@@ -115,7 +111,6 @@ typedef struct		s_shell
 {
 	t_lexer			lexer;
 	t_lr_parser		parser;
-	t_command		*current_command;
 	t_dy_tab		*env;
 	t_dy_tab		*assignments;
 	char			running;

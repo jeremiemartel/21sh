@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:43:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 12:43:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/15 19:24:14 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 # include "sh_lexer.h"
 
 # define DEBUG_BUFFER	50
+
+typedef struct		s_ast_node	t_ast_node;
+
+typedef struct		s_context
+{
+	t_dy_tab		*env;
+	t_dy_tab		*params; //argv
+	//redirections...
+}					t_context;
 
 typedef struct		s_symbol
 {
@@ -52,6 +61,7 @@ typedef struct		s_grammar_holder
 	char			replacing;
 	char			relevant;
 	int 			(*init_prod)(t_cfg *, t_symbol *);
+	int				(*traverse)(t_ast_node *this, t_context *context);
 }					t_grammar_holder;
 
 t_grammar_holder	g_grammar[NB_SYMBOLS];

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 17:54:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 13:32:44 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 11:08:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ int			lexer_expansion_detect_fill_expansion(char *input, t_expansion *exp)
 		return (LEX_ERR);
 	if (!(exp->original = ft_strndup(input, start - input + 1)))
 		return (LEX_ERR);
-	return (LEX_EXP_OK);
+	return (LEX_OK);
 }

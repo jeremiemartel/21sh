@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
+#    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
 #    Updated: 2019/04/14 15:12:32 by ldedier          ###   ########.fr        #
@@ -51,6 +51,9 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_isdigit.c ./str/ft_isalnum.c \
 			./str/ft_isprint.c ./str/ft_isascii.c \
 			./str/ft_iswhite.c ./str/ft_tolower.c \
+			./str/ft_isalpha_only.c ./str/ft_isdigit_only.c \
+			./str/ft_isalnum_only.c ./str/ft_isascii_only.c \
+			./str/ft_isprint_only.c ./str/ft_iswhite_only.c \
 			./str/ft_toupper.c ./str/ft_strnew.c \
 			./str/ft_strdel.c ./str/ft_strclr.c \
 			./str/ft_striter.c ./str/ft_striteri.c \
@@ -66,7 +69,8 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_strpbrk.c ./str/ft_strnrest.c ./str/ft_strjoin_3.c
 
 SRCS	+=	./str/ft_strtab_free.c ./str/ft_strtab_put.c \
-			./str/ft_strtab_len.c ./str/ft_strtab_new_line.c
+			./str/ft_strtab_len.c ./str/ft_strtab_new_line.c \
+			./str/ft_strdelchar.c
 
 SRCS	+=	./gnl/get_next_line.c
 

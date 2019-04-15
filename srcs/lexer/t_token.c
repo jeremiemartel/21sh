@@ -6,11 +6,17 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 11:09:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 14:23:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+void	t_token_update_id(int id, t_token *token)
+{
+	token->id = id;
+	token->index = sh_index(id);
+}
 
 t_token	*t_token_new(int id, char *value)
 {
@@ -200,6 +206,16 @@ void	t_token_show_id(int i)
 		case (LEX_TOK_WORD):
 		{
 			ft_putstr("WORD");
+			break ;
+		}
+		case (LEX_TOK_TOKEN):
+		{
+			ft_putstr("TOKEN");
+			break ;
+		}
+		case (LEX_TOK_IO_NUMBER):
+		{
+			ft_putstr("IO_NUMBER");
 			break ;
 		}
 		default:

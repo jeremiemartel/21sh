@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:47:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/15 19:25:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct			s_ast_node
 {
 	t_token				*token;
 	t_symbol			*symbol;
-	struct s_ast_node	*parent;
 	t_list				*children;
 }						t_ast_node;
 
@@ -99,7 +98,7 @@ int			sh_parser(t_list *tokens, t_shell *shell);
 */
 int			sh_lr_parse(t_lr_parser *parser);
 int			sh_process_test(void);
-int			sh_parse_token_list(t_lr_parser *parser);
+int			sh_parse_token_list(t_lr_parser *parser, t_shell *shell);
 int			sh_is_term(t_symbol *symbol);
 
 /*
@@ -160,4 +159,5 @@ void	sh_print_token(t_token *token, t_cfg *cfg);
 void    sh_print_ast_builder(t_ast_builder *ast_builder);
 void    sh_print_ast_parser(t_lr_parser *parser);
 void	sh_print_ast(t_ast_node *node, int depth);
+
 #endif

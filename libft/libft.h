@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
 /*   Updated: 2019/04/14 15:15:50 by ldedier          ###   ########.fr       */
@@ -156,6 +156,15 @@ int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strpbrk(const char *s, const char *accept);
 
+int					ft_isalpha_only(char *str);
+int					ft_isdigit_only(char *str);
+int					ft_isalnum_only(char *str);
+int					ft_isascii_only(char *str);
+int					ft_isprint_only(char *str);
+int					ft_iswhite_only(char *str);
+int					ft_toupper_only(char *str);
+int					ft_tolower_only(char *str);
+
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -193,6 +202,10 @@ void				ft_strtab_free(char **tabl);
 void				ft_strtab_put(char **tabl);
 int					ft_strtab_len(char **tabl);
 char				**ft_strtab_new_line(char **tabl, int free);
+
+void				ft_strdelchar(char *str, int index);
+void				ft_strdelchars(char *str, int index, int len);
+
 char				*ft_strjoin_3(char const *s1, char const *s2,
 						char const *s3);
 char				*ft_strnrest(char *str, int n);

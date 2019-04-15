@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 17:43:24 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 13:41:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 22:38:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int			lexer_expansion_process_tilde_2(t_lexer *lexer, t_expansion *exp)
 
 int			lexer_expansion_process_tilde(t_lexer *lexer, t_expansion *exp)
 {
+	if (lexer->current_id == LEX_TOK_UNKNOWN)
+		lexer->current_id = LEX_TOK_WORD;
 	if (ft_iswhite(exp->original[1]) || exp->original[1] == '/')
 		return (lexer_expansion_process_tilde_1(lexer, exp));
 	else
