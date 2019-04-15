@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/04/14 15:33:18 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/15 10:56:57 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,9 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_isdigit.c ./str/ft_isalnum.c \
 			./str/ft_isprint.c ./str/ft_isascii.c \
 			./str/ft_iswhite.c ./str/ft_tolower.c \
+			./str/ft_isalpha_only.c ./str/ft_isdigit_only.c \
+			./str/ft_isalnum_only.c ./str/ft_isascii_only.c \
+			./str/ft_isprint_only.c ./str/ft_iswhite_only.c \
 			./str/ft_toupper.c ./str/ft_strnew.c \
 			./str/ft_strdel.c ./str/ft_strclr.c \
 			./str/ft_striter.c ./str/ft_striteri.c \
