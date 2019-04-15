@@ -62,9 +62,9 @@ int		populate_choices_from_folder(t_shell *shell, t_word *word)
 		free(file);
 		return (ft_free_turn(transformed_path, 1));
 	}
-	if (!ft_strncmp(path, "~/", 2) &&
-			process_subst_home(shell, &transformed_path))
-		return (ft_free_turn_3(file, transformed_path, path, 1));
+//	if (!ft_strncmp(path, "~/", 2) &&
+//			process_subst_home(shell, &transformed_path))
+//		return (ft_free_turn_3(file, transformed_path, path, 1));
 	word->to_compare = file;
 	if (add_choices_from_dir(shell, word, transformed_path, path))
 		return (1);
@@ -87,7 +87,7 @@ int		populate_choices_from_word(t_dy_str *command,
 	{
 		if (populate_choices_from_binaries(shell, word))
 			return (1);
-		if (shell->choices == NULL)
+		if (shell->autocompletion.choices == NULL)
 		{
 			if (populate_choices_from_folder(shell, word))
 				return (1);

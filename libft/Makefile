@@ -122,6 +122,10 @@ SRCS	+=	./dlst/ft_dlstnew.c \
 			./dlst/ft_dlstadd_sorted.c \
 			./dlst/ft_dlstdel_value.c
 
+SRCS	+=	./freeturn/ft_free_turn.c \
+			./freeturn/ft_free_turn_dy_str.c \
+			./freeturn/ft_free_turn_n.c
+
 OBJS		= $(SRCS:%.c=%.o)
 
 HEADERS		= ./ft_printf/ft_printf.h ./libft.h

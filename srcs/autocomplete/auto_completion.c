@@ -37,10 +37,10 @@ char	*get_completion_str(t_shell *shell)
 {
 	t_file *file;
 
-	file = (t_file *)shell->choices->content;
-	if (ft_dlstlength(shell->choices) == 1)
+	file = (t_file *)shell->auto_completion.choices->content;
+	if (ft_dlstlength(shell->autocompletion.choices) == 1)
 	{
-		shell->choices_common_len++;
+		shell->autocompletion.choices_common_len++;
 		if (!file->unstatable && S_ISDIR(file->st.st_mode))
 			return (ft_strjoin(file->name, "/"));
 		else
@@ -48,21 +48,21 @@ char	*get_completion_str(t_shell *shell)
 	}
 	else
 		return (ft_strndup(file->name,
-					shell->choices_common_len));
+					shell->autocompletion.choices_common_len));
 }
 
-int		process_substitute_command(t_dy_str *command, char *str,
+int		process_substitute_command(t_command_line *command_line, char *str,
 			t_word word, t_shell *shell)
 {
-	if (ft_substitute_dy_str(command, str, word.start_index, word.len))
+	if (ft_substitute_dy_str(command_line->dy_str, str, word.start_index, word.len))
 		return (1);
-	command->current_index += (shell->choices_common_len - word.cursor_x);
-	command->nb_chars += (ft_strlen_utf8(str) - ft_strlen_utf8(word.str));
-	render_command_line(command, shell->choices_common_len - word.cursor_x);
+	command_line->current_index += (shell->autocompletion.choices_common_len - word.cursor_x);
+	command_line->nb_chars += (ft_strlen_utf8(str) - ft_strlen_utf8(word.str));
+	render_command_line(command->dy_str, shell->autocompletion.choices_common_len - word.cursor_x);
 	return (0);
 }
 
-int		process_completion(t_shell *shell, t_dy_str *command, t_word word)
+int		process_completion(t_shell *shell, t_command_line *command_line, t_word word)
 {
 	char *str;
 
@@ -70,29 +70,29 @@ int		process_completion(t_shell *shell, t_dy_str *command, t_word word)
 		return (1);
 	if (!ft_strcmp(word.str, str))
 	{
-		if (ft_dlstlength(shell->choices) == 1)
+		if (ft_dlstlength(shell->autocompletion.choices) == 1)
 		{
-			if (process_substitute_command(command, str, word, shell))
+			if (process_substitute_command(command_line, str, word, shell))
 				return (ft_free_turn(str, 1));
 		}
 	}
-	else if (process_substitute_command(command, str, word, shell))
+	else if (process_substitute_command(command_line, str, word, shell))
 		return (ft_free_turn(str, 1));
 	return (ft_free_turn(str, 0));
 }
 
-int		process_tab(t_shell *shell, t_dy_str *command)
+int		process_tab(t_shell *shell, t_command_line *command_line)
 {
 	t_word	word;
 	int		ret;
 
 	ret = 0;
-	shell->choices_common_len = -1;
-	populate_word_by_index(command->str, command->current_index, &word);
-	ft_dlstdel(&shell->choices, &free_file_dlst);
-	if (populate_choices_from_word(command, shell, &word))
+	shell->auto_completion.choices_common_len = -1;
+	populate_word_by_index(command_line->dy_str->str, command_line->current_index, &word);
+	ft_dlstdel(&shell->auto_completion.choices, &free_file_dlst);
+	if (populate_choices_from_word(command_line, shell, &word))
 		return (ft_free_turn(word.str, 1));
-	if (shell->choices != NULL)
-		ret = process_completion(shell, command, word);
+	if (shell->autocompletion.choices != NULL)
+		ret = process_completion(shell, command_line, word);
 	return (ft_free_turn(word.str, ret));
 }

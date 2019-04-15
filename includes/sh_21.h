@@ -18,12 +18,12 @@
 # include "perror.h"
 # include <termcap.h>
 # include <term.h>
+# include <sys/stat.h>
 # include <sys/ioctl.h>
 # include "sh_tokens.h"
 # include "sh_grammar.h"
 # include "sh_parser.h"
 # include "sh_lexer.h"
-
 # define SUCCESS		0
 # define FAILURE		1
 # define ATTR_ERROR		2
@@ -74,13 +74,29 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
-/*
+typedef struct		s_word
+{
+	char			*str;
+	char			*to_compare;
+	int				start_index;
+	int				word_index;
+	int				len;
+	int				has_previous;
+	int				cursor_x;
+}					t_word;
+
+typedef struct		s_file
+{
+	char			*name;
+	char			unstatable;
+	struct stat		st;
+}					t_file;
+
 typedef struct		s_auto_complete
 {
-//	t_dlist			*choices;
+	t_dlist			*choices;
 	int				choices_common_len;
 }					t_auto_complete;
-*/
 
 typedef struct		s_command
 {
@@ -104,6 +120,8 @@ typedef struct		s_shell
 	t_dy_tab		*assignments;
 	char			running;
 	struct termios	term;
+	t_auto_complete	autocompletion;
+
 }					t_shell;
 
 typedef struct      s_glob

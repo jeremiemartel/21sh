@@ -41,13 +41,13 @@ t_file		*new_file(t_shell *shell, char *str)
 		free(res);
 		return (NULL);
 	}
-	if (!ft_strncmp(path, "~/", 2) &&
-			process_subst_home(shell, &path))
-	{
-		free(path);
-		free(res);
-		return (NULL);
-	}
+//	if (!ft_strncmp(path, "~/", 2) &&
+//			process_subst_home(shell, &path))
+//	{
+//		free(path);
+//		free(res);
+//		return (NULL);
+//	}
 	if (lstat(path, &res->st) == -1)
 		res->unstatable = 1;
 	else
@@ -77,7 +77,7 @@ int			process_add_choices_from_dir(t_shell *shell,
 			return (ft_free_turn_2(str, file, 1));
 		add_node_next_to_node(prev_to_add, to_add);
 		if (ret)
-			shell->choices = shell->choices->prev;
+			shell->autocompletion.choices = shell->autocompletion.choices->prev;
 	}
 	return (0);
 }
