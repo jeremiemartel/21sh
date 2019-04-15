@@ -55,6 +55,14 @@ typedef struct		s_dy_tab
 	size_t			max_size;
 }					t_dy_tab;
 
+typedef struct		s_dlist
+{
+	void			*content;
+	size_t			content_size;
+	struct s_dlist	*next;
+	struct s_dlist	*prev;
+}					t_dlist;
+
 /*
 ********************************** atoi  **************************************
 */
@@ -188,6 +196,33 @@ char				**ft_strtab_new_line(char **tabl, int free);
 char				*ft_strjoin_3(char const *s1, char const *s2,
 						char const *s3);
 char				*ft_strnrest(char *str, int n);
+
+/*
+************************************ dlst *************************************
+*/
+
+void				ft_dlstadd(t_dlist **alst, t_dlist *newelem);
+t_dlist				*ft_dlstnew_ptr(void const *content, size_t content_size);
+t_dlist				*ft_dlstnew(void const *content, size_t content_size);
+void				ft_dlstpushback(t_dlist **alst, t_dlist *newelem);
+void				*ft_dlstpop_ptr(t_dlist **lst);
+void				ft_dlstpop(t_dlist **lst);
+int					ft_add_to_dlist_ptr(t_dlist **list, void *content,
+		size_t size);
+int					ft_add_to_dlist_ptr_back(t_dlist **list, void *content,
+		size_t size);
+int					ft_add_to_dlist_back(t_dlist **list, void *content,
+		size_t size);
+void				ft_dlstiter(t_dlist *lst, void (*f)(t_dlist *elem));
+void				ft_dlstiter_inv(t_dlist *lst, void (*f)(t_dlist *elem));
+void				ft_dlstdel_ptr(t_dlist **list);
+void				ft_dlstdel(t_dlist **list, void (*del) (void *, size_t));
+void				ft_dlstdel_value(t_dlist **list);
+int					ft_dlstlength(t_dlist *dlist);
+int					ft_dlstadd_sorted(t_dlist **dlst,
+						void *content, int (*sort)(void*, void *));
+int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
+						int index_to_inject, int len);
 
 /*
 ************************************ dystr  ***********************************

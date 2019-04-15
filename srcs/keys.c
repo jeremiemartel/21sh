@@ -62,13 +62,13 @@ void	process_keys(t_shell *shell, t_command_line *command_line,
 int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 			unsigned char *buffer)
 {
-	if (buffer[0] == 10) //ctrl c
+	if (buffer[0] == 10) // enter
 	{
 		get_down_from_command(command_line);
 		command_line->dy_str->current_size = 0;
 		return (0);
 	}
-	else if (buffer[0] == 4)
+	else if (buffer[0] == 4) //ctrl D
 	{
 		if (command_line->dy_str->current_size == 0)
 		{
@@ -77,7 +77,7 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 			return (CTRL_D);
 		}
 	}
-//	else if (buffer[0] == 9 && process_tab(shell, command) != SUCCESS)
+//	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
 //		return (FAILURE);
 	return (4);
 }

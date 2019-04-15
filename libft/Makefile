@@ -20,7 +20,7 @@ SRCS	=	./lst/ft_lstnew.c ./lst/ft_lstdelone.c \
 			./lst/ft_lstput_fd.c ./lst/ft_lstaddnew.c\
 			./lst/ft_lstaddnew_last.c ./lst/ft_lstaddnew_ptr.c\
 			./lst/ft_lstaddnew_ptr_last.c ./lst/ft_lstnew_value.c\
-			./lst/ft_lstpop.c ./lst/ft_lstpop_ptr.c\
+			./lst/ft_lstpop.c ./lst/ft_lstpop_ptr.c \
 			./lst/ft_lstdel_value.c ./lst/ft_lstdel_ptr.c\
 			./lst/ft_lstpop_node.c
 
@@ -79,7 +79,7 @@ SRCS	+=	./ft_printf/ft_printf.c ./ft_printf/ft_dprintf.c \
 			./ft_printf/ft_printf_conv.c ./ft_printf/ft_printf_put.c \
 			./ft_printf/ft_printf_conv_is.c ./ft_printf/ft_printf_fill.c \
 			./ft_printf/ft_printf_fill2.c ./ft_printf/ft_printf_cast.c \
-			./ft_printf/ft_printf_flag.c ./ft_printf/ft_printf_flag_prec.c	\
+			./ft_printf/ft_printf_flag.c ./ft_printf/ft_printf_flag_prec.c \
 			./ft_printf/ft_printf_flag_prec2.c \
 			./ft_printf/ft_printf_flag_size.c \
 			./ft_printf/ft_printf_flag_size2.c \
@@ -101,11 +101,28 @@ SRCS	+=	./dystr/ft_dy_str_new.c \
 			./dystr/ft_dy_str_add_index.c \
 			./dystr/ft_dy_str_realloc.c \
 			./dystr/ft_dy_str_suppr_index.c \
-			./dystr/ft_dy_str_free.c\
-			./dystr/ft_dy_str_new_from.c
+			./dystr/ft_dy_str_free.c \
+			./dystr/ft_dy_str_new_from.c \
+			./dystr/ft_substitute_dy_str.c
 
+SRCS	+=	./dlst/ft_dlstnew.c \
+			./dlst/ft_dlstnew_ptr.c \
+			./dlst/ft_dlstadd.c \
+			./dlst/ft_dlstpushback.c \
+		   	./dlst/ft_add_to_dlist_ptr.c \
+			./dlst/ft_add_to_dlist_ptr_back.c \
+			./dlst/ft_dlstdel_ptr.c \
+			./dlst/ft_dlstpop_ptr.c \
+			./dlst/ft_dlstpop.c \
+			./dlst/ft_dlstiter.c \
+			./dlst/ft_dlstdel.c \
+			./dlst/ft_dlstlength.c \
+			./dlst/ft_dlstiter_inv.c \
+			./dlst/ft_add_to_dlist_back.c \
+			./dlst/ft_dlstadd_sorted.c \
+			./dlst/ft_dlstdel_value.c
 
-OBJS			= $(SRCS:%.c=%.o)
+OBJS		= $(SRCS:%.c=%.o)
 
 HEADERS		= ./ft_printf/ft_printf.h ./libft.h
 
@@ -132,6 +149,5 @@ clean:
 fclean: clean
 	@rm -f $(NAME) && echo "\033[32mSuccessfully cleaned $(NAME) \033[0m"
 	@rm -f $(EXEC)
-
 
 re: fclean all
