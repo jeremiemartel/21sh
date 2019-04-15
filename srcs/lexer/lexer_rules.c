@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:29:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 10:28:27 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define LEX_OPERATOR_TAB	"|&;<>()"
 
-int		lex_rules_is_valid_operator(int op)
+int		lexer_is_operator(int op)
 {
 	if (op == LEX_TOK_AND_IF
 	|| op == LEX_TOK_OR_IF
@@ -85,7 +85,7 @@ int		lexer_rule3(t_lexer *lexer)
 		return (LEX_CONTINUE);
 	if (!ft_strchr(operators, lexer->c))
 	{
-		if (lex_rules_is_valid_operator(lexer->current_id))
+		if (lexer_is_operator(lexer->current_id))
 		{
 			lexer_add_token(lexer);
 			lexer->tok_len = 0;

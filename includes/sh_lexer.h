@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:22:58 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 10:28:27 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,7 @@ typedef struct		s_token
 /*
 ** lexer.c
 */
-int					ft_lstdup(t_list **to, t_list *from);
 int					lexer(char *input, t_list **tokens, t_dy_tab *env);
-void				ft_putstr_len(char *str, int len);
 
 /*
 ** lexer_expansions.c
@@ -162,6 +160,7 @@ int					lexer_rule8(t_lexer *lexer);
 int					lexer_rule9(t_lexer *lexer);
 int					lexer_rule10(t_lexer *lexer);
 int					lexer_rule11(t_lexer *lexer);
+int					lexer_is_operator(int op);
 
 /*
 ** t_lexer.c

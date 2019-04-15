@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 11:09:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 11:03:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,16 @@ void	t_token_show_id(int i)
 		case (LEX_TOK_WORD):
 		{
 			ft_putstr("WORD");
+			break ;
+		}
+		case (LEX_TOK_TOKEN):
+		{
+			ft_putstr("TOKEN");
+			break ;
+		}
+		case (LEX_TOK_IO_NUMBER):
+		{
+			ft_putstr("IO_NUMBER");
 			break ;
 		}
 		default:
