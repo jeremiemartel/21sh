@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*   ft_dy_str_new_from.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:45:51 by ldedier          ###   ########.fr       */
+/*   Created: 2019/04/14 15:10:23 by ldedier           #+#    #+#             */
+/*   Updated: 2019/04/14 15:10:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_init_parsing(t_lr_parser *parser)
+t_dy_str	*ft_dy_str_new_from(char *str)
 {
-	g_cfg = &parser->cfg; //todel : usefull for debug (yes it is a global)
-	parser->ast_root = NULL;
-	parser->cst_root = NULL;
-	if (init_context_free_grammar(&parser->cfg))
-		return (1);
-	if (sh_compute_lr_automata(parser))
-		return (1);
-	if (sh_compute_lr_tables(parser))
-		return (1);
-	return (0);
+	t_dy_str *res;
+	int len;
+
+	len = ft_strlen(str);
+	if (!(res = ft_dy_str_new(len)))
+		return (NULL);
+	ft_memcpy(res->str, str, len);
+	res->current_size = len;
+	return (res);
 }

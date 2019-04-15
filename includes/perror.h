@@ -18,8 +18,9 @@
 # define SH_NAME		"21sh"
 # define SH_ERR_COLOR	COLOR_PINK
 
-# define SH_ERR1_MALLOC			"Malloc error occured"
-# define SH_ERR1_ENV_NOT_SET	"Environnement variable is not set"
+# define SH_ERR1_MALLOC			  "Malloc error occured"
+# define SH_ERR1_ENV_NOT_SET  "Environnement variable is not set"
+# define SH_ERR1_TERM_CPY     "Could not copy terminal attributes"
 
 /*
 ** ft_perror.c

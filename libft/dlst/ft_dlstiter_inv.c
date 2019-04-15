@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*   ft_dlstiter_inv.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:45:51 by ldedier          ###   ########.fr       */
+/*   Created: 2019/02/10 20:32:52 by ldedier           #+#    #+#             */
+/*   Updated: 2019/02/26 23:13:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_init_parsing(t_lr_parser *parser)
+void	ft_dlstiter_inv(t_dlist *dlist, void (*f)(t_dlist *elem))
 {
-	g_cfg = &parser->cfg; //todel : usefull for debug (yes it is a global)
-	parser->ast_root = NULL;
-	parser->cst_root = NULL;
-	if (init_context_free_grammar(&parser->cfg))
-		return (1);
-	if (sh_compute_lr_automata(parser))
-		return (1);
-	if (sh_compute_lr_tables(parser))
-		return (1);
-	return (0);
+	t_dlist *ptr;
+	int		first;
+
+	ptr = dlist->prev;
+	first = 1;
+	while ((ptr != dlist->prev && ptr != NULL) || (first && ptr != NULL))
+	{
+		f(ptr);
+		ptr = ptr->prev;
+		first = 0;
+	}
 }

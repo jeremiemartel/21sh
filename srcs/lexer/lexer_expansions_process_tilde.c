@@ -18,7 +18,7 @@ int			lexer_expansion_process_tilde_1(t_lexer *lexer, t_expansion *exp)
 
 	if (!(home = get_env_value((char**)lexer->env->tbl, "HOME")))
 		return ft_perror(SH_ERR1_ENV_NOT_SET, "HOME");
-	if (!(exp->res = ft_dystr_new(home, ft_strlen(home), ft_strlen(home))))
+	if (!(exp->res = ft_dy_str_new_from(home)))
 		return ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_1");
 	return (LEX_OK);
 }
@@ -27,7 +27,6 @@ int			lexer_expansion_process_tilde_2(t_lexer *lexer, t_expansion *exp)
 {
 	char	*buf;
 	struct passwd	*passwd;
-	int		i;
 
 	if (!(buf = ft_strndup(exp->original + 1, ft_strlen(exp->original) - 2)))
 		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2"));
@@ -36,8 +35,7 @@ int			lexer_expansion_process_tilde_2(t_lexer *lexer, t_expansion *exp)
 		free(buf);
 		return (ft_perror("no such user", buf));//
 	}
-	i = ft_strlen(passwd->pw_dir);
-	if (!(exp->res = ft_dystr_new(passwd->pw_dir, i, i)))
+	if (!(exp->res = ft_dy_str_new_from(passwd->pw_dir)))
 	{
 		free(buf);
 		return ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde");
@@ -52,6 +50,6 @@ int			lexer_expansion_process_tilde(t_lexer *lexer, t_expansion *exp)
 {
 	if (ft_iswhite(exp->original[1]) || exp->original[1] == '/')
 		return (lexer_expansion_process_tilde_1(lexer, exp));
-	else 
+	else
 		return (lexer_expansion_process_tilde_2(lexer, exp));
 }

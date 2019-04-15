@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*   ft_add_to_dlist_back.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:45:51 by ldedier          ###   ########.fr       */
+/*   Created: 2019/02/10 21:31:44 by ldedier           #+#    #+#             */
+/*   Updated: 2019/02/10 21:35:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_init_parsing(t_lr_parser *parser)
+int		ft_add_to_dlist_back(t_dlist **list, void *content, size_t size)
 {
-	g_cfg = &parser->cfg; //todel : usefull for debug (yes it is a global)
-	parser->ast_root = NULL;
-	parser->cst_root = NULL;
-	if (init_context_free_grammar(&parser->cfg))
+	t_dlist *node;
+
+	if (!(node = ft_dlstnew(content, size)))
 		return (1);
-	if (sh_compute_lr_automata(parser))
-		return (1);
-	if (sh_compute_lr_tables(parser))
-		return (1);
+	else
+		ft_dlstpushback(list, node);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 15:12:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/14 17:47:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "libft.h"
 # include "sh_tokens.h"
 # include "sh_grammar.h"
+
+typedef struct		s_shell t_shell;
 
 typedef struct		s_state
 {
@@ -90,7 +92,7 @@ typedef struct		s_lr_parser
 /*
 ** parser.c
 */
-int			sh_parser(t_list *tokens);
+int			sh_parser(t_list *tokens, t_shell *shell);
 
 /*
 ** lr_parse.c
@@ -120,7 +122,7 @@ t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS]);
 */
 int     sh_compute_lr_tables(t_lr_parser *parser);
 
-int		init_parsing(t_lr_parser *parser);
+int		sh_init_parsing(t_lr_parser *parser);
 
 /*
 ** traverse.c

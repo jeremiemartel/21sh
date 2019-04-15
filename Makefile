@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/13 19:41:26 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/14 16:51:09 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ LIBFTDIR = libft
 PROD_DIR   = productions
 LEXER_DIR	= lexer
 PARSER_DIR	= parser
+AUTO_DIR	= autocomplete
 
 SPEED = -j1
 LIBFT_INCLUDEDIR = includes
@@ -35,7 +36,10 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c						
+SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c\
+						shell_tools.c free_all.c init_term.c signals.c keys.c\
+						cursor_motion.c edit_command.c is_printable_utf8.c\
+						get_command.c utf8_tools.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -51,8 +55,6 @@ LEXER_SRCS_NO_PREFIX =	lexer.c t_lexer.c \
 						lexer_expansions_process.c \
 						lexer_expansions_process_tilde.c \
 						t_expansion.c
-						
-
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_case_clause.c sh_prod_case_item.c\
@@ -78,23 +80,30 @@ PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_while_clause.c sh_prod_wordlist.c\
 						sh_prod_complete_commands.c
 
+AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
+						populate_choices.c populate_word_by_index.c \
+						preprocess_choice_add.c
+
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
 PARSER_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX))
 PROD_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX))
+AUTO_SOURCES = $(addprefix $(SRCDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
 PARSER_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX:%.c=%.o))
 PROD_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX:%.c=%.o))
+#AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
 OBJECTS += $(PROD_OBJECTS)
 OBJECTS += $(LEXER_OBJECTS)
 OBJECTS += $(PARSER_OBJECTS)
+OBJECTS += $(AUTO_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -126,6 +135,10 @@ $(BINDIR)/$(NAME): $(OBJECTS) $(LIBFT)
 
 $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(AUTO_DIR)/%.o : $(SRCDIR)/$(AUTO_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(AUTO_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/$(LEXER_DIR)/%.o : $(SRCDIR)/$(LEXER_DIR)/%.c $(INCLUDES)

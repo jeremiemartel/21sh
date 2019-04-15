@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*   ft_dlstlength.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:45:51 by ldedier          ###   ########.fr       */
+/*   Created: 2019/02/10 20:23:11 by ldedier           #+#    #+#             */
+/*   Updated: 2019/02/10 20:26:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_init_parsing(t_lr_parser *parser)
+int		ft_dlstlength(t_dlist *dlist)
 {
-	g_cfg = &parser->cfg; //todel : usefull for debug (yes it is a global)
-	parser->ast_root = NULL;
-	parser->cst_root = NULL;
-	if (init_context_free_grammar(&parser->cfg))
-		return (1);
-	if (sh_compute_lr_automata(parser))
-		return (1);
-	if (sh_compute_lr_tables(parser))
-		return (1);
-	return (0);
+	int		length;
+	t_dlist	*ptr;
+	int		first;
+
+	ptr = dlist;
+	first = 1;
+	length = 0;
+	while ((ptr != dlist && ptr != NULL) || (first && ptr != NULL))
+	{
+		length++;
+		ptr = ptr->next;
+		first = 0;
+	}
+	return (length);
 }

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 18:13:41 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/14 17:47:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,14 @@ int	sh_parse_token_list(t_lr_parser *parser)
 	return (0);
 }
 
-int		sh_parser(t_list *tokens)
+int		sh_parser(t_list *tokens, t_shell *shell)
 {
-	t_lr_parser parser;
 	t_token token;
 
 	sh_populate_token(&token, END_OF_INPUT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 
-	if (init_parsing(&parser))
-		return (1);
-	parser.tokens = tokens;
-	sh_print_token_list(tokens, &parser.cfg);
-	sh_print_cfg(&parser.cfg);
-	sh_parse_token_list(&parser);
+	shell->parser.tokens = tokens;
+	sh_parse_token_list(&shell->parser);
 	return (0);
 }

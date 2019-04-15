@@ -21,7 +21,7 @@ void		t_expansion_free(t_expansion *expansion)
 	if (expansion->original)
 		free(expansion->original);
 	if (expansion->res)
-		ft_dystr_free(expansion->res);
+		ft_dy_str_free(expansion->res);
 }
 
 void		t_expansion_show(t_expansion *exp)

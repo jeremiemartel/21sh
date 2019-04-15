@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 19:18:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:15:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,27 @@ typedef struct		s_dystr
 	int				size;
 }					t_dystr;
 
+typedef struct      s_dy_str
+{
+	char			*str;
+	size_t			current_size;
+	size_t			max_size;
+}					t_dy_str;
+
 typedef struct		s_dy_tab
 {
 	void			**tbl;
 	size_t			current_size;
 	size_t			max_size;
 }					t_dy_tab;
+
+typedef struct		s_dlist
+{
+	void			*content;
+	size_t			content_size;
+	struct s_dlist	*next;
+	struct s_dlist	*prev;
+}					t_dlist;
 
 /*
 ********************************** atoi  **************************************
@@ -183,13 +198,41 @@ char				*ft_strjoin_3(char const *s1, char const *s2,
 char				*ft_strnrest(char *str, int n);
 
 /*
+************************************ dlst *************************************
+*/
+
+void				ft_dlstadd(t_dlist **alst, t_dlist *newelem);
+t_dlist				*ft_dlstnew_ptr(void const *content, size_t content_size);
+t_dlist				*ft_dlstnew(void const *content, size_t content_size);
+void				ft_dlstpushback(t_dlist **alst, t_dlist *newelem);
+void				*ft_dlstpop_ptr(t_dlist **lst);
+void				ft_dlstpop(t_dlist **lst);
+int					ft_add_to_dlist_ptr(t_dlist **list, void *content,
+		size_t size);
+int					ft_add_to_dlist_ptr_back(t_dlist **list, void *content,
+		size_t size);
+int					ft_add_to_dlist_back(t_dlist **list, void *content,
+		size_t size);
+void				ft_dlstiter(t_dlist *lst, void (*f)(t_dlist *elem));
+void				ft_dlstiter_inv(t_dlist *lst, void (*f)(t_dlist *elem));
+void				ft_dlstdel_ptr(t_dlist **list);
+void				ft_dlstdel(t_dlist **list, void (*del) (void *, size_t));
+void				ft_dlstdel_value(t_dlist **list);
+int					ft_dlstlength(t_dlist *dlist);
+int					ft_dlstadd_sorted(t_dlist **dlst,
+						void *content, int (*sort)(void*, void *));
+int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
+						int index_to_inject, int len);
+
+/*
 ************************************ dystr  ***********************************
 */
-t_dystr				*ft_dystr_check(t_dystr *dystr, int new_offset);
-t_dystr				*ft_dystr_realloc(t_dystr *dystr);
-t_dystr				*ft_dystr_new(char *str, size_t size, size_t len);
-void				ft_dystr_free(t_dystr *dystr);
-
+t_dy_str			*ft_dy_str_new(size_t max_size);
+t_dy_str			*ft_dy_str_new_from(char *str);
+int					ft_dy_str_add_index(t_dy_str *d_str, char c, size_t index);
+int					ft_dy_str_realloc(t_dy_str *d_str);
+int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
+void				ft_dy_str_free(t_dy_str *dy_str);
 /*
 ************************************ dytab  ***********************************
 */

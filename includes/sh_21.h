@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 19:49:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 17:16:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,21 @@
 # include <stdarg.h>
 # include "libft.h"
 # include "perror.h"
+# include <termcap.h>
+# include <term.h>
+# include <sys/stat.h>
+# include <sys/ioctl.h>
 # include "sh_tokens.h"
 # include "sh_grammar.h"
 # include "sh_parser.h"
 # include "sh_lexer.h"
+# define SUCCESS		0
+# define FAILURE		1
+# define ATTR_ERROR		2
+# define CTRL_D			3
 
-# define SUCCESS	0
-# define FAILURE	1
+# define PROMPT			"$21_sh(to_rework)> "
+# define READ_BUFF_SIZE	4
 
 /*
 ** Colors macros
@@ -66,11 +74,94 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
+typedef struct		s_word
+{
+	char			*str;
+	char			*to_compare;
+	int				start_index;
+	int				word_index;
+	int				len;
+	int				has_previous;
+	int				cursor_x;
+}					t_word;
+
+typedef struct		s_file
+{
+	char			*name;
+	char			unstatable;
+	struct stat		st;
+}					t_file;
+
+typedef struct		s_auto_complete
+{
+	t_dlist			*choices;
+	int				choices_common_len;
+}					t_auto_complete;
+
+typedef struct		s_command
+{
+	t_dy_tab		*params; //argv
+	//redirections...
+}					t_command;
+
+typedef struct		s_command_line
+{
+	t_dy_str		*dy_str;
+	int				nb_chars;
+	int				current_index;
+}					t_command_line;
+
+typedef struct		s_shell
+{
+	t_lexer			lexer;
+	t_lr_parser		parser;
+	t_command		*current_command;
+	t_dy_tab		*env;
+	t_dy_tab		*assignments;
+	char			running;
+	struct termios	term;
+	t_auto_complete	autocompletion;
+
+}					t_shell;
+
+typedef struct      s_glob
+{
+	struct termios	term_init;
+	t_command_line	command_line;
+	int				cursor;
+	struct winsize	winsize;
+}					t_glob;
+
+t_glob				g_glob;
+
+/*
+** init.c
+*/
+
+int			sh_init_shell(t_shell *shell, char **env);
+
+int			sh_init_terminal(t_shell *shell, char **env);
+void		init_signals(void);
+
 /*
 ** index.c
 */
 int			sh_index(t_symbol_id id);
 int			is_key_of_entry(char *entry, char *key);
+
+/*
+** free_all.c
+*/
+void		sh_free_all(t_shell *shell);
+
+/*
+** shell_tools.c
+*/
+
+int			sh_reset_shell(int ret);
+int			putchar_int(int i);
+void		move(int x, int y);
+int			clear_all(void);
 
 /*
 ** env.c
@@ -79,5 +170,56 @@ int			is_key_of_entry(char *entry, char *key);
 char		*get_env_value(char **env, char *str);
 char		*get_env_entry(char **env, char *str);
 int			process_ms_env(t_dy_tab *env);
+
+
+/*
+** set_env.c
+*/
+int			sh_add_to_env(t_dy_tab *env, char *key, char *value);
+int			sh_add_to_command(t_command_line *command,
+				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
+
+int			sh_await_command(t_shell *shell);
+/*
+** get_command.c
+*/
+int			render_command_line(t_dy_str *dy_str, int cursor_inc);
+int			sh_get_command(t_shell *shell, t_command_line *command_line);
+/*
+** edit_command.c
+*/
+void    process_left(t_command_line *command_line);
+void    process_right(t_command_line *command_line);
+
+void	process_suppr(t_command_line *command_line);
+void	process_delete(t_command_line *command_line);
+
+/*
+** cursor_motion.c
+*/
+
+void	get_down_from_command(t_command_line *command_line);
+int		process_clear(t_dy_str *dy_str);
+void	go_up_to_prompt(int width, int cursor);
+void	replace_cursor_after_render(void);
+
+
+/*
+** utf8_tools.c
+*/
+
+int     ft_strlen_utf8(char *str);
+int		get_left_w_char_index(t_command_line *command_line);
+int		get_right_w_char_index(t_command_line *command_line);
+
+/*
+** is_printable_utf8.c
+*/
+int		is_printable_utf8(unsigned char *buffer, int nb_bytes);
+
+/*
+** keys.c
+*/
+int		 get_keys(t_shell *shell, t_command_line *command_line);
 
 #endif

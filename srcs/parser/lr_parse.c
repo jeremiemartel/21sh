@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/13 16:29:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/14 17:48:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ int		sh_lr_parse(t_lr_parser *parser)
 		action = parser->lr_tables[state->index][token->index];
 		if (action.action_enum == SHIFT)
 		{
-			ft_printf("SHIFT\n");
+	//		ft_printf("SHIFT\n");
 			if (sh_process_shift(action.action_union.state, parser))
 				return (1);
 		}
 		else if (action.action_enum == REDUCE)
 		{
-			ft_printf("REDUCE\n");
+	//		ft_printf("REDUCE\n");
 			if (sh_process_reduce(action.action_union.production, parser))
 				return (1);
 		}
@@ -66,10 +66,10 @@ int		sh_lr_parse(t_lr_parser *parser)
 		}
 		else if (action.action_enum == ERROR)
 		{
-			ft_printf("ERROR\n");
+	//		ft_printf("ERROR\n");
 			return (1);
 		}
-		sh_print_parser_state(parser);
+//		sh_print_parser_state(parser);
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 19:00:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 13:57:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:16:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,36 +29,36 @@ int			lexer_expansion_process(t_lexer *lexer, t_expansion *expansion)
 
 int			lexer_expansion_process_command(t_lexer *lexer, t_expansion *expansion)
 {
-	if (!(expansion->res = ft_dystr_new("", 30, 30)))
+	if (!(expansion->res = ft_dy_str_new_from("")))
 		return (LEX_ERR);
-	return (LEX_EXP_OK);
+	return (LEX_OK);
 	(void)lexer;
 	(void)expansion;
 }
 
 int			lexer_expansion_process_arithmetic(t_lexer *lexer, t_expansion *expansion)
 {
-	if (!(expansion->res = ft_dystr_new("", 30, 30)))
+	if (!(expansion->res = ft_dy_str_new_from("")))
 		return (LEX_ERR);
-	return (LEX_EXP_OK);
+	return (LEX_OK);
 	(void)lexer;
 	(void)expansion;
 }
 
 int			lexer_expansion_process_parameter(t_lexer *lexer, t_expansion *expansion)
 {
-	if (!(expansion->res = ft_dystr_new("", 30, 30)))
+	if (!(expansion->res = ft_dy_str_new_from("")))
 		return (LEX_ERR);
-	return (LEX_EXP_OK);
+	return (LEX_OK);
 	(void)lexer;
 	(void)expansion;
 }
 
 int			lexer_expansion_process_variable(t_lexer *lexer, t_expansion *expansion)
 {
-	if (!(expansion->res = ft_dystr_new("", 15, 15)))
+	if (!(expansion->res = ft_dy_str_new_from("")))
 		return (LEX_ERR);
-	return (LEX_EXP_OK);
+	return (LEX_OK);
 	(void)lexer;
 	(void)expansion;
 }

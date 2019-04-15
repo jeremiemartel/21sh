@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dystr_free.c                                    :+:      :+:    :+:   */
+/*   ft_add_to_dlist_ptr.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/19 09:01:21 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/19 10:30:45 by jmartel          ###   ########.fr       */
+/*   Created: 2019/02/10 18:47:41 by ldedier           #+#    #+#             */
+/*   Updated: 2019/02/11 12:11:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** ft_dystr_free:
-**		free any t_dystr object
-*/
-
-void		ft_dystr_free(t_dystr *dystr)
+int			ft_add_to_dlist_ptr(t_dlist **list, void *content, size_t size)
 {
-	if (!(dystr))
-		return ;
-	if (dystr->str)
-		free(dystr->str);
-	free(dystr);
+	t_dlist *node;
+
+	if (!(node = ft_dlstnew_ptr(content, size)))
+		return (1);
+	else
+		ft_dlstadd(list, node);
+	return (0);
 }
