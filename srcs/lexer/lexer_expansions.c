@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:40:46 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 13:36:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 11:08:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			lexer_expansion(t_lexer *lexer, char **input)
 	}
 	lexer->tok_len += ft_strlen(expansion.res->str);
 	t_expansion_free(&expansion);
-	return (LEX_EXP_OK);
+	return (LEX_OK);
 	(void)input;
 	(void)lexer;
 }
@@ -60,5 +60,5 @@ int			lexer_expansion_replace(t_expansion *expansion, char **input)
 	*input = ft_strrep_free(*input, expansion->res->str, expansion->original, 1);
 	if (!(*input))
 		return (LEX_ERR);
-	return (LEX_EXP_OK);
+	return (LEX_OK);
 }

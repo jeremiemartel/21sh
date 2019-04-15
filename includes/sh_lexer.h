@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/15 10:28:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/15 11:08:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ typedef struct		s_lexer
 */
 typedef enum		e_exp_type
 {
-	LEX_ERR = -1,
-	LEX_EXP_OK = 0,
-	LEX_EXP_VAR,
+	LEX_EXP_VAR = 1,
 	LEX_EXP_PARAM,
 	LEX_EXP_CMD,
 	LEX_EXP_ARITH,
