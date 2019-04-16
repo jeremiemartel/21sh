@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 12:06:54 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/16 13:44:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,5 @@ int		sh_traverse_default(t_ast_node *node, t_context *context)
 			return (FAILURE);
 		ptr = ptr->next;
 	}
-	// sh_print_symbol(node->symbol);
-	// ft_printf("\n");
 	return (SUCCESS);
 }

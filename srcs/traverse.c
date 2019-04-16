@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   traverse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 21:45:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/16 16:28:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int		sh_init_context(t_context *context, t_shell *shell)
 		return (ft_perror(SH_ERR1_MALLOC, "sh_init_context"));
 	context->env = shell->env;
 	context->term = &shell->term;
+	sh_traverse_tools_reset_std(context);
 	return (SUCCESS);
 }
 
@@ -34,7 +35,7 @@ int		sh_process_traverse(t_shell *shell)
 		return (FAILURE);
 	g_grammar[shell->parser.ast_root->symbol->id].
 		traverse(shell->parser.ast_root, &context);
-	ft_strtab_put((char **)context.params->tbl);
+	// ft_strtab_put((char **)context.params->tbl);
 	sh_free_context(&context);
 	return (SUCCESS);
 }

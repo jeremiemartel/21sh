@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/16 11:53:57 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/16 15:59:13 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,9 +41,16 @@ EOC = \033[0m
 TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
 						sh_traverse_cmd_name.c \
 						sh_traverse_cmd_suffix.c \
-						sh_traverse_complete_command.c
+						sh_traverse_complete_command.c \
+						sh_traverse_simple_command.c \
+						sh_traverse_pipe_sequence.c \
+						sh_traverse_tok_pipe.c \
 
-TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c
+
+TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
+						sh_traverse_tools_browse.c \
+						sh_traverse_tools_reset.c \
+
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c keys.c \

@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_tools_flush.c                          :+:      :+:    :+:   */
+/*   sh_traverse_tools_reset.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/16 11:40:06 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/16 17:13:19 by jmartel          ###   ########.fr       */
+/*   Created: 2019/04/16 15:45:22 by jmartel           #+#    #+#             */
+/*   Updated: 2019/04/16 15:58:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_traverse_tools_flush(t_context *context)
+void	sh_traverse_tools_reset_std(t_context *context)
 {
-	int		ret;
+	context->std[0] = 0;
+	context->std[1] = 1;
+	context->std[2] = 2;
+};
 
-	if (!context->params->tbl[0])
-		return (SUCCESS);
-	ret = execute_command(context);
-	sh_traverse_tools_reset_params(context);
-	return (ret);
-}
+void	sh_traverse_tools_reset_params(t_context *context)
+{
+	int		i;
+
+	i = 0;
+	while (context->params->tbl[i])
+	{
+		free(context->params->tbl[i]);
+		context->params->tbl[i] = NULL;
+		i++;
+	}
+	context->params->current_size = 0;
+	return ;
+};

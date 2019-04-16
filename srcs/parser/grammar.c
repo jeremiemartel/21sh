@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grammar.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 18:52:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/16 14:12:58 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"UNKNOWN", 0, 1, NULL, &sh_traverse_default},
-	{"|", 0, 1, NULL, &sh_traverse_default},
+	{"|", 0, 1, NULL, &sh_traverse_tok_pipe},
 	{"&", 0, 1, NULL, &sh_traverse_default},
 	{";", 0, 1, NULL, &sh_traverse_default},
 	{"<", 0, 1, NULL, &sh_traverse_default},
@@ -84,7 +84,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"LIST", 0, 1, &sh_init_prod_list, &sh_traverse_default},
 	{"AND_OR", 0, 1, &sh_init_prod_and_or, &sh_traverse_default},
 	{"PIPELINE", 0, 1, &sh_init_prod_pipeline, &sh_traverse_default},
-	{"PIPE_SEQUENCE", 0, 1, &sh_init_prod_pipe_sequence, &sh_traverse_default},
+	{"PIPE_SEQUENCE", 0, 1, &sh_init_prod_pipe_sequence, &sh_traverse_pipe_sequence},
 	{"COMMAND", 0, 1, &sh_init_prod_command, &sh_traverse_default},
 	{"COMPOUND_COMMAND", 0, 1, &sh_init_prod_compound_command, &sh_traverse_default},
 	{"SUBSHELL", 0, 1, &sh_init_prod_subshell, &sh_traverse_default},
@@ -109,7 +109,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"FNAME", 0, 1, &sh_init_prod_fname, &sh_traverse_default},
 	{"BRACE_GROUP", 0, 1, &sh_init_prod_brace_group, &sh_traverse_default},
 	{"DO_GROUP", 0, 1, &sh_init_prod_do_group, &sh_traverse_default},
-	{"SIMPLE_COMMAND", 0, 1, &sh_init_prod_simple_command, &sh_traverse_default},
+	{"SIMPLE_COMMAND", 0, 1, &sh_init_prod_simple_command, &sh_traverse_simple_command},
 	{"CMD_NAME", 0, 1, &sh_init_prod_cmd_name, &sh_traverse_cmd_name},
 	{"CMD_WORD", 0, 1, &sh_init_prod_cmd_word, &sh_traverse_default},
 	{"CMD_PREFIX", 0, 1, &sh_init_prod_cmd_prefix, &sh_traverse_default},

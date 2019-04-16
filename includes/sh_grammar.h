@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_grammar.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:43:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 19:24:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/16 15:43:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct		s_context
 	struct termios	*term;
 	t_dy_tab		*env;
 	t_dy_tab		*params; //argv
-	//redirections...
+	int				std[3];
 }					t_context;
 
 typedef struct		s_symbol
