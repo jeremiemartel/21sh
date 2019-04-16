@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_complete_command.c                     :+:      :+:    :+:   */
+/*   sh_traverse_flush.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 11:46:41 by jmartel          ###   ########.fr       */
+/*   Created: 2019/04/16 11:40:06 by jmartel           #+#    #+#             */
+/*   Updated: 2019/04/16 11:46:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_traverse_complete_command(t_ast_node *node, t_context *context)
+int		sh_traverse_tools_flush(t_context *context)
 {
-	t_list *ptr;
-	t_ast_node	*child;
+	int		ret;
+	int		i;
 
-	ptr = node->children;
-	while (ptr != NULL)
+	ret = execute_command(context);
+	i = 0;
+	while (context->params->tbl[i])
 	{
-		child = (t_ast_node *)ptr->content;
-		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
-			return (FAILURE);
-		ptr = ptr->next;
+		free(context->params->tbl[i]);
+		context->params->tbl[i] = NULL;
+		i++;
 	}
-	return (sh_traverse_tools_flush(context));
+	context->params->current_size = 0;
+	return (ret);
 }

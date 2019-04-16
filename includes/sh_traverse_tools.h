@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_complete_command.c                     :+:      :+:    :+:   */
+/*   sh_traverse_tools.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 11:46:41 by jmartel          ###   ########.fr       */
+/*   Created: 2019/04/16 11:47:31 by jmartel           #+#    #+#             */
+/*   Updated: 2019/04/16 11:48:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#ifndef SH_TRAVERSE_TOOLS_H
+# define SH_TRAVERSE_TOOLS_H
 
-int		sh_traverse_complete_command(t_ast_node *node, t_context *context)
-{
-	t_list *ptr;
-	t_ast_node	*child;
+/*
+** sh_travers_tools_flush.c
+*/
+int			sh_traverse_tools_flush(t_context *context);
 
-	ptr = node->children;
-	while (ptr != NULL)
-	{
-		child = (t_ast_node *)ptr->content;
-		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
-			return (FAILURE);
-		ptr = ptr->next;
-	}
-	return (sh_traverse_tools_flush(context));
-}
+
+#endif
