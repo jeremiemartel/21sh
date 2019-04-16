@@ -13,6 +13,9 @@
 #ifndef SH_21_H
 # define SH_21_H
 
+     
+#include <stdio.h>
+
 # include <stdarg.h>
 # include "libft.h"
 # include "perror.h"
@@ -21,6 +24,7 @@
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <signal.h>
+# include <fcntl.h>
 # include <dirent.h>
 # include "sh_tokens.h"
 # include "sh_grammar.h"
@@ -35,6 +39,7 @@
 # define CTRL_D			3
 
 # define PROMPT			"$21_sh(to_rework)> "
+# define HISTORIC_FILE	".historic"
 # define READ_BUFF_SIZE	4
 # define CWD_LEN		1000
 
@@ -111,10 +116,18 @@ typedef struct		s_command_line
 	int				current_index;
 }					t_command_line;
 
+typedef struct		s_historic
+{
+	t_dlist			*head;
+	t_dlist			*commands;
+	t_dlist			head_start;
+}					t_historic;
+
 typedef struct		s_shell
 {
 	t_lexer			lexer;
 	t_lr_parser		parser;
+	t_historic		historic;
 	t_dy_tab		*env;
 	t_dy_tab		*assignments;
 	char			running;
@@ -182,6 +195,7 @@ int			sh_await_command(t_shell *shell);
 /*
 ** get_command.c
 */
+void		reset_command_line(t_shell *shell, t_command_line *command_line);
 int			render_command_line(t_dy_str *dy_str, int cursor_inc);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
 /*
@@ -239,9 +253,13 @@ int		execute_command_no_path(t_context *context);
 */
 int		check_execute(char *full_path, char *command_name);
 
+int		process_up(t_shell *shell, t_command_line *command_line);
+int		process_down(t_shell *shell, t_command_line *command_line);
 /*
 ** tools.c
 */
+void	ring_bell(void);
+void	flush_command_line(t_command_line *command_line);
 int		get_file_in_dir(char *filename, char *dirname);
 int		get_path_and_file_from_str(char *str, char **path, char **file);
 #endif

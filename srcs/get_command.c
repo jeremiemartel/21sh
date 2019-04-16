@@ -43,14 +43,18 @@ int		sh_add_to_command(t_command_line *command_line,
 	return (0);
 }
 
+void	reset_command_line(t_shell *shell, t_command_line *command_line)
+{
+	shell->historic.head = &shell->historic.head_start;
+	g_glob.cursor = 0;
+	flush_command_line(command_line);
+}
+
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
 	int ret;
 
-	g_glob.cursor = 0;
-	ft_bzero(command_line->dy_str->str, command_line->dy_str->max_size);
-	command_line->current_index = 0;
-	command_line->nb_chars = 0;
+	reset_command_line(shell, command_line);
 	render_command_line(command_line->dy_str, 0);
 	if ((ret = get_keys(shell, command_line)))
 		return (ret);

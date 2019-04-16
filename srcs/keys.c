@@ -24,24 +24,35 @@ void	print_buffer(unsigned char buffer[READ_BUFF_SIZE])
 	}
 }
 
-int		process_escape_sequence(t_command_line *command_line,
+int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
 		unsigned char buffer[READ_BUFF_SIZE])
 {
 	if (buffer[1] == 91 && buffer[2] == 67)
 		process_right(command_line);
 	else if (buffer[1] == 91 && buffer[2] == 68)
 		process_left(command_line);
+	else if (buffer[1] == 91 && buffer[2] == 65)
+		process_up(shell, command_line);
+	else if (buffer[1] == 91 && buffer[2] == 66)
+		process_down(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 51)
 		process_suppr(command_line);
 	return (0);
 }
 
+void	flush_command_line(t_command_line *command_line)
+{
+	command_line->dy_str->current_size = 0;
+	command_line->current_index = 0;
+	ft_bzero(command_line->dy_str->str, command_line->dy_str->max_size);
+	command_line->nb_chars = 0;
+}
+
 void	process_keys(t_shell *shell, t_command_line *command_line,
 				unsigned char *buffer)
 {
-	(void)shell;
 	if (buffer[0] == 27)
-		process_escape_sequence(command_line, buffer);
+		process_escape_sequence(shell, command_line, buffer);
 	else if (buffer[0] == 12)
 		process_clear(command_line->dy_str);
 	else if (buffer[0] == 127)
@@ -49,13 +60,8 @@ void	process_keys(t_shell *shell, t_command_line *command_line,
 	else if (buffer[0] == 3)
 	{
 		get_down_from_command(command_line);
-		g_glob.cursor = 0;
-		command_line->dy_str->current_size = 0;
-		command_line->current_index = 0;
-		ft_bzero(g_glob.command_line.dy_str->str,
-			g_glob.command_line.dy_str->max_size);
-		command_line->nb_chars = 0;
-		render_command_line(g_glob.command_line.dy_str, 0);
+		reset_command_line(shell, command_line);
+		render_command_line(command_line->dy_str, 0);
 	}
 }
 

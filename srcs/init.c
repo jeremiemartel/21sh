@@ -59,6 +59,31 @@ t_dy_tab	*main_init_env(char **env)
 	return (tbl);
 }
 
+int		sh_init_historic(t_historic *historic)
+{
+	int			fd;
+	char		*line;
+	int			ret;
+
+	historic->commands = NULL;
+	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR, S_IRWXU)) == -1)
+	{
+		perror("open");
+		return (ft_perror(SH_ERR1_HISTORIC, "sh_unit_historic"));
+	}
+	while ((ret = get_next_line(fd, &line)) == 1)
+	{
+		if (ft_add_to_dlist_ptr(&historic->commands, line, sizeof(line)))
+			return (ft_perror(SH_ERR1_MALLOC, "sh_init_historic"));
+	}
+	free(line);
+	historic->head_start.next = historic->commands;
+	historic->head_start.prev = NULL;
+	historic->head = &historic->head_start;
+	close(fd);
+	return (SUCCESS);
+}
+
 int		sh_init_shell(t_shell *shell, char **env)
 {
 	if (!(shell->env = main_init_env(env)))
@@ -69,6 +94,8 @@ int		sh_init_shell(t_shell *shell, char **env)
 	if (sh_update_shell_lvl(shell) != SUCCESS)
 		return (FAILURE);
 	if (sh_init_parsing(&shell->parser) != SUCCESS)
+		return (FAILURE);
+	if ((sh_init_historic(&shell->historic)) != SUCCESS)
 		return (FAILURE);
 	return (SUCCESS);
 }

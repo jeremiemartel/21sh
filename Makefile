@@ -50,7 +50,7 @@ SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
 						get_command.c utf8_tools.c \
 						execute.c execute_tools.c process_execute.c tools.c\
-						traverse.c
+						traverse.c process_historic.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
