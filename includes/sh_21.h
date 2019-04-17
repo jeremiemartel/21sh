@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 11:52:44 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/17 20:16:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@
 # define FAILURE		1
 # define ATTR_ERROR		2
 # define CTRL_D			3
+
+/*
+** Macros of fdin, fdout and fderr in context->fd
+*/
+#define FD_IN		0
+#define FD_OUT		1
+#define FD_ERR		2
+
+/*
+** Pipe input and output indexes in a int[2]
+*/
+#define PIPE_IN		1
+#define PIPE_OUT	0
 
 # define PROMPT			"$21_sh(to_rework)> "
 # define READ_BUFF_SIZE	4

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/17 11:12:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/17 22:35:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int		sh_init_context(t_context *context, t_shell *shell)
 	context->fd[0] = 0;
 	context->fd[1] = 1;
 	context->fd[2] = 2;
-	context->pipe[0] = 1;
-	context->pipe[1] = 0;
+	context->pipe[PIPE_OUT] = 0;
+	context->pipe[PIPE_IN] = 1;
 	sh_traverse_tools_reset_std(context);
 	return (SUCCESS);
 }

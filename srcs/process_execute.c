@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_execute.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/02/27 00:39:57 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/17 23:08:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ void	transmit_sig(int signal)
 	render_command_line(g_glob.command_line.dy_str, 0);
 }
 
+int		process_execute_pipes(t_context *context)
+{
+	if (context->fd[FD_IN] != 0)
+		if (dup2(context->fd[FD_IN], 0) == -1)
+			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes"));
+	if (context->fd[FD_OUT] != 1)
+		if (dup2(context->fd[FD_OUT], 1) == -1)
+			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes"));
+	if (context->fd[FD_ERR] != 2)
+		if (dup2(context->fd[FD_ERR], 2) == -1)
+			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes"));
+	return (SUCCESS);
+}
+
 int		process_execute(char *path, t_context *context)
 {
 	if (check_execute(path, context->params->tbl[0]))
@@ -44,11 +58,13 @@ int		process_execute(char *path, t_context *context)
 		return (1);
 	if (g_parent == 0)
 	{
+		process_execute_pipes(context);
 		if (execve(path, (char **)context->params->tbl,
 				(char **)context->env->tbl) == -1)
 		{
 	//		free_all(shell);
 	//		exit(1);
+			exit(ft_perror(SH_ERR1_CMD_NOT_FOUND, *context->params->tbl));
 		}
 	}
 	else

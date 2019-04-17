@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 14:12:58 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/17 23:07:38 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"COMPLETE_COMMAND", 0, 1, &sh_init_prod_complete_command, &sh_traverse_complete_command},
 	{"LIST", 0, 1, &sh_init_prod_list, &sh_traverse_default},
 	{"AND_OR", 0, 1, &sh_init_prod_and_or, &sh_traverse_default},
-	{"PIPELINE", 0, 1, &sh_init_prod_pipeline, &sh_traverse_default},
+	{"PIPELINE", 0, 1, &sh_init_prod_pipeline, &sh_traverse_pipeline},
 	{"PIPE_SEQUENCE", 0, 1, &sh_init_prod_pipe_sequence, &sh_traverse_pipe_sequence},
-	{"COMMAND", 0, 1, &sh_init_prod_command, &sh_traverse_default},
+	{"COMMAND", 0, 1, &sh_init_prod_command, &sh_traverse_command},
 	{"COMPOUND_COMMAND", 0, 1, &sh_init_prod_compound_command, &sh_traverse_default},
 	{"SUBSHELL", 0, 1, &sh_init_prod_subshell, &sh_traverse_default},
 	{"COMPOUND_LIST", 0, 1, &sh_init_prod_compound_list, &sh_traverse_default},

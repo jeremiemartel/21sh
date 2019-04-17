@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/16 15:59:13 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/17 20:47:05 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,14 @@ OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
 TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
+						sh_traverse_complete_command.c \
+						sh_traverse_pipeline.c \
+						sh_traverse_pipe_sequence.c \
+						sh_traverse_command.c \
+						sh_traverse_simple_command.c \
+						sh_traverse_tok_pipe.c \
 						sh_traverse_cmd_name.c \
 						sh_traverse_cmd_suffix.c \
-						sh_traverse_complete_command.c \
-						sh_traverse_simple_command.c \
-						sh_traverse_pipe_sequence.c \
-						sh_traverse_tok_pipe.c \
 
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \

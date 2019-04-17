@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 19:45:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/17 20:21:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int		execute_command(t_context *context)
 
 //	if (execute_builtin(context))
 //		return (0);
-	ft_strtab_put((char **)context->params->tbl);
 	if ((path_str = get_env_value((char **)context->env->tbl, "PATH")))
 	{
 		if ((ret = execute_command_path(context, path_str)) != 2)
