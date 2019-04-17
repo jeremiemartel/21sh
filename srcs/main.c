@@ -14,10 +14,13 @@
 
 int		sh_append_to_historic(t_shell *shell, char *command)
 {
-	int fd;
-	
+	int		fd;
 	char	*str;
 
+	if (!ft_strcmp(command, "")
+		|| (shell->historic.commands
+			&& !ft_strcmp((char *)shell->historic.commands->content, command)))
+		return (SUCCESS);
 	if (!(str = ft_strdup(command)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_append_to_historic"));
 	if (ft_add_to_dlist_ptr(&shell->historic.commands, str, sizeof(str)))
@@ -33,21 +36,48 @@ int		sh_append_to_historic(t_shell *shell, char *command)
 	return (SUCCESS);
 }
 
-int		sh_await_command(t_shell *shell)
+int		sh_process_command(t_shell *shell, char *command)
 {
 	t_list *tokens;
 
-	if (sh_get_command(shell, &g_glob.command_line) != SUCCESS)
-		return (FAILURE);
-	if (ft_strcmp(g_glob.command_line.dy_str->str, "")
-		&& (sh_append_to_historic(shell,
-			g_glob.command_line.dy_str->str) != SUCCESS))
-		return (FAILURE);
-	if (lexer(g_glob.command_line.dy_str->str, &tokens, shell->env) != SUCCESS)
+	if (lexer(command, &tokens, shell->env) != SUCCESS)
 		return (FAILURE);
 	if (sh_parser(tokens, shell))
 	   	return (FAILURE);
 	return (sh_process_traverse(shell));
+}
+
+int		sh_await_command(t_shell *shell)
+{
+	if (sh_get_command(shell, &g_glob.command_line) != SUCCESS)
+		return (FAILURE);
+	if (sh_append_to_historic(shell,
+			g_glob.command_line.dy_str->str) != SUCCESS)
+		return (FAILURE);
+	return (sh_process_command(shell, g_glob.command_line.dy_str->str));
+}
+
+int		sh_process_canonical_mode(t_shell *shell) //to change
+{
+	int		ret;
+	char	*str;
+	char	*command;
+
+	if (!(command = ft_strnew(0)))
+		return (1);
+	while (get_next_line(0, &str) > 0)
+	{
+		if (!(command = ft_strjoin_free(command, str, 1))) //to protect omg
+		{
+			free(str);
+			return (1);
+		}
+		free(str);
+	}
+	free(str);
+	ft_printf("la commande at end: %s\n", command);
+	ret = (sh_process_command(shell, command));
+	return (ret);
 }
 
 int		main(int argc, char **argv, char **env)
@@ -57,7 +87,13 @@ int		main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	init_signals();
-	if (sh_init_terminal(&shell, env) != SUCCESS)
+	if (!isatty(0))
+	{
+		if (sh_init_shell(&shell, env) != SUCCESS)
+			return (sh_reset_shell(FAILURE));
+		return (sh_process_canonical_mode(&shell));
+	}
+	else if (sh_init_terminal(&shell, env) != SUCCESS)
 		return (FAILURE);
 	if (sh_init_shell(&shell, env) != SUCCESS)
 		return (sh_reset_shell(FAILURE));

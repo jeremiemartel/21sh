@@ -24,12 +24,12 @@ int		add_choices_path(t_shell *shell, t_word *word, char *path_str)
 	{
 		if (add_choices_from_dir(shell, word, path_split[i], NULL))
 		{
-			ft_free_split(path_split);
+			ft_strtab_free(path_split);
 			return (1);
 		}
 		i++;
 	}
-	ft_free_split(path_split);
+	ft_strtab_free(path_split);
 	return (0);
 }
 

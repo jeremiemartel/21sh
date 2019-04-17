@@ -111,6 +111,7 @@ typedef struct		s_auto_complete
 
 typedef struct		s_command_line
 {
+	char			*prompt;
 	t_dy_str		*dy_str;
 	int				nb_chars;
 	int				current_index;
@@ -129,6 +130,7 @@ typedef struct		s_shell
 	t_lr_parser		parser;
 	t_historic		historic;
 	t_dy_tab		*env;
+	char			*clipboard;
 	t_dy_tab		*assignments;
 	char			running;
 	struct termios	term;
@@ -262,4 +264,36 @@ void	ring_bell(void);
 void	flush_command_line(t_command_line *command_line);
 int		get_file_in_dir(char *filename, char *dirname);
 int		get_path_and_file_from_str(char *str, char **path, char **file);
+
+/*
+** autocompletion.c
+*/
+char	*get_first_word(char *str);
+int		process_tab(t_shell *shell, t_command_line *command_line);
+/*
+** preprocess_choice_add.c
+*/
+int		ft_preprocess_choice_add(t_shell *shll, char *entry, t_dlist ***to_add);
+
+/*
+** populate_word_by_index.c
+*/
+int     populate_word_by_index(char *s, int index, t_word *word);
+
+/*
+** populate_choices_from_word.c
+*/
+int     populate_choices_from_word(t_dy_str *command,
+ 		t_shell *shell, t_word *word);
+
+/*
+** add_choices_from_dir.c
+*/
+int		add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
+			char *prefix);
+
+/*
+** free_all.c
+*/
+void	free_file_dlst(void *f, size_t dummy);
 #endif

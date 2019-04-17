@@ -33,6 +33,7 @@ t_file		*new_file(t_shell *shell, char *str)
 	t_file	*res;
 	char	*path;
 
+	(void)shell;
 	if (!(res = (t_file *)malloc(sizeof(t_file))))
 		return (NULL);
 	res->name = str;

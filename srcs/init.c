@@ -84,6 +84,15 @@ int		sh_init_historic(t_historic *historic)
 	return (SUCCESS);
 }
 
+int		sh_update_shell_prompt(t_shell *shell)
+{
+	(void)shell;
+	if (g_glob.command_line.prompt)
+		ft_strdel(&g_glob.command_line.prompt);
+	g_glob.command_line.prompt = ft_strdup(PROMPT);
+	return (SUCCESS);
+}
+
 int		sh_init_shell(t_shell *shell, char **env)
 {
 	if (!(shell->env = main_init_env(env)))
@@ -96,6 +105,8 @@ int		sh_init_shell(t_shell *shell, char **env)
 	if (sh_init_parsing(&shell->parser) != SUCCESS)
 		return (FAILURE);
 	if ((sh_init_historic(&shell->historic)) != SUCCESS)
+		return (FAILURE);
+	if (sh_update_shell_prompt(shell))
 		return (FAILURE);
 	return (SUCCESS);
 }

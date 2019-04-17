@@ -48,6 +48,19 @@ void	flush_command_line(t_command_line *command_line)
 	command_line->nb_chars = 0;
 }
 
+void	process_shift(t_shell *shell, t_command_line *command_line,
+			unsigned char buffer[READ_BUFF_SIZE])
+{
+	if (buffer[1] == 67)
+		process_right(command_line);
+	else if (buffer[1] == 68)
+		process_left(command_line);
+	else if (buffer[1] == 65)
+		process_up(shell, command_line);
+	else if (buffer[1] == 66)
+		process_down(shell, command_line);
+}
+
 void	process_keys(t_shell *shell, t_command_line *command_line,
 				unsigned char *buffer)
 {
@@ -57,6 +70,8 @@ void	process_keys(t_shell *shell, t_command_line *command_line,
 		process_clear(command_line->dy_str);
 	else if (buffer[0] == 127)
 		process_delete(command_line);
+	else if (buffer[0] == 50)
+		process_shift(shell, command_line, buffer);
 	else if (buffer[0] == 3)
 	{
 		get_down_from_command(command_line);
@@ -83,8 +98,8 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 			return (CTRL_D);
 		}
 	}
-//	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
-//		return (FAILURE);
+	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
+		return (FAILURE);
 	return (4);
 }
 
@@ -97,6 +112,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
+//		print_buffer(buffer);
 		if (is_printable_utf8(buffer, ret))
 		{
 			if (sh_add_to_command(command_line, buffer, ret))

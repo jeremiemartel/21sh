@@ -67,7 +67,8 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_strjoin_path.c ./str/ft_strndup.c \
 			./str/ft_split_whitespaces.c ./str/ft_strrep_free.c \
 			./str/ft_strpbrk.c ./str/ft_strnrest.c ./str/ft_strjoin_3.c \
-			./str/ft_strichr.c ./str/ft_strichr_last.c
+			./str/ft_strichr.c ./str/ft_strichr_last.c \
+			./str/ft_isseparator.c
 
 SRCS	+=	./str/ft_strtab_free.c ./str/ft_strtab_put.c \
 			./str/ft_strtab_len.c ./str/ft_strtab_new_line.c \
