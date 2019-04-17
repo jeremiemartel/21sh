@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 17:52:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/17 11:28:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,48 +24,66 @@
 **		Execute children's traverse and reset filedescriptors
 */
 
+#define FD_IN		0
+#define FD_OUT		1
+#define FD_ERR		2
+
+#define PIPE_IN		1
+#define PIPE_OUT	0
+
+static int		sh_traverse_pipe_sequence_prefork_fd(t_ast_node *node, t_context *context)
+{
+	context->fd[FD_IN] = context->pipe[PIPE_OUT];
+	pipe(context->pipe);
+	context->fd[FD_OUT] = context->pipe[PIPE_IN]; // Cas a regler pour le dernier pipe
+	return (SUCCESS);
+	(void)node;
+	(void)(context);
+}
+
+static int		sh_traverse_pipe_sequence_postfork_fd(t_ast_node *node, t_context *context)
+{
+	if (context->fd[FD_IN] != 0)
+		close(context->fd[FD_IN]);
+	if (context->fd[FD_OUT] != 1)
+		close(context->fd[FD_OUT]);
+	return (SUCCESS);
+	(void)node;
+	(void)(context);
+}
+/*
+static int		sh_traverse_pipe_sequence_fork(t_ast_node *node, t_context *context)
+{
+	pid_t	pid;
+
+	if ((pid = fork()) == -1)
+		return (FAILURE);
+	if (pid == 0)
+	{
+		if (dup2(context->fd[FD_IN], 0) == -1)
+			return (FAILURE);
+		if (dup2(context->fd[FD_OUT], 1) == -1)
+			return (FAILURE);
+		execve(context->params->tbl[0], context->params->tbl, context->env->tbl);
+		return (ft_perror("Command not found", context->params->tbl[0]));
+	}
+}
+*/
 static int		sh_traverse_pipe_sequence_1(t_ast_node *node, t_context *context)
 {
-	ft_putstrn("Entering pipesequence 1");
+	sh_traverse_pipe_sequence_prefork_fd(node, context);
 	return (sh_traverse_tools_browse(node, context));
 }
 
 static int		sh_traverse_pipe_sequence_2(t_ast_node *node, t_context *context)
 {
-	int			save_std[3];
-	int			pipe_fd[2];
-	t_list		*head = node->children;
-	t_ast_node	*child = (t_ast_node*)head->content;
-
-	// Saving in and output locally
-	save_std[0] = dup(context->std[0]);
-	save_std[1] = dup(context->std[1]);
-	// Piping input to pipe enter
-	pipe(pipe_fd);
-	dup2(pipe_fd[PIPE_IN], context->std[1]);
-	// Calling first children
-	if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+	if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
 		return (FAILURE);
-	head = head->next;
-	child = (t_ast_node*)head->content;
-	//Executing waiting command
-	sh_traverse_tools_flush(context);
-	dup2(pipe_fd[PIPE_OUT], context->std[0]);
-	// Reseting output
-	close(context->std[1]);
-	dup2(context->std[1], save_std[1]);
-	// Executing 2 last sons
-	while (head)
-	{
-		child = (t_ast_node*)head->content;
-		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
-			return (FAILURE);
-		head = head->next;
-	}
-	// Reseting std
-	close(context->std[0]);
-	dup2(context->std[0], save_std[0]);
-	return (SUCCESS);
+	if (sh_traverse_pipe_sequence_prefork_fd(node, context) == FAILURE)
+		return (FAILURE);
+	if (sh_traverse_tools_browse(node, context) == FAILURE)
+		return (FAILURE);
+	return (sh_traverse_pipe_sequence_postfork_fd(node, context));
 }
 
 int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)

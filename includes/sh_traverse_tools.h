@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:47:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/16 15:59:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/17 11:23:35 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int			sh_traverse_tools_flush(t_context *context);
 ** sh_traverse_tools_browse.c
 */
 int			sh_traverse_tools_browse(t_ast_node *node, t_context *context);
+int	    	sh_traverse_tools_browse_one_child(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_tools_reset.c

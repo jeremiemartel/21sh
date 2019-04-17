@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:43:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 15:43:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/17 10:46:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ typedef struct		s_context
 	struct termios	*term;
 	t_dy_tab		*env;
 	t_dy_tab		*params; //argv
-	int				std[3];
+	int				fd[3];
+	int				pipe[2];
 }					t_context;
 
 typedef struct		s_symbol
