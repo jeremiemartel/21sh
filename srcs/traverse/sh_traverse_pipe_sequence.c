@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/17 23:11:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/17 23:23:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,15 @@ int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 	ft_dprintf(2, "new pipe : pipe[in] = %d, pipe[out] = %d\n", context->pipe[PIPE_IN], context->pipe[PIPE_OUT]);
 	ft_strtab_put((char**)context->params->tbl);
 
-	if (fdin != 0)
+	if (context->fd[FD_IN] != 0)
 		close(fdin);
-	if (fdout != 1)
+	if (context->fd[FD_OUT] != 1)
 		close (fdout);
-	
+	if (context->pipe[PIPE_IN] >= 3)
+		close (context->pipe[PIPE_IN]);
+	if (context->pipe[PIPE_OUT] >= 3)
+		close (context->pipe[PIPE_OUT]);
+
 	return (res);
 
 
