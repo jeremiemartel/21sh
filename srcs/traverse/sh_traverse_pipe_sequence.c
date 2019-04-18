@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/17 23:23:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/18 15:02:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,53 +33,69 @@
 int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 {
 	t_ast_node		*child;
-	int				fdin;
-	int				fdout;
-	int				res = SUCCESS;
-
+	int				save_fdout;
+	int				father;
 	child = (t_ast_node*)node->children->content;
-	if (child->symbol->id == sh_index(PIPE_SEQUENCE))
+
+	// ft_dprintf(2, "pipe sequence :  \n\t father : %s \n\t children : %s\n", g_grammar[context->father_id].debug, child->symbol->debug);
+	// ft_dprintf(2, "\t father id : %d \n\t children id : %d\n", context->father_id, child->symbol->id);
+
+	//	Case 0 : only one command, with no pipe
+	father = context->father_id;
+	sh_traverse_update_father(node, context);
+
+	if (child->symbol->id == sh_index(COMMAND) && father == sh_index(PIPELINE))
+		return (sh_traverse_tools_browse(node, context));
+
+	if (father == sh_index(PIPELINE))
 	{
+		// Case 1 : First pipe_sequence
+		save_fdout = context->fd[FD_OUT];
 		if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
 			return (FAILURE);
+		context->fd[FD_OUT] = save_fdout;
+
+		ft_dprintf(2, "Last command :\n");
+		ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
+		ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+
+		if (sh_traverse_tools_browse(node, context) == FAILURE)
+			return (FAILURE);
+		// Close
 	}
-	fdin = context->pipe[PIPE_OUT];
-	fdout = context->pipe[PIPE_IN];
-	pipe(context->pipe);
-	if (child->symbol->id == sh_index(COMMAND))
-		fdout = 1;
+	else if (child->symbol->id == sh_index(COMMAND))
+	{
+		// Case 3 : last pipe_sequence (only one command child)
+		pipe(context->pipe);
+		context->fd[FD_OUT] = context->pipe[PIPE_IN];
+
+		ft_dprintf(2, "First command :\n");
+		ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
+		ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+
+		if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
+			return (FAILURE);
+		close(context->pipe[PIPE_IN]);
+		context->fd[FD_IN] = context->pipe[PIPE_OUT];
+		return (SUCCESS);
+	}
 	else
-		fdout = context->pipe[PIPE_IN];
+	{
+		// Case 2 : Mid pipe_sequence
+		if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
+			return (FAILURE);
+		pipe(context->pipe);
+		context->fd[FD_OUT] = context->pipe[PIPE_IN];
 
-	context->fd[FD_IN] = fdin;
-	context->fd[FD_OUT] = fdout;
-	ft_dprintf(2, "stdin : %d, stdout : %d\n", fdin, fdout);
-	ft_dprintf(2, "new pipe : pipe[in] = %d, pipe[out] = %d\n", context->pipe[PIPE_IN], context->pipe[PIPE_OUT]);
-
-	res = sh_traverse_tools_browse(node, context);
-
-	ft_dprintf(2, "stdin : %d, stdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
-	ft_dprintf(2, "new pipe : pipe[in] = %d, pipe[out] = %d\n", context->pipe[PIPE_IN], context->pipe[PIPE_OUT]);
-	ft_strtab_put((char**)context->params->tbl);
-
-	if (context->fd[FD_IN] != 0)
-		close(fdin);
-	if (context->fd[FD_OUT] != 1)
-		close (fdout);
-	if (context->pipe[PIPE_IN] >= 3)
-		close (context->pipe[PIPE_IN]);
-	if (context->pipe[PIPE_OUT] >= 3)
-		close (context->pipe[PIPE_OUT]);
-
-	return (res);
-
-
-
-	// if (child->symbol->id == sh_index(COMMAND))
-	// 	return (sh_traverse_pipe_sequence_1(node, context));
-	// else if (child->symbol->id == sh_index(PIPE_SEQUENCE))
-	// 	return (sh_traverse_pipe_sequence_2(node, context));
-	// else
-	// 	return (FAILURE);
+		ft_dprintf(2, "Mid command :\n");
+		ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
+		ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+		
+		if (sh_traverse_tools_browse(node, context) == FAILURE)
+			return (FAILURE);
+		close(context->pipe[PIPE_IN]);
+		context->fd[FD_IN] = context->pipe[PIPE_OUT];
+		return (SUCCESS);
+	}
 	return (SUCCESS);
 }

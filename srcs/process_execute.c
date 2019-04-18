@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/17 23:24:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/18 12:36:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ int		process_execute_pipes(t_context *context)
 {
 	// if (context->fd[FD_IN] != 0)
 		if (dup2(context->fd[FD_IN], 0) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes"));
+			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes 1"));
 	// if (context->fd[FD_OUT] != 1)
 		if (dup2(context->fd[FD_OUT], 1) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes"));
+			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes 2"));
 		if (context->pipe[PIPE_OUT] != 1)
 			close (context->pipe[PIPE_OUT]);
 	// if (context->fd[FD_ERR] != 2)
 	// 	if (dup2(context->fd[FD_ERR], 2) == -1)
-	// 		return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes"));
+	// 		return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes 3"));
 
 	return (SUCCESS);
 }

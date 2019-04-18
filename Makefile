@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/17 20:47:05 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/18 12:59:18 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \
+						sh_traverse_tools_context.c \
 
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
