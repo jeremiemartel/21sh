@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/18 15:02:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/18 17:02:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 
 		if (sh_traverse_tools_browse(node, context) == FAILURE)
 			return (FAILURE);
-		// Close
+		close(context->pipe[PIPE_OUT]);
 	}
 	else if (child->symbol->id == sh_index(COMMAND))
 	{
@@ -84,6 +84,7 @@ int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 		// Case 2 : Mid pipe_sequence
 		if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
 			return (FAILURE);
+		save_fdout = context->pipe[PIPE_OUT];
 		pipe(context->pipe);
 		context->fd[FD_OUT] = context->pipe[PIPE_IN];
 
@@ -93,6 +94,7 @@ int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 		
 		if (sh_traverse_tools_browse(node, context) == FAILURE)
 			return (FAILURE);
+		close(save_fdout);
 		close(context->pipe[PIPE_IN]);
 		context->fd[FD_IN] = context->pipe[PIPE_OUT];
 		return (SUCCESS);
