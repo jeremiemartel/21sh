@@ -3,6 +3,8 @@ sh21
 includes/libft.h
 *.vscode
 
+.historic
+
 # Prerequisites
 *.d
 

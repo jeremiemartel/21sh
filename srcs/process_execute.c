@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 21:34:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 21:53:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,6 @@ int		process_execute(char *path, t_context *context)
 	int		res;
 
 	if (check_execute(path, context->params->tbl[0]))
-<<<<<<< HEAD
-		return (1);
-	if (isatty(0) && sh_reset_shell(0) == -1)
-		return (1);
-=======
 	{
 		process_execute_close_pipes(context);
 		return (FAILURE);
@@ -87,7 +82,6 @@ int		process_execute(char *path, t_context *context)
 		process_execute_close_pipes(context);
 		return (FAILURE);
 	}
->>>>>>> jmartel
 	if ((g_parent = fork()) == -1)
 		return (FAILURE);
 	if (g_parent == 0)
@@ -104,16 +98,13 @@ int		process_execute(char *path, t_context *context)
 	else
 	{
 		wait(&res);
+		
 		ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
 		g_parent = 0;
-<<<<<<< HEAD
-		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
-=======
 		process_execute_close_pipes(context);
 		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
->>>>>>> jmartel
 			return (ft_perror("Could not modify this terminal attributes",
-				"process_execute"));
+				"sh_init_terminal"));
 	}
 	return (0);
 }
