@@ -24,38 +24,59 @@ void	print_buffer(unsigned char buffer[READ_BUFF_SIZE])
 	}
 }
 
-int		process_escape_sequence(t_command_line *command_line,
+int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
 		unsigned char buffer[READ_BUFF_SIZE])
 {
 	if (buffer[1] == 91 && buffer[2] == 67)
 		process_right(command_line);
 	else if (buffer[1] == 91 && buffer[2] == 68)
 		process_left(command_line);
+	else if (buffer[1] == 91 && buffer[2] == 65)
+		process_up(shell, command_line);
+	else if (buffer[1] == 91 && buffer[2] == 66)
+		process_down(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 51)
 		process_suppr(command_line);
 	return (0);
 }
 
+void	flush_command_line(t_command_line *command_line)
+{
+	command_line->dy_str->current_size = 0;
+	command_line->current_index = 0;
+	ft_bzero(command_line->dy_str->str, command_line->dy_str->max_size);
+	command_line->nb_chars = 0;
+}
+
+void	process_shift(t_shell *shell, t_command_line *command_line,
+			unsigned char buffer[READ_BUFF_SIZE])
+{
+	if (buffer[1] == 67)
+		process_shift_right(command_line);
+	else if (buffer[1] == 68)
+		process_shift_left(command_line);
+	else if (buffer[1] == 65)
+		process_up(shell, command_line);
+	else if (buffer[1] == 66)
+		process_down(shell, command_line);
+}
+
 void	process_keys(t_shell *shell, t_command_line *command_line,
 				unsigned char *buffer)
 {
-	(void)shell;
 	if (buffer[0] == 27)
-		process_escape_sequence(command_line, buffer);
+		process_escape_sequence(shell, command_line, buffer);
 	else if (buffer[0] == 12)
 		process_clear(command_line->dy_str);
 	else if (buffer[0] == 127)
 		process_delete(command_line);
+	else if (buffer[0] == 50)
+		process_shift(shell, command_line, buffer);
 	else if (buffer[0] == 3)
 	{
 		get_down_from_command(command_line);
-		g_glob.cursor = 0;
-		command_line->dy_str->current_size = 0;
-		command_line->current_index = 0;
-		ft_bzero(g_glob.command_line.dy_str->str,
-			g_glob.command_line.dy_str->max_size);
-		command_line->nb_chars = 0;
-		render_command_line(g_glob.command_line.dy_str, 0);
+		reset_command_line(shell, command_line);
+		render_command_line(command_line->dy_str, 0);
 	}
 }
 
@@ -77,8 +98,8 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 			return (CTRL_D);
 		}
 	}
-//	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
-//		return (FAILURE);
+	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
+		return (FAILURE);
 	return (4);
 }
 
@@ -91,6 +112,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
+//		print_buffer(buffer);
 		if (is_printable_utf8(buffer, ret))
 		{
 			if (sh_add_to_command(command_line, buffer, ret))

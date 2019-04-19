@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   auto_completion.c                                  :+:      :+:    :+:   */
+/*   autocompletion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -37,7 +37,7 @@ char	*get_completion_str(t_shell *shell)
 {
 	t_file *file;
 
-	file = (t_file *)shell->auto_completion.choices->content;
+	file = (t_file *)shell->autocompletion.choices->content;
 	if (ft_dlstlength(shell->autocompletion.choices) == 1)
 	{
 		shell->autocompletion.choices_common_len++;
@@ -56,9 +56,9 @@ int		process_substitute_command(t_command_line *command_line, char *str,
 {
 	if (ft_substitute_dy_str(command_line->dy_str, str, word.start_index, word.len))
 		return (1);
-	command_line->current_index += (shell->autocompletion.choices_common_len - word.cursor_x);
-	command_line->nb_chars += (ft_strlen_utf8(str) - ft_strlen_utf8(word.str));
-	render_command_line(command->dy_str, shell->autocompletion.choices_common_len - word.cursor_x);
+	command_line->current_index += (shell->autocompletion.choices_common_len - word.index_byte_offset);
+	command_line->nb_chars += (ft_strlen_utf8(str) - word.utf8_len);
+	render_command_line(command_line->dy_str, shell->autocompletion.choices_common_len - word.index_char_offset);
 	return (0);
 }
 
@@ -75,6 +75,10 @@ int		process_completion(t_shell *shell, t_command_line *command_line, t_word wor
 			if (process_substitute_command(command_line, str, word, shell))
 				return (ft_free_turn(str, 1));
 		}
+		else
+		{
+		//	ft_printf("show list\n");
+		}
 	}
 	else if (process_substitute_command(command_line, str, word, shell))
 		return (ft_free_turn(str, 1));
@@ -87,10 +91,10 @@ int		process_tab(t_shell *shell, t_command_line *command_line)
 	int		ret;
 
 	ret = 0;
-	shell->auto_completion.choices_common_len = -1;
+	shell->autocompletion.choices_common_len = -1;
 	populate_word_by_index(command_line->dy_str->str, command_line->current_index, &word);
-	ft_dlstdel(&shell->auto_completion.choices, &free_file_dlst);
-	if (populate_choices_from_word(command_line, shell, &word))
+	ft_dlstdel(&shell->autocompletion.choices, &free_file_dlst);
+	if (populate_choices_from_word(command_line->dy_str, shell, &word))
 		return (ft_free_turn(word.str, 1));
 	if (shell->autocompletion.choices != NULL)
 		ret = process_completion(shell, command_line, word);

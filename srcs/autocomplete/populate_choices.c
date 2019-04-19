@@ -24,12 +24,12 @@ int		add_choices_path(t_shell *shell, t_word *word, char *path_str)
 	{
 		if (add_choices_from_dir(shell, word, path_split[i], NULL))
 		{
-			ft_free_split(path_split);
+			ft_strtab_free(path_split);
 			return (1);
 		}
 		i++;
 	}
-	ft_free_split(path_split);
+	ft_strtab_free(path_split);
 	return (0);
 }
 
@@ -83,7 +83,7 @@ int		populate_choices_from_word(t_dy_str *command,
 {
 	char *binary;
 
-	if (word->word_index == 1 || (word->word_index == 0 && !word->has_previous))
+	if (word->word_index == 1 || (word->word_index == 0))
 	{
 		if (populate_choices_from_binaries(shell, word))
 			return (1);

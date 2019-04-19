@@ -13,6 +13,9 @@
 #ifndef SH_21_H
 # define SH_21_H
 
+     
+#include <stdio.h>
+
 # include <stdarg.h>
 # include "libft.h"
 # include "perror.h"
@@ -21,6 +24,7 @@
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <signal.h>
+# include <fcntl.h>
 # include <dirent.h>
 # include "sh_tokens.h"
 # include "sh_grammar.h"
@@ -48,6 +52,7 @@
 #define PIPE_OUT	0
 
 # define PROMPT			"$21_sh(to_rework)> "
+# define HISTORIC_FILE	".historic"
 # define READ_BUFF_SIZE	4
 # define CWD_LEN		1000
 
@@ -93,6 +98,15 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
+
+/*
+** str:					word content
+** start_index:			index of word in the whole string
+** word_index:			index of word in the whole string
+** len:					len of the word
+** index_byte_offset:	index of cursor in the word
+** index_char_offset:	nb of chars before the cursor in the word (utf8)
+*/
 typedef struct		s_word
 {
 	char			*str;
@@ -100,8 +114,9 @@ typedef struct		s_word
 	int				start_index;
 	int				word_index;
 	int				len;
-	int				has_previous;
-	int				cursor_x;
+	int				utf8_len;
+	int				index_byte_offset;
+	int				index_char_offset;
 }					t_word;
 
 typedef struct		s_file
@@ -119,21 +134,31 @@ typedef struct		s_auto_complete
 
 typedef struct		s_command_line
 {
+	char			*prompt;
 	t_dy_str		*dy_str;
 	int				nb_chars;
 	int				current_index;
 }					t_command_line;
 
+typedef struct		s_historic
+{
+	t_dlist			*head;
+	t_dlist			*commands;
+	t_dlist			head_start;
+}					t_historic;
+
 typedef struct		s_shell
 {
 	t_lexer			lexer;
 	t_lr_parser		parser;
+	t_historic		historic;
 	t_dy_tab		*env;
+	char			*clipboard;
 	t_dy_tab		*assignments;
 	char			running;
 	struct termios	term;
 	t_auto_complete	autocompletion;
-
+	char			*to_append_to;
 }					t_shell;
 
 typedef struct      s_glob
@@ -195,6 +220,7 @@ int			sh_await_command(t_shell *shell);
 /*
 ** get_command.c
 */
+void		reset_command_line(t_shell *shell, t_command_line *command_line);
 int			render_command_line(t_dy_str *dy_str, int cursor_inc);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
 /*
@@ -221,6 +247,7 @@ void	replace_cursor_after_render(void);
 */
 
 int     ft_strlen_utf8(char *str);
+int     ft_strnlen_utf8(char *str, int n);
 int		get_left_w_char_index(t_command_line *command_line);
 int		get_right_w_char_index(t_command_line *command_line);
 
@@ -252,9 +279,51 @@ int		execute_command_no_path(t_context *context);
 */
 int		check_execute(char *full_path, char *command_name);
 
+int		process_up(t_shell *shell, t_command_line *command_line);
+int		process_down(t_shell *shell, t_command_line *command_line);
 /*
 ** tools.c
 */
+void	ring_bell(void);
+void	flush_command_line(t_command_line *command_line);
 int		get_file_in_dir(char *filename, char *dirname);
 int		get_path_and_file_from_str(char *str, char **path, char **file);
+
+/*
+** autocompletion.c
+*/
+char	*get_first_word(char *str);
+int		process_tab(t_shell *shell, t_command_line *command_line);
+/*
+** preprocess_choice_add.c
+*/
+int		ft_preprocess_choice_add(t_shell *shll, char *entry, t_dlist ***to_add);
+
+/*
+** populate_word_by_index.c
+*/
+int     populate_word_by_index(char *s, int index, t_word *word);
+
+/*
+** populate_choices_from_word.c
+*/
+int     populate_choices_from_word(t_dy_str *command,
+ 		t_shell *shell, t_word *word);
+
+/*
+** add_choices_from_dir.c
+*/
+int		add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
+			char *prefix);
+
+/*
+** free_all.c
+*/
+void	free_file_dlst(void *f, size_t dummy);
+
+/*
+** process_shift.c
+*/
+int		process_shift_right(t_command_line *command_line);
+int		process_shift_left(t_command_line *command_line);
 #endif

@@ -36,6 +36,30 @@ int		ft_strlen_utf8(char *str)
 	return (res);
 }
 
+int		ft_strnlen_utf8(char *str, int n)
+{
+	int i;
+	int res;
+
+	i = 0;
+	res = 0;
+	while (str[i] && i < n)
+	{
+		if (!(str[i] & 0b10000000))
+			i++;
+		else if (str[i] & 0b01000000 && !(str[i] & 0b00100000))
+			i += 2;
+		else if (str[i] & 0b00100000 && !(str[i] & 0b00010000))
+			i += 3;
+		else if (str[i] & 0b000100000 && !(str[i] & 0b00001000))
+			i += 4;
+		else
+			i++;
+		res++;
+	}
+	return (res);
+}
+
 int		get_left_w_char_index(t_command_line *command_line)
 {
 	unsigned char	*buffer;

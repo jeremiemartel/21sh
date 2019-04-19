@@ -12,6 +12,11 @@
 
 #include "sh_21.h"
 
+/*
+** cursor_inc: tells the cursor movement to execute within the render of the
+** command_line
+*/
+
 int		render_command_line(t_dy_str *dy_str, int cursor_inc)
 {
 	char	*str;
@@ -19,7 +24,7 @@ int		render_command_line(t_dy_str *dy_str, int cursor_inc)
 	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.cursor);
 	str = tgetstr("cd", NULL);
 	tputs(str, 1, putchar_int);
-	ft_dprintf(0, "%s%s%s%s", BOLD, CYAN, PROMPT, EOC);
+	ft_dprintf(0, "%s%s%s%s", BOLD, CYAN, g_glob.command_line.prompt, EOC);
 	ft_dprintf(0, "%s", dy_str->str);
 	g_glob.cursor += cursor_inc;
 	replace_cursor_after_render();
@@ -43,14 +48,18 @@ int		sh_add_to_command(t_command_line *command_line,
 	return (0);
 }
 
+void	reset_command_line(t_shell *shell, t_command_line *command_line)
+{
+	shell->historic.head = &shell->historic.head_start;
+	g_glob.cursor = 0;
+	flush_command_line(command_line);
+}
+
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
-	int ret;
+	int		ret;
 
-	g_glob.cursor = 0;
-	ft_bzero(command_line->dy_str->str, command_line->dy_str->max_size);
-	command_line->current_index = 0;
-	command_line->nb_chars = 0;
+	reset_command_line(shell, command_line);
 	render_command_line(command_line->dy_str, 0);
 	if ((ret = get_keys(shell, command_line)))
 		return (ret);

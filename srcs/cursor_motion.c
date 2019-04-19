@@ -14,7 +14,7 @@
 
 int		get_true_cursor_pos(int cursor)
 {
-	return (cursor + ft_strlen(PROMPT));
+	return (cursor + ft_strlen(g_glob.command_line.prompt));
 }
 
 void	get_down_from_command(t_command_line *command_line)

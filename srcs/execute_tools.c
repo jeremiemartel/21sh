@@ -30,7 +30,7 @@ int		check_execute(char *full_path, char *command_name)
 
 	if (access(full_path, F_OK))
 	{
-		ft_dprintf(2, "minishell: %s: command not found\n", command_name);
+		ft_dprintf(2, "21sh: %s: command not found\n", command_name);
 		return (1);
 	}
 	else
@@ -39,12 +39,12 @@ int		check_execute(char *full_path, char *command_name)
 			return (-1);
 		if (S_ISDIR(st.st_mode))
 		{
-			ft_dprintf(2, "minishell: %s: command not found\n", command_name);
+			ft_dprintf(2, "21sh: %s: command not found\n", command_name);
 			return (1);
 		}
 		else if (access(full_path, X_OK))
 		{
-			ft_dprintf(2, "minishell: permission denied: %s\n", command_name);
+			ft_dprintf(2, "21sh: permission denied: %s\n", command_name);
 			return (1);
 		}
 	}

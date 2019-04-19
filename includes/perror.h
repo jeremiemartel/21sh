@@ -23,6 +23,8 @@
 # define SH_ERR1_TERM_CPY		"Could not copy terminal attributes"
 # define SH_ERR1_INTERN_ERR		"System internal error"
 # define SH_ERR1_CMD_NOT_FOUND	"Command not found"
+# define SH_ERR1_HISTORIC		"Could not open the historic file"
+
 /*
 ** ft_perror.c
 */

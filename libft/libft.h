@@ -169,6 +169,7 @@ int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
 int					ft_isascii(int c);
+int					ft_isseparator(int c);
 int					ft_isprint(int c);
 int					ft_iswhite(char c);
 int					ft_toupper(int c);
@@ -247,6 +248,7 @@ int					ft_dy_str_add_index(t_dy_str *d_str, char c, size_t index);
 int					ft_dy_str_realloc(t_dy_str *d_str);
 int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
 void				ft_dy_str_free(t_dy_str *dy_str);
+int					ft_dy_str_cpy_str(t_dy_str *dy_str, char *str);
 /*
 ************************************ dytab  ***********************************
 */

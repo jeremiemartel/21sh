@@ -55,7 +55,7 @@ int		process_execute(char *path, t_context *context)
 {
 	if (check_execute(path, context->params->tbl[0]))
 		return (1);
-	if (sh_reset_shell(0) == -1)
+	if (isatty(0) && sh_reset_shell(0) == -1)
 		return (1);
 	if ((g_parent = fork()) == -1)
 		return (1);
@@ -74,9 +74,9 @@ int		process_execute(char *path, t_context *context)
 	{
 		wait(NULL);
 		g_parent = 0;
-		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
+		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 			return (ft_perror("Could not modify this terminal attributes",
-				"sh_init_terminal"));
+				"process_execute"));
 	}
 	return (0);
 }
