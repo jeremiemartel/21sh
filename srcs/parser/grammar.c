@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 15:29:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 20:28:54 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"UNKNOWN", 0, 1, NULL, &sh_traverse_default},
 	{"|", 0, 1, NULL, &sh_traverse_tok_pipe},
 	{"&", 0, 1, NULL, &sh_traverse_default},
-	{";", 0, 1, NULL, &sh_traverse_default},
+	{";", 0, 1, NULL, &sh_traverse_semicol},
 	{"<", 0, 1, NULL, &sh_traverse_less},
 	{">", 0, 1, NULL, &sh_traverse_great},
 	{"(", 0, 1, NULL, &sh_traverse_default},
@@ -48,8 +48,8 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"~", 0, 1, NULL, &sh_traverse_default},
 	{"=", 0, 1, NULL, &sh_traverse_default},
 	{"%", 0, 1, NULL, &sh_traverse_default},
-	{"&&", 0, 1, NULL, &sh_traverse_default},
-	{"||", 0, 1, NULL, &sh_traverse_default},
+	{"&&", 0, 1, NULL, &sh_traverse_and_if},
+	{"||", 0, 1, NULL, &sh_traverse_or_if},
 	{";;", 0, 1, NULL, &sh_traverse_default},
 	{"<<", 0, 1, NULL, &sh_traverse_default},
 	{">>", 0, 1, NULL, &sh_traverse_dgreat},

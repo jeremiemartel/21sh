@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 17:14:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 21:34:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static int	process_execute_close_pipes(t_context *context)
 
 int		process_execute(char *path, t_context *context)
 {
+	int		res;
+
 	if (check_execute(path, context->params->tbl[0]))
 	{
 		process_execute_close_pipes(context);
@@ -89,13 +91,14 @@ int		process_execute(char *path, t_context *context)
 				(char **)context->env->tbl) == -1)
 		{
 	//		free_all(shell);
-	//		exit(1);
+			// exit(1);
 			exit(ft_perror(SH_ERR1_CMD_NOT_FOUND, *context->params->tbl));
 		}
 	}
 	else
 	{
-		wait(NULL);
+		wait(&res);
+		ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
 		g_parent = 0;
 		process_execute_close_pipes(context);
 		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
