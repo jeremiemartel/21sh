@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/17 23:07:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 12:24:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"|", 0, 1, NULL, &sh_traverse_tok_pipe},
 	{"&", 0, 1, NULL, &sh_traverse_default},
 	{";", 0, 1, NULL, &sh_traverse_default},
-	{"<", 0, 1, NULL, &sh_traverse_default},
-	{">", 0, 1, NULL, &sh_traverse_default},
+	{"<", 0, 1, NULL, &sh_traverse_less},
+	{">", 0, 1, NULL, &sh_traverse_great},
 	{"(", 0, 1, NULL, &sh_traverse_default},
 	{")", 0, 1, NULL, &sh_traverse_default},
 	{"{", 0, 1, NULL, &sh_traverse_default},
@@ -52,12 +52,12 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"||", 0, 1, NULL, &sh_traverse_default},
 	{";;", 0, 1, NULL, &sh_traverse_default},
 	{"<<", 0, 1, NULL, &sh_traverse_default},
-	{">>", 0, 1, NULL, &sh_traverse_default},
-	{"<&", 0, 1, NULL, &sh_traverse_default},
-	{">&", 0, 1, NULL, &sh_traverse_default},
+	{">>", 0, 1, NULL, &sh_traverse_dgreat},
+	{"<&", 0, 1, NULL, &sh_traverse_lessand},
+	{">&", 0, 1, NULL, &sh_traverse_greatand},
 	{"<>", 0, 1, NULL, &sh_traverse_default},
 	{"<<-", 0, 1, NULL, &sh_traverse_default},
-	{">|", 0, 1, NULL, &sh_traverse_default},
+	{">|", 0, 1, NULL, &sh_traverse_great},
 	{"if", 0, 1, NULL, &sh_traverse_default},
 	{"then", 0, 1, NULL, &sh_traverse_default},
 	{"else", 0, 1, NULL, &sh_traverse_default},
@@ -115,10 +115,10 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"CMD_PREFIX", 0, 1, &sh_init_prod_cmd_prefix, &sh_traverse_default},
 	{"CMD_SUFFIX", 0, 1, &sh_init_prod_cmd_suffix, &sh_traverse_cmd_suffix},
 	{"REDIRECT_LIST", 0, 1, &sh_init_prod_redirect_list, &sh_traverse_default},
-	{"IO_REDIRECT", 0, 1, &sh_init_prod_io_redirect, &sh_traverse_default},
-	{"IO_FILE", 0, 1, &sh_init_prod_io_file, &sh_traverse_default},
-	{"FILENAME", 0, 1, &sh_init_prod_filename, &sh_traverse_default},
-	{"IO_HERE", 0, 1, &sh_init_prod_io_here, &sh_traverse_default},
+	{"IO_REDIRECT", 0, 1, &sh_init_prod_io_redirect, &sh_traverse_io_redirect},
+	{"IO_FILE", 0, 1, &sh_init_prod_io_file, &sh_traverse_io_file},
+	{"FILENAME", 0, 1, &sh_init_prod_filename, &sh_traverse_filename},
+	{"IO_HERE", 0, 1, &sh_init_prod_io_here, &sh_traverse_io_here},
 	{"HERE_END", 0, 1, &sh_init_prod_here_end, &sh_traverse_default},
 	{"NEWLINE_LIST", 0, 1, &sh_init_prod_newline_list, &sh_traverse_default},
 	{"LINEBREAK", 0, 0, &sh_init_prod_linebreak, &sh_traverse_default},
