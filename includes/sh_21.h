@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/18 12:34:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 11:36:21 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include <stdio.h>
 
 # include <stdarg.h>
-# include "libft.h"
-# include "perror.h"
 # include <termcap.h>
 # include <term.h>
 # include <sys/stat.h>
@@ -26,6 +24,14 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <dirent.h>
+
+/*
+** read(2)
+*/
+# include <fcntl.h>
+
+# include "libft.h"
+# include "perror.h"
 # include "sh_tokens.h"
 # include "sh_grammar.h"
 # include "sh_parser.h"

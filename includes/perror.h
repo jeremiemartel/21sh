@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 14:47:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/17 20:43:42 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 21:50:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define SH_ERR1_INTERN_ERR		"System internal error"
 # define SH_ERR1_CMD_NOT_FOUND	"Command not found"
 # define SH_ERR1_HISTORIC		"Could not open the historic file"
+# define SH_ERR1_PERM_DENIED	"Permission denied"
 
 /*
 ** ft_perror.c

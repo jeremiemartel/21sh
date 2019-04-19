@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 19:36:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/19 21:50:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ int		check_execute(char *full_path, char *command_name)
 			return (1);
 		}
 		else if (access(full_path, X_OK))
-		{
-			ft_dprintf(2, "21sh: permission denied: %s\n", command_name);
-			return (1);
-		}
+			return (ft_perror(SH_ERR1_PERM_DENIED, command_name));
 	}
 	return (0);
 }
