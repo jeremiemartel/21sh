@@ -6,13 +6,26 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 21:53:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 22:24:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 static pid_t g_parent = 0;
+
+int		sh_env_update_question_mark(t_context *context, int res)
+{
+	char	*str;
+
+	ft_dprintf(2, COLOR_CYAN"Updating ? <=> "COLOR_END);
+	if (!(str = ft_itoa(res)))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
+	ft_dprintf(2, COLOR_CYAN"%s\n"COLOR_END, str);
+	res = sh_add_to_env(context->env, "?", str);
+	free(str);
+	return (res);
+}
 
 void	transmit_sig_and_die(int signal)
 {
@@ -98,7 +111,7 @@ int		process_execute(char *path, t_context *context)
 	else
 	{
 		wait(&res);
-		
+		sh_env_update_question_mark(context, res);
 		ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
 		g_parent = 0;
 		process_execute_close_pipes(context);
