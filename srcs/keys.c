@@ -52,9 +52,9 @@ void	process_shift(t_shell *shell, t_command_line *command_line,
 			unsigned char buffer[READ_BUFF_SIZE])
 {
 	if (buffer[1] == 67)
-		process_right(command_line);
+		process_shift_right(command_line);
 	else if (buffer[1] == 68)
-		process_left(command_line);
+		process_shift_left(command_line);
 	else if (buffer[1] == 65)
 		process_up(shell, command_line);
 	else if (buffer[1] == 66)

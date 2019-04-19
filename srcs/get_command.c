@@ -57,7 +57,7 @@ void	reset_command_line(t_shell *shell, t_command_line *command_line)
 
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
-	int ret;
+	int		ret;
 
 	reset_command_line(shell, command_line);
 	render_command_line(command_line->dy_str, 0);

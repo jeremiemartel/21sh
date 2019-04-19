@@ -83,7 +83,7 @@ int		populate_choices_from_word(t_dy_str *command,
 {
 	char *binary;
 
-	if (word->word_index == 1 || (word->word_index == 0 && !word->has_previous))
+	if (word->word_index == 1 || (word->word_index == 0))
 	{
 		if (populate_choices_from_binaries(shell, word))
 			return (1);

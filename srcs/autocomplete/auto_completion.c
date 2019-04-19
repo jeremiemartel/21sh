@@ -56,9 +56,9 @@ int		process_substitute_command(t_command_line *command_line, char *str,
 {
 	if (ft_substitute_dy_str(command_line->dy_str, str, word.start_index, word.len))
 		return (1);
-	command_line->current_index += (shell->autocompletion.choices_common_len - word.cursor_x);
-	command_line->nb_chars += (ft_strlen_utf8(str) - ft_strlen_utf8(word.str));
-	render_command_line(command_line->dy_str, shell->autocompletion.choices_common_len - word.cursor_x);
+	command_line->current_index += (shell->autocompletion.choices_common_len - word.index_byte_offset);
+	command_line->nb_chars += (ft_strlen_utf8(str) - word.utf8_len);
+	render_command_line(command_line->dy_str, shell->autocompletion.choices_common_len - word.index_char_offset);
 	return (0);
 }
 

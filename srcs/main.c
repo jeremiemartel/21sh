@@ -47,14 +47,36 @@ int		sh_process_command(t_shell *shell, char *command)
 	return (sh_process_traverse(shell));
 }
 
+/*
+int		sh_process_new_partial_command(char **full_command, t_command_line *command_line)
+{
+	if (!*full_command && !(*full_command = ft_strdup(command_line->dy_str->str)))
+		return (FAILURE);
+	else
+		ft_
+	return (SUCCESS);
+}
+*/
 int		sh_await_command(t_shell *shell)
 {
+//	char	*full_command;
+
+//	full_command = NULL;
+//	g_glob.command_line.state = DEFAULT;
 	if (sh_get_command(shell, &g_glob.command_line) != SUCCESS)
 		return (FAILURE);
-	if (sh_append_to_historic(shell,
-			g_glob.command_line.dy_str->str) != SUCCESS)
+/*
+	while (g_glob.command_line.state != DEFAULT)
+	{
+		if (sh_get_command(shell, &g_glob.command_line) != SUCCESS)
+			return (FAILURE);
+		if (sh_process_add(&full_command, &g_glob.command_line) != SUCCESS)
+			return (FAILURE);
+	}
+*/
+	if (sh_append_to_historic(shell, full_command) != SUCCESS)
 		return (FAILURE);
-	return (sh_process_command(shell, g_glob.command_line.dy_str->str));
+	return (sh_process_command(shell, full_command));
 }
 
 int		sh_process_canonical_mode(t_shell *shell) //to change
@@ -75,7 +97,6 @@ int		sh_process_canonical_mode(t_shell *shell) //to change
 		free(str);
 	}
 	free(str);
-	ft_printf("la commande at end: %s\n", command);
 	ret = (sh_process_command(shell, command));
 	return (ret);
 }

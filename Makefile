@@ -48,7 +48,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
-						get_command.c utf8_tools.c \
+						get_command.c utf8_tools.c process_shift.c\
 						execute.c execute_tools.c process_execute.c tools.c\
 						traverse.c process_historic.c
 

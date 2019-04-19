@@ -85,6 +85,15 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
+
+/*
+** str:					word content
+** start_index:			index of word in the whole string
+** word_index:			index of word in the whole string
+** len:					len of the word
+** index_byte_offset:	index of cursor in the word
+** index_char_offset:	nb of chars before the cursor in the word (utf8)
+*/
 typedef struct		s_word
 {
 	char			*str;
@@ -92,8 +101,9 @@ typedef struct		s_word
 	int				start_index;
 	int				word_index;
 	int				len;
-	int				has_previous;
-	int				cursor_x;
+	int				utf8_len;
+	int				index_byte_offset;
+	int				index_char_offset;
 }					t_word;
 
 typedef struct		s_file
@@ -135,7 +145,7 @@ typedef struct		s_shell
 	char			running;
 	struct termios	term;
 	t_auto_complete	autocompletion;
-
+	char			*to_append_to;
 }					t_shell;
 
 typedef struct      s_glob
@@ -224,6 +234,7 @@ void	replace_cursor_after_render(void);
 */
 
 int     ft_strlen_utf8(char *str);
+int     ft_strnlen_utf8(char *str, int n);
 int		get_left_w_char_index(t_command_line *command_line);
 int		get_right_w_char_index(t_command_line *command_line);
 
@@ -296,4 +307,10 @@ int		add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
 ** free_all.c
 */
 void	free_file_dlst(void *f, size_t dummy);
+
+/*
+** process_shift.c
+*/
+int		process_shift_right(t_command_line *command_line);
+int		process_shift_left(t_command_line *command_line);
 #endif
