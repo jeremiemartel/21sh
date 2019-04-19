@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/19 12:26:01 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/19 15:28:22 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
 						sh_traverse_simple_command.c \
 						sh_traverse_tok_pipe.c \
 						sh_traverse_cmd_name.c \
+						sh_traverse_cmd_word.c \
 						sh_traverse_cmd_suffix.c \
 						sh_traverse_io_redirect.c \
 						sh_traverse_filename.c \

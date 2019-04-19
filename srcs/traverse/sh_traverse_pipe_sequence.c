@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 14:53:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 16:37:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static int	sh_traverse_pipe_sequence_2(t_ast_node *node, t_context *context)
 	// ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
 	
 	res = sh_traverse_tools_browse(node, context);
-	if (close(save_fd) || close(context->pipe[PIPE_IN]))
-		return ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_pipe_sequence_2");
 	context->fd[FD_IN] = context->pipe[PIPE_OUT];
 	return (res);
 }

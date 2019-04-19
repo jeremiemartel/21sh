@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/19 15:10:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 15:15:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		sh_traverse_dgreat(t_ast_node *node, t_context *context)
 	else
 	{
 		if ((dup2(fd, original_fd)) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_great: dup2"));
+			return (ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_dgreat: dup2"));
 	}
 	return (SUCCESS);
 }

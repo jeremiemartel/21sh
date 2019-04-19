@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 14:51:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/19 17:14:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,16 @@ static int	process_execute_dup_pipes(t_context *context)
 	ft_dprintf(2, "\tfdout : %d\n", context->fd[FD_OUT]);
 	ft_dprintf(2, "\tfderr : %d\n", context->fd[FD_ERR]);
 	if (context->fd[FD_IN] != 0)
-		if (dup2(context->fd[FD_IN], 0) == -1)
+		if ((dup2(context->fd[FD_IN], 0)) == -1)
 			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 1"));
 	if (context->fd[FD_OUT] != 1)
 		if (dup2(context->fd[FD_OUT], 1) == -1)
 			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
-	if (context->pipe[PIPE_OUT] != 1)
-		close (context->pipe[PIPE_OUT]);
+	// if (context->pipe[PIPE_OUT] != 1)
+		// close (context->pipe[PIPE_OUT]);
 	// if (context->fd[FD_ERR] != 2)
 	// 	if (dup2(context->fd[FD_ERR], 2) == -1)
 	// 		return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_pipes 3"));
-
 	return (SUCCESS);
 }
 
@@ -72,11 +71,17 @@ static int	process_execute_close_pipes(t_context *context)
 int		process_execute(char *path, t_context *context)
 {
 	if (check_execute(path, context->params->tbl[0]))
-		return (1);
+	{
+		process_execute_close_pipes(context);
+		return (FAILURE);
+	}
 	if (sh_reset_shell(0) == -1)
-		return (1);
+	{
+		process_execute_close_pipes(context);
+		return (FAILURE);
+	}
 	if ((g_parent = fork()) == -1)
-		return (1);
+		return (FAILURE);
 	if (g_parent == 0)
 	{
 		process_execute_dup_pipes(context);
