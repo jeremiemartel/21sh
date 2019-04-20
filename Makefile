@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/20 10:51:46 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/20 12:06:03 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ LEXER_DIR	= lexer
 PARSER_DIR	= parser
 TRAV_DIR	= traverse
 TRAVT_DIR	= traverse_tools
+VARS_DIR	= vars
 AUTO_DIR	= autocomplete
 
 SPEED = -j1
@@ -69,7 +70,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_context.c \
 
 
-SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
+SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
 						get_command.c utf8_tools.c process_shift.c\
@@ -120,6 +121,8 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						populate_choices.c populate_word_by_index.c \
 						preprocess_choice_add.c
 
+VARS_SRCS_NO_PREFIX	=	env.c set_env.c sh_variables.c
+
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
@@ -129,6 +132,7 @@ PROD_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_
 AUTO_SOURCES = $(addprefix $(SRCDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX))
 TRAV_SOURCES = $(addprefix $(SRCDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX))
 TRAVT_SOURCES = $(addprefix $(SRCDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX))
+VARS_SOURCES = $(addprefix $(SRCDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
@@ -136,6 +140,7 @@ PARSER_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX:%
 PROD_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX:%.c=%.o))
 TRAV_OBJECTS = $(addprefix $(OBJDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX:%.c=%.o))
 TRAVT_OBJECTS = $(addprefix $(OBJDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX:%.c=%.o))
+VARS_OBJECTS = $(addprefix $(OBJDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX:%.c=%.o))
 
 
 AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
@@ -147,6 +152,7 @@ OBJECTS += $(LEXER_OBJECTS)
 OBJECTS += $(PARSER_OBJECTS)
 OBJECTS += $(TRAV_OBJECTS)
 OBJECTS += $(TRAVT_OBJECTS)
+OBJECTS += $(VARS_OBJECTS)
 
 OBJECTS += $(AUTO_OBJECTS)
 
@@ -200,6 +206,10 @@ $(OBJDIR)/$(TRAVT_DIR)/%.o : $(SRCDIR)/$(TRAVT_DIR)/%.c $(INCLUDES)
 
 $(OBJDIR)/$(PARSER_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(VARS_DIR)/%.o : $(SRCDIR)/$(VARS_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(VARS_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
