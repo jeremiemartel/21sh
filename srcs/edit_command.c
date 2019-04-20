@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 13:39:39 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 16:45:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:51:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	process_delete(t_command_line *command_line)
 		command_line->current_index -= diff;
 		command_line->dy_str->current_size -= diff;
 		command_line->nb_chars--;
-		render_command_line(command_line->dy_str, -1);
+		render_command_line(command_line, -1);
 	}
 }
 
@@ -62,7 +62,7 @@ void	process_suppr(t_command_line *command_line)
 		}
 		command_line->dy_str->current_size -= diff;
 		command_line->nb_chars--;
-		render_command_line(command_line->dy_str, 0);
+		render_command_line(command_line, 0);
 	}
 }
 
@@ -71,7 +71,7 @@ void	process_left(t_command_line *command_line)
 	if (command_line->current_index > 0)
 	{
 		command_line->current_index = get_left_w_char_index(command_line);
-		render_command_line(command_line->dy_str, -1);
+		render_command_line(command_line, -1);
 	}
 	else
 		ring_bell();
@@ -82,7 +82,7 @@ void	process_right(t_command_line *command_line)
 	if (command_line->current_index < (int)command_line->dy_str->current_size)
 	{
 		command_line->current_index = get_right_w_char_index(command_line);
-		render_command_line(command_line->dy_str, 1);
+		render_command_line(command_line, 1);
 	}
 	else
 		ring_bell();

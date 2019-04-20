@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 16:51:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:46:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** command_line
 */
 
-int		render_command_line(t_dy_str *dy_str, int cursor_inc)
+int		render_command_line(t_command_line *command_line, int cursor_inc)
 {
 	char	*str;
 
@@ -25,7 +25,7 @@ int		render_command_line(t_dy_str *dy_str, int cursor_inc)
 	str = tgetstr("cd", NULL);
 	tputs(str, 1, putchar_int);
 	ft_dprintf(0, "%s%s%s%s", BOLD, CYAN, g_glob.command_line.prompt, EOC);
-	ft_dprintf(0, "%s", dy_str->str);
+	ft_dprintf(0, "%s", command_line->dy_str->str);
 	g_glob.cursor += cursor_inc;
 	replace_cursor_after_render();
 	return (0);
@@ -51,6 +51,7 @@ int		sh_add_to_command(t_command_line *command_line,
 void	reset_command_line(t_shell *shell, t_command_line *command_line)
 {
 	shell->historic.head = &shell->historic.head_start;
+	command_line->autocompletion.head = NULL;
 	g_glob.cursor = 0;
 	flush_command_line(command_line);
 }
@@ -60,7 +61,7 @@ int		sh_get_command(t_shell *shell, t_command_line *command_line)
 	int		ret;
 
 	reset_command_line(shell, command_line);
-	render_command_line(command_line->dy_str, 0);
+	render_command_line(command_line, 0);
 	if ((ret = get_keys(shell, command_line)))
 		return (ret);
 	return (0);

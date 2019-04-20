@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 16:44:48 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/16 16:44:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:56:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		process_down(t_shell *shell, t_command_line *command_line)
 		{
 			flush_command_line(command_line);
 			update_command_line(command_line);
-			render_command_line(command_line->dy_str,
+			render_command_line(command_line,
 				command_line->nb_chars - g_glob.cursor);
 		}
 		return (SUCCESS);
@@ -42,7 +42,7 @@ int		process_down(t_shell *shell, t_command_line *command_line)
 	if (ft_dy_str_cpy_str(command_line->dy_str, str))
 		return (FAILURE);
 	update_command_line(command_line);
-	render_command_line(command_line->dy_str,
+	render_command_line(command_line,
 		command_line->nb_chars - g_glob.cursor);
 	return (SUCCESS);
 }
@@ -62,7 +62,7 @@ int		process_up(t_shell *shell, t_command_line *command_line)
 	if (ft_dy_str_cpy_str(command_line->dy_str, str))
 		return (FAILURE);
 	update_command_line(command_line);
-	render_command_line(command_line->dy_str,
+	render_command_line(command_line,
 		command_line->nb_chars - g_glob.cursor);
 	return (SUCCESS);
 }

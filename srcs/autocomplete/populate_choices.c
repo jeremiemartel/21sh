@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 12:03:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:44:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		populate_choices_from_folder_binary(t_shell *shell, char *binary,
 	return (populate_choices_from_folder(shell, word));
 }
 
-int		populate_choices_from_word(t_dy_str *command,
+int		populate_choices_from_word(t_command_line *command_line,
 		t_shell *shell, t_word *word)
 {
 	char *binary;
@@ -87,7 +87,7 @@ int		populate_choices_from_word(t_dy_str *command,
 	{
 		if (populate_choices_from_binaries(shell, word))
 			return (1);
-		if (shell->autocompletion.choices == NULL)
+		if (command_line->autocompletion.choices == NULL)
 		{
 			if (populate_choices_from_folder(shell, word))
 				return (1);
@@ -95,7 +95,7 @@ int		populate_choices_from_word(t_dy_str *command,
 	}
 	else
 	{
-		if (!(binary = get_first_word(command->str)))
+		if (!(binary = get_first_word(command_line->dy_str->str)))
 			return (1);
 		if (populate_choices_from_folder_binary(shell, binary, word))
 			return (1);

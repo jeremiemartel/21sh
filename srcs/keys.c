@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:11:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:56:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	process_keys(t_shell *shell, t_command_line *command_line,
 	if (buffer[0] == 27)
 		process_escape_sequence(shell, command_line, buffer);
 	else if (buffer[0] == 12)
-		process_clear(command_line->dy_str);
+		process_clear(command_line);
 	else if (buffer[0] == 127)
 		process_delete(command_line);
 	else if (buffer[0] == 50)
@@ -76,7 +76,7 @@ void	process_keys(t_shell *shell, t_command_line *command_line,
 	{
 		get_down_from_command(command_line);
 		reset_command_line(shell, command_line);
-		render_command_line(command_line->dy_str, 0);
+		render_command_line(command_line, 0);
 	}
 }
 
@@ -117,7 +117,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		{
 			if (sh_add_to_command(command_line, buffer, ret))
 				return (1);
-			render_command_line(command_line->dy_str, 1);
+			render_command_line(command_line, 1);
 		}
 		process_keys(shell, command_line, buffer);
 		ret = process_keys_ret(shell, command_line, buffer);

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:45:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:31:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,22 @@ int		sh_update_shell_prompt(t_shell *shell)
 	return (SUCCESS);
 }
 
+
+int		sh_init_command_line(t_command_line *command_line)
+{
+	command_line->autocompletion.choices = NULL;
+	command_line->autocompletion.head = NULL;
+	if (!(command_line->dy_str = ft_dy_str_new(63)))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_init_command_line"));
+	return (SUCCESS);
+}
+
 int		sh_init_shell(t_shell *shell, char **env)
 {
 	if (!(shell->env = main_init_env(env)))
 		return (FAILURE);
-	if (!(g_glob.command_line.dy_str = ft_dy_str_new(63)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_init_shell"));
+	if (sh_init_command_line(&g_glob.command_line) != SUCCESS)
+		return (FAILURE);
 	shell->running = 1;
 	if (sh_update_shell_lvl(shell) != SUCCESS)
 		return (FAILURE);

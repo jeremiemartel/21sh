@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 22:24:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:54:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	transmit_sig(int signal)
 	g_glob.command_line.current_index = 0;
 	ft_bzero(g_glob.command_line.dy_str->str, g_glob.command_line.dy_str->max_size);
 	g_glob.command_line.nb_chars = 0;
-	render_command_line(g_glob.command_line.dy_str, 0);
+	render_command_line(&g_glob.command_line, 0);
 }
 
 static int	process_execute_dup_pipes(t_context *context)

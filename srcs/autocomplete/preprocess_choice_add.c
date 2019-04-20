@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:04:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 12:04:17 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:45:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		str_cmp_len(char *str1, char *str2)
 	return (i);
 }
 
-int		process_preprocess_choice_add(t_shell *shell,
+int		process_preprocess_choice_add(t_command_line *command_line,
 			char *entry, int *to_ret, t_dlist ***to_add)
 {
 	t_dlist *ptr;
@@ -30,20 +30,20 @@ int		process_preprocess_choice_add(t_shell *shell,
 	int		first;
 	t_file	*file;
 
-	ptr = shell->autocompletion.choices;
+	ptr = command_line->autocompletion.choices;
 	first = 1;
-	while ((ptr != shell->autocompletion.choices && ptr != NULL) || (first && ptr != NULL))
+	while ((ptr != command_line->autocompletion.choices && ptr != NULL) || (first && ptr != NULL))
 	{
 		file = ptr->content;
 		if (!(ret = ft_strcmp(file->name, entry)))
 			return (ft_free_turn(entry, 1));
 		if (ret > 0 && *to_add == NULL)
 		{
-			if (ptr == shell->autocompletion.choices)
+			if (ptr == command_line->autocompletion.choices)
 				*to_ret = 2;
 			*to_add = &(ptr->prev);
 		}
-		shell->autocompletion.choices_common_len = ft_min(shell->autocompletion.choices_common_len,
+		command_line->autocompletion.choices_common_len = ft_min(command_line->autocompletion.choices_common_len,
 				str_cmp_len(entry, file->name));
 		ptr = ptr->next;
 		first = 0;
@@ -51,20 +51,21 @@ int		process_preprocess_choice_add(t_shell *shell,
 	return (0);
 }
 
-int		ft_preprocess_choice_add(t_shell *shell, char *entry, t_dlist ***to_add)
+int		ft_preprocess_choice_add(t_command_line *command_line,
+			char *entry, t_dlist ***to_add)
 {
 	int		to_ret;
 
 	to_ret = 0;
 	*to_add = NULL;
-	if (shell->autocompletion.choices == NULL)
+	if (command_line->autocompletion.choices == NULL)
 	{
-		*to_add = &shell->autocompletion.choices;
-		shell->autocompletion.choices_common_len = ft_strlen(entry);
+		*to_add = &command_line->autocompletion.choices;
+		command_line->autocompletion.choices_common_len = ft_strlen(entry);
 	}
-	if (process_preprocess_choice_add(shell, entry, &to_ret, to_add))
+	if (process_preprocess_choice_add(command_line, entry, &to_ret, to_add))
 		return (1);
-	if (*to_add == NULL && shell->autocompletion.choices != NULL)
-		*to_add = &shell->autocompletion.choices->prev;
+	if (*to_add == NULL && command_line->autocompletion.choices != NULL)
+		*to_add = &command_line->autocompletion.choices->prev;
 	return (to_ret);
 }

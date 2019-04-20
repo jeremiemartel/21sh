@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:27:24 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/18 16:27:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:54:02 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		process_shift_right(t_command_line *command_line)
 	if (word.len)
 	{
 		command_line->current_index += word.len - word.index_byte_offset + 1;
-		render_command_line(command_line->dy_str, word.utf8_len - word.index_char_offset + 1);
+		render_command_line(command_line, word.utf8_len - word.index_char_offset + 1);
 		return (SUCCESS);
 	}
 	while (index < (int)command_line->dy_str->current_size)
@@ -38,7 +38,7 @@ int		process_shift_right(t_command_line *command_line)
 			break;
 		index++;
 	}
-	render_command_line(command_line->dy_str, index - command_line->current_index - 1);
+	render_command_line(command_line, index - command_line->current_index - 1);
 	command_line->current_index = index - 1;
 	return (0);
 }
@@ -55,7 +55,7 @@ int		process_shift_left(t_command_line *command_line)
 	if (word.len)
 	{
 		command_line->current_index -= word.index_byte_offset;
-		render_command_line(command_line->dy_str, - word.index_char_offset);
+		render_command_line(command_line, - word.index_char_offset);
 		return (SUCCESS);
 	}
 	while (index > 0)
@@ -67,7 +67,7 @@ int		process_shift_left(t_command_line *command_line)
 			break;
 		index--;
 	}
-	render_command_line(command_line->dy_str, - (command_line->current_index - index)); //olala
+	render_command_line(command_line, - (command_line->current_index - index)); //olala
 	command_line->current_index = index;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 11:36:21 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:33:20 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct		s_file
 
 typedef struct		s_auto_complete
 {
+	t_dlist			*head;
 	t_dlist			*choices;
 	int				choices_common_len;
 }					t_auto_complete;
@@ -144,6 +145,7 @@ typedef struct		s_command_line
 	t_dy_str		*dy_str;
 	int				nb_chars;
 	int				current_index;
+	t_auto_complete autocompletion;
 }					t_command_line;
 
 typedef struct		s_historic
@@ -163,8 +165,6 @@ typedef struct		s_shell
 	t_dy_tab		*assignments;
 	char			running;
 	struct termios	term;
-	t_auto_complete	autocompletion;
-	char			*to_append_to;
 }					t_shell;
 
 typedef struct      s_glob
@@ -227,7 +227,7 @@ int			sh_await_command(t_shell *shell);
 ** get_command.c
 */
 void		reset_command_line(t_shell *shell, t_command_line *command_line);
-int			render_command_line(t_dy_str *dy_str, int cursor_inc);
+int			render_command_line(t_command_line *command_line, int cursor_inc);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
 /*
 ** edit_command.c
@@ -243,7 +243,7 @@ void	process_delete(t_command_line *command_line);
 */
 
 void	get_down_from_command(t_command_line *command_line);
-int		process_clear(t_dy_str *dy_str);
+int		process_clear(t_command_line *command_line);
 void	go_up_to_prompt(int width, int cursor);
 void	replace_cursor_after_render(void);
 
@@ -303,7 +303,8 @@ int		process_tab(t_shell *shell, t_command_line *command_line);
 /*
 ** preprocess_choice_add.c
 */
-int		ft_preprocess_choice_add(t_shell *shll, char *entry, t_dlist ***to_add);
+int		ft_preprocess_choice_add(t_command_line *line,
+			char *entry, t_dlist ***to_add);
 
 /*
 ** populate_word_by_index.c
@@ -313,7 +314,7 @@ int     populate_word_by_index(char *s, int index, t_word *word);
 /*
 ** populate_choices_from_word.c
 */
-int     populate_choices_from_word(t_dy_str *command,
+int     populate_choices_from_word(t_command_line *command_line,
  		t_shell *shell, t_word *word);
 
 /*

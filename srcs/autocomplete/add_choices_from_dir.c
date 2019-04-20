@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 12:03:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:38:18 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_file		*new_file(t_shell *shell, char *str)
 	return (res);
 }
 
-int			process_add_choices_from_dir(t_shell *shell,
+int			process_add_choices_from_dir(t_shell *shell, t_command_line *command_line,
 			struct dirent *entry, char *prefix)
 {
 	char			*str;
@@ -70,7 +70,7 @@ int			process_add_choices_from_dir(t_shell *shell,
 		return (1);
 	else if (prefix && !(str = ft_strjoin(prefix, entry->d_name)))
 		return (1);
-	if ((ret = ft_preprocess_choice_add(shell, str, &prev_to_add)) != 1)
+	if ((ret = ft_preprocess_choice_add(command_line, str, &prev_to_add)) != 1)
 	{
 		if (!(file = new_file(shell, str)))
 			return (ft_free_turn(str, 1));
@@ -78,7 +78,7 @@ int			process_add_choices_from_dir(t_shell *shell,
 			return (ft_free_turn_2(str, file, 1));
 		add_node_next_to_node(prev_to_add, to_add);
 		if (ret)
-			shell->autocompletion.choices = shell->autocompletion.choices->prev;
+			command_line->autocompletion.choices = command_line->autocompletion.choices->prev;
 	}
 	return (0);
 }
@@ -101,7 +101,7 @@ int			add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
 			continue;
 		if (!ft_strncmp(entry->d_name, word->to_compare, len))
 		{
-			if (process_add_choices_from_dir(shell, entry, prefix))
+			if (process_add_choices_from_dir(shell, &g_glob.command_line, entry, prefix))
 			{
 				closedir(dir);
 				return (1);
