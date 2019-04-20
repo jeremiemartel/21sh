@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 20:26:46 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 10:20:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int			sh_traverse_default(t_ast_node *this, t_context *context);
 */
 int			sh_traverse_complete_command(t_ast_node *this, t_context *context);
 int			sh_traverse_command(t_ast_node *node, t_context *context);
+int			sh_traverse_and_or(t_ast_node *node, t_context *context);
 int			sh_traverse_semicol(t_ast_node *node, t_context *context);
 int			sh_traverse_and_if(t_ast_node *node, t_context *context);
 int			sh_traverse_or_if(t_ast_node *node, t_context *context);
