@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_execute.c                                  :+:      :+:    :+:   */
+/*   sh_process_execute.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 22:24:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:21:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	transmit_sig(int signal)
 	render_command_line(g_glob.command_line.dy_str, 0);
 }
 
-static int	process_execute_dup_pipes(t_context *context)
+static int	sh_process_execute_dup_pipes(t_context *context)
 {
 	ft_dprintf(2, "process_Execute_dup_pipes\n");
 	ft_dprintf(2, "\tfdin  : %d\n", context->fd[FD_IN]);
@@ -67,7 +67,7 @@ static int	process_execute_dup_pipes(t_context *context)
 	return (SUCCESS);
 }
 
-static int	process_execute_close_pipes(t_context *context)
+static int	sh_process_execute_close_pipes(t_context *context)
 {
 	if (context->fd[FD_IN] != 0)
 		if (close(context->fd[FD_IN]) == -1)
@@ -81,25 +81,25 @@ static int	process_execute_close_pipes(t_context *context)
 	return (SUCCESS);
 }
 
-int		process_execute(char *path, t_context *context)
+int		sh_process_execute(char *path, t_context *context)
 {
 	int		res;
 
-	if (check_execute(path, context->params->tbl[0]))
+	if (sh_check_execute(path, context->params->tbl[0]))
 	{
-		process_execute_close_pipes(context);
+		sh_process_execute_close_pipes(context);
 		return (FAILURE);
 	}
 	if (sh_reset_shell(0) == -1)
 	{
-		process_execute_close_pipes(context);
+		sh_process_execute_close_pipes(context);
 		return (FAILURE);
 	}
 	if ((g_parent = fork()) == -1)
 		return (FAILURE);
 	if (g_parent == 0)
 	{
-		process_execute_dup_pipes(context);
+		sh_process_execute_dup_pipes(context);
 		if (execve(path, (char **)context->params->tbl,
 				(char **)context->env->tbl) == -1)
 		{
@@ -114,7 +114,7 @@ int		process_execute(char *path, t_context *context)
 		sh_env_update_question_mark(context, res);
 		ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
 		g_parent = 0;
-		process_execute_close_pipes(context);
+		sh_process_execute_close_pipes(context);
 		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
 			return (ft_perror("Could not modify this terminal attributes",
 				"sh_init_terminal"));

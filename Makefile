@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/20 12:13:30 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/20 16:45:29 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ TRAV_DIR	= traverse
 TRAVT_DIR	= traverse_tools
 VARS_DIR	= vars
 AUTO_DIR	= autocomplete
+EXEC_DIR	= exec
 
 SPEED = -j1
 LIBFT_INCLUDEDIR = includes
@@ -74,9 +75,9 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
-						get_command.c utf8_tools.c process_shift.c\
-						execute.c execute_tools.c process_execute.c tools.c\
-						traverse.c process_historic.c
+						get_command.c utf8_tools.c \
+						tools.c\
+						traverse.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -124,6 +125,13 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c sh_variables.c
 
+EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
+						sh_execute_tools.c \
+						sh_process_execute.c \
+						sh_process_historic.c \
+						sh_process_shift.c \
+				t_context.c
+
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
@@ -134,6 +142,7 @@ AUTO_SOURCES = $(addprefix $(SRCDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX))
 TRAV_SOURCES = $(addprefix $(SRCDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX))
 TRAVT_SOURCES = $(addprefix $(SRCDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX))
 VARS_SOURCES = $(addprefix $(SRCDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX))
+EXEC_SOURCES = $(addprefix $(SRCDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
@@ -142,6 +151,7 @@ PROD_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_
 TRAV_OBJECTS = $(addprefix $(OBJDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX:%.c=%.o))
 TRAVT_OBJECTS = $(addprefix $(OBJDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX:%.c=%.o))
 VARS_OBJECTS = $(addprefix $(OBJDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX:%.c=%.o))
+EXEC_OBJECTS = $(addprefix $(OBJDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX:%.c=%.o))
 
 
 AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
@@ -153,9 +163,9 @@ OBJECTS += $(LEXER_OBJECTS)
 OBJECTS += $(PARSER_OBJECTS)
 OBJECTS += $(TRAV_OBJECTS)
 OBJECTS += $(TRAVT_OBJECTS)
-OBJECTS += $(VARS_OBJECTS)
-
 OBJECTS += $(AUTO_OBJECTS)
+OBJECTS += $(VARS_OBJECTS)
+OBJECTS += $(EXEC_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -211,6 +221,10 @@ $(OBJDIR)/$(PARSER_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/%.c $(INCLUDES)
 
 $(OBJDIR)/$(VARS_DIR)/%.o : $(SRCDIR)/$(VARS_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(VARS_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(EXEC_DIR)/%.o : $(SRCDIR)/$(EXEC_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(EXEC_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)

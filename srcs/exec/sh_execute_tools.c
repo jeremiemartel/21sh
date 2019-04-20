@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_tools.c                                    :+:      :+:    :+:   */
+/*   sh_execute_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 21:52:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:16:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		execute_command_2(t_context *context, char *path_str)
-{
-	int		ret;
-
-	if (path_str)
-	{
-		if ((ret = execute_command_path(context, path_str)) != 2)
-			return (ret);
-	}
-	return (execute_command_no_path(context));
-}
-
-int		check_execute(char *full_path, char *command_name)
+int		sh_check_execute(char *full_path, char *command_name)
 {
 	struct stat	st;
 

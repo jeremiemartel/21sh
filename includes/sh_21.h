@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/19 11:36:21 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:36:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@
 # include "sh_grammar.h"
 # include "sh_parser.h"
 # include "sh_lexer.h"
+# include "sh_exec.h"
 # include "sh_traverse.h"
 # include "sh_traverse_tools.h"
+
+# include "vars.h"
 
 # define SUCCESS		0
 # define FAILURE		1
@@ -159,6 +162,7 @@ typedef struct		s_shell
 	t_lr_parser		parser;
 	t_historic		historic;
 	t_dy_tab		*env;
+	t_dy_tab		*vars;
 	char			*clipboard;
 	t_dy_tab		*assignments;
 	char			running;
@@ -272,18 +276,17 @@ int		 get_keys(t_shell *shell, t_command_line *command_line);
 */
 void	transmit_sig(int signal);
 void	transmit_sig_and_die(int signal);
-int		process_execute(char *path, t_context *context);
+int		sh_process_execute(char *path, t_context *context);
 
 /*
 ** execute.c
 */
-int		execute_command(t_context *context);
-int		execute_command_path(t_context *context, char *path_str);
-int		execute_command_no_path(t_context *context);
+int		sh_execute_command(t_context *context);
+int		sh_execute_command_path(t_context *context, char *path_str);
+int		sh_execute_command_no_path(t_context *context);
 /*
 ** execute_tools.c
 */
-int		check_execute(char *full_path, char *command_name);
 
 int		process_up(t_shell *shell, t_command_line *command_line);
 int		process_down(t_shell *shell, t_command_line *command_line);

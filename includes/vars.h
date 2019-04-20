@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   traverse.c                                         :+:      :+:    :+:   */
+/*   vars.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 17:10:44 by jmartel          ###   ########.fr       */
+/*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
+/*   Updated: 2019/04/20 17:35:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#ifndef VARS_H
+# define VARS_H
 
-int		sh_process_traverse(t_shell *shell)
-{
-	t_context	context;
+/*
+** sh_variables.c
+*/
+int		sh_variables_assignment(t_dy_tab *vars, char *assignment);
 
-	if (t_context_init(&context, shell) == FAILURE)
-		return (FAILURE);
-	g_grammar[shell->parser.ast_root->symbol->id].
-		traverse(shell->parser.ast_root, &context);
-	// ft_strtab_put((char **)context.params->tbl);
-	t_context_free(&context);
-	return (SUCCESS);
-}
+#endif

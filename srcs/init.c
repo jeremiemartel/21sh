@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:45:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:58:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ t_dy_tab	*main_init_env(char **env)
 	return (tbl);
 }
 
+static int		sh_main_init_vars(t_shell *shell)
+{
+	if (!(shell->vars = ft_dy_tab_new(10)))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_main_init_vars"));
+	return (SUCCESS);
+}
+
 int		sh_init_historic(t_historic *historic)
 {
 	int			fd;
@@ -96,6 +103,8 @@ int		sh_update_shell_prompt(t_shell *shell)
 int		sh_init_shell(t_shell *shell, char **env)
 {
 	if (!(shell->env = main_init_env(env)))
+		return (FAILURE);
+	if (sh_main_init_vars(shell) == FAILURE)
 		return (FAILURE);
 	if (!(g_glob.command_line.dy_str = ft_dy_str_new(63)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_init_shell"));

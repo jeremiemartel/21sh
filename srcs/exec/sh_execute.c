@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   sh_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/17 20:21:52 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:21:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		execute_command_no_path(t_context *context)
+int		sh_execute_command_no_path(t_context *context)
 {
 	char	cwd[CWD_LEN];
 	char	*full_path;
 
 	if (((char **)context->params->tbl)[0][0] == '/')
-		return (process_execute(context->params->tbl[0], context));
+		return (sh_process_execute(context->params->tbl[0], context));
 	else
 	{
 		if (getcwd(cwd, CWD_LEN) == NULL)
 			return (1);
 		if (!(full_path = ft_strjoin_3(cwd, "/", context->params->tbl[0])))
 			return (1);
-		if (process_execute(full_path, context) == -1)
+		if (sh_process_execute(full_path, context) == -1)
 			return (ft_free_turn(full_path, -1));
 		free(full_path);
 		return (1);
@@ -33,7 +33,7 @@ int		execute_command_no_path(t_context *context)
 	return (0);
 }
 
-int		execute_command_path(t_context *context, char *path_str)
+int		sh_execute_command_path(t_context *context, char *path_str)
 {
 	char	**path_split;
 	int		i;
@@ -51,7 +51,7 @@ int		execute_command_path(t_context *context, char *path_str)
 			if (!(full_path = ft_strjoin_3(path_split[i], "/",
 					context->params->tbl[0])))
 				return (1);
-			ret = process_execute(full_path, context);
+			ret = sh_process_execute(full_path, context);
 			free(full_path);
 			ft_strtab_free(path_split);
 			return (ret == -1 ? -1 : 0);
@@ -62,7 +62,7 @@ int		execute_command_path(t_context *context, char *path_str)
 	return (2);
 }
 
-int		execute_command(t_context *context)
+int		sh_execute_command(t_context *context)
 {
 	char	*path_str;
 	int		ret;
@@ -71,8 +71,8 @@ int		execute_command(t_context *context)
 //		return (0);
 	if ((path_str = get_env_value((char **)context->env->tbl, "PATH")))
 	{
-		if ((ret = execute_command_path(context, path_str)) != 2)
+		if ((ret = sh_execute_command_path(context, path_str)) != 2)
 			return (ret);
 	}
-	return (execute_command_no_path(context));
+	return (sh_execute_command_no_path(context));
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:40:06 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/16 17:13:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:19:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		sh_traverse_tools_flush(t_context *context)
 
 	if (!context->params->tbl[0])
 		return (SUCCESS);
-	ret = execute_command(context);
+	ret = sh_execute_command(context);
 	sh_traverse_tools_reset_params(context);
 	return (ret);
 }
