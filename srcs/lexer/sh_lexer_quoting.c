@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 10:50:09 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 11:04:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 11:27:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,37 @@ int		lexer_quoting_backslash(t_lexer *lexer)
 	return (LEX_OK);
 }
 
-int		lexer_quoting_double_quote(t_lexer *lexer)
+int		lexer_quoting_start_quote(t_lexer *lexer)
 {
-	return (SUCCESS);
-	(void)lexer;
+	lexer->quoted = lexer->c;
+	ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
+	if (lexer->current_id == LEX_TOK_UNKNOWN)
+		lexer->current_id = LEX_TOK_WORD;
+	return (LEX_OK);
 }
 
 int		lexer_quoting_simple_quote(t_lexer *lexer)
 {
-	return (SUCCESS);
-	(void)lexer;
+	if (lexer->c == '\'')
+	{
+		lexer->quoted = 0;
+		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
+	}
+	else
+		lexer->tok_len++;
+	return (LEX_OK);
+}
+
+int		lexer_quoting_double_quote(t_lexer *lexer)
+{
+	if (lexer->c == '$' || lexer->c == '`' || lexer->c == '\\')
+		return (LEX_CONTINUE);
+	if (lexer->c == '"')
+	{
+		lexer->quoted = 0;
+		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
+	}
+	else
+		lexer->tok_len++;
+	return (LEX_OK);
 }
