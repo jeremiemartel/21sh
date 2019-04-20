@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/15 14:23:26 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 10:57:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void	t_token_show_id(int i)
 		}
 		case (LEX_TOK_WORD):
 		{
-			ft_putstr("WORD");
+			ft_putstr(BLUE"WORD"EOC);
 			break ;
 		}
 		case (LEX_TOK_TOKEN):

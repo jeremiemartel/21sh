@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/20 10:20:29 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/20 10:51:46 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,13 +83,14 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						compute_closure.c compute_transitions.c traverse.c\
 						init_parsing.c grammar.c reduce.c reduce_tools.c
 
-LEXER_SRCS_NO_PREFIX =	lexer.c t_lexer.c \
-						t_token.c lexer_rules.c \
-						lexer_expansions.c \
-						lexer_expansions_detect.c \
-						lexer_expansions_process.c \
-						lexer_expansions_process_tilde.c \
-						t_expansion.c
+LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
+						sh_lexer_rules.c \
+						sh_lexer_quoting.c \
+						sh_lexer_expansions.c \
+						sh_lexer_expansions_detect.c \
+						sh_lexer_expansions_process.c \
+						sh_lexer_expansions_process_tilde.c \
+						t_expansion.c t_lexer.c t_token.c
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_case_clause.c sh_prod_case_item.c\

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/15 14:23:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/20 11:00:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,13 @@ typedef struct		s_token
 ** lexer.c
 */
 int					lexer(char *input, t_list **tokens, t_dy_tab *env);
+
+/*
+** sh_lexer_quoting.c
+*/
+int					lexer_quoting_backslash(t_lexer *lexer);
+int					lexer_quoting_double_quote(t_lexer *lexer);
+int					lexer_quoting_simple_quote(t_lexer *lexer);
 
 /*
 ** lexer_expansions.c

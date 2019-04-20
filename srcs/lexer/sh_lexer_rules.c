@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_rules.c                                      :+:      :+:    :+:   */
+/*   sh_lexer_rules.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/15 10:28:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 11:10:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ int		lexer_rule1(t_lexer *lexer)
 {
 	if (lexer->c == LEX_TOK_NEWLINE || lexer->c == '\0')//
 	{
+		if (lexer->quoted)
+		{
+			// NB : Add here the function:
+			//	need to prompt, take input,
+			//	add input to the end of lexer->inpput
+			//	(need to free the old lexer->input)
+			//	then return (LEX_OK), it will restart lexer normally
+			// with the same state
+			return (LEX_ERR); // Delete this
+		}
 		lexer_add_token(lexer);
 		return (LEX_END);
 	}
@@ -99,13 +109,7 @@ int		lexer_rule3(t_lexer *lexer)
 int		lexer_rule4(t_lexer *lexer)
 {
 	if (lexer->quoted != '\'' && lexer->c == '\\')
-	{
-		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
-		if (lexer->current_id == LEX_TOK_UNKNOWN)
-			lexer->current_id = LEX_TOK_WORD;
-		lexer->tok_len++;
-		return (LEX_OK);
-	}
+		return (lexer_quoting_backslash(lexer));
 	else if (!lexer->quoted && (lexer->c == '\'' || lexer->c == '"'))
 	{
 		lexer->quoted = lexer->c;
