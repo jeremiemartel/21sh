@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 12:06:49 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/17 11:23:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 10:23:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 int		sh_traverse_tools_browse(t_ast_node *node, t_context *context)
 {
-	t_list *ptr;
+	t_list 		*ptr;
 	t_ast_node	*child;
 
 	ptr = node->children;
