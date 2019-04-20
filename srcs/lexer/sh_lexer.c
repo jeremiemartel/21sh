@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 10:50:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 11:48:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 	t_token	*next_token;
 
 	head = lexer->list;
+	token = (t_token*)head->content;
+	// My own rule to detect assignment
+	if (ft_strchr(token->value, '=')) //token && token->id == WORD && 
+		t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);	
 	while (head)
 	{
 		token = (t_token*)head->content;
@@ -30,7 +34,7 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 			next_token = NULL;
 		if (lexer_is_operator(token->id));
 		else if (ft_isdigit_only(token->value) && next_token && (next_token->id == '<' || next_token->id == '>'))
-			t_token_update_id(LEX_TOK_IO_NUMBER, token);
+			t_token_update_id(LEX_TOK_IO_NUMBER, token);	
 		head = head->next;
 	}
 	return (LEX_OK);

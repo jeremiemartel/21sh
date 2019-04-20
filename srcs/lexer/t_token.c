@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 10:57:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/20 11:47:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void	t_token_show_id(int i)
 		case (LEX_TOK_UNKNOWN):
 		{
 			ft_putstr(COLOR_RED"UNKNOWN"COLOR_END);
+			break ;
+		}
+		case (LEX_TOK_ASSIGNMENT_WORD):
+		{
+			ft_putstr(CYAN"ASSIGMENT WORD"EOC);
 			break ;
 		}
 		case (LEX_TOK_PIPE):
