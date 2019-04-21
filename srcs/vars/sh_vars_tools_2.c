@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:21:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/21 22:40:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/21 22:43:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ int		sh_vars_assignment(t_dy_tab *vars, char *assignment)
 		res = sh_vars_add_key(vars, assignment, value);
 	else
 		res = sh_vars_mod_key(vars, assignment, value);
-	buf = '=';
+	*buf = '=';
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:15:48 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/21 22:36:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/21 22:43:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 **	return:
 **		SUCESS or FAILURE
 */
-int		sh_vars_key_exist(t_dy_tab *vars, char *key);
+int		sh_vars_key_exist(t_dy_tab *vars, char *key)
 {
 	int		i;
 	int		j;
 	char	**tbl;
 
 	i = 0;
-	tbl = vars->tbl;
+	tbl = (char**)vars->tbl;
 	while (tbl[i])
 	{
 		j = 0;
@@ -44,14 +44,14 @@ int		sh_vars_key_exist(t_dy_tab *vars, char *key);
 **	return:
 **		Index of in the tab, or -1 if it does not exists
 */
-int		sh_vars_get_index(t_dy_tab *vars, char *key);
+int		sh_vars_get_index(t_dy_tab *vars, char *key)
 {
 	int		i;
 	int		j;
 	char	**tbl;
 
 	i = 0;
-	tbl = vars->tbl;
+	tbl = (char**)vars->tbl;
 	while (tbl[i])
 	{
 		j = 0;
@@ -78,6 +78,6 @@ char	*sh_vars_get_value(t_dy_tab *vars, char *key)
 
 	if ((index = sh_vars_get_index(vars, key)) == -1)
 		return (NULL);
-	tbl = vars->tbl;
+	tbl = (char**)vars->tbl;
 	return (ft_strchr(tbl[index], '=') + 1);
 }
