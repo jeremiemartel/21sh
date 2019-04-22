@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 10:17:04 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 10:29:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/22 12:47:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		sh_traverse_and_or(t_ast_node *node, t_context *context)
 	ptr = node->children;
 	while (ptr != NULL)
 	{
-		ft_dprintf(2, YELLOW"traverse : and_or\n"EOC);
 		child = (t_ast_node *)ptr->content;
 		res = g_grammar[child->symbol->id].traverse(child, context);
 		if (res == FAILURE)

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 21:27:03 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/19 14:35:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/22 12:48:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ int		sh_traverse_io_redirect(t_ast_node *node, t_context *context)
 		child = (t_ast_node*)node->children->content;
 	}
 	context->father_id = fd;
-	ft_dprintf(2, "traverse : io_redirect\n");
 	return (sh_traverse_tools_browse(node, context));
 }

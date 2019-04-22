@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/19 13:46:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/22 12:48:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		sh_traverse_io_file(t_ast_node *node, t_context *context)
 {
 	t_ast_node	*child;
 
-	ft_dprintf(2, "traverse : io_file\n");
 	child = (t_ast_node *)node->children->content;
 	if (g_grammar[child->symbol->id].traverse(node, context) == FAILURE)
 		return (FAILURE);
