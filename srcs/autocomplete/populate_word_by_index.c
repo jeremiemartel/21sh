@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:04:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 12:04:02 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/22 18:24:28 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ int		get_word_len(char *s, int index)
 	return (i - index);
 }
 
+int		process_populate_empty_word(t_word *word)
+{
+	if (!(word->str = ft_strdup("")))
+		return (1);
+	ft_printf("ADDRESS: %p (%s)\n", word->str, word->str);
+	word->len = 0;
+	word->utf8_len =  0;
+	return (0);
+}
+
 int		process_populate_word_by_index(char *s, t_word *word,
 			int nb_words, int parseword)
 {
@@ -35,15 +45,11 @@ int		process_populate_word_by_index(char *s, t_word *word,
 		word->len = get_word_len(s, word->start_index);
 		if (!(word->str = ft_strndup(&s[word->start_index], word->len)))
 			return (1);
+		ft_printf("ADDRESS: %p (%s)\n", word->str, word->str);
 		word->utf8_len = ft_strlen_utf8(word->str);
 	}
 	else
-	{
-		if (!(word->str = ft_strdup("")))
-			return (1);
-		word->len = 0;
-		word->utf8_len =  0;
-	}
+		return (process_populate_empty_word(word));
 	return (0);
 }
 
@@ -63,6 +69,7 @@ int		populate_word_by_index(char *s, int index, t_word *word)
 	i = 0;
 	parseword = 0;
 	nb_w = 0;
+	word->str = NULL;
 //	word->has_previous = 0;
 	while (s[i])
 	{
@@ -80,5 +87,7 @@ int		populate_word_by_index(char *s, int index, t_word *word)
 	}
 	if (i == index)
 		return (process_populate_word_by_index(s, word, nb_w, parseword));
+	if (!word->str)
+		return (process_populate_empty_word(word));
 	return (0);
 }

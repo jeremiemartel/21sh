@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 13:45:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 16:53:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/22 17:34:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ int		get_true_cursor_pos(int cursor)
 	return (cursor + ft_strlen(g_glob.command_line.prompt));
 }
 
-void	get_down_from_command(t_command_line *command_line)
+int		get_down_from_command(t_command_line *command_line)
 {
 	int		full_y;
 	int		cursor_y;
 	int		i;
 	char	*str;
+	int		ret;
 
+	ret = 0;
 	full_y = get_true_cursor_pos(command_line->nb_chars) / g_glob.winsize.ws_col;
 	cursor_y = get_true_cursor_pos(g_glob.cursor) / g_glob.winsize.ws_col;
 	str = tgetstr("do", NULL);
@@ -32,11 +34,43 @@ void	get_down_from_command(t_command_line *command_line)
 	{
 		tputs(str, 1, putchar_int);
 		i++;
+		ret++;
 	}
+	tputs(str, 1, putchar_int);
+	return (ret);
+}
+
+void	go_right(int right)
+{
+	char		*str;
+	int			i;
+
+	str = tgetstr("nd", NULL);
+	i = 0;
+	while (i < right)
+	{
+		tputs(str, 1, putchar_int);
+		i++;
+	}
+}
+
+void	go_up_left(int up)
+{
+	char		*str;
+	int			i;
+
+	str = tgetstr("up", NULL);
+	i = 0;
+	while (i < up)
+	{
+		tputs(str, 1, putchar_int);
+		i++;
+	}
+	str = tgetstr("cr", NULL);
 	tputs(str, 1, putchar_int);
 }
 
-void	go_up_to_prompt(int width, int cursor)
+int		go_up_to_prompt(int width, int cursor)
 {
 	char		*str;
 	int			val;
@@ -53,6 +87,7 @@ void	go_up_to_prompt(int width, int cursor)
 	}
 	str = tgetstr("cr", NULL);
 	tputs(str, 1, putchar_int);
+	return (i);
 }
 
 void	replace_cursor_after_render(void)

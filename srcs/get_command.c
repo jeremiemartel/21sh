@@ -6,30 +6,11 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 17:46:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/22 14:43:02 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-/*
-** cursor_inc: tells the cursor movement to execute within the render of the
-** command_line
-*/
-
-int		render_command_line(t_command_line *command_line, int cursor_inc)
-{
-	char	*str;
-
-	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.cursor);
-	str = tgetstr("cd", NULL);
-	tputs(str, 1, putchar_int);
-	ft_dprintf(0, "%s%s%s%s", BOLD, CYAN, g_glob.command_line.prompt, EOC);
-	ft_dprintf(0, "%s", command_line->dy_str->str);
-	g_glob.cursor += cursor_inc;
-	replace_cursor_after_render();
-	return (0);
-}
 
 int		sh_add_to_command(t_command_line *command_line,
 		unsigned char buffer[READ_BUFF_SIZE], int nb_bytes)

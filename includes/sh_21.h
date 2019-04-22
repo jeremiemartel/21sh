@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 17:33:20 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/22 16:42:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include "perror.h"
 # include "sh_tokens.h"
 # include "sh_grammar.h"
+# include "sh_autocompletion.h"
 # include "sh_parser.h"
 # include "sh_lexer.h"
 # include "sh_traverse.h"
@@ -103,41 +104,6 @@
 # define BOLD       "\x1b[1m"
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
-
-
-/*
-** str:					word content
-** start_index:			index of word in the whole string
-** word_index:			index of word in the whole string
-** len:					len of the word
-** index_byte_offset:	index of cursor in the word
-** index_char_offset:	nb of chars before the cursor in the word (utf8)
-*/
-typedef struct		s_word
-{
-	char			*str;
-	char			*to_compare;
-	int				start_index;
-	int				word_index;
-	int				len;
-	int				utf8_len;
-	int				index_byte_offset;
-	int				index_char_offset;
-}					t_word;
-
-typedef struct		s_file
-{
-	char			*name;
-	char			unstatable;
-	struct stat		st;
-}					t_file;
-
-typedef struct		s_auto_complete
-{
-	t_dlist			*head;
-	t_dlist			*choices;
-	int				choices_common_len;
-}					t_auto_complete;
 
 typedef struct		s_command_line
 {
@@ -242,9 +208,11 @@ void	process_delete(t_command_line *command_line);
 ** cursor_motion.c
 */
 
-void	get_down_from_command(t_command_line *command_line);
+int		get_down_from_command(t_command_line *command_line);
 int		process_clear(t_command_line *command_line);
-void	go_up_to_prompt(int width, int cursor);
+int		go_up_to_prompt(int width, int cursor);
+void	go_up_left(int up);
+void	go_right(int right);
 void	replace_cursor_after_render(void);
 
 
@@ -296,34 +264,6 @@ int		get_file_in_dir(char *filename, char *dirname);
 int		get_path_and_file_from_str(char *str, char **path, char **file);
 
 /*
-** autocompletion.c
-*/
-char	*get_first_word(char *str);
-int		process_tab(t_shell *shell, t_command_line *command_line);
-/*
-** preprocess_choice_add.c
-*/
-int		ft_preprocess_choice_add(t_command_line *line,
-			char *entry, t_dlist ***to_add);
-
-/*
-** populate_word_by_index.c
-*/
-int     populate_word_by_index(char *s, int index, t_word *word);
-
-/*
-** populate_choices_from_word.c
-*/
-int     populate_choices_from_word(t_command_line *command_line,
- 		t_shell *shell, t_word *word);
-
-/*
-** add_choices_from_dir.c
-*/
-int		add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
-			char *prefix);
-
-/*
 ** free_all.c
 */
 void	free_file_dlst(void *f, size_t dummy);
@@ -333,4 +273,6 @@ void	free_file_dlst(void *f, size_t dummy);
 */
 int		process_shift_right(t_command_line *command_line);
 int		process_shift_left(t_command_line *command_line);
+
+void	free_file(t_file *file);
 #endif

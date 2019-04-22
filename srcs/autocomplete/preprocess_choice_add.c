@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:04:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 16:45:26 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/22 15:54:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		process_preprocess_choice_add(t_command_line *command_line,
 	while ((ptr != command_line->autocompletion.choices && ptr != NULL) || (first && ptr != NULL))
 	{
 		file = ptr->content;
-		if (!(ret = ft_strcmp(file->name, entry)))
+		if (!(ret = ft_strcmp(file->fullname, entry)))
 			return (ft_free_turn(entry, 1));
 		if (ret > 0 && *to_add == NULL)
 		{
@@ -44,7 +44,7 @@ int		process_preprocess_choice_add(t_command_line *command_line,
 			*to_add = &(ptr->prev);
 		}
 		command_line->autocompletion.choices_common_len = ft_min(command_line->autocompletion.choices_common_len,
-				str_cmp_len(entry, file->name));
+				str_cmp_len(entry, file->fullname));
 		ptr = ptr->next;
 		first = 0;
 	}

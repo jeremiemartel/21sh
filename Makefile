@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/20 10:51:46 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/22 15:01:53 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
 						get_command.c utf8_tools.c process_shift.c\
 						execute.c execute_tools.c process_execute.c tools.c\
-						traverse.c process_historic.c
+						traverse.c process_historic.c render_command_line.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -120,7 +120,8 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						populate_choices.c populate_word_by_index.c \
 						preprocess_choice_add.c
 
-INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h
+INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h\
+					  sh_autocompletion.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))

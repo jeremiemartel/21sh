@@ -1,0 +1,6 @@
+srcs/autocomplete/auto_completion.c:44:		if (!file->unstatable && S_ISDIR(file->st.st_mode))
+srcs/autocomplete/auto_completion.c:45:			return (ft_strjoin(file->fullname, "/"));
+srcs/autocomplete/auto_completion.c:47:			return (ft_strjoin(file->fullname, " "));
+srcs/autocomplete/auto_completion.c:50:		return (ft_strndup(file->name,
+srcs/autocomplete/preprocess_choice_add.c:38:		if (!(ret = ft_strcmp(file->fullname, entry)))
+srcs/autocomplete/preprocess_choice_add.c:47:				str_cmp_len(entry, file->fullname));
