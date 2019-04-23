@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 17:38:46 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 10:46:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 }
 
 
-int		lexer(char *input, t_list **tokens, t_dy_tab *env)
+int		sh_lexer(char *input, t_list **tokens, t_dy_tab *env)
 {
 	t_lexer		lexer;
 	int			ret;
