@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 17:21:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 13:23:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,6 @@ int		sh_process_execute(char *path, t_context *context)
 {
 	int		res;
 
-	if (sh_check_execute(path, context->params->tbl[0]))
-	{
-		sh_process_execute_close_pipes(context);
-		return (FAILURE);
-	}
 	if (sh_reset_shell(0) == -1)
 	{
 		sh_process_execute_close_pipes(context);
@@ -107,6 +102,36 @@ int		sh_process_execute(char *path, t_context *context)
 			// exit(1);
 			exit(ft_perror(SH_ERR1_CMD_NOT_FOUND, *context->params->tbl));
 		}
+	}
+	else
+	{
+		wait(&res);
+		sh_env_update_question_mark(context, res);
+		ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
+		g_parent = 0;
+		sh_process_execute_close_pipes(context);
+		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
+			return (ft_perror("Could not modify this terminal attributes",
+				"sh_init_terminal"));
+	}
+	return (0);
+}
+
+int		sh_process_execute_builtin(t_builtin *builtin, t_context *context)
+{
+	int		res;
+
+	if (sh_reset_shell(0) == -1)
+	{
+		sh_process_execute_close_pipes(context);
+		return (FAILURE);
+	}
+	if ((g_parent = fork()) == -1)
+		return (FAILURE);
+	if (g_parent == 0)
+	{
+		sh_process_execute_dup_pipes(context);
+		exit(builtin->builtin(context->params, context->env));
 	}
 	else
 	{
