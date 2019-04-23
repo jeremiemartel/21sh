@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 10:46:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 13:33:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # define LEX_CONTINUE	FAILURE + SUCCESS + 1
 # define LEX_OK			SUCCESS
 
+typedef struct s_shell	t_shell;
+
+
 typedef struct		s_lexer
 {
 	char			c;
@@ -49,6 +52,7 @@ typedef struct		s_lexer
 	int				quoted;
 	t_list			*list;
 	t_dy_tab 		*env;
+	t_dy_tab		*vars;
 }					t_lexer;
 
 /*
@@ -105,7 +109,7 @@ typedef struct		s_token
 /*
 ** lexer.c
 */
-int					sh_lexer(char *input, t_list **tokens, t_dy_tab *env);
+int					sh_lexer(char *input, t_list **tokens, t_shell *shell);
 
 /*
 ** sh_lexer_quoting.c
