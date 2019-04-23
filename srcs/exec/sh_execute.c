@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 13:21:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 15:14:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		sh_execute_command_path(t_context *context, char *path_str)
 			if (!(full_path = ft_strjoin_3(path_split[i], "/",
 					context->params->tbl[0])))
 				return (FAILURE);
-			if (!sh_check_execute(full_path, context->params->tbl[0]))
+			if (sh_check_execute(full_path, context->params->tbl[0]) == FAILURE)
 			{
 				free(full_path);
 				return (FAILURE);
