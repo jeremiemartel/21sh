@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 11:49:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 12:38:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ typedef struct		s_shell
 	t_historic		historic;
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
+	t_list			*builtins;
 	char			*clipboard;
 	t_dy_tab		*assignments;
 	char			running;

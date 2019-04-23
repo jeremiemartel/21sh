@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 12:13:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 12:41:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct	s_builtin
 /*
 ** sh_builtin.c
 */
+t_list			*sh_builtin_init_list(void);
 
 /*
 ** builtins :

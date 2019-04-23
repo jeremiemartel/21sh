@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:43:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 17:07:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 12:52:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct		s_context
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
 	t_dy_tab		*params; //argv
+	t_list			*builtins;
 	int				father_id;
 	int				fd[3];
 	int				pipe[2];
