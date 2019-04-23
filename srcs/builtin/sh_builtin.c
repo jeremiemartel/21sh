@@ -6,18 +6,18 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:49:01 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 12:24:56 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 12:42:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int		sh_builtin_init_add_link(t_list **start, char *name, int (*builin)(t_dy_tab *argv, t_dy_tab *env))
+static int		sh_builtin_init_add_link(t_list **start, char *name, int (*builtin)(t_dy_tab *argv, t_dy_tab *env))
 {
 	t_builtin	*buff_built;
 	t_list		*buff_list;
 
-	if (!(t_builtin_new("exit", &sh_builtin_exit)))
+	if (!(buff_built = t_builtin_new(name, builtin)))
 	{
 		t_builtin_free_list(*start);
 		return (ft_perror(SH_ERR1_MALLOC, "sh_builtin_init_add_link (1)"));
