@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 15:22:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 13:33:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 /*
 ** Max len for the token value
 */
-# define LEX_TOKEN_VALUE_LEN	250 //
+# define LEX_TOKEN_VALUE_LEN	250
 
 /*
 ** Possible states for the lexer, returned by lexer functions
