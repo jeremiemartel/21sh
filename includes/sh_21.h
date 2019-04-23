@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 10:47:25 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 11:49:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include "sh_parser.h"
 # include "sh_lexer.h"
 # include "sh_exec.h"
+# include "sh_builtin.h"
 # include "sh_traverse.h"
 # include "sh_traverse_tools.h"
 

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 14:47:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/19 21:50:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/04/23 12:04:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define SH_ERR1_CMD_NOT_FOUND	"Command not found"
 # define SH_ERR1_HISTORIC		"Could not open the historic file"
 # define SH_ERR1_PERM_DENIED	"Permission denied"
+# define SH_ERR1_TOO_MANY_ARGS	"Too many arguments"
 
 /*
 ** ft_perror.c

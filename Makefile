@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/22 12:47:11 by jmartel          ###   ########.fr        #
+#    Updated: 2019/04/23 12:14:53 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ TRAVT_DIR	= traverse_tools
 VARS_DIR	= vars
 AUTO_DIR	= autocomplete
 EXEC_DIR	= exec
+BUILT_DIR	= builtin
 
 SPEED = -j1
 LIBFT_INCLUDEDIR = includes
@@ -133,6 +134,13 @@ EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_process_shift.c \
 				t_context.c
 
+BUILT_SRCS_NO_PREFIX=	sh_builtin.c	\
+						sh_builtin_pwd.c \
+						sh_builtin_echo.c \
+						sh_builtin_exit.c \
+						t_builtin.c
+
+
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
@@ -144,6 +152,7 @@ TRAV_SOURCES = $(addprefix $(SRCDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX))
 TRAVT_SOURCES = $(addprefix $(SRCDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX))
 VARS_SOURCES = $(addprefix $(SRCDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX))
 EXEC_SOURCES = $(addprefix $(SRCDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX))
+BUILT_SOURCES = $(addprefix $(SRCDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
@@ -153,6 +162,7 @@ TRAV_OBJECTS = $(addprefix $(OBJDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX:%.c=%.o
 TRAVT_OBJECTS = $(addprefix $(OBJDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX:%.c=%.o))
 VARS_OBJECTS = $(addprefix $(OBJDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX:%.c=%.o))
 EXEC_OBJECTS = $(addprefix $(OBJDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX:%.c=%.o))
+BUILT_OBJECTS = $(addprefix $(OBJDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX:%.c=%.o))
 
 
 AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
@@ -167,6 +177,7 @@ OBJECTS += $(TRAVT_OBJECTS)
 OBJECTS += $(AUTO_OBJECTS)
 OBJECTS += $(VARS_OBJECTS)
 OBJECTS += $(EXEC_OBJECTS)
+OBJECTS += $(BUILT_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -226,6 +237,10 @@ $(OBJDIR)/$(VARS_DIR)/%.o : $(SRCDIR)/$(VARS_DIR)/%.c $(INCLUDES)
 
 $(OBJDIR)/$(EXEC_DIR)/%.o : $(SRCDIR)/$(EXEC_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(EXEC_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(BUILT_DIR)/%.o : $(SRCDIR)/$(BUILT_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(BUILT_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
