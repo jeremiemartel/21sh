@@ -12,38 +12,43 @@
 
 #include "libft.h"
 
-static void	ft_suppr_n_char_index(char *str, int index, int len)
+static void	ft_decal_rest(t_dy_str *dy_str, int index, int len)
 {
 	int i;
 
-	i = index;
-	while (str[i + len])
+	if (len >= 0)
 	{
-		str[i] = str[i + len];
-		i++;
+		i = dy_str->current_size;
+		while (i >= index)
+		{
+			dy_str->str[i + len] = dy_str->str[i];
+			i--;
+		}
 	}
-	str[i] = '\0';
+	else
+	{
+		i = index;
+		while (i <= (int)dy_str->current_size)
+		{
+			dy_str->str[i + len] = dy_str->str[i];
+			i++;
+		}
+	}
 }
 
-static void	ft_inject_str_in_str(char *str, char *to_inject, int start_index,
-			int to_inject_len)
+static void	ft_inject_str_in_str(t_dy_str *dy_str,
+			char *to_inject, int start_index)
 {
 	int		i;
 	int		j;
-	int		receiver_len;
 
-	receiver_len = ft_strlen(str);
-	i = receiver_len;
-	while (i > start_index)
-	{
-		str[i + to_inject_len] = str[i];
-		i--;
-	}
+	i = start_index;
 	j = 0;
-	while (j < to_inject_len)
+	while (to_inject[j])
 	{
-		str[i + j] = to_inject[j];
+		dy_str->str[i] = to_inject[j];
 		j++;
+		i++;
 	}
 }
 
@@ -65,9 +70,8 @@ int			ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
 		if (ft_dy_str_realloc(d_str))
 			return (1);
 	}
-	ft_suppr_n_char_index(d_str->str, index_to_inject, len);
-	ft_inject_str_in_str(d_str->str, to_inject,
-			index_to_inject, to_inject_len);
+	ft_decal_rest(d_str, index_to_inject + len, to_inject_len - len);
+	ft_inject_str_in_str(d_str, to_inject, index_to_inject);
 	d_str->current_size = necessary_size;
 	return (0);
 }

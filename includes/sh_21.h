@@ -214,6 +214,7 @@ int		go_up_to_prompt(int width, int cursor);
 void	go_up_left(int up);
 void	go_right(int right);
 void	replace_cursor_after_render(void);
+void	replace_cursor_on_index(void);
 
 
 /*

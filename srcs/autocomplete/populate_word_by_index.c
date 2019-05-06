@@ -30,9 +30,10 @@ int		process_populate_empty_word(t_word *word)
 {
 	if (!(word->str = ft_strdup("")))
 		return (1);
-	ft_printf("ADDRESS: %p (%s)\n", word->str, word->str);
+//	ft_printf("ADDRESS (NONE): %p (%s)\n", word->str, word->str);
 	word->len = 0;
 	word->utf8_len =  0;
+	word->start_index = -1;
 	return (0);
 }
 
@@ -45,7 +46,7 @@ int		process_populate_word_by_index(char *s, t_word *word,
 		word->len = get_word_len(s, word->start_index);
 		if (!(word->str = ft_strndup(&s[word->start_index], word->len)))
 			return (1);
-		ft_printf("ADDRESS: %p (%s)\n", word->str, word->str);
+//		ft_printf("ADDRESS: %p (%s)\n", word->str, word->str);
 		word->utf8_len = ft_strlen_utf8(word->str);
 	}
 	else
@@ -87,7 +88,5 @@ int		populate_word_by_index(char *s, int index, t_word *word)
 	}
 	if (i == index)
 		return (process_populate_word_by_index(s, word, nb_w, parseword));
-	if (!word->str)
-		return (process_populate_empty_word(word));
 	return (0);
 }

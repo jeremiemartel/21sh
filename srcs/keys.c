@@ -112,6 +112,8 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
+		if (buffer[0] != 9)
+			command_line->autocompletion.active = 0;
 //		print_buffer(buffer);
 		if (is_printable_utf8(buffer, ret))
 		{

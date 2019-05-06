@@ -56,6 +56,7 @@ static int	render_choices(t_command_line *command_line, int to_go_up)
 	int		nb_lines;
 	int		i;
 	int		j;
+
 	(void)to_go_up;
 	max_len = sh_get_max_file_len(command_line->autocompletion.choices);
 	nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING)
@@ -81,6 +82,7 @@ static int	render_choices(t_command_line *command_line, int to_go_up)
 			j++;
 		}
 	}
+	go_up_left(i + 1);
 	return (0);
 }
 
@@ -105,6 +107,8 @@ int		render_command_line(t_command_line *command_line, int cursor_inc)
 	{
 		to_go_up = get_down_from_command(command_line);
 		render_choices(command_line, to_go_up);
+		go_up_left(to_go_up);
+		replace_cursor_on_index();
 	}
 	return (0);
 }

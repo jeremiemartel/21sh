@@ -90,13 +90,12 @@ int		go_up_to_prompt(int width, int cursor)
 	return (i);
 }
 
-void	replace_cursor_after_render(void)
+void	replace_cursor_on_index()
 {
 	char	*str;
 	int		x;
 	int		y;
 
-	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.command_line.nb_chars);
 	y = (get_true_cursor_pos(g_glob.cursor)) / g_glob.winsize.ws_col;
 	x = (get_true_cursor_pos(g_glob.cursor)) % g_glob.winsize.ws_col;
 	str = tgetstr("do", NULL);
@@ -105,6 +104,12 @@ void	replace_cursor_after_render(void)
 	str = tgetstr("nd", NULL);
 	while (x--)
 		tputs(str, 1, putchar_int);
+}
+
+void	replace_cursor_after_render(void)
+{
+	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.command_line.nb_chars);
+	replace_cursor_on_index();
 }
 
 int		process_clear(t_command_line *command_line)
