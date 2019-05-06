@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:59:37 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 17:36:00 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/06 18:08:45 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@
 
 # define AC_PADDING		4
 
+# define DIR_COLOR		BOLD RED
+
 typedef struct			s_shell t_shell;
 typedef struct			s_command_line t_command_line;
+//typedef struct			s_command_line t_command_line;
 
 /*
 ** str:					word content
@@ -34,6 +37,7 @@ typedef struct		s_word
 	char			*to_compare;
 	int				start_index;
 	int				word_index;
+	int				prev_word_index;
 	int				len;
 	int				utf8_len;
 	int				index_byte_offset;
@@ -54,6 +58,7 @@ typedef struct		s_auto_complete
 	t_dlist			*choices;
 	int				choices_common_len;
 	char			active;
+	int				scrolled_lines;
 }					t_auto_complete;
 
 /*

@@ -1,0 +1,15 @@
+bash-3.2$ alias dir=lol
+bash-3.2$ dir
+bash: lol: command not found
+bash-3.2$ ls dir
+ls: dir: No such file or directory
+bash-3.2$ ls -l dir
+ls: dir: No such file or directory
+bash-3.2$ alias ll="ls -l"
+bash-3.2$ ll dir
+ls: dir: No such file or directory
+bash-3.2$ ls -l dir
+ls: dir: No such file or directory
+bash-3.2$ alias ll="ls -l "
+bash-3.2$ ll dir
+ls: lol: No such file or directory

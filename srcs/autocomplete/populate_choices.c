@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 16:44:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/06 15:49:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ int		populate_choices_from_word(t_command_line *command_line,
 {
 	char *binary;
 
-	if (word->word_index == 1 || (word->word_index == 0))
+//	ft_printf("prev_word_index: %d\n", word->prev_word_index);
+//	ft_printf("word_index: %d\n", word->word_index);
+//	exit(1);
+	if ((word->prev_word_index <= 1 && word->word_index != 0)
+		|| (word->prev_word_index == 0 && word->word_index == 0))
 	{
 		if (populate_choices_from_binaries(shell, word))
 			return (1);
