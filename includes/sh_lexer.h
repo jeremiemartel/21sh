@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 13:33:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/07 14:50:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 /*
 ** If set to True, lexer will print additionnal informations
 */
-# define LEX_DEBUG	0
+# define LEX_DEBUG	1
 
 /*
 ** Max len for the token value
@@ -40,10 +40,11 @@
 # define LEX_OK			SUCCESS
 
 typedef struct s_shell	t_shell;
-
+typedef struct s_expansion	t_expansion;
 
 typedef struct		s_lexer
 {
+	int				verbose;
 	char			c;
 	char			*input;
 	int				tok_start;
@@ -75,13 +76,14 @@ typedef struct		s_pattern
 	int				len_e;
 }					t_pattern;
 
-typedef struct		s_expansion
+struct				s_expansion
 {
 	t_dy_str			*res;
 	char			*original;
+	char			*expansion;
 	t_exp_type		type;
-	t_pattern		pattern;
-}					t_expansion;
+	int				(*process)(t_lexer *, t_expansion *);
+};
 
 typedef struct		s_token_union
 {
@@ -120,19 +122,28 @@ int					lexer_quoting_double_quote(t_lexer *lexer);
 int					lexer_quoting_simple_quote(t_lexer *lexer);
 
 /*
+** sh_lexer_exp.c
+*/
+int			sh_lexer_exp(t_lexer *lexer);
+int			sh_lexer_exp_recursive(t_lexer *lexer, char **input, char *original);
+int			sh_lexer_exp_init(char *original, t_expansion *exp);
+int			sh_exp_detect_original_pattern(t_expansion *exp, char *start, char *pattern, int type);
+int			sh_exp_detect_original_chars(t_expansion *exp, char *start, char *pattern, int type);
+
+/*
 ** lexer_expansions.c
 */
-int					lexer_expansion(t_lexer *lexer, char **input);
+int					lexer_expansion(t_lexer *lexer);
+// int					lexer_expansion(t_lexer *lexer, char **input);
 int					lexer_expansion_replace(
 						t_expansion *expansion, char **input);
 
 /*
 ** lexer_expansion_detect.c
 */
-int					lexer_expansion_detect(
-						char *input, t_expansion *exp);
-void				lexer_expansion_detect_fill_pattern(
-						t_expansion *expansion, char *start, char *end, int len);
+int					sh_lexer_expansion_pattern(char *input, t_expansion *exp);
+void				sh_lexer_expansion_fill_pattern(t_expansion *expansion,
+						char *start, char *end, int len);
 int					lexer_expansion_detect_fill_expansion(
 						char *input, t_expansion *exp);
 
@@ -179,6 +190,7 @@ void				lexer_init(t_lexer *lexer, int tok_start);
 int					lexer_add_token(t_lexer *lexer);
 void				lexer_show(t_lexer *lexer);
 void				t_lexer_free_token_list(t_list *list);
+
 /*
 ** t_token.c
 */
@@ -191,5 +203,6 @@ void				t_token_update_id(int id, t_token *token);
 ** t_expansion.c
 */
 void				t_expansion_free(t_expansion *expansion);
+void				t_expansion_show(t_expansion *exp);
 
 #endif
