@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/07 14:50:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/07 16:45:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,48 +124,25 @@ int					lexer_quoting_simple_quote(t_lexer *lexer);
 /*
 ** sh_lexer_exp.c
 */
-int			sh_lexer_exp(t_lexer *lexer);
-int			sh_lexer_exp_recursive(t_lexer *lexer, char **input, char *original);
-int			sh_lexer_exp_init(char *original, t_expansion *exp);
-int			sh_exp_detect_original_pattern(t_expansion *exp, char *start, char *pattern, int type);
-int			sh_exp_detect_original_chars(t_expansion *exp, char *start, char *pattern, int type);
+int					sh_lexer_exp(t_lexer *lexer);
+int					sh_lexer_exp_recursive(t_lexer *lexer, char **input, char *original);
 
 /*
-** lexer_expansions.c
+** sh_lexer_exp_init.c
 */
-int					lexer_expansion(t_lexer *lexer);
-// int					lexer_expansion(t_lexer *lexer, char **input);
-int					lexer_expansion_replace(
-						t_expansion *expansion, char **input);
+int					sh_lexer_exp_init(char *original, t_expansion *exp);
+int					sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, int type);
+int					sh_exp_init_detect_chars(t_expansion *exp, char *start, char *pattern, int type);
+int					sh_lexer_exp_init_process(t_expansion *exp);
 
 /*
-** lexer_expansion_detect.c
+** sh_lexer_exp_process.c
 */
-int					sh_lexer_expansion_pattern(char *input, t_expansion *exp);
-void				sh_lexer_expansion_fill_pattern(t_expansion *expansion,
-						char *start, char *end, int len);
-int					lexer_expansion_detect_fill_expansion(
-						char *input, t_expansion *exp);
-
-/*
-** lexer_expansion_process.c
-*/
-int					lexer_expansion_process(
-						t_lexer *lexer, t_expansion *expansion);
-int					lexer_expansion_process_command(
-						t_lexer *lexer, t_expansion *expansion);
-int					lexer_expansion_process_arithmetic(
-						t_lexer *lexer, t_expansion *expansion);
-int					lexer_expansion_process_parameter(
-						t_lexer *lexer, t_expansion *expansion);
-int					lexer_expansion_process_variable(
-						t_lexer *lexer, t_expansion *expansion);
-
-/*
-** lexer_expansion_process_tilde.c
-*/
-int					lexer_expansion_process_tilde(
-						t_lexer *lexer, t_expansion *expansion);
+int					sh_lexer_exp_variable(t_lexer *lexer, t_expansion *exp);
+int					sh_lexer_exp_parameter(t_lexer *lexer, t_expansion *exp);
+int					sh_lexer_exp_command(t_lexer *lexer, t_expansion *exp);
+int					sh_lexer_exp_arithmetic(t_lexer *lexer, t_expansion *exp);
+int					sh_lexer_exp_tilde(t_lexer *lexer, t_expansion *exp);
 
 /*
 ** lexer_rules.c
@@ -206,3 +183,41 @@ void				t_expansion_free(t_expansion *expansion);
 void				t_expansion_show(t_expansion *exp);
 
 #endif
+
+// /*
+// ** lexer_expansions.c
+// */
+// int					lexer_expansion(t_lexer *lexer);
+// // int					lexer_expansion(t_lexer *lexer, char **input);
+// int					lexer_expansion_replace(
+// 						t_expansion *expansion, char **input);
+
+// /*
+// ** lexer_expansion_detect.c
+// */
+// int					sh_lexer_expansion_pattern(char *input, t_expansion *exp);
+// void				sh_lexer_expansion_fill_pattern(t_expansion *expansion,
+// 						char *start, char *end, int len);
+// int					lexer_expansion_detect_fill_expansion(
+// 						char *input, t_expansion *exp);
+
+// /*
+// ** lexer_expansion_process.c
+// */
+// int					lexer_expansion_process(
+// 						t_lexer *lexer, t_expansion *expansion);
+// int					lexer_expansion_process_command(
+// 						t_lexer *lexer, t_expansion *expansion);
+// int					lexer_expansion_process_arithmetic(
+// 						t_lexer *lexer, t_expansion *expansion);
+// int					lexer_expansion_process_parameter(
+// 						t_lexer *lexer, t_expansion *expansion);
+// int					lexer_expansion_process_variable(
+// 						t_lexer *lexer, t_expansion *expansion);
+
+// /*
+// ** lexer_expansion_process_tilde.c
+// */
+// int					lexer_expansion_process_tilde(
+// 						t_lexer *lexer, t_expansion *expansion);
+
