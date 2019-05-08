@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 13:54:34 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/07 16:52:29 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/08 13:09:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int		sh_lexer_exp(t_lexer *lexer)
 {
-	sh_lexer_exp_recursive(lexer, &lexer->input, lexer->input);
+	if (sh_lexer_exp_recursive(lexer, &lexer->input, lexer->input) == LEX_ERR)
+		return (LEX_ERR);
 	return (LEX_OK);
 }
 
@@ -32,7 +33,8 @@ int		sh_lexer_exp_recursive(t_lexer *lexer, char **input, char *original)
 
 	if (sh_lexer_exp_init(original, &exp) == LEX_ERR)
 		return (LEX_ERR);
-	t_expansion_show(&exp);
+	if (LEX_DEBUG)
+		t_expansion_show(&exp);
 	if (ft_strpbrk(exp.expansion, "~`$") && !ft_strstr(exp.expansion, "$$"))
 	{
 		if (sh_lexer_exp_recursive(lexer, input, exp.expansion) == LEX_ERR)
@@ -41,7 +43,8 @@ int		sh_lexer_exp_recursive(t_lexer *lexer, char **input, char *original)
 		if (sh_lexer_exp_init(original, &exp) == LEX_ERR)
 			return (LEX_ERR);
 	}
-	exp.process(lexer, &exp);
+	if (exp.process(lexer, &exp) == LEX_ERR)
+		return (LEX_ERR);
 	if (sh_lexer_exp_replace(&exp, input) == LEX_ERR)
 		return (LEX_ERR);
 	t_expansion_free(&exp); /// Leaks all function long

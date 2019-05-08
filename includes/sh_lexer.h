@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/07 16:45:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/08 12:35:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 /*
 ** If set to True, lexer will print additionnal informations
 */
-# define LEX_DEBUG	1
+# define LEX_DEBUG	0
 
 /*
 ** Max len for the token value
@@ -142,7 +142,13 @@ int					sh_lexer_exp_variable(t_lexer *lexer, t_expansion *exp);
 int					sh_lexer_exp_parameter(t_lexer *lexer, t_expansion *exp);
 int					sh_lexer_exp_command(t_lexer *lexer, t_expansion *exp);
 int					sh_lexer_exp_arithmetic(t_lexer *lexer, t_expansion *exp);
+
+/*
+** sh_lexer_exp_process_tilde.c
+*/
 int					sh_lexer_exp_tilde(t_lexer *lexer, t_expansion *exp);
+int					sh_lexer_exp_tilde_1(t_lexer *lexer, t_expansion *exp);
+int					sh_lexer_exp_tilde_2(t_lexer *lexer, t_expansion *exp);
 
 /*
 ** lexer_rules.c

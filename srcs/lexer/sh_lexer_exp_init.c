@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:24:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/07 16:47:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/08 12:19:44 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		sh_lexer_exp_init(char *original, t_expansion *exp)
 	else if (ft_strnstr(start, "$", 1))
 		sh_exp_init_detect_chars(exp, start, " \t\n\0", LEX_EXP_VAR);
 	else if (ft_strnstr(start, "~", 1))
-		sh_exp_init_detect_chars(exp, start, "/ \t\n\0", LEX_EXP_TILDE);
+		sh_exp_init_detect_chars(exp, start, " \t\n\0", LEX_EXP_TILDE);
 	else
 		return (LEX_ERR);
 	if (sh_lexer_exp_init_process(exp) == LEX_ERR)

@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/07 16:45:43 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/08 12:10:35 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,8 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rules.c \
 						sh_lexer_quoting.c \
-						sh_lexer_exp.c sh_lexer_exp_init.c sh_lexer_exp_process.c\
+						sh_lexer_exp.c sh_lexer_exp_init.c \
+						sh_lexer_exp_process.c sh_lexer_exp_process_tilde.c \
 						t_expansion.c t_lexer.c t_token.c
 						# sh_lexer_expansions.c \
 						# sh_lexer_expansions_detect.c \
