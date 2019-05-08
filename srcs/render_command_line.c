@@ -26,7 +26,8 @@ static int	sh_get_max_file_len(t_dlist *dlist)
 	while ((ptr != dlist && ptr != NULL) || (first && ptr != NULL))
 	{
 		file = (t_file *)ptr->content;
-		if ((ret = ft_strlen_utf8(file->name)) > max)
+		if ((ret = ft_strlen_utf8(file->name)
+				+ S_ISDIR(file->st.st_mode)) > max)
 			max = ret;
 		ptr = ptr->next;
 		first = 0;
@@ -46,16 +47,19 @@ static int	render_file(t_command_line *command_line, t_file *file, int max_len, 
 	if (is_current)
 		tputs(str, 1, putchar_int);
 	if (S_ISDIR(file->st.st_mode) && !is_current)
-		ft_printf(DIR_COLOR);
-	ft_printf("%s", file->name);
+		ft_dprintf(0, DIR_COLOR);
+	ft_dprintf(0, "%s", file->name);
 	str = tgetstr("me", NULL);
+	ft_printf("%s", EOC);
+	if (S_ISDIR(file->st.st_mode))
+		ft_dprintf(0, BOLD"/");
 	tputs(str, 1, putchar_int);
 	str = tgetstr("do", NULL);
 	tputs(str, 1, putchar_int);
 	return (0);
 }
 
-static int	render_choices_partial(t_command_line *command_line, int max_len, int nb_lines)
+static int	render_choices_partial(t_command_line *command_line, int max_len)
 {
 	t_dlist	*ptr;
 	int first;
@@ -71,11 +75,14 @@ static int	render_choices_partial(t_command_line *command_line, int max_len, int
 		&& ptr != NULL) || (first && ptr != NULL))
 	{
 		file = (t_file *)ptr->content;
-		if (i >= command_line->autocompletion.scrolled_lines && i <= command_line->autocompletion.scrolled_lines + g_glob.winsize.ws_row - 3)
+		file->y = i;
+		file->x = j;
+		if (i >= command_line->autocompletion.scrolled_lines
+			&& i <= command_line->autocompletion.scrolled_lines + g_glob.winsize.ws_row - 3)
 			render_file(command_line, file, max_len, j);
 		ptr = ptr->next;
 		first = 0;
-		if (i++ == nb_lines)
+		if (++i == command_line->autocompletion.nb_lines)
 		{
 			go_up_left(g_glob.winsize.ws_row - (2));
 			i = 0;
@@ -86,29 +93,33 @@ static int	render_choices_partial(t_command_line *command_line, int max_len, int
 	return (0);
 }
 
+int		ft_round(float a)
+{
+	if (a == (int) a)
+		return ((int)a);
+	else
+		return ((int)a + 1);
+}
+
 static int	render_choices(t_command_line *command_line, int to_go_up)
 {
 	t_dlist	*ptr;
 	t_file	*file;
 	int     first;
 	int		max_len;
-	int		nb_cols;
-	int		nb_lines;
 	int		i;
 	int		j;
 
 	(void)to_go_up;
 	max_len = sh_get_max_file_len(command_line->autocompletion.choices);
-	nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING)
-				/ (max_len + AC_PADDING));
-	nb_lines = ft_dlstlength(command_line->autocompletion.choices) / nb_cols;
-	if (nb_lines + 1 + 1 > g_glob.winsize.ws_row) //replace 1 by nbrows of commandline
+	command_line->autocompletion.nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));
+	command_line->autocompletion.nb_lines = ft_max(1, ft_round((double)ft_dlstlength(command_line->autocompletion.choices) / (double)command_line->autocompletion.nb_cols));
+	if (command_line->autocompletion.nb_lines + 1 + 1 > g_glob.winsize.ws_row) //replace 1 by nbrows of commandline
 	{
-		render_choices_partial(command_line, max_len, nb_lines);
+		render_choices_partial(command_line, max_len);
 	}
 	else
 	{
-		//	ft_printf("%d cols, %d lines \n", nb_cols,  nb_lines);
 		ptr = command_line->autocompletion.choices;
 		first = 1;
 		i = 0;
@@ -117,11 +128,13 @@ static int	render_choices(t_command_line *command_line, int to_go_up)
 					&& ptr != NULL) || (first && ptr != NULL))
 		{
 			file = (t_file *)ptr->content;
+			file->y = i;
+			file->x = j;
 			render_file(command_line, file, max_len, j);
 			//	ft_printf("%s\n", file->name);
 			ptr = ptr->next;
 			first = 0;
-			if (i++ == nb_lines)
+			if (++i == command_line->autocompletion.nb_lines)
 			{
 				go_up_left(i);
 				i = 0;

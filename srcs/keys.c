@@ -80,14 +80,40 @@ void	process_keys(t_shell *shell, t_command_line *command_line,
 	}
 }
 
+int		substitute_current_index(t_command_line *command_line, t_file *file)
+{
+	t_word word;
+	char *to_replace;
+
+	populate_word_by_index(command_line->dy_str->str, command_line->current_index, &word);
+	if (!(to_replace = get_completion_str_file(file)))
+		return (ft_perror(SH_ERR1_MALLOC, "substitute_current_index"));
+	if (process_substitute_command(command_line, to_replace, word))
+	{
+		free(to_replace);
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 			unsigned char *buffer)
 {
 	if (buffer[0] == 10) // enter
 	{
-		get_down_from_command(command_line);
-		command_line->dy_str->current_size = 0;
-		return (0);
+		if (command_line->autocompletion.head == NULL)
+		{
+			get_down_from_command(command_line);
+			command_line->dy_str->current_size = 0;
+			return (0);
+		}
+		else
+		{
+			substitute_current_index(command_line, command_line->autocompletion.head->content);
+			command_line->autocompletion.head = NULL;
+			command_line->autocompletion.active = 0;
+			render_command_line(command_line, 0);
+		}
 	}
 	else if (buffer[0] == 4) //ctrl D
 	{
@@ -112,7 +138,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-		if (buffer[0] != 9 && (buffer[0] != 27 || buffer[1] != 91 || (buffer[2] < 65 || buffer[2] > 68)))
+		if (buffer[0] != 10 && buffer[0] != 9 && (buffer[0] != 27 || buffer[1] != 91 || (buffer[2] < 65 || buffer[2] > 68)))
 		{
 //			shell->historic.head = &shell->historic.head_start;
 			command_line->autocompletion.head = NULL;

@@ -33,18 +33,21 @@ char	*get_first_word(char *str)
 		return (ft_strndup(&(str[start]), i - start));
 }
 
+char	*get_completion_str_file(t_file *file)
+{
+	if (!file->unstatable && S_ISDIR(file->st.st_mode))
+		return (ft_strjoin(file->fullname, "/"));
+	else
+		return (ft_strjoin(file->fullname, " "));
+}
+
 char	*get_completion_str(t_command_line *command_line)
 {
 	t_file *file;
 
 	file = (t_file *)command_line->autocompletion.choices->content;
 	if (ft_dlstlength(command_line->autocompletion.choices) == 1)
-	{
-		if (!file->unstatable && S_ISDIR(file->st.st_mode))
-			return (ft_strjoin(file->fullname, "/"));
-		else
-			return (ft_strjoin(file->fullname, " "));
-	}
+		return (get_completion_str_file(file));
 	else
 		return (ft_strndup(file->fullname,
 			command_line->autocompletion.choices_common_len));
