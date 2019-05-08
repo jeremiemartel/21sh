@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/08 12:35:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/08 13:49:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define LEX_CONTINUE	FAILURE + SUCCESS + 1
 # define LEX_OK			SUCCESS
 
-typedef struct s_shell	t_shell;
+typedef struct s_shell		t_shell;
 typedef struct s_expansion	t_expansion;
 
 typedef struct		s_lexer
