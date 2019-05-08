@@ -18,7 +18,7 @@ static void	update_command_line(t_command_line *command_line)
 	command_line->nb_chars = ft_strlen_utf8(command_line->dy_str->str);
 }
 
-int		process_down(t_shell *shell, t_command_line *command_line)
+int		process_historic_down(t_shell *shell, t_command_line *command_line)
 {
 	char *str;
 
@@ -47,7 +47,7 @@ int		process_down(t_shell *shell, t_command_line *command_line)
 	return (SUCCESS);
 }
 
-int		process_up(t_shell *shell, t_command_line *command_line)
+int		process_historic_up(t_shell *shell, t_command_line *command_line)
 {
 	char *str;
 

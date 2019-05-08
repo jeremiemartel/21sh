@@ -88,4 +88,14 @@ int     populate_choices_from_word(t_command_line *command_line,
 */
 int		add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
 			char *prefix);
+
+/*
+** arrows.c
+*/
+
+int		process_autocompletion_down(t_command_line *command_line);
+int		process_autocompletion_up(t_command_line *command_line);
+int		process_autocompletion_left(t_command_line *command_line);
+int		process_autocompletion_right(t_command_line *command_line);
+
 #endif

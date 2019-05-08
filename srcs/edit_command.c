@@ -66,7 +66,7 @@ void	process_suppr(t_command_line *command_line)
 	}
 }
 
-void	process_left(t_command_line *command_line)
+void	process_edit_command_left(t_command_line *command_line)
 {
 	if (command_line->current_index > 0)
 	{
@@ -77,7 +77,7 @@ void	process_left(t_command_line *command_line)
 		ring_bell();
 }
 
-void	process_right(t_command_line *command_line)
+void	process_edit_command_right(t_command_line *command_line)
 {
 	if (command_line->current_index < (int)command_line->dy_str->current_size)
 	{

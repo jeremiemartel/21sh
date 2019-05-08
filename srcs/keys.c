@@ -28,9 +28,9 @@ int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
 		unsigned char buffer[READ_BUFF_SIZE])
 {
 	if (buffer[1] == 91 && buffer[2] == 67)
-		process_right(command_line);
+		process_right(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 68)
-		process_left(command_line);
+		process_left(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 65)
 		process_up(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 66)
@@ -112,10 +112,10 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-		if (buffer[0] != 9)
+		if (buffer[0] != 9 && (buffer[0] != 27 || buffer[1] != 91 || (buffer[2] < 65 || buffer[2] > 68)))
 		{
 //			shell->historic.head = &shell->historic.head_start;
-//			command_line->autocompletion.head = NULL;
+			command_line->autocompletion.head = NULL;
 			command_line->autocompletion.active = 0;
 		}
 //		print_buffer(buffer);

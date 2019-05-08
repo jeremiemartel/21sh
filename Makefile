@@ -74,7 +74,8 @@ SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
 						get_command.c utf8_tools.c process_shift.c\
 						execute.c execute_tools.c process_execute.c tools.c\
-						traverse.c process_historic.c render_command_line.c
+						traverse.c process_historic.c render_command_line.c\
+						arrows.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -118,7 +119,7 @@ PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 
 AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						populate_choices.c populate_word_by_index.c \
-						preprocess_choice_add.c
+						preprocess_choice_add.c arrows.c
 
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h\
 					  sh_autocompletion.h

@@ -198,8 +198,8 @@ int			sh_get_command(t_shell *shell, t_command_line *command_line);
 /*
 ** edit_command.c
 */
-void    process_left(t_command_line *command_line);
-void    process_right(t_command_line *command_line);
+void    process_edit_command_left(t_command_line *command_line);
+void    process_edit_command_right(t_command_line *command_line);
 
 void	process_suppr(t_command_line *command_line);
 void	process_delete(t_command_line *command_line);
@@ -254,8 +254,11 @@ int		execute_command_no_path(t_context *context);
 */
 int		check_execute(char *full_path, char *command_name);
 
-int		process_up(t_shell *shell, t_command_line *command_line);
-int		process_down(t_shell *shell, t_command_line *command_line);
+/*
+** process_historic.c
+*/
+int		process_historic_up(t_shell *shell, t_command_line *command_line);
+int		process_historic_down(t_shell *shell, t_command_line *command_line);
 /*
 ** tools.c
 */
@@ -274,6 +277,14 @@ void	free_file_dlst(void *f, size_t dummy);
 */
 int		process_shift_right(t_command_line *command_line);
 int		process_shift_left(t_command_line *command_line);
+
+/*
+** arrows.c
+*/
+int		process_down(t_shell *shell, t_command_line *command_line);
+int		process_up(t_shell *shell, t_command_line *command_line);
+int		process_left(t_shell *shell, t_command_line *command_line);
+int		process_right(t_shell *shell, t_command_line *command_line);
 
 void	free_file(t_file *file);
 #endif
