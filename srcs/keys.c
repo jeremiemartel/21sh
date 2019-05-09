@@ -138,7 +138,9 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-		if (buffer[0] != 10 && buffer[0] != 9 && (buffer[0] != 27 || buffer[1] != 91 || (buffer[2] < 65 || buffer[2] > 68)))
+		if (buffer[0] != 10 && buffer[0] != 9
+			&& (buffer[0] != 27 || buffer[1] != 91
+			|| (buffer[2] < 65 || buffer[2] > 68))) //if no autocompletion relative keys
 		{
 //			shell->historic.head = &shell->historic.head_start;
 			command_line->autocompletion.head = NULL;
