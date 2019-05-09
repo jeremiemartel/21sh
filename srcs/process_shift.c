@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:27:24 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 16:54:02 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/09 16:05:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		process_shift_right(t_command_line *command_line)
 	}
 	render_command_line(command_line, index - command_line->current_index - 1);
 	command_line->current_index = index - 1;
-	return (0);
+	return (SUCCESS);
 }
 
 int		process_shift_left(t_command_line *command_line)
@@ -69,5 +69,49 @@ int		process_shift_left(t_command_line *command_line)
 	}
 	render_command_line(command_line, - (command_line->current_index - index)); //olala
 	command_line->current_index = index;
-	return (0);
+	return (SUCCESS);
+}
+
+int		process_shift_up(t_command_line *command_line)
+{
+	int		cursor;
+	t_xy	xy;
+	t_xy	xy_iter;
+
+	cursor = g_glob.cursor;
+	xy = get_position(get_true_cursor_pos(g_glob.cursor));
+	while (command_line->current_index > 0)
+	{
+		command_line->current_index = get_left_w_char_index(command_line);
+		xy_iter = get_position(get_true_cursor_pos(--cursor));
+		if (xy_iter.x == xy.x && xy_iter.y == xy.y - 1)
+		{
+			render_command_line(command_line, cursor - g_glob.cursor);
+			return (SUCCESS);
+		}
+	}
+	render_command_line(command_line, cursor - g_glob.cursor);
+	return (SUCCESS);
+}
+
+int		process_shift_down(t_command_line *command_line)
+{
+	int		cursor;
+	t_xy	xy;
+	t_xy	xy_iter;
+
+	cursor = g_glob.cursor;
+	xy = get_position(get_true_cursor_pos(g_glob.cursor));
+	while (command_line->current_index < (int)command_line->dy_str->current_size)
+	{
+		command_line->current_index = get_right_w_char_index(command_line);
+		xy_iter = get_position(get_true_cursor_pos(++cursor));
+		if (xy_iter.x == xy.x && xy_iter.y == xy.y + 1)
+		{
+			render_command_line(command_line, cursor - g_glob.cursor);
+			return (SUCCESS);
+		}
+	}
+	render_command_line(command_line, cursor - g_glob.cursor);
+	return (SUCCESS);
 }

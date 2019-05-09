@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/06 18:57:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/09 17:33:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ int		sh_init_command_line(t_command_line *command_line)
 	command_line->autocompletion.head = NULL;
 	command_line->autocompletion.active = 0;
 	command_line->autocompletion.scrolled_lines = 0;
+	command_line->pinned_index = -1;
+	command_line->mode = E_MODE_INSERT;
+	if (!(command_line->prompt = ft_strdup(PROMPT)))
+		return (FAILURE);
+	command_line->clipboard = NULL;
 	if (!(command_line->dy_str = ft_dy_str_new(63)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_init_command_line"));
 	return (SUCCESS);

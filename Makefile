@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/04/22 15:01:53 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/09 15:54:48 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ SRCS_NO_PREFIX =		main.c index.c ft_perror.c env.c set_env.c init.c \
 						get_command.c utf8_tools.c process_shift.c\
 						execute.c execute_tools.c process_execute.c tools.c\
 						traverse.c process_historic.c render_command_line.c\
-						arrows.c
+						arrows.c home_end.c command_line.c xy.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\

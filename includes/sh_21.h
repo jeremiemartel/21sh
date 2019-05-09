@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 16:42:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/09 17:27:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@
 #define PIPE_OUT	0
 
 # define PROMPT			"$21_sh(to_rework)> "
+# define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
+# define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
 # define HISTORIC_FILE	".historic"
 # define READ_BUFF_SIZE	4
 # define CWD_LEN		1000
@@ -105,6 +107,13 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
+typedef enum		e_mode
+{
+	E_MODE_INSERT,
+	E_MODE_VISUAL,
+	E_MODE_COMMAND
+}					t_mode;
+
 typedef struct		s_command_line
 {
 	char			*prompt;
@@ -112,6 +121,9 @@ typedef struct		s_command_line
 	int				nb_chars;
 	int				current_index;
 	t_auto_complete autocompletion;
+	t_mode			mode;
+	char			*clipboard;
+	int				pinned_index;
 }					t_command_line;
 
 typedef struct		s_historic
@@ -132,6 +144,12 @@ typedef struct		s_shell
 	char			running;
 	struct termios	term;
 }					t_shell;
+
+typedef struct		s_xy
+{
+	int				x;
+	int				y;
+}					t_xy;
 
 typedef struct      s_glob
 {
@@ -207,7 +225,7 @@ void	process_delete(t_command_line *command_line);
 /*
 ** cursor_motion.c
 */
-
+int		get_true_cursor_pos(int cursor);
 int		get_down_from_command(t_command_line *command_line);
 int		process_clear(t_command_line *command_line);
 int		go_up_to_prompt(int width, int cursor);
@@ -277,6 +295,8 @@ void	free_file_dlst(void *f, size_t dummy);
 */
 int		process_shift_right(t_command_line *command_line);
 int		process_shift_left(t_command_line *command_line);
+int		process_shift_up(t_command_line *command_line);
+int		process_shift_down(t_command_line *command_line);
 
 /*
 ** arrows.c
@@ -285,6 +305,24 @@ int		process_down(t_shell *shell, t_command_line *command_line);
 int		process_up(t_shell *shell, t_command_line *command_line);
 int		process_left(t_shell *shell, t_command_line *command_line);
 int		process_right(t_shell *shell, t_command_line *command_line);
+
+/*
+** home_end.c
+*/
+int		process_start(t_command_line *command_line);
+int		process_end(t_command_line *command_line);
+
+/*
+** command_line.c
+*/
+int		substitute_current_index(t_command_line *command_line, t_file *file);
+void	flush_command_line(t_command_line *command_line);
+
+/*
+** xy.c
+*/
+t_xy	get_position(int cursor);
+int		xy_is_equal(t_xy xy1, t_xy xy2);
 
 void	free_file(t_file *file);
 #endif

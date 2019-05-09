@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:40:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/06 18:36:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/09 18:32:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,31 @@ static int	render_choices(t_command_line *command_line, int to_go_up)
 	return (0);
 }
 
+void	render_command_visual(t_command_line *command_line)
+{
+	int		min;
+	int		max;
+	char	*str;
+
+	str = tgetstr("mr", NULL);
+	if (command_line->pinned_index < command_line->current_index)
+	{
+		min = command_line->pinned_index;
+		max = command_line->current_index;
+	}
+	else
+	{
+		max = command_line->pinned_index;
+		min = command_line->current_index;
+	}
+	ft_putnstr_fd(command_line->dy_str->str, min, 0);
+	tputs(str, 1, putchar_int);
+	ft_putnstr_fd(&command_line->dy_str->str[min], max - min, 0);
+	str = tgetstr("me", NULL);
+	tputs(str, 1, putchar_int);
+	ft_dprintf(0, "%s", &command_line->dy_str->str[max]);
+}
+
 /*
 ** cursor_inc: tells the cursor movement to execute within the render of the
 ** command_line
@@ -160,7 +185,10 @@ int		render_command_line(t_command_line *command_line, int cursor_inc)
 	str = tgetstr("cd", NULL);
 	tputs(str, 1, putchar_int);
 	ft_dprintf(0, "%s%s%s%s", BOLD, CYAN, g_glob.command_line.prompt, EOC);
-	ft_dprintf(0, "%s", command_line->dy_str->str);
+	if (command_line->mode == E_MODE_VISUAL)
+		render_command_visual(command_line);
+	else
+		ft_dprintf(0, "%s", command_line->dy_str->str);
 	g_glob.cursor += cursor_inc;
 	replace_cursor_after_render();
 	if (command_line->autocompletion.active)

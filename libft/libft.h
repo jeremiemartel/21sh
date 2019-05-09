@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/14 15:15:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/09 18:06:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void				ft_putnbr_fd(int n, int fd);
 void				ft_putcharn(char c);
 void				ft_putstrn(char *str);
 void				ft_putnbrn(int nb);
+void				ft_putnstr_fd(char const *s, int n, int fd);
 
 /*
 ********************************** str  ***************************************
