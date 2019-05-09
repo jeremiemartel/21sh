@@ -54,7 +54,43 @@ int		substitute_current_index(t_command_line *command_line, t_file *file)
 
 int		paste_current_index(t_command_line *command_line, char *to_paste)
 {
-	(void)command_line;
-	(void)to_paste;
-	return (0);
+	int utf8_len;
+	int len;
+
+	if (!to_paste)
+		return (SUCCESS);
+	len = ft_strlen(to_paste);
+	utf8_len = ft_strlen_utf8(to_paste);
+	if (ft_substitute_dy_str(command_line->dy_str, to_paste, command_line->current_index, 0))
+		return (ft_perror(SH_ERR1_MALLOC, "paste_current_index"));
+	command_line->current_index += len;
+	command_line->nb_chars += utf8_len;
+	render_command_line(command_line, utf8_len);
+	return (SUCCESS);
+}
+
+int		delete_command_line_selection(t_command_line *command_line)
+{
+	int min;
+	int max;
+	int len;
+	int utf8_len;
+
+	populate_min_max_selection(command_line, &min, &max);
+	if (max == (int)command_line->dy_str->current_size)
+		len = max - min;
+	else
+		len = max - min + 1;
+	utf8_len = ft_strnlen_utf8(&command_line->dy_str->str[min], len);
+	if (ft_substitute_dy_str(command_line->dy_str, "", min, len))
+		return (ft_perror(SH_ERR1_MALLOC, "delete_command_line_selection"));
+	command_line->nb_chars -= utf8_len;
+	if (command_line->current_index == min)
+		render_command_line(command_line, 0);
+	else
+	{
+		command_line->current_index -= len;
+		render_command_line(command_line, - utf8_len);
+	}
+	return (SUCCESS);
 }

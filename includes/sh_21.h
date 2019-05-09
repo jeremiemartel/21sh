@@ -319,6 +319,10 @@ int		substitute_current_index(t_command_line *command_line, t_file *file);
 void	flush_command_line(t_command_line *command_line);
 int		process_substitute_command(t_command_line *command_line,
 			char *str, t_word word);
+int		paste_current_index(t_command_line *command_line, char *to_paste);
+int		delete_command_line_selection(t_command_line *command_line);
+void	populate_min_max_selection(t_command_line *command_line,
+		int *min, int *max);
 /*
 ** xy.c
 */

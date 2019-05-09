@@ -129,10 +129,8 @@ int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
 	char *new_prompt;
 
 	if (buffer[0] == 'p')
-	{
-
-	}
-	if (buffer[0] == 'i')
+		return (paste_current_index(command_line, command_line->clipboard));
+	else if (buffer[0] == 'i')
 	{
 		if (!(new_prompt = ft_strdup(PROMPT)))
 			return (ft_perror(SH_ERR1_MALLOC, "process_i"));
@@ -155,7 +153,7 @@ int		copy_selection_to_clipboard(t_command_line *command_line)
 	int n;
 	int index;
 
-	n = ft_abs(command_line->current_index - command_line->pinned_index);
+	n = ft_abs(command_line->current_index - command_line->pinned_index) + 1;
 	index = ft_min(command_line->current_index, command_line->pinned_index);
 	if (!(command_line->clipboard = ft_strndup(&command_line->dy_str->str[index], n)))
 		return (ft_perror(SH_ERR1_MALLOC, "copy_selection_to_clipboard"));
@@ -184,7 +182,7 @@ int		process_keys_visual(unsigned char buffer[READ_BUFF_SIZE],
 			return (ft_perror(SH_ERR1_MALLOC, "process_keys_visual"));
 		command_line->mode = E_MODE_COMMAND;
 		switch_prompt(command_line, new_prompt);
-		//delete 
+		delete_command_line_selection(command_line);
 	}
 	return (SUCCESS);
 }

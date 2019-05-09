@@ -146,6 +146,20 @@ static int	render_choices(t_command_line *command_line, int to_go_up)
 	return (0);
 }
 
+void	populate_min_max_selection(t_command_line *command_line, int *min, int *max)
+{
+	if (command_line->pinned_index < command_line->current_index)
+	{
+		*min = command_line->pinned_index;
+		*max = command_line->current_index;
+	}
+	else
+	{
+		*max = command_line->pinned_index;
+		*min = command_line->current_index;
+	}
+}
+
 void	render_command_visual(t_command_line *command_line)
 {
 	int		min;
@@ -153,16 +167,7 @@ void	render_command_visual(t_command_line *command_line)
 	char	*str;
 
 	str = tgetstr("mr", NULL);
-	if (command_line->pinned_index < command_line->current_index)
-	{
-		min = command_line->pinned_index;
-		max = command_line->current_index;
-	}
-	else
-	{
-		max = command_line->pinned_index;
-		min = command_line->current_index;
-	}
+	populate_min_max_selection(command_line, &min, &max);
 	ft_putnstr_fd(command_line->dy_str->str, min, 0);
 	tputs(str, 1, putchar_int);
 	ft_putnstr_fd(&command_line->dy_str->str[min], max - min, 0);
