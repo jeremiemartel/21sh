@@ -317,7 +317,8 @@ int		process_end(t_command_line *command_line);
 */
 int		substitute_current_index(t_command_line *command_line, t_file *file);
 void	flush_command_line(t_command_line *command_line);
-
+int		process_substitute_command(t_command_line *command_line,
+			char *str, t_word word);
 /*
 ** xy.c
 */

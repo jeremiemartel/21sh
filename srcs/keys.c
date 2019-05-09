@@ -53,10 +53,6 @@ int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
 		process_right(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 68)
 		process_left(shell, command_line);
-	else if (buffer[1] == 91 && buffer[2] == 65)
-		process_up(shell, command_line);
-	else if (buffer[1] == 91 && buffer[2] == 66)
-		process_down(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 51)
 		process_suppr(command_line);
 	else if (buffer[1] == 91 && buffer[2] == 72)
@@ -90,14 +86,7 @@ int		process_keys(t_shell *shell, t_command_line *command_line,
 		process_delete(command_line);
 	else if (buffer[0] == 50)
 		process_shift(command_line, buffer);
-	else if (buffer[0] == 3)
-	{
-		command_line->autocompletion.head = NULL;
-		command_line->autocompletion.active = 0;
-		get_down_from_command(command_line);
-		reset_command_line(shell, command_line);
-		render_command_line(command_line, 0);
-	}
+	
 	return (SUCCESS);
 }
 
@@ -139,6 +128,10 @@ int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
 {
 	char *new_prompt;
 
+	if (buffer[0] == 'p')
+	{
+
+	}
 	if (buffer[0] == 'i')
 	{
 		if (!(new_prompt = ft_strdup(PROMPT)))
@@ -157,18 +150,41 @@ int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
 	return (SUCCESS);
 }
 
+int		copy_selection_to_clipboard(t_command_line *command_line)
+{
+	int n;
+	int index;
+
+	n = ft_abs(command_line->current_index - command_line->pinned_index);
+	index = ft_min(command_line->current_index, command_line->pinned_index);
+	if (!(command_line->clipboard = ft_strndup(&command_line->dy_str->str[index], n)))
+		return (ft_perror(SH_ERR1_MALLOC, "copy_selection_to_clipboard"));
+	return (SUCCESS);
+}
+
 int		process_keys_visual(unsigned char buffer[READ_BUFF_SIZE],
 			t_command_line *command_line)
 {
-	(void)buffer;
-	(void)command_line;
+	char *new_prompt;
 
-	if (buffer[0] == 'p')
+	if (buffer[0] == 'y')
 	{
-		
+		if (copy_selection_to_clipboard(command_line) != SUCCESS)
+			return (FAILURE);
+		if (!(new_prompt = ft_strdup(COMMAND_PROMPT)))
+			return (ft_perror(SH_ERR1_MALLOC, "process_keys_visual"));
+		command_line->mode = E_MODE_COMMAND;
+		switch_prompt(command_line, new_prompt);
 	}
 	else if (buffer[0] == 'd')
 	{
+		if (copy_selection_to_clipboard(command_line) != SUCCESS)
+			return (FAILURE);
+		if (!(new_prompt = ft_strdup(COMMAND_PROMPT)))
+			return (ft_perror(SH_ERR1_MALLOC, "process_keys_visual"));
+		command_line->mode = E_MODE_COMMAND;
+		switch_prompt(command_line, new_prompt);
+		//delete 
 	}
 	return (SUCCESS);
 }
@@ -202,6 +218,18 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 			return (1);
 		render_command_line(command_line, 1);
 	}
+	else if (buffer[0] == 3)
+	{
+		command_line->autocompletion.head = NULL;
+		command_line->autocompletion.active = 0;
+		get_down_from_command(command_line);
+		reset_command_line(shell, command_line);
+		render_command_line(command_line, 0);
+	}
+	else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 65)
+		process_up(shell, command_line);
+	else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 66)
+		process_down(shell, command_line);
 	ret = process_keys_ret(shell, command_line, buffer);
 	if (ret == CTRL_D || ret == 0 || ret == FAILURE)
 		return (ret);
