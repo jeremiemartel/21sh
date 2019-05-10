@@ -124,6 +124,7 @@ typedef struct		s_command_line
 	t_mode			mode;
 	char			*clipboard;
 	int				pinned_index;
+	int				last_char_input;
 }					t_command_line;
 
 typedef struct		s_historic

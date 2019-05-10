@@ -101,6 +101,7 @@ int		sh_init_command_line(t_command_line *command_line)
 	command_line->autocompletion.active = 0;
 	command_line->autocompletion.scrolled_lines = 0;
 	command_line->pinned_index = -1;
+	command_line->last_char_input = -1;
 	command_line->mode = E_MODE_INSERT;
 	if (!(command_line->prompt = ft_strdup(PROMPT)))
 		return (FAILURE);

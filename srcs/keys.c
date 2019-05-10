@@ -123,28 +123,56 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 	return (4);
 }
 
-int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
-			t_command_line *command_line)
+int command_line_copy_all(t_command_line *command_line)
+{
+	if (command_line->clipboard != NULL)
+		free(command_line->clipboard);
+	if (!(command_line->clipboard = ft_strdup(command_line->dy_str->str)))
+		return (ft_perror(SH_ERR1_MALLOC, "command_line_copy_all"));
+	return (SUCCESS);
+}
+
+int		process_i(t_command_line *command_line)
 {
 	char *new_prompt;
 
+	if (!(new_prompt = ft_strdup(PROMPT)))
+		return (ft_perror(SH_ERR1_MALLOC, "process_i"));
+	switch_prompt(command_line, new_prompt);
+	command_line->mode = E_MODE_INSERT;
+	return (SUCCESS);
+}
+
+int		process_v(t_command_line *command_line)
+{
+	char *new_prompt;
+
+	if (!(new_prompt = ft_strdup(VISUAL_PROMPT)))
+		return (ft_perror(SH_ERR1_MALLOC, "process_v"));
+	switch_prompt(command_line, new_prompt);
+	command_line->mode = E_MODE_VISUAL;
+	command_line->pinned_index = command_line->current_index;
+	return (SUCCESS);
+}
+
+int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
+			t_command_line *command_line)
+{
 	if (buffer[0] == 'p')
 		return (paste_current_index(command_line, command_line->clipboard));
 	else if (buffer[0] == 'i')
-	{
-		if (!(new_prompt = ft_strdup(PROMPT)))
-			return (ft_perror(SH_ERR1_MALLOC, "process_i"));
-		switch_prompt(command_line, new_prompt);
-		command_line->mode = E_MODE_INSERT;
-	}
+		return (process_i(command_line));
 	else if (buffer[0] == 'v')
+		return (process_v(command_line));
+	else if (buffer[0] == 'd' && command_line->last_char_input == 'd' && command_line->dy_str->current_size)
 	{
-		if (!(new_prompt = ft_strdup(VISUAL_PROMPT)))
-			return (ft_perror(SH_ERR1_MALLOC, "process_v"));
-		switch_prompt(command_line, new_prompt);
-		command_line->mode = E_MODE_VISUAL;
-		command_line->pinned_index = command_line->current_index;
+		if (command_line_copy_all(command_line) != SUCCESS)
+			return (FAILURE);
+		flush_command_line(command_line);
+		render_command_line(command_line, - g_glob.cursor);
 	}
+	else if (buffer[0] == 'y' && command_line->last_char_input == 'y')
+		return (command_line_copy_all(command_line));
 	return (SUCCESS);
 }
 
@@ -255,6 +283,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		}
 		else if (process_keys_others(buffer, command_line) != SUCCESS)
 			return (FAILURE);
+		command_line->last_char_input = buffer[0];
 		ft_bzero(buffer, READ_BUFF_SIZE);
 	}
 	return (SUCCESS);
