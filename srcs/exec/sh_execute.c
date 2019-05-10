@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 15:14:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 18:09:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ int		sh_execute_command_no_path(t_context *context)
 {
 	char	cwd[CWD_LEN];
 	char	*full_path;
-	int		ret;
 
 	if (((char **)context->params->tbl)[0][0] == '/')
-		return (sh_process_execute(context->params->tbl[0], context));
+		return (SUCCESS);//sh_process_execute(context->params->tbl[0], context));
 	else
 	{
 		if (getcwd(cwd, CWD_LEN) == NULL)
@@ -38,9 +37,9 @@ int		sh_execute_command_no_path(t_context *context)
 			free(full_path);
 			return (FAILURE);
 		}
-		ret = sh_process_execute(full_path, context);
-		free(full_path);
-		return (ret);
+		free(context->params->tbl[0]);
+		context->params->tbl[0] = full_path;
+		return (SUCCESS);
 	}
 }
 
@@ -50,17 +49,20 @@ int		sh_execute_command_no_path(t_context *context)
 **	Look for the command path, using the PATH env variable, if command is found
 **	it process it
 **	return Values:
-**		-2 : command was not found
-**		else : command returned value
+**		0 found
+**		1 not found
+**		2 error
 */
-int		sh_execute_command_path(t_context *context, char *path_str)
+int		sh_execute_command_path(t_context *context)
 {
 	char	**path_split;
 	int		i;
 	char	*full_path;
-	int		ret;
+	char	*path_str;
 
-	ret = SUCCESS;
+	path_str = get_env_value((char **)context->env->tbl, "PATH");
+	if(!path_str || !*path_str)
+		return (1);
 	if (!(path_split = ft_strsplit(path_str, ':')))
 		return (FAILURE);
 	i = 0;
@@ -76,10 +78,10 @@ int		sh_execute_command_path(t_context *context, char *path_str)
 				free(full_path);
 				return (FAILURE);
 			}
-			ret = sh_process_execute(full_path, context);
-			free(full_path);
+			free(context->params->tbl[0]);
+			context->params->tbl[0] = full_path;
 			ft_strtab_free(path_split);
-			return (ret);
+			return (SUCCESS);
 		}
 		i++;
 	}
@@ -87,32 +89,34 @@ int		sh_execute_command_path(t_context *context, char *path_str)
 	return (-2);
 }
 
-t_builtin	*sh_execute_find_builtin(t_context *context)
+int			sh_execute_find_builtin(t_context *context)
 {
-	t_list	*head;
-
-	head = context->builtins;
-	while(head)
+	if (!ft_strcmp(context->params->tbl[0], "echo"))
 	{
-		if (ft_strcmp(((t_builtin*)head->content)->name, context->params->tbl[0]) == 0)
-			return (head->content);
-		head = head->next;
+		context->builtin = &sh_builtin_echo;
+		return (SUCCESS);
 	}
-	return (NULL);
+	return (FAILURE);
 }
 
 int		sh_execute_command(t_context *context)
 {
 	int			ret;
-	char		*path_str;
-	t_builtin	*builtin;
 
-	if ((builtin = sh_execute_find_builtin(context)))
-		return (builtin->builtin(context->params, context->env));
-	if ((path_str = get_env_value((char **)context->env->tbl, "PATH")))
+	if (sh_execute_find_builtin(context) == FAILURE)
 	{
-		if ((ret = sh_execute_command_path(context, path_str)) != -2)
-			return (ret);
+		if ((ret = sh_execute_command_path(context)))
+		{
+			if (ret == 2)
+				return (FAILURE);
+			else
+			{
+				if (sh_execute_command_no_path(context) == FAILURE)
+					return (FAILURE);
+			}
+		}
 	}
-	return (sh_execute_command_no_path(context));
+	ft_printf("%s\n", context->params->tbl[0]);
+	sh_process_execute(context);
+	return (SUCCESS);
 }

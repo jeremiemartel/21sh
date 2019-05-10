@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_21.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 12:38:46 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 18:07:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,19 +271,6 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 int		process_keys_others(unsigned char buffer[READ_BUFF_SIZE],
 			t_command_line *command_line);
 
-/*
-** process_execute.c
-*/
-void	transmit_sig(int signal);
-void	transmit_sig_and_die(int signal);
-int		sh_process_execute(char *path, t_context *context);
-
-/*
-** execute.c
-*/
-int		sh_execute_command(t_context *context);
-int		sh_execute_command_path(t_context *context, char *path_str);
-int		sh_execute_command_no_path(t_context *context);
 /*
 ** execute_tools.c
 */

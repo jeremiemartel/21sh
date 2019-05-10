@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_process_execute.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 13:23:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 18:38:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	sh_process_execute_close_pipes(t_context *context)
 	return (SUCCESS);
 }
 
-int		sh_process_execute(char *path, t_context *context)
+int		sh_process_execute(t_context *context)
 {
 	int		res;
 
@@ -95,43 +95,12 @@ int		sh_process_execute(char *path, t_context *context)
 	if (g_parent == 0)
 	{
 		sh_process_execute_dup_pipes(context);
-		if (execve(path, (char **)context->params->tbl,
-				(char **)context->env->tbl) == -1)
-		{
-	//		free_all(shell);
-			// exit(1);
-			exit(ft_perror(SH_ERR1_CMD_NOT_FOUND, *context->params->tbl));
-		}
-	}
-	else
-	{
-		wait(&res);
-		sh_env_update_question_mark(context, res);
-		ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
-		g_parent = 0;
-		sh_process_execute_close_pipes(context);
-		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
-			return (ft_perror("Could not modify this terminal attributes",
-				"sh_init_terminal"));
-	}
-	return (0);
-}
-
-int		sh_process_execute_builtin(t_builtin *builtin, t_context *context)
-{
-	int		res;
-
-	if (sh_reset_shell(0) == -1)
-	{
-		sh_process_execute_close_pipes(context);
-		return (FAILURE);
-	}
-	if ((g_parent = fork()) == -1)
-		return (FAILURE);
-	if (g_parent == 0)
-	{
-		sh_process_execute_dup_pipes(context);
-		exit(builtin->builtin(context->params, context->env));
+		if (context->builtin)
+			exit(context->builtin(context));
+		if (execve(context->params->tbl[0], (char **)context->params->tbl, (char **)context->env->tbl) == -1)
+//		free_all(shell);
+		// exit(1);
+		exit(ft_perror(SH_ERR1_CMD_NOT_FOUND, *context->params->tbl));
 	}
 	else
 	{

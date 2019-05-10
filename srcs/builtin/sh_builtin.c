@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:49:01 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 12:42:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 17:51:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ t_list		*sh_builtin_init_list(void)
 	if (sh_builtin_init_add_link(&start, "exit", &sh_builtin_exit) == FAILURE)
 		return (NULL);
 	if (sh_builtin_init_add_link(&start, "pwd", &sh_builtin_pwd) == FAILURE)
-		return (NULL);
-	if (sh_builtin_init_add_link(&start, "echo", &sh_builtin_echo) == FAILURE)
 		return (NULL);
 	
 	// ft_lstadd_last(&start, ft_lstnew(t_built_new("exit", &ms_builtin_exit), sizeof(t_bin)));

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:43:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 12:52:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 18:56:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define DEBUG_BUFFER	50
 
 typedef struct		s_ast_node	t_ast_node;
+typedef struct		s_context	t_context;
 
 typedef struct		s_context
 {
@@ -28,7 +29,7 @@ typedef struct		s_context
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
 	t_dy_tab		*params; //argv
-	t_list			*builtins;
+	int				(*builtin)(t_context *context);
 	int				father_id;
 	int				fd[3];
 	int				pipe[2];
