@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dy_str_new_from.c                               :+:      :+:    :+:   */
+/*   ft_dy_str_new_ptr.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/14 15:10:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 15:10:36 by ldedier          ###   ########.fr       */
+/*   Created: 2019/05/10 12:39:25 by jmartel           #+#    #+#             */
+/*   Updated: 2019/05/10 12:42:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_dy_str	*ft_dy_str_new_from(char *str)
+t_dy_str	*ft_dy_str_new_ptr(char *ptr)
 {
 	t_dy_str *res;
-	int len;
+	int		len;
 
-	len = ft_strlen(str);
-	if (!(res = ft_dy_str_new(len)))
+	len = ft_strlen(ptr);
+	if (!(res = ft_dy_str_new(0)))
 		return (NULL);
-	ft_memcpy(res->str, str, len);
+	res->str = ptr;
 	res->current_size = len;
+	res->max_size = len;
 	return (res);
 }

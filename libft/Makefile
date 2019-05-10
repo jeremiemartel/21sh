@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/04/14 15:12:32 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/10 12:43:33 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_split_whitespaces.c ./str/ft_strrep_free.c \
 			./str/ft_strpbrk.c ./str/ft_strnrest.c ./str/ft_strjoin_3.c \
 			./str/ft_strichr.c ./str/ft_strichr_last.c \
-			./str/ft_isseparator.c
+			./str/ft_isseparator.c ./str/ft_chpbrk.c
 
 SRCS	+=	./str/ft_strtab_free.c ./str/ft_strtab_put.c \
 			./str/ft_strtab_len.c ./str/ft_strtab_new_line.c \
@@ -108,7 +108,8 @@ SRCS	+=	./dystr/ft_dy_str_new.c \
 			./dystr/ft_dy_str_realloc.c \
 			./dystr/ft_dy_str_suppr_index.c \
 			./dystr/ft_dy_str_free.c \
-			./dystr/ft_dy_str_new_from.c \
+			./dystr/ft_dy_str_new_str.c \
+			./dystr/ft_dy_str_new_ptr.c \
 			./dystr/ft_dy_str_cpy_str.c \
 			./dystr/ft_substitute_dy_str.c
 

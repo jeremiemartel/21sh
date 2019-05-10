@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dy_str_new.c                                    :+:      :+:    :+:   */
+/*   ft_dy_str_new_str.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/14 14:53:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 12:40:35 by jmartel          ###   ########.fr       */
+/*   Created: 2019/04/14 15:10:23 by ldedier           #+#    #+#             */
+/*   Updated: 2019/04/14 15:10:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_dy_str	*ft_dy_str_new(size_t max_size)
+t_dy_str	*ft_dy_str_new_str(char *str)
 {
 	t_dy_str *res;
+	int len;
 
-	if (!(res = (t_dy_str *)malloc(sizeof(t_dy_str))))
+	len = ft_strlen(str);
+	if (!(res = ft_dy_str_new(len)))
 		return (NULL);
-	res->current_size = 0;
-	res->max_size = max_size;
-	if (max_size > 0)
-	{
-		if (!(res->str = (char *)ft_memalloc(max_size * (sizeof(char) + 1))))
-		{
-			free(res);
-			return (NULL);
-		}
-	}
+	ft_memcpy(res->str, str, len);
+	res->current_size = len;
 	return (res);
 }
