@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/10 15:39:07 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/10 15:58:44 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ BINDIR   = .
 INCLUDESDIR = includes
 LIBFTDIR = libft
 
+COMMANDLINE_DIR = command_line
 PROD_DIR   = productions
 LEXER_DIR	= lexer
 PARSER_DIR	= parser
@@ -66,23 +67,24 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
 						sh_traverse_greatand.c \
 						sh_traverse_dgreat.c \
 
+COMMANDLINE_SRCS_NO_PREFIX = keys.c \
+						cursor_motion.c edit_command.c is_printable_utf8.c \
+						get_command.c utf8_tools.c sh_process_shift.c \
+						render_command_line.c arrows.c home_end.c \
+						command_line.c xy.c render_choices.c \
+						copy_paste_delete.c switch_prompt.c \
+						keys_insert.c keys_others.c keys_insert.c \
+						cursor_tools.c selection.c sh_process_historic.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \
-						sh_traverse_tools_context.c \
+						sh_traverse_tools_context.c
 
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
-						shell_tools.c free_all.c init_term.c signals.c keys.c \
-						cursor_motion.c edit_command.c is_printable_utf8.c \
-						get_command.c utf8_tools.c sh_process_shift.c\
-						tools.c traverse.c sh_process_historic.c\
-						render_command_line.c arrows.c home_end.c\
-						command_line.c xy.c render_choices.c\
-						copy_paste_delete.c switch_prompt.c\
-						keys_insert.c keys_others.c keys_insert.c\
-						cursor_tools.c selection.c sh_process_historic.c \
+						shell_tools.c free_all.c init_term.c signals.c \
+						tools.c traverse.c 
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -152,7 +154,8 @@ SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
 PARSER_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX))
 PROD_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX))
-AUTO_SOURCES = $(addprefix $(SRCDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX))
+COMMANDLINE_SOURCES = $(addprefix $(SRCDIR)/$(COMMANDLINE_DIR)/, $(COMMANDLINE_SRCS_NO_PREFIX))
+AUTO_SOURCES = $(addprefix $(SRCDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX))
 TRAV_SOURCES = $(addprefix $(SRCDIR)/$(TRAV_DIR)/, $(TRAV_SRCS_NO_PREFIX))
 TRAVT_SOURCES = $(addprefix $(SRCDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX))
 VARS_SOURCES = $(addprefix $(SRCDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX))
@@ -168,9 +171,8 @@ TRAVT_OBJECTS = $(addprefix $(OBJDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX:%.c=
 VARS_OBJECTS = $(addprefix $(OBJDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX:%.c=%.o))
 EXEC_OBJECTS = $(addprefix $(OBJDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX:%.c=%.o))
 BUILT_OBJECTS = $(addprefix $(OBJDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX:%.c=%.o))
-
-
-AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
+AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
+COMMANDLINE_OBJECTS = $(addprefix $(OBJDIR)/$(COMMANDLINE_DIR)/, $(COMMANDLINE_SRCS_NO_PREFIX:%.c=%.o))
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
@@ -183,6 +185,7 @@ OBJECTS += $(AUTO_OBJECTS)
 OBJECTS += $(VARS_OBJECTS)
 OBJECTS += $(EXEC_OBJECTS)
 OBJECTS += $(BUILT_OBJECTS)
+OBJECTS += $(COMMANDLINE_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -216,8 +219,12 @@ $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(OBJDIR)/$(AUTO_DIR)/%.o : $(SRCDIR)/$(AUTO_DIR)/%.c $(INCLUDES)
-	@mkdir -p $(OBJDIR)/$(AUTO_DIR)
+$(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/%.o : $(SRCDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(COMMANDLINE_DIR)/%.o : $(SRCDIR)/$(COMMANDLINE_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(COMMANDLINE_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/$(LEXER_DIR)/%.o : $(SRCDIR)/$(LEXER_DIR)/%.c $(INCLUDES)
