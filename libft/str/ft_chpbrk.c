@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dy_str_new.c                                    :+:      :+:    :+:   */
+/*   ft_chpbrk.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/14 14:53:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 12:40:35 by jmartel          ###   ########.fr       */
+/*   Created: 2019/05/09 12:40:42 by jmartel           #+#    #+#             */
+/*   Updated: 2019/05/09 12:57:58 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_dy_str	*ft_dy_str_new(size_t max_size)
-{
-	t_dy_str *res;
+/*
+** ft_chpbrk:
+**		Say if char c is one the characters given in charset
+**	Return Value:
+**		2 : if c is '\0'
+**		1 : if true
+**		0 : if false
+*/
 
-	if (!(res = (t_dy_str *)malloc(sizeof(t_dy_str))))
-		return (NULL);
-	res->current_size = 0;
-	res->max_size = max_size;
-	if (max_size > 0)
+int			ft_chpbrk(const char c, const char *charset)
+{
+	int		i;
+
+	if (!c)
+		return (2);
+	if (!charset || !*charset)
+		return (0);
+	i = 0;
+	while (charset[i])
 	{
-		if (!(res->str = (char *)ft_memalloc(max_size * (sizeof(char) + 1))))
-		{
-			free(res);
-			return (NULL);
-		}
+		if (c == charset[i])
+			return (1);
+		i++;
 	}
-	return (res);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 14:41:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/13 15:12:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/09 12:37:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 int		ft_perror(const char *error, const char *s1)
 {
-	ft_dprintf(2, "%s%s: %s : %s%s\n", SH_ERR_COLOR, SH_NAME, error, s1, COLOR_END);
+	if (s1 && *s1)
+		ft_dprintf(2, "%s%s: %s : %s%s\n", SH_ERR_COLOR, SH_NAME, error, s1, COLOR_END);
+	else
+		ft_dprintf(2, "%s%s: %s%s\n", SH_ERR_COLOR, SH_NAME, error, COLOR_END);
+	
 	return (FAILURE);
 }
 

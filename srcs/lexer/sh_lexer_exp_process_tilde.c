@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 12:07:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/08 13:08:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 12:37:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			sh_lexer_exp_tilde_2(t_lexer *lexer, t_expansion *exp)
 		free(buf);
 		return (ft_perror("no such user", buf));//
 	}
-	if (!(exp->res = ft_dy_str_new_from(passwd->pw_dir)))
+	if (!(exp->res = ft_dy_str_new_str(passwd->pw_dir)))
 	{
 		free(buf);
 		return ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde");

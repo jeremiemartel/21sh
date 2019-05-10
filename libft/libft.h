@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/09 18:06:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/10 16:01:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void				ft_putnstr_fd(char const *s, int n, int fd);
 ********************************** str  ***************************************
 */
 
+int					ft_chpbrk(const char c, const char *charset);
 size_t				ft_strlen(const char *s);
 size_t				ft_strnlen(const char *s, size_t maxlen);
 char				*ft_strdup(const char *s1);
@@ -213,6 +214,7 @@ char				*ft_strjoin_3(char const *s1, char const *s2,
 char				*ft_strnrest(char *str, int n);
 int					ft_strichr_last(const char *s, int c);
 int					ft_strichr(const char *s, int c);
+
 /*
 ************************************ dlst *************************************
 */
@@ -244,7 +246,8 @@ int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
 ************************************ dystr  ***********************************
 */
 t_dy_str			*ft_dy_str_new(size_t max_size);
-t_dy_str			*ft_dy_str_new_from(char *str);
+t_dy_str			*ft_dy_str_new_str(char *str);
+t_dy_str			*ft_dy_str_new_ptr(char *ptr);
 int					ft_dy_str_add_index(t_dy_str *d_str, char c, size_t index);
 int					ft_dy_str_realloc(t_dy_str *d_str);
 int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
