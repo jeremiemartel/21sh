@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/08 12:10:35 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/10 15:46:13 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,11 +92,8 @@ LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_quoting.c \
 						sh_lexer_exp.c sh_lexer_exp_init.c \
 						sh_lexer_exp_process.c sh_lexer_exp_process_tilde.c \
+						sh_lexer_exp_process_parameter.c \
 						t_expansion.c t_lexer.c t_token.c
-						# sh_lexer_expansions.c \
-						# sh_lexer_expansions_detect.c \
-						# sh_lexer_expansions_process.c \
-						# sh_lexer_expansions_process_tilde.c \
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 						sh_prod_case_clause.c sh_prod_case_item.c\

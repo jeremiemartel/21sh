@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:05:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 12:20:42 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 12:32:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char		*sh_builtin_pwd_tool(t_dy_tab *env)
 	char	*pwd;
 	char	buf[__DARWIN_MAXPATHLEN];
 
-	if ((pwd = sh_vars_get_value(env, "PWD")) && *pwd)
+	if ((pwd = sh_vars_get_value(env, NULL, "PWD")) && *pwd)
 		return (ft_strdup(pwd));
 	if (!getcwd(buf, __DARWIN_MAXPATHLEN))
 		return (NULL);
