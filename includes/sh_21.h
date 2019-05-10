@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/09 17:27:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/10 14:42:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,17 @@ int		is_printable_utf8(unsigned char *buffer, int nb_bytes);
 int		 get_keys(t_shell *shell, t_command_line *command_line);
 
 /*
+** keys_insert.c
+*/
+int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
+			t_shell *shell, t_command_line *command_line, int ret);
+/*
+** keys_others.c
+*/
+int		process_keys_others(unsigned char buffer[READ_BUFF_SIZE],
+			t_command_line *command_line);
+
+/*
 ** process_execute.c
 */
 void	transmit_sig(int signal);
@@ -322,13 +333,43 @@ int		process_substitute_command(t_command_line *command_line,
 			char *str, t_word word);
 int		paste_current_index(t_command_line *command_line, char *to_paste);
 int		delete_command_line_selection(t_command_line *command_line);
-void	populate_min_max_selection(t_command_line *command_line,
-		int *min, int *max);
 /*
 ** xy.c
 */
+
 t_xy	get_position(int cursor);
 int		xy_is_equal(t_xy xy1, t_xy xy2);
+
+/*
+** render_choices.c
+*/
+
+void	render_choices(t_command_line *command_line);
+
+/*
+** switch_prompt.c
+*/
+int		process_escape(t_command_line *command_line);
+int		process_i(t_command_line *command_line);
+int		process_v(t_command_line *command_line);
+void	switch_prompt(t_command_line *command_line, char *new_prompt);
+
+/*
+** copy_paste_delete.c
+*/
+
+int		command_line_copy_all(t_command_line *command_line);
+int		copy_selection_to_clipboard(t_command_line *command_line);
+int		paste_current_index(t_command_line *command_line, char *to_paste);
+int		delete_command_line_selection(t_command_line *command_line);
+
+/*
+** selection.c
+*/
+
+void	populate_min_max_selection(t_command_line *command_line,
+		int *min, int *max);
+void	render_command_visual(t_command_line *command_line);
 
 void	free_file(t_file *file);
 #endif

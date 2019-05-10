@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/09 17:33:44 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/10 14:37:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,6 @@ int		sh_init_historic(t_historic *historic)
 	return (SUCCESS);
 }
 
-int		sh_update_shell_prompt(t_shell *shell)
-{
-	(void)shell;
-	if (g_glob.command_line.prompt)
-		ft_strdel(&g_glob.command_line.prompt);
-	g_glob.command_line.prompt = ft_strdup(PROMPT);
-	return (SUCCESS);
-}
-
-
 int		sh_init_command_line(t_command_line *command_line)
 {
 	command_line->autocompletion.choices = NULL;
@@ -123,8 +113,6 @@ int		sh_init_shell(t_shell *shell, char **env)
 	if (sh_init_parsing(&shell->parser) != SUCCESS)
 		return (FAILURE);
 	if ((sh_init_historic(&shell->historic)) != SUCCESS)
-		return (FAILURE);
-	if (sh_update_shell_prompt(shell))
 		return (FAILURE);
 	return (SUCCESS);
 }
