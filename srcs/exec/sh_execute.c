@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 18:09:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/10 19:04:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,21 +89,11 @@ int		sh_execute_command_path(t_context *context)
 	return (-2);
 }
 
-int			sh_execute_find_builtin(t_context *context)
-{
-	if (!ft_strcmp(context->params->tbl[0], "echo"))
-	{
-		context->builtin = &sh_builtin_echo;
-		return (SUCCESS);
-	}
-	return (FAILURE);
-}
-
 int		sh_execute_command(t_context *context)
 {
 	int			ret;
 
-	if (sh_execute_find_builtin(context) == FAILURE)
+	if (sh_builtin_find(context) == FAILURE)
 	{
 		if ((ret = sh_execute_command_path(context)))
 		{

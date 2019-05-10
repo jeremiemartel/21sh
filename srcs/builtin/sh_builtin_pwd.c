@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_builtin_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:05:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 12:32:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 19:00:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ static char		*sh_builtin_pwd_tool(t_dy_tab *env)
 		return (ft_strdup(buf));
 }
 
-int				sh_builtin_pwd(t_dy_tab *argv, t_dy_tab *env)
+int				sh_builtin_pwd(t_context *context)
 {
 	char	*pwd;
 	int		i;
 
 	i = 0;
-	while (argv->tbl[i])
+	while (context->params->tbl[i])
 	{
-		if (argv->tbl[++i] && *(char**)argv->tbl[i])
+		if (context->params->tbl[++i] && *(char**)context->params->tbl[i])
 		{
 			ft_perror("pwd", SH_ERR1_TOO_MANY_ARGS);
 			return (1);
 		}
 	}
-	pwd = sh_builtin_pwd_tool(env);
+	pwd = sh_builtin_pwd_tool(context->env);
 	if (!pwd)
 		return (FAILURE);
 	ft_putstrn(pwd);

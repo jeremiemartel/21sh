@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/23 12:40:44 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/10 18:59:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,8 @@ int		sh_init_shell(t_shell *shell, char **env)
 		return (FAILURE);
 	if (sh_main_init_vars(shell) == FAILURE)
 		return (FAILURE);
-	if (!(shell->builtins = sh_builtin_init_list()))
+	if (sh_init_command_line(&g_glob.command_line) != SUCCESS)
 		return (FAILURE);
-		if (sh_init_command_line(&g_glob.command_line) != SUCCESS)
-			return (FAILURE);
 	shell->running = 1;
 	if (sh_update_shell_lvl(shell) != SUCCESS)
 		return (FAILURE);

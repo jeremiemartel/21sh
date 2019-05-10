@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
+#    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/10 16:03:07 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/10 19:05:31 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,12 +137,10 @@ EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_process_execute.c \
 				t_context.c
 
-BUILT_SRCS_NO_PREFIX=	sh_builtin.c	\
+BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_pwd.c \
 						sh_builtin_echo.c \
-						sh_builtin_exit.c \
-						t_builtin.c
-
+						sh_builtin_exit.c
 
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h\
 					  sh_autocompletion.h
