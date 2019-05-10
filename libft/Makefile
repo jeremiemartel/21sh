@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/04/14 15:12:32 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/09 18:05:19 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRCS	+=	./put/ft_putchar.c ./put/ft_putstr.c \
 			./put/ft_putchar_fd.c ./put/ft_putstr_fd.c \
 			./put/ft_putendl_fd.c ./put/ft_putnbr_fd.c \
 			./put/ft_putcharn.c ./put/ft_putstrn.c \
-			./put/ft_putnbrn.c
+			./put/ft_putnbrn.c ./put/ft_putnstr_fd.c
 
 SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_strcpy.c ./str/ft_strncpy.c \

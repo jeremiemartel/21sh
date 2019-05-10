@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 14:27:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 14:28:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/04/22 15:38:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_file(t_file *file)
 {
-	free(file->name);
+//	free(file->name);
 	free(file);
 }
 

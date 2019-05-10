@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 12:03:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/06 15:49:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,20 @@ int		populate_choices_from_folder_binary(t_shell *shell, char *binary,
 	return (populate_choices_from_folder(shell, word));
 }
 
-int		populate_choices_from_word(t_dy_str *command,
+int		populate_choices_from_word(t_command_line *command_line,
 		t_shell *shell, t_word *word)
 {
 	char *binary;
 
-	if (word->word_index == 1 || (word->word_index == 0))
+//	ft_printf("prev_word_index: %d\n", word->prev_word_index);
+//	ft_printf("word_index: %d\n", word->word_index);
+//	exit(1);
+	if ((word->prev_word_index <= 1 && word->word_index != 0)
+		|| (word->prev_word_index == 0 && word->word_index == 0))
 	{
 		if (populate_choices_from_binaries(shell, word))
 			return (1);
-		if (shell->autocompletion.choices == NULL)
+		if (command_line->autocompletion.choices == NULL)
 		{
 			if (populate_choices_from_folder(shell, word))
 				return (1);
@@ -95,7 +99,7 @@ int		populate_choices_from_word(t_dy_str *command,
 	}
 	else
 	{
-		if (!(binary = get_first_word(command->str)))
+		if (!(binary = get_first_word(command_line->dy_str->str)))
 			return (1);
 		if (populate_choices_from_folder_binary(shell, binary, word))
 			return (1);

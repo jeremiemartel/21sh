@@ -91,12 +91,20 @@ int		sh_init_historic(t_historic *historic)
 	return (SUCCESS);
 }
 
-int		sh_update_shell_prompt(t_shell *shell)
+int		sh_init_command_line(t_command_line *command_line)
 {
-	(void)shell;
-	if (g_glob.command_line.prompt)
-		ft_strdel(&g_glob.command_line.prompt);
-	g_glob.command_line.prompt = ft_strdup(PROMPT);
+	command_line->autocompletion.choices = NULL;
+	command_line->autocompletion.head = NULL;
+	command_line->autocompletion.active = 0;
+	command_line->autocompletion.scrolled_lines = 0;
+	command_line->pinned_index = -1;
+	command_line->last_char_input = -1;
+	command_line->mode = E_MODE_INSERT;
+	if (!(command_line->prompt = ft_strdup(PROMPT)))
+		return (FAILURE);
+	command_line->clipboard = NULL;
+	if (!(command_line->dy_str = ft_dy_str_new(63)))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_init_command_line"));
 	return (SUCCESS);
 }
 
@@ -108,16 +116,14 @@ int		sh_init_shell(t_shell *shell, char **env)
 		return (FAILURE);
 	if (!(shell->builtins = sh_builtin_init_list()))
 		return (FAILURE);
-	if (!(g_glob.command_line.dy_str = ft_dy_str_new(63)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_init_shell"));
+		if (sh_init_command_line(&g_glob.command_line) != SUCCESS)
+			return (FAILURE);
 	shell->running = 1;
 	if (sh_update_shell_lvl(shell) != SUCCESS)
 		return (FAILURE);
 	if (sh_init_parsing(&shell->parser) != SUCCESS)
 		return (FAILURE);
 	if ((sh_init_historic(&shell->historic)) != SUCCESS)
-		return (FAILURE);
-	if (sh_update_shell_prompt(shell))
 		return (FAILURE);
 	return (SUCCESS);
 }
