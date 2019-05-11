@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 12:31:57 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 10:22:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 */
 int		sh_vars_mod_key(t_dy_tab *vars, char *key, char *value);
 int		sh_vars_add_key(t_dy_tab *vars, char *key, char *value);
-int		sh_vars_assignment(t_dy_tab *vars, char *assignment);
+int		sh_vars_assignment(t_dy_tab *env, t_dy_tab *vars, char *assignment);
+int		sh_vars_assign_key_val(t_dy_tab *env, t_dy_tab *vars, char *key, char *value);
 
 #endif

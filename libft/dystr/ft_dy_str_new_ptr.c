@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 12:39:25 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 12:42:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 10:08:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ t_dy_str	*ft_dy_str_new_ptr(char *ptr)
 	t_dy_str *res;
 	int		len;
 
-	len = ft_strlen(ptr);
-	if (!(res = ft_dy_str_new(0)))
+	if (!(res = malloc(sizeof(*res))))
 		return (NULL);
+	len = ft_strlen(ptr);
 	res->str = ptr;
 	res->current_size = len;
 	res->max_size = len;
