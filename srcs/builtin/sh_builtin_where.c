@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 15:09:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 17:31:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 17:32:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int				sh_builtin_where(t_context *context)
 	int		i;
 
 	i = 1;
-	ft_dprintf(2, RED"Where builtin is not fully impplemented, it can only show builtins\n"EOC);
+	ft_dprintf(2, RED"Where builtin is not fully impplemented, it can only show builtins\n"EOC);//
 	context->params->tbl++;
 	while (*context->params->tbl)
 	{
