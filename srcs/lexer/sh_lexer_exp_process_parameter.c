@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 15:50:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 12:13:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ int		sh_lexer_exp_parameter_format(t_expansion *exp, char *format)
 	if (ft_chpbrk(*head, ":#%") && ft_chpbrk(head[1], "-=?+#%"))
 	{
 		format[i] = head[1];
-		head[1] = 0;
 		i++;
 	}
-	*head = 0;
 	format[i] = 0;
 	return (LEX_OK);
 }
@@ -52,7 +50,8 @@ char	*sh_lexer_exp_parameter_get_param(t_lexer *lexer, t_expansion *exp)
 	char	*end;
 	char	buf;
 
-	end = ft_strpbrk(exp->expansion, ":-=?+%#");
+	if (!(end = ft_strpbrk(exp->expansion, ":-=?+%#")))
+		end = exp->expansion + ft_strlen(exp->expansion);
 	buf = *end;
 	*end = 0;
 	value = sh_vars_get_value(lexer->env, lexer->vars, exp->expansion);
@@ -124,21 +123,28 @@ int		sh_lexer_exp_equal(t_lexer *lexer, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
+	char	buff;
 
 	param = sh_lexer_exp_parameter_get_param(lexer, exp);
 	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
 	if (!param)
 	{
-		// need to assign word with the key param (not expanded)
-		// sh_vars_add_key(exp->vars, , word);
+		param = ft_strstr(exp->expansion,  format);
+		buff = *param;
+		*param = 0;
+		sh_vars_assign_key_val(lexer->env, lexer->vars, exp->expansion, word);
+		*param = buff;
 		exp->res = ft_dy_str_new_str(word);
 	}
 	else if (!*param)
 	{
 		if (ft_strchr(format, ':'))
 		{
-			// need to assign word with the key param (not expanded)
-			// sh_vars_add_key(exp->vars, , word);
+			param = ft_strstr(exp->expansion,  format);
+			buff = *param;
+			*param = 0;
+			sh_vars_assign_key_val(lexer->env, lexer->vars, exp->expansion, word);
+			*param = buff;
 			exp->res = ft_dy_str_new_str(word);
 		}
 		else
@@ -205,7 +211,7 @@ int		sh_lexer_exp_percent(t_lexer *lexer, t_expansion *exp, char *format)
 
 	param = sh_lexer_exp_parameter_get_param(lexer, exp);
 	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
-	exp->res = ft_dy_str_new_str("");
+	exp->res = ft_dy_str_new_str("Percent Parameter expansion not implemented yet");
 	return (LEX_OK);
 }
 
@@ -217,6 +223,6 @@ int		sh_lexer_exp_hash(t_lexer *lexer, t_expansion *exp, char *format)
 
 	param = sh_lexer_exp_parameter_get_param(lexer, exp);
 	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
-	exp->res = ft_dy_str_new_str("");
+	exp->res = ft_dy_str_new_str("Hash Parameter expansion not implemented yet");
 	return (LEX_OK);
 }

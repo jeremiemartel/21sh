@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/23 13:28:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 12:13:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 	token = (t_token*)head->content;
 	// My own rule to detect assignment
 	if (ft_strchr(token->value, '=')) //token && token->id == WORD && 
-		t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);	
+		t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);
 	while (head)
 	{
 		token = (t_token*)head->content;

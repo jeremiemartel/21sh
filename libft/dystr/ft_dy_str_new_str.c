@@ -18,9 +18,14 @@ t_dy_str	*ft_dy_str_new_str(char *str)
 	int len;
 
 	len = ft_strlen(str);
-	if (!(res = ft_dy_str_new(len)))
+	if (!(res = malloc(sizeof(*res))))
 		return (NULL);
-	ft_memcpy(res->str, str, len);
+	if (!(res->str = ft_strdup(str)))
+	{
+		free(res);
+		return (NULL);
+	}
+	res->max_size = len;
 	res->current_size = len;
 	return (res);
 }
