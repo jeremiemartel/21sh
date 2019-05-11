@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
+#    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/11 17:33:54 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/11 17:49:36 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ LIBFT = $(LIBFTDIR)/libft.a
 OK_COLOR = \x1b[32;01m
 EOC = \033[0m
 
-TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
+TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
+						sh_traverse_default.c \
 						sh_traverse_complete_command.c \
 						sh_traverse_and_or.c \
 						sh_traverse_semicol.c \
@@ -65,7 +66,7 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse_default.c \
 						sh_traverse_lessand.c \
 						sh_traverse_great.c \
 						sh_traverse_greatand.c \
-						sh_traverse_dgreat.c \
+						sh_traverse_dgreat.c
 
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
@@ -81,16 +82,15 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_reset.c \
 						sh_traverse_tools_context.c
 
-
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
-						tools.c traverse.c 
+						tools.c 
 
-PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
-						first_sets.c debug.c follow_sets.c\
-						compute_lr_automata.c compute_lr_tables.c\
-						lr_parse.c compute_first_state.c state.c\
-						compute_closure.c compute_transitions.c traverse.c\
+PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
+						first_sets.c debug.c follow_sets.c \
+						compute_lr_automata.c compute_lr_tables.c \
+						lr_parse.c compute_first_state.c state.c \
+						compute_closure.c compute_transitions.c \
 						init_parsing.c grammar.c reduce.c reduce_tools.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
@@ -130,12 +130,12 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						preprocess_choice_add.c arrows.c
 
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
-						sh_vars_tools_1.c sh_vars_tools_2.c \
+						sh_vars_tools_1.c sh_vars_tools_2.c
 
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_execute_tools.c \
 						sh_process_execute.c \
-				t_context.c
+						t_context.c
 
 BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_pwd.c \
@@ -143,8 +143,8 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_exit.c \
 						sh_builtin_where.c
 
-INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h\
-					  sh_command_line.h sh_autocompletion.h
+INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
+					  	sh_command_line.h sh_autocompletion.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
