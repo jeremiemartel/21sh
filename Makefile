@@ -6,7 +6,7 @@
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/11 17:33:54 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/11 17:55:19 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
-						tools.c traverse.c 
+						tools.c traverse.c sanitize_path.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\
@@ -141,6 +141,8 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_pwd.c \
 						sh_builtin_echo.c \
 						sh_builtin_exit.c \
+						sh_builtin_cd.c \
+						sh_builtin_cd_tools.c \
 						sh_builtin_where.c
 
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h\

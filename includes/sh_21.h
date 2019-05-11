@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 17:31:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 18:01:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,10 @@ int			sh_add_to_env(t_dy_tab *env, char *key, char *value);
 int			sh_add_to_command(t_command_line *command,
 				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
 
+/*
+** sanitize_path.c
+*/
+char		*get_sanitized_path_from_old(char *old_pwd, char *path);
 
 int			sh_await_command(t_shell *shell);
 /*

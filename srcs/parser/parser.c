@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 19:25:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 18:28:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	sh_parse_token_list(t_lr_parser *parser)
 	}
 	else
 	{
-		ft_printf("OK !\n");
-		ft_printf("\nAST:\n");
-		sh_print_ast(parser->ast_root, 0);
+//		ft_printf("OK !\n");
+//		ft_printf("\nAST:\n");
+//		sh_print_ast(parser->ast_root, 0);
 //		ft_printf("\n\nCST:\n");
 //		sh_print_ast(parser->cst_root, 0);
 	return (SUCCESS);
