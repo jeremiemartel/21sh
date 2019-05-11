@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_builtin.c                                       :+:      :+:    :+:   */
+/*   sh_builtin_where.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/10 19:04:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 17:23:41 by jmartel          ###   ########.fr       */
+/*   Created: 2019/05/11 15:09:02 by jmartel           #+#    #+#             */
+/*   Updated: 2019/05/11 17:31:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-t_builtin			sh_builtin_find(t_context *context)
+int				sh_builtin_where(t_context *context)
 {
-	if (!ft_strcmp(context->params->tbl[0], "echo"))
-		return (&sh_builtin_echo);
-	else if (!ft_strcmp(context->params->tbl[0], "pwd"))
-		return (&sh_builtin_pwd);
-	else if (!ft_strcmp(context->params->tbl[0], "exit"))
-		return (&sh_builtin_exit);
-	else if (!ft_strcmp(context->params->tbl[0], "where"))
-		return (&sh_builtin_where);
-	return (NULL);
+	int		i;
+
+	i = 1;
+	ft_dprintf(2, RED"Where builtin is not fully impplemented, it can only show builtins\n"EOC);
+	context->params->tbl++;
+	while (*context->params->tbl)
+	{
+		if (sh_builtin_find(context))
+			ft_printf("%s: %s built-in command\n",context->params->tbl[0] , SH_NAME);
+		context->params->tbl++;
+		i++;
+	}
+	context->params->tbl -= i - 1;
+	return (SUCCESS);
 }
