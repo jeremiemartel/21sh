@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 14:40:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 15:49:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,11 @@ static int	sh_traverse_pipe_sequence_1(t_ast_node *node, t_context *context)
 */
 static int	sh_traverse_pipe_sequence_2(t_ast_node *node, t_context *context)
 {
-	int		save_fd;
 	int		res;
 
 	// Case 2 : Mid pipe_sequence
 	if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
 		return (FAILURE);
-	save_fd = context->pipe[PIPE_OUT];
 	if (pipe(context->pipe))
 		return ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_pipe_sequence_2 : piping");
 	context->fd[FD_OUT] = context->pipe[PIPE_IN];
