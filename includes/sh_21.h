@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_21.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 18:07:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 12:23:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,10 +270,6 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 */
 int		process_keys_others(unsigned char buffer[READ_BUFF_SIZE],
 			t_command_line *command_line);
-
-/*
-** execute_tools.c
-*/
 
 /*
 ** process_historic.c

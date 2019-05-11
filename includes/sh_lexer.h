@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 15:50:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 12:41:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct		s_token
 	t_token_union	token_union;
 	t_symbol_id		id;
 	int				index;
-	char			value[LEX_TOKEN_VALUE_LEN + 1];
+	char			*value;
 }					t_token;
 
 /*
@@ -193,6 +193,8 @@ void				t_lexer_free_token_list(t_list *list);
 ** t_token.c
 */
 t_token				*t_token_new(int id, char *value);
+void				t_token_free(t_token *token);
+void				t_token_free_list(t_list *head);
 void				t_token_show(t_token *token);
 void				t_token_show_id(int i);
 void				t_token_update_id(int id, t_token *token);

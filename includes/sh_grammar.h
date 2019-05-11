@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:43:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 18:56:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 12:29:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int			sh_compute_first_sets(t_cfg *cfg);
 int			sh_compute_first_sets_str(t_cfg *cfg, char first_sets[NB_TERMS], t_list *w);
 void		sh_process_transitive_first_set_2(char first_sets[NB_TERMS], int index);
 void		sh_process_transitive_first_sets_2(char first_sets[NB_TERMS], t_symbol *prod_symbol);
+
 /*
 ** follow_sets.c
 */
@@ -155,4 +156,5 @@ int		sh_init_prod_linebreak(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_separator_op(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_separator(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_sequential_sep(t_cfg *cfg, t_symbol *symbol);
+
 #endif

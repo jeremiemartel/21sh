@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 11:47:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 12:42:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,40 @@ t_token	*t_token_new(int id, char *value)
 
 	if (!(token = malloc(sizeof(*token))))
 		return (NULL);
+	if (value)
+	{
+		if (!(token->value = ft_strdup(value)))
+		{
+			free(token);
+			return (NULL);
+		}
+	}
+	else
+		token->value = NULL;
 	token->id = id;
 	token->index = sh_index(id);
 	token->token_type= TYPE_STR;
-//	ft_printf("%d => %d\n", id, token->index);
-	if (!(value))
-		ft_bzero(token->value, LEX_TOKEN_VALUE_LEN);
 	return (token);
+}
+
+void	t_token_free(t_token *token)
+{
+	if (token->value)
+		free(token->value);
+	free(token);
+}
+
+void	t_token_free_list(t_list *head)
+{
+	t_list	*buf;
+
+	while (head)
+	{
+		buf = head;
+		t_token_free(buf->content);
+		free(buf);
+		head = head->next;
+	}
 }
 
 void	t_token_show(t_token *token)
