@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:15:48 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 12:31:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 14:50:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,27 @@ int		sh_vars_get_index(t_dy_tab *vars, char *key)
 char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key)
 {
 	int		index;
-	char	**tbl;
 
 	if (!env)
 	{
 		if ((index = sh_vars_get_index(vars, key)) == -1)
 			return (NULL);
+		return (ft_strchr((char*)vars->tbl[index], '=') + 1);
 	}
 	else if (!vars)
 	{
 		if ((index = sh_vars_get_index(env, key)) == -1)
 			return (NULL);		
+		return (ft_strchr((char*)env->tbl[index], '=') + 1);
 	}
 	else
 	{
 		if ((index = sh_vars_get_index(env, key)) == -1)
+		{
 			if ((index = sh_vars_get_index(vars, key)) == -1)
 				return (NULL);
+			return (ft_strchr((char*)vars->tbl[index], '=') + 1);
+		}
+			return (ft_strchr((char*)env->tbl[index], '=') + 1);
 	}
-	tbl = (char**)vars->tbl;
-	return (ft_strchr(tbl[index], '=') + 1);
 }
