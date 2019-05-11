@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 18:28:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 19:08:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	sh_populate_token(t_token *token, t_symbol_id id,
 
 int	sh_parse_token_list(t_lr_parser *parser)
 {
-	if (sh_lr_parse(parser))
+	if (sh_lr_parse(parser) != SUCCESS)
 	{
 		ft_printf("LEXICAL ERROR\n");
-		return (SUCCESS);
+		return (FAILURE);
 	}
 	else
 	{
