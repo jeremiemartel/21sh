@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_exec.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 18:07:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 18:57:10 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int		sh_process_execute(t_context *context);
 /*
 ** sh_execute_tools.c
 */
+int		sh_process_execute_builtin(t_context *context);
 int		sh_check_execute(char *full_path, char *command_name);
-
 
 /*
 ** t_context.c
