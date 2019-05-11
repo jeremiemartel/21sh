@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   sh_builtin.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 19:05:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 15:14:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_BUILTIN_H
 # define SH_BUILTIN_H
 
+typedef	int	(*t_builtin)(t_context *);
+
 /*
 ** sh_builtin.c
 */
-int				sh_builtin_find(t_context *context);
+t_builtin		sh_builtin_find(t_context *context);
 
 /*
 ** builtins :
