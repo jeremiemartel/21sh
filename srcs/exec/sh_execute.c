@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 19:04:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/11 15:14:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		sh_execute_command(t_context *context)
 {
 	int			ret;
 
-	if (sh_builtin_find(context) == FAILURE)
+	if (!(context->builtin = sh_builtin_find(context)))
 	{
 		if ((ret = sh_execute_command_path(context)))
 		{
