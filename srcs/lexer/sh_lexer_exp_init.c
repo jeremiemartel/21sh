@@ -6,12 +6,20 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:24:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/08 12:19:44 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 13:38:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+/*
+** sh_lexer_exp_init:
+**	take an input as a string and a expansion. The expansion is filled with
+**	the first expansion found in input.
+**	Exp fields filled: type, original, expansion, process
+**	Return Value:
+**		LEX_ERR or LEX_OK
+*/
 int		sh_lexer_exp_init(char *original, t_expansion *exp)
 {
 	char	*start;
@@ -38,6 +46,13 @@ int		sh_lexer_exp_init(char *original, t_expansion *exp)
 	return (LEX_OK);
 }
 
+/*
+** sh_exp_init_detect_pattern:
+**		Use the type of detected expansion to fill original and expansion fields in exp
+**		End of expansion is a strind used as a pattern.
+**		Return Value:
+**			LEX_OK or LEX_ERR
+*/
 int			sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, int type)
 {
 	char	*end;
@@ -61,6 +76,13 @@ int			sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, i
 	return (LEX_OK);
 }
 
+/*
+** sh_exp_init_detect_chars:
+**		Use the type of detected expansion to fill original and expansion fields in exp
+**		End of expansion is one of the character given in pattern.
+**		Return Value:
+**			LEX_OK or LEX_ERR
+*/
 int			sh_exp_init_detect_chars(t_expansion *exp, char *start, char *pattern, int type)
 {
 	char	*end;
@@ -76,6 +98,13 @@ int			sh_exp_init_detect_chars(t_expansion *exp, char *start, char *pattern, int
 	return (LEX_OK);
 }
 
+/*
+** sh_lexer_exp_init_process:
+**		fill the process exp's field using it's type
+**	Return Value:
+**		LEX_ERR: type is unknow
+**		LEX_OK: else
+*/
 int		sh_lexer_exp_init_process(t_expansion *exp)
 {
 	if (exp->type == LEX_EXP_VAR)

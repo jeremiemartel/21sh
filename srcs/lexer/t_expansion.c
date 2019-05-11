@@ -6,17 +6,17 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 16:16:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/07 16:52:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 13:40:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 /*
-** t_expansion_free
+** t_expansion_free_content
 **		free a t_expansion struct.
 */
-void		t_expansion_free(t_expansion *expansion)
+void		t_expansion_free_content(t_expansion *expansion)
 {
 	if (expansion->original)
 		free(expansion->original);

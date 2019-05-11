@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 12:41:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 13:39:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void				t_token_update_id(int id, t_token *token);
 /*
 ** t_expansion.c
 */
-void				t_expansion_free(t_expansion *expansion);
+void				t_expansion_free_content(t_expansion *expansion);
 void				t_expansion_show(t_expansion *exp);
 
 #endif
