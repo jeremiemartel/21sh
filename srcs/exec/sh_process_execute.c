@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 18:56:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/12 13:18:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,14 @@ int		sh_process_execute_builtin(t_context *context)
 		sh_process_execute_close_pipes(context);
 		return (FAILURE);
 	}
-	sh_process_execute_dup_pipes(context);
 	res = context->builtin(context);
 	sh_env_update_question_mark(context, res);
 	ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
-	sh_process_execute_close_pipes(context);
 	if (tcsetattr(0, TCSADRAIN, context->term) == -1)
 		return (ft_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));
-	return (res);
+	sh_process_execute_close_pipes(context);
+	return (SUCCESS);
 }
 
 int		sh_process_execute(t_context *context)

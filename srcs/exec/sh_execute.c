@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 18:56:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/12 14:37:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int		sh_execute_command(t_context *context)
 			}
 		}
 	}
-	ft_printf("%s\n", context->params->tbl[0]);
 	if (context->builtin)
 		sh_process_execute_builtin(context);
 	else

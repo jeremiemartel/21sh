@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 18:01:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/12 14:17:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@
 # define FD_ERR		2
 
 # define CWD_LEN		1000
+
 /*
 ** Pipe input and output indexes in a int[2]
 */
-
 # define PIPE_IN		1
 # define PIPE_OUT		0
 
@@ -106,6 +106,8 @@
 # define BOLD       "\x1b[1m"
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
+
+typedef struct dirent	t_dirent;
 
 typedef struct		s_shell
 {
