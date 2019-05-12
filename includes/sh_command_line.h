@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 17:30:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/12 15:27:44 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define PROMPT			"$21_sh(to_rework)> "
 # define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
 # define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
-# define HISTORIC_FILE	".historic"
+# define HISTORIC_FILE	"/Users/jmartel/.historic"
 # define READ_BUFF_SIZE	4
 
 typedef enum		e_mode
