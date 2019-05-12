@@ -6,13 +6,12 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 14:17:36 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/12 15:05:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_21_H
 # define SH_21_H
-
 
 #include <stdio.h>
 
@@ -44,6 +43,8 @@
 # include "sh_command_line.h"
 
 # include "vars.h"
+
+# define VERBOSE		0
 
 # define SUCCESS		0
 # define FAILURE		1
