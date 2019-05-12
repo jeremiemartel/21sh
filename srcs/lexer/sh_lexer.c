@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 12:13:52 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/12 14:34:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	lexer_init(&lexer, 0);
 	lexer.env = shell->env;
 	lexer.vars = shell->vars;
-	ft_printf("Starting string :%s\n", lexer.input);
+	if (lexer.verbose)
+		ft_dprintf(2, "Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;
 	while (ret != LEX_ERR && ret != LEX_END)
@@ -87,7 +88,7 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	if (ret == LEX_ERR)
 		return (ft_perror("Lexer", "Error returned"));//Leaks
 	lexer_lexical_conventions(&lexer);
-	lexer_show(&lexer);
+	// lexer_show(&lexer);
 	*tokens = lexer.list;
 	free(lexer.input);
 	if (ret == LEX_END)

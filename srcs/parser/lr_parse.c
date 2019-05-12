@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lr_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 14:52:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/12 14:36:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		sh_lr_parse(t_lr_parser *parser)
 		}
 		else if (action.action_enum == ACCEPT)
 		{
-			sh_print_parser_state(parser);
+			// sh_print_parser_state(parser);
 			return (0);
 		}
 		else if (action.action_enum == ERROR)
