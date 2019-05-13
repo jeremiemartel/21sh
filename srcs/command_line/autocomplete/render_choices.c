@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:40:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 13:53:28 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 18:31:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	render_choices(t_command_line *command_line)
 	max_len = sh_get_max_file_len(command_line->autocompletion.choices);
 	command_line->autocompletion.nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));
 	command_line->autocompletion.nb_lines = ft_max(1, ft_round((double)ft_dlstlength(command_line->autocompletion.choices) / (double)command_line->autocompletion.nb_cols));
-	if (command_line->autocompletion.nb_lines + 1 + 1 > g_glob.winsize.ws_row) //replace 1 by nbrows of commandline
+	if (command_line->autocompletion.nb_lines + command_line_nb_rows(command_line) + 1 > g_glob.winsize.ws_row)
 		render_choices_partial(command_line, max_len);
 	else
 	{

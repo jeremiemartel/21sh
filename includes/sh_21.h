@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 18:01:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 16:55:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@
 # define SUCCESS		0
 # define FAILURE		1
 # define ATTR_ERROR		2
+
 # define CTRL_D			3
+# define CTRL_C			4
+
+# define KEEP_READ		5
 
 /*
 ** Macros of fdin, fdout and fderr in context->fd

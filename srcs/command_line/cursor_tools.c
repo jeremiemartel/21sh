@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:33:21 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 14:33:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 18:35:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int		get_down_from_command(t_command_line *command_line)
 		ret++;
 	}
 	tputs(str, 1, putchar_int);
+	i = 0;
+	while (i++ < cursor_y)
+		ret++;
 	return (ret);
 }
 
