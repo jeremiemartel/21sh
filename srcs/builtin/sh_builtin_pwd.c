@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_builtin_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:05:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 19:00:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/12 13:08:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int				sh_builtin_pwd(t_context *context)
 	pwd = sh_builtin_pwd_tool(context->env);
 	if (!pwd)
 		return (FAILURE);
-	ft_putstrn(pwd);
+	ft_dprintf(context->fd[FD_OUT], "%s\n", pwd);
 	free(pwd);
 	return (SUCCESS);
 }

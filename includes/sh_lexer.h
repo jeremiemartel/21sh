@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 13:39:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/12 15:06:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 /*
 ** If set to True, lexer will print additionnal informations
 */
-# define LEX_DEBUG	0
+# define LEX_DEBUG	VERBOSE
 
 /*
 ** Max len for the token value

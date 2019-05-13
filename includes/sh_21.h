@@ -6,13 +6,12 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 17:31:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/12 15:05:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_21_H
 # define SH_21_H
-
 
 #include <stdio.h>
 
@@ -45,6 +44,8 @@
 
 # include "vars.h"
 
+# define VERBOSE		0
+
 # define SUCCESS		0
 # define FAILURE		1
 # define ATTR_ERROR		2
@@ -58,10 +59,10 @@
 # define FD_ERR		2
 
 # define CWD_LEN		1000
+
 /*
 ** Pipe input and output indexes in a int[2]
 */
-
 # define PIPE_IN		1
 # define PIPE_OUT		0
 
@@ -106,6 +107,8 @@
 # define BOLD       "\x1b[1m"
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
+
+typedef struct dirent	t_dirent;
 
 typedef struct		s_shell
 {
@@ -158,6 +161,10 @@ int			sh_add_to_env(t_dy_tab *env, char *key, char *value);
 int			sh_add_to_command(t_command_line *command,
 				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
 
+/*
+** sanitize_path.c
+*/
+char		*get_sanitized_path_from_old(char *old_pwd, char *path);
 
 int			sh_await_command(t_shell *shell);
 /*

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/08 12:31:58 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/11 18:26:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		sh_process_command(t_shell *shell, char *command)
 	t_list *tokens;
 
 	if (sh_lexer(command, &tokens, shell) != SUCCESS)
-		return (SUCCESS);
+		return (FAILURE);
 	if (sh_parser(tokens, shell))
 	   	return (FAILURE);
 	return (sh_process_traverse(shell));

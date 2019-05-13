@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 15:49:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/12 15:11:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static int	sh_traverse_pipe_sequence_1(t_ast_node *node, t_context *context)
 		return (FAILURE);
 	context->fd[FD_OUT] = save_fdout;
 
-	ft_dprintf(2, "Last command :\n");
-	ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
-	ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+	// ft_dprintf(2, "Last command :\n");
+	// ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
+	// ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
 
 	res = sh_traverse_tools_browse(node, context);
 	return (res);
@@ -64,9 +64,9 @@ static int	sh_traverse_pipe_sequence_2(t_ast_node *node, t_context *context)
 		return ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_pipe_sequence_2 : piping");
 	context->fd[FD_OUT] = context->pipe[PIPE_IN];
 
-	ft_dprintf(2, "Mid command :\n");
-	ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
-	ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+	// ft_dprintf(2, "Mid command :\n");
+	// ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
+	// ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
 	
 	res = sh_traverse_tools_browse(node, context);
 	context->fd[FD_IN] = context->pipe[PIPE_OUT];
@@ -86,9 +86,9 @@ static int	sh_traverse_pipe_sequence_3(t_ast_node *node, t_context *context)
 		return ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_pipe_sequence_3: piping");
 	context->fd[FD_OUT] = context->pipe[PIPE_IN];
 
-	ft_dprintf(2, "First command :\n");
-	ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
-	ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+	// ft_dprintf(2, "First command :\n");
+	// ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
+	// ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
 
 	res = sh_traverse_tools_browse_one_child(node, context);
 
