@@ -6,11 +6,49 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/12 15:42:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/13 13:58:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+/*
+** sh_traverse_less:
+**	Open a file, named by the filename symbol 
+**		(next children of IO_FILE, the father)
+**	Value of the file descriptor opened can be given by an IO_NUMBER symbol
+**		In that case this value is stocked in context->father_id
+**		Else a negative value is stocked (cf io_redirect traverse)
+**	The file is opened with read only rights
+**	If fd is one of standard fd it is stocked in context->fd,
+**		if previous fd is not a standard one it is closed
+**		Else original fd is closed, and the new on is stocked
+**	Else dup2 is giving asked value to stream
+**	Return Values:
+**		SUCESS or FAILURE
+*/
+
+static int	sh_traverse_less_open_file(char *filename)
+{
+	struct stat st;
+	int			fd;
+
+	fd = 42;
+	if (access(filename, F_OK))
+		fd = ft_perror(SH_ERR2_NO_SUCH_FILE_OR_DIR, filename);
+	if (stat(filename, &st) == -1)
+		return (-1);
+	else
+	{
+		if (access(filename, R_OK))
+			fd = ft_perror(SH_ERR1_PERM_DENIED, filename);
+	}
+	if (fd == FAILURE)
+		return (-1);
+	if ((fd = open(filename, O_RDONLY)) < 0)
+		return (ft_perror("Can't open file", filename));
+	return (fd);
+}
 
 int		sh_traverse_less(t_ast_node *node, t_context *context)
 {
@@ -21,15 +59,14 @@ int		sh_traverse_less(t_ast_node *node, t_context *context)
 	filename = ((t_ast_node*)((t_ast_node*)(node->children->next->content))->children->content)->token->value;
 	if ((original_fd = context->father_id) < 0)
 		original_fd = 0;
-	if ((fd = open(filename, O_RDONLY)) == -1)
-		return (ft_perror("'<': ""Can't open", filename));
-
-	// ft_dprintf(2, "traverse : less\n");
-	// ft_dprintf(2, "\tfd : %d\n", fd);
-	// ft_dprintf(2, "\toriginal_fd : %d\n", original_fd);
-
+	if ((fd = sh_traverse_less_open_file(filename)) < 0)
+		return (FAILURE);
 	if (original_fd <= 2)
+	{
+		if (context->fd[original_fd] != original_fd)
+			close (context->fd[original_fd]);
 		context->fd[original_fd] = fd;
+	}
 	else
 		if (dup2(fd, original_fd) == -1)
 			return (ft_perror(SH_ERR1_ENV_NOT_SET, "sh_traverse_less : dup2"));
