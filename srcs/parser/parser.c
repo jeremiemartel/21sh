@@ -36,10 +36,8 @@ int	sh_parse_token_list(t_lr_parser *parser)
 	else
 	{
 //		ft_printf("OK !\n");
-//		ft_printf("\nAST:\n");
-//		sh_print_ast(parser->ast_root, 0);
-//		ft_printf("\n\nCST:\n");
-//		sh_print_ast(parser->cst_root, 0);
+		ft_printf("\nAST:\n");
+		sh_print_ast(parser->ast_root, 0);
 	return (SUCCESS);
 	}
 }

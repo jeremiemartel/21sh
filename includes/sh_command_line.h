@@ -19,6 +19,7 @@
 # define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
 # define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
 # define HISTORIC_FILE	".historic"
+# define HEREDOC_PROMPT	"heredoc> "
 # define READ_BUFF_SIZE	4
 
 typedef enum		e_mode
@@ -203,6 +204,11 @@ int		command_line_copy_all(t_command_line *command_line);
 int		copy_selection_to_clipboard(t_command_line *command_line);
 int		paste_current_index(t_command_line *command_line, char *to_paste);
 int		delete_command_line_selection(t_command_line *command_line);
+
+/*
+** heredoc.c
+*/
+char	*heredoc(t_shell *shell, t_command_line *command_line, char *stop);
 
 /*
 ** selection.c

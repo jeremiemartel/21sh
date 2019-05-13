@@ -13,6 +13,19 @@
 #ifndef SH_EXEC_H
 # define SH_EXEC_H
 
+typedef struct		s_context
+{
+	t_shell			*shell;
+	struct termios	*term;
+	t_dy_tab		*env;
+	t_dy_tab		*vars;
+	t_dy_tab		*params; //argv
+	int				(*builtin)(t_context *context);
+	int				father_id;
+	int				fd[3];
+	int				pipe[2];
+}					t_context;
+
 /*
 ** sh_execute.c
 */
