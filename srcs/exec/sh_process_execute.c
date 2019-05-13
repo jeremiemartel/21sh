@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 15:12:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/13 11:47:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,9 @@ int		sh_process_execute(t_context *context)
 		sh_process_execute_dup_pipes(context);
 		if (context->builtin)
 			exit(context->builtin(context));
-		if (execve(context->params->tbl[0], (char **)context->params->tbl, (char **)context->env->tbl) == -1)
-//		free_all(shell);
+		execve(context->params->tbl[0], (char **)context->params->tbl, (char **)context->env->tbl);
+		sh_process_execute_close_pipes(context);
 		exit(FAILURE);
-		// exit(ft_perror(SH_ERR1_CMD_NOT_FOUND, *context->params->tbl));
 	}
 	else
 	{
