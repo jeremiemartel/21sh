@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/14 15:21:42 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/14 16:07:02 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,9 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_lessand.c \
 						sh_traverse_great.c \
 						sh_traverse_greatand.c \
-						sh_traverse_dgreat.c
+						sh_traverse_dgreat.c \
+						sh_traverse_lessgreat.c
+
 
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
