@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/12 15:06:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 13:33:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@
 ** getpwnam: used in lexer_expansion_process_tilde.c
 */
 # include <pwd.h>
-
-/*
-** If set to True, lexer will print additionnal informations
-*/
-# define LEX_DEBUG	VERBOSE
 
 /*
 ** Max len for the token value
@@ -44,7 +39,6 @@ typedef struct s_expansion	t_expansion;
 
 typedef struct		s_lexer
 {
-	int				verbose;
 	char			c;
 	char			*input;
 	int				tok_start;

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/13 11:47:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 15:06:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int		sh_env_update_question_mark(t_context *context, int res)
 {
 	char	*str;
 
-	if (VERBOSE)
+	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"Updating ? <=> "COLOR_END);
 	if (!(str = ft_itoa(res)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
-	if (VERBOSE)
+	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"%s\n"COLOR_END, str);
 	res = sh_add_to_env(context->env, "?", str);
 	free(str);
@@ -51,7 +51,7 @@ void	transmit_sig(int signal)
 
 static int	sh_process_execute_dup_pipes(t_context *context)
 {
-	if (VERBOSE)
+	if (sh_verbose_pipe())
 	{
 		ft_dprintf(2, "process_Execute_dup_pipes\n");
 		ft_dprintf(2, "\tfdin  : %d\n", context->fd[FD_IN]);
@@ -92,7 +92,6 @@ int		sh_process_execute_builtin(t_context *context)
 	}
 	res = context->builtin(context);
 	sh_env_update_question_mark(context, res);
-	// ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
 	if (tcsetattr(0, TCSADRAIN, context->term) == -1)
 		return (ft_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));
@@ -124,7 +123,6 @@ int		sh_process_execute(t_context *context)
 	{
 		wait(&res);
 		sh_env_update_question_mark(context, res);
-		// ft_dprintf(2, COLOR_RED"res : %d\n"COLOR_END, res);
 		g_parent = 0;
 		sh_process_execute_close_pipes(context);
 		if (tcsetattr(0, TCSADRAIN, context->term) == -1)

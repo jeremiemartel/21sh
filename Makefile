@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/13 11:49:00 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/14 13:31:42 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,7 +130,8 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						preprocess_choice_add.c arrows.c
 
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
-						sh_vars_tools_1.c sh_vars_tools_2.c
+						sh_vars_tools_1.c sh_vars_tools_2.c \
+						sh_verbose.c
 
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_execute_tools.c \

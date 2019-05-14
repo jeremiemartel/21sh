@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_command_line.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 17:30:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/14 13:19:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct      s_glob
 	t_command_line	command_line;
 	int				cursor;
 	struct winsize	winsize;
+	int				verbose;
 }					t_glob;
 
 t_glob				g_glob;

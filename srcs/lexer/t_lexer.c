@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:39:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 12:41:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 13:34:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	lexer_init(t_lexer *lexer, int tok_start)
 	lexer->tok_len = 0;
 	lexer->current_id = LEX_TOK_UNKNOWN;
 	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
-	lexer->verbose = LEX_DEBUG;
 }
 
 int		lexer_add_token(t_lexer *lexer)

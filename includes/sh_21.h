@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 13:17:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 15:04:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@
 # include "sh_command_line.h"
 
 # include "sh_vars.h"
-
-# define VERBOSE		1
 
 # define SUCCESS		0
 # define FAILURE		1

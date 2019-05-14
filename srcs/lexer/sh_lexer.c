@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/12 14:34:40 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 13:34:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,20 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	lexer_init(&lexer, 0);
 	lexer.env = shell->env;
 	lexer.vars = shell->vars;
-	if (lexer.verbose)
+	if (sh_verbose_lexer())
 		ft_dprintf(2, "Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;
 	while (ret != LEX_ERR && ret != LEX_END)
 	{
 		i = 0;
-		if (LEX_DEBUG)
+		if (sh_verbose_lexer())
 			ft_printf("lexer in progress on : %c\t", lexer.c);
 		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 			i++;
 		if (i >= LEX_RULES_LEN)
 			ret = LEX_ERR;
-		if (LEX_DEBUG)
+		if (sh_verbose_lexer())
 			ft_printf(COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
