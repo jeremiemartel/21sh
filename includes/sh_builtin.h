@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 18:28:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/14 15:21:15 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int				sh_builtin_echo(t_context *context);
 int				sh_builtin_exit(t_context *context);
 int				sh_builtin_pwd(t_context *context);
 int				sh_builtin_where(t_context *context);
+int				sh_builtin_verbose(t_context *context);
 
 /*
 ** sh_builtin_cd_tools.c

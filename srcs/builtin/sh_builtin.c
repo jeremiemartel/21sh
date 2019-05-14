@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 19:04:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 18:34:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/14 15:20:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ t_builtin			sh_builtin_find(t_context *context)
 		return (&sh_builtin_where);
 	else if (!ft_strcmp(context->params->tbl[0], "cd"))
 		return (&sh_builtin_cd);
+	else if (!ft_strcmp(context->params->tbl[0], "verbose"))
+		return (&sh_builtin_verbose);
 	return (NULL);
 }
