@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 15:05:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 13:15:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@
 # include "sh_traverse_tools.h"
 # include "sh_command_line.h"
 
-# include "vars.h"
+# include "sh_vars.h"
 
-# define VERBOSE		0
+# define VERBOSE		1
 
 # define SUCCESS		0
 # define FAILURE		1
