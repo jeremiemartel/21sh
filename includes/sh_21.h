@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 13:15:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 13:17:53 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ typedef struct		s_shell
 	t_dy_tab		*vars;
 	t_list			*builtins;
 	char			*clipboard;
-	t_dy_tab		*assignments;
 	char			running;
 	struct termios	term;
 }					t_shell;
