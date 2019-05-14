@@ -18,6 +18,8 @@ lsof_start > start
 while [ 1 -eq 1 ] ; do 
 	if ps $pid > /dev/null ; then
 		if ! diff start  <(lsof_start) ; then
+			diff start <(lsof_start) >> fd_leaks.log
+			echo -e \n\n >> fd_leaks.log
 			lsof_start > start
 		fi
 	else
