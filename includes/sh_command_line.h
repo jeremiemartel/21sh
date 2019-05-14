@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 13:19:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 15:46:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define PROMPT			"$21_sh(to_rework)> "
 # define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
 # define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
-# define HISTORIC_FILE	".historic"
+# define HISTORIC_FILE	"/Users/jmartel/.historic"
 # define READ_BUFF_SIZE	4
 
 typedef enum		e_mode
@@ -212,4 +212,5 @@ int		delete_command_line_selection(t_command_line *command_line);
 void	populate_min_max_selection(t_command_line *command_line,
 		int *min, int *max);
 void	render_command_visual(t_command_line *command_line);
+
 #endif
