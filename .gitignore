@@ -1,3 +1,4 @@
+tests_scripts/*.log
 sh21
 21sh
 includes/libft.h
