@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/13 14:14:40 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 12:59:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static int	sh_traverse_great_open_file(char *filename)
 	fd = 42;
 	if (stat(filename, &st) != -1)
 	{
+		if (S_ISDIR(st.st_mode))
+			fd = ft_perror(SH_ERR1_IS_DIR, filename);
 		if (access(filename, R_OK))
 			fd = ft_perror(SH_ERR1_PERM_DENIED, filename);
 	}
