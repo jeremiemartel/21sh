@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:16:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 15:03:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 15:07:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ int		sh_verbose_lexer(void)
 {
 
 	if (g_glob.verbose & VERBOSE_LEXER)
-	{
-		ft_dprintf(2, "Lexer is in verbose mode\n");
 		return (1);
-	}
 	return (0);
 }
 int		sh_verbose_exec(void)
@@ -45,7 +42,6 @@ int		sh_verbose_update(t_shell *shell)
 {
 	char	*value;
 
-	ft_dprintf(2, "Updating verbose mode\n");
 	if ((value = sh_vars_get_value(shell->env, shell->vars, "verbose_ast")) && *value)
 		g_glob.verbose += ~(g_glob.verbose & VERBOSE_AST);
 	else
