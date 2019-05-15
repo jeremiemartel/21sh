@@ -126,7 +126,8 @@ int		is_printable_utf8(unsigned char *buffer, int nb_bytes);
 /*
 ** keys.c
 */
-int		 get_keys(t_shell *shell, t_command_line *command_line);
+int		get_keys(t_shell *shell, t_command_line *command_line);
+void	print_buffer(unsigned char buffer[READ_BUFF_SIZE]);
 
 /*
 ** keys_insert.c
@@ -225,4 +226,6 @@ char	*heredoc(t_shell *shell, char *stop,
 void	populate_min_max_selection(t_command_line *command_line,
 		int *min, int *max);
 void	render_command_visual(t_command_line *command_line);
+
+
 #endif

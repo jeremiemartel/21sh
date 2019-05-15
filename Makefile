@@ -85,7 +85,8 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
-						tools.c traverse.c sanitize_path.c
+						tools.c traverse.c sanitize_path.c canonical_mode.c \
+						historic.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c\
 						first_sets.c debug.c follow_sets.c\

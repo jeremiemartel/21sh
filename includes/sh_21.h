@@ -174,4 +174,16 @@ int			sh_await_command(t_shell *shell);
 void		sh_free_all(t_shell *shell);
 void	free_file_dlst(void *f, size_t dummy);
 void	free_file(t_file *file);
+
+int			sh_process_command(t_shell *shell, char *command);
+
+/*
+** canonical_mode.c
+*/
+int			sh_process_canonical_mode(t_shell *shell);
+
+/*
+** process_historic.c
+*/
+int			sh_append_to_historic(t_shell *shell, char *command);
 #endif

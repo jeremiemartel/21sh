@@ -35,7 +35,6 @@ int		process_autocompletion_down(t_command_line *command_line)
 	command_line->autocompletion.head = command_line->autocompletion.head->next;
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
 	return (SUCCESS);
 }
 
@@ -46,7 +45,6 @@ int		process_autocompletion_up(t_command_line *command_line)
 	command_line->autocompletion.head = command_line->autocompletion.head->prev;
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
 	return (SUCCESS);
 }
 
@@ -129,13 +127,11 @@ int		process_autocompletion_right(t_command_line *command_line)
 			= command_line->autocompletion.head->next;
 		file = (t_file *)command_line->autocompletion.head->content;
 		substitute_command_str(command_line, file->fullname);
-		render_command_line(command_line, 0);
 		return (SUCCESS);
 	}
 	update_autocompletion_head_right(command_line);
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
 	return (SUCCESS);
 }
 
@@ -149,12 +145,10 @@ int		process_autocompletion_left(t_command_line *command_line)
 			= command_line->autocompletion.head->prev;
 		file = (t_file *)command_line->autocompletion.head->content;
 		substitute_command_str(command_line, file->fullname);
-		render_command_line(command_line, 0);
 		return (SUCCESS);
 	}
 	update_autocompletion_head_left(command_line);
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
 	return (SUCCESS);
 }
