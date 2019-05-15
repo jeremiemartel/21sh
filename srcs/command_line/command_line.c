@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:51:35 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 13:57:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 18:30:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,10 @@ int		substitute_current_index(t_command_line *command_line, t_file *file)
 		return (FAILURE);
 	}
 	return (SUCCESS);
+}
+
+int		command_line_nb_rows(t_command_line *command_line)
+{
+	return ((ft_strlen_utf8(command_line->dy_str->str) +
+				ft_strlen_utf8(command_line->prompt)) / g_glob.winsize.ws_col);
 }

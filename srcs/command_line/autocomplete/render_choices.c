@@ -6,11 +6,16 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:40:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 13:53:28 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 18:31:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+static int	sh_get_file_len(t_file *file)
+{
+	return (ft_strlen_utf8(file->name) + S_ISDIR(file->st.st_mode));
+}
 
 static int	sh_get_max_file_len(t_dlist *dlist)
 {
@@ -26,8 +31,7 @@ static int	sh_get_max_file_len(t_dlist *dlist)
 	while ((ptr != dlist && ptr != NULL) || (first && ptr != NULL))
 	{
 		file = (t_file *)ptr->content;
-		if ((ret = ft_strlen_utf8(file->name)
-				+ S_ISDIR(file->st.st_mode)) > max)
+		if ((ret = sh_get_file_len(file)) > max)
 			max = ret;
 		ptr = ptr->next;
 		first = 0;
@@ -101,6 +105,34 @@ int		ft_round(float a)
 		return ((int)a + 1);
 }
 
+static int	lines_rendered_from_file(t_file *file)
+{
+	return (ft_max(1, (sh_get_file_len(file) / g_glob.winsize.ws_col) + 1));
+}
+
+int		command_line_visible_lines(t_command_line *command_line)
+{
+	t_dlist *ptr;
+	int		res;
+	int		first;
+	t_file	*file;
+
+	if (command_line->autocompletion.nb_cols > 1)
+		return (command_line->autocompletion.nb_lines);
+	first = 1;
+	res = 0;
+	ptr = command_line->autocompletion.choices;
+	while ((ptr != command_line->autocompletion.choices
+		&& ptr != NULL) || (first && ptr != NULL))
+	{
+		file = (t_file *)ptr->content;
+		first = 0;
+		res += lines_rendered_from_file(file);
+		ptr = ptr->next;
+	}
+	return (res);
+}
+
 void	render_choices(t_command_line *command_line)
 {
 	t_dlist	*ptr;
@@ -109,11 +141,15 @@ void	render_choices(t_command_line *command_line)
 	int		max_len;
 	int		i;
 	int		j;
+	int		nb_visible_lines;
+	int		rendered_lines;
 
 	max_len = sh_get_max_file_len(command_line->autocompletion.choices);
-	command_line->autocompletion.nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));
+	command_line->autocompletion.nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));	
 	command_line->autocompletion.nb_lines = ft_max(1, ft_round((double)ft_dlstlength(command_line->autocompletion.choices) / (double)command_line->autocompletion.nb_cols));
-	if (command_line->autocompletion.nb_lines + 1 + 1 > g_glob.winsize.ws_row) //replace 1 by nbrows of commandline
+	nb_visible_lines = command_line_visible_lines(command_line);
+
+	if (nb_visible_lines + command_line_nb_rows(command_line) + 1 > g_glob.winsize.ws_row)
 		render_choices_partial(command_line, max_len);
 	else
 	{
@@ -121,6 +157,7 @@ void	render_choices(t_command_line *command_line)
 		first = 1;
 		i = 0;
 		j = 0;
+		rendered_lines = 0;
 		while ((ptr != command_line->autocompletion.choices
 					&& ptr != NULL) || (first && ptr != NULL))
 		{
@@ -128,15 +165,19 @@ void	render_choices(t_command_line *command_line)
 			file->y = i;
 			file->x = j;
 			render_file(command_line, file, max_len, j);
+			rendered_lines += lines_rendered_from_file(file);
 			ptr = ptr->next;
 			first = 0;
 			if (++i == command_line->autocompletion.nb_lines)
 			{
-				go_up_left(i);
+			//	sleep(1);
+				go_up_left(nb_visible_lines);
+			//	sleep(1);
 				i = 0;
 				j++;
+				rendered_lines = 0;
 			}
 		}
-		go_up_left(i + 1);
+		go_up_left(rendered_lines + 1);
 	}
 }

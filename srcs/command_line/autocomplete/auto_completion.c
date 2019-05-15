@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/06 18:41:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 18:05:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		process_advanced_completion(t_command_line *command_line, t_word word)
 	file = (t_file *)command_line->autocompletion.head->content;
 	if (process_substitute_command(command_line, file->fullname, word))
 		return (FAILURE);
-	render_command_line(command_line, 0);
+//	render_command_line(command_line, 0);
 	return (SUCCESS);
 }
 
@@ -91,7 +91,8 @@ int		process_completion(t_command_line *command_line, t_word word)
 				if (process_substitute_command(command_line, str, word))
 					return (FAILURE);
 			}
-			render_command_line(command_line, 0);
+			else
+				render_command_line(command_line, 0);
 		}
 	}
 	else
