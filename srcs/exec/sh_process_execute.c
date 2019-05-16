@@ -85,14 +85,14 @@ int		sh_process_execute_builtin(t_context *context)
 {
 	int		res;
 
-	if (sh_reset_shell(0) == -1)
+	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
 		sh_process_execute_close_pipes(context);
 		return (FAILURE);
 	}
 	res = context->builtin(context);
 	sh_env_update_question_mark(context, res);
-	if (tcsetattr(0, TCSADRAIN, context->term) == -1)
+	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 		return (ft_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));
 	sh_process_execute_close_pipes(context);
@@ -103,7 +103,7 @@ int		sh_process_execute(t_context *context)
 {
 	int		res;
 
-	if (sh_reset_shell(0) == -1)
+	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
 		sh_process_execute_close_pipes(context);
 		return (FAILURE);
@@ -125,7 +125,7 @@ int		sh_process_execute(t_context *context)
 		sh_env_update_question_mark(context, res);
 		g_parent = 0;
 		sh_process_execute_close_pipes(context);
-		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
+		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 			return (ft_perror("Could not modify this terminal attributes",
 				"sh_init_terminal"));
 	}
