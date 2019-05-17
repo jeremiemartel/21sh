@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:59:37 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/06 18:08:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:38:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 
-# define AC_PADDING		4
+# define AC_PADDING		2
 
 # define DIR_COLOR		BOLD RED
 

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/13 17:27:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/17 19:55:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	print_buffer(unsigned char buffer[READ_BUFF_SIZE])
 		ft_printf("\nbuffer[%d]: %d (%.8b)", i, buffer[i], buffer[i]);
 		i++;
 	}
+	printf("\n\n");
 }
 
 int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
@@ -82,7 +83,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-//		print_buffer(buffer);
+		//	print_buffer(buffer);
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{

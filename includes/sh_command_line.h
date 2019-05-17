@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/13 18:30:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/17 19:45:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
 # define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
 # define HEREDOC_PROMPT	"heredoc> "
-# define READ_BUFF_SIZE	100
+# define READ_BUFF_SIZE	8
 
 typedef enum		e_mode
 {

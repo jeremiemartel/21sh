@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/13 17:10:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:08:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,19 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 		t_shell *shell, t_command_line *command_line, int ret)
 {
-//	ft_printf(RED);
-//	print_buffer(buffer);
-//	ft_printf(EOC);
 	if (buffer[0] != 10 && buffer[0] != 9
 			&& (buffer[0] != 27 || buffer[1] != 91
 				|| (buffer[2] < 65 || buffer[2] > 68))) //if no autocompletion relative keys
 	{
 		command_line->autocompletion.head = NULL;
 		command_line->autocompletion.active = 0;
-//		ft_printf("DWDQW\n");
+//		print_buffer(buffer);
+	}
+	else
+	{
+//		ft_printf(RED);
+//		print_buffer(buffer);
+//		ft_printf(EOC);
 	}
 	if (is_printable_utf8(buffer, ret))
 	{
