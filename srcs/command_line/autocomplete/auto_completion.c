@@ -62,9 +62,8 @@ int		process_advanced_completion(t_command_line *command_line, t_word word)
 	else
 		command_line->autocompletion.head = command_line->autocompletion.choices;
 	file = (t_file *)command_line->autocompletion.head->content;
-	if (process_substitute_command(command_line, file->fullname, word))
+	if (process_substitute_command(command_line, file->fullname, word, 1))
 		return (FAILURE);
-//	render_command_line(command_line, 0);
 	return (SUCCESS);
 }
 
@@ -79,7 +78,7 @@ int		process_completion(t_command_line *command_line, t_word word)
 		if (ft_dlstlength(command_line->autocompletion.choices) == 1)
 		{
 	//		command_line->autocompletion.active = 0;
-			if (process_substitute_command(command_line, str, word))
+			if (process_substitute_command(command_line, str, word, 1))
 				return (ft_free_turn(str, 1));
 		}
 		else
@@ -88,16 +87,16 @@ int		process_completion(t_command_line *command_line, t_word word)
 		//	command_line->autocompletion.head = command_line->autocompletion.choices;
 			if (word.word_index == 0)
 			{
-				if (process_substitute_command(command_line, str, word))
+				if (process_substitute_command(command_line, str, word, 1))
 					return (FAILURE);
 			}
 			else
-				render_command_line(command_line, 0);
+				render_command_line(command_line, 0, 1);
 		}
 	}
 	else
 	{
-		if (process_substitute_command(command_line, str, word))
+		if (process_substitute_command(command_line, str, word, 1))
 			return (ft_free_turn(str, 1));
 	}
 	return (ft_free_turn(str, 0));
@@ -131,6 +130,9 @@ int		process_tab(t_shell *shell, t_command_line *command_line)
 			ret = process_completion(command_line, word);
 	}
 	else
-		process_advanced_completion(command_line, word);
+	{
+		process_autocompletion_down(command_line);
+//		process_advanced_completion(command_line, word);
+	}
 	return (ft_free_turn(word.str, ret));
 }

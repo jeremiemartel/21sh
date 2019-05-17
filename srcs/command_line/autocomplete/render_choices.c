@@ -82,13 +82,13 @@ static int	render_choices_partial(t_command_line *command_line, int max_len)
 		file->y = i;
 		file->x = j;
 		if (i >= command_line->autocompletion.scrolled_lines
-			&& i <= command_line->autocompletion.scrolled_lines + g_glob.winsize.ws_row - 3)
+			&& i <= command_line->autocompletion.scrolled_lines + g_glob.winsize.ws_row - 2 - command_line_nb_rows(command_line) )
 			render_file(command_line, file, max_len, j);
 		ptr = ptr->next;
 		first = 0;
 		if (++i == command_line->autocompletion.nb_lines)
 		{
-			go_up_left(g_glob.winsize.ws_row - (2));
+			go_up_left(g_glob.winsize.ws_row - (1 + command_line_nb_rows(command_line)));
 			i = 0;
 			j++;
 		}
@@ -148,7 +148,6 @@ void	render_choices(t_command_line *command_line)
 	command_line->autocompletion.nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));	
 	command_line->autocompletion.nb_lines = ft_max(1, ft_round((double)ft_dlstlength(command_line->autocompletion.choices) / (double)command_line->autocompletion.nb_cols));
 	nb_visible_lines = command_line_visible_lines(command_line);
-
 	if (nb_visible_lines + command_line_nb_rows(command_line) + 1 > g_glob.winsize.ws_row)
 		render_choices_partial(command_line, max_len);
 	else
@@ -170,9 +169,7 @@ void	render_choices(t_command_line *command_line)
 			first = 0;
 			if (++i == command_line->autocompletion.nb_lines)
 			{
-			//	sleep(1);
 				go_up_left(nb_visible_lines);
-			//	sleep(1);
 				i = 0;
 				j++;
 				rendered_lines = 0;

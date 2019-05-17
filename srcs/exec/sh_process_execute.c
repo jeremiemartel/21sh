@@ -46,7 +46,7 @@ void	transmit_sig(int signal)
 	g_glob.command_line.current_index = 0;
 	ft_bzero(g_glob.command_line.dy_str->str, g_glob.command_line.dy_str->max_size);
 	g_glob.command_line.nb_chars = 0;
-	render_command_line(&g_glob.command_line, 0);
+	render_command_line(&g_glob.command_line, 0, 1);
 }
 
 static int	sh_process_execute_dup_pipes(t_context *context)

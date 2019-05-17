@@ -15,13 +15,13 @@
 int		process_end(t_command_line *command_line)
 {
 	command_line->current_index = command_line->dy_str->current_size;
-	render_command_line(command_line, command_line->nb_chars - g_glob.cursor);
+	render_command_line(command_line, command_line->nb_chars - g_glob.cursor, 1);
 	return (SUCCESS);
 }
 
 int		process_start(t_command_line *command_line)
 {
 	command_line->current_index = 0;
-	render_command_line(command_line, - g_glob.cursor);
+	render_command_line(command_line, - g_glob.cursor, 1);
 	return (SUCCESS);
 }

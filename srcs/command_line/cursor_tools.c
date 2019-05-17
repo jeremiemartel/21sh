@@ -71,6 +71,6 @@ int		process_clear(t_command_line *command_line)
 
 	str = tgetstr("cl", NULL);
 	tputs(str, 1, putchar_int);
-	render_command_line(command_line, 0);
+	render_command_line(command_line, 0, 0);
 	return (0);
 }

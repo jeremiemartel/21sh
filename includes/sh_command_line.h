@@ -18,9 +18,8 @@
 # define PROMPT			"$21_sh(to_rework)> "
 # define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
 # define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
-# define HISTORIC_FILE	".historic"
 # define HEREDOC_PROMPT	"heredoc> "
-# define READ_BUFF_SIZE	4
+# define READ_BUFF_SIZE	100
 
 typedef enum		e_mode
 {
@@ -86,7 +85,7 @@ int			clear_all(void);
 ** get_command.c
 */
 void		reset_command_line(t_shell *shell, t_command_line *command_line);
-int			render_command_line(t_command_line *command_line, int cursor_inc);
+int			render_command_line(t_command_line *command_line, int c, int r);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
 
 /*
@@ -182,7 +181,7 @@ int		process_end(t_command_line *command_line);
 int		substitute_current_index(t_command_line *command_line, t_file *file);
 void	flush_command_line(t_command_line *command_line);
 int		process_substitute_command(t_command_line *command_line,
-			char *str, t_word word);
+			char *str, t_word word, int print_choices);
 int		paste_current_index(t_command_line *command_line, char *to_paste);
 int		delete_command_line_selection(t_command_line *command_line);
 int		command_line_nb_rows(t_command_line *command_line);

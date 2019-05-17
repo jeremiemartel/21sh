@@ -53,6 +53,8 @@
 
 # define KEEP_READ		5
 
+# define HISTORIC_FILE	".historic"
+
 /*
 ** Macros of fdin, fdout and fderr in context->fd
 */

@@ -35,7 +35,7 @@ char	*heredoc(t_shell *shell, char *stop,
 	if (!(res = ft_strnew(0)))
 		return (heredoc_ret(command_line, back, NULL));
 	flush_command_line(command_line);
-	render_command_line(command_line, - g_glob.cursor);
+	render_command_line(command_line, - g_glob.cursor, 1);
 	switch_prompt(command_line, new);
 	command_line->context = E_CONTEXT_HEREDOC;
 	while ((*ret = sh_get_command(shell, command_line)) == SUCCESS)

@@ -17,7 +17,7 @@ void	handle_resize(int signal)
 	(void)signal;
 	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
 	if (g_glob.command_line.dy_str)
-		render_command_line(&g_glob.command_line, 0);
+		render_command_line(&g_glob.command_line, 0, 1);
 }
 
 void	init_signals(void)

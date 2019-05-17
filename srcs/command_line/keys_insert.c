@@ -25,7 +25,7 @@ int		process_enter(t_command_line *command_line)
 		substitute_current_index(command_line, command_line->autocompletion.head->content);
 		command_line->autocompletion.head = NULL;
 		command_line->autocompletion.active = 0;
-		render_command_line(command_line, 0);
+		render_command_line(command_line, 0, 1);
 	}
 	return (1);
 }
@@ -36,7 +36,7 @@ void		process_ctrl_c(t_shell *shell, t_command_line *command_line)
 	command_line->autocompletion.active = 0;
 	get_down_from_command(command_line);
 	reset_command_line(shell, command_line);
-	render_command_line(command_line, 0);
+	render_command_line(command_line, 0, 1);
 }
 
 int		process_keys_ret(t_shell *shell, t_command_line *command_line,
@@ -79,7 +79,6 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 			&& (buffer[0] != 27 || buffer[1] != 91
 				|| (buffer[2] < 65 || buffer[2] > 68))) //if no autocompletion relative keys
 	{
-//		print_buffer(buffer);
 		command_line->autocompletion.head = NULL;
 		command_line->autocompletion.active = 0;
 //		ft_printf("DWDQW\n");
@@ -88,7 +87,7 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 	{
 		if (sh_add_to_command(command_line, buffer, ret))
 			return (1);
-		render_command_line(command_line, 1);
+		render_command_line(command_line, 1, 1);
 	}
 	else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 65)
 		process_up(shell, command_line);

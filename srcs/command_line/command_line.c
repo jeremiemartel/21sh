@@ -21,7 +21,7 @@ void	flush_command_line(t_command_line *command_line)
 }
 
 int     process_substitute_command(t_command_line *command_line, char *str,
-		t_word word)
+		t_word word, int print_choices)
 {
 	int len;
 	int utf8_len;
@@ -32,7 +32,8 @@ int     process_substitute_command(t_command_line *command_line, char *str,
 		return (1);
 	command_line->current_index += (len - word.index_byte_offset);
 	command_line->nb_chars += (utf8_len - word.utf8_len);
-	render_command_line(command_line, utf8_len - word.index_char_offset);
+	render_command_line(command_line, utf8_len - word.index_char_offset,
+		print_choices);
 	return (0);
 }
 
@@ -44,7 +45,7 @@ int		substitute_current_index(t_command_line *command_line, t_file *file)
 	populate_word_by_index(command_line->dy_str->str, command_line->current_index, &word);
 	if (!(to_replace = get_completion_str_file(file)))
 		return (ft_perror(SH_ERR1_MALLOC, "substitute_current_index"));
-	if (process_substitute_command(command_line, to_replace, word))
+	if (process_substitute_command(command_line, to_replace, word, 1))
 	{
 		free(to_replace);
 		return (FAILURE);
@@ -55,5 +56,5 @@ int		substitute_current_index(t_command_line *command_line, t_file *file)
 int		command_line_nb_rows(t_command_line *command_line)
 {
 	return ((ft_strlen_utf8(command_line->dy_str->str) +
-				ft_strlen_utf8(command_line->prompt)) / g_glob.winsize.ws_col);
+				ft_strlen_utf8(command_line->prompt)) / g_glob.winsize.ws_col + 1);
 }

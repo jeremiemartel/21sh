@@ -46,7 +46,7 @@ int		paste_current_index(t_command_line *command_line, char *to_paste)
 		return (ft_perror(SH_ERR1_MALLOC, "paste_current_index"));
 	command_line->current_index += len;
 	command_line->nb_chars += utf8_len;
-	render_command_line(command_line, utf8_len);
+	render_command_line(command_line, utf8_len, 1);
 	return (SUCCESS);
 }
 
@@ -64,11 +64,11 @@ int		delete_command_line_selection(t_command_line *command_line)
 		return (ft_perror(SH_ERR1_MALLOC, "delete_command_line_selection"));
 	command_line->nb_chars -= utf8_len;
 	if (command_line->current_index == min)
-		render_command_line(command_line, 0);
+		render_command_line(command_line, 0, 1);
 	else
 	{
 		command_line->current_index -= len;
-		render_command_line(command_line, - utf8_len);
+		render_command_line(command_line, - utf8_len, 1);
 	}
 	return (SUCCESS);
 }

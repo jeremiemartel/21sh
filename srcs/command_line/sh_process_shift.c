@@ -24,7 +24,7 @@ int		process_shift_right(t_command_line *c_line)
 	if (word.len)
 	{
 		c_line->current_index += word.len - word.index_byte_offset + 1;
-		render_command_line(c_line, word.utf8_len - word.index_char_offset + 1);
+		render_command_line(c_line, word.utf8_len - word.index_char_offset + 1, 1);
 		return (SUCCESS);
 	}
 	while (index < (int)c_line->dy_str->current_size)
@@ -36,7 +36,7 @@ int		process_shift_right(t_command_line *c_line)
 			break ;
 		index++;
 	}
-	render_command_line(c_line, index - c_line->current_index - 1);
+	render_command_line(c_line, index - c_line->current_index - 1, 1);
 	c_line->current_index = index - 1;
 	return (SUCCESS);
 }
@@ -53,7 +53,7 @@ int		process_shift_left(t_command_line *command_line)
 	if (word.len)
 	{
 		command_line->current_index -= word.index_byte_offset;
-		render_command_line(command_line, -word.index_char_offset);
+		render_command_line(command_line, -word.index_char_offset, 1);
 		return (SUCCESS);
 	}
 	while (index > 0)
@@ -65,7 +65,7 @@ int		process_shift_left(t_command_line *command_line)
 			break ;
 		index--;
 	}
-	render_command_line(command_line, -(command_line->current_index - index));
+	render_command_line(command_line, -(command_line->current_index - index), 1);
 	command_line->current_index = index;
 	return (SUCCESS);
 }
@@ -84,11 +84,11 @@ int		process_shift_up(t_command_line *command_line)
 		xy_iter = get_position(get_true_cursor_pos(--cursor));
 		if (xy_iter.x == xy.x && xy_iter.y == xy.y - 1)
 		{
-			render_command_line(command_line, cursor - g_glob.cursor);
+			render_command_line(command_line, cursor - g_glob.cursor, 1);
 			return (SUCCESS);
 		}
 	}
-	render_command_line(command_line, cursor - g_glob.cursor);
+	render_command_line(command_line, cursor - g_glob.cursor, 1);
 	return (SUCCESS);
 }
 
@@ -107,10 +107,10 @@ int		process_shift_down(t_command_line *command_line)
 		xy_iter = get_position(get_true_cursor_pos(++cursor));
 		if (xy_iter.x == xy.x && xy_iter.y == xy.y + 1)
 		{
-			render_command_line(command_line, cursor - g_glob.cursor);
+			render_command_line(command_line, cursor - g_glob.cursor, 1);
 			return (SUCCESS);
 		}
 	}
-	render_command_line(command_line, cursor - g_glob.cursor);
+	render_command_line(command_line, cursor - g_glob.cursor, 1);
 	return (SUCCESS);
 }

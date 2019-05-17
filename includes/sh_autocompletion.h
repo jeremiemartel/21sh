@@ -71,8 +71,6 @@ typedef struct		s_auto_complete
 char	*get_first_word(char *str);
 int		process_tab(t_shell *shell, t_command_line *command_line);
 char	*get_completion_str_file(t_file *file);
-int		process_substitute_command(t_command_line *command_line,
-			char *str, t_word word);
 /*
 ** preprocess_choice_add.c
 */

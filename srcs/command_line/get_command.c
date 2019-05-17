@@ -40,6 +40,6 @@ void	reset_command_line(t_shell *shell, t_command_line *command_line)
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
 	reset_command_line(shell, command_line);
-	render_command_line(command_line, 0);
+	render_command_line(command_line, 0, 1);
 	return (get_keys(shell, command_line));
 }
