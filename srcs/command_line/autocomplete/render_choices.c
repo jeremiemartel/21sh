@@ -286,6 +286,9 @@ int		render_choices(t_command_line *command_line)
 		ft_round((double)ft_dlstlength(command_line->autocompletion.choices)
 			/ (double)command_line->autocompletion.nb_cols));
 	tbl = update_file_tables(command_line);
+	command_line->autocompletion.nb_cols = ft_max(1,
+		ft_round((double)ft_dlstlength(command_line->autocompletion.choices)
+			/ (double)command_line->autocompletion.nb_lines));
 	if (!(print_buffer = ft_strnew((g_glob.winsize.ws_col * g_glob.winsize.ws_row) * (4 + (2 * ft_strlen(EOC) + ft_strlen(DIR_COLOR))))))
 		return (1);
 	nb_visible_lines = command_line_visible_lines(command_line);
@@ -296,5 +299,6 @@ int		render_choices(t_command_line *command_line)
 	ft_dprintf(0, print_buffer);
 	go_up_left(nb_visible_lines);
 	free_tbl(tbl, command_line->autocompletion.nb_lines);
+	usleep(10000);
 	return (ft_free_turn(print_buffer, SUCCESS));
 }
