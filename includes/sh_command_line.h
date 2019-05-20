@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 19:45:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/20 18:08:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 # include "libft.h"
 
-# define PROMPT			"$21_sh(to_rework)> "
-# define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
-# define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
-# define HEREDOC_PROMPT	"heredoc> "
-# define READ_BUFF_SIZE	8
+# define PROMPT			"$21_sh"
+# define COMMAND_PROMPT	"(command)"
+# define VISUAL_PROMPT	"(visual)"
+# define HEREDOC_PROMPT	"heredoc"
+# define PROMPT_SUFFIX	"> "
+# define READ_BUFF_SIZE	4
 
 typedef enum		e_mode
 {
@@ -192,12 +193,12 @@ t_xy	get_position(int cursor);
 int		xy_is_equal(t_xy xy1, t_xy xy2);
 
 /*
-** switch_prompt.c
+** update_prompt.c
 */
 int		process_escape(t_command_line *command_line);
 int		process_i(t_command_line *command_line);
 int		process_v(t_command_line *command_line);
-void	switch_prompt(t_command_line *command_line, char *new_prompt);
+int		update_prompt(t_command_line *command_line);
 
 /*
 ** copy_paste_delete.c

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:40:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 20:34:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/20 17:39:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,5 @@ int		render_choices(t_command_line *command_line)
 	ft_dprintf(0, print_buffer);
 	go_up_left(nb_visible_lines);
 	free_tbl(tbl, command_line->autocompletion.nb_lines);
-	usleep(10000);
 	return (ft_free_turn(print_buffer, SUCCESS));
 }
