@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/13 17:50:56 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/20 16:49:18 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
-						historic.c
+						historic.c home.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						first_sets.c debug.c follow_sets.c \

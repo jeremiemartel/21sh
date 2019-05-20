@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 16:01:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/20 16:52:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,8 @@ char				*ft_strjoin_3(char const *s1, char const *s2,
 char				*ft_strnrest(char *str, int n);
 int					ft_strichr_last(const char *s, int c);
 int					ft_strichr(const char *s, int c);
-
+int					ft_substitute_str(char **str, char *to_inject,
+						int index_to_inject, int len);
 /*
 ************************************ dlst *************************************
 */
@@ -267,8 +268,7 @@ void				ft_dlstdel_value(t_dlist **list);
 int					ft_dlstlength(t_dlist *dlist);
 int					ft_dlstadd_sorted(t_dlist **dlst,
 						void *content, int (*sort)(void*, void *));
-int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
-						int index_to_inject, int len);
+
 
 /*
 ************************************ dystr  ***********************************
@@ -281,6 +281,8 @@ int					ft_dy_str_realloc(t_dy_str *d_str);
 int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
 void				ft_dy_str_free(t_dy_str *dy_str);
 int					ft_dy_str_cpy_str(t_dy_str *dy_str, char *str);
+int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
+						int index_to_inject, int len);
 /*
 ************************************ dytab  ***********************************
 */
