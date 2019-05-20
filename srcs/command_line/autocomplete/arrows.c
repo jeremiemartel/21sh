@@ -20,15 +20,15 @@ void	process_autocompletion_switch(t_command_line *command_line,
 
 	cl_nb_rows = command_line_nb_rows(command_line);
 	if (file->y >= g_glob.winsize.ws_row
-		+ command_line->autocompletion.scrolled_lines - (1 + cl_nb_rows)
+		+ command_line->autocompletion.scrolled_lines - (cl_nb_rows)
 		|| file->y < command_line->autocompletion.scrolled_lines)
 	{
 	//	printf("dqwdqd\n");
 		if (file->y >= g_glob.winsize.ws_row
-			+ command_line->autocompletion.scrolled_lines - (1 + cl_nb_rows))
+			+ command_line->autocompletion.scrolled_lines - (cl_nb_rows))
 		{
 			command_line->autocompletion.scrolled_lines
-				= file->y - g_glob.winsize.ws_row + 2 + cl_nb_rows;
+				= file->y - g_glob.winsize.ws_row + 1 + cl_nb_rows;
 		}
 		else
 		{

@@ -39,63 +39,6 @@ static int	sh_get_max_file_len(t_dlist *dlist)
 	return (max);
 }
 
-static int	render_file(t_command_line *command_line, t_file *file, int max_len, int column)
-{
-	char *str;
-	int is_current;
-
-	is_current = command_line->autocompletion.head
-		&& file == command_line->autocompletion.head->content;
-	go_right(column * (AC_PADDING + max_len));
-	str = tgetstr("mr", NULL);
-	if (is_current)
-		tputs(str, 1, putchar_int);
-	if (S_ISDIR(file->st.st_mode) && !is_current)
-		ft_dprintf(0, DIR_COLOR);
-	ft_dprintf(0, "%s", file->name);
-	str = tgetstr("me", NULL);
-	ft_printf("%s", EOC);
-	if (S_ISDIR(file->st.st_mode))
-		ft_dprintf(0, BOLD"/");
-	tputs(str, 1, putchar_int);
-	str = tgetstr("do", NULL);
-	tputs(str, 1, putchar_int);
-	return (0);
-}
-
-static int	render_choices_partial(t_command_line *command_line, int max_len)
-{
-	t_dlist	*ptr;
-	int first;
-	int i;
-	int j;
-	t_file *file;
-
-	ptr = command_line->autocompletion.choices;
-	first = 1;
-	i = 0;
-	j = 0;
-	while ((ptr != command_line->autocompletion.choices
-		&& ptr != NULL) || (first && ptr != NULL))
-	{
-		file = (t_file *)ptr->content;
-		file->y = i;
-		file->x = j;
-		if (i >= command_line->autocompletion.scrolled_lines
-			&& i <= command_line->autocompletion.scrolled_lines + g_glob.winsize.ws_row - 2 - command_line_nb_rows(command_line) )
-			render_file(command_line, file, max_len, j);
-		ptr = ptr->next;
-		first = 0;
-		if (++i == command_line->autocompletion.nb_lines)
-		{
-			go_up_left(g_glob.winsize.ws_row - (1 + command_line_nb_rows(command_line)));
-			i = 0;
-			j++;
-		}
-	}
-	go_up_left(ft_min(i + 1, g_glob.winsize.ws_row - (1)));
-	return (0);
-}
 
 int		ft_round(float a)
 {
@@ -133,49 +76,225 @@ int		command_line_visible_lines(t_command_line *command_line)
 	return (res);
 }
 
-void	render_choices(t_command_line *command_line)
+void	fill_file_tables(t_command_line *command_line, t_file ***tbl)
 {
-	t_dlist	*ptr;
 	t_file	*file;
+	t_dlist	*ptr;
 	int     first;
-	int		max_len;
 	int		i;
 	int		j;
+
+	first = 1;
+	i = 0;
+	j = 0;
+	ptr = command_line->autocompletion.choices;
+	while ((ptr != command_line->autocompletion.choices
+			&& ptr != NULL) || (first && ptr != NULL))
+	{
+		file = (t_file *)ptr->content;
+		file->x = j;
+		file->y = i;
+		tbl[i][j] = file;
+		if (++i == command_line->autocompletion.nb_lines)
+		{
+			i = 0;
+			j++;
+		}
+		first = 0;
+		ptr = ptr->next;
+	}
+}
+
+t_file	***update_file_tables(t_command_line *command_line)
+{
+	t_file	***res;
+	int		i;
+	int		j;
+
+	if (!(res = (t_file ***)malloc(sizeof(t_file **) * command_line->autocompletion.nb_lines)))
+		return (NULL);
+	i = 0;
+	while (i < command_line->autocompletion.nb_lines)
+	{
+		if (!(res[i] = (t_file **)malloc(sizeof(t_file *) * command_line->autocompletion.nb_cols)))
+		{
+			while (i--)
+				free(res[i]);
+			free(res);
+			return (NULL);
+		}
+		j = 0;
+		while (j < command_line->autocompletion.nb_cols)
+		{
+			res[i][j] = NULL;
+			j++;
+		}
+		i++;
+	}
+	fill_file_tables(command_line, res);
+	return (res);
+}
+
+void	fill_buffer_padding(char **print_buffer)
+{
+	int i;
+
+	i = 0;
+	while (i < AC_PADDING)
+	{
+		ft_strcpy(*print_buffer, " ");
+		(*print_buffer)++;
+		i++;
+	}
+}
+
+void	fill_buffer_from_file(t_command_line *command_line, char **print_buffer,
+			t_file *file, int max_len)
+{
+	int		i;
+	char	*str;
+	int		is_current;
+
+	str = tgetstr("mr", NULL);
+	i = 0;
+	if (file)
+	{
+		is_current = command_line->autocompletion.head
+			&& file == command_line->autocompletion.head->content;
+		if (is_current)
+		{
+			ft_strcpy(*print_buffer, str);
+			*print_buffer += ft_strlen(str);
+		}
+		else if (S_ISDIR(file->st.st_mode))
+		{
+			ft_strcpy(*print_buffer, DIR_COLOR);
+			*print_buffer += ft_strlen(DIR_COLOR);
+		}
+		ft_strcpy(*print_buffer, file->name);
+		i = ft_strlen(file->name);
+		*print_buffer += i;
+		if (S_ISDIR(file->st.st_mode))
+		{
+			if (!is_current)
+			{
+				ft_strcpy(*print_buffer, EOC);
+				*print_buffer += ft_strlen(EOC);
+			}
+			ft_strcpy(*print_buffer, BOLD"/");
+			*print_buffer += ft_strlen(BOLD"/");
+			if (!is_current)
+			{
+				ft_strcpy(*print_buffer, EOC);
+				*print_buffer += ft_strlen(EOC);
+			}
+			i++;
+		}
+	}
+	while (command_line->autocompletion.nb_cols > 1 && i < max_len)
+	{
+		ft_strcpy(*print_buffer, " ");
+		(*print_buffer)++;
+		i++;
+	}
+	if (is_current)
+	{
+		ft_strcpy(*print_buffer, EOC);
+		*print_buffer += ft_strlen(EOC);
+	}
+}
+
+void	fill_buffer_from_tables(t_command_line *command_line,
+			char *print_buffer, t_file ***tbl, int max_len)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < command_line->autocompletion.nb_lines)
+	{
+		j = 0;
+		while (j < command_line->autocompletion.nb_cols)
+		{
+			fill_buffer_from_file(command_line,
+				&print_buffer, tbl[i][j], max_len);
+			j++;
+			if (j < command_line->autocompletion.nb_cols)
+				fill_buffer_padding(&print_buffer);
+		}
+		i++;
+		if (i < command_line->autocompletion.nb_lines)
+		{
+			ft_strcpy(print_buffer, "\n");
+			print_buffer += 1;
+		}
+	}
+}
+void	fill_buffer_partial_from_tables(t_command_line *command_line,
+			char *print_buffer, t_file ***tbl, int max_len)
+{
+	int		i;
+	int		j;
+	int		limit;
+
+	i = command_line->autocompletion.scrolled_lines;
+	while (i <= (limit = command_line->autocompletion.scrolled_lines
+			+ g_glob.winsize.ws_row - 1 - command_line_nb_rows(command_line)))
+	{
+		j = 0;
+		while (j < command_line->autocompletion.nb_cols)
+		{
+			fill_buffer_from_file(command_line,
+				&print_buffer, tbl[i][j], max_len);
+			j++;
+			if (j < command_line->autocompletion.nb_cols)
+				fill_buffer_padding(&print_buffer);
+		}
+		i++;
+		if (i != limit + 1)
+		{
+			ft_strcpy(print_buffer, "\n");
+			print_buffer += 1;
+		}
+	}
+}
+
+void	free_tbl(t_file ***tbl, int width)
+{
+	int i;
+
+	i = 0;
+	while (i < width)
+	{
+		free(tbl[i]);
+		i++;
+	}
+	free(tbl);
+}
+
+int		render_choices(t_command_line *command_line)
+{
+	char	*print_buffer;
+	int		max_len;
 	int		nb_visible_lines;
-	int		rendered_lines;
+	t_file	***tbl;
 
 	max_len = sh_get_max_file_len(command_line->autocompletion.choices);
-	command_line->autocompletion.nb_cols = ft_max(1, (g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));
-	printf("WOOOOOOOOOOO %d\n", command_line->autocompletion.nb_cols);
-	command_line->autocompletion.nb_lines = ft_max(1, ft_round((double)ft_dlstlength(command_line->autocompletion.choices) / (double)command_line->autocompletion.nb_cols));
+	command_line->autocompletion.nb_cols = ft_max(1, 
+		(g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));
+	command_line->autocompletion.nb_lines = ft_max(1,
+		ft_round((double)ft_dlstlength(command_line->autocompletion.choices)
+			/ (double)command_line->autocompletion.nb_cols));
+	tbl = update_file_tables(command_line);
+	if (!(print_buffer = ft_strnew((g_glob.winsize.ws_col * g_glob.winsize.ws_row) * (4 + (2 * ft_strlen(EOC) + ft_strlen(DIR_COLOR))))))
+		return (1);
 	nb_visible_lines = command_line_visible_lines(command_line);
-	if (nb_visible_lines + command_line_nb_rows(command_line) + 1 > g_glob.winsize.ws_row)
-		render_choices_partial(command_line, max_len);
+	if (nb_visible_lines + command_line_nb_rows(command_line) > g_glob.winsize.ws_row)
+		fill_buffer_partial_from_tables(command_line, print_buffer, tbl, max_len);
 	else
-	{
-		ptr = command_line->autocompletion.choices;
-		first = 1;
-		i = 0;
-		j = 0;
-		rendered_lines = 0;
-		while ((ptr != command_line->autocompletion.choices
-					&& ptr != NULL) || (first && ptr != NULL))
-		{
-			file = (t_file *)ptr->content;
-			file->y = i;
-			file->x = j;
-			render_file(command_line, file, max_len, j);
-			rendered_lines += lines_rendered_from_file(file);
-			ptr = ptr->next;
-			first = 0;
-			if (++i == command_line->autocompletion.nb_lines)
-			{
-				go_up_left(nb_visible_lines);
-				i = 0;
-				j++;
-				rendered_lines = 0;
-			}
-		}
-		go_up_left(rendered_lines + 1);
-	}
+		fill_buffer_from_tables(command_line, print_buffer, tbl, max_len);
+	ft_dprintf(0, print_buffer);
+	go_up_left(nb_visible_lines);
+	free_tbl(tbl, command_line->autocompletion.nb_lines);
+	return (ft_free_turn(print_buffer, SUCCESS));
 }

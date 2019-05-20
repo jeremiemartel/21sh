@@ -192,11 +192,6 @@ t_xy	get_position(int cursor);
 int		xy_is_equal(t_xy xy1, t_xy xy2);
 
 /*
-** render_choices.c
-*/
-void	render_choices(t_command_line *command_line);
-
-/*
 ** switch_prompt.c
 */
 int		process_escape(t_command_line *command_line);

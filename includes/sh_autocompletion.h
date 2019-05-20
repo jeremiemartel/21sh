@@ -103,4 +103,9 @@ int		process_autocompletion_up(t_command_line *command_line);
 int		process_autocompletion_left(t_command_line *command_line);
 int		process_autocompletion_right(t_command_line *command_line);
 
+/*
+** render_choices.c
+*/
+int		render_choices(t_command_line *command_line);
+
 #endif
