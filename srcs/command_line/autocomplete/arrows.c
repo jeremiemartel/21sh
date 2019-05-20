@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 20:00:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 20:33:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/20 17:23:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	process_autocompletion_switch(t_command_line *command_line,
 		+ command_line->autocompletion.scrolled_lines - (cl_nb_rows)
 		|| file->y < command_line->autocompletion.scrolled_lines)
 	{
-	//	printf("dqwdqd\n");
 		if (file->y >= g_glob.winsize.ws_row
 			+ command_line->autocompletion.scrolled_lines - (cl_nb_rows))
 		{
@@ -36,6 +35,26 @@ void	process_autocompletion_switch(t_command_line *command_line,
 		}
 	}
 	render_command_line(command_line, 0, 1);
+}
+
+int		substitute_command_str_from_str(t_command_line *command_line, char *from, char *str)
+{
+	int		len;
+	int		utf8_len;
+	int		len_to;
+	int		utf8_len_to;
+
+	len = ft_strlen(from);
+	utf8_len = ft_strlen_utf8(from);
+	len_to = ft_strlen(str);
+	utf8_len_to = ft_strlen_utf8(str);
+	if (ft_substitute_dy_str(command_line->dy_str, str,
+		command_line->current_index - len, len))
+		return (FAILURE);
+	command_line->current_index += len_to - len;
+	command_line->nb_chars += utf8_len_to - utf8_len;
+	render_command_line(command_line, utf8_len_to - utf8_len, 0);
+	return (SUCCESS);
 }
 
 int		substitute_command_str(t_command_line *command_line, char *str)
@@ -71,7 +90,8 @@ int		process_autocompletion_down(t_command_line *command_line)
 	prev_file = command_line->autocompletion.head->content;
 	command_line->autocompletion.head = command_line->autocompletion.head->next;
 	file = (t_file *)command_line->autocompletion.head->content;
-	substitute_command_str(command_line, file->fullname);
+	substitute_command_str_from_str(command_line,
+		prev_file->fullname, file->fullname);
 	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }
@@ -84,7 +104,8 @@ int		process_autocompletion_up(t_command_line *command_line)
 	prev_file = command_line->autocompletion.head->content;
 	command_line->autocompletion.head = command_line->autocompletion.head->prev;
 	file = (t_file *)command_line->autocompletion.head->content;
-	substitute_command_str(command_line, file->fullname);
+	substitute_command_str_from_str(command_line,
+		prev_file->fullname, file->fullname);
 	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }
@@ -172,13 +193,15 @@ int		process_autocompletion_right(t_command_line *command_line)
 		command_line->autocompletion.head
 			= command_line->autocompletion.head->next;
 		file = (t_file *)command_line->autocompletion.head->content;
-		substitute_command_str(command_line, file->fullname);
+		substitute_command_str_from_str(command_line,
+			prev_file->fullname, file->fullname);
 		process_autocompletion_switch(command_line, prev_file, file);
 		return (SUCCESS);
 	}
 	update_autocompletion_head_right(command_line);
 	file = (t_file *)command_line->autocompletion.head->content;
-	substitute_command_str(command_line, file->fullname);
+	substitute_command_str_from_str(command_line,
+			prev_file->fullname, file->fullname);
 	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }
@@ -194,13 +217,15 @@ int		process_autocompletion_left(t_command_line *command_line)
 		command_line->autocompletion.head
 			= command_line->autocompletion.head->prev;
 		file = (t_file *)command_line->autocompletion.head->content;
-		substitute_command_str(command_line, file->fullname);
+		substitute_command_str_from_str(command_line,
+			prev_file->fullname, file->fullname);
 		process_autocompletion_switch(command_line, prev_file, file);
 		return (SUCCESS);
 	}
 	update_autocompletion_head_left(command_line);
 	file = (t_file *)command_line->autocompletion.head->content;
-	substitute_command_str(command_line, file->fullname);
+	substitute_command_str_from_str(command_line,
+		prev_file->fullname, file->fullname);
 	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }
