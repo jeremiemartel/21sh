@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arrows.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 20:00:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 20:33:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/21 14:40:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	process_autocompletion_switch(t_command_line *command_line,
 		+ command_line->autocompletion.scrolled_lines - (cl_nb_rows)
 		|| file->y < command_line->autocompletion.scrolled_lines)
 	{
-	//	printf("dqwdqd\n");
 		if (file->y >= g_glob.winsize.ws_row
 			+ command_line->autocompletion.scrolled_lines - (cl_nb_rows))
 		{
@@ -151,13 +150,10 @@ void	update_autocompletion_head_left(t_command_line *command_line)
 		else if (file->y == 0 && file_iter->y == 0
 			&& file_iter->x == command_line->autocompletion.nb_cols - 1)
 		{
-	//		printf("WWOWOQWDWQD\n\n\n\n");
 			command_line->autocompletion.head = ptr;
 			return ;
 		}
 		ptr = ptr->prev;
-//	printf("%d %d\n", file_iter->x, file_iter->y);
-//	printf("OOHH: %d\n", command_line->autocompletion.nb_cols);
 	}
 }
 

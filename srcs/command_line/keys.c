@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 19:55:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/21 14:40:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_buffer(unsigned char buffer[READ_BUFF_SIZE])
 		ft_printf("\nbuffer[%d]: %d (%.8b)", i, buffer[i], buffer[i]);
 		i++;
 	}
-	printf("\n\n");
+	ft_printf("\n\n");
 }
 
 int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
