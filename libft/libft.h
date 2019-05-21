@@ -27,6 +27,11 @@
 */
 # include <stdlib.h>
 
+/*
+** EOF
+*/
+# include <stdio.h>
+
 typedef struct		s_list
 {
 	void			*content;
@@ -62,6 +67,28 @@ typedef struct		s_dlist
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
 }					t_dlist;
+
+typedef struct	s_gnl
+{
+	int			fd;
+	int			size;
+	char		*rest;
+	char		*whole_buffer;
+}				t_gnl;
+
+typedef enum	e_separator
+{
+	E_SEPARATOR_ZERO = '\0',
+	E_SEPARATOR_NL = '\n',
+	E_SEPARATOR_EOF = EOF
+}				t_separator;
+
+typedef struct	s_gnl_info
+{
+	t_separator	separator;
+	char		*line;
+}				t_gnl_info;
+
 
 /*
 ********************************** atoi  **************************************
@@ -188,6 +215,7 @@ int					ft_strequ(const char *s1, const char *s2);
 int					ft_strnequ(const char *s1, const char *s2, size_t n);
 char				*ft_strsub(const char *s, unsigned int start, size_t len);
 char				*ft_strjoin(const char *s1, const char *s2);
+char				*ft_strnjoin_free(char *s1, char *s2, size_t n);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 
@@ -287,6 +315,9 @@ int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
 # define GNL_MAX_FD	2000
 
 int			get_next_line(const int fd, char **line);
+int			get_next_line2(int const fd, t_gnl_info *info);
+int			ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del);
+t_gnl		*ft_get_gnl(int fd, t_list **gnls);
 
 /*
 ********************************** ft_printf  *********************************

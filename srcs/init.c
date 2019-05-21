@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 18:59:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 17:09:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int		sh_init_command_line(t_command_line *command_line)
 	command_line->pinned_index = -1;
 	command_line->last_char_input = -1;
 	command_line->mode = E_MODE_INSERT;
+	command_line->context = E_CONTEXT_STANDARD;
 	if (!(command_line->prompt = ft_strdup(PROMPT)))
 		return (FAILURE);
 	command_line->clipboard = NULL;

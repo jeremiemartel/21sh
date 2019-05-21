@@ -47,5 +47,4 @@ int		sh_verbose_lexer(void);
 int		sh_verbose_exec(void);
 int		sh_verbose_pipe(void);
 
-
 #endif

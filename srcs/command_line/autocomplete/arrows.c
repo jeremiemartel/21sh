@@ -6,11 +6,37 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 20:00:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/06 20:00:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:33:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+void	process_autocompletion_switch(t_command_line *command_line,
+			t_file *prev_file, t_file *file)
+{
+	(void)prev_file;
+	int cl_nb_rows;
+
+	cl_nb_rows = command_line_nb_rows(command_line);
+	if (file->y >= g_glob.winsize.ws_row
+		+ command_line->autocompletion.scrolled_lines - (cl_nb_rows)
+		|| file->y < command_line->autocompletion.scrolled_lines)
+	{
+	//	printf("dqwdqd\n");
+		if (file->y >= g_glob.winsize.ws_row
+			+ command_line->autocompletion.scrolled_lines - (cl_nb_rows))
+		{
+			command_line->autocompletion.scrolled_lines
+				= file->y - g_glob.winsize.ws_row + 1 + cl_nb_rows;
+		}
+		else
+		{
+			command_line->autocompletion.scrolled_lines = file->y;
+		}
+	}
+	render_command_line(command_line, 0, 1);
+}
 
 int		substitute_command_str(t_command_line *command_line, char *str)
 {
@@ -19,7 +45,7 @@ int		substitute_command_str(t_command_line *command_line, char *str)
 	if (populate_word_by_index(command_line->dy_str->str,
 		command_line->current_index, &word))
 		return (FAILURE);
-	if (process_substitute_command(command_line, str, word))
+	if (process_substitute_command(command_line, str, word, 0))
 	{
 		free(word.str);
 		return (FAILURE);
@@ -31,22 +57,35 @@ int		substitute_command_str(t_command_line *command_line, char *str)
 int		process_autocompletion_down(t_command_line *command_line)
 {
 	t_file	*file;
+	t_file	*prev_file;
 
+	if (!command_line->autocompletion.head)
+	{
+		command_line->autocompletion.head = command_line->autocompletion.choices;
+		file = (t_file *)command_line->autocompletion.head->content;
+		prev_file = file;
+		substitute_command_str(command_line, file->fullname);
+		process_autocompletion_switch(command_line, prev_file, file);
+		return (SUCCESS);
+	}
+	prev_file = command_line->autocompletion.head->content;
 	command_line->autocompletion.head = command_line->autocompletion.head->next;
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
+	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }
 
 int		process_autocompletion_up(t_command_line *command_line)
 {
 	t_file	*file;
+	t_file	*prev_file;
 
+	prev_file = command_line->autocompletion.head->content;
 	command_line->autocompletion.head = command_line->autocompletion.head->prev;
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
+	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }
 
@@ -112,49 +151,56 @@ void	update_autocompletion_head_left(t_command_line *command_line)
 		else if (file->y == 0 && file_iter->y == 0
 			&& file_iter->x == command_line->autocompletion.nb_cols - 1)
 		{
+	//		printf("WWOWOQWDWQD\n\n\n\n");
 			command_line->autocompletion.head = ptr;
 			return ;
 		}
 		ptr = ptr->prev;
+//	printf("%d %d\n", file_iter->x, file_iter->y);
+//	printf("OOHH: %d\n", command_line->autocompletion.nb_cols);
 	}
 }
 
 int		process_autocompletion_right(t_command_line *command_line)
 {
 	t_file	*file;
+	t_file	*prev_file;
 
+	prev_file = command_line->autocompletion.head->content;
 	if (command_line->autocompletion.nb_cols == 1)
 	{
 		command_line->autocompletion.head
 			= command_line->autocompletion.head->next;
 		file = (t_file *)command_line->autocompletion.head->content;
 		substitute_command_str(command_line, file->fullname);
-		render_command_line(command_line, 0);
+		process_autocompletion_switch(command_line, prev_file, file);
 		return (SUCCESS);
 	}
 	update_autocompletion_head_right(command_line);
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
+	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }
 
 int		process_autocompletion_left(t_command_line *command_line)
 {
 	t_file	*file;
+	t_file	*prev_file;
 
+	prev_file = command_line->autocompletion.head->content;
 	if (command_line->autocompletion.nb_cols == 1)
 	{
 		command_line->autocompletion.head
 			= command_line->autocompletion.head->prev;
 		file = (t_file *)command_line->autocompletion.head->content;
 		substitute_command_str(command_line, file->fullname);
-		render_command_line(command_line, 0);
+		process_autocompletion_switch(command_line, prev_file, file);
 		return (SUCCESS);
 	}
 	update_autocompletion_head_left(command_line);
 	file = (t_file *)command_line->autocompletion.head->content;
 	substitute_command_str(command_line, file->fullname);
-	render_command_line(command_line, 0);
+	process_autocompletion_switch(command_line, prev_file, file);
 	return (SUCCESS);
 }

@@ -17,6 +17,7 @@ int		t_context_init(t_context *context, t_shell *shell)
 {
 	if (!(context->params = ft_dy_tab_new(5)))
 		return (ft_perror(SH_ERR1_MALLOC, "t_context_init"));
+	context->shell = shell;
 	context->env = shell->env;
 	context->vars = shell->vars;
 	context->term = &shell->term;

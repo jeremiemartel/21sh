@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 14:43:02 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/13 17:06:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,7 @@ void	reset_command_line(t_shell *shell, t_command_line *command_line)
 
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
-	int		ret;
-
 	reset_command_line(shell, command_line);
-	render_command_line(command_line, 0);
-	if ((ret = get_keys(shell, command_line)))
-		return (ret);
-	return (0);
+	render_command_line(command_line, 0, 1);
+	return (get_keys(shell, command_line));
 }

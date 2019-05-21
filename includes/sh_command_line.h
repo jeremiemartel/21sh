@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 13:19:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/17 19:45:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # define PROMPT			"$21_sh(to_rework)> "
 # define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
 # define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
-# define HISTORIC_FILE	".historic"
-# define READ_BUFF_SIZE	4
+# define HEREDOC_PROMPT	"heredoc> "
+# define READ_BUFF_SIZE	8
 
 typedef enum		e_mode
 {
@@ -28,18 +28,25 @@ typedef enum		e_mode
 	E_MODE_COMMAND
 }					t_mode;
 
-typedef struct		s_command_line
+typedef enum		e_command_line_context
 {
-	char			*prompt;
-	t_dy_str		*dy_str;
-	int				nb_chars;
-	int				current_index;
-	t_auto_complete autocompletion;
-	t_mode			mode;
-	char			*clipboard;
-	int				pinned_index;
-	int				last_char_input;
-}					t_command_line;
+	E_CONTEXT_STANDARD,
+	E_CONTEXT_HEREDOC,
+}					t_command_line_context;
+
+typedef struct				s_command_line
+{
+	char					*prompt;
+	t_dy_str				*dy_str;
+	int						nb_chars;
+	int						current_index;
+	t_auto_complete 		autocompletion;
+	t_mode					mode;
+	char					*clipboard;
+	int						pinned_index;
+	int						last_char_input;
+	t_command_line_context	context;
+}							t_command_line;
 
 typedef struct		s_historic
 {
@@ -78,7 +85,7 @@ int			clear_all(void);
 ** get_command.c
 */
 void		reset_command_line(t_shell *shell, t_command_line *command_line);
-int			render_command_line(t_command_line *command_line, int cursor_inc);
+int			render_command_line(t_command_line *command_line, int c, int r);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
 
 /*
@@ -119,7 +126,8 @@ int		is_printable_utf8(unsigned char *buffer, int nb_bytes);
 /*
 ** keys.c
 */
-int		 get_keys(t_shell *shell, t_command_line *command_line);
+int		get_keys(t_shell *shell, t_command_line *command_line);
+void	print_buffer(unsigned char buffer[READ_BUFF_SIZE]);
 
 /*
 ** keys_insert.c
@@ -173,20 +181,15 @@ int		process_end(t_command_line *command_line);
 int		substitute_current_index(t_command_line *command_line, t_file *file);
 void	flush_command_line(t_command_line *command_line);
 int		process_substitute_command(t_command_line *command_line,
-			char *str, t_word word);
+			char *str, t_word word, int print_choices);
 int		paste_current_index(t_command_line *command_line, char *to_paste);
 int		delete_command_line_selection(t_command_line *command_line);
-
+int		command_line_nb_rows(t_command_line *command_line);
 /*
 ** xy.c
 */
 t_xy	get_position(int cursor);
 int		xy_is_equal(t_xy xy1, t_xy xy2);
-
-/*
-** render_choices.c
-*/
-void	render_choices(t_command_line *command_line);
 
 /*
 ** switch_prompt.c
@@ -206,10 +209,18 @@ int		paste_current_index(t_command_line *command_line, char *to_paste);
 int		delete_command_line_selection(t_command_line *command_line);
 
 /*
+** heredoc.c
+*/
+char	*heredoc(t_shell *shell, char *stop,
+			char *(*heredoc_func)(char *), int *ret);
+
+/*
 ** selection.c
 */
 
 void	populate_min_max_selection(t_command_line *command_line,
 		int *min, int *max);
 void	render_command_visual(t_command_line *command_line);
+
+
 #endif

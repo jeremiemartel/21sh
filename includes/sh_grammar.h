@@ -22,18 +22,7 @@
 
 typedef struct		s_ast_node	t_ast_node;
 typedef struct		s_context	t_context;
-
-typedef struct		s_context
-{
-	struct termios	*term;
-	t_dy_tab		*env;
-	t_dy_tab		*vars;
-	t_dy_tab		*params; //argv
-	int				(*builtin)(t_context *context);
-	int				father_id;
-	int				fd[3];
-	int				pipe[2];
-}					t_context;
+typedef struct		s_shell		t_shell;
 
 typedef struct		s_symbol
 {
@@ -59,7 +48,6 @@ typedef struct		s_cfg
 	t_symbol		symbols[NB_SYMBOLS];
 	t_production	productions[NB_PRODUCTIONS];
 }					t_cfg;
-
 
 typedef struct		s_grammar_holder
 {

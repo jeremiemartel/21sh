@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:59:37 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/06 18:08:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:38:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 
-# define AC_PADDING		4
+# define AC_PADDING		2
 
 # define DIR_COLOR		BOLD RED
 
@@ -71,8 +71,6 @@ typedef struct		s_auto_complete
 char	*get_first_word(char *str);
 int		process_tab(t_shell *shell, t_command_line *command_line);
 char	*get_completion_str_file(t_file *file);
-int		process_substitute_command(t_command_line *command_line,
-			char *str, t_word word);
 /*
 ** preprocess_choice_add.c
 */
@@ -104,5 +102,10 @@ int		process_autocompletion_down(t_command_line *command_line);
 int		process_autocompletion_up(t_command_line *command_line);
 int		process_autocompletion_left(t_command_line *command_line);
 int		process_autocompletion_right(t_command_line *command_line);
+
+/*
+** render_choices.c
+*/
+int		render_choices(t_command_line *command_line);
 
 #endif

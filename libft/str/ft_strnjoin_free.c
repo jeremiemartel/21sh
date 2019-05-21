@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   home_end.c                                         :+:      :+:    :+:   */
+/*   ft_strnjoin_free.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/09 14:42:28 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/09 14:48:31 by ldedier          ###   ########.fr       */
+/*   Created: 2018/07/09 01:04:49 by ldedier           #+#    #+#             */
+/*   Updated: 2018/07/09 20:58:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		process_end(t_command_line *command_line)
+char	*ft_strnjoin_free(char *s1, char *s2, size_t n)
 {
-	command_line->current_index = command_line->dy_str->current_size;
-	render_command_line(command_line, command_line->nb_chars - g_glob.cursor, 1);
-	return (SUCCESS);
-}
+	char *res;
 
-int		process_start(t_command_line *command_line)
-{
-	command_line->current_index = 0;
-	render_command_line(command_line, - g_glob.cursor, 1);
-	return (SUCCESS);
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	if (!(res = ft_strnew(ft_strlen(s1) + ft_min(ft_strlen(s2), n) + 1)))
+	{
+		ft_strdel(&s1);
+		return (NULL);
+	}
+	ft_strclr(res);
+	ft_strcat(res, s1);
+	ft_strncat(res, s2, n);
+	ft_strdel(&s1);
+	return (res);
 }

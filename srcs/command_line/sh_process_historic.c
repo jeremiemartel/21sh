@@ -32,7 +32,7 @@ int		process_historic_down(t_shell *shell, t_command_line *command_line)
 			flush_command_line(command_line);
 			update_command_line(command_line);
 			render_command_line(command_line,
-				command_line->nb_chars - g_glob.cursor);
+				command_line->nb_chars - g_glob.cursor, 1);
 		}
 		return (SUCCESS);
 	}
@@ -43,7 +43,7 @@ int		process_historic_down(t_shell *shell, t_command_line *command_line)
 		return (FAILURE);
 	update_command_line(command_line);
 	render_command_line(command_line,
-		command_line->nb_chars - g_glob.cursor);
+		command_line->nb_chars - g_glob.cursor, 1);
 	return (SUCCESS);
 }
 
@@ -63,6 +63,6 @@ int		process_historic_up(t_shell *shell, t_command_line *command_line)
 		return (FAILURE);
 	update_command_line(command_line);
 	render_command_line(command_line,
-		command_line->nb_chars - g_glob.cursor);
+		command_line->nb_chars - g_glob.cursor, 1);
 	return (SUCCESS);
 }

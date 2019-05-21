@@ -26,7 +26,7 @@ int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
 		if (command_line_copy_all(command_line) != SUCCESS)
 			return (FAILURE);
 		flush_command_line(command_line);
-		render_command_line(command_line, - g_glob.cursor);
+		render_command_line(command_line, - g_glob.cursor, 1);
 	}
 	else if (buffer[0] == 'y' && command_line->last_char_input == 'y')
 		return (command_line_copy_all(command_line));

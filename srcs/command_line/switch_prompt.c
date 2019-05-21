@@ -16,7 +16,7 @@ void	switch_prompt(t_command_line *command_line, char *new_prompt)
 {
 	free(command_line->prompt);
 	command_line->prompt = new_prompt;
-	render_command_line(command_line, 0);
+	render_command_line(command_line, 0, 1);
 }
 
 int		process_escape(t_command_line *command_line)

@@ -40,7 +40,7 @@ void	process_delete(t_command_line *command_line)
 		command_line->current_index -= diff;
 		command_line->dy_str->current_size -= diff;
 		command_line->nb_chars--;
-		render_command_line(command_line, -1);
+		render_command_line(command_line, -1, 1);
 	}
 }
 
@@ -62,7 +62,7 @@ void	process_suppr(t_command_line *command_line)
 		}
 		command_line->dy_str->current_size -= diff;
 		command_line->nb_chars--;
-		render_command_line(command_line, 0);
+		render_command_line(command_line, 0, 1);
 	}
 }
 
@@ -71,7 +71,7 @@ void	process_edit_command_left(t_command_line *command_line)
 	if (command_line->current_index > 0)
 	{
 		command_line->current_index = get_left_w_char_index(command_line);
-		render_command_line(command_line, -1);
+		render_command_line(command_line, -1, 1);
 	}
 	else
 		ring_bell();
@@ -82,7 +82,7 @@ void	process_edit_command_right(t_command_line *command_line)
 	if (command_line->current_index < (int)command_line->dy_str->current_size)
 	{
 		command_line->current_index = get_right_w_char_index(command_line);
-		render_command_line(command_line, 1);
+		render_command_line(command_line, 1, 1);
 	}
 	else
 		ring_bell();
