@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 13:34:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/21 12:37:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 		else
 			next_token = NULL;
 		if (lexer_is_operator(token->id));
-		else if (ft_isdigit_only(token->value) && next_token && (next_token->id == '<' || next_token->id == '>'))
+		else if (ft_isdigit_only(token->value) && next_token && (next_token->id == '<' || next_token->id == '>')) // Need to check that there are no blanks between digits and operator
 			t_token_update_id(LEX_TOK_IO_NUMBER, token);	
 		head = head->next;
 	}
