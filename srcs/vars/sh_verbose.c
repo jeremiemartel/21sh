@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:16:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/21 18:26:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/21 18:33:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int		sh_verbose_update(t_shell *shell)
 		g_glob.verbose += g_glob.verbose & VERBOSE_PIPE ? 0 : VERBOSE_PIPE;
 	else
 		g_glob.verbose -= g_glob.verbose & VERBOSE_PIPE ? VERBOSE_PIPE : 0;
-
-	ft_dprintf(2, "verbose : %d\n", g_glob.verbose);
 
 	return (SUCCESS);
 }
