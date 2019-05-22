@@ -18,14 +18,15 @@ void	render_command_researched(t_command_line *command_line)
 	char	*str;
 
 	ft_putnstr_fd(command_line->dy_str->str,
-			command_line->searcher.match_index, 0);
+		command_line->searcher.match_index, 0);
 	str = tgetstr("us", NULL);
 	tputs(str, 1, putchar_int);
 	ft_putstr_fd(command_line->searcher.dy_str->str, 0);
 	str = tgetstr("ue", NULL);
 	tputs(str, 1, putchar_int);
 	len = ft_strlen(command_line->searcher.dy_str->str);
-	ft_putstr_fd(&command_line->dy_str->str[command_line->searcher.match_index + len], 0);
+	ft_putstr_fd(&command_line->dy_str->str[command_line->searcher.match_index
+		+ len], 0);
 }
 
 /*
@@ -42,11 +43,12 @@ int		render_command_line(t_command_line *command_line,
 	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.cursor);
 	str = tgetstr("cd", NULL);
 	tputs(str, 1, putchar_int);
-	
 	ft_dprintf(0, "%s%s%s%s", BOLD, CYAN, g_glob.command_line.prompt, EOC);
 	if (command_line->mode == E_MODE_VISUAL)
 		render_command_visual(command_line);
-	else if (command_line->searcher.active && !command_line->searcher.unsuccessful)
+	else if (command_line->searcher.active
+			&& !command_line->searcher.unsuccessful
+				&& ft_strcmp(command_line->searcher.dy_str->str, ""))
 		render_command_researched(command_line);
 	else
 		ft_dprintf(0, "%s", command_line->dy_str->str);
