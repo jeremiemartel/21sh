@@ -40,7 +40,7 @@ int		get_down_from_command(t_command_line *command_line)
 	i = 0;
 	while (i++ < cursor_y)
 		ret++;
-	return (ret);
+	return (ret + 1);
 }
 
 void	replace_cursor_on_index()

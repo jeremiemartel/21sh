@@ -76,7 +76,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						copy_paste_delete.c update_prompt.c \
 						keys_insert.c keys_others.c keys_insert.c \
 						cursor_tools.c selection.c sh_process_historic.c \
-						heredoc.c
+						heredoc.c research_historic.c render_research.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \

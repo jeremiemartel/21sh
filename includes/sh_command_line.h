@@ -22,6 +22,9 @@
 # define PROMPT_SUFFIX	"> "
 # define READ_BUFF_SIZE	4
 
+# define SUCCESS_RSRCH		"failing bck-i-search: "
+# define UNSUCCESS_RSRCH	"bck-i-search: "
+
 typedef enum		e_mode
 {
 	E_MODE_INSERT,
@@ -35,13 +38,23 @@ typedef enum		e_command_line_context
 	E_CONTEXT_HEREDOC,
 }					t_command_line_context;
 
+typedef struct				s_searcher
+{
+	int						active;
+	t_dlist					*head;
+	t_dy_str				*dy_str;
+	int						match_index;
+	int						unsuccessful;
+}							t_searcher;
+
 typedef struct				s_command_line
 {
-	char					*prompt;
+	t_auto_complete 		autocompletion;
+	t_searcher				searcher;
 	t_dy_str				*dy_str;
+	char					*prompt;
 	int						nb_chars;
 	int						current_index;
-	t_auto_complete 		autocompletion;
 	t_mode					mode;
 	char					*clipboard;
 	int						pinned_index;
@@ -85,6 +98,8 @@ int			clear_all(void);
 /*
 ** get_command.c
 */
+int			sh_add_to_dy_str(t_dy_str *dy_str,
+				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
 void		reset_command_line(t_shell *shell, t_command_line *command_line);
 int			render_command_line(t_command_line *command_line, int c, int r);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
@@ -95,7 +110,7 @@ int			sh_get_command(t_shell *shell, t_command_line *command_line);
 void    process_edit_command_left(t_command_line *command_line);
 void    process_edit_command_right(t_command_line *command_line);
 void	process_suppr(t_command_line *command_line);
-void	process_delete(t_command_line *command_line);
+void	process_delete(t_command_line *command_line, t_shell *shell);
 
 /*
 ** cursor_motion.c
@@ -118,7 +133,7 @@ int     ft_strlen_utf8(char *str);
 int     ft_strnlen_utf8(char *str, int n);
 int		get_left_w_char_index(t_command_line *command_line);
 int		get_right_w_char_index(t_command_line *command_line);
-
+int		get_left_w_char_index_dy_str(t_dy_str *str, int index);
 /*
 ** is_printable_utf8.c
 */
@@ -223,5 +238,15 @@ void	populate_min_max_selection(t_command_line *command_line,
 		int *min, int *max);
 void	render_command_visual(t_command_line *command_line);
 
+/*
+** historic_research.c
+*/
+int		process_research_historic(t_command_line *command_line, t_shell *shell);
+int		update_research_historic(t_command_line *command_line,
+			t_shell *shell, int reset);
+/*
+** render_research.c
+*/
+int		render_research(t_command_line *command_line);
 
 #endif

@@ -101,6 +101,11 @@ int		sh_init_command_line(t_command_line *command_line)
 	command_line->last_char_input = -1;
 	command_line->mode = E_MODE_INSERT;
 	command_line->context = E_CONTEXT_STANDARD;
+	if (!(command_line->searcher.dy_str = ft_dy_str_new(63)))
+		return (FAILURE);
+	command_line->searcher.active = 0;
+	command_line->searcher.head = NULL;
+	command_line->searcher.unsuccessful = 0;
 	if (!(command_line->prompt = ft_strjoin(PROMPT, PROMPT_SUFFIX)))
 		return (FAILURE);
 	command_line->clipboard = NULL;

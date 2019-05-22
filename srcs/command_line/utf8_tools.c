@@ -60,6 +60,27 @@ int		ft_strnlen_utf8(char *str, int n)
 	return (res);
 }
 
+int		get_left_w_char_index_dy_str(t_dy_str *dy_str, int index)
+{
+	int				j;
+	unsigned char	*buffer;
+
+	if (index == 0)
+		return (0);
+	else
+	{
+		j = 1;
+		while (index - j >= 0 && j < 5)
+		{
+			buffer = (unsigned char *)&(dy_str->str[index - j]);
+			if (is_printable_utf8(buffer, j))
+				return (index - j);
+			j++;
+		}
+	}
+	return (index - j);
+}
+
 int		get_left_w_char_index(t_command_line *command_line)
 {
 	unsigned char	*buffer;

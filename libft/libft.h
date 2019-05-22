@@ -283,6 +283,8 @@ void				ft_dy_str_free(t_dy_str *dy_str);
 int					ft_dy_str_cpy_str(t_dy_str *dy_str, char *str);
 int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
 						int index_to_inject, int len);
+int					ft_dy_str_replace(t_dy_str *dy_str, char *str);
+
 /*
 ************************************ dytab  ***********************************
 */

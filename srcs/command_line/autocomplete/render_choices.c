@@ -297,7 +297,7 @@ int		render_choices(t_command_line *command_line)
 	else
 		fill_buffer_from_tables(command_line, print_buffer, tbl, max_len);
 	ft_dprintf(0, print_buffer);
-	go_up_left(nb_visible_lines);
+	go_up_left(nb_visible_lines - 1);
 	free_tbl(tbl, command_line->autocompletion.nb_lines);
 	return (ft_free_turn(print_buffer, SUCCESS));
 }
