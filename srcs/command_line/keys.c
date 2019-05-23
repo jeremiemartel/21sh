@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/21 14:40:29 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 15:36:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		if (command_line->mode == E_MODE_INSERT)
 		{
 			 res = process_keys_insert(buffer, shell, command_line, ret);
-			if (command_line->context == E_CONTEXT_STANDARD
+			if (command_line->context != E_CONTEXT_HEREDOC
 				&& res != KEEP_READ && res != CTRL_C)
 					return (res);
 			else if (command_line->context == E_CONTEXT_HEREDOC
