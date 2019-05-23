@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/07 14:53:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 12:00:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ int		lexer_rule2(t_lexer *lexer)
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = lexer->c;
 		else if (!(lexer->current_id & 0xff00))
-			lexer->current_id += 0xff00 * lexer->c;
+		{
+			if (lexer_is_operator(lexer->current_id + 0xff00 * lexer->c))
+				lexer->current_id += 0xff00 * lexer->c;
+			else
+				return (LEX_CONTINUE);
+		}
 		else
 			lexer->current_id += 0xff0000 * lexer->c;		
 		lexer->tok_len++;

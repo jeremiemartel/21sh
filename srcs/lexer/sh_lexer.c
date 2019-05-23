@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/21 12:37:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 11:55:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 	while (head)
 	{
 		token = (t_token*)head->content;
+		t_token_show(token);
+		ft_putchar('\n');
 		if (head->next)
 			next_token = (t_token*)(head->next->content);
 		else
