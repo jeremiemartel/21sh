@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/13 17:06:13 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/23 18:07:14 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,21 @@ int		sh_add_to_command(t_command_line *command_line,
 	return (0);
 }
 
-void	reset_command_line(t_shell *shell, t_command_line *command_line)
+int		reset_command_line(t_shell *shell, t_command_line *command_line)
 {
 	shell->historic.head = &shell->historic.head_start;
 	command_line->autocompletion.head = NULL;
 	g_glob.cursor = 0;
 	flush_command_line(command_line);
+	if (update_prompt(command_line) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
-	reset_command_line(shell, command_line);
+	if (reset_command_line(shell, command_line) == FAILURE)
+		return (FAILURE);
 	render_command_line(command_line, 0, 1);
 	return (get_keys(shell, command_line));
 }

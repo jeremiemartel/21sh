@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 14:47:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 12:55:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 15:04:07 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define SH_ERR1_NOT_A_DIR		"Not a directory"
 # define SH_ERR1_BAD_FD			"Bad file descriptor"
 # define SH_ERR1_IS_DIR			"is a directory"
+# define SH_ERR1_UNEXPECTED_EOF	"unexpected EOF"
 
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 

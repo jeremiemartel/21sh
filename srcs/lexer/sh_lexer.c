@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/23 12:03:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 15:27:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	int			ret;
 	int			i;
 
+	lexer.shell = shell;
 	int (*rules[LEX_RULES_LEN]) (t_lexer *) =
 	{
 		&lexer_rule1,
