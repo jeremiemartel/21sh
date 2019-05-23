@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 15:58:19 by jmartel           #+#    #+#              #
-#    Updated: 2019/05/23 17:06:04 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/23 17:57:38 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,10 @@ test()
 		if [ -n $verbose ] ; then
 			echo -e "${cyan}`echo $res`${eoc}"
 		fi
-		rm res2.bash res2.21sh
 	else
 		echo -e "${green}OK${eoc}"
 	fi
+	rm -f res2.bash res2.21sh
 
 	rm buffer
 }

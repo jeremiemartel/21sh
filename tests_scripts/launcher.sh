@@ -34,11 +34,12 @@ eoc=\\033[0m
 make -C $path && cp ${path}/${exec} .
 
 source functions.sh
-# source test_pipes.sh
 
-for file in `ls test_*` ; do
-	source $file
-done
+source test_builtins.sh
+
+#for file in `ls test_*` ; do
+#	source $file
+#done
 
 ## Other tests
 launch "Others"
