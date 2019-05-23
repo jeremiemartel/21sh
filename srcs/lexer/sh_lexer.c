@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/23 12:03:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 17:09:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 	{
 		token = (t_token*)head->content;
 		if (token->id == LEX_TOK_UNKNOWN)
-			return (LEX_ERR);
+			return (ft_perror("Unknow token detected", "lexer"));//
 		if (head->next)
 			next_token = (t_token*)(head->next->content);
 		else
@@ -90,7 +90,8 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	if (ret == LEX_ERR)
 		return (ft_perror("Lexer", "Error returned"));//Leaks
 	lexer_lexical_conventions(&lexer);
-	// lexer_show(&lexer);
+	if (sh_verbose_lexer())
+		lexer_show(&lexer);
 	*tokens = lexer.list;
 	free(lexer.input);
 	if (ret == LEX_END)
