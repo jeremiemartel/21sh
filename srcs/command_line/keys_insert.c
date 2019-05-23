@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/20 17:33:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/23 11:37:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ int		process_enter(t_command_line *command_line)
 	return (1);
 }
 
+
 void		process_ctrl_c(t_shell *shell, t_command_line *command_line)
 {
 	command_line->autocompletion.head = NULL;
 	command_line->autocompletion.active = 0;
+	if (command_line->searcher.active == 0)
+		get_down_from_command(command_line);
 	command_line->searcher.active = 0;
-	get_down_from_command(command_line);
 	reset_command_line(shell, command_line);
 	render_command_line(command_line, 0, 1);
 }

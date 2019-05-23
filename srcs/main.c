@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 19:13:41 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/23 11:12:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		sh_process_command(t_shell *shell, char *command)
 		switch_prompt_from_lexer(ret);
 		return (FAILURE);
 	}
+//	sh_print_token_list(tokens, &shell->parser.cfg);
 	if (sh_parser(tokens, shell) != SUCCESS)
 	   	return (SUCCESS);
 	return (sh_process_traverse(shell));
