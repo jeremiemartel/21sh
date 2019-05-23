@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/21 18:04:03 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/23 09:52:45 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,10 +75,10 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						get_command.c utf8_tools.c sh_process_shift.c \
 						render_command_line.c arrows.c home_end.c \
 						command_line.c xy.c \
-						copy_paste_delete.c switch_prompt.c \
+						copy_paste_delete.c update_prompt.c \
 						keys_insert.c keys_others.c keys_insert.c \
 						cursor_tools.c selection.c sh_process_historic.c \
-						heredoc.c
+						heredoc.c research_historic.c render_research.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \
@@ -88,7 +88,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
-						historic.c
+						historic.c home.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						first_sets.c debug.c follow_sets.c \

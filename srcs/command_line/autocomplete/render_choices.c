@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:40:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 20:34:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/22 22:53:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int	sh_get_max_file_len(t_dlist *dlist)
 	}
 	return (max);
 }
-
 
 int		ft_round(float a)
 {
@@ -272,6 +271,13 @@ void	free_tbl(t_file ***tbl, int width)
 	free(tbl);
 }
 
+int		sh_should_render_choices(t_command_line *command_line, int nb_visible_lines)
+{
+	return (command_line->autocompletion.nb_cols != 1
+			|| nb_visible_lines
+				+ command_line_nb_rows(command_line) <= g_glob.winsize.ws_row);
+}
+
 int		render_choices(t_command_line *command_line)
 {
 	char	*print_buffer;
@@ -289,16 +295,18 @@ int		render_choices(t_command_line *command_line)
 	command_line->autocompletion.nb_cols = ft_max(1,
 		ft_round((double)ft_dlstlength(command_line->autocompletion.choices)
 			/ (double)command_line->autocompletion.nb_lines));
-	if (!(print_buffer = ft_strnew((g_glob.winsize.ws_col * g_glob.winsize.ws_row) * (4 + (2 * ft_strlen(EOC) + ft_strlen(DIR_COLOR))))))
-		return (1);
 	nb_visible_lines = command_line_visible_lines(command_line);
+	if (!sh_should_render_choices(command_line, nb_visible_lines))
+		return (SUCCESS);
+	if (!(print_buffer = ft_strnew((g_glob.winsize.ws_col * g_glob.winsize.ws_row) * (4 + (2 * ft_strlen(EOC) + ft_strlen(DIR_COLOR))))))
+		return (ft_perror(SH_ERR1_MALLOC, "render_choices"));
+//	ft_printf("\n\n %d %d\n", command_line->autocompletion.nb_cols, command_line->autocompletion.nb_lines);
 	if (nb_visible_lines + command_line_nb_rows(command_line) > g_glob.winsize.ws_row)
 		fill_buffer_partial_from_tables(command_line, print_buffer, tbl, max_len);
 	else
 		fill_buffer_from_tables(command_line, print_buffer, tbl, max_len);
 	ft_dprintf(0, print_buffer);
-	go_up_left(nb_visible_lines);
+	go_up_left(nb_visible_lines - 1);
 	free_tbl(tbl, command_line->autocompletion.nb_lines);
-	usleep(10000);
 	return (ft_free_turn(print_buffer, SUCCESS));
 }

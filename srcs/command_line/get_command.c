@@ -12,6 +12,18 @@
 
 #include "sh_21.h"
 
+int		sh_add_to_dy_str(t_dy_str *dy_str,
+			unsigned char buffer[READ_BUFF_SIZE], int nb_bytes)
+{
+	char buffer2[READ_BUFF_SIZE + 1];
+
+	ft_memcpy(buffer2, buffer, nb_bytes);
+	buffer2[nb_bytes] = 0;
+	if (ft_substitute_dy_str(dy_str, buffer2, ft_strlen(dy_str->str), 0))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_add_to_dy_str"));
+	return (SUCCESS);
+}
+
 int		sh_add_to_command(t_command_line *command_line,
 		unsigned char buffer[READ_BUFF_SIZE], int nb_bytes)
 {

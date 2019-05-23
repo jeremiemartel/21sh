@@ -20,27 +20,44 @@ void	ring_bell(void)
 	tputs(str, 1, putchar_int);
 }
 
-void	process_delete(t_command_line *command_line)
+void	process_delete_searcher(t_command_line *command_line, t_shell *shell)
+{
+	int index;
+	int len;
+
+	len = ft_strlen(command_line->searcher.dy_str->str);
+	index = get_left_w_char_index_dy_str(command_line->searcher.dy_str, len);
+	command_line->searcher.dy_str->str[index] = '\0';
+	render_command_line(command_line, 0, 0);
+	update_research_historic(command_line, shell, 1);
+}
+
+void	process_delete(t_command_line *command_line, t_shell *shell)
 {
 	int diff;
 	int left_w_char_index;
 
-	if (command_line->current_index == 0)
-		ring_bell();
+	if (command_line->searcher.active)
+		process_delete_searcher(command_line, shell);
 	else
 	{
-		left_w_char_index = get_left_w_char_index(command_line);
-		diff = command_line->current_index - left_w_char_index;
-		while (left_w_char_index + diff <= (int)command_line->dy_str->current_size)
+		if (command_line->current_index == 0)
+			ring_bell();
+		else
 		{
-			command_line->dy_str->str[left_w_char_index] =
-				command_line->dy_str->str[left_w_char_index + diff];
-			left_w_char_index++;
+			left_w_char_index = get_left_w_char_index(command_line);
+			diff = command_line->current_index - left_w_char_index;
+			while (left_w_char_index + diff <= (int)command_line->dy_str->current_size)
+			{
+				command_line->dy_str->str[left_w_char_index] =
+					command_line->dy_str->str[left_w_char_index + diff];
+				left_w_char_index++;
+			}
+			command_line->current_index -= diff;
+			command_line->dy_str->current_size -= diff;
+			command_line->nb_chars--;
+			render_command_line(command_line, -1, 1);
 		}
-		command_line->current_index -= diff;
-		command_line->dy_str->current_size -= diff;
-		command_line->nb_chars--;
-		render_command_line(command_line, -1, 1);
 	}
 }
 

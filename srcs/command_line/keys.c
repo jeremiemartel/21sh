@@ -28,6 +28,7 @@ void	print_buffer(unsigned char buffer[READ_BUFF_SIZE])
 int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
 		unsigned char buffer[READ_BUFF_SIZE])
 {
+	command_line->searcher.active = 0;
 	if (!(buffer[1] | buffer[2] | buffer[3]))
 		return (process_escape(command_line));
 	else if (buffer[1] == 91 && buffer[2] == 67)
@@ -66,10 +67,9 @@ int		process_keys(t_shell *shell, t_command_line *command_line,
 	else if (buffer[0] == 12)
 		process_clear(command_line);
 	else if (buffer[0] == 127)
-		process_delete(command_line);
+		process_delete(command_line, shell);
 	else if (buffer[0] == 50)
 		process_shift(command_line, buffer);
-	
 	return (SUCCESS);
 }
 
@@ -83,7 +83,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-		//	print_buffer(buffer);
+//			print_buffer(buffer);
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{
@@ -93,7 +93,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 					return (res);
 			else if (command_line->context == E_CONTEXT_HEREDOC
 				&& res != KEEP_READ)
-			return (res);
+					return (res);
 		}
 		else if (process_keys_others(buffer, command_line) != SUCCESS)
 			return (FAILURE);

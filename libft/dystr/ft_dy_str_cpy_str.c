@@ -17,7 +17,7 @@ int		ft_dy_str_cpy_str(t_dy_str *dy_str, char *str)
 	int len;
 
 	len = ft_strlen(str);
-	ft_bzero(dy_str->str, dy_str->current_size);
+	ft_bzero(dy_str->str, dy_str->max_size);
 	while ((int)dy_str->max_size < len)
 	{
 		if (ft_dy_str_realloc(dy_str))

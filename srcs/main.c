@@ -12,14 +12,24 @@
 
 #include "sh_21.h"
 
+int		switch_prompt_from_lexer(int ret)
+{
+	(void)ret;
+	return (0);
+}
+
 int		sh_process_command(t_shell *shell, char *command)
 {
-	t_list *tokens;
+	t_list	*tokens;
+	int		ret;
 
 	if (sh_verbose_update(shell) == FAILURE)
 		return (FAILURE);
-	if (sh_lexer(command, &tokens, shell) != SUCCESS)
+	while ((ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
+	{
+		switch_prompt_from_lexer(ret);
 		return (FAILURE);
+	}
 	if (sh_parser(tokens, shell) != SUCCESS)
 	   	return (SUCCESS);
 	return (sh_process_traverse(shell));

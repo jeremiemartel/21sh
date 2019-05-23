@@ -12,7 +12,6 @@
 
 #include "sh_21.h"
 
-
 static char		*sh_builtin_pwd_tool(t_dy_tab *env)
 {
 	char	*pwd;

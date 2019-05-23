@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 19:45:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/20 18:08:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 
 # include "libft.h"
 
-# define PROMPT			"$21_sh(to_rework)> "
-# define COMMAND_PROMPT	"$21_sh(to_rework(command))> "
-# define VISUAL_PROMPT	"$21_sh(to_rework(visual))> "
-# define HEREDOC_PROMPT	"heredoc> "
-# define READ_BUFF_SIZE	8
+# define PROMPT			"$21_sh"
+# define COMMAND_PROMPT	"(command)"
+# define VISUAL_PROMPT	"(visual)"
+# define HEREDOC_PROMPT	"heredoc"
+# define PROMPT_SUFFIX	"> "
+# define READ_BUFF_SIZE	4
+
+# define SUCCESS_RSRCH		"failing bck-i-search: "
+# define UNSUCCESS_RSRCH	"bck-i-search: "
 
 typedef enum		e_mode
 {
@@ -34,13 +38,23 @@ typedef enum		e_command_line_context
 	E_CONTEXT_HEREDOC,
 }					t_command_line_context;
 
+typedef struct				s_searcher
+{
+	int						active;
+	t_dlist					*head;
+	t_dy_str				*dy_str;
+	int						match_index;
+	int						unsuccessful;
+}							t_searcher;
+
 typedef struct				s_command_line
 {
-	char					*prompt;
+	t_auto_complete 		autocompletion;
+	t_searcher				searcher;
 	t_dy_str				*dy_str;
+	char					*prompt;
 	int						nb_chars;
 	int						current_index;
-	t_auto_complete 		autocompletion;
 	t_mode					mode;
 	char					*clipboard;
 	int						pinned_index;
@@ -84,6 +98,8 @@ int			clear_all(void);
 /*
 ** get_command.c
 */
+int			sh_add_to_dy_str(t_dy_str *dy_str,
+				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
 void		reset_command_line(t_shell *shell, t_command_line *command_line);
 int			render_command_line(t_command_line *command_line, int c, int r);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
@@ -94,7 +110,7 @@ int			sh_get_command(t_shell *shell, t_command_line *command_line);
 void    process_edit_command_left(t_command_line *command_line);
 void    process_edit_command_right(t_command_line *command_line);
 void	process_suppr(t_command_line *command_line);
-void	process_delete(t_command_line *command_line);
+void	process_delete(t_command_line *command_line, t_shell *shell);
 
 /*
 ** cursor_motion.c
@@ -117,7 +133,7 @@ int     ft_strlen_utf8(char *str);
 int     ft_strnlen_utf8(char *str, int n);
 int		get_left_w_char_index(t_command_line *command_line);
 int		get_right_w_char_index(t_command_line *command_line);
-
+int		get_left_w_char_index_dy_str(t_dy_str *str, int index);
 /*
 ** is_printable_utf8.c
 */
@@ -192,12 +208,12 @@ t_xy	get_position(int cursor);
 int		xy_is_equal(t_xy xy1, t_xy xy2);
 
 /*
-** switch_prompt.c
+** update_prompt.c
 */
 int		process_escape(t_command_line *command_line);
 int		process_i(t_command_line *command_line);
 int		process_v(t_command_line *command_line);
-void	switch_prompt(t_command_line *command_line, char *new_prompt);
+int		update_prompt(t_command_line *command_line);
 
 /*
 ** copy_paste_delete.c
@@ -222,5 +238,15 @@ void	populate_min_max_selection(t_command_line *command_line,
 		int *min, int *max);
 void	render_command_visual(t_command_line *command_line);
 
+/*
+** historic_research.c
+*/
+int		process_research_historic(t_command_line *command_line, t_shell *shell);
+int		update_research_historic(t_command_line *command_line,
+			t_shell *shell, int reset);
+/*
+** render_research.c
+*/
+int		render_research(t_command_line *command_line);
 
 #endif

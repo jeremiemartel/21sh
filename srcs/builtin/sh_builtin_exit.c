@@ -17,7 +17,13 @@ int				sh_builtin_exit(t_context *context)
 	if (context->params->tbl[0] && context->params->tbl[1] && context->params->tbl[2])
 		return (ft_perror(context->params->tbl[0], SH_ERR1_TOO_MANY_ARGS));
 	else if (context->params->tbl[1])
+	{
+		context->shell->running = 0;
 		return (ft_atoi(context->params->tbl[1]) + 0xF000); //WTF is that number ??
+	}
 	else
+	{
+		context->shell->running = 0;
 		return (0xF000);
+	}
 }
