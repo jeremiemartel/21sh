@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 15:58:19 by jmartel           #+#    #+#              #
-#    Updated: 2019/05/21 15:58:20 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/23 17:04:45 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,28 @@ finish()
 test()
 {
 	echo "$1" > buffer
-	res=`diff <(<buffer ./21sh) <(<buffer bash)`
+	for i in "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" "${10}"
+	do
+		if [ -n "$i" ] ; then 
+			echo "${i}" >> buffer ; fi;
+	done
+
+	res=`diff <(<buffer bash 2>res2.bash) <(<buffer ./21sh 2>res2.21sh)`
+
 	if [ ! -z "$res" ] ; then
-		echo -en "${red}KO${eoc}"
+		echo -e "${red}KO${eoc}"
+		echo -e "${yellow}`cat buffer`${eoc}"
+	elif [ ! -z "`diff res2.bash res2.21sh`" ] ; then 
+		res=`diff res2.bash res2.21sh`
+		echo -e "${red}KO${eoc}"
+		echo -e "${yellow}`cat buffer`${eoc}"
+		if [ -n $verbose ] ; then
+			echo -e "${cyan}`echo $res`${eoc}"
+		fi
 	else
-		echo -en "${green}OK${eoc}"
+		echo -e "${green}OK${eoc}"
 	fi
 
-	echo -e "\t${yellow}`cat buffer`${eoc}"
 	rm buffer
+	rm res2.bash res2.21sh
 }

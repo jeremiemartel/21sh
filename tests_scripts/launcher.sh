@@ -15,6 +15,12 @@
 path=".."
 exec="21sh"
 
+verbose=""
+
+if [ -n $1 ] ; then
+	verbose="ok"
+fi
+
 #Colors
 red=\\033[31m
 green=\\033[32m
@@ -28,6 +34,7 @@ eoc=\\033[0m
 make -C $path && cp ${path}/${exec} .
 
 source functions.sh
+# source test_pipes.sh
 
 for file in `ls test_*` ; do
 	source $file
