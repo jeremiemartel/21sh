@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/23 17:00:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:01:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		lexer_process_quoted(t_lexer *lexer)
 	int old_context;
 
 	old_context	= g_glob.command_line.context;
-	if (update_prompt_from_quote(&g_glob.command_line,
+	if (update_prompt_from_quote(lexer->shell, &g_glob.command_line,
 			lexer->quoted) != SUCCESS)
 		return (LEX_ERR);
 	if (lexer->quoted == '\"' || lexer->quoted == '\'')
@@ -57,7 +57,7 @@ int		lexer_process_quoted(t_lexer *lexer)
 		return (LEX_ERR);
 	g_glob.command_line.context = old_context;
 	reset_command_line(lexer->shell, &g_glob.command_line);
-	if (update_prompt(&g_glob.command_line) != SUCCESS)
+	if (update_prompt(lexer->shell, &g_glob.command_line) != SUCCESS)
 		return (LEX_ERR);
 	return (LEX_OK);
 }
