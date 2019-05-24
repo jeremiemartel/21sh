@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:05:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/12 13:08:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 15:51:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,10 @@ static char		*sh_builtin_pwd_tool(t_dy_tab *env)
 int				sh_builtin_pwd(t_context *context)
 {
 	char	*pwd;
-	int		i;
 
-	i = 0;
-	while (context->params->tbl[i])
-	{
-		if (context->params->tbl[++i] && *(char**)context->params->tbl[i])
-		{
-			ft_perror("pwd", SH_ERR1_TOO_MANY_ARGS);
-			return (1);
-		}
-	}
+	// Commented to be used in "cd -" command
+	// if (context->params->tbl[1])
+	// 	return (ft_perror("pwd", SH_ERR1_TOO_MANY_ARGS)); 
 	pwd = sh_builtin_pwd_tool(context->env);
 	if (!pwd)
 		return (FAILURE);

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:48:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 13:37:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 15:33:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int		end_with_char(char *str, char c)
 	while (str[i])
 		i++;
 	if (--i >= 0 && str[i] == c)
-		return (1);
-	return (0);
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 char	*get_path_from_request(char *old_pwd, char *path)
@@ -40,18 +40,18 @@ int		ft_update_old_pwd(char *old_pwd, char *path, t_cd_opt flag,
 	char		*final_pwd;
 
 	if (!getcwd(cwd, CWD_LEN))
-		return (-1);
+		return (FAILURE);
 	if (flag == e_cd_opt_physic)
 		final_pwd = ft_strdup(cwd);
 	else
 		final_pwd = get_path_from_request(old_pwd, path);
 	if (!final_pwd)
-		return (-1);
+		return (FAILURE);
 	if (!(pwd_value = get_env_value((char **)context->env->tbl, "PWD")))
 		sh_add_to_env(context->env, "OLDPWD", old_pwd);
 	else
 		sh_add_to_env(context->env, "OLDPWD", pwd_value);
 	sh_add_to_env(context->env, "PWD", final_pwd);
 	free(final_pwd);
-	return (0);
+	return (SUCCESS);
 }
