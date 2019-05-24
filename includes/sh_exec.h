@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 18:57:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:45:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct		s_context
 	struct termios	*term;
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
+	char			*path;
 	t_dy_tab		*params; //argv
 	int				(*builtin)(t_context *context);
 	int				father_id;
