@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 18:07:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:01:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		reset_command_line(t_shell *shell, t_command_line *command_line)
 	command_line->autocompletion.head = NULL;
 	g_glob.cursor = 0;
 	flush_command_line(command_line);
-	if (update_prompt(command_line) == FAILURE)
+	if (update_prompt(shell, command_line) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }

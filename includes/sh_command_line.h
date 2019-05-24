@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 18:21:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:05:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 ** keys_others.c
 */
 int		process_keys_others(unsigned char buffer[READ_BUFF_SIZE],
-			t_command_line *command_line);
+			t_shell *shell, t_command_line *command_line);
 
 /*
 ** process_historic.c
@@ -220,11 +220,12 @@ int		xy_is_equal(t_xy xy1, t_xy xy2);
 /*
 ** update_prompt.c
 */
-int		process_escape(t_command_line *command_line);
-int		process_i(t_command_line *command_line);
-int		process_v(t_command_line *command_line);
-int		update_prompt(t_command_line *command_line);
-int		update_prompt_from_quote(t_command_line *command_line, char quote);
+int		process_escape(t_shell *shell, t_command_line *command_line);
+int		process_i(t_shell *shell, t_command_line *command_line);
+int		process_v(t_shell *shell, t_command_line *command_line);
+int		update_prompt(t_shell *shell, t_command_line *command_line);
+int		update_prompt_from_quote(t_shell *shell, t_command_line *command_line,
+			char quote);
 /*
 ** copy_paste_delete.c
 */

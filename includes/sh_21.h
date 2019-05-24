@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/20 16:49:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 10:58:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,5 +193,5 @@ int			sh_append_to_historic(t_shell *shell, char *command);
 ** home.c
 */
 int			process_subst_home(t_shell *shell, char **str);
-
+char		*get_home_dup(t_shell *shell);
 #endif
