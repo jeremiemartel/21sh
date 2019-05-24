@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 10:54:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/23 11:12:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int		sh_lr_parse(t_lr_parser *parser)
 			return (1);
 		state = (t_state *)parser->stack->content;
 		token = (t_token *)parser->tokens->content;
-//		sh_print_token(token, &parser->cfg);
 		action = parser->lr_tables[state->index][token->index];
 		if (action.action_enum == SHIFT)
 		{
@@ -70,7 +69,6 @@ int		sh_lr_parse(t_lr_parser *parser)
 	//		ft_printf("ERROR\n");
 			return (1);
 		}
-	//	sh_print_parser_state(parser);
 		i++;
 	}
 	return (0);

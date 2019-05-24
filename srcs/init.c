@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/20 18:33:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:00:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		sh_init_historic(t_historic *historic)
 	return (SUCCESS);
 }
 
-int		sh_init_command_line(t_command_line *command_line)
+int		sh_init_command_line(t_shell *shell, t_command_line *command_line)
 {
 	command_line->autocompletion.choices = NULL;
 	command_line->autocompletion.head = NULL;
@@ -106,7 +106,8 @@ int		sh_init_command_line(t_command_line *command_line)
 	command_line->searcher.active = 0;
 	command_line->searcher.head = NULL;
 	command_line->searcher.unsuccessful = 0;
-	if (!(command_line->prompt = ft_strjoin(PROMPT, PROMPT_SUFFIX)))
+	command_line->prompt = NULL;
+	if (update_prompt(shell, command_line) == FAILURE)
 		return (FAILURE);
 	command_line->clipboard = NULL;
 	if (!(command_line->dy_str = ft_dy_str_new(63)))
@@ -120,7 +121,7 @@ int		sh_init_shell(t_shell *shell, char **env)
 		return (FAILURE);
 	if (sh_main_init_vars(shell) == FAILURE)
 		return (FAILURE);
-	if (sh_init_command_line(&g_glob.command_line) != SUCCESS)
+	if (sh_init_command_line(shell, &g_glob.command_line) != SUCCESS)
 		return (FAILURE);
 	shell->running = 1;
 	if (sh_update_shell_lvl(shell) != SUCCESS)

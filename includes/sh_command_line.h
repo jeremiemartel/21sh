@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/20 18:08:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:05:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 # include "libft.h"
 
-# define PROMPT			"$21_sh"
+# define CWD_LEN			1000
+
+# define PROMPT				""
+# define BACKSLASH_PROMPT	""
+# define QUOTE_PROMPT		"quote"
+# define DQUOTE_PROMPT		"dquote"
+
 # define COMMAND_PROMPT	"(command)"
 # define VISUAL_PROMPT	"(visual)"
 # define HEREDOC_PROMPT	"heredoc"
@@ -36,6 +42,9 @@ typedef enum		e_command_line_context
 {
 	E_CONTEXT_STANDARD,
 	E_CONTEXT_HEREDOC,
+	E_CONTEXT_DQUOTE,
+	E_CONTEXT_QUOTE,
+	E_CONTEXT_BACKSLASH,
 }					t_command_line_context;
 
 typedef struct				s_searcher
@@ -100,7 +109,7 @@ int			clear_all(void);
 */
 int			sh_add_to_dy_str(t_dy_str *dy_str,
 				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
-void		reset_command_line(t_shell *shell, t_command_line *command_line);
+int			reset_command_line(t_shell *shell, t_command_line *command_line);
 int			render_command_line(t_command_line *command_line, int c, int r);
 int			sh_get_command(t_shell *shell, t_command_line *command_line);
 
@@ -154,7 +163,7 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 ** keys_others.c
 */
 int		process_keys_others(unsigned char buffer[READ_BUFF_SIZE],
-			t_command_line *command_line);
+			t_shell *shell, t_command_line *command_line);
 
 /*
 ** process_historic.c
@@ -168,6 +177,7 @@ void	ring_bell(void);
 void	flush_command_line(t_command_line *command_line);
 int		get_file_in_dir(char *filename, char *dirname);
 int		get_path_and_file_from_str(char *str, char **path, char **file);
+int		get_path_from_absolute_path(char *absolute,  char **path);
 
 /*
 ** process_shift.c
@@ -210,11 +220,12 @@ int		xy_is_equal(t_xy xy1, t_xy xy2);
 /*
 ** update_prompt.c
 */
-int		process_escape(t_command_line *command_line);
-int		process_i(t_command_line *command_line);
-int		process_v(t_command_line *command_line);
-int		update_prompt(t_command_line *command_line);
-
+int		process_escape(t_shell *shell, t_command_line *command_line);
+int		process_i(t_shell *shell, t_command_line *command_line);
+int		process_v(t_shell *shell, t_command_line *command_line);
+int		update_prompt(t_shell *shell, t_command_line *command_line);
+int		update_prompt_from_quote(t_shell *shell, t_command_line *command_line,
+			char quote);
 /*
 ** copy_paste_delete.c
 */
@@ -248,5 +259,6 @@ int		update_research_historic(t_command_line *command_line,
 ** render_research.c
 */
 int		render_research(t_command_line *command_line);
+
 
 #endif

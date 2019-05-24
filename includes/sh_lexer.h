@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 13:33:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 15:27:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct		s_lexer
 	t_list			*list;
 	t_dy_tab 		*env;
 	t_dy_tab		*vars;
+	t_shell			*shell;
 }					t_lexer;
 
 /*

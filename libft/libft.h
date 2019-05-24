@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/20 16:52:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/23 16:38:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,7 @@ int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
 /*
 ******************************** get_next_line  *******************************
 */
-# define BUFF_SIZE	32
+# define BUFF_SIZE	4096
 # define GNL_MAX_FD	2000
 
 int			get_next_line(const int fd, char **line);

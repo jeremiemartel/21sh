@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/21 14:40:29 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:05:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
 {
 	command_line->searcher.active = 0;
 	if (!(buffer[1] | buffer[2] | buffer[3]))
-		return (process_escape(command_line));
+		return (process_escape(shell, command_line));
 	else if (buffer[1] == 91 && buffer[2] == 67)
 		process_right(shell, command_line);
 	else if (buffer[1] == 91 && buffer[2] == 68)
@@ -88,14 +88,14 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		if (command_line->mode == E_MODE_INSERT)
 		{
 			 res = process_keys_insert(buffer, shell, command_line, ret);
-			if (command_line->context == E_CONTEXT_STANDARD
+			if (command_line->context != E_CONTEXT_HEREDOC
 				&& res != KEEP_READ && res != CTRL_C)
 					return (res);
 			else if (command_line->context == E_CONTEXT_HEREDOC
 				&& res != KEEP_READ)
 					return (res);
 		}
-		else if (process_keys_others(buffer, command_line) != SUCCESS)
+		else if (process_keys_others(buffer, shell, command_line) != SUCCESS)
 			return (FAILURE);
 		command_line->last_char_input = buffer[0];
 		ft_bzero(buffer, READ_BUFF_SIZE);
