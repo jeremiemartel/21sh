@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 13:39:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 13:49:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 	else
 	{
 		ft_perror(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
-		sh_env_update_question_mark(context, 127);
+		sh_env_vars_update_question_mark(context, 127);
 		return (FAILURE);
 	}
 }
