@@ -6,17 +6,12 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/23 11:12:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:24:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		switch_prompt_from_lexer(int ret)
-{
-	(void)ret;
-	return (0);
-}
 
 int		sh_process_command(t_shell *shell, char *command)
 {
@@ -25,12 +20,13 @@ int		sh_process_command(t_shell *shell, char *command)
 
 	if (sh_verbose_update(shell) == FAILURE)
 		return (FAILURE);
-	while ((ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
+	if ((ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
 	{
-		switch_prompt_from_lexer(ret);
-		return (FAILURE);
+		if (ret == LEX_ERR)
+			return (FAILURE);
+		else
+			return (SUCCESS);
 	}
-//	sh_print_token_list(tokens, &shell->parser.cfg);
 	if (sh_parser(tokens, shell) != SUCCESS)
 	   	return (SUCCESS);
 	return (sh_process_traverse(shell));
