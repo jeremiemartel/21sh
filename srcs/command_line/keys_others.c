@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:21:12 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 11:06:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 14:36:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		process_keys_visual(unsigned char buffer[READ_BUFF_SIZE],
 			return (ft_perror(SH_ERR1_MALLOC, "process_keys_visual"));
 		command_line->mode = E_MODE_COMMAND;
 		update_prompt(shell, command_line);
+		render_command_line(command_line, 0, 1);
 	}
 	else if (buffer[0] == 'd')
 	{
@@ -56,6 +57,7 @@ int		process_keys_visual(unsigned char buffer[READ_BUFF_SIZE],
 		command_line->mode = E_MODE_COMMAND;
 		update_prompt(shell, command_line);
 		delete_command_line_selection(command_line);
+		render_command_line(command_line, 0, 1);
 	}
 	return (SUCCESS);
 }

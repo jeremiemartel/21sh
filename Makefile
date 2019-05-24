@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/24 13:50:22 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/24 15:34:59 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						copy_paste_delete.c update_prompt.c \
 						keys_insert.c keys_others.c keys_insert.c \
 						cursor_tools.c selection.c sh_process_historic.c \
-						heredoc.c research_historic.c render_research.c
+						heredoc.c research_historic.c render_research.c 
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \
@@ -105,33 +105,34 @@ LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_exp_process_parameter.c \
 						t_expansion.c t_lexer.c t_token.c
 
-PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
-						sh_prod_case_clause.c sh_prod_case_item.c\
-						sh_prod_case_item_ns.c sh_prod_case_list.c\
-						sh_prod_case_list_ns.c sh_prod_cmd_name.c\
-						sh_prod_cmd_prefix.c sh_prod_cmd_suffix.c\
-						sh_prod_cmd_word.c sh_prod_command.c\
-						sh_prod_complete_command.c sh_prod_compound_command.c\
-						sh_prod_compound_list.c sh_prod_do_group.c\
-						sh_prod_else_part.c sh_prod_filename.c\
-						sh_prod_fname.c sh_prod_for_clause.c\
-						sh_prod_function_body.c sh_prod_function_definition.c\
-						sh_prod_here_end.c sh_prod_if_clause.c sh_prod_in.c\
-						sh_prod_io_file.c sh_prod_io_here.c\
-						sh_prod_io_redirect.c sh_prod_linebreak.c\
-						sh_prod_list.c sh_prod_name.c sh_prod_newline_list.c\
-						sh_prod_pattern.c sh_prod_pipe_sequence.c\
-						sh_prod_pipeline.c sh_prod_program.c\
-						sh_prod_redirect_list.c sh_prod_separator.c\
-						sh_prod_separator_op.c sh_prod_sequential_sep.c\
-						sh_prod_simple_command.c sh_prod_subshell.c\
-						sh_prod_term.c sh_prod_until_clause.c\
-						sh_prod_while_clause.c sh_prod_wordlist.c\
+PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c \
+						sh_prod_case_clause.c sh_prod_case_item.c \
+						sh_prod_case_item_ns.c sh_prod_case_list.c \
+						sh_prod_case_list_ns.c sh_prod_cmd_name.c \
+						sh_prod_cmd_prefix.c sh_prod_cmd_suffix.c \
+						sh_prod_cmd_word.c sh_prod_command.c \
+						sh_prod_complete_command.c sh_prod_compound_command.c \
+						sh_prod_compound_list.c sh_prod_do_group.c \
+						sh_prod_else_part.c sh_prod_filename.c \
+						sh_prod_fname.c sh_prod_for_clause.c \
+						sh_prod_function_body.c sh_prod_function_definition.c \
+						sh_prod_here_end.c sh_prod_if_clause.c sh_prod_in.c \
+						sh_prod_io_file.c sh_prod_io_here.c \
+						sh_prod_io_redirect.c sh_prod_linebreak.c \
+						sh_prod_list.c sh_prod_name.c sh_prod_newline_list.c \
+						sh_prod_pattern.c sh_prod_pipe_sequence.c \
+						sh_prod_pipeline.c sh_prod_program.c \
+						sh_prod_redirect_list.c sh_prod_separator.c \
+						sh_prod_separator_op.c sh_prod_sequential_sep.c \
+						sh_prod_simple_command.c sh_prod_subshell.c \
+						sh_prod_term.c sh_prod_until_clause.c \
+						sh_prod_while_clause.c sh_prod_wordlist.c \
 						sh_prod_complete_commands.c
 
 AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						populate_choices.c populate_word_by_index.c \
-						preprocess_choice_add.c arrows.c render_choices.c
+						preprocess_choice_add.c arrows.c render_choices.c \
+						add_choices_builtins.c
 
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 						sh_vars_tools_1.c sh_vars_tools_2.c \
