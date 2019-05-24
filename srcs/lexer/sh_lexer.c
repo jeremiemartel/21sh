@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 13:34:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:11:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 	while (head)
 	{
 		token = (t_token*)head->content;
+		if (token->id == LEX_TOK_UNKNOWN)
+			return (ft_perror("Unknow token detected", "lexer"));//
 		if (head->next)
 			next_token = (t_token*)(head->next->content);
 		else
 			next_token = NULL;
 		if (lexer_is_operator(token->id));
-		else if (ft_isdigit_only(token->value) && next_token && (next_token->id == '<' || next_token->id == '>'))
+		else if (ft_isdigit_only(token->value) && next_token && (next_token->id == '<' || next_token->id == '>')) // Need to check that there are no blanks between digits and operator
 			t_token_update_id(LEX_TOK_IO_NUMBER, token);	
 		head = head->next;
 	}
@@ -49,6 +51,7 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	int			ret;
 	int			i;
 
+	lexer.shell = shell;
 	int (*rules[LEX_RULES_LEN]) (t_lexer *) =
 	{
 		&lexer_rule1,
@@ -72,7 +75,7 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		ft_dprintf(2, "Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;
-	while (ret != LEX_ERR && ret != LEX_END)
+	while (ret != LEX_ERR && ret != LEX_END && ret != LEX_CANCEL)
 	{
 		i = 0;
 		if (sh_verbose_lexer())
@@ -87,8 +90,11 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	}
 	if (ret == LEX_ERR)
 		return (ft_perror("Lexer", "Error returned"));//Leaks
+	if (ret == LEX_CANCEL)
+		return (LEX_CANCEL); //leaks
 	lexer_lexical_conventions(&lexer);
-	// lexer_show(&lexer);
+	if (sh_verbose_lexer())
+		lexer_show(&lexer);
 	*tokens = lexer.list;
 	free(lexer.input);
 	if (ret == LEX_END)

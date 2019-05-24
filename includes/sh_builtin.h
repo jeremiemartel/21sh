@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 15:21:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 13:41:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,21 @@ typedef enum		e_cd_opt
 	e_cd_opt_physic
 }					t_cd_opt;
 
+
 typedef	int	(*t_builtin)(t_context *);
+
+typedef struct		s_builtin_container
+{
+	char			*name;
+	t_builtin		builtin;
+}					t_builtin_container;
 
 /*
 ** sh_builtin.c
 */
 t_builtin		sh_builtin_find(t_context *context);
+
+# define NB_BUILTINS	7
 
 /*
 ** builtins :
@@ -35,6 +44,7 @@ int				sh_builtin_exit(t_context *context);
 int				sh_builtin_pwd(t_context *context);
 int				sh_builtin_where(t_context *context);
 int				sh_builtin_verbose(t_context *context);
+int				sh_builtin_set(t_context *context);
 
 /*
 ** sh_builtin_cd_tools.c

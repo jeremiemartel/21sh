@@ -6,25 +6,39 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 19:04:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 15:20:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 13:56:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+t_builtin_container	*get_builtins(void)
+{
+	static t_builtin_container res[NB_BUILTINS] = {
+		{ "echo", sh_builtin_echo },
+		{ "pwd", sh_builtin_pwd },
+		{ "exit", sh_builtin_exit },
+		{ "where", sh_builtin_where },
+		{ "cd", sh_builtin_cd },
+		{ "verbose", sh_builtin_verbose },
+		{ "set", sh_builtin_set }
+	};
+
+	return (res);
+}
+
 t_builtin			sh_builtin_find(t_context *context)
 {
-	if (!ft_strcmp(context->params->tbl[0], "echo"))
-		return (&sh_builtin_echo);
-	else if (!ft_strcmp(context->params->tbl[0], "pwd"))
-		return (&sh_builtin_pwd);
-	else if (!ft_strcmp(context->params->tbl[0], "exit"))
-		return (&sh_builtin_exit);
-	else if (!ft_strcmp(context->params->tbl[0], "where"))
-		return (&sh_builtin_where);
-	else if (!ft_strcmp(context->params->tbl[0], "cd"))
-		return (&sh_builtin_cd);
-	else if (!ft_strcmp(context->params->tbl[0], "verbose"))
-		return (&sh_builtin_verbose);
+	int					i;
+	t_builtin_container	*builtins;
+
+	builtins = get_builtins();
+	i = 0;
+	while (i < NB_BUILTINS)
+	{
+		if (!ft_strcmp(context->params->tbl[0], builtins[i].name))
+			return (builtins[i].builtin);
+		i++;
+	}
 	return (NULL);
 }

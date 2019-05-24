@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/05/10 16:01:11 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/20 16:51:35 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,13 +68,15 @@ SRCS	+=	./str/ft_strlen.c ./str/ft_strdup.c \
 			./str/ft_split_whitespaces.c ./str/ft_strrep_free.c \
 			./str/ft_strpbrk.c ./str/ft_strnrest.c ./str/ft_strjoin_3.c \
 			./str/ft_strichr.c ./str/ft_strichr_last.c \
-			./str/ft_isseparator.c ./str/ft_chpbrk.c
+			./str/ft_isseparator.c ./str/ft_chpbrk.c \
+			./str/ft_strnjoin_free.c ./str/ft_substitute_str.c
 
 SRCS	+=	./str/ft_strtab_free.c ./str/ft_strtab_put.c \
 			./str/ft_strtab_len.c ./str/ft_strtab_new_line.c \
 			./str/ft_strdelchar.c
 
-SRCS	+=	./gnl/get_next_line.c
+SRCS	+=	./gnl/get_next_line.c \
+			./gnl/get_next_line2.c
 
 SRCS	+=	./atoi/ft_atoi.c ./atoi/ft_ltoa.c \
 			./atoi/ft_lltoa.c ./atoi/ft_ulltoa.c \

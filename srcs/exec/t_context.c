@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_context.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 18:56:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:25:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		t_context_init(t_context *context, t_shell *shell)
 {
 	if (!(context->params = ft_dy_tab_new(5)))
 		return (ft_perror(SH_ERR1_MALLOC, "t_context_init"));
+	context->path = NULL;
+	context->shell = shell;
 	context->env = shell->env;
 	context->vars = shell->vars;
 	context->term = &shell->term;
@@ -32,4 +34,6 @@ int		t_context_init(t_context *context, t_shell *shell)
 void	t_context_free(t_context *context)
 {
 	ft_dy_tab_del(context->params);
+	if (context->path)
+		free(context->path);
 }

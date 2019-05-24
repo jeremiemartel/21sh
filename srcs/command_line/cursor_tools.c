@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:33:21 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 14:33:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/23 18:19:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		get_true_cursor_pos(int cursor)
 {
-	return (cursor + ft_strlen(g_glob.command_line.prompt));
+	return (cursor + ft_strlen_utf8(g_glob.command_line.prompt));
 }
 
 int		get_down_from_command(t_command_line *command_line)
@@ -37,7 +37,10 @@ int		get_down_from_command(t_command_line *command_line)
 		ret++;
 	}
 	tputs(str, 1, putchar_int);
-	return (ret);
+	i = 0;
+	while (i++ < cursor_y)
+		ret++;
+	return (ret + 1);
 }
 
 void	replace_cursor_on_index()
@@ -68,6 +71,6 @@ int		process_clear(t_command_line *command_line)
 
 	str = tgetstr("cl", NULL);
 	tputs(str, 1, putchar_int);
-	render_command_line(command_line, 0);
+	render_command_line(command_line, 0, 0);
 	return (0);
 }

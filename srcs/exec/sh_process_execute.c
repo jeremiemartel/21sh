@@ -6,28 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 15:06:46 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 13:49:53 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 static pid_t g_parent = 0;
-
-int		sh_env_update_question_mark(t_context *context, int res)
-{
-	char	*str;
-
-	if (sh_verbose_exec())
-		ft_dprintf(2, COLOR_CYAN"Updating ? <=> "COLOR_END);
-	if (!(str = ft_itoa(res)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
-	if (sh_verbose_exec())
-		ft_dprintf(2, COLOR_CYAN"%s\n"COLOR_END, str);
-	res = sh_add_to_env(context->env, "?", str);
-	free(str);
-	return (res);
-}
 
 void	transmit_sig_and_die(int signal)
 {
@@ -46,7 +31,7 @@ void	transmit_sig(int signal)
 	g_glob.command_line.current_index = 0;
 	ft_bzero(g_glob.command_line.dy_str->str, g_glob.command_line.dy_str->max_size);
 	g_glob.command_line.nb_chars = 0;
-	render_command_line(&g_glob.command_line, 0);
+	render_command_line(&g_glob.command_line, 0, 1);
 }
 
 static int	sh_process_execute_dup_pipes(t_context *context)
@@ -85,14 +70,14 @@ int		sh_process_execute_builtin(t_context *context)
 {
 	int		res;
 
-	if (sh_reset_shell(0) == -1)
+	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
 		sh_process_execute_close_pipes(context);
 		return (FAILURE);
 	}
 	res = context->builtin(context);
-	sh_env_update_question_mark(context, res);
-	if (tcsetattr(0, TCSADRAIN, context->term) == -1)
+	sh_env_vars_update_question_mark(context, res);
+	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 		return (ft_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));
 	sh_process_execute_close_pipes(context);
@@ -103,7 +88,7 @@ int		sh_process_execute(t_context *context)
 {
 	int		res;
 
-	if (sh_reset_shell(0) == -1)
+	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
 		sh_process_execute_close_pipes(context);
 		return (FAILURE);
@@ -113,19 +98,18 @@ int		sh_process_execute(t_context *context)
 	if (g_parent == 0)
 	{
 		sh_process_execute_dup_pipes(context);
-		if (context->builtin)
-			exit(context->builtin(context));
-		execve(context->params->tbl[0], (char **)context->params->tbl, (char **)context->env->tbl);
+		execve(context->path, (char **)context->params->tbl, (char **)context->env->tbl);
 		sh_process_execute_close_pipes(context);
+		ft_perror(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		exit(FAILURE);
 	}
 	else
 	{
 		wait(&res);
-		sh_env_update_question_mark(context, res);
+		sh_env_vars_update_question_mark(context, res);
 		g_parent = 0;
 		sh_process_execute_close_pipes(context);
-		if (tcsetattr(0, TCSADRAIN, context->term) == -1)
+		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 			return (ft_perror("Could not modify this terminal attributes",
 				"sh_init_terminal"));
 	}

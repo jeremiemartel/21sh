@@ -6,11 +6,23 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 14:43:02 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:01:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		sh_add_to_dy_str(t_dy_str *dy_str,
+			unsigned char buffer[READ_BUFF_SIZE], int nb_bytes)
+{
+	char buffer2[READ_BUFF_SIZE + 1];
+
+	ft_memcpy(buffer2, buffer, nb_bytes);
+	buffer2[nb_bytes] = 0;
+	if (ft_substitute_dy_str(dy_str, buffer2, ft_strlen(dy_str->str), 0))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_add_to_dy_str"));
+	return (SUCCESS);
+}
 
 int		sh_add_to_command(t_command_line *command_line,
 		unsigned char buffer[READ_BUFF_SIZE], int nb_bytes)
@@ -29,21 +41,21 @@ int		sh_add_to_command(t_command_line *command_line,
 	return (0);
 }
 
-void	reset_command_line(t_shell *shell, t_command_line *command_line)
+int		reset_command_line(t_shell *shell, t_command_line *command_line)
 {
 	shell->historic.head = &shell->historic.head_start;
 	command_line->autocompletion.head = NULL;
 	g_glob.cursor = 0;
 	flush_command_line(command_line);
+	if (update_prompt(shell, command_line) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
-	int		ret;
-
-	reset_command_line(shell, command_line);
-	render_command_line(command_line, 0);
-	if ((ret = get_keys(shell, command_line)))
-		return (ret);
-	return (0);
+	if (reset_command_line(shell, command_line) == FAILURE)
+		return (FAILURE);
+	render_command_line(command_line, 0, 1);
+	return (get_keys(shell, command_line));
 }

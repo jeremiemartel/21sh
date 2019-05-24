@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 10:50:09 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 11:27:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 13:33:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 int		lexer_quoting_backslash(t_lexer *lexer)
 {
-	ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
-	if (lexer->input[lexer->tok_start + lexer->tok_len] == '\n')
+	if (lexer->quoted == '\\')
+	{
+		if (lexer->current_id == LEX_TOK_UNKNOWN)
+			lexer->current_id = LEX_TOK_WORD;
+		lexer->tok_len++;
+		lexer->quoted = 0;
+	}
+	else
 	{
 		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
-		return (LEX_OK);
+		lexer->quoted = '\\';
 	}
-	if (lexer->current_id == LEX_TOK_UNKNOWN)
-		lexer->current_id = LEX_TOK_WORD;
-	lexer->tok_len++;
+	// if (lexer->input[lexer->tok_start + lexer->tok_len] == '\n')
+	// {
+	// 	ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
+	// 	return (LEX_OK);
+	// }
 	return (LEX_OK);
 }
 

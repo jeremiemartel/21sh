@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 13:33:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:26:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,9 @@
 # include <pwd.h>
 
 /*
-** Max len for the token value
-*/
-# define LEX_TOKEN_VALUE_LEN	250
-
-/*
 ** Possible states for the lexer, returned by lexer functions
 */
+# define LEX_CANCEL		FAILURE + SUCCESS + 3
 # define LEX_END		FAILURE + SUCCESS + 2
 # define LEX_ERR		FAILURE
 # define LEX_CONTINUE	FAILURE + SUCCESS + 1
@@ -48,6 +44,7 @@ typedef struct		s_lexer
 	t_list			*list;
 	t_dy_tab 		*env;
 	t_dy_tab		*vars;
+	t_shell			*shell;
 }					t_lexer;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:43:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 13:36:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 11:37:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		ft_process_cd_args(t_context *context, int flag, int i)
 			if (!(context->params->tbl = (void **)ft_strsplit("pwd", ' ')))
 				return (-1);
 			ft_strtab_free(tmp);
-			return (sh_execute_command(context) == -1 ? -1 : 1);
+			return (sh_execute_command(context) == -1 ? -1 : 1); // Cal buitin instead
 		}
 		else
 		{

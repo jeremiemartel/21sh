@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 14:37:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:10:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 int		sh_execute_command_no_path(t_context *context)
 {
 	char	cwd[CWD_LEN];
-	char	*full_path;
+	// char	*full_path;
 
 	if (((char **)context->params->tbl)[0][0] == '/')
 		return (SUCCESS);//sh_process_execute(context->params->tbl[0], context));
@@ -30,22 +30,23 @@ int		sh_execute_command_no_path(t_context *context)
 	{
 		if (getcwd(cwd, CWD_LEN) == NULL)
 			return (FAILURE);
-		if (!(full_path = ft_strjoin_3(cwd, "/", context->params->tbl[0])))
-			return (FAILURE);
-		if (!sh_check_execute(full_path, context->params->tbl[0]))
+		// if (!(full_path = ft_strjoin_3(cwd, "/", context->params->tbl[0])))
+		// 	return (FAILURE);
+		// if (!sh_check_execute(full_path, context->params->tbl[0]))
+		if (!sh_check_execute(context->params->tbl[0], context->params->tbl[0]))
 		{
-			free(full_path);
+			// free(full_path);
 			return (FAILURE);
 		}
-		free(context->params->tbl[0]);
-		context->params->tbl[0] = full_path;
+		// free(context->params->tbl[0]);
+		// context->params->tbl[0] = full_path;
 		return (SUCCESS);
 	}
 }
 
 /*
 ** sh_execute_command_path:
-**	Normal execution procedure (if PATH envvariable is set):
+**	Normal execution procedure (if PATH env variable is set):
 **	Look for the command path, using the PATH env variable, if command is found
 **	it process it
 **	return Values:
@@ -70,8 +71,7 @@ int		sh_execute_command_path(t_context *context)
 	{
 		if (get_file_in_dir(context->params->tbl[0], path_split[i]))
 		{
-			if (!(full_path = ft_strjoin_3(path_split[i], "/",
-					context->params->tbl[0])))
+			if (!(full_path = ft_strjoin_3(path_split[i], "/", context->params->tbl[0])))
 				return (FAILURE);
 			if (sh_check_execute(full_path, context->params->tbl[0]) == FAILURE)
 			{
@@ -99,12 +99,18 @@ int		sh_execute_command(t_context *context)
 		{
 			if (ret == 2)
 				return (FAILURE);
-			else
-			{
-				if (sh_execute_command_no_path(context) == FAILURE)
-					return (FAILURE);
-			}
+			// else
+			// {
+			// 	if (sh_execute_command_no_path(context) == FAILURE)
+			// 		return (FAILURE);
+			// }
 		}
+	}
+	if (sh_verbose_exec())
+	{
+		ft_printf(BLUE"parameters\n"EOC);
+		ft_strtab_put((char**)context->params->tbl);
+		ft_printf("\n");
 	}
 	if (context->builtin)
 		sh_process_execute_builtin(context);

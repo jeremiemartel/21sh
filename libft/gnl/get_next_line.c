@@ -3,109 +3,144 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/12 10:28:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/03/01 11:58:35 by jmartel          ###   ########.fr       */
+/*   Created: 2018/07/08 15:44:18 by ldedier           #+#    #+#             */
+/*   Updated: 2019/03/14 18:48:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-** gnl_join_free : used to join line and the currently readed buffer
-**		it's only copy up to the first '/n', or '\0'
-**			if param is true, s1 will be freed
-**		it return the address of the new malloced string
+** free the node if it is not relevant anymore before returning ret
 */
 
-static char		*gnl_join_free(char *s1, char *s2, int param)
+int		ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del)
 {
-	int		len1;
-	int		len2;
-	char	*res;
+	t_list *prev;
+	t_list *current;
 
-	if (!s1 && !s2)
+	if (ret == 0)
+	{
+		prev = NULL;
+		current = *gnls;
+		while (current != NULL)
+		{
+			if ((t_gnl *)current->content == to_del)
+			{
+				if (prev == NULL)
+					*gnls = current->next;
+				else
+					prev->next = current->next;
+				free(to_del->whole_buffer);
+				free(to_del);
+				free(current);
+				return (ret);
+			}
+			prev = current;
+			current = current->next;
+		}
+	}
+	return (ret);
+}
+
+/*
+** get the rest of the "already read buffer" by previouses calls or create a
+** new buffer for this particular fd and returns it
+*/
+
+t_gnl	*ft_get_gnl(int fd, t_list **gnls)
+{
+	t_list	*ptr;
+	t_gnl	*to_add;
+	t_list	*new_node;
+
+	ptr = *gnls;
+	while (ptr)
+	{
+		if (((t_gnl *)ptr->content)->fd == fd)
+			return ((t_gnl *)ptr->content);
+		ptr = ptr->next;
+	}
+	if (!(to_add = (t_gnl *)ft_memalloc(sizeof(t_gnl))))
 		return (NULL);
-	if (!s2)
-		res = ft_strdup(s1);
-	else
+	if (!(new_node = ft_lstnew(to_add, sizeof(t_list))))
 	{
-		len1 = ft_strlen(s1);
-		len2 = 0;
-		while (s2[len2] && s2[len2] != '\n')
-			len2++;
-		if (!(res = malloc(sizeof(char) * (len1 + len2 + 1))))
-			return (NULL);
-		if (len1)
-			ft_strncpy(res, s1, len1);
-		ft_strncpy(res + len1, s2, len2);
-		res[len1 + len2] = 0;
+		free(to_add);
+		return (NULL);
 	}
-	if (param & 0x0001 && s1)
-		free(s1);
-	return (res);
+	ft_lstadd(gnls, new_node);
+	to_add->fd = fd;
+	to_add->size = 0;
+	if (!(to_add->rest = ft_strnew(BUFF_SIZE)))
+		return (NULL);
+	to_add->whole_buffer = to_add->rest;
+	return (to_add);
 }
 
 /*
-** gnl_read :
-**	look if their are datas associated to the fd,
-**	else it read on fd and stock it in the linked
-**		it join to the line full or part of the
-**		buffer
-**		Function call herself recursively until
-**		it met the end of the line
-**	Return values: same as get_next_line
+** read until a newline is found and stock the rest of the buffer in
+** the static node of get_next_line
 */
 
-static int		gnl_read(char *gnl, int fd, char **line)
+int		ft_process_gnl(int const fd, char **line, t_gnl *gnl)
 {
-	int		ret;
+	int			ret;
+	int			new_line_index;
+	int			readd;
 
-	ret = BUFF_SIZE;
-	if (gnl[0] == 0)
+	readd = (ft_strcmp(*line, "") == 0) ? 0 : 1;
+	while (((ret = read(fd, gnl->rest, BUFF_SIZE)) > 0
+				&& ((new_line_index = ft_strichr(gnl->rest, '\n')) == -1)))
 	{
-		if ((ret = read(fd, gnl, BUFF_SIZE)) == -1)
+		readd = 1;
+		gnl->rest[ret] = '\0';
+		if (!(*line = ft_strjoin_free(*line, gnl->rest, 1)))
 			return (-1);
-		if (ret == 0)
-			return (0);
-		gnl[ret] = 0;
+		ft_bzero(gnl->rest, BUFF_SIZE);
 	}
-	*line = gnl_join_free(*line, gnl, 1);
-	if (ft_strchr(gnl, '\n'))
+	if (ret > 0)
 	{
-		ft_strcpy(gnl, ft_strchr(gnl, '\n') + 1);
-		return (1);
+		readd = 1;
+		gnl->rest[ret] = '\0';
+		if (!(*line = ft_strnjoin_free(*line, gnl->rest, new_line_index)))
+			return (-1);
+		ft_strcpy(gnl->rest, &(gnl->rest[new_line_index + 1]));
 	}
-	ft_bzero(gnl, BUFF_SIZE + 1);
-	if (!**line)
-		return (1);
-	if (gnl_read(gnl, fd, line) == -1)
-		return (-1);
-	return (1);
+	return (ret == -1 ? -1 : readd);
 }
 
 /*
-**	get_next_line :
-**		Read on the fd, and malloc line, to stock the first line
-**		It can read on multiple file descriptors at the same time
-**		Can cause leaks if you don't read the file until the end
-**	Return values:
-**		-1 : if any error occured
-**		0 : if EOF had been encountered
-**		1 : if any line had been read
+** get the first string in the "already read buffer" by previouses calls
+** OR
+** read more with ft_process_gnl (may also free the node if it became useless)
 */
 
-int				get_next_line(const int fd, char **line)
+int		get_next_line(int const fd, char **line)
 {
-	static char		gnl[GNL_MAX_FD][BUFF_SIZE + 1];
+	static t_list	*gnls = NULL;
+	t_gnl			*gnl;
+	int				i;
 	int				ret;
 
-	if (BUFF_SIZE < 1 || BUFF_SIZE > INT32_MAX)
+	if (fd == -1 || line == NULL || (!(gnl = ft_get_gnl(fd, &gnls))))
 		return (-1);
-	if (fd < 0 || fd >= GNL_MAX_FD || !line)
+	i = 0;
+	while (gnl->rest[i] && gnl->rest[i] != '\n')
+		i++;
+	if (!(*line = ft_strndup(gnl->rest, i)))
 		return (-1);
-	*line = NULL;
-	ret = gnl_read(gnl[fd], fd, line);
-	return (ret);
+	if (gnl->rest[i] == '\n')
+	{
+		gnl->rest += i + 1;
+		return (1);
+	}
+	else
+	{
+		gnl->rest = gnl->whole_buffer;
+		ft_bzero(gnl->rest, BUFF_SIZE);
+		ret = ft_process_gnl(fd, line, gnl);
+		return (ft_may_free_node(ret, &gnls, gnl));
+	}
 }

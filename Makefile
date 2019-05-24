@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/14 15:21:42 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/24 13:50:22 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,16 +66,19 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_lessand.c \
 						sh_traverse_great.c \
 						sh_traverse_greatand.c \
-						sh_traverse_dgreat.c
+						sh_traverse_dgreat.c \
+						sh_traverse_lessgreat.c
+
 
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
 						get_command.c utf8_tools.c sh_process_shift.c \
 						render_command_line.c arrows.c home_end.c \
-						command_line.c xy.c render_choices.c \
-						copy_paste_delete.c switch_prompt.c \
+						command_line.c xy.c \
+						copy_paste_delete.c update_prompt.c \
 						keys_insert.c keys_others.c keys_insert.c \
-						cursor_tools.c selection.c sh_process_historic.c
+						cursor_tools.c selection.c sh_process_historic.c \
+						heredoc.c research_historic.c render_research.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \
@@ -84,7 +87,8 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
-						tools.c sanitize_path.c
+						tools.c sanitize_path.c canonical_mode.c \
+						historic.c home.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						first_sets.c debug.c follow_sets.c \
@@ -127,11 +131,11 @@ PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c\
 
 AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						populate_choices.c populate_word_by_index.c \
-						preprocess_choice_add.c arrows.c
+						preprocess_choice_add.c arrows.c render_choices.c
 
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 						sh_vars_tools_1.c sh_vars_tools_2.c \
-						sh_verbose.c
+						sh_verbose.c sh_env_vars.c
 
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_execute_tools.c \
@@ -145,7 +149,8 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_cd.c \
 						sh_builtin_cd_tools.c \
 						sh_builtin_where.c \
-						sh_builtin_verbose.c
+						sh_builtin_verbose.c \
+						sh_builtin_set.c
 
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
 					  	sh_command_line.h sh_autocompletion.h

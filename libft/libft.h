@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 16:01:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/23 16:38:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@
 ** malloc, free
 */
 # include <stdlib.h>
+
+/*
+** EOF
+*/
+# include <stdio.h>
 
 typedef struct		s_list
 {
@@ -62,6 +67,28 @@ typedef struct		s_dlist
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
 }					t_dlist;
+
+typedef struct	s_gnl
+{
+	int			fd;
+	int			size;
+	char		*rest;
+	char		*whole_buffer;
+}				t_gnl;
+
+typedef enum	e_separator
+{
+	E_SEPARATOR_ZERO = '\0',
+	E_SEPARATOR_NL = '\n',
+	E_SEPARATOR_EOF = EOF
+}				t_separator;
+
+typedef struct	s_gnl_info
+{
+	t_separator	separator;
+	char		*line;
+}				t_gnl_info;
+
 
 /*
 ********************************** atoi  **************************************
@@ -188,6 +215,7 @@ int					ft_strequ(const char *s1, const char *s2);
 int					ft_strnequ(const char *s1, const char *s2, size_t n);
 char				*ft_strsub(const char *s, unsigned int start, size_t len);
 char				*ft_strjoin(const char *s1, const char *s2);
+char				*ft_strnjoin_free(char *s1, char *s2, size_t n);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 
@@ -214,7 +242,8 @@ char				*ft_strjoin_3(char const *s1, char const *s2,
 char				*ft_strnrest(char *str, int n);
 int					ft_strichr_last(const char *s, int c);
 int					ft_strichr(const char *s, int c);
-
+int					ft_substitute_str(char **str, char *to_inject,
+						int index_to_inject, int len);
 /*
 ************************************ dlst *************************************
 */
@@ -239,8 +268,7 @@ void				ft_dlstdel_value(t_dlist **list);
 int					ft_dlstlength(t_dlist *dlist);
 int					ft_dlstadd_sorted(t_dlist **dlst,
 						void *content, int (*sort)(void*, void *));
-int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
-						int index_to_inject, int len);
+
 
 /*
 ************************************ dystr  ***********************************
@@ -253,6 +281,10 @@ int					ft_dy_str_realloc(t_dy_str *d_str);
 int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
 void				ft_dy_str_free(t_dy_str *dy_str);
 int					ft_dy_str_cpy_str(t_dy_str *dy_str, char *str);
+int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
+						int index_to_inject, int len);
+int					ft_dy_str_replace(t_dy_str *dy_str, char *str);
+
 /*
 ************************************ dytab  ***********************************
 */
@@ -283,10 +315,13 @@ int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
 /*
 ******************************** get_next_line  *******************************
 */
-# define BUFF_SIZE	32
+# define BUFF_SIZE	4096
 # define GNL_MAX_FD	2000
 
 int			get_next_line(const int fd, char **line);
+int			get_next_line2(int const fd, t_gnl_info *info);
+int			ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del);
+t_gnl		*ft_get_gnl(int fd, t_list **gnls);
 
 /*
 ********************************** ft_printf  *********************************

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 12:13:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/14 16:06:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{">>", 0, 1, NULL, &sh_traverse_dgreat},
 	{"<&", 0, 1, NULL, &sh_traverse_lessand},
 	{">&", 0, 1, NULL, &sh_traverse_greatand},
-	{"<>", 0, 1, NULL, &sh_traverse_default},
+	{"<>", 0, 1, NULL, &sh_traverse_lessgreat},
 	{"<<-", 0, 1, NULL, &sh_traverse_default},
 	{">|", 0, 1, NULL, &sh_traverse_great},
 	{"if", 0, 1, NULL, &sh_traverse_default},

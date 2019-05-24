@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 16:04:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/20 17:04:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ t_file		*new_file(t_shell *shell, char *name, char *fullname)
 		free(res);
 		return (NULL);
 	}
-//	if (!ft_strncmp(path, "~/", 2) &&
-//			process_subst_home(shell, &path))
-//	{
-//		free(path);
-//		free(res);
-//		return (NULL);
-//	}
+	if (!ft_strncmp(path, "~/", 2) &&
+			process_subst_home(shell, &path))
+	{
+		free(path);
+		free(res);
+		return (NULL);
+	}
 	if (lstat(path, &res->st) == -1)
 		res->unstatable = 1;
 	else

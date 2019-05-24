@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/07 14:53:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 13:27:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,53 @@ int		lexer_is_operator(int op)
 	return (0);
 }
 
+int		lexer_process_quoted(t_lexer *lexer)
+{
+	int old_context;
+	int ret;
+
+	old_context	= g_glob.command_line.context;
+	if (update_prompt_from_quote(lexer->shell, &g_glob.command_line,
+			lexer->quoted) != SUCCESS)
+		return (LEX_ERR);
+	if (lexer->quoted == '\"' || lexer->quoted == '\'')
+	{
+		if (!(lexer->input = ft_strjoin_free(lexer->input, "\n", 1)))
+			return (LEX_ERR);
+	}
+	else
+		lexer->quoted = 0;
+	if ((ret = sh_get_command(lexer->shell, &g_glob.command_line)))
+	{
+		g_glob.command_line.context = old_context;
+		if (ret == CTRL_C)
+			return (LEX_CANCEL);
+		else
+			return (LEX_ERR);
+	}
+	if (!(lexer->input = ft_strjoin_free(lexer->input,
+					g_glob.command_line.dy_str->str, 1)))
+		return (LEX_ERR);
+	g_glob.command_line.context = old_context;
+	reset_command_line(lexer->shell, &g_glob.command_line);
+	if (update_prompt(lexer->shell, &g_glob.command_line) != SUCCESS)
+		return (LEX_ERR);
+	return (LEX_OK);
+}
+
 int		lexer_rule1(t_lexer *lexer)
 {
-	if (lexer->c == LEX_TOK_NEWLINE || lexer->c == '\0')//
+	if (lexer->c == '\0' )//||lexer->c == LEX_TOK_NEWLINE)
 	{
 		if (lexer->quoted)
 		{
-			// NB : Add here the function:
-			//	need to prompt, take input,
-			//	add input to the end of lexer->inpput
-			//	(need to free the old lexer->input)
-			//	then return (LEX_OK), it will restart lexer normally
-			// with the same state
-			return (LEX_ERR); // Delete this
+			if (!isatty(0))
+			{
+				ft_perror(SH_ERR1_UNEXPECTED_EOF, "lexer_rule1");
+				return (LEX_ERR); //fatal error
+			}
+			else
+				return (lexer_process_quoted(lexer));
 		}
 		lexer_add_token(lexer);
 		return (LEX_END);
@@ -72,7 +106,12 @@ int		lexer_rule2(t_lexer *lexer)
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = lexer->c;
 		else if (!(lexer->current_id & 0xff00))
-			lexer->current_id += 0xff00 * lexer->c;
+		{
+			if (lexer_is_operator(lexer->current_id + 0xff00 * lexer->c))
+				lexer->current_id += 0xff00 * lexer->c;
+			else
+				return (LEX_CONTINUE);
+		}
 		else
 			lexer->current_id += 0xff0000 * lexer->c;		
 		lexer->tok_len++;
@@ -108,7 +147,7 @@ int		lexer_rule3(t_lexer *lexer)
 
 int		lexer_rule4(t_lexer *lexer)
 {
-	if (lexer->quoted != '\'' && lexer->c == '\\')
+	if (lexer->quoted != '\'' && (lexer->c == '\\' || lexer->quoted == '\\'))
 		return (lexer_quoting_backslash(lexer));
 	else if (!lexer->quoted && (lexer->c == '\'' || lexer->c == '"'))
 		return (lexer_quoting_start_quote(lexer));
