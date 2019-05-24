@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 13:49:51 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/24 14:51:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 	if (!ft_strchr(context->params->tbl[0], '/'))
 		ret = sh_traverse_sc_no_slash_cmd(context);
 	else
+	{
+		if (!(context->path = ft_strdup(context->params->tbl[0])))
+			return (ft_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
 		ret = sh_process_execute(context);
+	}
 	// NEED TO IMPLEMENT EXECVE ERRORS TREATMENT
 	sh_traverse_tools_reset_params(context);
 	return (ret);
