@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 11:01:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 13:27:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		lexer_is_operator(int op)
 int		lexer_process_quoted(t_lexer *lexer)
 {
 	int old_context;
+	int ret;
 
 	old_context	= g_glob.command_line.context;
 	if (update_prompt_from_quote(lexer->shell, &g_glob.command_line,
@@ -50,8 +51,16 @@ int		lexer_process_quoted(t_lexer *lexer)
 		if (!(lexer->input = ft_strjoin_free(lexer->input, "\n", 1)))
 			return (LEX_ERR);
 	}
-	if (sh_get_command(lexer->shell, &g_glob.command_line))
-		return (LEX_ERR);
+	else
+		lexer->quoted = 0;
+	if ((ret = sh_get_command(lexer->shell, &g_glob.command_line)))
+	{
+		g_glob.command_line.context = old_context;
+		if (ret == CTRL_C)
+			return (LEX_CANCEL);
+		else
+			return (LEX_ERR);
+	}
 	if (!(lexer->input = ft_strjoin_free(lexer->input,
 					g_glob.command_line.dy_str->str, 1)))
 		return (LEX_ERR);
@@ -64,7 +73,7 @@ int		lexer_process_quoted(t_lexer *lexer)
 
 int		lexer_rule1(t_lexer *lexer)
 {
-	if (lexer->c == '\0' )//||lexer->c == LEX_TOK_NEWLINE  )//
+	if (lexer->c == '\0' )//||lexer->c == LEX_TOK_NEWLINE)
 	{
 		if (lexer->quoted)
 		{

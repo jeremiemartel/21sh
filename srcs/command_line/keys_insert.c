@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 11:37:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:37:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		process_enter(t_command_line *command_line)
 	return (1);
 }
 
-
 void		process_ctrl_c(t_shell *shell, t_command_line *command_line)
 {
 	command_line->autocompletion.head = NULL;
@@ -52,19 +51,19 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 	if (buffer[0] == 10)
 	{
 		if (process_enter(command_line) == 0)
-			return (0);
+			return (SUCCESS);
 	}
 	else if (buffer[0] == 4) //ctrl D
 	{
-		if (command_line->dy_str->current_size == 0)
+		if (command_line->dy_str->current_size == 0
+			&& command_line->context == E_CONTEXT_STANDARD)
 		{
-			if (command_line->context == E_CONTEXT_STANDARD)
-			{
 				shell->running = 0;
 				ft_dprintf(0, "exit\n");
-			}
 			return (CTRL_D);
 		}
+		else
+			ring_bell();
 	}
 	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
 		return (FAILURE);
