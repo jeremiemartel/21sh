@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:49:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 15:06:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 16:35:45 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_action	**sh_create_tables(t_lr_parser *parser)
 	t_action	**res;
 	int			i;
 	int			height;
+	int			j;
 
 	height = ft_lstlen(parser->states);
 	if (!(res = (t_action **)malloc(height * sizeof(t_action *))))
@@ -36,7 +37,9 @@ t_action	**sh_create_tables(t_lr_parser *parser)
 			free(res);
 			return (NULL);
 		}
-		sh_init_action(res[i]);
+		j = 0;
+		while (j < NB_SYMBOLS)
+			sh_init_action(&res[i][j++]);
 		i++;
 	}
 	return (res);

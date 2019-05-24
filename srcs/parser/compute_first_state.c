@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:21:04 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 15:36:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 16:26:18 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 t_state	*sh_compute_first_state(t_lr_parser *parser)
 {
-	t_state *first_state;
+	t_state	*first_state;
 	t_item	*first_item;
 	char	lookaheads[NB_TERMS];
-	int i;
+	int		i;
 
 	i = 0;
 	while (i < NB_TERMS)

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:21:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 14:54:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 16:25:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 int		sh_compute_state(t_state *state, t_lr_parser *parser)
 {
-	if (sh_compute_closure(state, parser) == -1) //to opti: don't check all items
+	if (sh_compute_closure(state, parser) == -1)
 		return (-1);
-	if (sh_compute_transitions(state, parser) == -1) //to opti don't check all items
+	if (sh_compute_transitions(state, parser) == -1)
 		return (-1);
 	return (0);
 }
