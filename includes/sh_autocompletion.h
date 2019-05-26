@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:59:37 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/17 20:38:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/24 15:51:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct		s_auto_complete
 char	*get_first_word(char *str);
 int		process_tab(t_shell *shell, t_command_line *command_line);
 char	*get_completion_str_file(t_file *file);
+
 /*
 ** preprocess_choice_add.c
 */
@@ -97,15 +98,25 @@ int		add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
 /*
 ** arrows.c
 */
-
 int		process_autocompletion_down(t_command_line *command_line);
 int		process_autocompletion_up(t_command_line *command_line);
 int		process_autocompletion_left(t_command_line *command_line);
 int		process_autocompletion_right(t_command_line *command_line);
 
 /*
+** add_choices_builtins.c
+*/
+int		add_choices_builtins(t_shell *shell, t_word *word);
+
+/*
 ** render_choices.c
 */
 int		render_choices(t_command_line *command_line);
+
+/*
+** (file.c)
+*/
+t_file	*new_file(t_shell *shell, char *name, char *fullname);
+void	add_node_next_to_node(t_dlist **node, t_dlist *to_add);
 
 #endif
