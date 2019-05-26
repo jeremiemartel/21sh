@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 08:53:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 18:12:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,19 @@ int		sh_process_traverse(t_shell *shell)
 
 	if (t_context_init(&context, shell) == FAILURE)
 		return (FAILURE);
-	context.phase = E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS;
+
+	context.phase = E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS;	
 	g_grammar[shell->parser.ast_root->symbol->id].
 		traverse(shell->parser.ast_root, &context);
+
 	context.phase = E_TRAVERSE_PHASE_REDIRECTIONS;
 	g_grammar[shell->parser.ast_root->symbol->id].
 		traverse(shell->parser.ast_root, &context);
+
 	context.phase = E_TRAVERSE_PHASE_EXECUTE;
 	g_grammar[shell->parser.ast_root->symbol->id].
 		traverse(shell->parser.ast_root, &context);
+	
 	t_context_free(&context);
 	return (SUCCESS);
 }

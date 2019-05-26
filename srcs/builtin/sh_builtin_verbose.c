@@ -6,15 +6,15 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/21 18:28:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/26 17:03:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_builtin_verbose_usage(t_context *context)
+static int	sh_builtin_verbose_usage(void)
 {
-	ft_dprintf(context->fd[FD_ERR], "usage: verbose on/off [lexer,ast,pipe,exec]\n");
+	ft_dprintf(FD_ERR, "usage: verbose on/off [lexer,ast,pipe,exec]\n");
 	return (FAILURE);
 }
 
@@ -31,7 +31,7 @@ int			sh_builtin_verbose(t_context *context)
 	else if (ft_strequ(context->params->tbl[1], "off"))
 		ft_strcpy(value, "");
 	else
-		return (sh_builtin_verbose_usage(context));
+		return (sh_builtin_verbose_usage());
 	while (context->params->tbl[i])
 	{
 		j = 0;

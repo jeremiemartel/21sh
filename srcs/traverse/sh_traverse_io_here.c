@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 11:56:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 16:32:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,15 @@ static int		sh_traverse_io_here_end(t_ast_node *node,
 	char		*heredoc_res;
 	int			ret;
 
-	first_child = (t_ast_node *)node->children->content;
-	if (!(heredoc_res = heredoc(context->shell, first_child->token->value,
-		heredoc_func, &ret)))
-		return (FAILURE);
-	//do stuff
+	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
+	{
+		first_child = (t_ast_node *)node->children->content;
+		if (!(heredoc_res = heredoc(context->shell, first_child->token->value,
+						heredoc_func, &ret)))
+			return (FAILURE);
+		//do stuff
+		return (SUCCESS);
+	}
 	return (SUCCESS);
 }
 int		sh_traverse_io_here(t_ast_node *node, t_context *context)

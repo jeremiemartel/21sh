@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 12:35:32 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 18:02:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ typedef enum			e_redirection_type
 
 /*
 **
-**                       **Redirections**
+**                       **Files Redirections**
 **
 ** ls -la missing_file 2> file.txt
 **
+** type				-> OUTPUT
 ** redirected_fd	-> 2
 ** fd				-> open("file.txt", O_CREAT | O_TRUNC);
 **
@@ -35,15 +36,17 @@ typedef enum			e_redirection_type
 **
 ** ./test <-
 **
+** type				-> INPUT
 ** redirected_fd	-> 0
 ** fd				-> -1
 **
-**                           **Pipes**
+**                             **Pipes**
 **
 ** ls | cat 
 **
 ** || pipe(int tab[2])
 **
+** type				-> OUTPUT		|| type				-> INPUT
 ** redirected_fd	-> 1			|| redirected_fd	-> 0
 ** fd				-> tab[1]		|| fd				-> tab[0]
 */
@@ -68,6 +71,7 @@ typedef union			u_metadata
 typedef enum		e_phase
 {
 	E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS,
+	E_TRAVERSE_PHASE_EXPANSIONS,
 	E_TRAVERSE_PHASE_REDIRECTIONS,
 	E_TRAVERSE_PHASE_EXECUTE
 }					t_phase;
@@ -81,9 +85,8 @@ typedef struct		s_context
 	char			*path;
 	t_dy_tab		*params; //argv
 	int				(*builtin)(t_context *context);
-//	int				father_id;
-	int				fd[3];
 	int				pipe[2];
+	int				redirected_fd;
 	t_phase			phase;
 	t_ast_node		*current_command_node;
 }					t_context;
@@ -113,5 +116,11 @@ int		sh_check_execute(char *full_path, char *command_name);
 */
 int		t_context_init(t_context *context, t_shell *shell);
 void	t_context_free(t_context *context);
+
+/*
+** sh_redirections.c
+*/
+int		sh_add_redirection(t_redirection_type type,
+			int redirected_fd, int fd, t_list **list);
 
 #endif

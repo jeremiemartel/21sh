@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 13:49:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/26 16:52:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	transmit_sig(int signal)
 
 static int	sh_process_execute_dup_pipes(t_context *context)
 {
+	(void)context;
+	/*
 	if (sh_verbose_pipe())
 	{
 		ft_dprintf(2, "process_Execute_dup_pipes\n");
@@ -49,11 +51,14 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 	if (context->fd[FD_OUT] != 1)
 		if (dup2(context->fd[FD_OUT], 1) == -1)
 			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
+			*/
 	return (SUCCESS);
 }
 
 static int	sh_process_execute_close_pipes(t_context *context)
 {
+	(void)context;
+	/*
 	if (context->fd[FD_IN] != 0)
 		if (close(context->fd[FD_IN]) == -1)
 			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_close_pipes 0"));
@@ -63,6 +68,7 @@ static int	sh_process_execute_close_pipes(t_context *context)
 	if (context->fd[FD_ERR] != 2)
 		if (close(context->fd[FD_ERR]) == -1)
 			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_close_pipes 2"));
+	*/
 	return (SUCCESS);
 }
 
