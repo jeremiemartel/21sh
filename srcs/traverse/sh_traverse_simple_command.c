@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 14:51:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/26 17:44:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		sh_traverse_sc_no_slash_cmd(t_context *context);
 int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context);
 int		sh_traverse_sc_search_in_path(t_context *context);
+int		sh_traverse_sc_check_perm(char *path, char *command_name);
 
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
@@ -24,12 +25,14 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		return (FAILURE);
 	if (!context->params->tbl[0])
 		return (SUCCESS);
-	if (!ft_strchr(context->params->tbl[0], '/'))
+	if (!(ft_strchr(context->params->tbl[0], '/') || *(char*)context->params->tbl[0] == '.'))
 		ret = sh_traverse_sc_no_slash_cmd(context);
 	else
 	{
 		if (!(context->path = ft_strdup(context->params->tbl[0])))
 			return (ft_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
+		if (sh_traverse_sc_check_perm(context->path, context->params->tbl[0]) == FAILURE)
+			return (FAILURE);
 		ret = sh_process_execute(context);
 	}
 	// NEED TO IMPLEMENT EXECVE ERRORS TREATMENT
@@ -42,7 +45,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 	if ((context->builtin = sh_builtin_find(context)))
 		return (sh_process_execute_builtin(context));
 	// undefined behaviour names
-	// Fooking for functions
+	// Looking for functions
 	// Reserved utility
 	if (sh_traverse_sc_search_in_path(context) == FAILURE)
 		return (FAILURE);
@@ -59,17 +62,24 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 {
 	t_dirent	*dirent;
+	char		*buf;
 
 	while ((dirent = readdir(dir)))
 	{
 		if (ft_strequ(dirent->d_name, context->params->tbl[0]))
 		{
 			// ADD PERMISSIONS CHECK
-			if (!(context->path = ft_strjoin_path(path, dirent->d_name)))
+			if (!(buf = ft_strjoin_path(path, dirent->d_name)))
 			{
 				closedir(dir);
 				return (ft_perror(SH_ERR1_MALLOC, "traverse_sc_search_in_dir"));
 			}
+			if (sh_traverse_sc_check_perm(buf, context->params->tbl[0]) == FAILURE)
+			{
+				free(buf);
+				continue ;
+			}
+			context->path = buf;
 			closedir(dir);
 			return (SUCCESS);
 		}
@@ -86,7 +96,7 @@ int		sh_traverse_sc_search_in_path(t_context *context)
 
 	split = ft_strsplit(sh_vars_get_value(context->env, context->vars, "PATH"), ':');
 	if (!(split))
-		return (SUCCESS); //// Nedd to protect path get AND malloc in split
+		return (SUCCESS); //// Need to protect path get AND malloc in split
 	i = 0;
 	while (split[i])
 	{
@@ -102,5 +112,18 @@ int		sh_traverse_sc_search_in_path(t_context *context)
 		i++;
 	}
 	ft_strtab_free(split);
+	return (SUCCESS);
+}
+
+int		sh_traverse_sc_check_perm(char *path, char *command_name)
+{
+	struct stat		st;
+
+	if (stat(path, &st) == -1)
+		return (FAILURE);
+	if (access(path, X_OK))
+		return (ft_perror(SH_ERR1_PERM_DENIED, command_name));
+	if (!S_ISREG(st.st_mode))
+		return (ft_perror(SH_ERR1_CMD_NOT_FOUND, command_name));
 	return (SUCCESS);
 }
