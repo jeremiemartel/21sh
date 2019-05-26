@@ -6,12 +6,64 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 08:53:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 12:35:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_EXEC_H
 # define SH_EXEC_H
+
+typedef enum			e_redirection_type
+{
+	INPUT,
+	OUTPUT
+}						t_redirection_type;
+
+/*
+**
+**                       **Redirections**
+**
+** ls -la missing_file 2> file.txt
+**
+** redirected_fd	-> 2
+** fd				-> open("file.txt", O_CREAT | O_TRUNC);
+**
+** ./test 2< file.txt
+**
+** redirected_fd	-> 2
+** fd				-> open("file.txt", O_CREAT | O_TRUNC);
+**
+** ./test <-
+**
+** redirected_fd	-> 0
+** fd				-> -1
+**
+**                           **Pipes**
+**
+** ls | cat 
+**
+** || pipe(int tab[2])
+**
+** redirected_fd	-> 1			|| redirected_fd	-> 0
+** fd				-> tab[1]		|| fd				-> tab[0]
+*/
+
+typedef struct			s_redirection
+{
+	t_redirection_type	type; 
+	int					redirected_fd;
+	int					fd;
+}						t_redirection;
+
+typedef struct			s_command_metadata
+{
+	t_list				*redirections;
+}						t_command_metadata;
+
+typedef union			u_metadata
+{
+	t_command_metadata	command_metadata;
+}						t_metadata;
 
 typedef enum		e_phase
 {
@@ -29,10 +81,11 @@ typedef struct		s_context
 	char			*path;
 	t_dy_tab		*params; //argv
 	int				(*builtin)(t_context *context);
-	int				father_id;
+//	int				father_id;
 	int				fd[3];
 	int				pipe[2];
 	t_phase			phase;
+	t_ast_node		*current_command_node;
 }					t_context;
 
 /*

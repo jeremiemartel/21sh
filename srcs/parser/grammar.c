@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 16:06:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/26 12:45:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"CMD_NAME", 0, 1, &sh_init_prod_cmd_name, &sh_traverse_cmd_name},
 	{"CMD_WORD", 0, 1, &sh_init_prod_cmd_word, &sh_traverse_cmd_word},
 	{"CMD_PREFIX", 0, 1, &sh_init_prod_cmd_prefix, &sh_traverse_default},
-	{"CMD_SUFFIX", 0, 1, &sh_init_prod_cmd_suffix, &sh_traverse_cmd_suffix},
+	{"CMD_SUFFIX", 1, 1, &sh_init_prod_cmd_suffix, &sh_traverse_cmd_suffix},
 	{"REDIRECT_LIST", 0, 1, &sh_init_prod_redirect_list, &sh_traverse_default},
 	{"IO_REDIRECT", 0, 1, &sh_init_prod_io_redirect, &sh_traverse_io_redirect},
 	{"IO_FILE", 0, 1, &sh_init_prod_io_file, &sh_traverse_io_file},

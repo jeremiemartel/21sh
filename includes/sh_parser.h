@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 19:25:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 10:28:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft.h"
 # include "sh_tokens.h"
 # include "sh_grammar.h"
+# include "sh_exec.h"
 
 typedef struct		s_shell t_shell;
 
@@ -63,10 +64,12 @@ typedef struct		s_action
 	t_action_union	action_union;
 }					t_action;
 
+
 typedef struct			s_ast_node
 {
 	t_token				*token;
 	t_symbol			*symbol;
+	t_metadata			metadata;
 	t_list				*children;
 }						t_ast_node;
 

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/13 17:46:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 11:56:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ static int		sh_traverse_io_here_end(t_ast_node *node,
 	if (!(heredoc_res = heredoc(context->shell, first_child->token->value,
 		heredoc_func, &ret)))
 		return (FAILURE);
-	if (pipe(context->pipe))
-		return ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_io_here: piping");
-	ft_putstr_fd(heredoc_res, context->pipe[PIPE_IN]);
-	context->fd[FD_IN] = context->pipe[PIPE_OUT];
+	//do stuff
 	return (SUCCESS);
 }
 int		sh_traverse_io_here(t_ast_node *node, t_context *context)
