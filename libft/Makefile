@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/05/20 16:51:35 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/26 15:58:24 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,7 +145,15 @@ INCLUDES	= -I. -I./ft_printf/
 CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra $(INCLUDES)
 
+ifeq ($(DEBUG), 1)
+		CFLAGS += -fsanitize=address
+		CC += -g3
+endif
+
 all: $(NAME)
+
+debug:
+	make all DEBUG=1
 
 $(NAME): $(OBJS)
 	@ar -rcs $(NAME) $(OBJS) && echo "\033[32mSuccessfully compiled $(NAME) \033[0m"

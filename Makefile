@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/24 15:34:59 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/26 15:54:52 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -195,11 +195,11 @@ OBJECTS += $(COMMANDLINE_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
-CFLAGS =	-DPATH=$(PWD) -Wall -Wextra -Werror $(INC) -g3
+CFLAGS =	-DPATH=$(PWD) -Wall -Wextra -Werror $(INC)
 LFLAGS =	-L $(LIBFTDIR) -lft -ltermcap
 
 ifeq ($(DEBUG), 1)
-	LFLAGS += -fsanitize=address
+	CFLAGS += -fsanitize=address
 	#CFLAGS += -DDEBUG
 	CC += -g3
 	SPEED = -j8
