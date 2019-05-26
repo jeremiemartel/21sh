@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_pipeline.c                             :+:      :+:    :+:   */
+/*   ok.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/17 20:33:13 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 09:09:46 by ldedier          ###   ########.fr       */
+/*   Created: 2019/05/26 09:49:31 by ldedier           #+#    #+#             */
+/*   Updated: 2019/05/26 09:50:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include <stdio.h>
 
-int		sh_traverse_pipeline(t_ast_node *node, t_context *context)
+
+int main(int argc, char **argv)
 {
-	return (sh_traverse_tools_browse(node, context));
+	(void)argc;
+	(void)argv;
+
+	dprintf(1, "fd 1\n");
+	dprintf(2, "fd 2\n");
+	dprintf(3, "fd 3\n");
+	dprintf(4, "fd 4\n");
+	return (0);
 }

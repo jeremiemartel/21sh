@@ -6,12 +6,19 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 12:45:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/26 08:53:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_EXEC_H
 # define SH_EXEC_H
+
+typedef enum		e_phase
+{
+	E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS,
+	E_TRAVERSE_PHASE_REDIRECTIONS,
+	E_TRAVERSE_PHASE_EXECUTE
+}					t_phase;
 
 typedef struct		s_context
 {
@@ -25,6 +32,7 @@ typedef struct		s_context
 	int				father_id;
 	int				fd[3];
 	int				pipe[2];
+	t_phase			phase;
 }					t_context;
 
 /*

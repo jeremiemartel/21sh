@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 19:14:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 09:20:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			sh_traverse_cmd_suffix(t_ast_node *node, t_context *context)
 	while (ptr != NULL)
 	{
 		child = (t_ast_node *)ptr->content;
-		if (child->token)
+		if (context->phase == E_TRAVERSE_PHASE_EXECUTE && child->token)
 		{
 			if (ft_dy_tab_add_str(context->params, child->token->value))
 				return (FAILURE);
