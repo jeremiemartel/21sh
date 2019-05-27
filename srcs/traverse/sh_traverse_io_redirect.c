@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 21:27:03 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 16:47:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:35:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int		sh_traverse_io_redirect(t_ast_node *node, t_context *context)
 	if (child->symbol->id == sh_index(LEX_TOK_IO_NUMBER))
 	{
 		context->redirected_fd = ft_atoi(child->token->value);
-//		if (fd > 9 || fd < 0)
-//			return (ft_perror(SH_ERR1_BAD_FD, child->token->value));
 		if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
 			return (FAILURE);
 	}

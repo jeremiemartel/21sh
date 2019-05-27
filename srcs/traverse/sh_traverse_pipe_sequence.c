@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 16:04:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:33:18 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,6 @@ static int sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
 	return (SUCCESS);
 }
 
-static void sh_init_command_redirections_list(t_ast_node *node)
-{
-	t_list *ptr;
-	t_ast_node	*child;
-
-	ptr = (t_list *)node->children;
-	while (ptr != NULL)
-	{
-		child = ptr->content;
-		child->metadata.command_metadata.redirections = NULL;
-		if ((ptr = ptr->next))
-			ptr = ptr->next;
-	}
-}
-
 static int	sh_process_pipe_redirections(t_ast_node *node)
 {
 	t_list		*ptr;
@@ -52,7 +37,7 @@ static int	sh_process_pipe_redirections(t_ast_node *node)
 	from = NULL;
 	while (ptr != NULL)
 	{
-		to = ptr->content;
+		to = ((t_ast_node *)(ptr->content))->children->content;
 		if (from != NULL && sh_add_pipe_redirections(from, to))
 			return (FAILURE);
 		if ((ptr = ptr->next))
@@ -66,16 +51,17 @@ static int sh_traverse_pipe_sequences_redirections(t_ast_node *node,
 			t_context *context)
 {
 	t_ast_node	*from;
+	t_ast_node	*simple_command_node;;
 	t_list		*ptr;
 
-	sh_init_command_redirections_list(node);
 	if (sh_process_pipe_redirections(node))
 		return (FAILURE);
 	ptr = (t_list *)node->children;
 	while (ptr != NULL)
 	{
-		from = ptr->content;
-		context->current_command_node = from;
+		from = (t_ast_node *)(ptr->content);
+		simple_command_node = from->children->content;
+		context->current_command_node = simple_command_node;
 		if (g_grammar[from->symbol->id].traverse(from, context) == FAILURE)
 			return (FAILURE);
 		if ((ptr = ptr->next))

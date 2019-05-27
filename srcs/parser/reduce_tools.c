@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 13:01:51 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 11:58:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:32:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	sh_init_ast_node(t_ast_node *node, t_token *token, t_symbol *symbol)
 	node->children = NULL;
 	node->token = token;
 	node->symbol = symbol;
+	if (node->symbol->id == sh_index(SIMPLE_COMMAND))
+		node->metadata.command_metadata.redirections = NULL;
 }
 
 t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)

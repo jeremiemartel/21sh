@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 16:32:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:30:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,54 @@ char		*heredoc_no_dash(char *str)
 **		CTRL_D
 **		CTRL_C
 */
-static int		sh_traverse_io_here_end(t_ast_node *node,
+static int		sh_traverse_io_here_interactive(t_ast_node *node,
 		t_context *context, char *(*heredoc_func)(char *))
 {
-	t_ast_node	*first_child;
-	char		*heredoc_res;
-	int			ret;
+	t_ast_node		*first_child;
+	char			*heredoc_res;
+	int				ret;
+	t_redirection	*redirection;
+	int				fds[2];
 
-	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
-	{
-		first_child = (t_ast_node *)node->children->content;
-		if (!(heredoc_res = heredoc(context->shell, first_child->token->value,
-						heredoc_func, &ret)))
-			return (FAILURE);
-		//do stuff
-		return (SUCCESS);
-	}
+	redirection = &node->metadata.heredoc_metadata.redirection;
+	first_child = (t_ast_node *)node->children->content;
+	if (!(heredoc_res = heredoc(context->shell, first_child->token->value,
+					heredoc_func, &ret)))
+		return (FAILURE);
+	if (pipe(fds))
+		return (ft_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end"));
+	redirection->type = INPUT;
+	redirection->redirected_fd = 0;
+	redirection->fd = fds[0];
+	ft_putstr_fd(heredoc_res, fds[1]);
+	close(fds[1]); // ?
 	return (SUCCESS);
 }
+
 int		sh_traverse_io_here(t_ast_node *node, t_context *context)
 {
-	t_ast_node	*first_child;
-	char		*(*heredoc_func)(char *);
+	t_ast_node		*first_child;
+	char			*(*heredoc_func)(char *);
+	t_redirection	*redirection;
 
-	first_child = node->children->content;
-	if (first_child->symbol->id == sh_index(LEX_TOK_DLESSDASH))
-		heredoc_func = &heredoc_dash;
-	else
-		heredoc_func = &heredoc_no_dash;
-	return (sh_traverse_io_here_end(node->children->next->content,
+	redirection = &node->metadata.heredoc_metadata.redirection;
+	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
+	{
+		first_child = node->children->content;
+		if (first_child->symbol->id == sh_index(LEX_TOK_DLESSDASH))
+			heredoc_func = &heredoc_dash;
+		else
+			heredoc_func = &heredoc_no_dash;
+		return (sh_traverse_io_here_interactive(node->children->next->content,
 				context, heredoc_func));
+	}
+	else if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
+	{
+		if (sh_add_redirection(redirection->type,
+				redirection->redirected_fd, redirection->fd,
+			&context->current_command_node->metadata
+				.command_metadata.redirections))
+				return (FAILURE);
+	}
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/27 15:14:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:02:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,15 @@ typedef struct			s_command_metadata
 	t_list				*redirections;
 }						t_command_metadata;
 
+typedef struct			s_heredoc_metadata
+{
+	t_redirection		redirection;
+}						t_heredoc_metadata;
+
 typedef union			u_metadata
 {
 	t_command_metadata	command_metadata;
+	t_heredoc_metadata	heredoc_metadata;
 }						t_metadata;
 
 typedef enum		e_phase
