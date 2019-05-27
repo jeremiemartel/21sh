@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 16:52:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:46:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,33 @@ void	transmit_sig(int signal)
 
 static int	sh_process_execute_dup_pipes(t_context *context)
 {
-	(void)context;
-	/*
+	t_list			*head;
+	t_redirection	*redir;
+
+	if (!context->redirections)
+		return (SUCCESS);
 	if (sh_verbose_pipe())
+		ft_dprintf(2, "redirections :\n");
+	head = *(context->redirections);
+	while (head)
 	{
-		ft_dprintf(2, "process_Execute_dup_pipes\n");
-		ft_dprintf(2, "\tfdin  : %d\n", context->fd[FD_IN]);
-		ft_dprintf(2, "\tfdout : %d\n", context->fd[FD_OUT]);
-		ft_dprintf(2, "\tfderr : %d\n", context->fd[FD_ERR]);
+		redir = (t_redirection*)head->content;
+		if (sh_verbose_pipe())
+			ft_dprintf(2, "\tfd : %d\t redirected_fd : %d\n", redir->fd, redir->redirected_fd);
+		if (redir->fd >= 0)
+		{
+			if (dup2(redir->fd, redir->redirected_fd) == -1)
+				return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
+		}
+		else if (redir->fd == -1)
+			close(redir->redirected_fd);
+		else if (redir->fd == -2)
+		{
+			redir->redirected_fd = dup(redir->redirected_fd);
+			dup2(redir->fd, redir->redirected_fd);
+		}
+		head = head->next;
 	}
-	if (context->fd[FD_IN] != 0)
-		if ((dup2(context->fd[FD_IN], 0)) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 1"));
-	if (context->fd[FD_OUT] != 1)
-		if (dup2(context->fd[FD_OUT], 1) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
-			*/
 	return (SUCCESS);
 }
 
@@ -72,10 +83,36 @@ static int	sh_process_execute_close_pipes(t_context *context)
 	return (SUCCESS);
 }
 
+int		sh_process_execute_builtin_fill_fd(t_context *context)
+{
+	t_list			*head;
+	t_redirection	*redir;
+
+	if (!context->redirections)
+		return (SUCCESS);
+	head = *(context->redirections);
+	while (head)
+	{
+		redir = head->content;
+		if (redir->redirected_fd >= 0 && redir->redirected_fd <= 2)
+			context->fd[redir->redirected_fd] = redir->fd;
+		head = head->next;
+	}
+	if (sh_verbose_pipe())
+	{
+		ft_dprintf(2, "process_Execute_dup_pipes\n");
+		ft_dprintf(2, "\tfdin  : %d\n", context->fd[FD_IN]);
+		ft_dprintf(2, "\tfdout : %d\n", context->fd[FD_OUT]);
+		ft_dprintf(2, "\tfderr : %d\n", context->fd[FD_ERR]);
+	}
+	return (SUCCESS);
+}
+
 int		sh_process_execute_builtin(t_context *context)
 {
 	int		res;
 
+	sh_process_execute_builtin_fill_fd(context);
 	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
 		sh_process_execute_close_pipes(context);
