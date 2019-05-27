@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 09:32:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:00:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
+		context->redirections = &node->metadata.command_metadata.redirections;
 		if (sh_traverse_tools_browse(node, context) == FAILURE)
 			return (FAILURE);
 		if (!context->params->tbl[0])
