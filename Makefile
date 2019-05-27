@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/26 15:40:48 by ldedier          ###   ########.fr        #
+#    Updated: 2019/05/27 18:32:27 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -141,7 +141,8 @@ EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_execute_tools.c \
 						sh_process_execute.c \
 						t_context.c \
-						sh_redirections.c
+						sh_redirections.c\
+						sh_debug.c
 
 BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_pwd.c \

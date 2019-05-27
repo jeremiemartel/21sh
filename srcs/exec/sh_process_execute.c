@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 17:55:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 19:01:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 			ft_dprintf(2, "\tfd : %d\t redirected_fd : %d\n", redir->fd, redir->redirected_fd);
 		if (redir->fd >= 0)
 		{
-			ft_dprintf(2, "%d became %d\n", redir->fd, redir->redirected_fd);
 			if (dup2(redir->fd, redir->redirected_fd) == -1)
 				return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
+			ft_dprintf(2, "%d replaced %d\n", redir->fd, redir->redirected_fd);
 		}
 		else if (redir->fd == -1)
 			close(redir->redirected_fd);

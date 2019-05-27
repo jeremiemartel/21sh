@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/27 17:35:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 18:32:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,10 @@ void	t_context_free(t_context *context);
 */
 int		sh_add_redirection(t_redirection_type type,
 			int redirected_fd, int fd, t_list **list);
+/*
+** debug.c
+*/
+void	print_redirection(t_redirection *redirection);
+void	print_redirection_list(t_list *list);
 
 #endif
