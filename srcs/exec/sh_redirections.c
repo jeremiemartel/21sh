@@ -37,7 +37,15 @@ int		sh_add_redirection(t_redirection_type type,
 	t_redirection	*found;
 
 	redirection.type = type;
-	redirection.redirected_fd = redirected_fd;
+	if (redirected_fd == -1)
+	{
+		if (type == INPUT)
+			redirected_fd = 0;
+		else
+			redirected_fd = 1;
+	}
+	else
+		redirection.redirected_fd = redirected_fd;
 	redirection.fd = fd;
 	if (!(found = get_redirection(type, redirected_fd, *list)))
 	{
