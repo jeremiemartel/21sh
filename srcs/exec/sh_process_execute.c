@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 18:49:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/27 19:02:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 
 	if (!context->redirections)
 		return (SUCCESS);
-	// if (sh_verbose_pipe())
+	if (sh_verbose_pipe())
 		ft_dprintf(2, "Redirections for %s:\n", context->params->tbl[0]);
 	head = *(context->redirections);
 	while (head)
@@ -49,15 +49,16 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 		redir = (t_redirection*)head->content;
 		if (redir->fd >= 0)
 		{
-			ft_dprintf(2, "\t%d became %d\n", redir->fd, redir->redirected_fd);
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\t%d became %d\n", redir->fd, redir->redirected_fd);
 			if (dup2(redir->fd, redir->redirected_fd) == -1)
 				return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
 		}
-		// else if (redir->fd == -1)
-		// {
-		// 	ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
-		// 	close(redir->redirected_fd);
-		// }
+		else if (redir->fd == -1)
+		{
+			ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+			close(redir->redirected_fd);
+		}
 		else if (redir->fd == -2)
 		{
 //			redir->fd = dup(redir->redirected_fd);
@@ -77,7 +78,7 @@ static int	sh_process_execute_close_pipes(t_context *context)
 
 	if (!context->redirections)
 		return (SUCCESS);
-	// if (sh_verbose_pipe())
+	if (sh_verbose_pipe())
 		ft_dprintf(2, "closing for %s:\n", context->params->tbl[0]);
 	head = *(context->redirections);
 	while (head)
@@ -85,39 +86,27 @@ static int	sh_process_execute_close_pipes(t_context *context)
 		redir = (t_redirection*)head->content;
 		if (redir->fd > 2)
 		{
-			ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
-			close(redir->redirected_fd);
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\tclosing %d\n", redir->fd);
+			close(redir->fd);
 		}
 		else if (redir->fd >= 0)
 		{
 			if (redir->fd != redir->redirected_fd)
 			{
-				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+				if (sh_verbose_pipe())
+					ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
 				close(redir->redirected_fd);
 			}
 		}
 		else if (redir->fd == -2)
 		{
-			ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
 			close(redir->redirected_fd);
 		}
 		head = head->next;
 	}
-	return (SUCCESS);
-
-
-	(void)context;
-	/*
-	if (context->fd[FD_IN] != 0)
-		if (close(context->fd[FD_IN]) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_close_pipes 0"));
-	if (context->fd[FD_OUT] != 1)
-		if (close(context->fd[FD_OUT]) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_close_pipes 1"));
-	if (context->fd[FD_ERR] != 2)
-		if (close(context->fd[FD_ERR]) == -1)
-			return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_close_pipes 2"));
-	*/
 	return (SUCCESS);
 }
 
