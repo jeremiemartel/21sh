@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 18:02:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 15:14:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct		s_context
 	int				(*builtin)(t_context *context);
 	int				pipe[2];
 	int				redirected_fd;
+	int				fd[3];
 	t_phase			phase;
 	t_ast_node		*current_command_node;
 }					t_context;

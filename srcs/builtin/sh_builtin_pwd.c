@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:05:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 17:00:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 15:37:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				sh_builtin_pwd(t_context *context)
 	pwd = sh_builtin_pwd_tool(context->env);
 	if (!pwd)
 		return (FAILURE);
-	ft_dprintf(FD_OUT, "%s\n", pwd);
+	ft_dprintf(context->fd[FD_OUT], "%s\n", pwd);
 	free(pwd);
 	return (SUCCESS);
 }
