@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 12:24:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 17:35:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	
 	init_signals();
 	if (!isatty(0))
 	{

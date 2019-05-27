@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 18:32:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 17:09:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int		sh_traverse_io_file(t_ast_node *node, t_context *context)
 		else if (redir_child->symbol->id == sh_index(LEX_TOK_GREAT))
 			ret = sh_process_file_output(filename, context,
 				O_WRONLY | O_TRUNC | O_CREAT);
+
 		return (ret);
 	}
 	return (sh_traverse_tools_browse(node, context));

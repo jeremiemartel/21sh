@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 16:46:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/27 17:55:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 			ft_dprintf(2, "\tfd : %d\t redirected_fd : %d\n", redir->fd, redir->redirected_fd);
 		if (redir->fd >= 0)
 		{
+			ft_dprintf(2, "%d became %d\n", redir->fd, redir->redirected_fd);
 			if (dup2(redir->fd, redir->redirected_fd) == -1)
 				return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
 		}
@@ -90,11 +91,15 @@ int		sh_process_execute_builtin_fill_fd(t_context *context)
 
 	if (!context->redirections)
 		return (SUCCESS);
+	context->fd[0] = 0;
+	context->fd[1] = 1;
+	context->fd[2] = 2;
 	head = *(context->redirections);
 	while (head)
 	{
 		redir = head->content;
-		if (redir->redirected_fd >= 0 && redir->redirected_fd <= 2)
+		if (redir->type == OUTPUT && redir->redirected_fd >= 0
+				&& redir->redirected_fd <= 2)
 			context->fd[redir->redirected_fd] = redir->fd;
 		head = head->next;
 	}

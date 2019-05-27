@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 16:33:18 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/27 17:57:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ static int sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
 
 	if (pipe(fds))
 		return (ft_perror(SH_ERR1_PIPE, "add_pipe_redirections"));
-	if (sh_add_redirection(OUTPUT, 1, fds[1],
+	if (sh_add_redirection(OUTPUT, 1, fds[PIPE_IN],
 			&from->metadata.command_metadata.redirections))
 		return (FAILURE);
-	if (sh_add_redirection(INPUT, 0, fds[0],
+	if (sh_add_redirection(INPUT, 0, fds[PIPE_OUT],
 			&to->metadata.command_metadata.redirections))
 		return (FAILURE);
+	ft_dprintf(2, "new pipe : in : %d, out : %d\n", fds[PIPE_IN], fds[PIPE_OUT]);
 	return (SUCCESS);
 }
 

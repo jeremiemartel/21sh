@@ -6,11 +6,31 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 16:00:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/27 17:46:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+void	print_redirection(t_redirection *redirection)
+{
+	ft_printf("redirected: %d to %d (on %s)\n", redirection->redirected_fd,
+		redirection->fd, redirection->type == INPUT ? "INPUT" :"OUTPUT");
+}
+
+void	print_redirection_list(t_list *list)
+{
+	t_list *ptr;
+
+	ptr = list;
+	if(!ptr)
+		ft_printf("No redirections !\n");
+	while (ptr != NULL)
+	{
+		print_redirection(ptr->content);
+		ptr = ptr->next;
+	}
+}
 
 int		sh_traverse_sc_no_slash_cmd(t_context *context);
 int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context);
@@ -23,6 +43,7 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		context->redirections = &node->metadata.command_metadata.redirections;
+		print_redirection_list(*context->redirections);
 		if (sh_traverse_tools_browse(node, context) == FAILURE)
 			return (FAILURE);
 		if (!context->params->tbl[0])
