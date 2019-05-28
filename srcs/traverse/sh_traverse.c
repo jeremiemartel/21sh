@@ -27,9 +27,9 @@ int		sh_process_traverse(t_shell *shell)
 	g_grammar[shell->parser.ast_root->symbol->id].
 		traverse(shell->parser.ast_root, &context);
 
-	context.phase = E_TRAVERSE_PHASE_EXECUTE;
-	g_grammar[shell->parser.ast_root->symbol->id].
-		traverse(shell->parser.ast_root, &context);
+//	context.phase = E_TRAVERSE_PHASE_EXECUTE;
+//	g_grammar[shell->parser.ast_root->symbol->id].
+//		traverse(shell->parser.ast_root, &context);
 	
 	t_context_free(&context);
 	return (SUCCESS);

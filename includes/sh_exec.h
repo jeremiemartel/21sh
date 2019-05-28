@@ -129,6 +129,8 @@ void	t_context_free(t_context *context);
 */
 int		sh_add_redirection(t_redirection_type type,
 			int redirected_fd, int fd, t_list **list);
+int		sh_process_fd_aggregation(t_redirection_type,int redirected_fd,
+			int fd, t_list **redirections);
 /*
 ** debug.c
 */

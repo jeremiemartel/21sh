@@ -39,9 +39,11 @@ void		process_ctrl_c(t_shell *shell, t_command_line *command_line)
 	command_line->autocompletion.head = NULL;
 	command_line->autocompletion.active = 0;
 	if (command_line->searcher.active == 0)
+	{
 		get_down_from_command(command_line);
+		reset_command_line(shell, command_line);
+	}
 	command_line->searcher.active = 0;
-	reset_command_line(shell, command_line);
 	render_command_line(command_line, 0, 1);
 }
 

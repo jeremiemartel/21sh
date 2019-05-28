@@ -59,3 +59,29 @@ int		sh_add_redirection(t_redirection_type type,
 	}
 	return (SUCCESS);
 }
+
+int		get_redirected_fd(t_redirection_type type, int fd, t_list *redirections)
+{
+	t_list			*ptr;
+	t_redirection	*redir;
+
+	ptr = redirections;
+	while (ptr != NULL)
+	{
+		redir = (t_redirection *)ptr->content;
+		if (redir->type == type && redir->redirected_fd == fd)
+			return (redir->fd);
+		ptr = ptr->next;
+	}
+	return (fd);
+}
+
+int		sh_process_fd_aggregation(t_redirection_type type,
+			int redirected_fd, int fd, t_list **redirections)
+{
+	int new_fd;
+
+	new_fd = get_redirected_fd(type, fd, *redirections);
+	return (sh_add_redirection(type, redirected_fd, new_fd, redirections));
+}
+

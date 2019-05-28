@@ -24,7 +24,59 @@ char		*heredoc_dash(char *str)
 
 char		*heredoc_no_dash(char *str)
 {
-	return (str);
+	return (ft_strdup(str));
+}
+
+static char *heredoc_canonical_mode(char *eof,
+		char *(*heredoc_func)(char *), int *ret)
+{
+	int			gnl_ret;
+	t_gnl_info	info;
+	char		*res;
+	char		*tmp;
+
+	res = NULL;
+	if (!(res = ft_strnew(0)))
+		return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+	*ret = -1;
+	while ((gnl_ret = get_next_line2(0, &info)) == 1)
+	{
+		if (info.separator != E_SEPARATOR_ZERO)
+		{
+			if (!(tmp = heredoc_func(info.line)))
+				return (ft_free_turn_strs(&res, &info.line,
+					ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode")));
+			if (!ft_strcmp(info.line, eof))
+				return (res);
+			free(info.line);
+			if (!(res = ft_strjoin_free(res, tmp, 3)))
+				return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+			if (!(res = ft_strjoin_free(res, "\n", 1)))
+				return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+		}
+		else
+		{
+			free(info.line);
+			return (ft_perrorn("Illegal characters received from input",
+						"heredoc_canonical_mode"));
+		}
+	}
+	if (gnl_ret == -1)
+	{
+		*ret = -2;
+		free(res);
+		return (NULL);
+	}
+	return (res);
+}
+
+static char *get_heredoc(t_context *context, char *eof,
+		char *(*heredoc_func)(char *), int *ret)
+{
+	if (isatty(0))
+		return (heredoc(context->shell, eof, heredoc_func, ret));
+	else
+		return (heredoc_canonical_mode(eof, heredoc_func, ret));
 }
 
 /*
@@ -42,7 +94,8 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	int				fds[2];
 
 	first_child = (t_ast_node *)node->children->content;
-	if (!(heredoc_res = heredoc(context->shell, first_child->token->value,
+
+	if (!(heredoc_res = get_heredoc(context, first_child->token->value,
 					heredoc_func, &ret)))
 		return (FAILURE);
 	if (pipe(fds))
@@ -50,7 +103,6 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	(*redirection)->type = INPUT;
 	(*redirection)->redirected_fd = 0;
 	(*redirection)->fd = fds[0];
-	print_redirection(*redirection);
 	ft_putstr_fd(heredoc_res, fds[1]);
 	close(fds[1]); // ?
 	return (SUCCESS);

@@ -28,7 +28,7 @@ static int	sh_process_file_output(char *filename,
 	}
 	if (fd == FAILURE)
 		return (FAILURE);
-	if ((fd = open(filename, options, S_IRUSR | S_IWUSR)) < 0)
+	if ((fd = open(filename, options, 0644)) < 0)
 		return (ft_perror("Can't create file", filename));
 	if (sh_add_redirection(OUTPUT, context->redirected_fd, fd,
 		&context->current_command_node->metadata.command_metadata.redirections))
@@ -59,6 +59,74 @@ static int	sh_process_file_input(char *filename,
 	return (SUCCESS);
 }
 
+static int	get_fd(char *filename)
+{
+	int i;
+	int res;
+
+	i = 0;
+	res = 0;
+	while (filename[i])
+	{
+		if (!ft_isdigit(filename[i]))
+			return (-1);
+		res = res * 10 + filename[i] - '0';
+		i++;
+	}
+	return (res);
+}
+
+static int sh_process_file_greatand(char *filename, t_context *context)
+{
+	int fd;
+
+	if (!ft_strcmp(filename, "-"))
+	{
+		if (sh_add_redirection(OUTPUT, context->redirected_fd, -1,
+			&context->current_command_node->metadata.command_metadata.redirections))
+			return (FAILURE);
+		return (SUCCESS);
+		
+	}
+	else if ((fd = get_fd(filename)) <= 2 && fd >= 0)
+		return (sh_process_fd_aggregation(OUTPUT, context->redirected_fd, fd,
+			&context->current_command_node->metadata.command_metadata.redirections));
+	else
+	{
+		if (fd == -1)
+			return (sh_process_file_output(filename, context,
+				O_WRONLY | O_TRUNC | O_CREAT));
+		else
+			ft_dprintf(2, "%d bad file descriptor", fd);
+		return (SUCCESS);
+	}
+}
+
+static int sh_process_file_lessand(char *filename, t_context *context)
+{
+	int fd;
+
+	if (!ft_strcmp(filename, "-"))
+	{
+		if (sh_add_redirection(OUTPUT, context->redirected_fd, -1,
+			&context->current_command_node->metadata.command_metadata.redirections))
+			return (FAILURE);
+		return (SUCCESS);
+		
+	}
+	else if ((fd = get_fd(filename)) <= 2 && fd >= 0)
+		return (sh_process_fd_aggregation(OUTPUT, context->redirected_fd, fd,
+			&context->current_command_node->metadata.command_metadata.redirections));
+	else
+	{
+		if (fd == -1)
+			ft_dprintf(2, "ambiguous redirect\n", fd);
+		else
+			ft_dprintf(2, "%d bad file descriptor\n", fd);
+		return (SUCCESS);
+	}
+}
+
 int		sh_traverse_io_file(t_ast_node *node, t_context *context)
 {
 	t_ast_node	*redir_child;
@@ -74,13 +142,17 @@ int		sh_traverse_io_file(t_ast_node *node, t_context *context)
 		ret = 0;
 		if (redir_child->symbol->id == sh_index(LEX_TOK_LESS))
 			ret = sh_process_file_input(filename, context, O_RDONLY);
-		else if (redir_child->symbol->id == sh_index(LEX_TOK_DGREAT))
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_DGREAT)
+			|| redir_child->symbol->id == sh_index(LEX_TOK_CLOBBER))
 			ret = sh_process_file_output(filename, context,
 				O_WRONLY | O_APPEND | O_CREAT);
 		else if (redir_child->symbol->id == sh_index(LEX_TOK_GREAT))
 			ret = sh_process_file_output(filename, context,
 				O_WRONLY | O_TRUNC | O_CREAT);
-
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_GREATAND))
+			ret = sh_process_file_greatand(filename, context);
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_LESSAND))
+			ret = sh_process_file_lessand(filename, context);
 		return (ret);
 	}
 	return (sh_traverse_tools_browse(node, context));

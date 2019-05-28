@@ -67,7 +67,8 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_great.c \
 						sh_traverse_greatand.c \
 						sh_traverse_dgreat.c \
-						sh_traverse_lessgreat.c
+						sh_traverse_lessgreat.c \
+						sh_traverse_list.c 
 
 
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \

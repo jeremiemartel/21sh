@@ -70,6 +70,10 @@ int		process_keys(t_shell *shell, t_command_line *command_line,
 		process_delete(command_line, shell);
 	else if (buffer[0] == 50)
 		process_shift(command_line, buffer);
+	else if (buffer[0] == 1)
+		process_start(command_line);
+	else if (buffer[0] == 5)
+		process_end(command_line);
 	return (SUCCESS);
 }
 
@@ -83,7 +87,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-		//print_buffer(buffer);
+	//	print_buffer(buffer);
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{
