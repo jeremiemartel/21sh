@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_cmd_suffix.c                           :+:      :+:    :+:   */
+/*   sh_debug.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 09:20:01 by ldedier          ###   ########.fr       */
+/*   Created: 2019/05/27 18:32:36 by ldedier           #+#    #+#             */
+/*   Updated: 2019/05/27 18:34:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int			sh_traverse_cmd_suffix(t_ast_node *node, t_context *context)
+void	print_redirection(t_redirection *redirection)
 {
-	t_ast_node	*child;
-	t_list		*ptr;
+	ft_printf("redirected: %d on %d (on %s)\n", redirection->redirected_fd,
+			redirection->fd, redirection->type == INPUT ? "INPUT" :"OUTPUT");
+}
 
-	ptr = node->children;
+void	print_redirection_list(t_list *list)
+{
+	t_list *ptr;
+
+	ptr = list;
+	if(!ptr)
+		ft_printf("No redirections !\n");
 	while (ptr != NULL)
 	{
-		child = (t_ast_node *)ptr->content;
-		if (context->phase == E_TRAVERSE_PHASE_EXECUTE && child->token)
-		{
-			if (ft_dy_tab_add_str(context->params, child->token->value))
-				return (FAILURE);
-		}
-		else if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
-			return (FAILURE);
+		print_redirection(ptr->content);
 		ptr = ptr->next;
 	}
-	return (SUCCESS);
 }

@@ -6,110 +6,93 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 15:11:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/27 19:05:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-/*
-** Case 0:
-**		Only one pipe sequence => no pipes mechanism
-** Case 1:
-**		First command to execute (last pipe_sequence): pipe sequence with only a command
-			command
-** Case 2:
-**		Any middle pipe_sequence
-**			pipe_sequence '|' linebreak command
-** Case 3:
-**		First pipe_sequence, contain last command to execute
-**			pipe_sequence '|' linebreak command
-*/
-
-/*
-** Case 1:
-**	Last command (first pipe_sequence) of a succession of at least on pipe
-*/
-static int	sh_traverse_pipe_sequence_1(t_ast_node *node, t_context *context)
+static int sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
 {
-	int		save_fdout;
-	int		res;
+	int fds[2];
 
-	save_fdout = context->fd[FD_OUT];
-
-	if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
-		return (FAILURE);
-	context->fd[FD_OUT] = save_fdout;
-
-	// ft_dprintf(2, "Last command :\n");
-	// ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
-	// ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
-
-	res = sh_traverse_tools_browse(node, context);
-	return (res);
-}
-
-/*
-** Case 2:
-**	
-*/
-static int	sh_traverse_pipe_sequence_2(t_ast_node *node, t_context *context)
-{
-	int		res;
-
-	// Case 2 : Mid pipe_sequence
-	if (sh_traverse_tools_browse_one_child(node, context) == FAILURE)
-		return (FAILURE);
-	if (pipe(context->pipe))
-		return ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_pipe_sequence_2 : piping");
-	context->fd[FD_OUT] = context->pipe[PIPE_IN];
-
-	// ft_dprintf(2, "Mid command :\n");
-	// ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
-	// ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+	if (pipe(fds))
+		return (ft_perror(SH_ERR1_PIPE, "add_pipe_redirections"));
 	
-	res = sh_traverse_tools_browse(node, context);
-	context->fd[FD_IN] = context->pipe[PIPE_OUT];
-	return (res);
+	
+	if (sh_add_redirection(OUTPUT, 1, fds[PIPE_IN],
+			&from->metadata.command_metadata.redirections))
+		return (FAILURE);
+
+	if (sh_add_redirection(INPUT, 0, fds[PIPE_OUT],
+			&to->metadata.command_metadata.redirections))
+		return (FAILURE);
+	return (SUCCESS);
 }
 
-/*
-** Case 3:
-**	First command executed (last pipe_sequence) of a succession of at least one pipe
-*/
-static int	sh_traverse_pipe_sequence_3(t_ast_node *node, t_context *context)
+static void sh_init_command_redirections_list(t_ast_node *node)
 {
-	int			res;
+	t_list *ptr;
+	t_ast_node	*child;
 
-	// Case 3 : last pipe_sequence (only one command child)
-	if (pipe(context->pipe))
-		return ft_perror(SH_ERR1_INTERN_ERR, "sh_traverse_pipe_sequence_3: piping");
-	context->fd[FD_OUT] = context->pipe[PIPE_IN];
+	ptr = (t_list *)node->children;
+	while (ptr != NULL)
+	{
+		child = ptr->content;
+		((t_ast_node *)(child->children->content))->metadata.command_metadata.redirections = NULL;
+		if ((ptr = ptr->next))
+			ptr = ptr->next;
+	}
+}
 
-	// ft_dprintf(2, "First command :\n");
-	// ft_dprintf(2, "pipe[in] : %d, pipe[out] : %d\n", context->pipe[PIPE_IN],context->pipe[PIPE_OUT]);
-	// ft_dprintf(2, "fdin : %d, fdout : %d\n", context->fd[FD_IN], context->fd[FD_OUT]);
+static int	sh_process_pipe_redirections(t_ast_node *node)
+{
+	t_list		*ptr;
+	t_ast_node	*from;
+	t_ast_node	*to;
 
-	res = sh_traverse_tools_browse_one_child(node, context);
+	ptr = (t_list *)node->children;
+	from = NULL;
+	while (ptr != NULL)
+	{
+		to = ((t_ast_node *)(ptr->content))->children->content;
+		if (from != NULL && sh_add_pipe_redirections(from, to))
+			return (FAILURE);
+		if ((ptr = ptr->next))
+			ptr = ptr->next;
+		from = to;
+	}
+	return (SUCCESS);
+}
 
-	context->fd[FD_IN] = context->pipe[PIPE_OUT];
-	return (res);
+static int sh_traverse_pipe_sequences_redirections(t_ast_node *node,
+			t_context *context)
+{
+	t_ast_node	*from;
+	t_ast_node	*simple_command_node;;
+	t_list		*ptr;
+
+	sh_init_command_redirections_list(node);
+	if (sh_process_pipe_redirections(node))
+		return (FAILURE);
+	ptr = (t_list *)node->children;
+	while (ptr != NULL)
+	{
+		from = (t_ast_node *)(ptr->content);
+		simple_command_node = from->children->content;
+		context->current_command_node = simple_command_node;
+		if (g_grammar[from->symbol->id].traverse(from, context) == FAILURE)
+			return (FAILURE);
+		if ((ptr = ptr->next))
+			ptr = ptr->next;
+	}
+	return (SUCCESS);
 }
 
 int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 {
-	t_ast_node		*child;
-	int				father;
-	
-	child = (t_ast_node*)node->children->content;
-	father = context->father_id;
-	sh_traverse_update_father(node, context);
-	if (child->symbol->id == sh_index(COMMAND) && father == sh_index(PIPELINE))
-		return (sh_traverse_tools_browse(node, context));
-	else if (father == sh_index(PIPELINE))
-		return (sh_traverse_pipe_sequence_1(node, context));
-	else if (child->symbol->id == sh_index(COMMAND))
-		return (sh_traverse_pipe_sequence_3(node, context));
+	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
+		return (sh_traverse_pipe_sequences_redirections(node, context));
 	else
-		return (sh_traverse_pipe_sequence_2(node, context));
+		return (sh_traverse_tools_browse(node, context));
 }

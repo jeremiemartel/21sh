@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 16:06:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/26 15:02:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"PROGRAM", 0, 1, &sh_init_prod_program, &sh_traverse_default},
 	{"COMPLETE_COMMANDS", 0, 1, &sh_init_prod_complete_commands, &sh_traverse_default},
 	{"COMPLETE_COMMAND", 0, 1, &sh_init_prod_complete_command, &sh_traverse_complete_command},
-	{"LIST", 0, 1, &sh_init_prod_list, &sh_traverse_default},
+	{"LIST", 1, 1, &sh_init_prod_list, &sh_traverse_list},
 	{"AND_OR", 0, 1, &sh_init_prod_and_or, &sh_traverse_and_or},
 	{"PIPELINE", 0, 1, &sh_init_prod_pipeline, &sh_traverse_pipeline},
-	{"PIPE_SEQUENCE", 0, 1, &sh_init_prod_pipe_sequence, &sh_traverse_pipe_sequence},
+	{"PIPE_SEQUENCE", 1, 1, &sh_init_prod_pipe_sequence, &sh_traverse_pipe_sequence},
 	{"COMMAND", 0, 1, &sh_init_prod_command, &sh_traverse_command},
 	{"COMPOUND_COMMAND", 0, 1, &sh_init_prod_compound_command, &sh_traverse_default},
 	{"SUBSHELL", 0, 1, &sh_init_prod_subshell, &sh_traverse_default},
@@ -113,7 +113,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"CMD_NAME", 0, 1, &sh_init_prod_cmd_name, &sh_traverse_cmd_name},
 	{"CMD_WORD", 0, 1, &sh_init_prod_cmd_word, &sh_traverse_cmd_word},
 	{"CMD_PREFIX", 0, 1, &sh_init_prod_cmd_prefix, &sh_traverse_default},
-	{"CMD_SUFFIX", 0, 1, &sh_init_prod_cmd_suffix, &sh_traverse_cmd_suffix},
+	{"CMD_SUFFIX", 1, 1, &sh_init_prod_cmd_suffix, &sh_traverse_cmd_suffix},
 	{"REDIRECT_LIST", 0, 1, &sh_init_prod_redirect_list, &sh_traverse_default},
 	{"IO_REDIRECT", 0, 1, &sh_init_prod_io_redirect, &sh_traverse_io_redirect},
 	{"IO_FILE", 0, 1, &sh_init_prod_io_file, &sh_traverse_io_file},

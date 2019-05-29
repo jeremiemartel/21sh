@@ -6,11 +6,12 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 17:44:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/27 18:41:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
 
 int		sh_traverse_sc_no_slash_cmd(t_context *context);
 int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context);
@@ -21,23 +22,27 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
 	int		ret;
 
-	if (sh_traverse_tools_browse(node, context) == FAILURE)
-		return (FAILURE);
-	if (!context->params->tbl[0])
-		return (SUCCESS);
-	if (!(ft_strchr(context->params->tbl[0], '/') || *(char*)context->params->tbl[0] == '.'))
-		ret = sh_traverse_sc_no_slash_cmd(context);
-	else
+	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
-		if (!(context->path = ft_strdup(context->params->tbl[0])))
-			return (ft_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
-		if (sh_traverse_sc_check_perm(context->path, context->params->tbl[0]) == FAILURE)
+		context->redirections = &node->metadata.command_metadata.redirections;
+		if (sh_traverse_tools_browse(node, context) == FAILURE)
 			return (FAILURE);
-		ret = sh_process_execute(context);
+		if (!context->params->tbl[0])
+			return (SUCCESS);
+		if (!ft_strchr(context->params->tbl[0], '/'))
+			ret = sh_traverse_sc_no_slash_cmd(context);
+		else
+		{
+			if (!(context->path = ft_strdup(context->params->tbl[0])))
+				return (ft_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
+			ret = sh_process_execute(context);
+		}
+		// NEED TO IMPLEMENT EXECVE ERRORS TREATMENT
+		sh_traverse_tools_reset_params(context);
+		return (ret);
 	}
-	// NEED TO IMPLEMENT EXECVE ERRORS TREATMENT
-	sh_traverse_tools_reset_params(context);
-	return (ret);
+	else
+		return (sh_traverse_tools_browse(node, context));
 }
 
 int		sh_traverse_sc_no_slash_cmd(t_context *context)

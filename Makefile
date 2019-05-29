@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/26 15:54:52 by jmartel          ###   ########.fr        #
+#    Updated: 2019/05/27 18:32:27 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,8 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_great.c \
 						sh_traverse_greatand.c \
 						sh_traverse_dgreat.c \
-						sh_traverse_lessgreat.c
+						sh_traverse_lessgreat.c \
+						sh_traverse_list.c 
 
 
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \
@@ -82,8 +83,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \
-						sh_traverse_tools_reset.c \
-						sh_traverse_tools_context.c
+						sh_traverse_tools_reset.c 
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
@@ -141,7 +141,9 @@ VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_execute_tools.c \
 						sh_process_execute.c \
-						t_context.c
+						t_context.c \
+						sh_redirections.c\
+						sh_debug.c
 
 BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_pwd.c \
@@ -154,7 +156,7 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_set.c
 
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
-					  	sh_command_line.h sh_autocompletion.h
+					  	sh_command_line.h sh_autocompletion.h sh_exec.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))

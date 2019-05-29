@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_all.c                                         :+:      :+:    :+:   */
+/*   ok.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/14 14:27:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 15:38:27 by ldedier          ###   ########.fr       */
+/*   Created: 2019/05/26 09:49:31 by ldedier           #+#    #+#             */
+/*   Updated: 2019/05/26 18:26:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include <stdio.h>
 
-void	free_file(t_file *file)
-{
-	free(file->name);
-	free(file->fullname);
-	free(file);
-}
+# define BUFF_SIZE 10000
 
-void    free_file_dlst(void *f, size_t dummy)
+int main(int argc, char **argv)
 {
-	(void)dummy;
-	free_file((t_file *)f);
-}
+	(void)argc;
+	(void)argv;
+	char buffer[BUFF_SIZE + 1];
+	int readd = 0;
 
-void		sh_free_all(t_shell *shell)
-{
-	(void)shell;
+	if (!readd)
+	{
+		dprintf(4, "fd 4\n");
+	}
+	else
+	{
+		int ret = read(0, buffer, BUFF_SIZE);
+		printf("ret = %d\n", ret);
+		buffer[ret] = 0;
+		printf("%s", buffer);
+	}
+	return (0);
 }

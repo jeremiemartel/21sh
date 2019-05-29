@@ -25,6 +25,26 @@ char	*ft_free_turn_str(char **to_del, char *res)
 	return (res);
 }
 
+int		ft_del_turn(void **to_del, int res)
+{
+	if (*to_del != NULL)
+	{
+		free(*to_del);
+		*to_del = NULL;
+	}
+	return (res);
+}
+
+int		ft_del_turn_char(char **to_del, int res)
+{
+	if (*to_del != NULL)
+	{
+		free(*to_del);
+		*to_del = NULL;
+	}
+	return (res);
+}
+
 int		ft_free_turn(void *str, int ret)
 {
 	free(str);

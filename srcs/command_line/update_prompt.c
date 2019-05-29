@@ -21,9 +21,14 @@ int		update_prompt_cwd(t_shell *shell, char **new_prompt)
 	if (!(*new_prompt = ft_strdup("→ ")))
 		return (ft_perror("cwd error", "update_prompt_cwd"));
 	if (!(cwd = getcwd(NULL, 0)))
-		return (ft_perror("cwd error", "update_prompt_cwd"));
+		return (ft_free_turn(*new_prompt,
+			ft_perror("cwd error", "update_prompt_cwd")));
 	if (!(home = get_home_dup(shell)))
-		return (ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
+	{
+		free(*new_prompt);
+		free(cwd);
+		return ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd");
+	}
 	if (!ft_strcmp(home, cwd))
 	{
 		free(cwd);
@@ -32,6 +37,7 @@ int		update_prompt_cwd(t_shell *shell, char **new_prompt)
 			return (ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
 		return (SUCCESS);
 	}
+	free(home);
 	if (get_path_from_absolute_path(cwd, &path))
 	{
 		free(cwd);
@@ -40,6 +46,7 @@ int		update_prompt_cwd(t_shell *shell, char **new_prompt)
 	free(cwd);
 	if (!(*new_prompt = ft_strjoin_free(*new_prompt, path, 1)))
 		return (ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
+	free(path);
 	return (SUCCESS);
 }
 

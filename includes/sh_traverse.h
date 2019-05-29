@@ -18,6 +18,9 @@
 int			sh_process_traverse(t_shell *shell);
 int			sh_traverse_default(t_ast_node *this, t_context *context);
 
+
+int			sh_traverse_list(t_ast_node *node, t_context *context);
+
 /*
 ** COMPLETE_COMMAND and sons
 */

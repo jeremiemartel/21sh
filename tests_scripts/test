@@ -1,0 +1,4 @@
+echo lol > file ; cat < file | cat -e << eoc ; rm file
+okokok
+okokokk
+eoc

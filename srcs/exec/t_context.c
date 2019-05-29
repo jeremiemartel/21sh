@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 12:25:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:41:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int		t_context_init(t_context *context, t_shell *shell)
 	context->fd[0] = 0;
 	context->fd[1] = 1;
 	context->fd[2] = 2;
-	context->pipe[PIPE_OUT] = 0;
-	context->pipe[PIPE_IN] = 1;
 	context->builtin = NULL;
 	return (SUCCESS);
 }

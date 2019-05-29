@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/23 16:38:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/26 15:44:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void				ft_lstadd_last(t_list **start, t_list *new);
 void				ft_lstput_fd(t_list *start, int fd);
 int					ft_lstaddnew_ptr_last(t_list **list, void *content,
 						size_t size);
+int					ft_lstaddnew(t_list **list, void *content, size_t size);
 int					ft_lstaddnew_ptr(t_list **list, void *content, size_t size);
 int					ft_lstaddnew_last(t_list **lst, void *content, size_t size);
 t_list				*ft_lstnew_value(void const *content, size_t content_size);
@@ -309,6 +310,8 @@ char	*ft_free_turn_str(char **to_del, char *res);
 char	*ft_free_turn_strs(char **to_del, char **to_del2, char *res);
 int		ft_free_turn_dy_str(t_dy_str *dy_str, int ret);
 int		ft_free_turn(void *to_free, int ret);
+int		ft_del_turn(void **to_free, int ret);
+int		ft_del_turn_char(char **to_free, int ret);
 int		ft_free_turn_2(void *to_free, void *to_free2, int ret);
 int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
 
