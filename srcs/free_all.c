@@ -6,21 +6,51 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 14:27:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 15:38:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/29 19:45:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	sh_free_ast_node(t_ast_node *ast_node)
+void	sh_free_token(t_token **token)
 {
-	free(ast_node);
+	ft_printf("BEFORE %p\n", *token);
+	if (*token)
+	{
+		ft_printf("on free %s\n", (*token)->value);
+		free((*token)->value);
+		(*token)->value = NULL;
+		free(*token);
+		(*token) = NULL;
+	}
+	ft_printf("AFTER %p\n", *token);
+}
+
+void	sh_free_ast_node(t_ast_node **node)
+{
+	t_ast_node	*child;
+
+	if (!*node)
+		return ;
+	while ((*node)->children != NULL)
+	{
+		child = (t_ast_node *)ft_lstpop_ptr(&(*node)->children);
+		sh_free_ast_node(&child);
+	}
+	free(*node);
+	*node = NULL;
+}
+
+void	sh_free_parser_trees(t_lr_parser *parser)
+{
+	sh_free_ast_node(&parser->ast_root);
+	sh_free_ast_node(&parser->cst_root);
 }
 
 void	sh_free_ast_builder(t_ast_builder *ast_builder)
 {
-	sh_free_ast_node(ast_builder->ast_node);
-	sh_free_ast_node(ast_builder->cst_node);
+	sh_free_ast_node(&ast_builder->ast_node);
+	sh_free_ast_node(&ast_builder->cst_node);
 	free(ast_builder);
 }
 

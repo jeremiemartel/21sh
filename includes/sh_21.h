@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 10:58:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/29 19:08:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,9 @@ void	free_file(t_file *file);
 void	sh_free_lr_automata(t_lr_parser *parser);
 int		sh_process_command(t_shell *shell, char *command);
 void	sh_free_ast_builder(t_ast_builder *ast_builder);
-void	sh_free_ast_node(t_ast_node *ast_node);
+void	sh_free_ast_node(t_ast_node **ast_node);
+void	sh_free_parser_trees(t_lr_parser *parser);
+
 /*
 ** canonical_mode.c
 */

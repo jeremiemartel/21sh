@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 19:01:23 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/29 19:10:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	sh_populate_token(t_token *token, t_symbol_id id,
 
 int	sh_parse_token_list(t_lr_parser *parser)
 {
-	if (sh_lr_parse(parser) != SUCCESS)
-	{
-		ft_printf("LEXICAL ERROR\n");
-		return (FAILURE);
-	}
+	int ret;
+
+	sh_free_parser_trees(parser);
+	if ((ret = sh_lr_parse(parser)) != SUCCESS)
+		return (ret);
 	else
 	{
-		if (sh_verbose_ast())
+		if (sh_verbose_ast() || 1)
 		{
 			ft_printf("OK !\n");
 			ft_printf("\nAST:\n");
@@ -50,9 +50,12 @@ int	sh_parse_token_list(t_lr_parser *parser)
 int		sh_parser(t_list *tokens, t_shell *shell)
 {
 	t_token token;
+	int		ret;
 
 	sh_populate_token(&token, END_OF_INPUT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
 	shell->parser.tokens = tokens;
-	return (sh_parse_token_list(&shell->parser));
+	if ((ret = sh_parse_token_list(&shell->parser)) == 2)
+		ft_dprintf(2, "syntax error\n");
+	return (ret);
 }
