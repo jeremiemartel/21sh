@@ -24,9 +24,11 @@ int		process_shift_right(t_command_line *c_line)
 	if (word.len)
 	{
 		c_line->current_index += word.len - word.index_byte_offset + 1;
-		render_command_line(c_line, word.utf8_len - word.index_char_offset + 1, 1);
-		return (SUCCESS);
+		render_command_line(c_line,
+			word.utf8_len - word.index_char_offset + 1, 1);
+		return (ft_del_turn_char(&word.str, SUCCESS));
 	}
+	ft_strdel(&word.str);
 	while (index < (int)c_line->dy_str->current_size)
 	{
 		if (populate_word_by_index(c_line->dy_str->str, index, &word)
@@ -34,11 +36,13 @@ int		process_shift_right(t_command_line *c_line)
 			return (FAILURE);
 		if (word.len)
 			break ;
+		else
+			ft_strdel(&word.str);
 		index++;
 	}
 	render_command_line(c_line, index - c_line->current_index - 1, 1);
 	c_line->current_index = index - 1;
-	return (SUCCESS);
+	return (ft_del_turn_char(&word.str, SUCCESS));
 }
 
 int		process_shift_left(t_command_line *command_line)
@@ -54,8 +58,10 @@ int		process_shift_left(t_command_line *command_line)
 	{
 		command_line->current_index -= word.index_byte_offset;
 		render_command_line(command_line, -word.index_char_offset, 1);
-		return (SUCCESS);
+		return (ft_del_turn_char(&word.str, SUCCESS));
 	}
+	else
+		ft_strdel(&word.str);
 	while (index > 0)
 	{
 		if (populate_word_by_index(command_line->dy_str->str, index, &word)
@@ -63,11 +69,13 @@ int		process_shift_left(t_command_line *command_line)
 			return (FAILURE);
 		if (word.len)
 			break ;
+		else
+			ft_strdel(&word.str);
 		index--;
 	}
 	render_command_line(command_line, -(command_line->current_index - index), 1);
 	command_line->current_index = index;
-	return (SUCCESS);
+	return (ft_del_turn_char(&word.str, SUCCESS));
 }
 
 int		process_shift_up(t_command_line *command_line)

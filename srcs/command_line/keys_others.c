@@ -36,14 +36,10 @@ int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
 int		process_keys_visual(unsigned char buffer[READ_BUFF_SIZE],
 		t_shell *shell, t_command_line *command_line)
 {
-	char *new_prompt;
-
 	if (buffer[0] == 'y')
 	{
 		if (copy_selection_to_clipboard(command_line) != SUCCESS)
 			return (FAILURE);
-		if (!(new_prompt = ft_strdup(COMMAND_PROMPT)))
-			return (ft_perror(SH_ERR1_MALLOC, "process_keys_visual"));
 		command_line->mode = E_MODE_COMMAND;
 		update_prompt(shell, command_line);
 		render_command_line(command_line, 0, 1);
@@ -52,8 +48,6 @@ int		process_keys_visual(unsigned char buffer[READ_BUFF_SIZE],
 	{
 		if (copy_selection_to_clipboard(command_line) != SUCCESS)
 			return (FAILURE);
-		if (!(new_prompt = ft_strdup(COMMAND_PROMPT)))
-			return (ft_perror(SH_ERR1_MALLOC, "process_keys_visual"));
 		command_line->mode = E_MODE_COMMAND;
 		update_prompt(shell, command_line);
 		delete_command_line_selection(command_line);

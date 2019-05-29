@@ -310,6 +310,8 @@ char	*ft_free_turn_str(char **to_del, char *res);
 char	*ft_free_turn_strs(char **to_del, char **to_del2, char *res);
 int		ft_free_turn_dy_str(t_dy_str *dy_str, int ret);
 int		ft_free_turn(void *to_free, int ret);
+int		ft_del_turn(void **to_free, int ret);
+int		ft_del_turn_char(char **to_free, int ret);
 int		ft_free_turn_2(void *to_free, void *to_free2, int ret);
 int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
 
