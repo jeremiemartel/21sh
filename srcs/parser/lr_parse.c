@@ -37,11 +37,8 @@ int		sh_lr_parse(t_lr_parser *parser)
 
 	i = 0;
 	parser->stack = NULL;
-
-	if (ft_lstaddnew(&parser->stack, &((t_state *)(parser->states->content))->index,
-			sizeof(int)))
+	if (ft_lstaddnew(&parser->stack, &i, sizeof(int)))
 		return (1);
-
 	while (parser->tokens)
 	{
 		if (parser->stack == NULL)
@@ -51,28 +48,19 @@ int		sh_lr_parse(t_lr_parser *parser)
 		action = parser->lr_tables[state_index][token->index];
 		if (action.action_enum == SHIFT)
 		{
-	//		ft_printf("SHIFT\n");
 			if (sh_process_shift(action.action_union.state_index, parser))
 				return (1);
 		}
 		else if (action.action_enum == REDUCE)
 		{
-	//		ft_printf("REDUCE\n");
 			if (sh_process_reduce(action.action_union.production, parser))
 				return (1);
 		}
 		else if (action.action_enum == ACCEPT)
-		{
-			// sh_print_parser_state(parser);
 			return (0);
-		}
 		else if (action.action_enum == ERROR)
-		{
-	//		ft_printf("ERROR\n");
 			return (1);
-		}
 //		sh_print_parser_state(parser);
-		i++;
 	}
 	return (0);
 }

@@ -24,8 +24,8 @@ typedef struct		s_shell t_shell;
 typedef struct		s_state
 {
 	t_list			*transitions;
-	t_list			*items;
-	t_list			*items_by_production[NB_PRODUCTIONS];
+//	t_list			*items_by_production[NB_PRODUCTIONS];
+	t_list			*items;//_by_production[NB_PRODUCTIONS];
 	int				index;
 	int				parsed;
 }					t_state;

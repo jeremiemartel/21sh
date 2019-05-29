@@ -176,8 +176,8 @@ int			sh_await_command(t_shell *shell);
 void		sh_free_all(t_shell *shell);
 void	free_file_dlst(void *f, size_t dummy);
 void	free_file(t_file *file);
-
-int			sh_process_command(t_shell *shell, char *command);
+void	sh_free_lr_automata(t_lr_parser *parser);
+int		sh_process_command(t_shell *shell, char *command);
 
 /*
 ** canonical_mode.c

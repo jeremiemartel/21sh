@@ -24,5 +24,6 @@ int		sh_init_parsing(t_lr_parser *parser)
 		return (1);
 	if (sh_compute_lr_tables(parser))
 		return (1);
+	sh_free_lr_automata(parser);
 	return (0);
 }

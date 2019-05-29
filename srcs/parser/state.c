@@ -23,8 +23,6 @@ t_state *sh_new_state(void)
 	i = 0;
 	res->transitions = NULL;
 	res->items = NULL;
-	while (i < NB_PRODUCTIONS)
-		res->items_by_production[i++] = NULL;
 	res->index = index++;
 	return (res);
 }
@@ -34,9 +32,7 @@ void	sh_free_state(t_state *state)
 	int i;
 
 	i = 0;
-	while (i < NB_PRODUCTIONS)
-		ft_lstdel_ptr(&state->items_by_production[i]);
-	ft_lstdel_ptr(&state->items);
+	ft_lstdel_value(&state->items);
 	ft_lstdel_value(&state->transitions);
 	free(state);
 	state = NULL;

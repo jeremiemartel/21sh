@@ -44,7 +44,6 @@ int	sh_parse_token_list(t_lr_parser *parser)
 			// sh_print_ast(parser->cst_root, 0);
 		}
 		return (SUCCESS);
-
 	}
 }
 
