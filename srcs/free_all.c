@@ -14,7 +14,8 @@
 
 void	free_file(t_file *file)
 {
-//	free(file->name);
+	free(file->name);
+	free(file->fullname);
 	free(file);
 }
 

@@ -26,6 +26,8 @@ int		copy_selection_to_clipboard(t_command_line *command_line)
 	int n;
 	int index;
 
+	if (command_line->clipboard != NULL)
+		free(command_line->clipboard);
 	n = ft_abs(command_line->current_index - command_line->pinned_index);
 	index = ft_min(command_line->current_index, command_line->pinned_index);
 	if (!(command_line->clipboard = ft_strndup(&command_line->dy_str->str[index], n)))
