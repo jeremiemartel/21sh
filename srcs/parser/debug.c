@@ -287,7 +287,7 @@ void	sh_print_lr_table(t_lr_parser *parser)
 			}
 			else if (parser->lr_tables[i][j].action_enum == SHIFT)
 			{
-				ft_printf("\tS%d", parser->lr_tables[i][j].action_union.state->index);
+				ft_printf("\tS%d", parser->lr_tables[i][j].action_union.state_index);
 			}
 			j++;
 		}
@@ -318,6 +318,7 @@ void	sh_print_parser_state(t_lr_parser *parser)
 	t_list			*ptr;
 	t_ast_builder	*ast_builder;
 	int				i;
+	int				state_index;
 
 	ft_printf("input tokens:\n");
 	sh_print_token_list(parser->tokens, &parser->cfg);
@@ -327,7 +328,7 @@ void	sh_print_parser_state(t_lr_parser *parser)
 	while (ptr != NULL)
 	{
 		if (i % 2 == 0)
-			sh_print_state(ptr->content, -1);
+			ft_printf("%sS%d%s",BLUE, state_index = *(int *)ptr->content, EOC);
 		else
 		{
 			ast_builder = (t_ast_builder *)ptr->content;

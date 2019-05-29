@@ -54,7 +54,8 @@ typedef enum		e_action_enum
 
 typedef union		u_action_union
 {
-	t_state			*state;
+//	t_state			*state;
+	int				state_index;
 	t_production	*production;
 }					t_action_union;
 

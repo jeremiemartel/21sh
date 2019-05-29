@@ -15,8 +15,8 @@
 int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 {
 	int				length;
-	t_state			*state;
-	t_state			*state_from;
+	int				state_index;
+	int				state_from_index;
 	t_list			*ast_builder_list;
 	t_list			*ptr;
 	t_ast_builder	*ast_builder_ptr;
@@ -31,7 +31,7 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 	length = ft_lstlen(production->symbols);
 	while (length)
 	{
-		if (!ft_lstpop_ptr(&parser->stack)) //state
+		if (!ft_lstpop_ptr(&parser->stack)) //state_index
 			return (1);
 		if (!(ptr = ft_lstpop_node(&parser->stack))) //ast_builder
 			return (1);
@@ -71,13 +71,13 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 		if (ft_lstaddnew_ptr_last(&ast_builder->ast_node->children, ast_builder_ptr->ast_node, sizeof(t_ast_node *)))
 			return (1);
 	}
-	state_from = (t_state *)parser->stack->content;
-	state = parser->lr_tables[state_from->index]
-		[production->from->id].action_union.state;
+	state_from_index = *(int *)parser->stack->content;
+	state_index = parser->lr_tables[state_from_index]
+		[production->from->id].action_union.state_index;
 	parser->ast_root = ast_builder->ast_node;
 	if (ft_lstaddnew_ptr(&parser->stack, ast_builder, sizeof(t_ast_builder)))
 		return (1);
-	if (ft_lstaddnew_ptr(&parser->stack, state, sizeof(t_state *)))
+	if (ft_lstaddnew(&parser->stack, &state_index, sizeof(int)))
 		return (1);
 	return (0);
 }

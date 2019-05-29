@@ -12,7 +12,7 @@
 
 #include "sh_21.h"
 
-int		sh_process_shift(t_state *state, t_lr_parser *parser)
+int		sh_process_shift(int state_index, t_lr_parser *parser)
 {
 	t_token	*token;
 	t_ast_builder	*ast_builder;
@@ -23,7 +23,7 @@ int		sh_process_shift(t_state *state, t_lr_parser *parser)
 		return (1);
 	if (ft_lstaddnew_ptr(&parser->stack, ast_builder, sizeof(t_ast_builder *)))
 		return (1);
-	if (ft_lstaddnew_ptr(&parser->stack, state, sizeof(t_state *)))
+	if (ft_lstaddnew(&parser->stack, &state_index, sizeof(int)))
 		return (1);
 	return (0);
 }
@@ -32,25 +32,27 @@ int		sh_lr_parse(t_lr_parser *parser)
 {
 	t_token		*token;
 	t_action	action;
-	t_state		*state;
+	int			state_index;
 	int			i;
 
 	i = 0;
 	parser->stack = NULL;
-	if (ft_lstaddnew_ptr(&parser->stack, parser->states->content,
-			sizeof(t_state *)))
+
+	if (ft_lstaddnew(&parser->stack, &((t_state *)(parser->states->content))->index,
+			sizeof(int)))
 		return (1);
+
 	while (parser->tokens)
 	{
 		if (parser->stack == NULL)
 			return (1);
-		state = (t_state *)parser->stack->content;
+		state_index = *(int *)parser->stack->content;
 		token = (t_token *)parser->tokens->content;
-		action = parser->lr_tables[state->index][token->index];
+		action = parser->lr_tables[state_index][token->index];
 		if (action.action_enum == SHIFT)
 		{
 	//		ft_printf("SHIFT\n");
-			if (sh_process_shift(action.action_union.state, parser))
+			if (sh_process_shift(action.action_union.state_index, parser))
 				return (1);
 		}
 		else if (action.action_enum == REDUCE)
@@ -69,6 +71,7 @@ int		sh_lr_parse(t_lr_parser *parser)
 	//		ft_printf("ERROR\n");
 			return (1);
 		}
+//		sh_print_parser_state(parser);
 		i++;
 	}
 	return (0);
