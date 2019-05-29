@@ -178,7 +178,8 @@ void	free_file_dlst(void *f, size_t dummy);
 void	free_file(t_file *file);
 void	sh_free_lr_automata(t_lr_parser *parser);
 int		sh_process_command(t_shell *shell, char *command);
-
+void	sh_free_ast_builder(t_ast_builder *ast_builder);
+void	sh_free_ast_node(t_ast_node *ast_node);
 /*
 ** canonical_mode.c
 */

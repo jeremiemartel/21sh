@@ -61,6 +61,7 @@ int		sh_lr_parse(t_lr_parser *parser)
 		else if (action.action_enum == ERROR)
 			return (1);
 //		sh_print_parser_state(parser);
+
 	}
 	return (0);
 }
