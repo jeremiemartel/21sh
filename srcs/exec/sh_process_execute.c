@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 19:04:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/29 12:34:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 		}
 		else if (redir->fd == -1)
 		{
-			ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
 			close(redir->redirected_fd);
 		}
 		else if (redir->fd == -2)
