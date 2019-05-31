@@ -24,8 +24,7 @@ typedef struct		s_shell t_shell;
 typedef struct		s_state
 {
 	t_list			*transitions;
-//	t_list			*items_by_production[NB_PRODUCTIONS];
-	t_list			*items;//_by_production[NB_PRODUCTIONS];
+	t_list			*items;
 	int				index;
 	int				parsed;
 }					t_state;
@@ -72,6 +71,7 @@ typedef struct			s_ast_node
 	t_symbol			*symbol;
 	t_metadata			metadata;
 	t_list				*children;
+	t_ast_node			*relative;
 }						t_ast_node;
 
 typedef struct			s_ast_builder

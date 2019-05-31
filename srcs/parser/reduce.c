@@ -43,6 +43,7 @@ static int sh_process_reduce_pop(t_production *production,
 		}
 		else
 		{
+			free(child_ast_builder->ast_node);
 			free(child_ast_builder);
 			free(child_ast_builder_ptr);
 		}

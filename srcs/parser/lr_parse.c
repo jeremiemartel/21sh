@@ -36,6 +36,7 @@ int		sh_lr_parse(t_lr_parser *parser)
 	int			i;
 
 	i = 0;
+	ft_lstdel_value(&parser->stack);
 	parser->stack = NULL;
 	if (ft_lstaddnew(&parser->stack, &i, sizeof(int)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_lr_parse"));
@@ -61,7 +62,6 @@ int		sh_lr_parse(t_lr_parser *parser)
 		else if (action.action_enum == ERROR)
 			return (2);
 //		sh_print_parser_state(parser);
-
 	}
 	return (2);
 }

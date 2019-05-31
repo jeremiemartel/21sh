@@ -12,11 +12,23 @@
 
 #include "sh_21.h"
 
-void	sh_init_ast_node(t_ast_node *node, t_token *token, t_symbol *symbol)
+void	sh_init_ast_node(t_ast_node *node,
+			t_token *token, t_symbol *symbol, t_ast_node *relative)
 {
 	node->children = NULL;
-	node->token = token;
 	node->symbol = symbol;
+	node->token = token;
+	node->metadata.command_metadata.redirections = NULL;
+	node->relative = relative;
+}
+
+void	sh_init_ast_nodes(t_ast_builder *ast_builder,
+			t_token *token, t_symbol *symbol)
+{
+	sh_init_ast_node(ast_builder->ast_node,
+		token, symbol, ast_builder->cst_node);
+	sh_init_ast_node(ast_builder->cst_node,
+		token, symbol, ast_builder->ast_node);
 }
 
 t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)
@@ -37,8 +49,7 @@ t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)
 		free(res->ast_node);
 		return (NULL);
 	}
-	sh_init_ast_node(res->ast_node, NULL, symbol);
-	sh_init_ast_node(res->cst_node, NULL, symbol);
+	sh_init_ast_nodes(res, NULL, symbol);
 	return (res);
 }
 
@@ -71,8 +82,7 @@ t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 		free(res);
 		return (NULL);
 	}
-	sh_init_ast_node(res->ast_node, token, symbol);
-	sh_init_ast_node(res->cst_node, token, symbol);
+	sh_init_ast_nodes(res, token, symbol);
 	return (res);
 }
 

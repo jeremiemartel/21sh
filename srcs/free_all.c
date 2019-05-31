@@ -12,18 +12,16 @@
 
 #include "sh_21.h"
 
-void	sh_free_token(t_token **token)
+void	sh_free_token(t_ast_node *node, t_token **token)
 {
-	ft_printf("BEFORE %p\n", *token);
 	if (*token)
 	{
-		ft_printf("on free %s\n", (*token)->value);
 		free((*token)->value);
 		(*token)->value = NULL;
 		free(*token);
 		(*token) = NULL;
+		node->relative->token = NULL;
 	}
-	ft_printf("AFTER %p\n", *token);
 }
 
 void	sh_free_ast_node(t_ast_node **node)
@@ -32,6 +30,10 @@ void	sh_free_ast_node(t_ast_node **node)
 
 	if (!*node)
 		return ;
+	if ((*node)->token)
+		sh_free_token(*node, &(*node)->token);
+	if ((*node)->symbol->id == sh_index(SIMPLE_COMMAND))
+		ft_lstdel_value(&(*node)->metadata.command_metadata.redirections);
 	while ((*node)->children != NULL)
 	{
 		child = (t_ast_node *)ft_lstpop_ptr(&(*node)->children);

@@ -54,6 +54,7 @@ int		sh_parser(t_list *tokens, t_shell *shell)
 
 	sh_populate_token(&token, END_OF_INPUT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
+	ft_lstdel_value(&shell->parser.tokens);
 	shell->parser.tokens = tokens;
 	if ((ret = sh_parse_token_list(&shell->parser)) == 2)
 		ft_dprintf(2, "syntax error\n");
