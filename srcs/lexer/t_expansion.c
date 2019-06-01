@@ -23,7 +23,7 @@ void		t_expansion_free_content(t_expansion *expansion)
 	if (expansion->expansion)
 		free(expansion->expansion);
 	if (expansion->res)
-		ft_dy_str_free(expansion->res);
+		ft_dy_str_free(&expansion->res);
 }
 
 void		t_expansion_show(t_expansion *exp)

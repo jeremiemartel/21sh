@@ -117,6 +117,12 @@ int		sh_init_command_line(t_shell *shell, t_command_line *command_line)
 
 int		sh_init_shell(t_shell *shell, char **env)
 {
+	struct termios s;
+
+	s = shell->term;
+	ft_bzero(shell, sizeof(t_shell));
+	ft_bzero(&g_glob.command_line, sizeof(t_command_line));
+	shell->term = s;
 	if (!(shell->env = main_init_env(env)))
 		return (FAILURE);
 	if (sh_main_init_vars(shell) == FAILURE)

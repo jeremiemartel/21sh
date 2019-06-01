@@ -1,0 +1,4 @@
+echo lol > file ; cat file | cat -e << eoc ; rm file
+heredoc_1
+heredoc_2
+not a eoc

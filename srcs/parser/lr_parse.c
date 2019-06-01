@@ -58,7 +58,12 @@ int		sh_lr_parse(t_lr_parser *parser)
 				return (FAILURE);
 		}
 		else if (action.action_enum == ACCEPT)
+		{
+		//	t_token_free(token);
+		//	free(parser->tokens);
+		//	parser->tokens = NULL;
 			return (SUCCESS);
+		}
 		else if (action.action_enum == ERROR)
 			return (2);
 //		sh_print_parser_state(parser);

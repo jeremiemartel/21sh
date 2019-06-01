@@ -46,8 +46,12 @@ static char *heredoc_canonical_mode(char *eof,
 			if (!(tmp = heredoc_func(info.line)))
 				return (ft_free_turn_strs(&res, &info.line,
 					ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode")));
-			if (!ft_strcmp(info.line, eof))
+			if (!ft_strcmp(tmp, eof))
+			{
+				free(info.line);
+				free(tmp);
 				return (res);
+			}
 			free(info.line);
 			if (!(res = ft_strjoin_free(res, tmp, 3)))
 				return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
@@ -104,6 +108,7 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	(*redirection)->redirected_fd = 0;
 	(*redirection)->fd = fds[0];
 	ft_putstr_fd(heredoc_res, fds[1]);
+	free(heredoc_res);
 	close(fds[1]); // ?
 	return (SUCCESS);
 }

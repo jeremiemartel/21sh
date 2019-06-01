@@ -280,7 +280,7 @@ t_dy_str			*ft_dy_str_new_ptr(char *ptr);
 int					ft_dy_str_add_index(t_dy_str *d_str, char c, size_t index);
 int					ft_dy_str_realloc(t_dy_str *d_str);
 int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
-void				ft_dy_str_free(t_dy_str *dy_str);
+void				ft_dy_str_free(t_dy_str **dy_str);
 int					ft_dy_str_cpy_str(t_dy_str *dy_str, char *str);
 int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
 						int index_to_inject, int len);

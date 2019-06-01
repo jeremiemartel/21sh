@@ -17,7 +17,6 @@ void	sh_traverse_tools_reset_context(t_context *context)
 	sh_traverse_tools_reset_params(context);
 	sh_traverse_tools_close_fd(context);
 	sh_traverse_tools_reset_fd(context);
-
 }
 
 void	sh_traverse_tools_close_fd(t_context *context)
@@ -53,7 +52,7 @@ void	sh_traverse_tools_reset_params(t_context *context)
 	int		i;
 
 	i = 0;
-	while (context->params->tbl[i])
+	while (i < (int)context->params->current_size)
 	{
 		free(context->params->tbl[i]);
 		context->params->tbl[i] = NULL;

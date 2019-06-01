@@ -40,6 +40,8 @@ int		render_command_line(t_command_line *command_line,
 	char	*str;
 	int		to_go_up;
 
+	if (!command_line)
+		return (SUCCESS);
 	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.cursor);
 	str = tgetstr("cd", NULL);
 	tputs(str, 1, putchar_int);

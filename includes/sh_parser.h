@@ -90,6 +90,7 @@ typedef struct		s_lr_parser
 	t_list			*stack;
 	t_ast_node		*ast_root;
 	t_ast_node		*cst_root;
+	int				nb_states;
 }					t_lr_parser;
 
 /*
@@ -163,5 +164,11 @@ void	sh_print_token(t_token *token, t_cfg *cfg);
 void    sh_print_ast_builder(t_ast_builder *ast_builder);
 void    sh_print_ast_parser(t_lr_parser *parser);
 void	sh_print_ast(t_ast_node *node, int depth);
+
+/*
+** free_parser.c
+*/
+
+void	sh_free_parser(t_lr_parser *parser);
 
 #endif

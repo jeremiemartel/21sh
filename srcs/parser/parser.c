@@ -24,6 +24,7 @@ void	sh_populate_token(t_token *token, t_symbol_id id,
 	token->id = id;
 	token->index = sh_index(id);
 	token->token_type = type;
+	token->value = NULL;
 }
 
 int	sh_parse_token_list(t_lr_parser *parser)
@@ -35,7 +36,7 @@ int	sh_parse_token_list(t_lr_parser *parser)
 		return (ret);
 	else
 	{
-		if (sh_verbose_ast() || 1)
+		if (sh_verbose_ast())
 		{
 			ft_printf("OK !\n");
 			ft_printf("\nAST:\n");
@@ -54,7 +55,7 @@ int		sh_parser(t_list *tokens, t_shell *shell)
 
 	sh_populate_token(&token, END_OF_INPUT, 0, TYPE_STR);
 	ft_lstaddnew_last(&tokens, &token, sizeof(t_token));
-	ft_lstdel_value(&shell->parser.tokens);
+	ft_lstdel(&shell->parser.tokens, sh_free_token_lst);
 	shell->parser.tokens = tokens;
 	if ((ret = sh_parse_token_list(&shell->parser)) == 2)
 		ft_dprintf(2, "syntax error\n");

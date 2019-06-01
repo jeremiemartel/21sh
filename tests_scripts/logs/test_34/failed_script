@@ -1,0 +1,1 @@
+ls -la . not_existing_file 2>&1 > file ; rm file

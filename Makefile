@@ -79,7 +79,8 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						copy_paste_delete.c update_prompt.c \
 						keys_insert.c keys_others.c keys_insert.c \
 						cursor_tools.c selection.c sh_process_historic.c \
-						heredoc.c research_historic.c render_research.c 
+						heredoc.c research_historic.c render_research.c \
+						free_command_line.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
 						sh_traverse_tools_browse.c \
@@ -95,7 +96,8 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						compute_lr_automata.c compute_lr_tables.c \
 						lr_parse.c compute_first_state.c state.c \
 						compute_closure.c compute_transitions.c \
-						init_parsing.c grammar.c reduce.c reduce_tools.c
+						init_parsing.c grammar.c reduce.c reduce_tools.c \
+						free_parser.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rules.c \

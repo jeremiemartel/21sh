@@ -12,8 +12,10 @@
 
 #include "libft.h"
 
-void	ft_dy_str_free(t_dy_str *dy_str)
+void	ft_dy_str_free(t_dy_str **dy_str)
 {
-	free(dy_str->str);
-	free(dy_str);
+	free((*dy_str)->str);
+	free(*dy_str);
+	*dy_str = NULL;
+
 }

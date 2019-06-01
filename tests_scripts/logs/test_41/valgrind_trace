@@ -1,0 +1,36 @@
+==95084== Memcheck, a memory error detector
+==95084== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==95084== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==95084== Command: ./21sh
+==95084== Parent PID: 94416
+==95084== 
+==95084== 
+==95084== HEAP SUMMARY:
+==95084==     in use at exit: 18,347 bytes in 167 blocks
+==95084==   total heap usage: 5,900 allocs, 5,733 frees, 564,704 bytes allocated
+==95084== 
+==95084== 1 bytes in 1 blocks are definitely lost in loss record 1 of 43
+==95084==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==95084==    by 0x10001B476: ft_strndup (in ./21sh)
+==95084==    by 0x10001C7B2: get_already_read_buffer (in ./21sh)
+==95084==    by 0x10001C898: get_next_line2 (in ./21sh)
+==95084==    by 0x10000E146: heredoc_canonical_mode (in ./21sh)
+==95084==    by 0x10000E0CB: get_heredoc (in ./21sh)
+==95084==    by 0x10000DFA3: sh_traverse_io_here_interactive (in ./21sh)
+==95084==    by 0x10000DED9: sh_traverse_io_here (in ./21sh)
+==95084==    by 0x10000EC89: sh_traverse_tools_browse (in ./21sh)
+==95084==    by 0x10000DD62: sh_traverse_io_redirect (in ./21sh)
+==95084==    by 0x10000DCA7: sh_traverse_cmd_suffix (in ./21sh)
+==95084==    by 0x10000EC89: sh_traverse_tools_browse (in ./21sh)
+==95084== 
+==95084== LEAK SUMMARY:
+==95084==    definitely lost: 1 bytes in 1 blocks
+==95084==    indirectly lost: 2,064 bytes in 1 blocks
+==95084==      possibly lost: 0 bytes in 0 blocks
+==95084==    still reachable: 200 bytes in 6 blocks
+==95084==         suppressed: 16,082 bytes in 159 blocks
+==95084== Reachable blocks (those to which a pointer was found) are not shown.
+==95084== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==95084== 
+==95084== For counts of detected and suppressed errors, rerun with: -v
+==95084== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 13 from 13)

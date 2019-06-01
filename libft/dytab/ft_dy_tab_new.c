@@ -20,7 +20,7 @@ t_dy_tab	*ft_dy_tab_new(size_t max_size)
 		return (NULL);
 	res->current_size = 0;
 	res->max_size = max_size;
-	if (!(res->tbl = (void **)ft_memalloc(max_size * (sizeof(void *) + 1))))
+	if (!(res->tbl = (void **)ft_memalloc(max_size * (sizeof(void *) + 2))))
 	{
 		free(res);
 		return (NULL);

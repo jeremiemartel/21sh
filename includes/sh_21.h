@@ -120,8 +120,6 @@ typedef struct		s_shell
 	t_historic		historic;
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
-	t_list			*builtins;
-	char			*clipboard;
 	char			running;
 	struct termios	term;
 }					t_shell;
@@ -181,11 +179,11 @@ int		sh_process_command(t_shell *shell, char *command);
 void	sh_free_ast_builder(t_ast_builder *ast_builder);
 void	sh_free_ast_node(t_ast_node **ast_node);
 void	sh_free_parser_trees(t_lr_parser *parser);
-
+void	sh_free_token_lst(void *t, size_t dummy);
 /*
 ** canonical_mode.c
 */
-int			sh_process_canonical_mode(t_shell *shell);
+int			sh_process_canonical_mode(t_shell *shell, char **env);
 
 /*
 ** process_historic.c

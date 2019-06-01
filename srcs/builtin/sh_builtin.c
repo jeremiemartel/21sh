@@ -23,7 +23,6 @@ t_builtin_container	*get_builtins(void)
 		{ "verbose", sh_builtin_verbose },
 		{ "set", sh_builtin_set }
 	};
-
 	return (res);
 }
 
