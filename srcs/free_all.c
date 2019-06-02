@@ -18,13 +18,6 @@ void	sh_free_token_lst(void *t, size_t dummy)
 	t_token_free((t_token *)t);
 }
 
-void	sh_free_ast_builder(t_ast_builder *ast_builder)
-{
-	sh_free_ast_node(&ast_builder->ast_node);
-	sh_free_ast_node(&ast_builder->cst_node);
-	free(ast_builder);
-}
-
 void	free_file(t_file *file)
 {
 	free(file->name);

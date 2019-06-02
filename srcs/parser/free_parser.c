@@ -12,6 +12,24 @@
 
 #include "sh_21.h"
 
+void	sh_free_stack_item(t_stack_item *stack_item)
+{
+	if (stack_item->stack_enum == E_STACK_AST_BUILDER)
+	{
+		if (!stack_item->transfered_ast_builder)
+			sh_free_ast_builder(stack_item->stack_union.ast_builder);
+		else
+			free(stack_item->stack_union.ast_builder);
+	}
+	free(stack_item);
+}
+
+void	sh_free_stack_item_lst(void *si, size_t dummy)
+{
+	(void)dummy;
+	sh_free_stack_item((t_stack_item *)si);
+}
+
 void	sh_free_token(t_ast_node *node, t_token **token)
 {
 	if (*token)
@@ -49,14 +67,12 @@ void	sh_free_parser_trees(t_lr_parser *parser)
 	sh_free_ast_node(&parser->cst_root);
 }
 
-/*
 void	sh_free_ast_builder(t_ast_builder *ast_builder)
 {
 	sh_free_ast_node(&ast_builder->ast_node);
 	sh_free_ast_node(&ast_builder->cst_node);
 	free(ast_builder);
 }
-*/
 
 void    free_state_lst(void *s, size_t dummy)
 {
@@ -96,7 +112,7 @@ void	sh_free_parser(t_lr_parser *parser)
 {
 	int i;
 
-	ft_lstdel_value(&parser->stack);
+	ft_lstdel(&parser->stack, sh_free_stack_item_lst);
 	sh_free_parser_trees(parser);
 	if (parser->lr_tables && parser->nb_states != -1)
 	{

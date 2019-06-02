@@ -37,6 +37,7 @@ t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)
 
 	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
 		return (NULL);
+	res->stack_item = NULL;
 	res->symbol = symbol;
 	if (!(res->ast_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
 	{
@@ -53,17 +54,6 @@ t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)
 	return (res);
 }
 
-t_ast_builder	*sh_new_ast_builder_no_node(t_symbol *symbol)
-{
-	t_ast_builder *res;
-
-	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
-		return (NULL);
-	res->symbol = symbol;
-	res->ast_node = NULL;
-	return (res);
-}
-
 t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 {
 	t_ast_builder *res;
@@ -71,6 +61,7 @@ t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
 		return (NULL);
 	res->symbol = symbol;
+	res->stack_item = NULL;
 	if (!(res->ast_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
 	{
 		free(res);

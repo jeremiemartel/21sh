@@ -1,109 +1,109 @@
-==94729== Memcheck, a memory error detector
-==94729== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==94729== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
-==94729== Command: ./21sh
-==94729== Parent PID: 94416
-==94729== 
-==94729== Conditional jump or move depends on uninitialised value(s)
-==94729==    at 0x10001B731: ft_strpbrk (in ./21sh)
-==94729==    by 0x1000068D1: sh_lexer_exp_recursive (in ./21sh)
-==94729==    by 0x100006857: sh_lexer_exp (in ./21sh)
-==94729==    by 0x1000063CC: lexer_rule5 (in ./21sh)
-==94729==    by 0x100005B16: sh_lexer (in ./21sh)
-==94729==    by 0x10000153E: sh_process_command (in ./21sh)
-==94729==    by 0x100003489: sh_process_read_canonical_mode (in ./21sh)
-==94729==    by 0x100003433: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729== 
-==94729== Use of uninitialised value of size 8
-==94729==    at 0x10001B73B: ft_strpbrk (in ./21sh)
-==94729==    by 0x1000068D1: sh_lexer_exp_recursive (in ./21sh)
-==94729==    by 0x100006857: sh_lexer_exp (in ./21sh)
-==94729==    by 0x1000063CC: lexer_rule5 (in ./21sh)
-==94729==    by 0x100005B16: sh_lexer (in ./21sh)
-==94729==    by 0x10000153E: sh_process_command (in ./21sh)
-==94729==    by 0x100003489: sh_process_read_canonical_mode (in ./21sh)
-==94729==    by 0x100003433: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729== 
-==94729== Invalid read of size 1
-==94729==    at 0x10001B73B: ft_strpbrk (in ./21sh)
-==94729==    by 0x1000068D1: sh_lexer_exp_recursive (in ./21sh)
-==94729==    by 0x100006857: sh_lexer_exp (in ./21sh)
-==94729==    by 0x1000063CC: lexer_rule5 (in ./21sh)
-==94729==    by 0x100005B16: sh_lexer (in ./21sh)
-==94729==    by 0x10000153E: sh_process_command (in ./21sh)
-==94729==    by 0x100003489: sh_process_read_canonical_mode (in ./21sh)
-==94729==    by 0x100003433: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729==  Address 0x4 is not stack'd, malloc'd or (recently) free'd
-==94729== 
-==94729== 
-==94729== Process terminating with default action of signal 11 (SIGSEGV)
-==94729==  Access not within mapped region at address 0x4
-==94729==    at 0x10001B73B: ft_strpbrk (in ./21sh)
-==94729==    by 0x1000068D1: sh_lexer_exp_recursive (in ./21sh)
-==94729==    by 0x100006857: sh_lexer_exp (in ./21sh)
-==94729==    by 0x1000063CC: lexer_rule5 (in ./21sh)
-==94729==    by 0x100005B16: sh_lexer (in ./21sh)
-==94729==    by 0x10000153E: sh_process_command (in ./21sh)
-==94729==    by 0x100003489: sh_process_read_canonical_mode (in ./21sh)
-==94729==    by 0x100003433: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729==  If you believe this happened as a result of a stack
-==94729==  overflow in your program's main thread (unlikely but
-==94729==  possible), you can try to increase the size of the
-==94729==  main thread stack using the --main-stacksize= flag.
-==94729==  The main thread stack size used in this run was 8388608.
-==94729== 
-==94729== HEAP SUMMARY:
-==94729==     in use at exit: 333,802 bytes in 826 blocks
-==94729==   total heap usage: 5,417 allocs, 4,591 frees, 510,386 bytes allocated
-==94729== 
-==94729== 19 bytes in 1 blocks are definitely lost in loss record 11 of 303
-==94729==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==94729==    by 0x10001A9D0: ft_strjoin (in ./21sh)
-==94729==    by 0x10001AFFF: ft_strjoin_free (in ./21sh)
-==94729==    by 0x1000177EE: update_prompt (in ./21sh)
-==94729==    by 0x1000023BD: sh_init_command_line (in ./21sh)
-==94729==    by 0x100002523: sh_init_shell (in ./21sh)
-==94729==    by 0x10000340C: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729== 
-==94729== 150 (24 direct, 126 indirect) bytes in 1 blocks are definitely lost in loss record 274 of 303
-==94729==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==94729==    by 0x100020E7A: ft_dy_str_new (in ./21sh)
-==94729==    by 0x100002364: sh_init_command_line (in ./21sh)
-==94729==    by 0x100002523: sh_init_shell (in ./21sh)
-==94729==    by 0x10000340C: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729== 
-==94729== 150 (24 direct, 126 indirect) bytes in 1 blocks are definitely lost in loss record 275 of 303
-==94729==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==94729==    by 0x100020E7A: ft_dy_str_new (in ./21sh)
-==94729==    by 0x1000023EA: sh_init_command_line (in ./21sh)
-==94729==    by 0x100002523: sh_init_shell (in ./21sh)
-==94729==    by 0x10000340C: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729== 
-==94729== 4,145 (24 direct, 4,121 indirect) bytes in 1 blocks are definitely lost in loss record 302 of 303
-==94729==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==94729==    by 0x100018F4E: ft_lstnew (in ./21sh)
-==94729==    by 0x10001C111: ft_get_gnl (in ./21sh)
-==94729==    by 0x10001C871: get_next_line2 (in ./21sh)
-==94729==    by 0x100003466: sh_process_read_canonical_mode (in ./21sh)
-==94729==    by 0x100003433: sh_process_canonical_mode (in ./21sh)
-==94729==    by 0x10000171E: main (in ./21sh)
-==94729== 
-==94729== LEAK SUMMARY:
-==94729==    definitely lost: 91 bytes in 4 blocks
-==94729==    indirectly lost: 6,437 bytes in 5 blocks
-==94729==      possibly lost: 0 bytes in 0 blocks
-==94729==    still reachable: 311,192 bytes in 658 blocks
-==94729==         suppressed: 16,082 bytes in 159 blocks
-==94729== Reachable blocks (those to which a pointer was found) are not shown.
-==94729== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==94729== 
-==94729== For counts of detected and suppressed errors, rerun with: -v
-==94729== Use --track-origins=yes to see where uninitialised values come from
-==94729== ERROR SUMMARY: 7 errors from 7 contexts (suppressed: 13 from 13)
+==38340== Memcheck, a memory error detector
+==38340== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==38340== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==38340== Command: ./21sh
+==38340== Parent PID: 38027
+==38340== 
+==38340== Conditional jump or move depends on uninitialised value(s)
+==38340==    at 0x10001B721: ft_strpbrk (in ./21sh)
+==38340==    by 0x100006761: sh_lexer_exp_recursive (in ./21sh)
+==38340==    by 0x1000066E7: sh_lexer_exp (in ./21sh)
+==38340==    by 0x10000625C: lexer_rule5 (in ./21sh)
+==38340==    by 0x1000059A6: sh_lexer (in ./21sh)
+==38340==    by 0x10000140E: sh_process_command (in ./21sh)
+==38340==    by 0x100003319: sh_process_read_canonical_mode (in ./21sh)
+==38340==    by 0x1000032C3: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340== 
+==38340== Use of uninitialised value of size 8
+==38340==    at 0x10001B72B: ft_strpbrk (in ./21sh)
+==38340==    by 0x100006761: sh_lexer_exp_recursive (in ./21sh)
+==38340==    by 0x1000066E7: sh_lexer_exp (in ./21sh)
+==38340==    by 0x10000625C: lexer_rule5 (in ./21sh)
+==38340==    by 0x1000059A6: sh_lexer (in ./21sh)
+==38340==    by 0x10000140E: sh_process_command (in ./21sh)
+==38340==    by 0x100003319: sh_process_read_canonical_mode (in ./21sh)
+==38340==    by 0x1000032C3: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340== 
+==38340== Invalid read of size 1
+==38340==    at 0x10001B72B: ft_strpbrk (in ./21sh)
+==38340==    by 0x100006761: sh_lexer_exp_recursive (in ./21sh)
+==38340==    by 0x1000066E7: sh_lexer_exp (in ./21sh)
+==38340==    by 0x10000625C: lexer_rule5 (in ./21sh)
+==38340==    by 0x1000059A6: sh_lexer (in ./21sh)
+==38340==    by 0x10000140E: sh_process_command (in ./21sh)
+==38340==    by 0x100003319: sh_process_read_canonical_mode (in ./21sh)
+==38340==    by 0x1000032C3: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340==  Address 0x4 is not stack'd, malloc'd or (recently) free'd
+==38340== 
+==38340== 
+==38340== Process terminating with default action of signal 11 (SIGSEGV)
+==38340==  Access not within mapped region at address 0x4
+==38340==    at 0x10001B72B: ft_strpbrk (in ./21sh)
+==38340==    by 0x100006761: sh_lexer_exp_recursive (in ./21sh)
+==38340==    by 0x1000066E7: sh_lexer_exp (in ./21sh)
+==38340==    by 0x10000625C: lexer_rule5 (in ./21sh)
+==38340==    by 0x1000059A6: sh_lexer (in ./21sh)
+==38340==    by 0x10000140E: sh_process_command (in ./21sh)
+==38340==    by 0x100003319: sh_process_read_canonical_mode (in ./21sh)
+==38340==    by 0x1000032C3: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340==  If you believe this happened as a result of a stack
+==38340==  overflow in your program's main thread (unlikely but
+==38340==  possible), you can try to increase the size of the
+==38340==  main thread stack using the --main-stacksize= flag.
+==38340==  The main thread stack size used in this run was 8388608.
+==38340== 
+==38340== HEAP SUMMARY:
+==38340==     in use at exit: 333,850 bytes in 827 blocks
+==38340==   total heap usage: 5,440 allocs, 4,613 frees, 511,106 bytes allocated
+==38340== 
+==38340== 19 bytes in 1 blocks are definitely lost in loss record 12 of 304
+==38340==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==38340==    by 0x10001A9C0: ft_strjoin (in ./21sh)
+==38340==    by 0x10001AFEF: ft_strjoin_free (in ./21sh)
+==38340==    by 0x1000178AE: update_prompt (in ./21sh)
+==38340==    by 0x10000228D: sh_init_command_line (in ./21sh)
+==38340==    by 0x1000023F3: sh_init_shell (in ./21sh)
+==38340==    by 0x10000329C: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340== 
+==38340== 150 (24 direct, 126 indirect) bytes in 1 blocks are definitely lost in loss record 275 of 304
+==38340==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==38340==    by 0x100020E6A: ft_dy_str_new (in ./21sh)
+==38340==    by 0x100002234: sh_init_command_line (in ./21sh)
+==38340==    by 0x1000023F3: sh_init_shell (in ./21sh)
+==38340==    by 0x10000329C: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340== 
+==38340== 150 (24 direct, 126 indirect) bytes in 1 blocks are definitely lost in loss record 276 of 304
+==38340==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==38340==    by 0x100020E6A: ft_dy_str_new (in ./21sh)
+==38340==    by 0x1000022BA: sh_init_command_line (in ./21sh)
+==38340==    by 0x1000023F3: sh_init_shell (in ./21sh)
+==38340==    by 0x10000329C: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340== 
+==38340== 4,145 (24 direct, 4,121 indirect) bytes in 1 blocks are definitely lost in loss record 303 of 304
+==38340==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==38340==    by 0x10001900E: ft_lstnew (in ./21sh)
+==38340==    by 0x10001C101: ft_get_gnl (in ./21sh)
+==38340==    by 0x10001C861: get_next_line2 (in ./21sh)
+==38340==    by 0x1000032F6: sh_process_read_canonical_mode (in ./21sh)
+==38340==    by 0x1000032C3: sh_process_canonical_mode (in ./21sh)
+==38340==    by 0x1000015EE: main (in ./21sh)
+==38340== 
+==38340== LEAK SUMMARY:
+==38340==    definitely lost: 91 bytes in 4 blocks
+==38340==    indirectly lost: 6,437 bytes in 5 blocks
+==38340==      possibly lost: 0 bytes in 0 blocks
+==38340==    still reachable: 311,240 bytes in 659 blocks
+==38340==         suppressed: 16,082 bytes in 159 blocks
+==38340== Reachable blocks (those to which a pointer was found) are not shown.
+==38340== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==38340== 
+==38340== For counts of detected and suppressed errors, rerun with: -v
+==38340== Use --track-origins=yes to see where uninitialised values come from
+==38340== ERROR SUMMARY: 7 errors from 7 contexts (suppressed: 13 from 13)

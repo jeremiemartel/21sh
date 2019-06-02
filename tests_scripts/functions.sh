@@ -62,7 +62,7 @@ test()
 			cat buffer > ${inner_log_dir}/failed_script
 			cat $tmp_log_file > ${inner_log_dir}/valgrind_trace
 		else
-			echo -e "${green}leaks OK${eoc}"
+			echo -e "${green}no valgrind errors${eoc}"
 			passed=$((passed+1))
 		fi
 		rm $tmp_log_file

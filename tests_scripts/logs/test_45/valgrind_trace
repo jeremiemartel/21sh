@@ -1,56 +1,56 @@
-==95161== Memcheck, a memory error detector
-==95161== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==95161== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
-==95161== Command: ./21sh
-==95161== Parent PID: 94416
-==95161== 
-==95161== Invalid read of size 8
-==95161==    at 0x10000B495: sh_lr_parse (in ./21sh)
-==95161==    by 0x100008A9D: sh_parse_token_list (in ./21sh)
-==95161==    by 0x100008B89: sh_parser (in ./21sh)
-==95161==    by 0x100001579: sh_process_command (in ./21sh)
-==95161==    by 0x100003489: sh_process_read_canonical_mode (in ./21sh)
-==95161==    by 0x100003433: sh_process_canonical_mode (in ./21sh)
-==95161==    by 0x10000171E: main (in ./21sh)
-==95161==  Address 0x100ed7350 is 16 bytes before a block of size 1,632 alloc'd
-==95161==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==95161==    by 0x10000ACAB: sh_create_tables (in ./21sh)
-==95161==    by 0x10000B244: sh_compute_lr_tables (in ./21sh)
-==95161==    by 0x10000C55A: sh_init_parsing (in ./21sh)
-==95161==    by 0x10000256A: sh_init_shell (in ./21sh)
-==95161==    by 0x10000340C: sh_process_canonical_mode (in ./21sh)
-==95161==    by 0x10000171E: main (in ./21sh)
-==95161== 
-==95161== Invalid read of size 8
-==95161==    at 0x10000B49C: sh_lr_parse (in ./21sh)
-==95161==    by 0x100008A9D: sh_parse_token_list (in ./21sh)
-==95161==    by 0x100008B89: sh_parser (in ./21sh)
-==95161==    by 0x100001579: sh_process_command (in ./21sh)
-==95161==    by 0x100003489: sh_process_read_canonical_mode (in ./21sh)
-==95161==    by 0x100003433: sh_process_canonical_mode (in ./21sh)
-==95161==    by 0x10000171E: main (in ./21sh)
-==95161==  Address 0x100ed7358 is 8 bytes before a block of size 1,632 alloc'd
-==95161==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==95161==    by 0x10000ACAB: sh_create_tables (in ./21sh)
-==95161==    by 0x10000B244: sh_compute_lr_tables (in ./21sh)
-==95161==    by 0x10000C55A: sh_init_parsing (in ./21sh)
-==95161==    by 0x10000256A: sh_init_shell (in ./21sh)
-==95161==    by 0x10000340C: sh_process_canonical_mode (in ./21sh)
-==95161==    by 0x10000171E: main (in ./21sh)
-==95161== 
-==95161== 
-==95161== HEAP SUMMARY:
-==95161==     in use at exit: 18,346 bytes in 166 blocks
-==95161==   total heap usage: 5,310 allocs, 5,144 frees, 507,454 bytes allocated
-==95161== 
-==95161== LEAK SUMMARY:
-==95161==    definitely lost: 0 bytes in 0 blocks
-==95161==    indirectly lost: 2,064 bytes in 1 blocks
-==95161==      possibly lost: 0 bytes in 0 blocks
-==95161==    still reachable: 200 bytes in 6 blocks
-==95161==         suppressed: 16,082 bytes in 159 blocks
-==95161== Reachable blocks (those to which a pointer was found) are not shown.
-==95161== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==95161== 
-==95161== For counts of detected and suppressed errors, rerun with: -v
-==95161== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 13 from 13)
+==38772== Memcheck, a memory error detector
+==38772== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==38772== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==38772== Command: ./21sh
+==38772== Parent PID: 38027
+==38772== 
+==38772== Invalid read of size 8
+==38772==    at 0x10000B4F5: sh_lr_parse (in ./21sh)
+==38772==    by 0x10000892D: sh_parse_token_list (in ./21sh)
+==38772==    by 0x100008A19: sh_parser (in ./21sh)
+==38772==    by 0x100001449: sh_process_command (in ./21sh)
+==38772==    by 0x100003319: sh_process_read_canonical_mode (in ./21sh)
+==38772==    by 0x1000032C3: sh_process_canonical_mode (in ./21sh)
+==38772==    by 0x1000015EE: main (in ./21sh)
+==38772==  Address 0x100ed7350 is 16 bytes before a block of size 1,632 alloc'd
+==38772==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==38772==    by 0x10000AB2B: sh_create_tables (in ./21sh)
+==38772==    by 0x10000B0C4: sh_compute_lr_tables (in ./21sh)
+==38772==    by 0x10000C5BA: sh_init_parsing (in ./21sh)
+==38772==    by 0x10000243A: sh_init_shell (in ./21sh)
+==38772==    by 0x10000329C: sh_process_canonical_mode (in ./21sh)
+==38772==    by 0x1000015EE: main (in ./21sh)
+==38772== 
+==38772== Invalid read of size 8
+==38772==    at 0x10000B4FC: sh_lr_parse (in ./21sh)
+==38772==    by 0x10000892D: sh_parse_token_list (in ./21sh)
+==38772==    by 0x100008A19: sh_parser (in ./21sh)
+==38772==    by 0x100001449: sh_process_command (in ./21sh)
+==38772==    by 0x100003319: sh_process_read_canonical_mode (in ./21sh)
+==38772==    by 0x1000032C3: sh_process_canonical_mode (in ./21sh)
+==38772==    by 0x1000015EE: main (in ./21sh)
+==38772==  Address 0x100ed7358 is 8 bytes before a block of size 1,632 alloc'd
+==38772==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==38772==    by 0x10000AB2B: sh_create_tables (in ./21sh)
+==38772==    by 0x10000B0C4: sh_compute_lr_tables (in ./21sh)
+==38772==    by 0x10000C5BA: sh_init_parsing (in ./21sh)
+==38772==    by 0x10000243A: sh_init_shell (in ./21sh)
+==38772==    by 0x10000329C: sh_process_canonical_mode (in ./21sh)
+==38772==    by 0x1000015EE: main (in ./21sh)
+==38772== 
+==38772== 
+==38772== HEAP SUMMARY:
+==38772==     in use at exit: 18,346 bytes in 166 blocks
+==38772==   total heap usage: 5,310 allocs, 5,144 frees, 507,466 bytes allocated
+==38772== 
+==38772== LEAK SUMMARY:
+==38772==    definitely lost: 0 bytes in 0 blocks
+==38772==    indirectly lost: 2,064 bytes in 1 blocks
+==38772==      possibly lost: 0 bytes in 0 blocks
+==38772==    still reachable: 200 bytes in 6 blocks
+==38772==         suppressed: 16,082 bytes in 159 blocks
+==38772== Reachable blocks (those to which a pointer was found) are not shown.
+==38772== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==38772== 
+==38772== For counts of detected and suppressed errors, rerun with: -v
+==38772== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 13 from 13)
