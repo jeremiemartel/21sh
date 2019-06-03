@@ -55,7 +55,7 @@ test()
 		valgrind --leak-check=full --suppressions=$suppressions_file \
 			--error-exitcode=$error_exit_code --log-file=$tmp_log_file ./21sh < buffer >/dev/null 2>&1
 		ret=$?
-		if [ $ret -eq $error_exit_code ] || [ ! $ret -eq 1 ] && [ ! $ret -eq 0 ] ; then
+		if [ $ret -eq $error_exit_code ] || ([ ! $ret -eq 1 ] && [ ! $ret -eq 0 ]) ; then
 			echo -e "${red}valgrind error, tracing logs at ${inner_log_dir}${eoc}"
 			echo -e "${yellow}`cat buffer`${eoc}"
 			mkdir -p $inner_log_dir

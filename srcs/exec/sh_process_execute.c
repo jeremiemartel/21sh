@@ -25,7 +25,7 @@ void	transmit_sig(int signal)
 {
 	if (g_parent)
 		kill(g_parent, signal);
-	if (g_glob.command_line.dy_str)
+	if (isatty(0) && g_glob.command_line.dy_str)
 	{
 		get_down_from_command(&g_glob.command_line);
 		g_glob.cursor = 0;
@@ -59,15 +59,9 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 		}
 		else if (redir->fd == -1)
 		{
-			ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
 			close(redir->redirected_fd);
-		}
-		else if (redir->fd == -2)
-		{
-//			redir->fd = dup(redir->redirected_fd);
-//			dup2(redir->fd, redir->redirected_fd);
-//			ft_dprintf(2, "\t%d became %d\n", redir->fd, redir->redirected_fd);
-			ft_dprintf(2, "TAMER\n");
 		}
 		head = head->next;
 	}

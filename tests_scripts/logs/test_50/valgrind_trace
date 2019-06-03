@@ -1,0 +1,56 @@
+==1946== Memcheck, a memory error detector
+==1946== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1946== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==1946== Command: ./21sh
+==1946== Parent PID: 1063
+==1946== 
+==1946== Invalid read of size 8
+==1946==    at 0x10000B525: sh_lr_parse (in ./21sh)
+==1946==    by 0x10000893D: sh_parse_token_list (in ./21sh)
+==1946==    by 0x100008A5C: sh_parser (in ./21sh)
+==1946==    by 0x100001439: sh_process_command (in ./21sh)
+==1946==    by 0x100003309: sh_process_read_canonical_mode (in ./21sh)
+==1946==    by 0x1000032B3: sh_process_canonical_mode (in ./21sh)
+==1946==    by 0x1000015DE: main (in ./21sh)
+==1946==  Address 0x100ed7340 is 16 bytes before a block of size 1,632 alloc'd
+==1946==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==1946==    by 0x10000AB6B: sh_create_tables (in ./21sh)
+==1946==    by 0x10000B104: sh_compute_lr_tables (in ./21sh)
+==1946==    by 0x10000C5EA: sh_init_parsing (in ./21sh)
+==1946==    by 0x10000242A: sh_init_shell (in ./21sh)
+==1946==    by 0x10000328C: sh_process_canonical_mode (in ./21sh)
+==1946==    by 0x1000015DE: main (in ./21sh)
+==1946== 
+==1946== Invalid read of size 8
+==1946==    at 0x10000B52C: sh_lr_parse (in ./21sh)
+==1946==    by 0x10000893D: sh_parse_token_list (in ./21sh)
+==1946==    by 0x100008A5C: sh_parser (in ./21sh)
+==1946==    by 0x100001439: sh_process_command (in ./21sh)
+==1946==    by 0x100003309: sh_process_read_canonical_mode (in ./21sh)
+==1946==    by 0x1000032B3: sh_process_canonical_mode (in ./21sh)
+==1946==    by 0x1000015DE: main (in ./21sh)
+==1946==  Address 0x100ed7348 is 8 bytes before a block of size 1,632 alloc'd
+==1946==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==1946==    by 0x10000AB6B: sh_create_tables (in ./21sh)
+==1946==    by 0x10000B104: sh_compute_lr_tables (in ./21sh)
+==1946==    by 0x10000C5EA: sh_init_parsing (in ./21sh)
+==1946==    by 0x10000242A: sh_init_shell (in ./21sh)
+==1946==    by 0x10000328C: sh_process_canonical_mode (in ./21sh)
+==1946==    by 0x1000015DE: main (in ./21sh)
+==1946== 
+==1946== 
+==1946== HEAP SUMMARY:
+==1946==     in use at exit: 18,346 bytes in 166 blocks
+==1946==   total heap usage: 5,310 allocs, 5,144 frees, 507,465 bytes allocated
+==1946== 
+==1946== LEAK SUMMARY:
+==1946==    definitely lost: 0 bytes in 0 blocks
+==1946==    indirectly lost: 2,064 bytes in 1 blocks
+==1946==      possibly lost: 0 bytes in 0 blocks
+==1946==    still reachable: 200 bytes in 6 blocks
+==1946==         suppressed: 16,082 bytes in 159 blocks
+==1946== Reachable blocks (those to which a pointer was found) are not shown.
+==1946== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1946== 
+==1946== For counts of detected and suppressed errors, rerun with: -v
+==1946== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 13 from 13)

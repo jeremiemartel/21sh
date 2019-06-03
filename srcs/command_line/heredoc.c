@@ -53,5 +53,8 @@ char	*heredoc(t_shell *shell, char *stop,
 	if (*ret == CTRL_D)
 		return (heredoc_ret(shell, command_line, res));
 	else
+	{
+		free(res);
 		return (heredoc_ret(shell, command_line, NULL));
+	}
 }

@@ -17,6 +17,8 @@ void	render_command_researched(t_command_line *command_line)
 	int		len;
 	char	*str;
 
+//	ft_printf("from researched: ");
+//	ft_printf("%s\n", command_line->dy_str->str);
 	ft_putnstr_fd(command_line->dy_str->str,
 		command_line->searcher.match_index, 0);
 	str = tgetstr("us", NULL);
@@ -40,7 +42,9 @@ int		render_command_line(t_command_line *command_line,
 	char	*str;
 	int		to_go_up;
 
-	if (!command_line)
+//	ft_printf("OLALALA\n");
+//	sleep(2);
+	if (!isatty(0) || !command_line)
 		return (SUCCESS);
 	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.cursor);
 	str = tgetstr("cd", NULL);

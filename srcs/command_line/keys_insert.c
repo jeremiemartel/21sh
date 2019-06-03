@@ -96,7 +96,7 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 			buffer[0] = 0;
 			if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, 1))
 				return (FAILURE);
-			render_command_line(command_line, 0, 0);
+			//render_command_line(command_line, 0, 0);
 			update_research_historic(command_line, shell, 0);
 		}
 		else

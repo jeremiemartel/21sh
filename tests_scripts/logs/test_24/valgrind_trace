@@ -1,0 +1,109 @@
+==1400== Memcheck, a memory error detector
+==1400== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1400== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==1400== Command: ./21sh
+==1400== Parent PID: 1063
+==1400== 
+==1400== Conditional jump or move depends on uninitialised value(s)
+==1400==    at 0x10001B721: ft_strpbrk (in ./21sh)
+==1400==    by 0x100006771: sh_lexer_exp_recursive (in ./21sh)
+==1400==    by 0x1000066F7: sh_lexer_exp (in ./21sh)
+==1400==    by 0x10000626C: lexer_rule5 (in ./21sh)
+==1400==    by 0x100005996: sh_lexer (in ./21sh)
+==1400==    by 0x1000013FE: sh_process_command (in ./21sh)
+==1400==    by 0x100003309: sh_process_read_canonical_mode (in ./21sh)
+==1400==    by 0x1000032B3: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400== 
+==1400== Use of uninitialised value of size 8
+==1400==    at 0x10001B72B: ft_strpbrk (in ./21sh)
+==1400==    by 0x100006771: sh_lexer_exp_recursive (in ./21sh)
+==1400==    by 0x1000066F7: sh_lexer_exp (in ./21sh)
+==1400==    by 0x10000626C: lexer_rule5 (in ./21sh)
+==1400==    by 0x100005996: sh_lexer (in ./21sh)
+==1400==    by 0x1000013FE: sh_process_command (in ./21sh)
+==1400==    by 0x100003309: sh_process_read_canonical_mode (in ./21sh)
+==1400==    by 0x1000032B3: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400== 
+==1400== Invalid read of size 1
+==1400==    at 0x10001B72B: ft_strpbrk (in ./21sh)
+==1400==    by 0x100006771: sh_lexer_exp_recursive (in ./21sh)
+==1400==    by 0x1000066F7: sh_lexer_exp (in ./21sh)
+==1400==    by 0x10000626C: lexer_rule5 (in ./21sh)
+==1400==    by 0x100005996: sh_lexer (in ./21sh)
+==1400==    by 0x1000013FE: sh_process_command (in ./21sh)
+==1400==    by 0x100003309: sh_process_read_canonical_mode (in ./21sh)
+==1400==    by 0x1000032B3: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400==  Address 0x4 is not stack'd, malloc'd or (recently) free'd
+==1400== 
+==1400== 
+==1400== Process terminating with default action of signal 11 (SIGSEGV)
+==1400==  Access not within mapped region at address 0x4
+==1400==    at 0x10001B72B: ft_strpbrk (in ./21sh)
+==1400==    by 0x100006771: sh_lexer_exp_recursive (in ./21sh)
+==1400==    by 0x1000066F7: sh_lexer_exp (in ./21sh)
+==1400==    by 0x10000626C: lexer_rule5 (in ./21sh)
+==1400==    by 0x100005996: sh_lexer (in ./21sh)
+==1400==    by 0x1000013FE: sh_process_command (in ./21sh)
+==1400==    by 0x100003309: sh_process_read_canonical_mode (in ./21sh)
+==1400==    by 0x1000032B3: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400==  If you believe this happened as a result of a stack
+==1400==  overflow in your program's main thread (unlikely but
+==1400==  possible), you can try to increase the size of the
+==1400==  main thread stack using the --main-stacksize= flag.
+==1400==  The main thread stack size used in this run was 8388608.
+==1400== 
+==1400== HEAP SUMMARY:
+==1400==     in use at exit: 334,033 bytes in 827 blocks
+==1400==   total heap usage: 5,440 allocs, 4,613 frees, 511,209 bytes allocated
+==1400== 
+==1400== 19 bytes in 1 blocks are definitely lost in loss record 12 of 304
+==1400==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==1400==    by 0x10001A9C0: ft_strjoin (in ./21sh)
+==1400==    by 0x10001AFEF: ft_strjoin_free (in ./21sh)
+==1400==    by 0x10001789E: update_prompt (in ./21sh)
+==1400==    by 0x10000227D: sh_init_command_line (in ./21sh)
+==1400==    by 0x1000023E3: sh_init_shell (in ./21sh)
+==1400==    by 0x10000328C: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400== 
+==1400== 150 (24 direct, 126 indirect) bytes in 1 blocks are definitely lost in loss record 275 of 304
+==1400==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==1400==    by 0x100020E6A: ft_dy_str_new (in ./21sh)
+==1400==    by 0x100002224: sh_init_command_line (in ./21sh)
+==1400==    by 0x1000023E3: sh_init_shell (in ./21sh)
+==1400==    by 0x10000328C: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400== 
+==1400== 150 (24 direct, 126 indirect) bytes in 1 blocks are definitely lost in loss record 276 of 304
+==1400==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==1400==    by 0x100020E6A: ft_dy_str_new (in ./21sh)
+==1400==    by 0x1000022AA: sh_init_command_line (in ./21sh)
+==1400==    by 0x1000023E3: sh_init_shell (in ./21sh)
+==1400==    by 0x10000328C: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400== 
+==1400== 4,145 (24 direct, 4,121 indirect) bytes in 1 blocks are definitely lost in loss record 303 of 304
+==1400==    at 0x1000D8086: malloc (in /usr/local/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==1400==    by 0x10001900E: ft_lstnew (in ./21sh)
+==1400==    by 0x10001C101: ft_get_gnl (in ./21sh)
+==1400==    by 0x10001C861: get_next_line2 (in ./21sh)
+==1400==    by 0x1000032E6: sh_process_read_canonical_mode (in ./21sh)
+==1400==    by 0x1000032B3: sh_process_canonical_mode (in ./21sh)
+==1400==    by 0x1000015DE: main (in ./21sh)
+==1400== 
+==1400== LEAK SUMMARY:
+==1400==    definitely lost: 91 bytes in 4 blocks
+==1400==    indirectly lost: 6,437 bytes in 5 blocks
+==1400==      possibly lost: 0 bytes in 0 blocks
+==1400==    still reachable: 311,423 bytes in 659 blocks
+==1400==         suppressed: 16,082 bytes in 159 blocks
+==1400== Reachable blocks (those to which a pointer was found) are not shown.
+==1400== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==1400== 
+==1400== For counts of detected and suppressed errors, rerun with: -v
+==1400== Use --track-origins=yes to see where uninitialised values come from
+==1400== ERROR SUMMARY: 7 errors from 7 contexts (suppressed: 13 from 13)

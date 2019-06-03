@@ -15,14 +15,18 @@
 int		sh_process_traverse(t_shell *shell)
 {
 	t_context	context;
+	int			ret;
 
 	if (t_context_init(&context, shell) == FAILURE)
 		return (FAILURE);
 
 	context.phase = E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS;	
-	g_grammar[shell->parser.ast_root->symbol->id].
-		traverse(shell->parser.ast_root, &context);
-
+	if ((ret = g_grammar[shell->parser.ast_root->symbol->id].
+		traverse(shell->parser.ast_root, &context)))
+	{
+		ft_dy_tab_del(context.params);
+		return (SUCCESS);
+	}
 	context.phase = E_TRAVERSE_PHASE_REDIRECTIONS;
 	g_grammar[shell->parser.ast_root->symbol->id].
 		traverse(shell->parser.ast_root, &context);
