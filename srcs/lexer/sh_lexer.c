@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 12:11:09 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/31 13:01:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	{
 		i = 0;
 		if (sh_verbose_lexer())
-			ft_printf("lexer in progress on : %c\t", lexer.c);
+			ft_printf("lexer in progress on : %1c\t", lexer.c);
 		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 			i++;
 		if (i >= LEX_RULES_LEN)
