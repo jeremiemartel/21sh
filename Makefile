@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/05/27 18:32:27 by ldedier          ###   ########.fr        #
+#    Updated: 2019/06/03 17:21:20 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,8 +82,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						heredoc.c research_historic.c render_research.c \
 						free_command_line.c
 
-TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_flush.c \
-						sh_traverse_tools_browse.c \
+TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 
 
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
@@ -141,8 +140,6 @@ VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 						sh_verbose.c sh_env_vars.c
 
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
-						sh_execute_tools.c \
-						sh_process_execute.c \
 						t_context.c \
 						sh_redirections.c\
 						sh_debug.c

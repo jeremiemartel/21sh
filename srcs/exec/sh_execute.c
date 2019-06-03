@@ -1,120 +1,195 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_execute.c                                       :+:      :+:    :+:   */
+/*   sh_process_execute.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 19:34:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 12:10:33 by jmartel          ###   ########.fr       */
+/*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
+/*   Updated: 2019/05/29 12:34:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-/*
-** sh_execute_command_no_path:
-**	Command execution prcedure if PATH environment variable is not set,
-**	or if the command path substitution failed in using PATH env variable.
-**	return Value:
-**		sh_process_execute returned value
-*/
-int		sh_execute_command_no_path(t_context *context)
-{
-	char	cwd[CWD_LEN];
-	// char	*full_path;
+static pid_t g_parent = 0;
 
-	if (((char **)context->params->tbl)[0][0] == '/')
-		return (SUCCESS);//sh_process_execute(context->params->tbl[0], context));
-	else
+void	transmit_sig_and_die(int signal)
+{
+	if (g_parent)
+		kill(g_parent, signal);
+	return (exit(sh_reset_shell(0)));
+}
+
+void	transmit_sig(int signal)
+{
+	if (g_parent)
+		kill(g_parent, signal);
+	if (g_glob.command_line.dy_str)
 	{
-		if (getcwd(cwd, CWD_LEN) == NULL)
-			return (FAILURE);
-		// if (!(full_path = ft_strjoin_3(cwd, "/", context->params->tbl[0])))
-		// 	return (FAILURE);
-		// if (!sh_check_execute(full_path, context->params->tbl[0]))
-		if (!sh_check_execute(context->params->tbl[0], context->params->tbl[0]))
-		{
-			// free(full_path);
-			return (FAILURE);
-		}
-		// free(context->params->tbl[0]);
-		// context->params->tbl[0] = full_path;
+		get_down_from_command(&g_glob.command_line);
+		g_glob.cursor = 0;
+		g_glob.command_line.dy_str->current_size = 0;
+		g_glob.command_line.current_index = 0;
+		ft_bzero(g_glob.command_line.dy_str->str, g_glob.command_line.dy_str->max_size);
+		g_glob.command_line.nb_chars = 0;
+		render_command_line(&g_glob.command_line, 0, 1);
+	}
+}
+
+static int	sh_process_execute_dup_pipes(t_context *context)
+{
+	t_list			*head;
+	t_redirection	*redir;
+
+	if (!context->redirections)
 		return (SUCCESS);
+	if (sh_verbose_pipe())
+		ft_dprintf(2, "Redirections for %s:\n", context->params->tbl[0]);
+	head = *(context->redirections);
+	while (head)
+	{
+		redir = (t_redirection*)head->content;
+		if (redir->fd >= 0)
+		{
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\t%d became %d\n", redir->fd, redir->redirected_fd);
+			if (dup2(redir->fd, redir->redirected_fd) == -1)
+				return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
+		}
+		else if (redir->fd == -1)
+		{
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+			close(redir->redirected_fd);
+		}
+		else if (redir->fd == -2)
+		{
+//			redir->fd = dup(redir->redirected_fd);
+//			dup2(redir->fd, redir->redirected_fd);
+//			ft_dprintf(2, "\t%d became %d\n", redir->fd, redir->redirected_fd);
+			ft_dprintf(2, "TAMER\n");
+		}
+		head = head->next;
 	}
+	return (SUCCESS);
 }
 
-/*
-** sh_execute_command_path:
-**	Normal execution procedure (if PATH env variable is set):
-**	Look for the command path, using the PATH env variable, if command is found
-**	it process it
-**	return Values:
-**		0 found
-**		1 not found
-**		2 error
-*/
-int		sh_execute_command_path(t_context *context)
+static int	sh_process_execute_close_pipes(t_context *context)
 {
-	char	**path_split;
-	int		i;
-	char	*full_path;
-	char	*path_str;
+	t_list			*head;
+	t_redirection	*redir;
 
-	path_str = get_env_value((char **)context->env->tbl, "PATH");
-	if(!path_str || !*path_str)
-		return (1);
-	if (!(path_split = ft_strsplit(path_str, ':')))
-		return (FAILURE);
-	i = 0;
-	while (path_split[i])
+	if (!context->redirections)
+		return (SUCCESS);
+	if (sh_verbose_pipe())
+		ft_dprintf(2, "closing for %s:\n", context->params->tbl[0]);
+	head = *(context->redirections);
+	while (head)
 	{
-		if (get_file_in_dir(context->params->tbl[0], path_split[i]))
+		redir = (t_redirection*)head->content;
+		if (redir->fd > 2)
 		{
-			if (!(full_path = ft_strjoin_3(path_split[i], "/", context->params->tbl[0])))
-				return (FAILURE);
-			if (sh_check_execute(full_path, context->params->tbl[0]) == FAILURE)
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\tclosing %d\n", redir->fd);
+			close(redir->fd);
+		}
+		else if (redir->fd >= 0)
+		{
+			if (redir->fd != redir->redirected_fd)
 			{
-				free(full_path);
-				return (FAILURE);
+				if (sh_verbose_pipe())
+					ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+				close(redir->redirected_fd);
 			}
-			free(context->params->tbl[0]);
-			context->params->tbl[0] = full_path;
-			ft_strtab_free(path_split);
-			return (SUCCESS);
 		}
-		i++;
+		else if (redir->fd == -2)
+		{
+			if (sh_verbose_pipe())
+				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
+			close(redir->redirected_fd);
+		}
+		head = head->next;
 	}
-	ft_strtab_free(path_split);
-	return (-2);
+	return (SUCCESS);
 }
 
-int		sh_execute_command(t_context *context)
+int		sh_process_execute_builtin_fill_fd(t_context *context)
 {
-	int			ret;
+	t_list			*head;
+	t_redirection	*redir;
 
-	if (!(context->builtin = sh_builtin_find(context)))
+	if (!context->redirections)
+		return (SUCCESS);
+	context->fd[0] = 0;
+	context->fd[1] = 1;
+	context->fd[2] = 2;
+	head = *(context->redirections);
+	while (head)
 	{
-		if ((ret = sh_execute_command_path(context)))
-		{
-			if (ret == 2)
-				return (FAILURE);
-			// else
-			// {
-			// 	if (sh_execute_command_no_path(context) == FAILURE)
-			// 		return (FAILURE);
-			// }
-		}
+		redir = head->content;
+		if (redir->type == OUTPUT && redir->redirected_fd >= 0
+				&& redir->redirected_fd <= 2)
+			context->fd[redir->redirected_fd] = redir->fd;
+		head = head->next;
 	}
-	if (sh_verbose_exec())
+	if (sh_verbose_pipe())
 	{
-		ft_printf(BLUE"parameters\n"EOC);
-		ft_strtab_put((char**)context->params->tbl);
-		ft_printf("\n");
+		ft_dprintf(2, "process_Execute_dup_pipes\n");
+		ft_dprintf(2, "\tfdin  : %d\n", context->fd[FD_IN]);
+		ft_dprintf(2, "\tfdout : %d\n", context->fd[FD_OUT]);
+		ft_dprintf(2, "\tfderr : %d\n", context->fd[FD_ERR]);
 	}
-	if (context->builtin)
-		sh_process_execute_builtin(context);
+	return (SUCCESS);
+}
+
+int		sh_process_execute_builtin(t_context *context)
+{
+	int		res;
+
+	sh_process_execute_builtin_fill_fd(context);
+	if (isatty(0) && sh_reset_shell(0) == -1)
+	{
+		sh_process_execute_close_pipes(context);
+		return (FAILURE);
+	}
+	res = context->builtin(context);
+	sh_env_vars_update_question_mark(context, res);
+	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
+		return (ft_perror("Could not modify this terminal attributes",
+			"sh_init_terminal"));
+	sh_process_execute_close_pipes(context);
+	return (SUCCESS);
+}
+
+int		sh_process_execute(t_context *context)
+{
+	int		res;
+
+	if (isatty(0) && sh_reset_shell(0) == -1)
+	{
+		sh_process_execute_close_pipes(context);
+		return (FAILURE);
+	}
+	if ((g_parent = fork()) == -1)
+		return (FAILURE);
+	if (g_parent == 0)
+	{
+		sh_process_execute_dup_pipes(context);
+		execve(context->path, (char **)context->params->tbl, (char **)context->env->tbl);
+		sh_process_execute_close_pipes(context);
+		ft_perror(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
+		exit(FAILURE);
+	}
 	else
-		sh_process_execute(context);
+	{
+		wait(&res);
+		sh_env_vars_update_question_mark(context, res);
+		g_parent = 0;
+		sh_process_execute_close_pipes(context);
+		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
+			return (ft_perror("Could not modify this terminal attributes",
+				"sh_init_terminal"));
+	}
 	return (SUCCESS);
 }

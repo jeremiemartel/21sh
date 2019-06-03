@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/27 18:32:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/03 17:20:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,11 @@ typedef struct		s_context
 /*
 ** sh_execute.c
 */
-int		sh_execute_command_no_path(t_context *context);
-int		sh_execute_command_path(t_context *context);
-int		sh_execute_command(t_context *context);
-
-/*
-** process_execute.c
-*/
-void	transmit_sig(int signal);
-void	transmit_sig_and_die(int signal);
-int		sh_process_execute(t_context *context);
-
-/*
-** sh_execute_tools.c
-*/
-int		sh_process_execute_builtin(t_context *context);
-int		sh_check_execute(char *full_path, char *command_name);
+void		transmit_sig_and_die(int signal);
+void		transmit_sig(int signal);
+int			sh_process_execute_builtin_fill_fd(t_context *context);
+int			sh_process_execute_builtin(t_context *context);
+int			sh_process_execute(t_context *context);;
 
 /*
 ** t_context.c

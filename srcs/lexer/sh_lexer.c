@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/03 17:05:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/03 17:08:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define LEX_RULES_LEN	10
 
-int		lexer_lexical_conventions(t_lexer *lexer)
+int		lexer_lexical_conventions(t_lexer *lexer) // Is this function steel usefull ??
 {
 	t_list	*head;
 	t_token	*token;
