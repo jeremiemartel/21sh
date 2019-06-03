@@ -19,6 +19,7 @@
 # include "sh_grammar.h"
 # include "sh_exec.h"
 
+typedef struct		s_ast_node t_ast_node;
 typedef struct		s_shell t_shell;
 typedef struct		s_stack_item t_stack_item;
 
@@ -65,23 +66,23 @@ typedef struct		s_action
 	t_action_union	action_union;
 }					t_action;
 
+typedef struct			s_ast_builder
+{
+	t_ast_node			*cst_node;
+	t_ast_node			*ast_node;
+	t_symbol			*symbol;
+}						t_ast_builder;
 
-typedef struct			s_ast_node
+
+struct			s_ast_node
 {
 	t_token				*token;
 	t_symbol			*symbol;
 	t_metadata			metadata;
 	t_list				*children;
 	t_ast_node			*relative;
-}						t_ast_node;
-
-typedef struct			s_ast_builder
-{
-	t_ast_node			*cst_node;
-	t_ast_node			*ast_node;
-	t_symbol			*symbol;
-	t_stack_item		*stack_item;
-}						t_ast_builder;
+	t_ast_builder		*builder;
+};
 
 typedef enum			e_stack_enum
 {

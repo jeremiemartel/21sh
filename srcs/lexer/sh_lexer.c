@@ -31,7 +31,7 @@ int		lexer_lexical_conventions(t_lexer *lexer)
 	{
 		token = (t_token*)head->content;
 		if (token->id == LEX_TOK_UNKNOWN)
-			return (ft_perror("Unknow token detected", "lexer"));//
+			return (ft_perror("Unknow token detected", "lexer"));
 		if (head->next)
 			next_token = (t_token*)(head->next->content);
 		else
@@ -92,7 +92,11 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		return (ft_perror("Lexer", "Error returned"));//Leaks
 	if (ret == LEX_CANCEL)
 		return (LEX_CANCEL); //leaks
-	lexer_lexical_conventions(&lexer);
+	if (lexer_lexical_conventions(&lexer) != SUCCESS)
+	{
+		free(lexer.input);
+		return (LEX_UNKNOWN);
+	}
 	if (sh_verbose_lexer())
 		lexer_show(&lexer);
 	*tokens = lexer.list;

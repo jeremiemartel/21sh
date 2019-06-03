@@ -18,7 +18,6 @@ t_stack_item	*new_stack_item(t_ast_builder *ast_builder, int state_index)
 
 	if (!(res = (t_stack_item *)malloc(sizeof(t_stack_item))))
 		return (ft_perrorn(SH_ERR1_MALLOC, "new_stack_item"));
-	res->transfered_ast_builder = 0;
 	if (!ast_builder)
 	{
 		res->stack_enum = E_STACK_STATE_INDEX;
@@ -28,7 +27,6 @@ t_stack_item	*new_stack_item(t_ast_builder *ast_builder, int state_index)
 	{
 		res->stack_enum = E_STACK_AST_BUILDER;
 		res->stack_union.ast_builder = ast_builder;
-		ast_builder->stack_item = res;
 	}
 	return (res);
 }
@@ -97,15 +95,15 @@ int		sh_lr_parse(t_lr_parser *parser)
 
 	i = 0;
 
-	ft_printf(GREEN"\n");
-	system("leaks 21sh");
-	sleep(1);
-	ft_printf("%d\n", ft_lstlen(parser->stack));
-	sh_print_parser_state(parser);
+//	ft_printf(GREEN"\n");
+//	system("leaks 21sh");
+//	sleep(1);
+//	ft_printf("%d\n", ft_lstlen(parser->stack));
+//	sh_print_parser_state(parser);
 	ft_lstdel(&parser->stack, sh_free_stack_item_lst);
-	ft_printf(RED"\n");
-	system("leaks 21sh");
-	sleep(1);
+//	ft_printf(RED"\n");
+//	system("leaks 21sh");
+//	sleep(1);
 	if (!(stack_item = new_stack_item(NULL, 0)))
 		return (FAILURE);
 	if (ft_lstaddnew_ptr(&parser->stack, stack_item, sizeof(t_stack_item *)))
@@ -126,12 +124,13 @@ int		sh_lr_parse(t_lr_parser *parser)
 		action = parser->lr_tables[state_index][token->index];
 		if (action.action_enum == SHIFT)
 		{
+//			ft_printf("SHIFT\n");
 			if (sh_process_shift(action.action_union.state_index, parser))
 				return (FAILURE);
 		}
 		else if (action.action_enum == REDUCE)
 		{
-			
+//			ft_printf("REDUCE\n");
 			if (sh_process_reduce(action.action_union.production, parser))
 				return (FAILURE);
 	
@@ -145,12 +144,11 @@ int		sh_lr_parse(t_lr_parser *parser)
 		}
 		else if (action.action_enum == ERROR)
 		{
-			ft_printf("oalalal\n");
+//			ft_printf("ERROR\n");
 			return (2);
 		}
-		sh_print_parser_state(parser);
+//		sh_print_parser_state(parser);
 //		sh_print_ast(parser->ast_root, 0);
-		sh_print_ast(parser->cst_root, 0);
 	}
 	return (2);
 }

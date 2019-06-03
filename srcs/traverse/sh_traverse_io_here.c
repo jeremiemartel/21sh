@@ -36,9 +36,9 @@ static char *heredoc_canonical_mode(char *eof,
 	char		*tmp;
 
 	res = NULL;
+	*ret = -1;
 	if (!(res = ft_strnew(0)))
 		return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
-	*ret = -1;
 	while ((gnl_ret = get_next_line2(0, &info)) == 1)
 	{
 		if (info.separator != E_SEPARATOR_ZERO)
@@ -50,6 +50,7 @@ static char *heredoc_canonical_mode(char *eof,
 			{
 				free(info.line);
 				free(tmp);
+				*ret = SUCCESS;
 				return (res);
 			}
 			free(info.line);
@@ -71,6 +72,8 @@ static char *heredoc_canonical_mode(char *eof,
 		free(res);
 		return (NULL);
 	}
+	free(info.line);
+	*ret = SUCCESS;
 	return (res);
 }
 
@@ -100,7 +103,7 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	first_child = (t_ast_node *)node->children->content;
 
 	if (!(heredoc_res = get_heredoc(context, first_child->token->value,
-					heredoc_func, &ret)))
+			heredoc_func, &ret)))
 		return (FAILURE);
 	if (pipe(fds))
 		return (ft_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end"));

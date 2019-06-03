@@ -26,6 +26,8 @@ static int sh_process_reduce_pop(t_production *production,
 		if (!(stack_item = ft_lstpop_ptr(&parser->stack))) //ast_builder
 			return (ft_perror(SH_ERR1_MALLOC, "sh_process_reduce_pop"));
 		child_ast_builder = stack_item->stack_union.ast_builder;
+		child_ast_builder->cst_node->builder = NULL;
+		child_ast_builder->ast_node->builder = NULL;
 		if (ft_lstaddnew_ptr(&parser->cst_root->children, child_ast_builder->cst_node, sizeof(t_ast_node *)))
 		{
 			free(stack_item);
@@ -40,10 +42,13 @@ static int sh_process_reduce_pop(t_production *production,
 				*replacing_ast_node = child_ast_builder->ast_node;
 				free(child_ast_builder);
 			}
-			else if (ft_lstaddnew_ptr(ast_builder_list, child_ast_builder, sizeof(t_ast_builder *)))
+			else 
 			{
-				free(stack_item);
-				return (FAILURE);
+				if (ft_lstaddnew_ptr(ast_builder_list, child_ast_builder, sizeof(t_ast_builder *)))
+				{
+					free(stack_item);
+					return (FAILURE);
+				}
 			}
 		}
 		else
@@ -71,7 +76,6 @@ static int		sh_process_reduce_add_to_stack(t_lr_parser *parser,
 	parser->ast_root = ast_builder->ast_node;
 	if (sh_process_shift_adds(parser, ast_builder, state_index))
 		return (FAILURE);
-	ast_builder->stack_item->transfered_ast_builder = 1;
 	return (SUCCESS);
 }
 
@@ -84,16 +88,22 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 
 	replacing_ast_node = NULL;
 	ast_builder_list = NULL;
-	ast_builder = sh_new_ast_builder_no_token(production->from);
+	ast_builder = sh_new_ast_builder(NULL, production->from);
 	parser->cst_root = ast_builder->cst_node;
-
+//	ft_printf("GREEN\n");
+//	system("leaks 21sh");
+//	sleep(1);
 	if (sh_process_reduce_pop(production, parser, &ast_builder_list,
-			&replacing_ast_node))
+				&replacing_ast_node))
 		return (FAILURE);
+//	ft_printf("RED\n");
+//	system("leaks 21sh");
+//	sleep(1);
 	if (replacing_ast_node)
 	{
-		sh_free_ast_node(&ast_builder->ast_node);
+		free(ast_builder->ast_node);
 		ast_builder->ast_node = replacing_ast_node;
+		ast_builder->ast_node->builder = ast_builder;
 	}
 	while (ast_builder_list != NULL)
 	{

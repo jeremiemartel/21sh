@@ -35,9 +35,13 @@ int		sh_process_command(t_shell *shell, char *command)
 		else
 			return (SUCCESS);
 	}
-	if (sh_parser(tokens, shell) != SUCCESS)
-	   	return (SUCCESS);
-	return (sh_process_traverse(shell));
+	else
+	{	
+		if (sh_parser(tokens, shell) != SUCCESS)
+		   	return (SUCCESS);
+		return (sh_process_traverse(shell));
+	}
+	return (SUCCESS);
 }
 
 int		sh_await_command(t_shell *shell)

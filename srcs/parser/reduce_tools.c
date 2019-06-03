@@ -29,29 +29,8 @@ void	sh_init_ast_nodes(t_ast_builder *ast_builder,
 		token, symbol, ast_builder->cst_node);
 	sh_init_ast_node(ast_builder->cst_node,
 		token, symbol, ast_builder->ast_node);
-}
-
-t_ast_builder	*sh_new_ast_builder_no_token(t_symbol *symbol)
-{
-	t_ast_builder *res;
-
-	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
-		return (NULL);
-	res->stack_item = NULL;
-	res->symbol = symbol;
-	if (!(res->ast_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
-	{
-		free(res);
-		return (NULL);
-	}
-	if (!(res->cst_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
-	{
-		free(res);
-		free(res->ast_node);
-		return (NULL);
-	}
-	sh_init_ast_nodes(res, NULL, symbol);
-	return (res);
+	ast_builder->ast_node->builder = ast_builder;
+	ast_builder->cst_node->builder = ast_builder;
 }
 
 t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
@@ -61,7 +40,6 @@ t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 	if (!(res = (t_ast_builder *)malloc(sizeof(t_ast_builder))))
 		return (NULL);
 	res->symbol = symbol;
-	res->stack_item = NULL;
 	if (!(res->ast_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
 	{
 		free(res);
