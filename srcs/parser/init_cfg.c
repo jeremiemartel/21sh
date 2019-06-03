@@ -86,8 +86,5 @@ int		init_context_free_grammar(t_cfg *cfg)
 	}
 	if (sh_compute_first_sets(cfg))
 		return (1);
-//	if (sh_compute_follow_sets(cfg))
-//		return (1);
-//	sh_print_cfg(cfg);
 	return (0);
 }

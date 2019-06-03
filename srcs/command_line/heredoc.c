@@ -23,6 +23,7 @@ char	*heredoc(t_shell *shell, char *stop,
 			char *(*heredoc_func)(char *), int *ret)
 {
 	char	*res;
+	char	*tmp;
 	t_command_line *command_line;
 
 	command_line = &g_glob.command_line;
@@ -34,13 +35,16 @@ char	*heredoc(t_shell *shell, char *stop,
 	update_prompt(shell, command_line);
 	while ((*ret = sh_get_command(shell, command_line)) == SUCCESS)
 	{
-		if (!(res = heredoc_func(res)))
+		if (!(tmp = heredoc_func(command_line->dy_str->str)))
 			return (heredoc_ret(shell, command_line, NULL));
-		if (!ft_strcmp(command_line->dy_str->str, stop))
+		if (!ft_strcmp(tmp, stop))
+		{
+			free(tmp);
 			return (heredoc_ret(shell, command_line, res));
+		}
 		else
 		{
-			if (!(res = ft_strjoin_free(res, command_line->dy_str->str, 1)))
+			if (!(res = ft_strjoin_free(res, tmp, 3)))
 				return (heredoc_ret(shell, command_line, NULL));
 			if (!(res = ft_strjoin_free(res, "\n", 1)))
 				return (heredoc_ret(shell, command_line, NULL));

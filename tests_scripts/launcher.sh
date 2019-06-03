@@ -13,7 +13,21 @@
 # **************************************************************************** #
 
 path=".."
+suppressions_file="my_supp.supp"
 exec="21sh"
+log_dir="logs" # watchout we rm -rf this
+
+if [ "$1" = "-v" ] ; then
+	valgrind=true
+	rm -rf "${log_dir}" 
+	mkdir -p $log_dir
+fi
+
+if [ ! -z $valgrind ] && [ ! -f $suppressions_file ] ; then
+	echo "initializing the valgrind configuration..."
+	./init.sh
+	echo "OK !"
+fi
 
 verbose=""
 
@@ -33,6 +47,11 @@ eoc=\\033[0m
 
 make -C $path && cp ${path}/${exec} .
 
+((passed=0))
+((tried=0))
+((diff_passed=0))
+((diff_tried=0))
+
 source functions.sh
 
 for file in `ls test_*` ; do
@@ -45,3 +64,6 @@ launch "Others"
 finish
 
 rm ${exec}
+echo "passed ${passed} valgrind tests out of ${tried}"
+echo "passed ${diff_passed} diff tests out of ${diff_tried}"
+rm -rf "${exec}.dSYM"

@@ -163,17 +163,9 @@ int		sh_compute_first_sets_str(t_cfg *cfg,
 	while (ptr != NULL)
 	{
 		symbol = (t_symbol *)ptr->content;
-//		sh_print_symbol(symbol);
-//		ft_printf("\n");
-//		sh_process_print_set(cfg, symbol->first_sets);
-//		ft_printf("olalala\n");
 		sh_process_transitive_first_sets_2(first_sets, symbol);
 		if (!symbol->first_sets[eps_index])
-		{
-//		sh_process_print_set(cfg, symbol->first_sets);
-//		ft_printf("olalala\n");
 			return (0);
-		}
 		ptr = ptr->next;
 	}
 	sh_process_transitive_first_set_2(first_sets, eps_index);

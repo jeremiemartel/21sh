@@ -24,6 +24,7 @@
 /*
 ** Possible states for the lexer, returned by lexer functions
 */
+# define LEX_UNKNOWN	FAILURE + SUCCESS + 4
 # define LEX_CANCEL		FAILURE + SUCCESS + 3
 # define LEX_END		FAILURE + SUCCESS + 2
 # define LEX_ERR		FAILURE

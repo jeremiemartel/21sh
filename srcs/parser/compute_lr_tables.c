@@ -21,14 +21,13 @@ t_action	**sh_create_tables(t_lr_parser *parser)
 {
 	t_action	**res;
 	int			i;
-	int			height;
 	int			j;
 
-	height = ft_lstlen(parser->states);
-	if (!(res = (t_action **)malloc(height * sizeof(t_action *))))
+	parser->nb_states = ft_lstlen(parser->states);
+	if (!(res = (t_action **)malloc(parser->nb_states * sizeof(t_action *))))
 		return (NULL);
 	i = 0;
-	while (i < height)
+	while (i < parser->nb_states)
 	{
 		if (!(res[i] = (t_action *)malloc(NB_SYMBOLS * sizeof(t_action))))
 		{
@@ -62,7 +61,6 @@ void	sh_fill_reduce(t_state *state, t_item *item, t_lr_parser *parser)
 				ft_printf("REDUCE REDUCE CONFLICT\n");
 				sh_print_state(state, 0);
 				ft_printf("lookahead: ");
-			//	sh_print_symbol(item->lookahead);
 				ft_printf("before:\n");
 				sh_print_production(parser->lr_tables[state->index]
 						[i].action_union.production);
@@ -116,7 +114,7 @@ void	sh_fill_tables_by_transition(t_state *state, t_transition *transition,
 		parser->lr_tables[state->index]
 			[transition->symbol->id].action_enum = SHIFT;
 		parser->lr_tables[state->index]
-			[transition->symbol->id].action_union.state = transition->state;
+			[transition->symbol->id].action_union.state_index = transition->state->index;
 }
 
 void	sh_fill_tables_by_state(t_state *state, t_lr_parser *parser)

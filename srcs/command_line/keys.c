@@ -87,7 +87,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-	//	print_buffer(buffer);
+//		print_buffer(buffer);
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{

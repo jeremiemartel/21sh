@@ -118,11 +118,8 @@ int		process_tab(t_shell *shell, t_command_line *command_line)
 	ret = 0;
 	command_line->autocompletion.choices_common_len = -1;
 	populate_word_by_index(command_line->dy_str->str, command_line->current_index, &word);
-//	print_word(word);
-//	exit(sh_reset_shell(0));
 	if (!command_line->autocompletion.active)
 	{
-	//	ft_printf(RED"ON FREE\n");
 		ft_dlstdel(&command_line->autocompletion.choices, &free_file_dlst);
 		if (populate_choices_from_word(command_line, shell, &word))
 			return (ft_free_turn(word.str, 1));
@@ -130,9 +127,6 @@ int		process_tab(t_shell *shell, t_command_line *command_line)
 			ret = process_completion(command_line, word);
 	}
 	else
-	{
 		process_autocompletion_down(command_line);
-//		process_advanced_completion(command_line, word);
-	}
 	return (ft_free_turn(word.str, ret));
 }

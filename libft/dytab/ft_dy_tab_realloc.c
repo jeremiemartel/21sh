@@ -17,7 +17,7 @@ int		ft_dy_tab_realloc(t_dy_tab *d_tab)
 	void **tmp;
 
 	if (!(tmp = (void **)ft_memalloc(sizeof(void *) *
-			((d_tab->max_size * 2) + 1))))
+			((d_tab->max_size * 2) + 2))))
 		return (1);
 	ft_memcpy(tmp, d_tab->tbl, sizeof(void *) * d_tab->current_size);
 	free(d_tab->tbl);

@@ -36,9 +36,9 @@ static char *heredoc_canonical_mode(char *eof,
 	char		*tmp;
 
 	res = NULL;
+	*ret = -1;
 	if (!(res = ft_strnew(0)))
 		return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
-	*ret = -1;
 	while ((gnl_ret = get_next_line2(0, &info)) == 1)
 	{
 		if (info.separator != E_SEPARATOR_ZERO)
@@ -46,8 +46,13 @@ static char *heredoc_canonical_mode(char *eof,
 			if (!(tmp = heredoc_func(info.line)))
 				return (ft_free_turn_strs(&res, &info.line,
 					ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode")));
-			if (!ft_strcmp(info.line, eof))
+			if (!ft_strcmp(tmp, eof))
+			{
+				free(info.line);
+				free(tmp);
+				*ret = SUCCESS;
 				return (res);
+			}
 			free(info.line);
 			if (!(res = ft_strjoin_free(res, tmp, 3)))
 				return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
@@ -67,6 +72,8 @@ static char *heredoc_canonical_mode(char *eof,
 		free(res);
 		return (NULL);
 	}
+	free(info.line);
+	*ret = SUCCESS;
 	return (res);
 }
 
@@ -96,7 +103,7 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	first_child = (t_ast_node *)node->children->content;
 
 	if (!(heredoc_res = get_heredoc(context, first_child->token->value,
-					heredoc_func, &ret)))
+			heredoc_func, &ret)))
 		return (FAILURE);
 	if (pipe(fds))
 		return (ft_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end"));
@@ -104,6 +111,7 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	(*redirection)->redirected_fd = 0;
 	(*redirection)->fd = fds[0];
 	ft_putstr_fd(heredoc_res, fds[1]);
+	free(heredoc_res);
 	close(fds[1]); // ?
 	return (SUCCESS);
 }

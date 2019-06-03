@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 10:58:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/29 19:08:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ typedef struct		s_shell
 	t_historic		historic;
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
-	t_list			*builtins;
-	char			*clipboard;
 	char			running;
 	struct termios	term;
 }					t_shell;
@@ -176,13 +174,16 @@ int			sh_await_command(t_shell *shell);
 void		sh_free_all(t_shell *shell);
 void	free_file_dlst(void *f, size_t dummy);
 void	free_file(t_file *file);
-
-int			sh_process_command(t_shell *shell, char *command);
-
+void	sh_free_lr_automata(t_lr_parser *parser);
+int		sh_process_command(t_shell *shell, char *command);
+void	sh_free_ast_builder(t_ast_builder *ast_builder);
+void	sh_free_ast_node(t_ast_node **ast_node, int update);
+void	sh_free_parser_trees(t_lr_parser *parser);
+void	sh_free_token_lst(void *t, size_t dummy);
 /*
 ** canonical_mode.c
 */
-int			sh_process_canonical_mode(t_shell *shell);
+int			sh_process_canonical_mode(t_shell *shell, char **env);
 
 /*
 ** process_historic.c

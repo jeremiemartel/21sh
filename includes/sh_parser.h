@@ -19,13 +19,14 @@
 # include "sh_grammar.h"
 # include "sh_exec.h"
 
+typedef struct		s_ast_node t_ast_node;
 typedef struct		s_shell t_shell;
+typedef struct		s_stack_item t_stack_item;
 
 typedef struct		s_state
 {
 	t_list			*transitions;
 	t_list			*items;
-	t_list			*items_by_production[NB_PRODUCTIONS];
 	int				index;
 	int				parsed;
 }					t_state;
@@ -54,7 +55,8 @@ typedef enum		e_action_enum
 
 typedef union		u_action_union
 {
-	t_state			*state;
+//	t_state			*state;
+	int				state_index;
 	t_production	*production;
 }					t_action_union;
 
@@ -64,21 +66,42 @@ typedef struct		s_action
 	t_action_union	action_union;
 }					t_action;
 
-
-typedef struct			s_ast_node
-{
-	t_token				*token;
-	t_symbol			*symbol;
-	t_metadata			metadata;
-	t_list				*children;
-}						t_ast_node;
-
 typedef struct			s_ast_builder
 {
 	t_ast_node			*cst_node;
 	t_ast_node			*ast_node;
 	t_symbol			*symbol;
 }						t_ast_builder;
+
+
+struct			s_ast_node
+{
+	t_token				*token;
+	t_symbol			*symbol;
+	t_metadata			metadata;
+	t_list				*children;
+	t_ast_node			*relative;
+	t_ast_builder		*builder;
+};
+
+typedef enum			e_stack_enum
+{
+	E_STACK_AST_BUILDER,
+	E_STACK_STATE_INDEX
+}						t_stack_enum;
+
+typedef union			u_stack_union
+{
+	int					state_index;
+	t_ast_builder		*ast_builder;
+}						t_stack_union;
+
+struct					s_stack_item
+{
+	t_stack_union		stack_union;
+	t_stack_enum		stack_enum;
+	char				transfered_ast_builder;
+};
 
 typedef struct		s_lr_parser
 {
@@ -89,6 +112,7 @@ typedef struct		s_lr_parser
 	t_list			*stack;
 	t_ast_node		*ast_root;
 	t_ast_node		*cst_root;
+	int				nb_states;
 }					t_lr_parser;
 
 /*
@@ -123,14 +147,12 @@ t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS]);
 ** compute_lr_tables.c
 */
 int     sh_compute_lr_tables(t_lr_parser *parser);
-
 int		sh_init_parsing(t_lr_parser *parser);
 
 /*
 ** traverse.c
 */
 int		sh_traverse(t_ast_node *node);
-
 int     sh_add_prod(t_symbol *symbol, t_cfg *cfg, int nb_symbols, ...);
 
 /*
@@ -141,6 +163,8 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser);
 /*
 ** lr_parse.c
 */
+int     sh_process_shift_adds(t_lr_parser *parser,
+			t_ast_builder *ast_builder, int state_index);
 
 /*
 ** reduce_tools.c
@@ -163,4 +187,11 @@ void    sh_print_ast_builder(t_ast_builder *ast_builder);
 void    sh_print_ast_parser(t_lr_parser *parser);
 void	sh_print_ast(t_ast_node *node, int depth);
 
+/*
+** free_parser.c
+*/
+
+void	sh_free_parser(t_lr_parser *parser);
+void	sh_free_stack_item(t_stack_item *stack_item);
+void	sh_free_stack_item_lst(void *stack_item, size_t dummy);
 #endif

@@ -260,5 +260,11 @@ int		update_research_historic(t_command_line *command_line,
 */
 int		render_research(t_command_line *command_line);
 
+/*
+** free_command_line.c
+*/
+
+void sh_free_command_line(t_command_line *command_line);
+
 
 #endif

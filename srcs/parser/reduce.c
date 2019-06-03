@@ -6,78 +6,113 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:57:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 12:36:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/05/29 19:29:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_process_reduce(t_production *production, t_lr_parser *parser)
+static int sh_process_reduce_pop(t_production *production,
+			t_lr_parser *parser, t_list **ast_builder_list, t_ast_node **replacing_ast_node)
 {
 	int				length;
-	t_state			*state;
-	t_state			*state_from;
+	t_stack_item	*stack_item;
+	t_ast_builder	*child_ast_builder;
+
+	length = ft_lstlen(production->symbols);	
+	while (length)
+	{
+		ft_lstpop(&parser->stack); // pop state_index
+		if (!(stack_item = ft_lstpop_ptr(&parser->stack))) //ast_builder
+			return (ft_perror(SH_ERR1_MALLOC, "sh_process_reduce_pop"));
+		child_ast_builder = stack_item->stack_union.ast_builder;
+		child_ast_builder->cst_node->builder = NULL;
+		child_ast_builder->ast_node->builder = NULL;
+		if (ft_lstaddnew_ptr(&parser->cst_root->children, child_ast_builder->cst_node, sizeof(t_ast_node *)))
+		{
+			free(stack_item);
+			return (ft_perror(SH_ERR1_MALLOC, "sh_process_reduce_pop"));
+		}
+		if (child_ast_builder->symbol->relevant)
+		{
+			if (sh_is_replacing(child_ast_builder)
+					&& child_ast_builder->symbol == production->from &&
+						!*replacing_ast_node)
+			{
+				*replacing_ast_node = child_ast_builder->ast_node;
+				free(child_ast_builder);
+			}
+			else 
+			{
+				if (ft_lstaddnew_ptr(ast_builder_list, child_ast_builder, sizeof(t_ast_builder *)))
+				{
+					free(stack_item);
+					return (FAILURE);
+				}
+			}
+		}
+		else
+		{
+			free(child_ast_builder->ast_node);
+			free(child_ast_builder);
+		}
+		length--;
+		free(stack_item);
+	}
+	return (0);
+}
+
+static int		sh_process_reduce_add_to_stack(t_lr_parser *parser,
+			t_production *production, t_ast_builder *ast_builder)
+{
+	int				state_index;
+	int				state_from_index;
+	t_stack_item	*stack_item;
+
+	stack_item = (t_stack_item *)parser->stack->content;
+	state_from_index = stack_item->stack_union.state_index;
+	state_index = parser->lr_tables[state_from_index]
+		[production->from->id].action_union.state_index;
+	parser->ast_root = ast_builder->ast_node;
+	if (sh_process_shift_adds(parser, ast_builder, state_index))
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+int		sh_process_reduce(t_production *production, t_lr_parser *parser)
+{
 	t_list			*ast_builder_list;
-	t_list			*ptr;
-	t_ast_builder	*ast_builder_ptr;
+	t_ast_builder	*child_ast_builder;
 	t_ast_builder	*ast_builder;
 	t_ast_node		*replacing_ast_node;
 
 	replacing_ast_node = NULL;
 	ast_builder_list = NULL;
-
-	ast_builder = sh_new_ast_builder_no_token(production->from);
+	ast_builder = sh_new_ast_builder(NULL, production->from);
 	parser->cst_root = ast_builder->cst_node;
-	length = ft_lstlen(production->symbols);
-	while (length)
+//	ft_printf("GREEN\n");
+//	system("leaks 21sh");
+//	sleep(1);
+	if (sh_process_reduce_pop(production, parser, &ast_builder_list,
+				&replacing_ast_node))
+		return (FAILURE);
+//	ft_printf("RED\n");
+//	system("leaks 21sh");
+//	sleep(1);
+	if (replacing_ast_node)
 	{
-		if (!ft_lstpop_ptr(&parser->stack)) //state
-			return (1);
-		if (!(ptr = ft_lstpop_node(&parser->stack))) //ast_builder
-			return (1);
-		ast_builder_ptr = (t_ast_builder *)ptr->content;
-		if (ft_lstaddnew_ptr(&parser->cst_root->children, ast_builder_ptr->cst_node, sizeof(t_ast_node *)))
-			return (1);
-		if (ast_builder_ptr->symbol->relevant && ast_builder_ptr->ast_node)
-		{
-			if (sh_is_replacing(ast_builder_ptr) && ast_builder_ptr->symbol == production->from && !replacing_ast_node)
-				replacing_ast_node = ast_builder_ptr->ast_node;
-			else
-				ft_lstadd(&ast_builder_list, ptr);
-		}
-		else
-		{
-	//		if (ast_builder_ptr->node)
-	//			free(ast_builder_ptr->node);
-			free(ast_builder_ptr);
-			free(ptr);
-		}
-		length--;
-	}
-	if (!replacing_ast_node)
-	{
-		if (!(ast_builder->ast_node = (t_ast_node *)malloc(sizeof(t_ast_node))))
-			return (1);
-		ast_builder->ast_node->symbol = production->from;
-		ast_builder->ast_node->children = NULL;
-		ast_builder->ast_node->token = NULL;
-	}
-	else
+		free(ast_builder->ast_node);
 		ast_builder->ast_node = replacing_ast_node;
-	
+		ast_builder->ast_node->builder = ast_builder;
+	}
 	while (ast_builder_list != NULL)
 	{
-		ast_builder_ptr = (t_ast_builder *)ft_lstpop_ptr(&ast_builder_list);
-		if (ft_lstaddnew_ptr_last(&ast_builder->ast_node->children, ast_builder_ptr->ast_node, sizeof(t_ast_node *)))
-			return (1);
+		child_ast_builder = (t_ast_builder *)ft_lstpop_ptr(&ast_builder_list);
+		if (ft_lstaddnew_ptr_last(&ast_builder->ast_node->children, child_ast_builder->ast_node, sizeof(t_ast_node *)))
+			return (ft_perror(SH_ERR1_MALLOC, "sh_process_reduce"));
+		free(child_ast_builder);
 	}
-	state_from = (t_state *)parser->stack->content;
-	state = parser->lr_tables[state_from->index]
-		[production->from->id].action_union.state;
-	parser->ast_root = ast_builder->ast_node;
-	if (ft_lstaddnew_ptr(&parser->stack, ast_builder, sizeof(t_ast_builder)))
-		return (1);
-	if (ft_lstaddnew_ptr(&parser->stack, state, sizeof(t_state *)))
-		return (1);
-	return (0);
+	if (sh_process_reduce_add_to_stack(parser, production, ast_builder))
+		return (FAILURE);
+	return (SUCCESS);
 }
