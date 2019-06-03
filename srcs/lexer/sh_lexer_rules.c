@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 13:27:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/03 17:04:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,10 @@ int		lexer_rule2(t_lexer *lexer)
 			else
 				return (LEX_CONTINUE);
 		}
+		else if (lexer->c == '-' && lexer->current_id == '<' + '<' * 0xff00)
+			lexer->current_id += 0xff0000 * lexer->c;
 		else
-			lexer->current_id += 0xff0000 * lexer->c;		
-		lexer->tok_len++;
-		return (LEX_OK);
-	}
-	if (lexer->c == '-' && lexer->current_id == '<' + '<' * 0xff00)
-	{
-		lexer->current_id += 0xff0000 * lexer->c;
+			return (LEX_ERR);
 		lexer->tok_len++;
 		return (LEX_OK);
 	}
@@ -167,6 +163,20 @@ int		lexer_rule5(t_lexer *lexer)
 	return (LEX_CONTINUE);
 }
 
+static int	lexer_rule6_detect_io_number(char *str, int len)
+{
+	int		i;
+
+	i = 0;
+	while (i < len)
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int		lexer_rule6(t_lexer *lexer)
 {
 	static char		operators[] = LEX_OPERATOR_TAB;
@@ -175,6 +185,9 @@ int		lexer_rule6(t_lexer *lexer)
 		return (LEX_CONTINUE);
 	if (ft_strchr(operators, lexer->c))
 	{
+		if (lexer->current_id == LEX_TOK_WORD)
+			if (lexer_rule6_detect_io_number(lexer->input + lexer->tok_start, lexer->tok_len))
+				lexer->current_id = LEX_TOK_IO_NUMBER;
 		lexer_add_token(lexer);
 		lexer->tok_len = 1;
 		lexer->current_id = lexer->c & 0x00ff;

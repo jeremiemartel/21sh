@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:24:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 13:38:36 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/03 11:00:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int			sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, i
 	char	*end;
 
 	exp->type = type;
+	ft_dprintf(2, "start expansion : %s, pattern : %s\n", start, pattern);
 	if (!(end = ft_strstr(start, pattern)))
 		return (LEX_ERR);
 	end += ft_strlen(pattern);
