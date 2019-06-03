@@ -5,6 +5,7 @@ file
 
 tests_scripts/*.log
 tests_scripts/logs/*
+tests_scripts/tmp_log
 tests_scripts/my_supp.supp
 sh21
 21sh
