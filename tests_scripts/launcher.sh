@@ -17,10 +17,16 @@ suppressions_file="my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
 
-if [ "$1" = "-v" ] ; then
+if [ "$1" = "-v" ] || [ "$2" = "-v" ]; then
 	valgrind=true
 	rm -rf "${log_dir}" 
 	mkdir -p $log_dir
+fi
+
+if [ "$1" = "-2" ] || [ "$2" = "-2" ]; then
+	test_stderr=1
+else
+	test_stderr=0
 fi
 
 if [ ! -z $valgrind ] && [ ! -f $suppressions_file ] ; then
