@@ -17,8 +17,6 @@ void	render_command_researched(t_command_line *command_line)
 	int		len;
 	char	*str;
 
-//	ft_printf("from researched: ");
-//	ft_printf("%s\n", command_line->dy_str->str);
 	ft_putnstr_fd(command_line->dy_str->str,
 		command_line->searcher.match_index, 0);
 	str = tgetstr("us", NULL);
@@ -31,19 +29,39 @@ void	render_command_researched(t_command_line *command_line)
 		+ len], 0);
 }
 
+int		print_after_command_line(t_command_line *command_line,
+		int print_choices)
+{
+	int to_go_up;
+
+	if (print_choices && command_line->autocompletion.active)
+	{
+		to_go_up = get_down_from_command(command_line);
+		render_choices(command_line);
+		go_up_left(to_go_up);
+		replace_cursor_on_index();
+	}
+	else if (command_line->searcher.active)
+	{
+		to_go_up = get_down_from_command(command_line);
+		if (render_research(command_line))
+			return (FAILURE);
+		go_up_left(to_go_up);
+		replace_cursor_on_index();
+	}
+	return (SUCCESS);
+}
+
 /*
- ** cursor_inc: tells the cursor movement to execute within the render of the
- ** command_line
- */
+** cursor_inc: tells the cursor movement to execute within the render of the
+** command_line
+*/
 
 int		render_command_line(t_command_line *command_line,
 			int cursor_inc, int print_choices)
 {
 	char	*str;
-	int		to_go_up;
 
-//	ft_printf("OLALALA\n");
-//	sleep(2);
 	if (!isatty(0) || !command_line)
 		return (SUCCESS);
 	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.cursor);
@@ -60,20 +78,7 @@ int		render_command_line(t_command_line *command_line,
 		ft_dprintf(0, "%s", command_line->dy_str->str);
 	g_glob.cursor += cursor_inc;
 	replace_cursor_after_render();
-	if (print_choices && command_line->autocompletion.active)
-	{
-		to_go_up = get_down_from_command(command_line);
-		render_choices(command_line);
-		go_up_left(to_go_up);
-		replace_cursor_on_index();
-	}
-	else if (command_line->searcher.active)
-	{
-		to_go_up = get_down_from_command(command_line);
-		if (render_research(command_line))
-			return (FAILURE);
-		go_up_left(to_go_up);
-		replace_cursor_on_index();
-	}
-	return (0);
+	if (print_after_command_line(command_line, print_choices) != SUCCESS)
+		return (FAILURE);
+	return (SUCCESS);
 }

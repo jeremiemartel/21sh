@@ -12,49 +12,72 @@
 
 #include "sh_21.h"
 
-static char *heredoc_ret(t_shell *shell, t_command_line *command_line, char *str)
+static int	heredoc_ret(t_shell *shell, t_command_line *command_line, int ret)
+{
+	command_line->context = E_CONTEXT_STANDARD;
+	update_prompt(shell, command_line);
+	return (ret);
+}
+
+static char	*heredoc_ret_str(t_shell *shell, t_command_line *command_line, char *str)
 {
 	command_line->context = E_CONTEXT_STANDARD;
 	update_prompt(shell, command_line);
 	return (str);
 }
 
-char	*heredoc(t_shell *shell, char *stop,
-			char *(*heredoc_func)(char *), int *ret)
+int		process_heredoc_through_command(char **res, t_shell *shell,
+	char *(*heredoc_func)(char *), t_command_line *command_line)
 {
-	char	*res;
 	char	*tmp;
-	t_command_line *command_line;
 
-	command_line = &g_glob.command_line;
-	if (!(res = ft_strnew(0)))
-		return (heredoc_ret(shell, command_line, NULL));
+	if (!(tmp = heredoc_func(command_line->dy_str->str)))
+		return (heredoc_ret(shell, command_line, FAILURE));
+	if (!ft_strcmp(tmp, command_line->heredoc_eof))
+	{
+		free(tmp);
+		return (heredoc_ret(shell, command_line, SUCCESS));
+	}
+	else
+	{
+		if (!(*res = ft_strjoin_free(*res, tmp, 3)))
+			return (heredoc_ret(shell, command_line, FAILURE));
+		if (!(*res = ft_strjoin_free(*res, "\n", 1)))
+			return (heredoc_ret(shell, command_line, FAILURE));
+	}
+	return (3);
+}
+
+void	init_heredoc_command_line(t_shell *shell, t_command_line *command_line, char *stop)
+{
+	command_line->heredoc_eof = stop;
 	flush_command_line(command_line);
 	render_command_line(command_line, - g_glob.cursor, 1);
 	command_line->context = E_CONTEXT_HEREDOC;
 	update_prompt(shell, command_line);
+}
+
+char	*heredoc(t_shell *shell, char *stop,
+			char *(*heredoc_func)(char *), int *ret)
+{
+	char			*res;
+	t_command_line	*command_line;
+
+	command_line = &g_glob.command_line;
+	init_heredoc_command_line(shell, command_line, stop);
+	if (!(res = ft_strnew(0)))
+		return (heredoc_ret_str(shell, command_line, NULL));
 	while ((*ret = sh_get_command(shell, command_line)) == SUCCESS)
 	{
-		if (!(tmp = heredoc_func(command_line->dy_str->str)))
-			return (heredoc_ret(shell, command_line, NULL));
-		if (!ft_strcmp(tmp, stop))
-		{
-			free(tmp);
-			return (heredoc_ret(shell, command_line, res));
-		}
-		else
-		{
-			if (!(res = ft_strjoin_free(res, tmp, 3)))
-				return (heredoc_ret(shell, command_line, NULL));
-			if (!(res = ft_strjoin_free(res, "\n", 1)))
-				return (heredoc_ret(shell, command_line, NULL));
-		}
+		if (process_heredoc_through_command(&res, shell, heredoc_func,
+			command_line) != 3)
+			return (res);
 	}
 	if (*ret == CTRL_D)
-		return (heredoc_ret(shell, command_line, res));
+		return (heredoc_ret_str(shell, command_line, res));
 	else
 	{
 		free(res);
-		return (heredoc_ret(shell, command_line, NULL));
+		return (heredoc_ret_str(shell, command_line, NULL));
 	}
 }

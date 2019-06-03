@@ -194,7 +194,6 @@ void	sh_print_item(t_item *item)
 		symbol = (t_symbol *)ptr->content;
 		sh_print_symbol(symbol);
 		ptr = ptr->next;
-//		ft_printf(" ");
 	}
 	if (ptr == item->progress)
 		ft_printf(BOLD"·"EOC);

@@ -116,6 +116,22 @@ typedef struct		s_lr_parser
 }					t_lr_parser;
 
 /*
+** transitive_first_sets.c
+*/
+void	sh_process_transitive_first_sets_2(char first_sets[NB_TERMS],
+			t_symbol *prod_symbol);
+void	sh_process_transitive_first_sets(t_symbol *symbol,
+			t_symbol *prod_symbol, int *changes);
+void	sh_process_transitive_first_set(t_symbol *symbol,
+			int index, int *changes);
+
+/*
+** first_sets_tools.c
+*/
+
+int		has_eps_prod(t_symbol *symbol);
+
+/*
 ** parser.c
 */
 int			sh_parser(t_list *tokens, t_shell *shell);
@@ -123,10 +139,11 @@ int			sh_parser(t_list *tokens, t_shell *shell);
 /*
 ** lr_parse.c
 */
-int			sh_lr_parse(t_lr_parser *parser);
-int			sh_process_test(void);
-int			sh_parse_token_list(t_lr_parser *parser);
-int			sh_is_term(t_symbol *symbol);
+t_stack_item	*new_stack_item(t_ast_builder *ast_builder, int state_index);
+int				sh_lr_parse(t_lr_parser *parser);
+int				sh_process_test(void);
+int				sh_parse_token_list(t_lr_parser *parser);
+int				sh_is_term(t_symbol *symbol);
 
 /*
 ** compute_lr_automata.c
@@ -135,6 +152,18 @@ int     sh_compute_lr_automata(t_lr_parser *parser);
 t_state	*sh_compute_first_state(t_lr_parser *parser);
 int		sh_compute_closure(t_state *state, t_lr_parser *parser);
 int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
+
+
+/*
+** closure_tools.c
+*/
+t_item		*sh_get_state_item(t_production *production,
+				t_state *state);
+t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS]);
+int			sh_process_add_to_closure(t_production *production,
+				t_state *state, char lookaheads[NB_TERMS]);
+t_symbol	*sh_get_next_non_terminal(t_item *item, t_list **w_ptr);
+int			sh_update_lookaheads(t_item *item, char lookaheads[NB_TERMS]);
 
 /*
 ** state.c
@@ -148,6 +177,16 @@ t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS]);
 */
 int     sh_compute_lr_tables(t_lr_parser *parser);
 int		sh_init_parsing(t_lr_parser *parser);
+
+/*
+** transition_tools.c
+*/
+
+int				sh_is_eligible_for_transition(t_state *state, t_item *item);
+t_state			*sh_get_state_by_symbol(t_item *item, t_lr_parser *parser);
+t_state			*sh_get_state_by_transition(t_state *state, t_symbol *symbol);
+t_transition	*sh_new_transition(t_state *to, t_symbol *symbol);
+t_item			*sh_new_item_advance(t_item *item);
 
 /*
 ** traverse.c
@@ -194,4 +233,15 @@ void	sh_print_ast(t_ast_node *node, int depth);
 void	sh_free_parser(t_lr_parser *parser);
 void	sh_free_stack_item(t_stack_item *stack_item);
 void	sh_free_stack_item_lst(void *stack_item, size_t dummy);
+void	sh_free_production(void *p, size_t dummy);
+
+/*
+** fill_lr_tables.c
+*/
+void	sh_fill_tables(t_lr_parser *parser);
+
+/*
+** shift.c
+*/
+int		sh_process_shift(int state_index, t_lr_parser *parser);
 #endif

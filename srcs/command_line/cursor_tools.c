@@ -26,7 +26,8 @@ int		get_down_from_command(t_command_line *command_line)
 	int		ret;
 
 	ret = 0;
-	full_y = get_true_cursor_pos(command_line->nb_chars) / g_glob.winsize.ws_col;
+	full_y = get_true_cursor_pos(command_line->nb_chars)
+		/ g_glob.winsize.ws_col;
 	cursor_y = get_true_cursor_pos(g_glob.cursor) / g_glob.winsize.ws_col;
 	str = tgetstr("do", NULL);
 	i = cursor_y;

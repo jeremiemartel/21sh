@@ -1,16 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   canonical_mode.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 12:14:51 by ldedier          ###   ########.fr       */
+/*   Created: 2019/06/03 18:06:46 by ldedier           #+#    #+#             */
+/*   Updated: 2019/06/03 18:06:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+static int		sh_process_read_canonical_gnl(t_shell *shell, t_gnl_info *info)
+{
+	int ret;
+
+	if (info->separator != E_SEPARATOR_ZERO)
+	{
+		if ((ret = (sh_process_command(shell, info->line)) != SUCCESS))
+		{
+			free(info->line);
+			return (ret);
+		}
+	}
+	else
+	{
+		free(info->line);
+		return (ft_perror("Illegal characters received from input",
+			"sh_process_read_canonical_gnl"));
+	}
+	free(info->line);
+	return (SUCCESS);
+}
 
 static int		sh_process_read_canonical_mode(t_shell *shell)
 {
@@ -20,24 +42,12 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 
 	while ((gnl_ret = get_next_line2(0, &info)) == 1)
 	{
-		if (info.separator != E_SEPARATOR_ZERO)
-		{
-			if ((ret = (sh_process_command(shell, info.line)) != SUCCESS))
-			{
-				free(info.line);
-				return (ret);
-			}
-		}
-		else
-		{
-			free(info.line);
-			return (ft_perror("Illegal characters received from input",
-					"sh_process_read_canonical_mode"));
-		}
-		free(info.line);
+		if ((ret = sh_process_read_canonical_gnl(shell, &info)))
+			return (FAILURE);
 	}
 	if (gnl_ret == -1)
-		return (ft_perror("get_next_line error", "sh_process_read_canonical_mode"));
+		return (ft_perror("get_next_line error",
+			"sh_process_read_canonical_mode"));
 	free(info.line);
 	return (SUCCESS);
 }

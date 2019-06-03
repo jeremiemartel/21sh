@@ -61,6 +61,7 @@ typedef struct				s_command_line
 	t_auto_complete 		autocompletion;
 	t_searcher				searcher;
 	t_dy_str				*dy_str;
+	char					*heredoc_eof;
 	char					*prompt;
 	int						nb_chars;
 	int						current_index;
