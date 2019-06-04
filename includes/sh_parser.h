@@ -244,4 +244,5 @@ void	sh_fill_tables(t_lr_parser *parser);
 ** shift.c
 */
 int		sh_process_shift(int state_index, t_lr_parser *parser);
+
 #endif

@@ -267,5 +267,4 @@ int		render_research(t_command_line *command_line);
 
 void sh_free_command_line(t_command_line *command_line);
 
-
 #endif

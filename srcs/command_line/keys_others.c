@@ -21,7 +21,8 @@ int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
 		return (process_i(shell, command_line));
 	else if (buffer[0] == 'v')
 		return (process_v(shell, command_line));
-	else if (buffer[0] == 'd' && command_line->last_char_input == 'd' && command_line->dy_str->current_size)
+	else if (buffer[0] == 'd' && command_line->last_char_input == 'd'
+		&& command_line->dy_str->current_size)
 	{
 		if (command_line_copy_all(command_line) != SUCCESS)
 			return (FAILURE);

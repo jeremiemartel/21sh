@@ -32,7 +32,8 @@ int		process_preprocess_choice_add(t_command_line *command_line,
 
 	ptr = command_line->autocompletion.choices;
 	first = 1;
-	while ((ptr != command_line->autocompletion.choices && ptr != NULL) || (first && ptr != NULL))
+	while ((ptr != command_line->autocompletion.choices && ptr != NULL)
+		|| (first && ptr != NULL))
 	{
 		file = ptr->content;
 		if (!(ret = ft_strcmp(file->fullname, entry)))
@@ -43,7 +44,8 @@ int		process_preprocess_choice_add(t_command_line *command_line,
 				*to_ret = 2;
 			*to_add = &(ptr->prev);
 		}
-		command_line->autocompletion.choices_common_len = ft_min(command_line->autocompletion.choices_common_len,
+		command_line->autocompletion.choices_common_len
+			= ft_min(command_line->autocompletion.choices_common_len,
 				str_cmp_len(entry, file->fullname));
 		ptr = ptr->next;
 		first = 0;
