@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:18:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 18:31:26 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/04 10:13:02 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 # define NB_SYMBOLS 102
 # define NB_TERMS	55
 # define NB_NOTERMS	NB_SYMBOLS - NB_TERMS
-
-typedef enum		e_tokenlist
-{
-	UNKNOWN = -1,
-	SPACE,
-	WHILE,
-	GREAT,
-	LESS,
-	WORD,
-}					t_tokenlist;
 
 typedef enum		e_symbol_id
 {
