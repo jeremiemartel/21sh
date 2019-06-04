@@ -119,4 +119,42 @@ int		render_choices(t_command_line *command_line);
 t_file	*new_file(t_shell *shell, char *name, char *fullname);
 void	add_node_next_to_node(t_dlist **node, t_dlist *to_add);
 
+/*
+** arrow_tools.c
+*/
+
+int     substitute_command_str_from_str(t_command_line *command_line,
+		char *from, char *str);
+void    process_autocompletion_switch(t_command_line *command_line,
+		t_file *prev_file, t_file *file);
+int     substitute_command_str(t_command_line *command_line, char *str);
+
+/*
+** fill_buffer.c
+*/
+void	fill_buffer_from_file(t_command_line *command_line,
+		char **print_buffer, t_file *file, int max_len);
+void	fill_buffer_padding(char **print_buffer);
+
+/*
+** render_choices_tools.c
+*/
+int		ft_round(float a);
+int		sh_get_file_len(t_file *file);
+int		sh_get_max_file_len(t_dlist *dlist);
+int		command_line_visible_lines(t_command_line *command_line);
+
+/*
+** file_tables.c
+*/
+void		free_tbl(t_file ***tbl, int width);
+t_file		***update_file_tables(t_command_line *command_line);
+
+/*
+** fill_buffer_from_tables.c
+*/
+void	fill_buffer_from_tables(t_command_line *command_line,
+			char *print_buffer, t_file ***tbl, int max_len);
+void	fill_buffer_partial_from_tables(t_command_line *command_line,
+			char *print_buffer, t_file ***tbl, int max_len);
 #endif

@@ -75,7 +75,8 @@ int			process_add_choices_from_dir(t_shell *shell, t_command_line *command_line,
 		return (1);
 	else if (prefix && !(fullname = ft_strjoin(prefix, entry->d_name)))
 		return (1);
-	if ((ret = ft_preprocess_choice_add(command_line, fullname, &prev_to_add)) != 1)
+	if ((ret = ft_preprocess_choice_add(command_line,
+			fullname, &prev_to_add)) != 1)
 	{
 		if (!(file = new_file(shell, entry->d_name, fullname)))
 			return (ft_free_turn(fullname, 1));
@@ -86,7 +87,8 @@ int			process_add_choices_from_dir(t_shell *shell, t_command_line *command_line,
 		}
 		add_node_next_to_node(prev_to_add, to_add);
 		if (ret)
-			command_line->autocompletion.choices = command_line->autocompletion.choices->prev;
+			command_line->autocompletion.choices
+				= command_line->autocompletion.choices->prev;
 	}
 	return (0);
 }
@@ -109,7 +111,8 @@ int			add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
 			continue;
 		if (!ft_strncmp(entry->d_name, word->to_compare, len))
 		{
-			if (process_add_choices_from_dir(shell, &g_glob.command_line, entry, prefix))
+			if (process_add_choices_from_dir(shell,
+					&g_glob.command_line, entry, prefix))
 			{
 				closedir(dir);
 				return (1);

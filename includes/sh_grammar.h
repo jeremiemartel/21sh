@@ -65,7 +65,7 @@ t_grammar_holder	g_grammar[NB_SYMBOLS];
 */
 void		sh_init_first_sets(char first_sets[NB_TERMS]);
 int			sh_compute_first_sets(t_cfg *cfg);
-int			sh_compute_first_sets_str(t_cfg *cfg, char first_sets[NB_TERMS], t_list *w);
+int			sh_compute_first_sets_str(char first_sets[NB_TERMS], t_list *w);
 void		sh_process_transitive_first_set_2(char first_sets[NB_TERMS], int index);
 void		sh_process_transitive_first_sets_2(char first_sets[NB_TERMS], t_symbol *prod_symbol);
 

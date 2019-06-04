@@ -12,7 +12,8 @@
 
 #include "sh_21.h"
 
-int		process_add_choices_from_name(t_shell *shell, t_command_line *command_line, char *name)
+int		process_add_choices_from_name(t_shell *shell,
+			t_command_line *command_line, char *name)
 {
 	char            *fullname;
 	t_dlist         **prev_to_add;
@@ -22,7 +23,8 @@ int		process_add_choices_from_name(t_shell *shell, t_command_line *command_line,
 
 	if (!(fullname = ft_strdup(name)))
 		return (1);
-	if ((ret = ft_preprocess_choice_add(command_line, fullname, &prev_to_add)) != 1)
+	if ((ret = ft_preprocess_choice_add(command_line,
+			fullname, &prev_to_add)) != 1)
 	{
 		if (!(file = new_file(shell, fullname, fullname)))
 			return (ft_free_turn(fullname, 1));
@@ -33,7 +35,8 @@ int		process_add_choices_from_name(t_shell *shell, t_command_line *command_line,
 		}
 		add_node_next_to_node(prev_to_add, to_add);
 		if (ret)
-			command_line->autocompletion.choices = command_line->autocompletion.choices->prev;
+			command_line->autocompletion.choices
+				= command_line->autocompletion.choices->prev;
 	}
 	return (SUCCESS);
 }
@@ -51,7 +54,8 @@ int		add_choices_builtins(t_shell *shell, t_word *word)
 	{
 		if (!ft_strncmp(builtin_containers[i].name, word->to_compare, len))
 		{
-			if (process_add_choices_from_name(shell, &g_glob.command_line, builtin_containers[i].name))
+			if (process_add_choices_from_name(shell, &g_glob.command_line,
+					builtin_containers[i].name))
 				return (FAILURE);
 		}
 		i++;

@@ -37,4 +37,8 @@ launch "Redirections simple"
 	test "echo lol > file ; cat file | cat -e << eoc ; rm file" "heredoc_1" "heredoc_2" "not a eoc"
 	test "ls -la . nofile > file 2>&1 ; rm file"
 	test "ls -la . nofile 2>&1 > file ; rm file"
+	test "echo lol >&- file"
+	test "touch file ; cat < file >&- ; rm file"
+	test "echo lol > file ; cat < file <&- ; rm file"
+	test "echo \"lol iuuiuiu\" > file ; cat < file | cat -e >> file ; cat file ; rm file"
 finish

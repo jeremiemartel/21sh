@@ -61,6 +61,7 @@ typedef struct				s_command_line
 	t_auto_complete 		autocompletion;
 	t_searcher				searcher;
 	t_dy_str				*dy_str;
+	char					*heredoc_eof;
 	char					*prompt;
 	int						nb_chars;
 	int						current_index;
@@ -265,6 +266,5 @@ int		render_research(t_command_line *command_line);
 */
 
 void sh_free_command_line(t_command_line *command_line);
-
 
 #endif

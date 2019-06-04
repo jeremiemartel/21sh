@@ -16,6 +16,7 @@ void	ft_putnstr_fd(const char *str, int n, int fd)
 {
 	int len;
 
+//	ft_printf("%s, fd: %d n: %d\n", str, fd, n);
 	len = ft_strlen(str);
 	if (n > len)
 		write(fd, str, len);

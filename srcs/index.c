@@ -107,4 +107,3 @@ int		sh_index(t_symbol_id id)
 	else
 		return (sh_index_2(id));
 }
-

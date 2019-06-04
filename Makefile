@@ -73,14 +73,16 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
-						get_command.c utf8_tools.c sh_process_shift.c \
+						get_command.c utf8_tools.c  \
 						render_command_line.c arrows.c home_end.c \
 						command_line.c xy.c \
 						copy_paste_delete.c update_prompt.c \
 						keys_insert.c keys_others.c keys_insert.c \
 						cursor_tools.c selection.c sh_process_historic.c \
 						heredoc.c research_historic.c render_research.c \
-						free_command_line.c
+						free_command_line.c sh_delete_command.c \
+						sh_process_shift_vertical.c \
+						sh_process_shift_horizontal.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 
@@ -91,12 +93,15 @@ SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						historic.c home.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
-						first_sets.c debug.c follow_sets.c \
+						first_sets.c debug.c \
 						compute_lr_automata.c compute_lr_tables.c \
 						lr_parse.c compute_first_state.c state.c \
 						compute_closure.c compute_transitions.c \
 						init_parsing.c grammar.c reduce.c reduce_tools.c \
-						free_parser.c
+						free_parser.c transitive_first_sets.c \
+						first_sets_tools.c transition_tools.c \
+						closure_tools.c free_node.c free_parser_tools.c \
+						fill_lr_tables.c shift.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rules.c \
@@ -132,9 +137,11 @@ PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c \
 
 AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						populate_choices.c populate_word_by_index.c \
-						preprocess_choice_add.c arrows.c render_choices.c \
-						add_choices_builtins.c
-
+						preprocess_choice_add.c arrow_tools.c \
+						render_choices.c add_choices_builtins.c \
+						left_arrow.c right_arrow.c arrows_vertical.c \
+						fill_buffer.c render_choices_tools.c file_tables.c \
+						fill_buffer_from_tables.c
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 						sh_vars_tools_1.c sh_vars_tools_2.c \
 						sh_verbose.c sh_env_vars.c
