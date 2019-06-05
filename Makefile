@@ -90,7 +90,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
-						historic.c home.c
+						historic.c home.c init_tabs.c non_canonical_mode.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						first_sets.c debug.c \
@@ -141,7 +141,7 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						render_choices.c add_choices_builtins.c \
 						left_arrow.c right_arrow.c arrows_vertical.c \
 						fill_buffer.c render_choices_tools.c file_tables.c \
-						fill_buffer_from_tables.c
+						fill_buffer_from_tables.c add_file_tools.c
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 						sh_vars_tools_1.c sh_vars_tools_2.c \
 						sh_verbose.c sh_env_vars.c

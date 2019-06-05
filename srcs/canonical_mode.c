@@ -23,6 +23,11 @@ static int		sh_process_read_canonical_gnl(t_shell *shell, t_gnl_info *info)
 			free(info->line);
 			return (ret);
 		}
+		if (sh_append_to_historic(shell, info->line) != SUCCESS)
+		{
+			free(info->line);
+			return (FAILURE);
+		}
 	}
 	else
 	{

@@ -54,6 +54,7 @@
 # define KEEP_READ		5
 
 # define HISTORIC_FILE	".historic"
+# define MAX_LEN_HISTORIC_ENTRY	500
 
 /*
 ** Macros of fdin, fdout and fderr in context->fd
@@ -132,6 +133,13 @@ int			sh_init_terminal(t_shell *shell, char **env);
 void		init_signals(void);
 
 /*
+** init_tabs.c
+*/
+t_dy_tab    *main_init_env(char **env);
+int			sh_update_shell_lvl(t_shell *shell);
+int			sh_main_init_vars(t_shell *shell);
+
+/*
 ** index.c
 */
 int			sh_index(t_symbol_id id);
@@ -180,10 +188,16 @@ void	sh_free_ast_builder(t_ast_builder *ast_builder);
 void	sh_free_ast_node(t_ast_node **ast_node, int update);
 void	sh_free_parser_trees(t_lr_parser *parser);
 void	sh_free_token_lst(void *t, size_t dummy);
+
 /*
 ** canonical_mode.c
 */
 int			sh_process_canonical_mode(t_shell *shell, char **env);
+
+/*
+** non_canonical_mode.c
+*/
+int		sh_process_noncanonical_mode(t_shell *shell);
 
 /*
 ** process_historic.c

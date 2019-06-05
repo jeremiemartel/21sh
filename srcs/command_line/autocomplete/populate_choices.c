@@ -70,8 +70,8 @@ int		populate_choices_from_folder(t_shell *shell, t_word *word)
 		return (ft_free_turn_3(file, transformed_path, path, 1));
 	word->to_compare = file;
 	if (add_choices_from_dir(shell, word, transformed_path, path))
-		return (1);
-	 return (ft_free_turn_3(file, transformed_path, path, 0));
+		return (ft_free_turn_3(file, transformed_path, path, FAILURE));
+	 return (ft_free_turn_3(file, transformed_path, path, SUCCESS));
 }
 
 int		populate_choices_from_word(t_command_line *command_line,

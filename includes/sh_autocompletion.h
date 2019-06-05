@@ -157,4 +157,9 @@ void	fill_buffer_from_tables(t_command_line *command_line,
 			char *print_buffer, t_file ***tbl, int max_len);
 void	fill_buffer_partial_from_tables(t_command_line *command_line,
 			char *print_buffer, t_file ***tbl, int max_len);
+
+/*
+** add_file_tools.c
+*/
+int		ft_isprint_only_utf8(char *str);
 #endif
