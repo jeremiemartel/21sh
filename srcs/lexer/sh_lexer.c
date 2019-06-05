@@ -6,13 +6,39 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 22:48:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/05 23:18:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 # define LEX_RULES_LEN	10
+
+/*
+** sh_is_name:
+**	Check if an assignment is a valid POSIX name variable name is correct
+**	In the shell command language, a word consisting solely of underscores,
+**	digits, and alphabetics from the portable character set.
+**	The first character of a name is not a digit.
+**	Loop finish when it met any '=' sign
+**
+**	return Value : True or False
+*/
+int		sh_is_name_var_assign(char *name)
+{
+	int		i;
+
+	if (!ft_isalpha(*name))
+		return (0);
+	i = 0;
+	while (name[i] && name[i] != '=')
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int		lexer_lexical_conventions(t_lexer *lexer) // Is this function steel usefull ??
 {
@@ -25,8 +51,11 @@ int		lexer_lexical_conventions(t_lexer *lexer) // Is this function steel usefull
 		return (LEX_OK);
 	token = (t_token*)head->content;
 	// My own rule to detect assignment
-	if (ft_strchr(token->value, '=')) //token && token->id == WORD && 
-		t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);
+	if (ft_strchr(token->value, '='))
+	{
+		if (sh_is_name_var_assign(token->value))
+			t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);
+	} 
 	while (head)
 	{
 		token = (t_token*)head->content;
