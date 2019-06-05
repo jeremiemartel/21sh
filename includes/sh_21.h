@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/29 19:08:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/05 11:58:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # include "sh_traverse.h"
 # include "sh_traverse_tools.h"
 # include "sh_command_line.h"
-
+# include "sh_expansions.h"
 # include "sh_vars.h"
 
 # define SUCCESS		0

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/04 09:10:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/05 22:48:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	}
 	free(lexer.input);
 	if (ret == LEX_ERR)
-		return (ft_perror("Lexer", "Error returned"));//Leaks
+		return (FAILURE);//Leaks
 	if (ret == LEX_CANCEL)
 		return (LEX_CANCEL); //leaks
-	if (lexer_lexical_conventions(&lexer) != SUCCESS)
-		return (LEX_UNKNOWN);
+	if (lexer_lexical_conventions(&lexer) == LEX_ERR)
+		return (LEX_ERR);
 	if (sh_verbose_lexer())
 		lexer_show(&lexer);
 	*tokens = lexer.list;

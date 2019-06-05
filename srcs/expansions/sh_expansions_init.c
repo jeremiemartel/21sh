@@ -1,49 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_lexer_exp_init.c                                :+:      :+:    :+:   */
+/*   sh_expansions_init.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:24:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/03 11:00:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/05 13:53:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 /*
-** sh_lexer_exp_init:
+** sh_expansions_init:
 **	take an input as a string and a expansion. The expansion is filled with
 **	the first expansion found in input.
 **	Exp fields filled: type, original, expansion, process
 **	Return Value:
-**		LEX_ERR or LEX_OK
+**		FAILURE or SUCCESS
 */
-int		sh_lexer_exp_init(char *original, t_expansion *exp)
+int		sh_expansions_init(char *original, t_expansion *exp)
 {
 	char	*start;
 
 	exp->res = NULL;
 	if (!(start = ft_strpbrk(original, "$~`")))
-		return (LEX_ERR);
-	if (*start == '`')
-		sh_exp_init_detect_pattern(exp, start, "`", LEX_EXP_CMD);
-	else if (ft_strnstr(start, "$((", 3))
-		sh_exp_init_detect_pattern(exp, start, "))", LEX_EXP_ARITH);
-	else if (ft_strnstr(start, "$(", 2))
-		sh_exp_init_detect_pattern(exp, start, ")", LEX_EXP_CMD);
-	else if (ft_strnstr(start, "${", 2))
-		sh_exp_init_detect_pattern(exp, start, "}", LEX_EXP_PARAM);
+		return (FAILURE);
+	// if (*start == '`')
+	// 	sh_exp_init_detect_pattern(exp, start, "`", EXP_CMD);
+	// else if (ft_strnstr(start, "$((", 3))
+	// 	sh_exp_init_detect_pattern(exp, start, "))", EXP_ARITH);
+	// else if (ft_strnstr(start, "$(", 2))
+	// 	sh_exp_init_detect_pattern(exp, start, ")", EXP_CMD);
+	if (ft_strnstr(start, "${", 2))
+		sh_exp_init_detect_pattern(exp, start, "}", EXP_PARAM);
 	else if (ft_strnstr(start, "$", 1))
-		sh_exp_init_detect_chars(exp, start, " \t\n\0", LEX_EXP_VAR);
+		sh_exp_init_detect_chars(exp, start, " \t\n\0", EXP_VAR);
 	else if (ft_strnstr(start, "~", 1))
-		sh_exp_init_detect_chars(exp, start, " \t\n\0", LEX_EXP_TILDE);
+		sh_exp_init_detect_chars(exp, start, " \t\n\0", EXP_TILDE);
 	else
-		return (LEX_ERR);
-	if (sh_lexer_exp_init_process(exp) == LEX_ERR)
-		return (LEX_ERR);
-	return (LEX_OK);
+		return (FAILURE);
+	if (sh_expansions_init_process(exp) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 /*
@@ -51,16 +51,15 @@ int		sh_lexer_exp_init(char *original, t_expansion *exp)
 **		Use the type of detected expansion to fill original and expansion fields in exp
 **		End of expansion is a strind used as a pattern.
 **		Return Value:
-**			LEX_OK or LEX_ERR
+**			SUCCESS or FAILURE
 */
 int			sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, int type)
 {
 	char	*end;
 
 	exp->type = type;
-	ft_dprintf(2, "start expansion : %s, pattern : %s\n", start, pattern);
 	if (!(end = ft_strstr(start, pattern)))
-		return (LEX_ERR);
+		return (FAILURE);
 	end += ft_strlen(pattern);
 	if (!(exp->original = ft_strndup(start, end - start)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (1)"));
@@ -74,7 +73,7 @@ int			sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, i
 		start++;
 	if (!(exp->expansion = ft_strndup(start, end -ft_strlen(pattern) - start)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (2)"));
-	return (LEX_OK);
+	return (SUCCESS);
 }
 
 /*
@@ -82,7 +81,7 @@ int			sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, i
 **		Use the type of detected expansion to fill original and expansion fields in exp
 **		End of expansion is one of the character given in pattern.
 **		Return Value:
-**			LEX_OK or LEX_ERR
+**			SUCCESS or FAILURE
 */
 int			sh_exp_init_detect_chars(t_expansion *exp, char *start, char *pattern, int type)
 {
@@ -90,36 +89,36 @@ int			sh_exp_init_detect_chars(t_expansion *exp, char *start, char *pattern, int
 
 	exp->type = type;
 	if (!(end = ft_strpbrk(start, pattern)) && !(end = ft_strchr(start, '\0')))
-		return (LEX_ERR);
+		return (FAILURE);
 	if (!(exp->original = ft_strndup(start, end - start)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_chars (1)"));
 	start++;
 	if (!(exp->expansion = ft_strndup(start, end - start)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_chars (2)"));
-	return (LEX_OK);
+	return (SUCCESS);
 }
 
 /*
-** sh_lexer_exp_init_process:
+** sh_expansions_init_process:
 **		fill the process exp's field using it's type
 **	Return Value:
-**		LEX_ERR: type is unknow
-**		LEX_OK: else
+**		FAILURE: type is unknow
+**		SUCCESS: else
 */
-int		sh_lexer_exp_init_process(t_expansion *exp)
+int		sh_expansions_init_process(t_expansion *exp)
 {
-	if (exp->type == LEX_EXP_VAR)
-		exp->process = &sh_lexer_exp_variable;
-	else if (exp->type == LEX_EXP_PARAM)
-		exp->process = &sh_lexer_exp_parameter;
-	else if (exp->type == LEX_EXP_CMD)
-		exp->process = &sh_lexer_exp_command;
-	else if (exp->type == LEX_EXP_ARITH)
-		exp->process = &sh_lexer_exp_arithmetic;
-	else if (exp->type == LEX_EXP_TILDE)
-		exp->process = &sh_lexer_exp_tilde;
+	if (exp->type == EXP_VAR)
+		exp->process = &sh_expansions_variable;
+	else if (exp->type == EXP_PARAM)
+		exp->process = &sh_expansions_parameter;
+	// else if (exp->type == EXP_CMD)
+	// 	exp->process = &sh_expansions_command;
+	// else if (exp->type == EXP_ARITH)
+	// 	exp->process = &sh_expansions_arithmetic;
+	else if (exp->type == EXP_TILDE)
+		exp->process = &sh_expansions_tilde;
 	else
-		return (LEX_ERR);
-	return (LEX_OK);
+		return (FAILURE);
+	return (SUCCESS);
 	(void)exp;
 }

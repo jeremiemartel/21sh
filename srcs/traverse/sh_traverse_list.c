@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_traverse_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/28 16:49:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/05 15:08:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 	while (ptr != NULL)
 	{
 		child = (t_ast_node *)ptr->content;
+		context->phase = E_TRAVERSE_PHASE_EXPANSIONS;
+		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+			return (FAILURE);
 		context->phase = E_TRAVERSE_PHASE_REDIRECTIONS;
 		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
 			return (FAILURE);

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_lexer_exp_process_parameter.c                   :+:      :+:    :+:   */
+/*   sh_expansions_process_parameter.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 12:13:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/05 13:53:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_lexer_exp_parameter_format(t_expansion *exp, char *format)
+int		sh_expansions_parameter_format(t_expansion *exp, char *format)
 {
 	char	*head;
 	int		i;
@@ -41,10 +41,10 @@ int		sh_lexer_exp_parameter_format(t_expansion *exp, char *format)
 		i++;
 	}
 	format[i] = 0;
-	return (LEX_OK);
+	return (SUCCESS);
 }
 
-char	*sh_lexer_exp_parameter_get_param(t_lexer *lexer, t_expansion *exp)
+char	*sh_expansions_parameter_get_param(t_context *context, t_expansion *exp)
 {
 	char	*value;
 	char	*end;
@@ -54,12 +54,12 @@ char	*sh_lexer_exp_parameter_get_param(t_lexer *lexer, t_expansion *exp)
 		end = exp->expansion + ft_strlen(exp->expansion);
 	buf = *end;
 	*end = 0;
-	value = sh_vars_get_value(lexer->env, lexer->vars, exp->expansion);
+	value = sh_vars_get_value(context->env, context->vars, exp->expansion);
 	*end = buf;
 	return (value);
 }
 
-char	*sh_lexer_exp_parameter_get_word(t_lexer *lexer, t_expansion *exp, char *format)
+char	*sh_expansions_parameter_get_word(t_context *context, t_expansion *exp, char *format)
 {
 	char	*start;
 
@@ -68,41 +68,41 @@ char	*sh_lexer_exp_parameter_get_word(t_lexer *lexer, t_expansion *exp, char *fo
 		format++;
 	start += ft_strlen(format);
 	return (start);
-	(void)lexer;
+	(void)context;
 }
 
-int		sh_lexer_exp_parameter(t_lexer *lexer, t_expansion *exp)
+int		sh_expansions_parameter(t_context *context, t_expansion *exp)
 {
 	char	format[4];
 
 	if (!ft_strpbrk(exp->expansion, ":-=?+%"))
 		if (!ft_strchr(exp->expansion + 1, '#'))
-			return (sh_lexer_exp_variable(lexer, exp));
-	sh_lexer_exp_parameter_format(exp, format);
+			return (sh_expansions_variable(context, exp));
+	sh_expansions_parameter_format(exp, format);
 	if (ft_strstr(":-", format) || ft_strstr("-", format))
-		return (sh_lexer_exp_minus(lexer, exp, format));
+		return (sh_expansions_minus(context, exp, format));
 	else if (ft_strstr(":=", format) || ft_strstr("=", format))
-		return (sh_lexer_exp_equal(lexer, exp, format));
+		return (sh_expansions_equal(context, exp, format));
 	else if (ft_strstr(":?", format) || ft_strstr("?", format))
-		return (sh_lexer_exp_quest(lexer, exp, format));
+		return (sh_expansions_quest(context, exp, format));
 	else if (ft_strstr(":+", format) || ft_strstr("+", format))
-		return (sh_lexer_exp_plus(lexer, exp, format));
+		return (sh_expansions_plus(context, exp, format));
 	else if (ft_strstr("%", format) || ft_strstr("%%", format))
-		return (sh_lexer_exp_percent(lexer, exp, format));
+		return (sh_expansions_percent(context, exp, format));
 	else if (ft_strstr("#", format) || ft_strstr("##", format))
-		return (sh_lexer_exp_hash(lexer, exp, format));
+		return (sh_expansions_hash(context, exp, format));
 	else
 		return (ft_perror("unrecognized modifier", NULL));
-	return (LEX_OK);
+	return (SUCCESS);
 }
 
-int		sh_lexer_exp_minus(t_lexer *lexer, t_expansion *exp, char *format)
+int		sh_expansions_minus(t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
 
-	param = sh_lexer_exp_parameter_get_param(lexer, exp);
-	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
+	param = sh_expansions_parameter_get_param(context, exp);
+	word = sh_expansions_parameter_get_word(context, exp, format);
 	if (!param)
 		exp->res = ft_dy_str_new_str(word);
 	else if (!*param)
@@ -115,24 +115,24 @@ int		sh_lexer_exp_minus(t_lexer *lexer, t_expansion *exp, char *format)
 	else
 		exp->res = ft_dy_str_new_str(param);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_lexer_exp_minus"));
-	return (LEX_OK);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_minus"));
+	return (SUCCESS);
 }
 
-int		sh_lexer_exp_equal(t_lexer *lexer, t_expansion *exp, char *format)
+int		sh_expansions_equal(t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
 	char	buff;
 
-	param = sh_lexer_exp_parameter_get_param(lexer, exp);
-	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
+	param = sh_expansions_parameter_get_param(context, exp);
+	word = sh_expansions_parameter_get_word(context, exp, format);
 	if (!param)
 	{
 		param = ft_strstr(exp->expansion,  format);
 		buff = *param;
 		*param = 0;
-		sh_vars_assign_key_val(lexer->env, lexer->vars, exp->expansion, word);
+		sh_vars_assign_key_val(context->env, context->vars, exp->expansion, word);
 		*param = buff;
 		exp->res = ft_dy_str_new_str(word);
 	}
@@ -143,7 +143,7 @@ int		sh_lexer_exp_equal(t_lexer *lexer, t_expansion *exp, char *format)
 			param = ft_strstr(exp->expansion,  format);
 			buff = *param;
 			*param = 0;
-			sh_vars_assign_key_val(lexer->env, lexer->vars, exp->expansion, word);
+			sh_vars_assign_key_val(context->env, context->vars, exp->expansion, word);
 			*param = buff;
 			exp->res = ft_dy_str_new_str(word);
 		}
@@ -153,40 +153,40 @@ int		sh_lexer_exp_equal(t_lexer *lexer, t_expansion *exp, char *format)
 	else
 		exp->res = ft_dy_str_new_str(param);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_lexer_exp_"));
-	return (LEX_OK);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_"));
+	return (SUCCESS);
 }
 
-int		sh_lexer_exp_quest(t_lexer *lexer, t_expansion *exp, char *format)
+int		sh_expansions_quest(t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
 
-	param = sh_lexer_exp_parameter_get_param(lexer, exp);
-	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
+	param = sh_expansions_parameter_get_param(context, exp);
+	word = sh_expansions_parameter_get_word(context, exp, format);
 	if (!param)
 		exp->res = ft_dy_str_new_str(word);
 	else if (!*param)
 	{
 		if (ft_strchr(format, ':'))
-			return (LEX_ERR);
+			return (FAILURE);
 		else
 			exp->res = ft_dy_str_new_str("");
 	}
 	else
-		return (LEX_ERR);
+		return (FAILURE);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_lexer_exp_"));
-	return (LEX_OK);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_"));
+	return (SUCCESS);
 }
 
-int		sh_lexer_exp_plus(t_lexer *lexer, t_expansion *exp, char *format)
+int		sh_expansions_plus(t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
 
-	param = sh_lexer_exp_parameter_get_param(lexer, exp);
-	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
+	param = sh_expansions_parameter_get_param(context, exp);
+	word = sh_expansions_parameter_get_word(context, exp, format);
 	if (!param)
 		exp->res = ft_dy_str_new_str("");
 	else if (!*param)
@@ -199,30 +199,30 @@ int		sh_lexer_exp_plus(t_lexer *lexer, t_expansion *exp, char *format)
 	else
 		exp->res = ft_dy_str_new_str(word);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_lexer_exp_"));
-	return (LEX_OK);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_"));
+	return (SUCCESS);
 }
 
 // Need to implement Percent !
-int		sh_lexer_exp_percent(t_lexer *lexer, t_expansion *exp, char *format)
+int		sh_expansions_percent(t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
 
-	param = sh_lexer_exp_parameter_get_param(lexer, exp);
-	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
+	param = sh_expansions_parameter_get_param(context, exp);
+	word = sh_expansions_parameter_get_word(context, exp, format);
 	exp->res = ft_dy_str_new_str("Percent Parameter expansion not implemented yet");
-	return (LEX_OK);
+	return (SUCCESS);
 }
 
 // Need to implement Hash !
-int		sh_lexer_exp_hash(t_lexer *lexer, t_expansion *exp, char *format)
+int		sh_expansions_hash(t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
 
-	param = sh_lexer_exp_parameter_get_param(lexer, exp);
-	word = sh_lexer_exp_parameter_get_word(lexer, exp, format);
+	param = sh_expansions_parameter_get_param(context, exp);
+	word = sh_expansions_parameter_get_word(context, exp, format);
 	exp->res = ft_dy_str_new_str("Hash Parameter expansion not implemented yet");
-	return (LEX_OK);
+	return (SUCCESS);
 }

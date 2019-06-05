@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_lexer_exp_process_tilde.c                       :+:      :+:    :+:   */
+/*   sh_expansions_process_tilde.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 12:07:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 12:37:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/05 13:53:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_lexer_exp_tilde(t_lexer *lexer, t_expansion *exp)
-{
-	if (lexer->current_id == LEX_TOK_UNKNOWN)
-		lexer->current_id = LEX_TOK_WORD;
-	if (!exp->original[1] || ft_iswhite(exp->original[1]) || exp->original[1] == '/')
-		return (sh_lexer_exp_tilde_1(lexer, exp));
-	else
-		return (sh_lexer_exp_tilde_2(lexer, exp));
-}
-
-int			sh_lexer_exp_tilde_1(t_lexer *lexer, t_expansion *exp)
+static int			sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 {
 	char	*home;
 
-	if (!(home = get_env_value((char**)lexer->env->tbl, "HOME")))
+	if (!(home = get_env_value((char**)context->env->tbl, "HOME")))
 		return ft_perror(SH_ERR1_ENV_NOT_SET, "HOME");
 	if (!(exp->res = (t_dy_str *)malloc(sizeof(t_dy_str))))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_lexer_exp_tilde_1 (1)"));
+		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (1)"));
 	if (!(exp->res->str = ft_strrep_free(exp->original, home, "~", 0)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_lexer_exp_tilde_1 (2)"));
-	return (LEX_OK);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (2)"));
+	return (SUCCESS);
 }
 
-int			sh_lexer_exp_tilde_2(t_lexer *lexer, t_expansion *exp)
+static int			sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 {
 	char			*buf;
 	struct passwd	*passwd;
@@ -53,6 +43,14 @@ int			sh_lexer_exp_tilde_2(t_lexer *lexer, t_expansion *exp)
 		return ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde");
 	}
 	free(buf);
-	return (LEX_OK);
-	(void)lexer;
+	return (SUCCESS);
+	(void)context;
+}
+
+int				sh_expansions_tilde(t_context *context, t_expansion *exp)
+{
+	if (!exp->original[1] || ft_iswhite(exp->original[1]) || exp->original[1] == '/')
+		return (sh_expansions_tilde_1(context, exp));
+	else
+		return (sh_expansions_tilde_2(context, exp));
 }

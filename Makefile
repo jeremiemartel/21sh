@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/03 17:21:20 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/05 13:51:59 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ VARS_DIR	= vars
 AUTO_DIR	= autocomplete
 EXEC_DIR	= exec
 BUILT_DIR	= builtin
+EXP_DIR		= expansions
 
 SPEED = -j1
 LIBFT_INCLUDEDIR = includes
@@ -106,10 +107,8 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rules.c \
 						sh_lexer_quoting.c \
-						sh_lexer_exp.c sh_lexer_exp_init.c \
-						sh_lexer_exp_process.c sh_lexer_exp_process_tilde.c \
-						sh_lexer_exp_process_parameter.c \
-						t_expansion.c t_lexer.c t_token.c
+						sh_lexer_exp.c \
+						t_lexer.c t_token.c
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c \
 						sh_prod_case_clause.c sh_prod_case_item.c \
@@ -161,8 +160,15 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_verbose.c \
 						sh_builtin_set.c
 
+EXP_SRCS_NO_PREFIX =	sh_expansions.c \
+						sh_expansions_init.c \
+						sh_expansions_process.c \
+						sh_expansions_process_parameter.c \
+						sh_expansions_process_tilde.c \
+						t_expansion.c
+
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
-					  	sh_command_line.h sh_autocompletion.h sh_exec.h
+					  	sh_command_line.h sh_autocompletion.h sh_exec.h sh_builtin.h sh_expansions.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
@@ -175,6 +181,7 @@ TRAVT_SOURCES = $(addprefix $(SRCDIR)/$(TRAVT_DIR)/, $(TRAVT_SRCS_NO_PREFIX))
 VARS_SOURCES = $(addprefix $(SRCDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX))
 EXEC_SOURCES = $(addprefix $(SRCDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX))
 BUILT_SOURCES = $(addprefix $(SRCDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX))
+EXP_SOURCES = $(addprefix $(SRCDIR)/$(EXP_DIR)/, $(EXP_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
@@ -187,6 +194,7 @@ EXEC_OBJECTS = $(addprefix $(OBJDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX:%.c=%.o
 BUILT_OBJECTS = $(addprefix $(OBJDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX:%.c=%.o))
 AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
 COMMANDLINE_OBJECTS = $(addprefix $(OBJDIR)/$(COMMANDLINE_DIR)/, $(COMMANDLINE_SRCS_NO_PREFIX:%.c=%.o))
+EXP_OBJECTS = $(addprefix $(OBJDIR)/$(EXP_DIR)/, $(EXP_SRCS_NO_PREFIX:%.c=%.o))
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
@@ -200,6 +208,7 @@ OBJECTS += $(VARS_OBJECTS)
 OBJECTS += $(EXEC_OBJECTS)
 OBJECTS += $(BUILT_OBJECTS)
 OBJECTS += $(COMMANDLINE_OBJECTS)
+OBJECTS += $(EXP_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -267,6 +276,10 @@ $(OBJDIR)/$(EXEC_DIR)/%.o : $(SRCDIR)/$(EXEC_DIR)/%.c $(INCLUDES)
 
 $(OBJDIR)/$(BUILT_DIR)/%.o : $(SRCDIR)/$(BUILT_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(BUILT_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(OBJDIR)/$(EXP_DIR)/%.o : $(SRCDIR)/$(EXP_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(EXP_DIR)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
