@@ -6,11 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:24:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 13:53:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 00:38:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		sh_exp_init_detect_variable_name(t_expansion *exp, char *start);
 
 /*
 ** sh_expansions_init:
@@ -34,15 +36,31 @@ int		sh_expansions_init(char *original, t_expansion *exp)
 	// else if (ft_strnstr(start, "$(", 2))
 	// 	sh_exp_init_detect_pattern(exp, start, ")", EXP_CMD);
 	if (ft_strnstr(start, "${", 2))
-		sh_exp_init_detect_pattern(exp, start, "}", EXP_PARAM);
+		sh_exp_init_detect_pattern(exp, start, "}", EXP_PARAM); // check malloc
 	else if (ft_strnstr(start, "$", 1))
-		sh_exp_init_detect_chars(exp, start, " \t\n\0", EXP_VAR);
+		sh_exp_init_detect_variable_name(exp, start); // check malloc
 	else if (ft_strnstr(start, "~", 1))
-		sh_exp_init_detect_chars(exp, start, " \t\n\0", EXP_TILDE);
+		sh_exp_init_detect_chars(exp, start, " \t\n\0", EXP_TILDE); // check malloc
 	else
 		return (FAILURE);
 	if (sh_expansions_init_process(exp) == FAILURE)
 		return (FAILURE);
+	return (SUCCESS);
+}
+
+int		sh_exp_init_detect_variable_name(t_expansion *exp, char *start)
+{
+	char	*end;
+
+	exp->type = EXP_VAR;
+	end = start + 1;
+	while (ft_isalnum(end[1]) || end[1] == '_')
+		end++;
+	if (!(exp->original = ft_strndup(start, end - start + 1)))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_variable_name (1)"));
+	start++;
+	if (!(exp->expansion = ft_strndup(start, end - start + 1)))
+		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (2)"));
 	return (SUCCESS);
 }
 
@@ -71,7 +89,7 @@ int			sh_exp_init_detect_pattern(t_expansion *exp, char *start, char *pattern, i
 	}
 	else
 		start++;
-	if (!(exp->expansion = ft_strndup(start, end -ft_strlen(pattern) - start)))
+	if (!(exp->expansion = ft_strndup(start, end - ft_strlen(pattern) - start)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (2)"));
 	return (SUCCESS);
 }
