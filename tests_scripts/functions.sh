@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 15:58:19 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/03 11:31:36 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/05 23:35:46 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,12 +33,14 @@ test()
 
 	if [ ! -z "$res" ] ; then
 		echo -e "${red}KO${eoc}"
-		echo -e "${yellow}`cat buffer`${eoc}"
+		if [ -n "$verbose" ] ; then
+			echo -e "${yellow}`cat buffer`${eoc}"
+		fi
 	elif [ "${test_stderr}" -ne 0 ] && [ ! -z "`diff res2.bash res2.21sh`" ] ; then 
 		res=`diff res2.bash res2.21sh`
 		echo -e "${red}KO${eoc}"
-		echo -e "${yellow}`cat buffer`${eoc}"
-		if [ -n $verbose ] ; then
+		if [ -n "$verbose" ] ; then
+			echo -e "${yellow}`cat buffer`${eoc}"
 			echo -e "${cyan}`echo $res`${eoc}"
 		fi
 	else

@@ -12,18 +12,30 @@
 #                                                                              #
 # **************************************************************************** #
 
+## Usage : 
+##	./launcher [-v] [-q] [-2]
+##		-v : Activate Valgrind tests
+##		-2 : Activate comparison on stderr
+##		-q : Activate quiet mode : only show OK or KO
+
 path=".."
 suppressions_file="my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
 
-if [ "$1" = "-v" ] || [ "$2" = "-v" ]; then
+if [ "$1" = "-v" ] || [ "$2" = "-v" ] || [ "$3" = "-v" ]; then
 	valgrind=true
 	rm -rf "${log_dir}" 
 	mkdir -p $log_dir
 fi
 
-if [ "$1" = "-2" ] || [ "$2" = "-2" ]; then
+if [ "$1" = "-q" ] || [ "$2" = "-q" ] || [ "$3" = "-q" ] ; then
+	verbose=""
+else
+	verbose="ok"
+fi
+
+if [ "$1" = "-2" ] || [ "$2" = "-2" ] || [ "$3" = "-2" ]; then
 	test_stderr=1
 else
 	test_stderr=0
@@ -35,11 +47,6 @@ if [ ! -z $valgrind ] && [ ! -f $suppressions_file ] ; then
 	echo "OK !"
 fi
 
-verbose=""
-
-if [ -n $1 ] ; then
-	verbose="ok"
-fi
 
 #Colors
 red=\\033[31m
