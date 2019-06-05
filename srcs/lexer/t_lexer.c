@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:39:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 13:34:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 00:19:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	lexer_init(t_lexer *lexer, int tok_start)
 {
-	lexer->quoted = LEX_TOK_UNKNOWN;
+	lexer->quoted = 0;
+	lexer->expansion = 0;
 	lexer->tok_start = tok_start;
 	lexer->tok_len = 0;
 	lexer->current_id = LEX_TOK_UNKNOWN;
@@ -39,7 +40,14 @@ int		lexer_add_token(t_lexer *lexer)
 		return (LEX_ERR);
 	}
 	ft_lstadd_last(&lexer->list, new);
-	token->value = ft_strndup(lexer->input + lexer->tok_start, lexer->tok_len);
+	if (!(token->value = ft_strndup(lexer->input + lexer->tok_start, lexer->tok_len)))
+	{
+		free(token);
+		free(new);
+		return (LEX_ERR);
+	}
+	token->quoted = lexer->quoted;
+	token->expansion = lexer->expansion;
 	lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 	return (LEX_OK);
 }

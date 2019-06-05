@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 13:54:34 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 13:11:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 00:14:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		sh_lexer_exp(t_lexer *lexer)
 	if (!end)
 		// Call quote funtion !
 		return (ft_perror("Expansion", "Wrong Format"));
+	lexer->expansion = '$';
 	lexer->tok_len += end - start;
 	return (LEX_OK);
 }

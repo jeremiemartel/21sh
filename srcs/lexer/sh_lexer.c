@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 23:18:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 00:41:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		sh_is_name_var_assign(char *name)
 {
 	int		i;
 
-	if (!ft_isalpha(*name))
+	if (!ft_isalpha(*name) && !*name == '_')
 		return (0);
 	i = 0;
 	while (name[i] && name[i] != '=')
@@ -69,7 +69,6 @@ int		lexer_lexical_conventions(t_lexer *lexer) // Is this function steel usefull
 	}
 	return (LEX_OK);
 }
-
 
 int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 {

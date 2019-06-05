@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 13:50:52 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 00:15:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef struct		s_lexer
 	int				tok_start;
 	int				tok_len;
 	int				current_id;
-	int				quoted;
+	char			quoted;
+	char			expansion;
 	t_list			*list;
 	t_dy_tab 		*env;
 	t_dy_tab		*vars;
@@ -67,6 +68,8 @@ typedef struct		s_token
 	t_symbol_id		id;
 	int				index;
 	char			*value;
+	char			quoted;
+	char			expansion;
 }					t_token;
 
 /*
