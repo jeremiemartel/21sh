@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/03 17:21:20 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/07 00:07:36 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -141,7 +141,9 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						render_choices.c add_choices_builtins.c \
 						left_arrow.c right_arrow.c arrows_vertical.c \
 						fill_buffer.c render_choices_tools.c file_tables.c \
-						fill_buffer_from_tables.c add_file_tools.c
+						fill_buffer_from_tables.c add_file_tools.c \
+						auto_completion_tools.c
+
 VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 						sh_vars_tools_1.c sh_vars_tools_2.c \
 						sh_verbose.c sh_env_vars.c

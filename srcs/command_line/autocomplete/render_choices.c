@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 02:33:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/04 02:33:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:21:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ int		sh_should_render_choices(t_command_line *command_line,
 				+ command_line_nb_rows(command_line) <= g_glob.winsize.ws_row);
 }
 
-
 void	update_dimensions(t_command_line *command_line, int max_len)
 {
-	command_line->autocompletion.nb_cols = ft_max(1, 
+	command_line->autocompletion.nb_cols = ft_max(1,
 		(g_glob.winsize.ws_col + AC_PADDING) / (max_len + AC_PADDING));
 	command_line->autocompletion.nb_lines = ft_max(1,
 		ft_round((double)ft_dlstlength(command_line->autocompletion.choices)
@@ -53,7 +52,7 @@ int		render_choices(t_command_line *command_line)
 	max_len = sh_get_max_file_len(command_line->autocompletion.choices);
 	update_dimensions(command_line, max_len);
 	tbl = update_file_tables(command_line);
-	update_back_nb_cols(command_line);	
+	update_back_nb_cols(command_line);
 	nb_visible_lines = command_line_visible_lines(command_line);
 	if (!sh_should_render_choices(command_line, nb_visible_lines))
 		return (SUCCESS);

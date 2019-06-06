@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 15:24:23 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:13:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		populate_choices_from_folder(t_shell *shell, t_word *word)
 	word->to_compare = file;
 	if (add_choices_from_dir(shell, word, transformed_path, path))
 		return (ft_free_turn_3(file, transformed_path, path, FAILURE));
-	 return (ft_free_turn_3(file, transformed_path, path, SUCCESS));
+	return (ft_free_turn_3(file, transformed_path, path, SUCCESS));
 }
 
 int		populate_choices_from_word(t_command_line *command_line,

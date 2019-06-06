@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 15:24:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 16:14:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/06 23:07:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int		process_add_choices_from_name(t_shell *shell,
 			t_command_line *command_line, char *name)
 {
-	char            *fullname;
-	t_dlist         **prev_to_add;
-	t_dlist         *to_add;
-	int             ret;
-	t_file          *file;
+	char			*fullname;
+	t_dlist			**prev_to_add;
+	t_dlist			*to_add;
+	int				ret;
+	t_file			*file;
 
 	if (!(fullname = ft_strdup(name)))
 		return (1);
@@ -35,8 +35,8 @@ int		process_add_choices_from_name(t_shell *shell,
 		}
 		add_node_next_to_node(prev_to_add, to_add);
 		if (ret)
-			command_line->autocompletion.choices
-				= command_line->autocompletion.choices->prev;
+			command_line->autocompletion.choices =
+				command_line->autocompletion.choices->prev;
 	}
 	return (SUCCESS);
 }

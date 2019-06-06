@@ -6,16 +6,16 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 20:00:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 09:52:17 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:12:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int	process_update_autocompletion_head_right(t_command_line *command_line,
+int		process_update_autocompletion_head_right(t_command_line *command_line,
 			t_file *file_iter, t_file *file, t_dlist *ptr)
 {
-	if (file_iter->y == file->y && file_iter->x == file->x + 1) //go left with right
+	if (file_iter->y == file->y && file_iter->x == file->x + 1)
 	{
 		command_line->autocompletion.head = ptr;
 		return (1);
@@ -30,7 +30,7 @@ int	process_update_autocompletion_head_right(t_command_line *command_line,
 	}
 	else if (file->y == command_line->autocompletion.nb_lines - 1
 			&& file_iter->y == command_line->autocompletion.nb_lines - 1
-			&& file_iter->x == 0) //bottom movement
+			&& file_iter->x == 0)
 	{
 		command_line->autocompletion.head = ptr;
 		return (1);
@@ -64,8 +64,8 @@ int		process_autocompletion_right(t_command_line *command_line)
 	prev_file = command_line->autocompletion.head->content;
 	if (command_line->autocompletion.nb_cols == 1)
 	{
-		command_line->autocompletion.head
-			= command_line->autocompletion.head->next;
+		command_line->autocompletion.head =
+			command_line->autocompletion.head->next;
 		file = (t_file *)command_line->autocompletion.head->content;
 		substitute_command_str_from_str(command_line,
 			prev_file->fullname, file->fullname);

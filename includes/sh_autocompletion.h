@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:59:37 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 15:51:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:08:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,4 +162,9 @@ void	fill_buffer_partial_from_tables(t_command_line *command_line,
 ** add_file_tools.c
 */
 int		ft_isprint_only_utf8(char *str);
+
+/*
+** auto_completion_tools.c
+*/
+char	*get_completion_str(t_command_line *command_line);
 #endif

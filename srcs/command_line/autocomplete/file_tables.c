@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 02:30:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/04 02:30:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:11:28 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	fill_file_tables(t_command_line *command_line, t_file ***tbl)
 {
 	t_file	*file;
 	t_dlist	*ptr;
-	int     first;
+	int		first;
 	int		i;
 	int		j;
 

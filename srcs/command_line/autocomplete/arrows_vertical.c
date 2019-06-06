@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 01:47:21 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/04 01:47:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/06 23:27:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int		process_autocompletion_down(t_command_line *command_line)
 
 	if (!command_line->autocompletion.head)
 	{
-		command_line->autocompletion.head = command_line->autocompletion.choices;
+		command_line->autocompletion.head =
+			command_line->autocompletion.choices;
 		file = (t_file *)command_line->autocompletion.head->content;
 		prev_file = file;
 		substitute_command_str(command_line, file->fullname);
