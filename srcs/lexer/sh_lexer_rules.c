@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 10:35:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 13:49:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ int		lexer_process_quoted(t_lexer *lexer)
 	old_context	= g_glob.command_line.context;
 	if (update_prompt_from_quote(lexer->shell, &g_glob.command_line,
 			lexer->quoted) != SUCCESS)
-		return (LEX_ERR);
+		return (LEX_FAIL);
 	if (lexer->quoted == '\"' || lexer->quoted == '\'')
 	{
 		if (!(lexer->input = ft_strjoin_free(lexer->input, "\n", 1)))
-			return (LEX_ERR);
+			return (LEX_FAIL);
 	}
 	else
 		lexer->quoted = 0;
@@ -59,15 +59,15 @@ int		lexer_process_quoted(t_lexer *lexer)
 		if (ret == CTRL_C)
 			return (LEX_CANCEL);
 		else
-			return (LEX_ERR);
+			return (LEX_FAIL);
 	}
 	if (!(lexer->input = ft_strjoin_free(lexer->input,
 					g_glob.command_line.dy_str->str, 1)))
-		return (LEX_ERR);
+		return (LEX_FAIL);
 	g_glob.command_line.context = old_context;
 	reset_command_line(lexer->shell, &g_glob.command_line);
 	if (update_prompt(lexer->shell, &g_glob.command_line) != SUCCESS)
-		return (LEX_ERR);
+		return (LEX_FAIL);
 	return (LEX_OK);
 }
 
@@ -80,7 +80,7 @@ int		lexer_rule1(t_lexer *lexer)
 			if (!isatty(0))
 			{
 				ft_perror(SH_ERR1_UNEXPECTED_EOF, "lexer_rule1");
-				return (LEX_ERR); //fatal error
+				return (LEX_FAIL); //fatal error
 			}
 			else
 				return (lexer_process_quoted(lexer));
@@ -115,7 +115,7 @@ int		lexer_rule2(t_lexer *lexer)
 		else if (lexer->c == '-' && lexer->current_id == '<' + '<' * 0xff00)
 			lexer->current_id += 0xff0000 * lexer->c;
 		else
-			return (LEX_ERR);
+			return (LEX_FAIL);
 		lexer->tok_len++;
 		return (LEX_OK);
 	}
@@ -136,7 +136,7 @@ int		lexer_rule3(t_lexer *lexer)
 			lexer->tok_len = 0;
 			return (LEX_OK);
 		}
-		return (LEX_ERR);//
+		return (LEX_FAIL);//
 	}
 	return (LEX_CONTINUE);
 }

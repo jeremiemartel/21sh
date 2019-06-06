@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 00:15:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 13:49:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@
 /*
 ** Possible states for the lexer, returned by lexer functions
 */
-# define LEX_CANCEL		FAILURE + SUCCESS + 3
-# define LEX_END		FAILURE + SUCCESS + 2
-# define LEX_ERR		FAILURE
-# define LEX_CONTINUE	FAILURE + SUCCESS + 1
 # define LEX_OK			SUCCESS
+# define LEX_ERR		ERROR
+# define LEX_FAIL		FAILURE
+# define LEX_CONTINUE	FAILURE + SUCCESS + 1
+# define LEX_END		FAILURE + SUCCESS + 2
+# define LEX_CANCEL		FAILURE + SUCCESS + 3
 
 typedef struct s_shell		t_shell;
 

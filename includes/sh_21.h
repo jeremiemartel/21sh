@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/05 11:58:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 13:48:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define SUCCESS		0
 # define FAILURE		1
 # define ATTR_ERROR		2
+# define ERROR			3
 
 # define CTRL_D			3
 # define CTRL_C			4

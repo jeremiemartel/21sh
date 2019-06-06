@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 13:54:34 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 00:14:56 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 13:49:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		sh_lexer_exp(t_lexer *lexer)
 
 	original = lexer->input + lexer->tok_start + lexer->tok_len;
 	if (!(start = ft_strpbrk(original, "$~`")))
-		return (LEX_ERR);
+		return (LEX_FAIL);
 	if (*start == '`')
 		end = ft_strchr(start + 1, '`');
 	else if (ft_strnstr(start, "$((", 3))

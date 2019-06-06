@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 13:53:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 15:28:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,31 +69,6 @@ char	*sh_expansions_parameter_get_word(t_context *context, t_expansion *exp, cha
 	start += ft_strlen(format);
 	return (start);
 	(void)context;
-}
-
-int		sh_expansions_parameter(t_context *context, t_expansion *exp)
-{
-	char	format[4];
-
-	if (!ft_strpbrk(exp->expansion, ":-=?+%"))
-		if (!ft_strchr(exp->expansion + 1, '#'))
-			return (sh_expansions_variable(context, exp));
-	sh_expansions_parameter_format(exp, format);
-	if (ft_strstr(":-", format) || ft_strstr("-", format))
-		return (sh_expansions_minus(context, exp, format));
-	else if (ft_strstr(":=", format) || ft_strstr("=", format))
-		return (sh_expansions_equal(context, exp, format));
-	else if (ft_strstr(":?", format) || ft_strstr("?", format))
-		return (sh_expansions_quest(context, exp, format));
-	else if (ft_strstr(":+", format) || ft_strstr("+", format))
-		return (sh_expansions_plus(context, exp, format));
-	else if (ft_strstr("%", format) || ft_strstr("%%", format))
-		return (sh_expansions_percent(context, exp, format));
-	else if (ft_strstr("#", format) || ft_strstr("##", format))
-		return (sh_expansions_hash(context, exp, format));
-	else
-		return (ft_perror("unrecognized modifier", NULL));
-	return (SUCCESS);
 }
 
 int		sh_expansions_minus(t_context *context, t_expansion *exp, char *format)

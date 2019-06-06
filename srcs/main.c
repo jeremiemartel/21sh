@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 22:51:46 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 13:49:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		sh_process_command(t_shell *shell, char *command)
 		return (FAILURE);
 	if ((ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
 	{
-		// if (ret == LEX_ERR)
+		// if (ret == LEX_FAIL)
 		// 	return (FAILURE);
 		// else
 			return (SUCCESS);

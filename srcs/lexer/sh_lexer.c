@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 10:01:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 13:49:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		ft_dprintf(2, "Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;
-	while (ret != LEX_ERR && ret != LEX_END && ret != LEX_CANCEL)
+	while (ret != LEX_FAIL && ret != LEX_END && ret != LEX_CANCEL)
 	{
 		i = 0;
 		if (sh_verbose_lexer())
@@ -108,18 +108,18 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 			i++;
 		if (i >= LEX_RULES_LEN)
-			ret = LEX_ERR;
+			ret = LEX_FAIL;
 		if (sh_verbose_lexer())
 			ft_printf(COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
 	}
 	free(lexer.input);
-	if (ret == LEX_ERR)
+	if (ret == LEX_FAIL)
 		return (FAILURE);//Leaks
 	if (ret == LEX_CANCEL)
 		return (LEX_CANCEL); //leaks
-	if (lexer_lexical_conventions(&lexer) == LEX_ERR)
-		return (LEX_ERR);
+	if (lexer_lexical_conventions(&lexer) == LEX_FAIL)
+		return (LEX_FAIL);
 	if (sh_verbose_lexer())
 		lexer_show(&lexer);
 	*tokens = lexer.list;
