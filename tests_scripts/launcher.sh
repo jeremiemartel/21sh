@@ -23,23 +23,31 @@ suppressions_file="my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
 
-if [ "$1" = "-v" ] || [ "$2" = "-v" ] || [ "$3" = "-v" ]; then
-	valgrind=true
-	rm -rf "${log_dir}" 
-	mkdir -p $log_dir
-fi
 
-if [ "$1" = "-q" ] || [ "$2" = "-q" ] || [ "$3" = "-q" ] ; then
-	verbose=""
-else
-	verbose="ok"
-fi
+test_stderr=0
+verbose="ok"
+for arg in $@ ; do
+	if [ "$arg" = "-v" ] ; then
+		valgrind=true
+		rm -rf "${log_dir}" 
+		mkdir -p $log_dir
+	fi
 
-if [ "$1" = "-2" ] || [ "$2" = "-2" ] || [ "$3" = "-2" ]; then
-	test_stderr=1
-else
-	test_stderr=0
-fi
+	if [ "$arg" = "-2" ] ; then
+		test_stderr=1
+	fi
+
+	if [ "$arg" = "-q" ] ; then
+		verbose=""
+	fi
+
+	expr -- "$arg" | '-*'
+	if [ $? -ne "0" ] ; then
+		if [ -f "test_${arg}.sh" ] ; then
+			file="test_${arg}.sh"
+		fi
+	fi
+done
 
 if [ ! -z $valgrind ] && [ ! -f $suppressions_file ] ; then
 	echo "initializing the valgrind configuration..."
@@ -67,9 +75,14 @@ make -C $path && cp ${path}/${exec} .
 
 source functions.sh
 
-for file in `ls test_*` ; do
+if [ -n "$file" ] ; then
 	source $file
-done
+else
+	for file in `ls test_*` ; do
+		source $file
+	done
+fi
+
 
 ## Other tests
 launch "Others"
