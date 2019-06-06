@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 15:28:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 15:49:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		sh_expansion_process_recursive(char **input, char *original, t_context *con
 	exp.original = NULL;
 	exp.process = NULL;
 	exp.res = NULL;
-	if (sh_expansions_init(original, &exp) == FAILURE)
+	if (sh_expansions_init(original, &exp) != SUCCESS)
 	{
 		t_expansion_free_content(&exp);
 		return (FAILURE);

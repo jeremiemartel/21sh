@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:52:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 15:29:21 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 15:54:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ int		sh_expansions_parameter_fill(t_expansion *exp, char *start)
 		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (1)"));
 	if (!(exp->expansion = ft_strndup(start + 2, i - 2)))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (2)"));
-	return (SUCCESS);
 	exp->type = EXP_PARAM;
 	exp->process = &sh_expansions_parameter_process;
-	t_expansion_show(exp);
+	return (SUCCESS);
 }
 
 int		sh_expansions_parameter_process(t_context *context, t_expansion *exp)
