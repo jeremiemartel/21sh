@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 13:54:34 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 13:49:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 16:28:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,21 @@
 int		sh_lexer_exp(t_lexer *lexer)
 {
 	char	*start;
-	char	*end;
-	char	*original;
+	int		end;
 
-	original = lexer->input + lexer->tok_start + lexer->tok_len;
-	if (!(start = ft_strpbrk(original, "$~`")))
-		return (LEX_FAIL);
-	if (*start == '`')
-		end = ft_strchr(start + 1, '`');
-	else if (ft_strnstr(start, "$((", 3))
-		end = ft_strstr(start, "))");
-	else if (ft_strnstr(start, "$(", 2))
-		end = ft_strstr(start, ")");
-	else if (ft_strnstr(start, "${", 2))
-		end = ft_strstr(start, "}");
+	start = lexer->input + lexer->tok_start + lexer->tok_len;
+	if (ft_strnstr(start, "${", 2))
+		end = sh_expansions_parameter_detect(start);
 	else if (ft_strnstr(start, "$", 1))
-		(end = ft_strpbrk(start, " \t\n")) || (end = ft_strchr(start, '\0'));
+		end = sh_expansions_variable_detect(start);
 	else if (ft_strnstr(start, "~", 1))
-		(end = ft_strpbrk(start, " \t\n")) || (end = ft_strchr(start, '\0'));
+		end = sh_expansions_tilde_detect(start);
 	else
-		end = NULL;
-	if (!end)
+		end = -1;
+	if (end == -1)
 		// Call quote funtion !
 		return (ft_perror("Expansion", "Wrong Format"));
 	lexer->expansion = '$';
-	lexer->tok_len += end - start;
+	lexer->tok_len += end;
 	return (LEX_OK);
 }
