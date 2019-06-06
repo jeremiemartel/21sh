@@ -13,10 +13,13 @@
 # **************************************************************************** #
 
 ## Usage : 
-##	./launcher [-v] [-q] [-2]
+##	./launcher [-v] [-q] [-2] [file]
 ##		-v : Activate Valgrind tests
 ##		-2 : Activate comparison on stderr
 ##		-q : Activate quiet mode : only show OK or KO
+##		file : give the name of a file, or simply it's kind
+##			(ex : expansions for test_expansions.sh)
+##			else, every files would be launched
 
 path=".."
 suppressions_file="my_supp.supp"
@@ -45,6 +48,8 @@ for arg in $@ ; do
 	if [ $? -ne "0" ] ; then
 		if [ -f "test_${arg}.sh" ] ; then
 			file="test_${arg}.sh"
+		elif [ -f "${arg}" ] ; then
+			file=${arg}
 		fi
 	fi
 done
