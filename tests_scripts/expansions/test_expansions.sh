@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 13:10:40 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/06 10:50:19 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/06 16:09:42 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,14 +36,3 @@ launch "Expansions"
 	test 'var=asdqw || echo $vqr'
 finish
 
-launch "Tilde expansion"
-	#Tilde expansion test 
-	test 'ls -la ~/'
-	test 'echo ~'
-	test 'exho ~/'
-	test 'ls ~jmartel/'
-	test 'echo ~asdqw/'
-	test 'ls ~$2/'
-	test 'cd ~d/' 'ls' 'cd ~/' 'ls'
-	test 'ls -la ~$easd'
-finish

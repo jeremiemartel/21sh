@@ -21,7 +21,7 @@
 ##			(ex : expansions for test_expansions.sh)
 ##			else, every files would be launched
 
-path=".."
+path="../../"
 suppressions_file="my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
