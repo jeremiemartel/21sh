@@ -6,12 +6,19 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 12:07:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 13:53:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 10:49:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+/*
+** sh_expansions_tilde_1:
+**	Treat classic case of a ~ or ~/, replacing it with content of HOME
+**	env variable
+**
+**	return : SUCCESS or FAILURE
+*/
 static int			sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 {
 	char	*home;
@@ -25,6 +32,13 @@ static int			sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 	return (SUCCESS);
 }
 
+/*
+** sh_expansions_tilde_2:
+**	Bonnus function to treat tilde expansion, replacing ~user/ by it's
+**	home absolute path
+**
+**	return SUCESS or FAILURE
+*/
 static int			sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 {
 	char			*buf;
@@ -32,10 +46,10 @@ static int			sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 
 	if (!(buf = ft_strndup(exp->original + 1, ft_strlen(exp->original) - 2)))
 		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2"));
-	if (!(passwd = getpwnam(buf)))
+	if (!(passwd = getpwnam(buf))) // bonuse LEAKS, and invalid read 
 	{
 		free(buf);
-		return (ft_perror("no such user", buf));//
+		return (FAILURE);
 	}
 	if (!(exp->res = ft_dy_str_new_str(passwd->pw_dir)))
 	{
@@ -47,6 +61,14 @@ static int			sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 	(void)context;
 }
 
+/*
+** sh_expansions_tilde:
+**	Choose between the two possible format of tilde expansion : 
+**		case 1 : ~/ or ~
+**		case 2 : ~user/
+**
+**	return SUCCESS or FAILURE
+*/
 int				sh_expansions_tilde(t_context *context, t_expansion *exp)
 {
 	if (!exp->original[1] || ft_iswhite(exp->original[1]) || exp->original[1] == '/')
