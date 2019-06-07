@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 12:11:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/13 10:01:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 14:26:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,5 @@
 
 int		sh_traverse_assigment_word(t_ast_node *node, t_context *context)
 {
-	sh_vars_assignment(context->env, context->vars, node->token->value);
-	return (SUCCESS);
-	(void)node;
-	(void)context;
+	return (sh_vars_assignment(context->env, context->vars, node->token->value));
 }

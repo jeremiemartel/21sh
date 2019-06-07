@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:15:48 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 14:50:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 14:27:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** sh_vars_key_exist:
 **	Look if a variable, identified by its key, exists in a t_dy_tab
 **	return:
-**		SUCESS or FAILURE
+**		True or False
 */
 int		sh_vars_key_exist(t_dy_tab *vars, char *key)
 {
@@ -32,10 +32,10 @@ int		sh_vars_key_exist(t_dy_tab *vars, char *key)
 		while (tbl[i][j] && key[j] && tbl[i][j] == key[j])
 			j++;
 		if (tbl[i][j] == '=' && key[j] == 0)
-			return (SUCCESS);
+			return (1);
 		i++;
 	}
-	return (FAILURE);
+	return (0);
 }
 
 /*

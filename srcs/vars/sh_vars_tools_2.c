@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:21:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/11 10:21:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 14:26:21 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		sh_vars_assignment(t_dy_tab *env, t_dy_tab *vars, char *assignment)
 	int		res;
 
 	if (!(buf = ft_strchr(assignment, '=')))
-		return (FAILURE);
+		return (ERROR);
 	*buf = 0;
 	value = buf + 1;
 	if (env && sh_vars_get_index(env, assignment) != -1)
