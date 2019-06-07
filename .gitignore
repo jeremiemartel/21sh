@@ -2,6 +2,7 @@
 ok
 test
 file
+logs
 
 tests_scripts/*.log
 tests_scripts/logs/*
