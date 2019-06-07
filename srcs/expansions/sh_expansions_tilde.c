@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:56:29 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 16:07:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 14:02:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,14 @@ int			sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 	struct passwd	*passwd;
 
 	if (!(buf = ft_strndup(exp->original + 1, ft_strlen(exp->original) - 2)))
-		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2"));
+		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (1)"));
 	if (!(passwd = getpwnam(buf))) // bonuse LEAKS, and invalid read 
-	{
-		free(buf);
-		return (FAILURE);
-	}
-	if (!(exp->res = ft_dy_str_new_str(passwd->pw_dir)))
-	{
-		free(buf);
-		return ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde");
-	}
+		exp->res = ft_dy_str_new_str(exp->original);
+	else
+		exp->res = ft_dy_str_new_str(passwd->pw_dir);
 	free(buf);
+	if (!(exp->res))
+		return ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (2)");
 	return (SUCCESS);
 	(void)context;
 }
