@@ -12,7 +12,7 @@
 
 ## Expansions tests
 launch "Expansions"
-	launch "Simple tests"
+	launch "Simple"
 	test 'echo $var'
 	test 'echo $TERM'
 	test 'var=Okalm' 'echo $var'
@@ -23,7 +23,7 @@ launch "Expansions"
 	test '${}' '$()'
 	test '${)' '$}'
 
-	launch "Hard tests"
+	launch "Hard"
 	test '=asd' '=' '12=we'
 	test '321=asd' 'echo $321' '312=' 'echo $312'
 	test '-=qwe' '--=qwe' '"pwe=qwe"'

@@ -41,7 +41,8 @@ test()
 		echo -e "${red}KO${eoc}"
 		if [ -n "$verbose" ] ; then
 			echo -e "${yellow}`cat buffer`${eoc}"
-			echo -e "${cyan}`echo $res`${eoc}"
+			echo -e "${cyan}" `cat res2.21sh` "${eoc}"
+			echo -e "${cyan}" `cat res2.bash` "${eoc}"
 		fi
 	else
 		echo -e "${green}OK${eoc}"

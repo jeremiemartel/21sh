@@ -109,6 +109,8 @@ launch "Parameter expansion"
 
 	launch "Random"
 	## Invalid tests
+	test 'echo ${=:}' 'echo ${?:}' 'echo ${-:}' 'echo ${+:}'
+	test 'echo ${::}' 'echo ${:==}'  'echo ${=:::+}'  'echo ${+::=}'  'echo ${=::-}' 
 	test 'echo ${}'
 	test 'echo ${'
 	test 'echo $}'
