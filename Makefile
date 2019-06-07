@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/07 12:15:54 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/07 14:25:38 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,6 @@ EOC = \033[0m
 TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_default.c \
 						sh_traverse_complete_command.c \
-						sh_traverse_and_or.c \
 						sh_traverse_semicol.c \
 						sh_traverse_and_if.c \
 						sh_traverse_or_if.c \
