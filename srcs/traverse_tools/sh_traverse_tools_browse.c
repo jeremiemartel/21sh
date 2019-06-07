@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 12:06:49 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/20 10:23:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:21:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 **		Call successively all node childrens
 **		It do not change the node->children value
 */
+
 int		sh_traverse_tools_browse(t_ast_node *node, t_context *context)
 {
-	t_list 		*ptr;
+	t_list		*ptr;
 	t_ast_node	*child;
 
 	ptr = node->children;
@@ -38,6 +39,7 @@ int		sh_traverse_tools_browse(t_ast_node *node, t_context *context)
 **		Call traverse of the first children of node,
 **		address of children is changed for it's first brother one
 */
+
 int		sh_traverse_tools_browse_one_child(t_ast_node *node, t_context *context)
 {
 	t_ast_node	*child;

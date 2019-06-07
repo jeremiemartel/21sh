@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:21:12 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 14:36:09 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:20:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		process_keys_command(unsigned char buffer[READ_BUFF_SIZE],
 		if (command_line_copy_all(command_line) != SUCCESS)
 			return (FAILURE);
 		flush_command_line(command_line);
-		render_command_line(command_line, - g_glob.cursor, 1);
+		render_command_line(command_line, -g_glob.cursor, 1);
 	}
 	else if (buffer[0] == 'y' && command_line->last_char_input == 'y')
 		return (command_line_copy_all(command_line));

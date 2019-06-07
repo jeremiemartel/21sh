@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 16:44:48 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/20 17:17:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:30:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	update_command_line(t_command_line *command_line)
 	command_line->nb_chars = ft_strlen_utf8(command_line->dy_str->str);
 }
 
-int		process_historic_down(t_shell *shell, t_command_line *command_line)
+int			process_historic_down(t_shell *shell, t_command_line *command_line)
 {
 	char *str;
 
@@ -47,7 +47,7 @@ int		process_historic_down(t_shell *shell, t_command_line *command_line)
 	return (SUCCESS);
 }
 
-int		process_historic_up(t_shell *shell, t_command_line *command_line)
+int			process_historic_up(t_shell *shell, t_command_line *command_line)
 {
 	char *str;
 

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 16:06:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 05:05:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,18 @@ int			sh_traverse_great(t_ast_node *node, t_context *context);
 int			sh_traverse_greatand(t_ast_node *node, t_context *context);
 int			sh_traverse_dgreat(t_ast_node *node, t_context *context);
 int			sh_traverse_lessgreat(t_ast_node *node, t_context *context);
+
+char		*heredoc_canonical_mode(char *eof,
+				char *(*heredoc_func)(const char *), int *ret);
+int			sh_process_file_output(char *filename,
+				t_context *context, int options);
+int			sh_process_file_input(char *filename,
+				t_context *context, int options);
+
+int			sh_traverse_sc_no_slash_cmd(t_context *context);
+int			sh_traverse_sc_search_in_dir(char *path, DIR *dir,
+				t_context *context);
+int			sh_traverse_sc_search_in_path(t_context *context);
+int			sh_traverse_sc_check_perm(char *path, char *command_name);
 
 #endif

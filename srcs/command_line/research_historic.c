@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 19:29:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/22 22:59:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:30:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		progress_process_research_historic(t_command_line *command_line,
 {
 	char		*to_search_in;
 	char		*found;
+
 	to_search_in = (char *)command_line->searcher.head->content;
 	if ((found = ft_strstr(&(to_search_in[command_line->searcher.
 			match_index + 1]), command_line->searcher.dy_str->str)))
@@ -64,8 +65,8 @@ int		process_research_historic(t_command_line *command_line, t_shell *shell)
 		if (!command_line->searcher.unsuccessful &&
 				ft_strcmp(command_line->searcher.dy_str->str, ""))
 		{
-			if ((command_line->searcher.unsuccessful
-				= progress_process_research_historic(command_line, shell)))
+			if ((command_line->searcher.unsuccessful =
+				progress_process_research_historic(command_line, shell)))
 				render_command_line(command_line, 0, 1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:19:59 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 17:19:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:45:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ void	sh_fill_reduce(t_state *state, t_item *item, t_lr_parser *parser)
 void	sh_fill_tables_by_transition(t_state *state, t_transition *transition,
 			t_lr_parser *parser)
 {
-		parser->lr_tables[state->index]
-			[transition->symbol->id].action_enum = SHIFT;
-		parser->lr_tables[state->index]
-		[transition->symbol->id].action_union.state_index
-			= transition->state->index;
+	parser->lr_tables[state->index][transition->symbol->id].action_enum = SHIFT;
+	parser->lr_tables[state->index][transition->symbol->id].
+		action_union.state_index = transition->state->index;
 }
 
 void	sh_fill_tables_by_state(t_state *state, t_lr_parser *parser)

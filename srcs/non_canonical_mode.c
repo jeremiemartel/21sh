@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:41:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/05 15:41:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:12:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int		sh_process_command(t_shell *shell, char *command)
 			return (SUCCESS);
 	}
 	else
-	{	
+	{
 		if (sh_parser(tokens, shell) != SUCCESS)
-		   	return (SUCCESS);
+			return (SUCCESS);
 		return (sh_process_traverse(shell));
 	}
 	return (SUCCESS);
@@ -39,7 +39,8 @@ int		sh_await_command(t_shell *shell)
 {
 	if (sh_get_command(shell, &g_glob.command_line) != SUCCESS)
 		return (FAILURE);
-	if (sh_append_to_historic(shell, g_glob.command_line.dy_str->str) != SUCCESS)
+	if (sh_append_to_historic(shell,
+			g_glob.command_line.dy_str->str) != SUCCESS)
 		return (FAILURE);
 	return (sh_process_command(shell, g_glob.command_line.dy_str->str));
 }

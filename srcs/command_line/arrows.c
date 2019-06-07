@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 19:59:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/06 19:59:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:24:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int		process_down(t_shell *shell, t_command_line *command_line)
 
 int		process_up(t_shell *shell, t_command_line *command_line)
 {
-
 	if (command_line->autocompletion.head)
 		return (process_autocompletion_up(command_line));
 	else

@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 16:51:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 16:51:41 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 07:01:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_is_eligible_for_transition(t_state *state, t_item *item)
+int				sh_is_eligible_for_transition(t_state *state, t_item *item)
 {
 	t_list *ptr;
 	t_item *item_ptr;
@@ -29,10 +29,10 @@ int		sh_is_eligible_for_transition(t_state *state, t_item *item)
 	return (0);
 }
 
-t_state *sh_get_state_by_symbol(t_item *item, t_lr_parser *parser)
+t_state			*sh_get_state_by_symbol(t_item *item, t_lr_parser *parser)
 {
-	t_list *ptr;
-	t_state *state;
+	t_list	*ptr;
+	t_state	*state;
 
 	ptr = parser->states;
 	while (ptr != NULL)
@@ -47,7 +47,7 @@ t_state *sh_get_state_by_symbol(t_item *item, t_lr_parser *parser)
 	return (NULL);
 }
 
-t_state	*sh_get_state_by_transition(t_state *state, t_symbol *symbol)
+t_state			*sh_get_state_by_transition(t_state *state, t_symbol *symbol)
 {
 	t_list			*ptr;
 	t_transition	*transition;
@@ -74,7 +74,7 @@ t_transition	*sh_new_transition(t_state *to, t_symbol *symbol)
 	return (res);
 }
 
-t_item	*sh_new_item_advance(t_item *item)
+t_item			*sh_new_item_advance(t_item *item)
 {
 	t_item	*res;
 	int		i;

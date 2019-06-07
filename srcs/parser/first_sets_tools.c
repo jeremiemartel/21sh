@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 16:34:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 16:34:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:46:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	is_eps_prod(t_production *production)
 
 int			has_eps_prod(t_symbol *symbol)
 {
-	t_list *ptr;
-	t_production *production;
+	t_list			*ptr;
+	t_production	*production;
 
 	ptr = symbol->productions;
 	while (ptr != NULL)

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:46:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 16:07:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 07:01:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ void	sh_process_transitive_first_set(t_symbol *symbol,
 ** don't make ε belong to first if start with ε cause
 ** it might have others stuff behind
 */
+
 void	sh_process_transitive_first_sets(t_symbol *symbol,
 			t_symbol *prod_symbol, int *changes)
 {
 	int i;
 
 	i = 0;
-	while (i < NB_TERMS - 1) 
+	while (i < NB_TERMS - 1)
 	{
 		if (prod_symbol->first_sets[i] == 1)
 			sh_process_transitive_first_set(symbol, i, changes);
@@ -50,6 +51,7 @@ void	sh_process_transitive_first_set_2(char first_sets[NB_TERMS], int index)
 ** don't make ε belong to first if start with ε cause
 ** it might have others stuff behind
 */
+
 void	sh_process_transitive_first_sets_2(char first_sets[NB_TERMS],
 			t_symbol *prod_symbol)
 {

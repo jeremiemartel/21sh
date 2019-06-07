@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 13:49:28 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 11:18:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:02:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 int		sh_index_4(t_symbol_id id)
 {
-	if (id >= LEX_TOK_IF && id <= LEX_TOK_IN)
+	if (id == LEX_TOK_DLESSDASH)
+		return (33);
+	else if (id == LEX_TOK_CLOBBER)
+		return (34);
+	else if (id >= LEX_TOK_IF && id <= LEX_TOK_IN)
 		return (id - LEX_TOK_IF + 35);
 	else if (id < LEX_TOK_IF)
 		return (id - LEX_TOK_TOKEN + 48);
@@ -24,7 +28,9 @@ int		sh_index_4(t_symbol_id id)
 
 int		sh_index_3(t_symbol_id id)
 {
-	if (id == LEX_TOK_EQUAL)
+	if (id == LEX_TOK_TILD)
+		return (22);
+	else if (id == LEX_TOK_EQUAL)
 		return (23);
 	else if (id == LEX_TOK_PERCENT)
 		return (24);
@@ -44,11 +50,8 @@ int		sh_index_3(t_symbol_id id)
 		return (31);
 	else if (id == LEX_TOK_LESSGREAT)
 		return (32);
-	else if (id == LEX_TOK_DLESSDASH)
-		return (33);
-	else if (id == LEX_TOK_CLOBBER)
-		return (34);
-	else return (sh_index_4(id));
+	else
+		return (sh_index_4(id));
 }
 
 int		sh_index_2(t_symbol_id id)
@@ -75,9 +78,8 @@ int		sh_index_2(t_symbol_id id)
 		return (20);
 	else if (id == LEX_TOK_HASH)
 		return (21);
-	else if (id == LEX_TOK_TILD)
-		return (22);
-	else return (sh_index_3(id));
+	else
+		return (sh_index_3(id));
 }
 
 int		sh_index(t_symbol_id id)

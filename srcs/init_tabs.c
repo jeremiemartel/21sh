@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/05 15:37:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:04:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_update_shell_lvl(t_shell *shell)
+int			sh_update_shell_lvl(t_shell *shell)
 {
 	char	*str;
 	int		new_lvl;

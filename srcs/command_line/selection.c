@@ -6,13 +6,14 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:39:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/10 14:42:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:21:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	populate_min_max_selection(t_command_line *command_line, int *min, int *max)
+void	populate_min_max_selection(t_command_line *command_line,
+			int *min, int *max)
 {
 	if (command_line->pinned_index < command_line->current_index)
 	{

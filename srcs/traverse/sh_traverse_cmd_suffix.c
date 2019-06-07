@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 09:20:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:25:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int			sh_traverse_cmd_suffix(t_ast_node *node, t_context *context)
 			if (ft_dy_tab_add_str(context->params, child->token->value))
 				return (FAILURE);
 		}
-		else if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+		else if (g_grammar[child->symbol->id].
+			traverse(child, context) == FAILURE)
 			return (FAILURE);
 		ptr = ptr->next;
 	}

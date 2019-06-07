@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/15 14:32:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 07:11:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ void	sh_print_token(t_token *token, t_cfg *cfg)
 	if (token->token_type == TYPE_INT)
 		ft_printf("%d ", token->token_union.ival);
 	else if (token->id == LEX_TOK_WORD)
-		ft_printf(YELLOW"%s "EOC, token->value);
-	else if(token->id == LEX_TOK_IO_NUMBER)
+		ft_printf("%s%s %s", YELLOW, token->value, EOC);
+	else if (token->id == LEX_TOK_IO_NUMBER)
 		ft_printf("IO_NUMBER: %s%s %s ",YELLOW, token->value, EOC);
 	else
-	{
-		ft_printf(YELLOW "%s "EOC, cfg->symbols[token->index].debug);
-	}
+		ft_printf("%s%s %s", YELLOW, cfg->symbols[token->index].debug, EOC);
 }
 
 void	sh_print_token_list(t_list *list, t_cfg *cfg)
@@ -99,7 +97,7 @@ void	print_non_terminals_productions(t_cfg *cfg)
 
 	i = NB_TERMS;
 	j = 0;
-	ft_printf(BOLD UNDERLINE"PRODUCTIONS:\n\n"EOC);
+	ft_printf("%s%sPRODUCTIONS:\n\n%s", BOLD, UNDERLINE, EOC);
 	while (j < NB_NOTERMS)
 	{
 		sh_print_symbol(&(cfg->symbols[i]));
@@ -139,31 +137,6 @@ void	sh_print_first_set(t_cfg *cfg, t_symbol *symbol)
 	ft_printf("\n\n");
 }
 
-void	sh_print_follow_set(t_cfg *cfg, t_symbol *symbol)
-{
-	ft_printf("follow sets of ");
-	sh_print_symbol(symbol);
-	ft_printf(" :\n");
-	sh_process_print_set(cfg, symbol->follow_sets);
-	ft_printf("\n\n");
-}
-
-
-void	print_follow_sets(t_cfg *cfg)
-{
-	int i;
-	int j;
-
-	i = NB_TERMS;
-	j = 0;
-	ft_printf(BOLD UNDERLINE"FOLLOW SETS:\n\n"EOC);
-	while (j < NB_NOTERMS)
-	{
-		sh_print_follow_set(cfg, &cfg->symbols[i++]);
-		j++;
-	}
-}
-
 void	print_first_sets(t_cfg *cfg)
 {
 	int i;
@@ -171,7 +144,7 @@ void	print_first_sets(t_cfg *cfg)
 
 	i = NB_TERMS;
 	j = 0;
-	ft_printf(BOLD UNDERLINE"FIRST SETS:\n\n"EOC);
+	ft_printf("%s%sFIRST SETS:\n\n%s", BOLD, UNDERLINE, EOC);
 	while (j < NB_NOTERMS)
 	{
 		sh_print_first_set(cfg, &cfg->symbols[i++]);
@@ -190,13 +163,13 @@ void	sh_print_item(t_item *item)
 	while (ptr != NULL)
 	{
 		if (ptr == item->progress)
-			ft_printf(BOLD"·"EOC);
+			ft_printf("%s·%s", BOLD, EOC);
 		symbol = (t_symbol *)ptr->content;
 		sh_print_symbol(symbol);
 		ptr = ptr->next;
 	}
 	if (ptr == item->progress)
-		ft_printf(BOLD"·"EOC);
+		ft_printf("%s·%s", BOLD, EOC);
 	int i;
 	ft_printf("\t(for symbol: [");
 	i = 0;
@@ -229,7 +202,7 @@ void	sh_print_state(t_state *state, int depth)
 		ft_printf(YELLOW"S%d"EOC, state->index);
 		return ;
 	}
-	ft_printf(YELLOW"State #%d\n\n"EOC, state->index);
+	ft_printf(YELLOW"%sState #%d\n\n%s", YELLOW, state->index, EOC);
 	ptr = state->items;
 	while (ptr != NULL)
 	{
@@ -239,7 +212,7 @@ void	sh_print_state(t_state *state, int depth)
 	}
 	if (depth > 0 && state->transitions)
 	{
-		ft_printf(UNDERLINE"\nState transitions:%s \n\n", EOC);
+		ft_printf("%s\nState transitions:%s \n\n", UNDERLINE, EOC);
 		ptr = state->transitions;
 		while (ptr != NULL)
 		{
@@ -274,7 +247,7 @@ void	sh_print_lr_table(t_lr_parser *parser)
 		{
 			if (parser->lr_tables[i][j].action_enum == ERROR)
 			{
-				ft_printf(RED"\tERROR"EOC);
+				ft_printf("%s\tERROR%s", RED, EOC);
 			}
 			else if (parser->lr_tables[i][j].action_enum == REDUCE)
 			{
@@ -301,7 +274,7 @@ void	sh_print_automata(t_lr_parser *parser, int depth)
 	t_list	*ptr;
 	t_state	*state;
 
-	ft_printf(BOLD UNDERLINE"AUTOMATA STATES:\n\n"EOC);
+	ft_printf("%s%sAUTOMATA STATES:\n\n%s", BOLD, UNDERLINE, EOC);
 	ptr = parser->states;
 	while (ptr != NULL)
 	{
@@ -345,7 +318,6 @@ void	sh_print_cfg(t_cfg *cfg)
 {
 	print_non_terminals_productions(cfg);
 	print_first_sets(cfg);
-	print_follow_sets(cfg);
 }
 
 
@@ -369,8 +341,6 @@ void	sh_print_ast(t_ast_node *node, int depth)
 	int j;
 	int k;
 	i = depth;
-//	while (i-- + 2)
-//		ft_printf("  ");
 	if (!node)
 	{
 		ft_printf("LEAF NODE");
@@ -381,11 +351,7 @@ void	sh_print_ast(t_ast_node *node, int depth)
 	else
 		sh_print_token(node->token, g_cfg);
 	ft_printf("\n");
-//	ft_printf("token: ");
-//	sh_print_token(node->token);
 	ptr = node->children;
-//	if (ptr)
-//		ft_printf("children: ");
 	j = 0;
 	while (ptr != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 15:45:22 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 16:49:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:21:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	sh_traverse_tools_close_fd(t_context *context)
 		close(context->pipe[1]);
 */
 }
-
 
 void	sh_traverse_tools_reset_fd(t_context *context)
 {

@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 13:01:51 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 18:02:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:54:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	sh_init_ast_node(t_ast_node *node,
+void			sh_init_ast_node(t_ast_node *node,
 			t_token *token, t_symbol *symbol, t_ast_node *relative)
 {
 	node->children = NULL;
@@ -22,7 +22,7 @@ void	sh_init_ast_node(t_ast_node *node,
 	node->relative = relative;
 }
 
-void	sh_init_ast_nodes(t_ast_builder *ast_builder,
+void			sh_init_ast_nodes(t_ast_builder *ast_builder,
 			t_token *token, t_symbol *symbol)
 {
 	sh_init_ast_node(ast_builder->ast_node,
@@ -55,7 +55,8 @@ t_ast_builder	*sh_new_ast_builder(t_token *token, t_symbol *symbol)
 	return (res);
 }
 
-int		sh_is_replacing(t_ast_builder *ast_builder)
+int				sh_is_replacing(t_ast_builder *ast_builder)
 {
-	return (ast_builder->symbol->replacing == 1 || sh_is_term(ast_builder->symbol));
+	return (ast_builder->symbol->replacing == 1
+		|| sh_is_term(ast_builder->symbol));
 }

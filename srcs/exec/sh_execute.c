@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/29 12:34:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:15:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	transmit_sig(int signal)
 {
 	if (g_parent)
 		kill(g_parent, signal);
-	if (g_glob.command_line.dy_str)
+	if (isatty(0) && g_glob.command_line.dy_str)
 	{
 		get_down_from_command(&g_glob.command_line);
 		g_glob.cursor = 0;

@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/07 00:07:36 by ldedier          ###   ########.fr        #
+#    Updated: 2019/06/07 05:29:06 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,9 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_io_redirect.c \
 						sh_traverse_filename.c \
 						sh_traverse_io_here.c \
+						sh_traverse_io_here_canonical.c \
 						sh_traverse_io_file.c \
+						sh_traverse_io_file_tools.c \
 						sh_traverse_less.c \
 						sh_traverse_lessand.c \
 						sh_traverse_great.c \
@@ -82,12 +84,12 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						heredoc.c research_historic.c render_research.c \
 						free_command_line.c sh_delete_command.c \
 						sh_process_shift_vertical.c \
-						sh_process_shift_horizontal.c
+						sh_process_shift_horizontal.c update_prompt_keys.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 
 
-SRCS_NO_PREFIX =		main.c index.c ft_perror.c init.c \
+SRCS_NO_PREFIX =		main.c index.c ft_perror.c ft_perror2.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c
@@ -101,7 +103,7 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						free_parser.c transitive_first_sets.c \
 						first_sets_tools.c transition_tools.c \
 						closure_tools.c free_node.c free_parser_tools.c \
-						fill_lr_tables.c shift.c
+						fill_lr_tables.c shift.c compute_closure_tools.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rules.c \

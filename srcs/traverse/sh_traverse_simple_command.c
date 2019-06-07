@@ -6,17 +6,11 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 18:41:52 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 05:07:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-
-int		sh_traverse_sc_no_slash_cmd(t_context *context);
-int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context);
-int		sh_traverse_sc_search_in_path(t_context *context);
-int		sh_traverse_sc_check_perm(char *path, char *command_name);
 
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
@@ -77,9 +71,11 @@ int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 			if (!(buf = ft_strjoin_path(path, dirent->d_name)))
 			{
 				closedir(dir);
-				return (ft_perror(SH_ERR1_MALLOC, "traverse_sc_search_in_dir"));
+				return (ft_perror(SH_ERR1_MALLOC,
+					"traverse_sc_search_in_dir"));
 			}
-			if (sh_traverse_sc_check_perm(buf, context->params->tbl[0]) == FAILURE)
+			if (sh_traverse_sc_check_perm(buf,
+					context->params->tbl[0]) == FAILURE)
 			{
 				free(buf);
 				continue ;
@@ -99,7 +95,8 @@ int		sh_traverse_sc_search_in_path(t_context *context)
 	int		i;
 	DIR		*dir;
 
-	split = ft_strsplit(sh_vars_get_value(context->env, context->vars, "PATH"), ':');
+	split = ft_strsplit(sh_vars_get_value(context->env,
+		context->vars, "PATH"), ':');
 	if (!(split))
 		return (SUCCESS); //// Need to protect path get AND malloc in split
 	i = 0;

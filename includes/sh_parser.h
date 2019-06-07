@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/26 10:28:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 05:30:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct		s_lr_parser
 	t_ast_node		*ast_root;
 	t_ast_node		*cst_root;
 	int				nb_states;
+	int				index;
 }					t_lr_parser;
 
 /*
@@ -152,6 +153,15 @@ int     sh_compute_lr_automata(t_lr_parser *parser);
 t_state	*sh_compute_first_state(t_lr_parser *parser);
 int		sh_compute_closure(t_state *state, t_lr_parser *parser);
 int		sh_compute_transitions(t_state *state, t_lr_parser *parser);
+
+
+/*
+** compute_closure_tools.c
+*/
+int     sh_add_to_closure(t_state *state,
+			t_symbol *new_item, char first_sets[NB_TERMS]);
+void	sh_compute_first_sets_str_append(char first_sets[NB_TERMS],
+			t_list *w, t_symbol *append);
 
 
 /*

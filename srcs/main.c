@@ -6,22 +6,11 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/27 17:35:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:11:20 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-/*
-void destructor() __attribute__((destructor));
-void destructor()
-{
-	ft_dprintf(0 , "destructor loop\n");
-	ft_dprintf(1 , "destructor loop\n");
-	ft_dprintf(2 , "destructor loop\n");
-	while(1);
-}
-*/
 
 int		main(int argc, char **argv, char **env)
 {
