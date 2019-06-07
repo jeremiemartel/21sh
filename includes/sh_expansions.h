@@ -69,10 +69,10 @@ int			sh_expansions_tilde_process(t_context *context, t_expansion *exp);
 int			 sh_expansions_parameter_format(t_expansion *exp, char *format);
 char	*sh_expansions_parameter_get_param(t_context *context, t_expansion *exp);
 char	*sh_expansions_parameter_get_word(t_context *context, t_expansion *exp, char *format);
-int			 sh_expansions_minus(t_context *context, t_expansion *exp, char *format);
-int			 sh_expansions_equal(t_context *context, t_expansion *exp, char *format);
-int			 sh_expansions_quest(t_context *context, t_expansion *exp, char *format);
-int			 sh_expansions_plus(t_context *context, t_expansion *exp, char *format);
+int			 sh_expansions_parameter_minus(t_context *context, t_expansion *exp, char *format);
+int			 sh_expansions_parameter_equal(t_context *context, t_expansion *exp, char *format);
+int			 sh_expansions_parameter_quest(t_context *context, t_expansion *exp, char *format);
+int			 sh_expansions_parameter_plus(t_context *context, t_expansion *exp, char *format);
 int			 sh_expansions_percent(t_context *context, t_expansion *exp, char *format);
 int			 sh_expansions_hash(t_context *context, t_expansion *exp, char *format);
 

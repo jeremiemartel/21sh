@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:52:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 15:54:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 11:14:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,16 @@ int		sh_expansions_parameter_process(t_context *context, t_expansion *exp)
 	if (!ft_strpbrk(exp->expansion, ":-=?+%"))
 		if (!ft_strchr(exp->expansion + 1, '#'))
 			return (sh_expansions_variable_process(context, exp));
-	sh_expansions_parameter_format(exp, format);
+	if (sh_expansions_parameter_format(exp, format) == FAILURE)
+		return (ERROR);
 	if (ft_strstr(":-", format) || ft_strstr("-", format))
-		return (sh_expansions_minus(context, exp, format));
+		return (sh_expansions_parameter_minus(context, exp, format));
 	else if (ft_strstr(":=", format) || ft_strstr("=", format))
-		return (sh_expansions_equal(context, exp, format));
+		return (sh_expansions_parameter_equal(context, exp, format));
 	else if (ft_strstr(":?", format) || ft_strstr("?", format))
-		return (sh_expansions_quest(context, exp, format));
+		return (sh_expansions_parameter_quest(context, exp, format));
 	else if (ft_strstr(":+", format) || ft_strstr("+", format))
-		return (sh_expansions_plus(context, exp, format));
+		return (sh_expansions_parameter_plus(context, exp, format));
 	else if (ft_strstr("%", format) || ft_strstr("%%", format))
 		return (sh_expansions_percent(context, exp, format));
 	else if (ft_strstr("#", format) || ft_strstr("##", format))

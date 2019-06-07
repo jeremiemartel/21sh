@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 15:49:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 11:19:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 
 int				sh_expansion_process(char **input, t_context *context)
 {
-	if (sh_expansion_process_recursive(input, *input, context) == FAILURE)
+	if (sh_expansion_process_recursive(input, *input, context) != SUCCESS)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -36,6 +36,7 @@ int				sh_expansion_process(char **input, t_context *context)
 int		sh_expansion_process_recursive(char **input, char *original, t_context *context)
 {
 	t_expansion	exp;
+	int			ret;
 
 	if (!ft_strpbrk(original, "$~`"))
 		return (SUCCESS);
@@ -59,15 +60,15 @@ int		sh_expansion_process_recursive(char **input, char *original, t_context *con
 			return (FAILURE);
 		}
 	}
-	if (exp.process(context, &exp) == FAILURE)
+	if ((ret = exp.process(context, &exp)) != SUCCESS)
 	{
 		t_expansion_free_content(&exp);
-		return (FAILURE);
+		return (ret);
 	}
-	if (sh_expansions_replace(&exp, input) == FAILURE)
+	if ((ret = sh_expansions_replace(&exp, input)) != SUCCESS)
 	{
 		t_expansion_free_content(&exp); /// Leaks all function long
-		return (FAILURE);
+		return (ret);
 	}
 	t_expansion_free_content(&exp); /// Leaks all function long
 	return (SUCCESS);
