@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 16:27:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 16:55:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int		lexer_rule7(t_lexer *lexer)
 {
 	if (lexer->quoted)
 		return (LEX_CONTINUE);
-	if (lexer->c == LEX_TOK_SPACE && lexer->quoted == LEX_TOK_UNKNOWN)
+	if (lexer->c == LEX_TOK_NEWLINE)
 	{
 		lexer_add_token(lexer);
 		lexer->tok_start++;
@@ -215,6 +215,19 @@ int		lexer_rule7(t_lexer *lexer)
 
 int		lexer_rule8(t_lexer *lexer)
 {
+	if (lexer->quoted)
+		return (LEX_CONTINUE);
+	if (ft_iswhite(lexer->c))
+	{
+		lexer_add_token(lexer);
+		lexer->tok_start++;
+		return (LEX_OK);
+	}
+	return (LEX_CONTINUE);
+}
+
+int		lexer_rule9(t_lexer *lexer)
+{
 	if (lexer->current_id == LEX_TOK_WORD)
 	{
 		lexer->tok_len++;
@@ -223,7 +236,7 @@ int		lexer_rule8(t_lexer *lexer)
 	return (LEX_CONTINUE);
 }
 
-int		lexer_rule9(t_lexer *lexer)
+int		lexer_rule10(t_lexer *lexer)
 {
 	if (lexer->c == '#')
 	{
@@ -236,7 +249,7 @@ int		lexer_rule9(t_lexer *lexer)
 	return (LEX_CONTINUE);
 }
 
-int		lexer_rule10(t_lexer *lexer)
+int		lexer_rule11(t_lexer *lexer)
 {
 	lexer->tok_len = 1;
 	lexer->current_id = LEX_TOK_WORD;

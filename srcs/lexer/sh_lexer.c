@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 13:49:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 18:14:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-# define LEX_RULES_LEN	10
+# define LEX_RULES_LEN	11
 
 /*
 ** sh_is_name:
@@ -89,6 +89,7 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		&lexer_rule8,
 		&lexer_rule9,
 		&lexer_rule10,
+		&lexer_rule11,
 	};
 
 	if (!(lexer.input = ft_strdup(input)))
@@ -100,15 +101,13 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		ft_dprintf(2, "Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
 	ret = LEX_CONTINUE;
-	while (ret != LEX_FAIL && ret != LEX_END && ret != LEX_CANCEL)
+	while (ret != LEX_FAIL && ret != LEX_END && ret != LEX_CANCEL && ret != LEX_ERR)
 	{
 		i = 0;
 		if (sh_verbose_lexer())
 			ft_printf("lexer in progress on : %1c\t", lexer.c);
 		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 			i++;
-		if (i >= LEX_RULES_LEN)
-			ret = LEX_FAIL;
 		if (sh_verbose_lexer())
 			ft_printf(COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
 		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
@@ -118,6 +117,8 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		return (FAILURE);//Leaks
 	if (ret == LEX_CANCEL)
 		return (LEX_CANCEL); //leaks
+	if (ret == LEX_ERR)
+		return (LEX_ERR);
 	if (lexer_lexical_conventions(&lexer) == LEX_FAIL)
 		return (LEX_FAIL);
 	if (sh_verbose_lexer())
