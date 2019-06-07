@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/29 18:52:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:52:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_stack_item	*new_stack_item(t_ast_builder *ast_builder, int state_index)
 	return (res);
 }
 
-int		process_lr_parser_ret(t_lr_parser *parser, t_action action)
+int				process_lr_parser_ret(t_lr_parser *parser, t_action action)
 {
 	if (action.action_enum == SHIFT)
 	{
@@ -50,7 +50,7 @@ int		process_lr_parser_ret(t_lr_parser *parser, t_action action)
 	return (3);
 }
 
-int		process_lr_parse(t_lr_parser *parser)
+int				process_lr_parse(t_lr_parser *parser)
 {
 	t_action		action;
 	t_stack_item	*stack_item;
@@ -75,7 +75,8 @@ int		process_lr_parse(t_lr_parser *parser)
 ** 2		-> syntax error
 ** FAILURE	-> malloc error
 */
-int		sh_lr_parse(t_lr_parser *parser)
+
+int				sh_lr_parse(t_lr_parser *parser)
 {
 	t_stack_item	*stack_item;
 	int				ret;

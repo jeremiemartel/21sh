@@ -12,12 +12,22 @@
 
 #include "sh_21.h"
 
-int		sh_append_to_historic(t_shell *shell, char *command)
+static int	sh_too_big_to_append_to_historic(char *command)
+{
+	int i;
+
+	i = 0;
+	while (command[i] && i < MAX_LEN_HISTORIC_ENTRY)
+		i++;
+	return (command[i]);
+}
+
+int			sh_append_to_historic(t_shell *shell, char *command)
 {
 	int		fd;
 	char	*str;
 
-	if (!ft_strcmp(command, "")
+	if (sh_too_big_to_append_to_historic(command) || !ft_strcmp(command, "")
 		|| (shell->historic.commands
 			&& !ft_strcmp((char *)shell->historic.commands->content, command)))
 		return (SUCCESS);
@@ -28,7 +38,8 @@ int		sh_append_to_historic(t_shell *shell, char *command)
 		free(str);
 		return (ft_perror(SH_ERR1_MALLOC, "sh_append_to_historic"));
 	}
-	if ((fd = open(PATH"/"HISTORIC_FILE, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
+	if ((fd = open(PATH"/"HISTORIC_FILE,
+			O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
 		return (ft_perror(SH_ERR1_HISTORIC, "sh_append_to_historic"));
 	ft_dprintf(fd, "%s\n", command);
 	shell->historic.head_start.next = shell->historic.commands;

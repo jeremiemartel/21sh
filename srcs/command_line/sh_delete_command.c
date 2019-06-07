@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 18:21:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 18:21:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:29:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	process_suppr(t_command_line *command_line)
 		ring_bell();
 	else
 	{
-		diff = get_right_w_char_index(command_line) - command_line->current_index;
+		diff = get_right_w_char_index(command_line)
+			- command_line->current_index;
 		i = command_line->current_index;
 		while (i + diff <= (int)command_line->dy_str->current_size)
 		{

@@ -6,38 +6,16 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 13:58:11 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 11:02:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:53:23 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		update_prompt_cwd(t_shell *shell, char **new_prompt)
+int		update_prompt_from_absolute_path(char *cwd, char **new_prompt)
 {
-	char	*cwd;
 	char	*path;
-	char	*home;
 
-	if (!(*new_prompt = ft_strdup("→ ")))
-		return (ft_perror("cwd error", "update_prompt_cwd"));
-	if (!(cwd = getcwd(NULL, 0)))
-		return (ft_free_turn(*new_prompt,
-			ft_perror("cwd error", "update_prompt_cwd")));
-	if (!(home = get_home_dup(shell)))
-	{
-		free(*new_prompt);
-		free(cwd);
-		return ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd");
-	}
-	if (!ft_strcmp(home, cwd))
-	{
-		free(cwd);
-		free(home);
-		if (!(*new_prompt = ft_strjoin_free(*new_prompt, "~", 1)))
-			return (ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
-		return (SUCCESS);
-	}
-	free(home);
 	if (get_path_from_absolute_path(cwd, &path))
 	{
 		free(cwd);
@@ -48,6 +26,33 @@ int		update_prompt_cwd(t_shell *shell, char **new_prompt)
 		return (ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
 	free(path);
 	return (SUCCESS);
+}
+
+int		update_prompt_cwd(t_shell *shell, char **new_prompt)
+{
+	char	*cwd;
+	char	*home;
+
+	if (!(*new_prompt = ft_strdup("→ ")))
+		return (ft_perror("cwd error", "update_prompt_cwd"));
+	if (!(cwd = getcwd(NULL, 0)))
+		return (ft_free_turn(*new_prompt, ft_perror("cwd error", "cwd")));
+	if (!(home = get_home_dup(shell)))
+	{
+		free(*new_prompt);
+		free(cwd);
+		return (ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
+	}
+	if (!ft_strcmp(home, cwd))
+	{
+		free(cwd);
+		free(home);
+		if (!(*new_prompt = ft_strjoin_free(*new_prompt, "~", 1)))
+			return (ft_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
+		return (SUCCESS);
+	}
+	free(home);
+	return (update_prompt_from_absolute_path(cwd, new_prompt));
 }
 
 int		update_prompt_context(t_shell *shell, t_command_line *command_line,
@@ -119,35 +124,4 @@ int		update_prompt_from_quote(t_shell *shell, t_command_line *command_line,
 	else if (quote == '\\')
 		command_line->context = E_CONTEXT_BACKSLASH;
 	return (update_prompt(shell, command_line));
-}
-
-int		process_escape(t_shell *shell, t_command_line *command_line)
-{
-	command_line->autocompletion.active = 0;
-	command_line->autocompletion.head = NULL;
-	command_line->mode = E_MODE_COMMAND;
-	if (update_prompt(shell, command_line))
-		return (FAILURE);
-	render_command_line(command_line, 0, 1);
-	return (SUCCESS);
-}
-
-int		process_i(t_shell *shell, t_command_line *command_line)
-{
-	command_line->mode = E_MODE_INSERT;
-	if (update_prompt(shell, command_line))
-		return (FAILURE);
-	render_command_line(command_line, 0, 1);
-	return (SUCCESS);
-}
-
-int		process_v(t_shell *shell, t_command_line *command_line)
-{
-	command_line->mode = E_MODE_VISUAL;
-	command_line->pinned_index = command_line->current_index;
-	if (update_prompt(shell, command_line))
-		return (FAILURE);
-	render_command_line(command_line, 0, 1);
-	return (SUCCESS);
-
 }

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:33:21 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 18:19:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:17:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		get_down_from_command(t_command_line *command_line)
 	return (ret + 1);
 }
 
-void	replace_cursor_on_index()
+void	replace_cursor_on_index(void)
 {
 	char	*str;
 	int		x;

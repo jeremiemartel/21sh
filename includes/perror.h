@@ -43,6 +43,10 @@ void		*ft_perrorn(const char *error, const char *suffix);
 int			 ft_perror_fd(int fd, const char *error, const char *suffix);
 int			 ft_perror_err_fd(int fd, const char *error, const char *suffix);
 void		*ft_perrorn_fd(int fd, const char *error, const char *suffix);
+
+/*
+**ft_perror2.c
+*/
 int			 ft_perror2(const char *error, const char *prefix, const char *suffix);
 int			 ft_perror2_err(const char *error, const char *prefix, const char *suffix);
 void		*ft_perror2n(const char *error, const char *prefix, const char *suffix);

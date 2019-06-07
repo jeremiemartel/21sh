@@ -6,46 +6,44 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/27 19:05:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 05:04:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
+static int		sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
 {
 	int fds[2];
 
 	if (pipe(fds))
 		return (ft_perror(SH_ERR1_PIPE, "add_pipe_redirections"));
-	
-	
 	if (sh_add_redirection(OUTPUT, 1, fds[PIPE_IN],
 			&from->metadata.command_metadata.redirections))
 		return (FAILURE);
-
 	if (sh_add_redirection(INPUT, 0, fds[PIPE_OUT],
 			&to->metadata.command_metadata.redirections))
 		return (FAILURE);
 	return (SUCCESS);
 }
 
-static void sh_init_command_redirections_list(t_ast_node *node)
+static void		sh_init_command_redirections_list(t_ast_node *node)
 {
-	t_list *ptr;
+	t_list		*ptr;
 	t_ast_node	*child;
 
 	ptr = (t_list *)node->children;
 	while (ptr != NULL)
 	{
 		child = ptr->content;
-		((t_ast_node *)(child->children->content))->metadata.command_metadata.redirections = NULL;
+		((t_ast_node *)(child->children->content))
+			->metadata.command_metadata.redirections = NULL;
 		if ((ptr = ptr->next))
 			ptr = ptr->next;
 	}
 }
 
-static int	sh_process_pipe_redirections(t_ast_node *node)
+static int		sh_process_pipe_redirections(t_ast_node *node)
 {
 	t_list		*ptr;
 	t_ast_node	*from;
@@ -65,11 +63,11 @@ static int	sh_process_pipe_redirections(t_ast_node *node)
 	return (SUCCESS);
 }
 
-static int sh_traverse_pipe_sequences_redirections(t_ast_node *node,
+static int		sh_traverse_pipe_sequences_redirections(t_ast_node *node,
 			t_context *context)
 {
 	t_ast_node	*from;
-	t_ast_node	*simple_command_node;;
+	t_ast_node	*simple_command_node;
 	t_list		*ptr;
 
 	sh_init_command_redirections_list(node);
@@ -89,7 +87,7 @@ static int sh_traverse_pipe_sequences_redirections(t_ast_node *node,
 	return (SUCCESS);
 }
 
-int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
+int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 {
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 		return (sh_traverse_pipe_sequences_redirections(node, context));

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 16:58:59 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 16:58:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 05:10:07 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_item		*sh_get_state_item(t_production *production,
 t_item		*sh_new_item(t_production *production, char lookaheads[NB_TERMS])
 {
 	t_item	*res;
-	int i;
+	int		i;
 
 	if (!(res = malloc(sizeof(t_item))))
 		return (NULL);
@@ -64,7 +64,6 @@ int			sh_process_add_to_closure(t_production *production,
 	return (0);
 }
 
-
 t_symbol	*sh_get_next_non_terminal(t_item *item, t_list **w_ptr)
 {
 	t_symbol *res;
@@ -79,7 +78,7 @@ t_symbol	*sh_get_next_non_terminal(t_item *item, t_list **w_ptr)
 	}
 }
 
-int		sh_update_lookaheads(t_item *item, char lookaheads[NB_TERMS])
+int			sh_update_lookaheads(t_item *item, char lookaheads[NB_TERMS])
 {
 	int i;
 	int changes;
@@ -88,7 +87,7 @@ int		sh_update_lookaheads(t_item *item, char lookaheads[NB_TERMS])
 	changes = 0;
 	while (i < NB_TERMS)
 	{
-		if (lookaheads[i] && !item->lookaheads[i])	
+		if (lookaheads[i] && !item->lookaheads[i])
 		{
 			item->lookaheads[i] = 1;
 			changes = 1;

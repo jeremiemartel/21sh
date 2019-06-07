@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 19:41:40 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 19:41:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:31:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		process_shift_right(t_command_line *c_line)
 {
 	int		index;
 	t_word	word;
-	int ret;
+	int		ret;
 
 	index = c_line->current_index + 1;
 	if ((ret = process_process_shift_right(c_line, &word, &index)) != 3)
@@ -53,7 +53,8 @@ int		process_shift_right(t_command_line *c_line)
 	return (ft_del_turn_char(&word.str, SUCCESS));
 }
 
-int		process_process_shift_left(t_command_line *command_line, t_word *word, int *index)
+int		process_process_shift_left(t_command_line *command_line,
+			t_word *word, int *index)
 {
 	if (populate_word_by_index(command_line->dy_str->str, *index, word)
 		!= SUCCESS)
@@ -89,7 +90,8 @@ int		process_shift_left(t_command_line *command_line)
 	index = command_line->current_index;
 	if ((ret = process_process_shift_left(command_line, &word, &index)) != 3)
 		return (ret);
-	render_command_line(command_line, -(command_line->current_index - index), 1);
+	render_command_line(command_line,
+		-(command_line->current_index - index), 1);
 	command_line->current_index = index;
 	return (ft_del_turn_char(&word.str, SUCCESS));
 }

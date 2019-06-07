@@ -32,14 +32,6 @@ int		sh_set_shell(struct termios term, int ret)
 	return (ret);
 }
 
-void	move(int x, int y)
-{
-	char *res;
-
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, x, y), 1, putchar_int);
-}
-
 int		clear_all(void)
 {
 	char *res;

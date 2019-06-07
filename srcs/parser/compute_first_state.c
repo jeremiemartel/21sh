@@ -6,13 +6,14 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:21:04 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 16:26:18 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:35:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		populate_first_state(t_lr_parser *parser, char lookaheads[NB_TERMS], t_state *first_state)
+int			populate_first_state(t_lr_parser *parser,
+				char lookaheads[NB_TERMS], t_state *first_state)
 {
 	t_item	*first_item;
 

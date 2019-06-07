@@ -6,11 +6,31 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/29 18:52:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:59:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		sh_process_shift_adds_stack_item(t_lr_parser *parser,
+			t_stack_item *stack_item_ast_builder,
+				t_stack_item *stack_item_state_index)
+{
+	if (ft_lstaddnew_ptr(&parser->stack,
+		stack_item_ast_builder, sizeof(t_stack_item *)))
+	{
+		sh_free_stack_item(stack_item_state_index);
+		sh_free_stack_item(stack_item_ast_builder);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_process_shift_adds"));
+	}
+	if (ft_lstaddnew_ptr(&parser->stack,
+		stack_item_state_index, sizeof(t_stack_item *)))
+	{
+		sh_free_stack_item(stack_item_state_index);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_process_shift_adds"));
+	}
+	return (SUCCESS);
+}
 
 int		sh_process_shift_adds(t_lr_parser *parser,
 			t_ast_builder *ast_builder, int state_index)
@@ -29,25 +49,13 @@ int		sh_process_shift_adds(t_lr_parser *parser,
 		sh_free_stack_item(stack_item_state_index);
 		return (ft_perror(SH_ERR1_MALLOC, "sh_process_shift_adds"));
 	}
-	if (ft_lstaddnew_ptr(&parser->stack,
-		stack_item_ast_builder, sizeof(t_stack_item *)))
-	{
-		sh_free_stack_item(stack_item_state_index);
-		sh_free_stack_item(stack_item_ast_builder);
-		return (ft_perror(SH_ERR1_MALLOC, "sh_process_shift_adds"));
-	}
-	if (ft_lstaddnew_ptr(&parser->stack,
-		stack_item_state_index, sizeof(t_stack_item *)))
-	{
-		sh_free_stack_item(stack_item_state_index);
-		return (ft_perror(SH_ERR1_MALLOC, "sh_process_shift_adds"));
-	}
-	return (SUCCESS);
+	return (sh_process_shift_adds_stack_item(parser, stack_item_ast_builder,
+		stack_item_state_index));
 }
 
 int		sh_process_shift(int state_index, t_lr_parser *parser)
 {
-	t_token	*token;
+	t_token			*token;
 	t_ast_builder	*ast_builder;
 
 	token = ft_lstpop_ptr(&parser->tokens);

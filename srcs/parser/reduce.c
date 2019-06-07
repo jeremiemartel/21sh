@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:57:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/29 19:29:44 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:54:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,9 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 	ast_builder_list = NULL;
 	ast_builder = sh_new_ast_builder(NULL, production->from);
 	parser->cst_root = ast_builder->cst_node;
-//	ft_printf("GREEN\n");
-//	system("leaks 21sh");
-//	sleep(1);
 	if (sh_process_reduce_pop(production, parser, &ast_builder_list,
 				&replacing_ast_node))
 		return (FAILURE);
-//	ft_printf("RED\n");
-//	system("leaks 21sh");
-//	sleep(1);
 	if (replacing_ast_node)
 	{
 		free(ast_builder->ast_node);

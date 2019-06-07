@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:41:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 17:11:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:10:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,21 @@ int		sh_init_terminal_database(char **env)
 
 	termtype = get_env_value(env, "TERM");
 	if (termtype == NULL)
+	{
 		return (ft_perror("Specify a terminal type with 'export TERM'",
-			"sh_init_terminal_database"));
+				"sh_init_terminal_database"));
+	}
 	success = tgetent(NULL, termtype);
 	if (success < 0)
+	{
 		return (ft_perror("Could not access the termcap data base",
-			"sh_init_terminal_database"));
+				"sh_init_terminal_database"));
+	}
 	if (success == 0)
+	{
 		return (ft_perror("The terminal specified is not defined",
-			"sh_init_terminal_database"));
+					"sh_init_terminal_database"));
+	}
 	return (SUCCESS);
 }
 
@@ -46,8 +52,10 @@ int		sh_init_terminal(t_shell *shell, char **env)
 	shell->term.c_cc[VMIN] = 1;
 	shell->term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &shell->term) == -1)
+	{
 		return (ft_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));
+	}
 	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
 	return (0);
 }

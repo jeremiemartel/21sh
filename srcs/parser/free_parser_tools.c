@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:14:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 17:14:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:48:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	sh_free_stack_item_lst(void *si, size_t dummy)
 	sh_free_stack_item((t_stack_item *)si);
 }
 
-void    free_state_lst(void *s, size_t dummy)
+void	free_state_lst(void *s, size_t dummy)
 {
 	(void)dummy;
 	sh_free_state((t_state *)s);

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 22:29:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/23 18:17:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:17:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		get_path_from_absolute_path(char *str, char **path)
 	{
 		if (index == (int)ft_strlen(str) - 1)
 		{
-			if(!(*path = ft_strdup(str)))
+			if (!(*path = ft_strdup(str)))
 				return (1);
 		}
 		else if (!(*path = ft_strnrest(str, index + 1)))
@@ -50,6 +50,7 @@ int		get_path_from_absolute_path(char *str, char **path)
 	}
 	return (0);
 }
+
 int		get_path_and_file_from_str(char *str, char **path, char **file)
 {
 	int index;

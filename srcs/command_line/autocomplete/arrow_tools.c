@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 01:47:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/04 01:47:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/06 23:26:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	process_autocompletion_switch(t_command_line *command_line,
 			t_file *prev_file, t_file *file)
 {
-	(void)prev_file;
 	int cl_nb_rows;
 
+	(void)prev_file;
 	cl_nb_rows = command_line_nb_rows(command_line);
 	if (file->y >= g_glob.winsize.ws_row
 		+ command_line->autocompletion.scrolled_lines - (cl_nb_rows)
@@ -26,8 +26,8 @@ void	process_autocompletion_switch(t_command_line *command_line,
 		if (file->y >= g_glob.winsize.ws_row
 			+ command_line->autocompletion.scrolled_lines - (cl_nb_rows))
 		{
-			command_line->autocompletion.scrolled_lines
-				= file->y - g_glob.winsize.ws_row + 1 + cl_nb_rows;
+			command_line->autocompletion.scrolled_lines =
+				file->y - g_glob.winsize.ws_row + 1 + cl_nb_rows;
 		}
 		else
 		{

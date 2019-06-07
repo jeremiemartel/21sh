@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 12:37:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:28:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		process_enter(t_command_line *command_line)
 	return (1);
 }
 
-void		process_ctrl_c(t_shell *shell, t_command_line *command_line)
+void	process_ctrl_c(t_shell *shell, t_command_line *command_line)
 {
 	command_line->autocompletion.head = NULL;
 	command_line->autocompletion.active = 0;
@@ -55,13 +55,13 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 		if (process_enter(command_line) == 0)
 			return (SUCCESS);
 	}
-	else if (buffer[0] == 4) //ctrl D
+	else if (buffer[0] == 4)
 	{
 		if (command_line->dy_str->current_size == 0
-			&& command_line->context == E_CONTEXT_STANDARD)
+				&& command_line->context == E_CONTEXT_STANDARD)
 		{
-				shell->running = 0;
-				ft_dprintf(0, "exit\n");
+			shell->running = 0;
+			ft_dprintf(0, "exit\n");
 			return (CTRL_D);
 		}
 		else
@@ -77,34 +77,42 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 	return (KEEP_READ);
 }
 
+int		process_key_insert_printable_utf8(unsigned char buffer[READ_BUFF_SIZE],
+		t_shell *shell, t_command_line *command_line, int ret)
+{
+	if (command_line->searcher.active)
+	{
+		if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, ret))
+			return (FAILURE);
+		buffer[0] = 0;
+		if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, 1))
+			return (FAILURE);
+		update_research_historic(command_line, shell, 0);
+	}
+	else
+	{
+		if (sh_add_to_command(command_line, buffer, ret))
+			return (FAILURE);
+		render_command_line(command_line, 1, 1);
+	}
+	return (SUCCESS);
+}
+
 int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 		t_shell *shell, t_command_line *command_line, int ret)
 {
 	if (buffer[0] != 10 && buffer[0] != 9
 			&& (buffer[0] != 27 || buffer[1] != 91
-				|| (buffer[2] < 65 || buffer[2] > 68))) //if no autocompletion relative keys
+				|| (buffer[2] < 65 || buffer[2] > 68)))
 	{
 		command_line->autocompletion.head = NULL;
 		command_line->autocompletion.active = 0;
 	}
 	if (is_printable_utf8(buffer, ret))
 	{
-		if (command_line->searcher.active)
-		{
-			if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, ret))
-				return (FAILURE);
-			buffer[0] = 0;
-			if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, 1))
-				return (FAILURE);
-			//render_command_line(command_line, 0, 0);
-			update_research_historic(command_line, shell, 0);
-		}
-		else
-		{
-			if (sh_add_to_command(command_line, buffer, ret))
-				return (1);
-			render_command_line(command_line, 1, 1);
-		}
+		if (process_key_insert_printable_utf8(buffer,
+				shell, command_line, ret) != SUCCESS)
+			return (FAILURE);
 	}
 	else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 65)
 		process_up(shell, command_line);

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/05 17:13:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:50:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		sh_add_prod(t_symbol *symbol, t_cfg *cfg, int nb_symbols, ...)
 {
 	va_list		ap;
 	int			symbol_index;
-	int 		i;
+	int			i;
 	static int	index = 0;
 
 	if (ft_lstaddnew_ptr_last(&symbol->productions,
@@ -44,7 +44,7 @@ int		init_start_symbol(t_cfg *cfg, t_symbol *symbol)
 {
 	symbol->id = NB_SYMBOLS + 1;
 	symbol->productions = NULL;
-	sh_add_prod(symbol, cfg, 1, PROGRAM); //(1)
+	sh_add_prod(symbol, cfg, 1, PROGRAM);
 	ft_strcpy(symbol->debug, "S");
 	return (0);
 }
@@ -70,6 +70,7 @@ void	init_symbol(t_symbol *symbol, int index)
 int		init_context_free_grammar(t_cfg *cfg)
 {
 	int i;
+
 	init_start_symbol(cfg, &cfg->start_symbol);
 	i = 0;
 	while (i < NB_SYMBOLS)

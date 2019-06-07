@@ -6,12 +6,15 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 12:11:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 12:16:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_EXEC_H
 # define SH_EXEC_H
+
+# define DGREAT_OPT		(O_WRONLY | O_APPEND | O_CREAT)
+# define GREAT_OPT		(O_WRONLY | O_TRUNC | O_CREAT)
 
 typedef enum			e_redirection_type
 {

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/05 15:08:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 12:17:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 {
-	t_list *ptr;
-	t_ast_node *child;
+	t_list		*ptr;
+	t_ast_node	*child;
 
 	ptr = node->children;
 	while (ptr != NULL)
@@ -36,11 +36,8 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 	return (SUCCESS);
 }
 
-int		sh_traverse_list(t_ast_node *node, t_context *context)
+int			sh_traverse_list(t_ast_node *node, t_context *context)
 {
-	(void)node;
-	(void)context;
-
 	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
 		return (sh_traverse_tools_browse(node, context));
 	else

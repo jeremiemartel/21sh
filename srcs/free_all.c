@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 14:27:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/29 19:45:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 02:59:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	free_file(t_file *file)
 	free(file);
 }
 
-void    free_file_dlst(void *f, size_t dummy)
+void	free_file_dlst(void *f, size_t dummy)
 {
 	(void)dummy;
 	free_file((t_file *)f);
 }
 
-void		sh_free_all(t_shell *shell)
+void	sh_free_all(t_shell *shell)
 {
 	sh_free_parser(&shell->parser);
 	sh_free_command_line(&g_glob.command_line);

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 19:14:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 11:08:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:52:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@ static int	heredoc_ret(t_shell *shell, t_command_line *command_line, int ret)
 	return (ret);
 }
 
-static char	*heredoc_ret_str(t_shell *shell, t_command_line *command_line, char *str)
+static char	*heredoc_ret_str(t_shell *shell,
+			t_command_line *command_line, char *str)
 {
 	command_line->context = E_CONTEXT_STANDARD;
 	update_prompt(shell, command_line);
 	return (str);
 }
 
-int		process_heredoc_through_command(char **res, t_shell *shell,
-	char *(*heredoc_func)(char *), t_command_line *command_line)
+int			process_heredoc_through_command(char **res, t_shell *shell,
+	char *(*heredoc_func)(const char *), t_command_line *command_line)
 {
 	char	*tmp;
 
@@ -48,17 +49,18 @@ int		process_heredoc_through_command(char **res, t_shell *shell,
 	return (3);
 }
 
-void	init_heredoc_command_line(t_shell *shell, t_command_line *command_line, char *stop)
+void		init_heredoc_command_line(t_shell *shell,
+				t_command_line *command_line, char *stop)
 {
 	command_line->heredoc_eof = stop;
 	flush_command_line(command_line);
-	render_command_line(command_line, - g_glob.cursor, 1);
+	render_command_line(command_line, -g_glob.cursor, 1);
 	command_line->context = E_CONTEXT_HEREDOC;
 	update_prompt(shell, command_line);
 }
 
-char	*heredoc(t_shell *shell, char *stop,
-			char *(*heredoc_func)(char *), int *ret)
+char		*heredoc(t_shell *shell, char *stop,
+			char *(*heredoc_func)(const char *), int *ret)
 {
 	char			*res;
 	t_command_line	*command_line;

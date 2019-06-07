@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/29 12:34:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 03:15:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ void	transmit_sig(int signal)
 {
 	if (g_parent)
 		kill(g_parent, signal);
-	if (g_glob.command_line.dy_str)
+	if (isatty(0) && g_glob.command_line.dy_str)
 	{
 		get_down_from_command(&g_glob.command_line);
 		g_glob.cursor = 0;
 		g_glob.command_line.dy_str->current_size = 0;
 		g_glob.command_line.current_index = 0;
-		ft_bzero(g_glob.command_line.dy_str->str, g_glob.command_line.dy_str->max_size);
+		ft_bzero(g_glob.command_line.dy_str->str,
+			g_glob.command_line.dy_str->max_size);
 		g_glob.command_line.nb_chars = 0;
 		render_command_line(&g_glob.command_line, 0, 1);
 	}
@@ -53,9 +54,11 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 		if (redir->fd >= 0)
 		{
 			if (sh_verbose_pipe())
-				ft_dprintf(2, "\t%d became %d\n", redir->fd, redir->redirected_fd);
+				ft_dprintf(2, "\t%d became %d\n",
+					redir->fd, redir->redirected_fd);
 			if (dup2(redir->fd, redir->redirected_fd) == -1)
-				return (ft_perror(SH_ERR1_INTERN_ERR, "process_exec_dup_pipes 2"));
+				return (ft_perror(SH_ERR1_INTERN_ERR,
+					"process_exec_dup_pipes 2"));
 		}
 		else if (redir->fd == -1)
 		{

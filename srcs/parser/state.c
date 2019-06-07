@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:23:57 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 16:23:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:59:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-t_state *sh_new_state(void)
+t_state		*sh_new_state(void)
 {
 	t_state		*res;
 	int			i;
@@ -27,7 +27,7 @@ t_state *sh_new_state(void)
 	return (res);
 }
 
-void	sh_free_state(t_state *state)
+void		sh_free_state(t_state *state)
 {
 	int i;
 
