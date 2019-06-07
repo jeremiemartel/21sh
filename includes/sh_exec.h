@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/05 15:07:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 12:11:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int			sh_process_execute(t_context *context);;
 ** t_context.c
 */
 int		t_context_init(t_context *context, t_shell *shell);
-void	t_context_free(t_context *context);
+void	t_context_free_content(t_context *context);
 
 /*
 ** sh_redirections.c
