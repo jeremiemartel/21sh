@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 15:49:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/06 16:37:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		sh_expansions_variable_detect(char *start)
 	if (!(ft_isalpha(start[i]) || start[i] == '_'))
 		return (-1);
 	i++;
-	while (ft_isalnum(start[i + 1]) || start[i + 1] == '_')
+	while (start[i] && (ft_isalnum(start[i + 1]) || start[i + 1] == '_'))
 		i++;
 	return (i);
 }
