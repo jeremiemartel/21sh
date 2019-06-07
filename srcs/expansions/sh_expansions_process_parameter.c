@@ -6,11 +6,23 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 16:26:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 19:59:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+static void	sh_expansions_parameter_fill_format(char *head, char *format, int n)
+{
+	format[n] = 0;
+	n--;
+	while (n >= 0)
+	{
+		format[n] = head[n];
+		n--;
+	}
+	return ;
+}
 
 int		sh_expansions_parameter_format(t_expansion *exp, char *format)
 {
@@ -30,16 +42,14 @@ int		sh_expansions_parameter_format(t_expansion *exp, char *format)
 	head++;
 	while (ft_isalnum((int)*head) || *head == '_')
 		head++;
-	if (!ft_chpbrk(head[0], ":-=?+%"))
+	if (ft_chpbrk(head[0], "-=?+") == 1)
+		sh_expansions_parameter_fill_format(head, format + i, 1);
+	else if (ft_chpbrk(head[0], ":") == 1 && ft_chpbrk(head[1], "-=?+") == 1)
+		sh_expansions_parameter_fill_format(head, format + i, 2);
+	else if (ft_strnstr(head, "##", 2) || ft_strnstr(head, "%%", 2))
+		sh_expansions_parameter_fill_format(head, format + i, 2);
+	else
 		return (ft_perror_err(exp->original, "bad substitution"));
-	format[i] = *head;
-	i++;
-	if (ft_chpbrk(head[0], ":#%") && ft_chpbrk(head[1], "-=?+#%"))
-	{
-		format[i] = head[1];
-		i++;
-	}
-	format[i] = 0;
 	return (SUCCESS);
 }
 
