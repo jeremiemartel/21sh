@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    test_param_exp.sh                                  :+:      :+:    :+:    #
+#    test_expansions_param.sh                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:50 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/06 13:33:48 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/06 16:57:01 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,6 +114,9 @@ launch "Parameter expansion"
 	test 'echo $}'
 	test 'echo ${()}'
 	test 'echo ${asdw+}'
+	test 'echo ${:asd}'
+	test 'echo ${:}'
+	test 'echo ${s:}'
 	## Valid tests
 	test 'echo ${X:=abc}'
 	test 'echo ${posix:?}'
