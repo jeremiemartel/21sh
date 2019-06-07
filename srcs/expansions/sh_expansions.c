@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 11:19:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 11:50:35 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 {
 	if (!node || !node->token || !node->token->value)
 		return (SUCCESS);
-	if (sh_expansion_process(&node->token->value, context) == FAILURE)
-		return (FAILURE);
+	return (sh_expansion_process(&node->token->value, context));
 	// recursilvely find expansion
 	// process expansions 
 	// field splitting
@@ -28,9 +27,7 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 
 int				sh_expansion_process(char **input, t_context *context)
 {
-	if (sh_expansion_process_recursive(input, *input, context) != SUCCESS)
-		return (FAILURE);
-	return (SUCCESS);
+	return (sh_expansion_process_recursive(input, *input, context));
 }
 
 int		sh_expansion_process_recursive(char **input, char *original, t_context *context)
