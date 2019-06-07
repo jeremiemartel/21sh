@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 12:17:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 13:40:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,21 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 {
 	t_list		*ptr;
 	t_ast_node	*child;
+	int			ret;
 
 	ptr = node->children;
 	while (ptr != NULL)
 	{
 		child = (t_ast_node *)ptr->content;
 		context->phase = E_TRAVERSE_PHASE_EXPANSIONS;
-		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
-			return (FAILURE);
+		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))
+			return (ret);
 		context->phase = E_TRAVERSE_PHASE_REDIRECTIONS;
-		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
-			return (FAILURE);
+		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))
+			return (ret);
 		context->phase = E_TRAVERSE_PHASE_EXECUTE;
-		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
-			return (FAILURE);
+		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))
+			return (ret);
 		if ((ptr = ptr->next))
 			ptr = ptr->next;
 	}
