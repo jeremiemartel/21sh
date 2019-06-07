@@ -68,7 +68,7 @@ cyan=\\033[36m
 grey=\\033[37m
 eoc=\\033[0m
 
-make -C $path && cp ${path}/${exec} .
+make -C $path debug && cp ${path}/${exec} .
 
 ((passed=0))
 ((tried=0))

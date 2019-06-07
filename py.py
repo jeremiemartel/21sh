@@ -21,12 +21,16 @@
 import os
 import re;
 
-dir = "./srcs/expansions"
-header = "./includes/expansions.h"
+dir = "./srcs/"
+
+#dir = "./srcs/expansions"
+#header = "./includes/expansions.h"
 
 format = "^(void|int|char|t_*)"
 
 for filename in os.listdir(dir):
+	if (os.path.isfile(os.path.join(dir, filename)) == False):
+		continue
 	fd = open(os.path.join(dir, filename))
 	line1 = fd.readline()
 	print("/*")
