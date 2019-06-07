@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 14:16:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 16:26:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,8 +185,7 @@ int		sh_expansions_percent(t_context *context, t_expansion *exp, char *format)
 
 	param = sh_expansions_parameter_get_param(context, exp);
 	word = sh_expansions_parameter_get_word(context, exp, format);
-	exp->res = ft_dy_str_new_str("Percent Parameter expansion not implemented yet");
-	return (SUCCESS);
+	return (ft_perror_err("Percent Parameter expansion not implemented yet", NULL));
 }
 
 // Need to implement Hash !
@@ -197,6 +196,5 @@ int		sh_expansions_hash(t_context *context, t_expansion *exp, char *format)
 
 	param = sh_expansions_parameter_get_param(context, exp);
 	word = sh_expansions_parameter_get_word(context, exp, format);
-	exp->res = ft_dy_str_new_str("Hash Parameter expansion not implemented yet");
-	return (SUCCESS);
+	return (ft_perror_err("Hash Parameter expansion not implemented yet", NULL));
 }
