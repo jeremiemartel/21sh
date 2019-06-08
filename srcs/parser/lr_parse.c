@@ -33,19 +33,19 @@ t_stack_item	*new_stack_item(t_ast_builder *ast_builder, int state_index)
 
 int				process_lr_parser_ret(t_lr_parser *parser, t_action action)
 {
-	if (action.action_enum == SHIFT)
+	if (action.action_enum == E_ACTION_SHIFT)
 	{
 		if (sh_process_shift(action.action_union.state_index, parser))
 			return (FAILURE);
 	}
-	else if (action.action_enum == REDUCE)
+	else if (action.action_enum == E_ACTION_REDUCE)
 	{
 		if (sh_process_reduce(action.action_union.production, parser))
 			return (FAILURE);
 	}
-	else if (action.action_enum == ACCEPT)
+	else if (action.action_enum == E_ACTION_ACCEPT)
 		return (SUCCESS);
-	else if (action.action_enum == ERROR)
+	else if (action.action_enum == E_ACTION_ERROR)
 		return (2);
 	return (3);
 }

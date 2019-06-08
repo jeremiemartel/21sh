@@ -47,10 +47,10 @@ typedef struct		s_item
 
 typedef enum		e_action_enum
 {
-	ERROR,
-	ACCEPT,
-	SHIFT,
-	REDUCE
+	E_ACTION_ERROR,
+	E_ACTION_ACCEPT,
+	E_ACTION_SHIFT,
+	E_ACTION_REDUCE
 }					t_action_enum;
 
 typedef union		u_action_union

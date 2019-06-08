@@ -35,7 +35,7 @@ t_action	**sh_create_tables(t_lr_parser *parser)
 		}
 		j = 0;
 		while (j < NB_SYMBOLS)
-			res[i][j++].action_enum = ERROR;
+			res[i][j++].action_enum = E_ACTION_ERROR;
 		i++;
 	}
 	return (res);
