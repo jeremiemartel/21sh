@@ -6,12 +6,20 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:52:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 16:35:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/08 19:15:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+/*
+** sh_expansions_parameter_detect:
+**	Function used to detect valid parameter expansion. 
+**
+** return :
+**		-1 : String given is invalid
+**		<0 : Lenght of the valid expansion detecteda
+*/
 int		sh_expansions_parameter_detect(char *start)
 {
 	int		i;
@@ -41,6 +49,16 @@ int		sh_expansions_parameter_detect(char *start)
 	return (i);
 }
 
+/*
+** sh_expansions_parameter_fill:
+**	Try to fill type, expansion, original and process fields of a t_expansion
+**	structure.
+**
+**	Return Value:
+**		FAILURE : malloc error
+**		ERROR : expansion is invalid
+**		SUCCESS : successfully filled expansion
+*/
 int		sh_expansions_parameter_fill(t_expansion *exp, char *start)
 {
 	int		i;
@@ -56,6 +74,15 @@ int		sh_expansions_parameter_fill(t_expansion *exp, char *start)
 	return (SUCCESS);
 }
 
+/*
+** sh_expansions_variable_process:
+**	Function called to fill the expansion's res field using informations given
+**	in the t_expansion structure.
+**
+**	return Value:
+**		FAILURE : malloc error
+**		SUCCESS : Successfullly filled exp->res
+*/
 int		sh_expansions_parameter_process(t_context *context, t_expansion *exp)
 {
 	char	format[4];

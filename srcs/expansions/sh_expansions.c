@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 11:50:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/08 18:33:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 int			sh_expansions(t_context *context, t_ast_node *node)
 {
+	ft_dprintf(2, "expansion started\n");
 	if (!node || !node->token || !node->token->value)
 		return (SUCCESS);
-	return (sh_expansion_process(&node->token->value, context));
+	// return (sh_expansion_process(&node->token->value, context));
+	int		ret;
+	ret = sh_expansion_process(&node->token->value, context);
+	ft_dprintf(2, "expansion finished : %s\nret : %d\n", node->token->value, ret);
+	return (ret);
+
 	// recursilvely find expansion
 	// process expansions 
 	// field splitting
 	// [ Pathname expansion ]
 	// Quote removal
-	return (SUCCESS);
 }
 
 int				sh_expansion_process(char **input, t_context *context)
@@ -44,7 +49,7 @@ int		sh_expansion_process_recursive(char **input, char *original, t_context *con
 	if (sh_expansions_init(original, &exp) != SUCCESS)
 	{
 		t_expansion_free_content(&exp);
-		return (FAILURE);
+		return (ERROR);
 	}
 	if (ft_strpbrk(exp.expansion, "~`$") && !ft_strstr(exp.expansion, "$$"))
 	{
