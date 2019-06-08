@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/06 16:09:28 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/06 16:16:33 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/08 18:16:59 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ launch "Hard tests"
 	test 'echo ~oadasd'
 
 launch "Quote tests"
-	test 'echo ~as\dasdas/'
-	test 'echo ~as"dasd"as/'
+				# test 'echo ~as\dasdas/'
+				# test 'echo ~as"dasd"as/'
 	test 'echo ~    /~ /~ "~"'
 	test 'echo "~"\~'
 finish
