@@ -245,19 +245,19 @@ void	sh_print_lr_table(t_lr_parser *parser)
 		j = 0;
 		while (j < NB_SYMBOLS)
 		{
-			if (parser->lr_tables[i][j].action_enum == ERROR)
+			if (parser->lr_tables[i][j].action_enum == E_ACTION_ERROR)
 			{
 				ft_printf("%s\tERROR%s", RED, EOC);
 			}
-			else if (parser->lr_tables[i][j].action_enum == REDUCE)
+			else if (parser->lr_tables[i][j].action_enum == E_ACTION_REDUCE)
 			{
 				ft_printf("\tR%d", parser->lr_tables[i][j].action_union.production->index);
 			}
-			else if (parser->lr_tables[i][j].action_enum == ACCEPT)
+			else if (parser->lr_tables[i][j].action_enum == E_ACTION_ACCEPT)
 			{
 				ft_printf("\tACCEPT");
 			}
-			else if (parser->lr_tables[i][j].action_enum == SHIFT)
+			else if (parser->lr_tables[i][j].action_enum == E_ACTION_SHIFT)
 			{
 				ft_printf("\tS%d", parser->lr_tables[i][j].action_union.state_index);
 			}

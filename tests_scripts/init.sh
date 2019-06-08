@@ -1,5 +1,5 @@
-empty_binary="empty"
-empty_main="empty.c"
+empty_binary="__empty__binary__"
+empty_main="__test_empty__test__.c"
 supp_file="my_supp.supp"
 echo "int main(void){ return (0); }" > $empty_main
 gcc -o $empty_binary $empty_main

@@ -25,11 +25,11 @@ void	sh_fill_reduce(t_state *state, t_item *item, t_lr_parser *parser)
 		{
 			if (item->production->from == &parser->cfg.start_symbol
 					&& (i == end_of_input_index))
-				parser->lr_tables[state->index][i].action_enum = ACCEPT;
+				parser->lr_tables[state->index][i].action_enum = E_ACTION_ACCEPT;
 			else
 			{
 				parser->lr_tables[state->index]
-					[i].action_enum = REDUCE;
+					[i].action_enum = E_ACTION_REDUCE;
 				parser->lr_tables[state->index]
 					[i].action_union.production = item->production;
 			}
@@ -41,7 +41,8 @@ void	sh_fill_reduce(t_state *state, t_item *item, t_lr_parser *parser)
 void	sh_fill_tables_by_transition(t_state *state, t_transition *transition,
 			t_lr_parser *parser)
 {
-	parser->lr_tables[state->index][transition->symbol->id].action_enum = SHIFT;
+	parser->lr_tables[state->index][transition->symbol->id].action_enum =
+		E_ACTION_SHIFT;
 	parser->lr_tables[state->index][transition->symbol->id].
 		action_union.state_index = transition->state->index;
 }
