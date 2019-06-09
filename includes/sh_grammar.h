@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:43:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/14 16:02:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/09 19:09:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ void	sh_print_production(t_production *production);
 ** init_cfg.c
 */
 int		init_context_free_grammar(t_cfg *cfg);
-
-t_cfg		*g_cfg;
 
 int		sh_init_prod_program(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_complete_commands(t_cfg *cfg, t_symbol *symbol);
