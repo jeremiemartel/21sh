@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 10:50:09 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/23 13:33:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 10:48:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int		lexer_quoting_simple_quote(t_lexer *lexer)
 	{
 		lexer->quoted = 0;
 		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
+		if (lexer->current_id == LEX_TOK_UNKNOWN)
+			lexer->current_id = LEX_TOK_WORD;
 	}
 	else
 		lexer->tok_len++;
@@ -63,6 +65,8 @@ int		lexer_quoting_double_quote(t_lexer *lexer)
 	{
 		lexer->quoted = 0;
 		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
+		if (lexer->current_id == LEX_TOK_UNKNOWN)
+			lexer->current_id = LEX_TOK_WORD;
 	}
 	else
 		lexer->tok_len++;
