@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:52:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/08 19:15:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 17:00:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 /*
 ** sh_expansions_parameter_detect:
-**	Function used to detect valid parameter expansion. 
+**	Function used to detect valid parameter expansion.
 **
 ** return :
 **		-1 : String given is invalid
 **		<0 : Lenght of the valid expansion detecteda
 */
+
 int		sh_expansions_parameter_detect(char *start)
 {
 	int		i;
@@ -31,7 +32,7 @@ int		sh_expansions_parameter_detect(char *start)
 	{
 		if (start[i] == '\\' && start[i + 1])
 			i += 2;
-		else if (!quoted && (start[i] == '\'' || start [i] == '"'))
+		else if (!quoted && (start[i] == '\'' || start[i] == '"'))
 		{
 			quoted = start[i];
 			i++;
@@ -59,6 +60,7 @@ int		sh_expansions_parameter_detect(char *start)
 **		ERROR : expansion is invalid
 **		SUCCESS : successfully filled expansion
 */
+
 int		sh_expansions_parameter_fill(t_expansion *exp, char *start)
 {
 	int		i;
@@ -83,6 +85,7 @@ int		sh_expansions_parameter_fill(t_expansion *exp, char *start)
 **		FAILURE : malloc error
 **		SUCCESS : Successfullly filled exp->res
 */
+
 int		sh_expansions_parameter_process(t_context *context, t_expansion *exp)
 {
 	char	format[4];
@@ -105,11 +108,7 @@ int		sh_expansions_parameter_process(t_context *context, t_expansion *exp)
 		return (sh_expansions_parameter_quest(context, exp, format));
 	else if (ft_strstr(":+", format) || ft_strstr("+", format))
 		return (sh_expansions_parameter_plus(context, exp, format));
-	else if (ft_strstr("%", format) || ft_strstr("%%", format))
-		return (sh_expansions_percent(context, exp, format));
-	else if (ft_strstr("#", format) || ft_strstr("##", format))
-		return (sh_expansions_hash(context, exp, format));
 	else
-		return (ft_perror("unrecognized modifier", NULL));
+		return (ft_perror_err(exp->original, "bad substitution"));
 	return (SUCCESS);
 }

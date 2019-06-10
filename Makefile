@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/10 15:00:59 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 16:56:48 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -173,7 +173,8 @@ EXP_SRCS_NO_PREFIX =	\
 						sh_expansions.c \
 						sh_expansions_init.c \
 						sh_expansions_parameter.c \
-						sh_expansions_process_parameter.c \
+						sh_expansions_parameter_process.c \
+						sh_expansions_parameter_tools.c \
 						sh_expansions_tilde.c \
 						sh_expansions_variable.c \
 						t_expansion.c
