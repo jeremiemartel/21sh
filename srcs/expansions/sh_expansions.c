@@ -6,7 +6,11 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2019/06/09 17:51:27 by jmartel          ###   ########.fr       */
+=======
 /*   Updated: 2019/06/10 17:43:49 by jmartel          ###   ########.fr       */
+>>>>>>> c8325bacfe72e3e80c19699bf680ece0b5d11f1f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +29,16 @@
 
 static int	sh_expansions_init(char *original, t_expansion *exp)
 {
+<<<<<<< HEAD
+	if (!node || !node->token || !node->token->value)
+		return (SUCCESS);
+	return (sh_expansion_process(&node->token->value, context));
+
+	// recursilvely find / process expansions
+	// field splitting
+	// [ Pathname expansion ]
+	// Quote removal
+=======
 	char	*start;
 
 	exp->res = NULL;
@@ -42,6 +56,7 @@ static int	sh_expansions_init(char *original, t_expansion *exp)
 		return (sh_expansions_tilde_fill(exp, start));
 	else
 		return (ERROR);
+>>>>>>> c8325bacfe72e3e80c19699bf680ece0b5d11f1f
 }
 
 int			sh_expansions(t_context *context, t_ast_node *node)
