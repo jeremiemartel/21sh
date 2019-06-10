@@ -6,12 +6,17 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/05/26 15:58:24 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 10:40:51 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libft.a
 EXEC	= exec
+
+OK_COLOR = \x1b[32;01m
+#COMP_COLOR = \x1b[34;01m
+COM_COLOR = 
+EOC = \033[0m
 
 SRCS	=	./lst/ft_lstnew.c ./lst/ft_lstdelone.c \
 			./lst/ft_lstdel.c ./lst/ft_lstadd.c \
@@ -156,20 +161,21 @@ debug:
 	make all DEBUG=1
 
 $(NAME): $(OBJS)
-	@ar -rcs $(NAME) $(OBJS) && echo "\033[32mSuccessfully compiled $(NAME) \033[0m"
+	@ar -rcs $(NAME) $(OBJS) && echo "${OK_COLOR}Successfully compiled $(NAME) ${EOC}"
 
 $(EXEC): $(NAME) main.c
-	@gcc $(INCLUDE) $(CFLAGS) -o $(EXEC) main.c $(NAME) && echo "\033[32mSuccessfully compiled $(EXEC) \033[0m"
+	@gcc $(INCLUDE) $(CFLAGS) -o $(EXEC) main.c $(NAME) && echo "${OK_COLOR}Successfully compiled $(EXEC) ${EOC}"
 
 %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) -o $@ -c $<
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 clean:
-	@rm -f $(OBJS) && echo "\033[32mSuccessfully cleaned $(NAME) objects files \033[0m"
+	@rm -f $(OBJS) && echo "${OK_COLOR}Successfully cleaned $(NAME) objects files ${EOC}"
 	@rm -f main.o
 
 fclean: clean
-	@rm -f $(NAME) && echo "\033[32mSuccessfully cleaned $(NAME) \033[0m"
+	@rm -f $(NAME) && echo "${OK_COLOR}Successfully cleaned $(NAME) ${EOC}"
 	@rm -f $(EXEC)
 
 re: fclean all
