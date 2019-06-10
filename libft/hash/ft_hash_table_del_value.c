@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_filename.c                             :+:      :+:    :+:   */
+/*   ft_hash_table_del_value.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/19 12:27:20 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 12:17:31 by jmartel          ###   ########.fr       */
+/*   Created: 2019/06/10 12:39:53 by ldedier           #+#    #+#             */
+/*   Updated: 2019/06/10 12:39:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_traverse_filename(t_ast_node *node, t_context *context)
+void	ft_hash_table_del_value(t_hash_table *table)
 {
-	return (sh_traverse_tools_browse(node, context));
+	unsigned long i;
+
+	i = 0;
+	while (i < table->size)
+	{
+		ft_lstdel_value(&table->data[i]);
+		i++;
+	}
+	free(table);
 }

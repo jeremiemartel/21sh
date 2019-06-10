@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_tok_pipe.c                             :+:      :+:    :+:   */
+/*   sh_lexer_rule_8.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/16 14:14:10 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 05:01:33 by ldedier          ###   ########.fr       */
+/*   Created: 2019/06/10 14:45:02 by jmartel           #+#    #+#             */
+/*   Updated: 2019/06/10 14:45:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_traverse_tok_pipe(t_ast_node *node, t_context *context)
+int		sh_lexer_rule8(t_lexer *lexer)
 {
-	return (sh_traverse_tools_browse(node, context));
+	if (lexer->current_id == LEX_TOK_WORD)
+	{
+		lexer->tok_len++;
+		return (LEX_OK);
+	}
+	return (LEX_CONTINUE);
 }

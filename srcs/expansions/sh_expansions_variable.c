@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/08 19:13:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 17:19:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 /*
 ** sh_expansions_variable_detect:
-**	Function used to detect valid variable expansion. 
+**	Function used to detect valid variable expansion.
 **
 ** return :
 **		-1 : String given is invalid
 **		<0 : Lenght of the valid expansion detecteda
 */
+
 int		sh_expansions_variable_detect(char *start)
 {
 	int		i;
@@ -30,8 +31,9 @@ int		sh_expansions_variable_detect(char *start)
 	if (!(ft_isalpha(start[i]) || start[i] == '_'))
 		return (-1);
 	i++;
-	while (start[i] && (ft_isalnum(start[i + 1]) || start[i + 1] == '_'))
+	while (start[i] && (ft_isalnum(start[i]) || start[i] == '_'))
 		i++;
+	i--;
 	return (i);
 }
 
@@ -45,6 +47,7 @@ int		sh_expansions_variable_detect(char *start)
 **		ERROR : expansion is invalid
 **		SUCCESS : successfully filled expansion
 */
+
 int		sh_expansions_variable_fill(t_expansion *exp, char *start)
 {
 	int		i;
@@ -73,13 +76,13 @@ int		sh_expansions_variable_fill(t_expansion *exp, char *start)
 **		FAILURE : malloc error
 **		SUCCESS : Successfullly filled exp->res
 */
+
 int		sh_expansions_variable_process(t_context *context, t_expansion *exp)
 {
 	char	*value;
 
-	if (*exp->expansion == '#')
-		value = sh_vars_get_value(context->env, context->vars, exp->expansion + 1);
-	else
+	value = sh_vars_get_value(context->env, context->vars, exp->expansion + 1);
+	if (*exp->expansion != '#')
 		value = sh_vars_get_value(context->env, context->vars, exp->expansion);
 	if (*exp->expansion == '#')
 	{

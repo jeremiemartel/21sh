@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 15:44:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 12:41:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,20 @@ typedef struct		s_dlist
 	struct s_dlist	*prev;
 }					t_dlist;
 
-typedef struct	s_gnl
+typedef struct		s_gnl
 {
-	int			fd;
-	int			size;
-	char		*rest;
-	char		*whole_buffer;
-}				t_gnl;
+	int				fd;
+	int				size;
+	char			*rest;
+	char			*whole_buffer;
+}					t_gnl;
 
-typedef enum	e_separator
+typedef enum		e_separator
 {
 	E_SEPARATOR_ZERO = '\0',
 	E_SEPARATOR_NL = '\n',
 	E_SEPARATOR_EOF = EOF
-}				t_separator;
+}					t_separator;
 
 typedef struct	s_gnl_info
 {
@@ -89,6 +89,11 @@ typedef struct	s_gnl_info
 	char		*line;
 }				t_gnl_info;
 
+typedef struct		s_hash_table
+{
+	unsigned long	size;
+	t_list			**data;
+}					t_hash_table;
 
 /*
 ********************************** atoi  **************************************
@@ -332,5 +337,22 @@ t_gnl		*ft_get_gnl(int fd, t_list **gnls);
 int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
 char				*ft_asprintf(const char *format, ...);
+
+/*
+************************************ hash **************************************
+*/
+
+t_hash_table		*ft_hash_table_new(unsigned long size);
+int					ft_hash_table_add(t_hash_table *hash_table,
+						void *content, unsigned long (*hash_function)(void *));
+void				*ft_hash_table_get(t_hash_table *hash_table,
+						void *content, unsigned long (*hash_function)(void *),
+									int (*compare)(void *ptr1, void *ptr2));
+int					ft_hash_cmp_str(void *str1, void *str2);
+unsigned long		ft_hash_str(void *ptr);
+void				ft_hash_table_del(t_hash_table *table,
+						void (*del_func)(void *, size_t));
+void				ft_hash_table_del_value(t_hash_table *table);
+void				ft_hash_table_del_ptr(t_hash_table *table);
 
 #endif

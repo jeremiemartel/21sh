@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_pipeline.c                             :+:      :+:    :+:   */
+/*   ft_hash_table_del.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/17 20:33:13 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/26 09:09:46 by ldedier          ###   ########.fr       */
+/*   Created: 2019/06/10 12:35:40 by ldedier           #+#    #+#             */
+/*   Updated: 2019/06/10 12:39:00 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_traverse_pipeline(t_ast_node *node, t_context *context)
+void	ft_hash_table_del(t_hash_table *table,
+			void (*del_func)(void *, size_t))
 {
-	return (sh_traverse_tools_browse(node, context));
+	unsigned long i;
+
+	i = 0;
+	while (i < table->size)
+	{
+		ft_lstdel(&table->data[i], del_func);
+		i++;
+	}
+	free(table);
 }

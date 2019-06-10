@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 05:04:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/08 10:04:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,7 @@ int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 		return (sh_traverse_pipe_sequences_redirections(node, context));
 	else
+	{
 		return (sh_traverse_tools_browse(node, context));
+	}
 }

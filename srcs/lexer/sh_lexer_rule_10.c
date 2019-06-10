@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_complete_command.c                     :+:      :+:    :+:   */
+/*   sh_lexer_rule_10.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/17 20:31:01 by jmartel          ###   ########.fr       */
+/*   Created: 2019/06/10 14:46:52 by jmartel           #+#    #+#             */
+/*   Updated: 2019/06/10 14:46:54 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_traverse_complete_command(t_ast_node *node, t_context *context)
+int		sh_lexer_rule10(t_lexer *lexer)
 {
-	return (sh_traverse_tools_browse(node, context));
+	lexer->tok_len = 1;
+	lexer->current_id = LEX_TOK_WORD;
+	return (LEX_OK);
 }

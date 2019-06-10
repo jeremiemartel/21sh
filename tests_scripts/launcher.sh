@@ -70,6 +70,11 @@ eoc=\\033[0m
 
 make -C $path && cp ${path}/${exec} .
 
+if ! [ -e "${path}/${exec}" ] ; then
+	echo -e "${red}Can't find ${exec}${eoc}"
+	exit 
+fi
+
 ((passed=0))
 ((tried=0))
 ((diff_passed=0))
@@ -84,12 +89,6 @@ else
 		source $file
 	done
 fi
-
-
-## Other tests
-launch "Others"
-	test 'mkdir test123 ; cd test123 ; ls -a ; ls | cat | wc -c > fifi ; cat fifi ; cd .. ; rm -r test123'
-finish
 
 rm ${exec}
 echo "passed ${passed} valgrind tests out of ${tried}"

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:56:29 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/08 19:10:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 17:17:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 /*
 ** sh_expansions_tilde_detect:
-**	Function used to detect valid tilde expansion. 
+**	Function used to detect valid tilde expansion.
 **
 ** return :
 **		-1 : String given is invalid
 **		<0 : Lenght of the valid expansion detecteda
 */
+
 int		sh_expansions_tilde_detect(char *start)
 {
 	int		i;
@@ -42,6 +43,7 @@ int		sh_expansions_tilde_detect(char *start)
 **		ERROR : expansion is invalid
 **		SUCCESS : successfully filled expansion
 */
+
 int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 {
 	int		i;
@@ -56,12 +58,11 @@ int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 	return (SUCCESS);
 }
 
-
 /*
 ** sh_expansions_tilde_process:
 **	Function called to fill the expansion's res field using informations given
 **	in the t_expansion structure.
-**	It vhoose between the two possible format of tilde expansion : 
+**	It vhoose between the two possible format of tilde expansion :
 **		case 1 : ~/ or ~
 **		case 2 : ~user/
 **
@@ -69,9 +70,12 @@ int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 **		FAILURE : malloc error
 **		SUCCESS : Successfullly filled exp->res
 */
+
 int		sh_expansions_tilde_process(t_context *context, t_expansion *exp)
 {
-	if (!exp->original[1] || ft_iswhite(exp->original[1]) || exp->original[1] == '/')
+	if (!exp->original[1] || ft_iswhite(exp->original[1]))
+		return (sh_expansions_tilde_1(context, exp));
+	if (exp->original[1] == '/')
 		return (sh_expansions_tilde_1(context, exp));
 	else
 		return (sh_expansions_tilde_2(context, exp));
@@ -84,12 +88,13 @@ int		sh_expansions_tilde_process(t_context *context, t_expansion *exp)
 **
 **	return : SUCCESS or FAILURE
 */
-int			sh_expansions_tilde_1(t_context *context, t_expansion *exp)
+
+int		sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 {
 	char	*home;
 
 	if (!(home = get_env_value((char**)context->env->tbl, "HOME")))
-		return ft_perror(SH_ERR1_ENV_NOT_SET, "HOME");
+		return (ft_perror(SH_ERR1_ENV_NOT_SET, "HOME"));
 	if (!(exp->res = (t_dy_str *)malloc(sizeof(t_dy_str))))
 		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (1)"));
 	if (!(exp->res->str = ft_strrep_free(exp->original, home, "~", 0)))
@@ -99,25 +104,26 @@ int			sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 
 /*
 ** sh_expansions_tilde_2:
-**	Bonnus function to treat tilde expansion, replacing ~user/ by it's
+**	Bonus function to treat tilde expansion, replacing ~user/ by it's
 **	home absolute path
 **
 **	return SUCESS or FAILURE
 */
-int			sh_expansions_tilde_2(t_context *context, t_expansion *exp)
+
+int		sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 {
 	char			*buf;
 	struct passwd	*passwd;
 
 	if (!(buf = ft_strndup(exp->original + 1, ft_strlen(exp->original) - 2)))
 		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (1)"));
-	if (!(passwd = getpwnam(buf))) // bonuse LEAKS, and invalid read 
+	if (!(passwd = getpwnam(buf)))
 		exp->res = ft_dy_str_new_str(exp->original);
 	else
 		exp->res = ft_dy_str_new_str(passwd->pw_dir);
 	free(buf);
 	if (!(exp->res))
-		return ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (2)");
+		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (2)"));
 	return (SUCCESS);
 	(void)context;
 }

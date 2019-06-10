@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/07 14:25:38 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 16:56:48 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,25 +41,22 @@ LIBFT_INCLUDEDIR = includes
 LIBFT = $(LIBFTDIR)/libft.a
 
 OK_COLOR = \x1b[32;01m
+#COMP_COLOR = \x1b[34;01m
+COMP_COLOR =
 EOC = \033[0m
 
 TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_default.c \
-						sh_traverse_complete_command.c \
 						sh_traverse_semicol.c \
 						sh_traverse_and_if.c \
 						sh_traverse_or_if.c \
-						sh_traverse_pipeline.c \
 						sh_traverse_pipe_sequence.c \
-						sh_traverse_command.c \
 						sh_traverse_assigment_word.c \
 						sh_traverse_simple_command.c \
-						sh_traverse_tok_pipe.c \
 						sh_traverse_cmd_name.c \
 						sh_traverse_cmd_word.c \
 						sh_traverse_cmd_suffix.c \
 						sh_traverse_io_redirect.c \
-						sh_traverse_filename.c \
 						sh_traverse_io_here.c \
 						sh_traverse_io_here_canonical.c \
 						sh_traverse_io_file.c \
@@ -84,7 +81,8 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						heredoc.c research_historic.c render_research.c \
 						free_command_line.c sh_delete_command.c \
 						sh_process_shift_vertical.c \
-						sh_process_shift_horizontal.c update_prompt_keys.c
+						sh_process_shift_horizontal.c update_prompt_keys.c \
+						sh_process_quoted.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 
@@ -106,10 +104,18 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						fill_lr_tables.c shift.c compute_closure_tools.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
-						sh_lexer_rules.c \
-						sh_lexer_quoting.c \
-						sh_lexer_exp.c \
-						t_lexer.c t_token.c
+						sh_lexer_rule_1.c \
+						sh_lexer_rule_2.c \
+						sh_lexer_rule_3.c \
+						sh_lexer_rule_4.c \
+						sh_lexer_rule_5.c \
+						sh_lexer_rule_6.c \
+						sh_lexer_rule_7.c \
+						sh_lexer_rule_8.c \
+						sh_lexer_rule_9.c \
+						sh_lexer_rule_10.c \
+						sh_lexer_rule_tools.c \
+						t_lexer.c t_token.c t_token_show.c \
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c \
 						sh_prod_case_clause.c sh_prod_case_item.c \
@@ -167,7 +173,8 @@ EXP_SRCS_NO_PREFIX =	\
 						sh_expansions.c \
 						sh_expansions_init.c \
 						sh_expansions_parameter.c \
-						sh_expansions_process_parameter.c \
+						sh_expansions_parameter_process.c \
+						sh_expansions_parameter_tools.c \
 						sh_expansions_tilde.c \
 						sh_expansions_variable.c \
 						t_expansion.c
@@ -222,7 +229,6 @@ LFLAGS =	-L $(LIBFTDIR) -lft -ltermcap
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -fsanitize=address
-	#CFLAGS += -DDEBUG
 	CC += -g3
 	SPEED = -j8
 else
@@ -245,51 +251,63 @@ $(BINDIR)/$(NAME): $(OBJECTS) $(LIBFT)
 
 $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/%.o : $(SRCDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(COMMANDLINE_DIR)/%.o : $(SRCDIR)/$(COMMANDLINE_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(COMMANDLINE_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(LEXER_DIR)/%.o : $(SRCDIR)/$(LEXER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(LEXER_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(TRAV_DIR)/%.o : $(SRCDIR)/$(TRAV_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(TRAV_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(TRAVT_DIR)/%.o : $(SRCDIR)/$(TRAVT_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(TRAVT_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(PARSER_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(VARS_DIR)/%.o : $(SRCDIR)/$(VARS_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(VARS_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(EXEC_DIR)/%.o : $(SRCDIR)/$(EXEC_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(EXEC_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(BUILT_DIR)/%.o : $(SRCDIR)/$(BUILT_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(BUILT_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(EXP_DIR)/%.o : $(SRCDIR)/$(EXP_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(EXP_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 clean:
 	@make clean -C $(LIBFTDIR)

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 11:00:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 12:55:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,7 @@ int		sh_init_shell(t_shell *shell, char **env)
 		return (FAILURE);
 	if ((sh_init_historic(&shell->historic)) != SUCCESS)
 		return (FAILURE);
+//	if ((sh_update_binaries(&shell->binaries) != SUCCESS))
+//		return (FAILURE);
 	return (SUCCESS);
 }

@@ -6,16 +6,14 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 18:14:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 15:50:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-# define LEX_RULES_LEN	11
-
 /*
-** sh_is_name:
+** sh_is_var_name:
 **	Check if an assignment is a valid POSIX name variable name is correct
 **	In the shell command language, a word consisting solely of underscores,
 **	digits, and alphabetics from the portable character set.
@@ -24,7 +22,8 @@
 **
 **	return Value : True or False
 */
-int		sh_is_name_var_assign(char *name)
+
+int				sh_is_var_name(char *name)
 {
 	int		i;
 
@@ -40,91 +39,86 @@ int		sh_is_name_var_assign(char *name)
 	return (1);
 }
 
-int		lexer_lexical_conventions(t_lexer *lexer) // Is this function steel usefull ??
+/*
+** Is this function steel usefull ??
+*/
+
+int				sh_lexer_lexical_conventions(t_lexer *lexer)
 {
 	t_list	*head;
 	t_token	*token;
-	t_token	*next_token;
 
 	head = lexer->list;
-	if (!head || ! head->content)
+	if (!head || !head->content)
 		return (LEX_OK);
 	token = (t_token*)head->content;
-	// My own rule to detect assignment
-	if (ft_strchr(token->value, '='))
+	if (ft_strchr(token->value, '=') && !token->quoted)
 	{
-		if (sh_is_name_var_assign(token->value))
+		if (sh_is_var_name(token->value))
 			t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);
-	} 
+	}
 	while (head)
 	{
 		token = (t_token*)head->content;
 		if (token->id == LEX_TOK_UNKNOWN)
-			return (ft_perror("Unknow token detected", "lexer"));
-		if (head->next)
-			next_token = (t_token*)(head->next->content);
-		else
-			next_token = NULL;
+			return (ft_perror_err("lexer", "Unknow token detected"));
 		head = head->next;
 	}
 	return (LEX_OK);
 }
 
-int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
+static int		sh_lexer_run_rules(t_lexer *lexer)
+{
+	int				ret;
+	int				i;
+	static int		(*rules[LEX_RULES_LEN]) (t_lexer *) = {
+		&sh_lexer_rule1,
+		&sh_lexer_rule2,
+		&sh_lexer_rule3,
+		&sh_lexer_rule4,
+		&sh_lexer_rule5,
+		&sh_lexer_rule6,
+		&sh_lexer_rule7,
+		&sh_lexer_rule8,
+		&sh_lexer_rule9,
+		&sh_lexer_rule10 };
+
+	i = 0;
+	ret = LEX_CONTINUE;
+	if (sh_verbose_lexer())
+		ft_dprintf(2, "lexer in progress on : %1c\t", lexer->c);
+	while ((ret = rules[i](lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
+		i++;
+	if (sh_verbose_lexer())
+		ft_dprintf(2, COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
+	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
+	return (ret);
+}
+
+int				sh_lexer(char *input, t_list **tokens, t_shell *shell)
 {
 	t_lexer		lexer;
 	int			ret;
-	int			i;
 
 	lexer.shell = shell;
-	int (*rules[LEX_RULES_LEN]) (t_lexer *) =
-	{
-		&lexer_rule1,
-		&lexer_rule2,
-		&lexer_rule3,
-		&lexer_rule4,
-		&lexer_rule5,
-		&lexer_rule6,
-		&lexer_rule7,
-		&lexer_rule8,
-		&lexer_rule9,
-		&lexer_rule10,
-		&lexer_rule11,
-	};
-
 	if (!(lexer.input = ft_strdup(input)))
 		return (FAILURE);
-	lexer_init(&lexer, 0);
+	sh_lexer_init(&lexer, 0);
 	lexer.env = shell->env;
 	lexer.vars = shell->vars;
 	if (sh_verbose_lexer())
 		ft_dprintf(2, "Starting string :%s\n", lexer.input);
 	lexer.list = NULL;
-	ret = LEX_CONTINUE;
-	while (ret != LEX_FAIL && ret != LEX_END && ret != LEX_CANCEL && ret != LEX_ERR)
-	{
-		i = 0;
-		if (sh_verbose_lexer())
-			ft_printf("lexer in progress on : %1c\t", lexer.c);
-		while ((ret = rules[i](&lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
-			i++;
-		if (sh_verbose_lexer())
-			ft_printf(COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
-		lexer.c = lexer.input[lexer.tok_start + lexer.tok_len];
-	}
+	ret = LEX_OK;
+	while (ret == LEX_OK)
+		ret = sh_lexer_run_rules(&lexer);
 	free(lexer.input);
-	if (ret == LEX_FAIL)
-		return (FAILURE);//Leaks
-	if (ret == LEX_CANCEL)
-		return (LEX_CANCEL); //leaks
-	if (ret == LEX_ERR)
-		return (LEX_ERR);
-	if (lexer_lexical_conventions(&lexer) == LEX_FAIL)
+	if (ret != LEX_END)
+		return (ret);
+	if (sh_lexer_lexical_conventions(&lexer) == LEX_FAIL)
 		return (LEX_FAIL);
 	if (sh_verbose_lexer())
-		lexer_show(&lexer);
+		sh_lexer_show(&lexer);
 	*tokens = lexer.list;
-	if (ret == LEX_END)
-		return (SUCCESS);
-	return (FAILURE);
+	return (SUCCESS);
 }

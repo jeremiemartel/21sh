@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 13:10:40 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/08 19:06:17 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 12:42:53 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,18 +43,20 @@ launch "Variables"
 	test 'var=pwd' '$var'
 	
 	launch "#"
-	test 'var=Okalm' 'echo $#var $var'
-	test 'var=' 'echo $#var $var'
-	test 'echo $#var $var'
-	test 'var=asd' 'echo $#v#ar $v#ar'
-	test 'var=asd' 'echo #$#v#ar $v#ar'
-	test 'var=asd' 'echo #$#v#ar $v#ar#'
-	test 'var=' 'echo $#v#ar $v#ar'
-	test 'var=' 'echo #$#v#ar $v#ar'
-	test 'var=' 'echo #$#v#ar $v#ar#'
-	test 'echo $#v#ar $v#ar'
-	test 'echo #$#v#ar $v#ar'
-	test 'echo #$#v#ar $v#ar#'
+	# test 'var=Okalm' 'echo $#var $var'
+	# test 'var=' 'echo $#var $var'
+	test 'echo $s#var $var'
+	# test 'var=asd' 'echo $#v#ar $v#ar'
+	# test 'var=asd' 'echo #$#v#ar $v#ar'
+	# test 'var=asd' 'echo #$#v#ar $v#ar#'
+	test 'var=' 'echo $s#v#ar $v#ar'
+	# test 'var=' 'echo #$#v#ar $v#ar'
+	# test 'var=' 'echo #$#v#ar $v#ar#'
+	# test 'echo $#v#ar $v#ar'
+	test 'echo #$g#v#ar $v#ar'
+	test 'echo #$d#v#ar $v#ar#'
+	test 'echo #~$~d#v#ar $v#ar#'
+	test 'echo #~$d~#~v#~ar $v~#ar#'
 
 finish
 

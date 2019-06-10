@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 03:32:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 14:22:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct      s_glob
 {
 	struct termios	term_init;
 	t_command_line	command_line;
+	t_cfg			*cfg;
 	int				cursor;
 	struct winsize	winsize;
 	int				verbose;
@@ -264,7 +265,11 @@ int		render_research(t_command_line *command_line);
 /*
 ** free_command_line.c
 */
+void 	sh_free_command_line(t_command_line *command_line);
 
-void sh_free_command_line(t_command_line *command_line);
+/*
+** sh_process_quoted.c
+*/
+int		sh_process_quoted(t_lexer *lexer);
 
 #endif
