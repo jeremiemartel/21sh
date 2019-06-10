@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:19:59 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 06:45:41 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/09 19:07:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	sh_fill_reduce(t_state *state, t_item *item, t_lr_parser *parser)
 		{
 			if (item->production->from == &parser->cfg.start_symbol
 					&& (i == end_of_input_index))
-				parser->lr_tables[state->index][i].action_enum = E_ACTION_ACCEPT;
+				parser->lr_tables[state->index][i].action_enum =
+					E_ACTION_ACCEPT;
 			else
 			{
 				parser->lr_tables[state->index]
