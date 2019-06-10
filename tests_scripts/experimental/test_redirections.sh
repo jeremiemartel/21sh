@@ -1,0 +1,1 @@
+../test_redirections.sh
