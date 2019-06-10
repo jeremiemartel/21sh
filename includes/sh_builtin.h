@@ -19,6 +19,12 @@ typedef enum		e_cd_opt
 	e_cd_opt_physic
 }					t_cd_opt;
 
+typedef struct		s_binary_stats
+{
+	int				max_path_len;
+	int				max_name_len;
+	int				max_hits_str_len;
+}					t_binary_stats;
 
 typedef	int	(*t_builtin)(t_context *);
 
@@ -55,5 +61,10 @@ int				sh_builtin_hash(t_context *context);
 int				end_with_char(char *str, char c);
 int				ft_update_old_pwd(char *old_pwd, char *path, t_cd_opt flag,
 		t_context *context);
+
+/*
+** sh_builtin_hash_stats.c
+*/
+void			update_hash_stats(t_hash_table *table, t_binary_stats *stats);
 
 #endif

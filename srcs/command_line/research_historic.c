@@ -69,6 +69,8 @@ int		process_research_historic(t_command_line *command_line, t_shell *shell)
 				progress_process_research_historic(command_line, shell)))
 				render_command_line(command_line, 0, 1);
 		}
+		else
+			render_command_line(command_line, 0, 1);
 	}
 	else
 	{

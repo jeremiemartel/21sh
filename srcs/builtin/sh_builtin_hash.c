@@ -12,14 +12,17 @@
 
 #include "sh_21.h"
 
-static void		show_binary(t_binary *binary, int *empty)
+static void		show_binary(t_binary *binary,
+		t_binary_stats *stats, int *empty)
 {
 	if (*empty == 1)
 	{
-		ft_printf("hits\tname\tpath\n");
+		ft_printf("%-*s %-*s %-*s\n", stats->max_hits_str_len, "hits",
+			stats->max_name_len, "name", stats->max_path_len, "path");
 		*empty = 0;
 	}
-	ft_printf("%d\t%s\t%s\n", binary->hits, binary->name, binary->path);
+	ft_printf("%4d %-*s %-*s\n", binary->hits,
+		stats->max_name_len, binary->name, stats->max_path_len, binary->path);
 }
 
 static void		process_builtin_hash_show(t_shell *shell)
@@ -28,22 +31,24 @@ static void		process_builtin_hash_show(t_shell *shell)
 	unsigned long	i;
 	t_list			*ptr;
 	int				empty;
+	t_binary_stats	stats;
 
 	empty = 1;
 	table = shell->binaries;
+	update_hash_stats(table, &stats);
 	i = 0;
 	while (i < table->size)
 	{
 		ptr = table->data[i];
 		while (ptr != NULL)
 		{
-			show_binary((t_binary *)ptr->content, &empty);
+			show_binary((t_binary *)ptr->content, &stats, &empty);
 			ptr = ptr->next;
 		}
 		i++;
 	}
 	if (empty)
-		ft_printf("hash table is empty\n");
+		ft_printf("hash: hash table empty\n");
 }
 
 static void		process_builtin_hash_suppr_all(t_shell *shell)

@@ -348,7 +348,6 @@ t_gnl		*ft_get_gnl(int fd, t_list **gnls);
 */
 int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
-char				*ft_asprintf(const char *format, ...);
 
 /*
 ************************************ hash **************************************
