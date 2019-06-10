@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2017/11/06 19:40:29 by ldedier           #+#    #+#             */
+/*   Updated: 2018/06/08 04:16:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+char	*ft_strdup(const char *s)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	int		i;
+	char	*res;
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+	if (s == NULL)
+		return (NULL);
+	res = (char*)malloc(sizeof(*s) * (ft_strlen(s) + 1));
+	if (res == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }

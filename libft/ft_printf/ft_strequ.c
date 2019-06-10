@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2017/11/06 19:40:55 by ldedier           #+#    #+#             */
+/*   Updated: 2018/12/14 18:18:48 by emuckens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+int	ft_strequ(const char *s1, const char *s2)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
-
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
+	if (s1 != NULL && s2 != NULL)
+	{
+		if (ft_strcmp(s1, s2) == 0)
+			return (1);
+		else
+			return (0);
+	}
 	else
-		return (ret);
+		return (0);
 }

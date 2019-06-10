@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_print_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2018/05/07 22:32:34 by ldedier           #+#    #+#             */
+/*   Updated: 2018/05/15 16:00:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+static int		ft_strlen_line(char *str)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	int i;
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	return (i);
+}
+
+void			ft_print_line(char *str)
+{
+	write(1, str, ft_strlen_line(str));
+	ft_putchar('\n');
 }

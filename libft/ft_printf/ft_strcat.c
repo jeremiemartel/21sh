@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2017/11/06 19:33:56 by ldedier           #+#    #+#             */
+/*   Updated: 2017/11/06 19:34:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+char	*ft_strcat(char *dest, const char *src)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	int i;
+	int j;
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+	i = 0;
+	while (dest[i])
+		i++;
+	j = 0;
+	while (src[j])
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
 }

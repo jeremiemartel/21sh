@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_free_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2017/11/24 19:13:20 by ldedier           #+#    #+#             */
+/*   Updated: 2018/02/19 21:20:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+void	ft_free_split(char **split)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	int i;
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+	i = 0;
+	while (split[i])
+	{
+		ft_strdel(&(split[i]));
+		i++;
+	}
+	free(split);
 }

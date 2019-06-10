@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2017/11/06 18:46:31 by ldedier           #+#    #+#             */
+/*   Updated: 2017/11/12 13:55:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	size_t			i;
+	unsigned char	to_cpy;
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+	i = 0;
+	while (i < n)
+	{
+		to_cpy = (unsigned char)*(char *)(src + i);
+		*(char *)(dest + i) = to_cpy;
+		i++;
+		if (to_cpy == (unsigned char)c)
+			return (dest + i);
+	}
+	return (NULL);
 }

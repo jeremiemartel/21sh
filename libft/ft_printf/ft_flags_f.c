@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_flags_f.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2018/02/05 22:58:56 by ldedier           #+#    #+#             */
+/*   Updated: 2018/05/08 23:24:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_printf(const char *restrict format, ...)
+int		ft_pf_f(t_pf *pf, va_list va, char c)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
-
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+	(void)c;
+	pf->var.flottant = va_arg(va, double);
+	if (!pf->precised_precision)
+		pf->flags.precision = 6;
+	ft_putdbl(pf->var.flottant, pf->flags.precision, pf);
+	return (0);
 }

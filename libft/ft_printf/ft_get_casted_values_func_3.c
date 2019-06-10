@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_get_casted_values_func.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2018/02/06 22:33:04 by ldedier           #+#    #+#             */
+/*   Updated: 2018/02/06 22:53:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_printf(const char *restrict format, ...)
+void	ft_gtvar_ullint(t_pf *pf, va_list va)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	pf->var.integer = (unsigned long long int)va_arg(va, intmax_t);
+}
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+void	ft_gtvar_uintmax_t(t_pf *pf, va_list va)
+{
+	pf->var.integer = (uintmax_t)va_arg(va, intmax_t);
+}
+
+void	ft_gtvar_ushort_int(t_pf *pf, va_list va)
+{
+	pf->var.integer = (unsigned short int)va_arg(va, intmax_t);
 }

@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_putoctal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2018/01/22 23:33:02 by ldedier           #+#    #+#             */
+/*   Updated: 2018/05/31 03:42:00 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_printf(const char *restrict format, ...)
+void	ft_putoctal(unsigned int nb, t_pf *pf)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
-
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
+	if ((nb / 8) == 0)
+		ft_putchar_buff(nb % 8 + '0', pf);
 	else
-		return (ret);
+	{
+		ft_putoctal(nb / 8, pf);
+		ft_putchar_buff(nb % 8 + '0', pf);
+	}
 }

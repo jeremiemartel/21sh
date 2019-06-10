@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/10 16:15:55 by ldedier          ###   ########.fr        #
+#    Updated: 2019/06/10 18:12:55 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ OBJDIR   = objs
 BINDIR   = .
 INCLUDESDIR = includes
 LIBFTDIR = libft
+PRINTFDIR = ft_printf
 
 COMMANDLINE_DIR = command_line
 PROD_DIR   = productions
@@ -37,7 +38,6 @@ BUILT_DIR	= builtin
 EXP_DIR		= expansions
 
 SPEED = -j1
-LIBFT_INCLUDEDIR = includes
 LIBFT = $(LIBFTDIR)/libft.a
 
 OK_COLOR = \x1b[32;01m
@@ -219,7 +219,8 @@ OBJECTS += $(BUILT_OBJECTS)
 OBJECTS += $(COMMANDLINE_OBJECTS)
 OBJECTS += $(EXP_OBJECTS)
 
-INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
+INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR) -I $(LIBFTDIR)/$(PRINTFDIR)
+
 
 CFLAGS =	-DPATH=$(PWD) -Wall -Wextra -Werror $(INC)
 LFLAGS =	-L $(LIBFTDIR) -lft -ltermcap
@@ -303,7 +304,7 @@ $(OBJDIR)/$(EXP_DIR)/%.o : $(SRCDIR)/$(EXP_DIR)/%.c $(INCLUDES)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)
-	@@$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
 	@echo "${COMP_COLOR}$< ${EOC}"
 
 clean:

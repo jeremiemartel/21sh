@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_display_len.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2018/01/23 22:16:43 by ldedier           #+#    #+#             */
+/*   Updated: 2018/02/06 21:19:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_printf(const char *restrict format, ...)
+int	ft_pf_len_s(t_pf pf)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
-
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
+	if (pf.precised_precision)
+		return (ft_min(pf.flags.precision, ft_strlen(pf.var.str)));
 	else
-		return (ret);
+		return (ft_strlen(pf.var.str));
+}
+
+int	ft_pf_len_s_maj(t_pf pf)
+{
+	if (pf.precised_precision)
+		return (ft_wstrlen_prec(pf.var.wstr, pf.flags.precision));
+	else
+		return (ft_wstrlen(pf.var.wstr));
 }

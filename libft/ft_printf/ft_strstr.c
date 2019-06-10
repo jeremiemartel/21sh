@@ -1,29 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2017/11/06 19:50:17 by ldedier           #+#    #+#             */
+/*   Updated: 2017/11/06 19:50:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	int i;
+	int j;
+	int point;
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
+	i = 0;
+	while (haystack[i])
+	{
+		point = i;
+		j = 0;
+		while (needle[j] == haystack[i] && needle[j])
+		{
+			j++;
+			i++;
+		}
+		if (needle[j] == '\0')
+			return (char *)(&(haystack[point]));
+		i = point + 1;
+	}
+	if (needle[0] == '\0')
+		return ((char *)(&(haystack[i])));
 	else
-		return (ret);
+		return (NULL);
 }

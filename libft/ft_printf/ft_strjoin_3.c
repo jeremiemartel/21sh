@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/07 01:04:36 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:46:01 by ldedier          ###   ########.fr       */
+/*   Created: 2018/05/08 17:27:19 by ldedier           #+#    #+#             */
+/*   Updated: 2018/05/08 17:27:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int		ft_printf(const char *restrict format, ...)
+char	*ft_strjoin_3(char const *s1, char const *s2, char const *s3)
 {
-	static int	broken = 0;
-	int			ret;
-	va_list		va;
+	char *res;
 
-	va_start(va, format);
-	if ((ret = ft_dvprintf(1, format, va)) == -1)
-		broken = 1;
-	va_end(va);
-	if (broken)
-		return (-1);
-	else
-		return (ret);
+	if (s1 == NULL || s2 == NULL || s3 == NULL)
+		return (NULL);
+	res = ft_strnew(ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3) + 1);
+	if (res == NULL)
+		return (NULL);
+	ft_strcpy(res, s1);
+	ft_strcat(res, s2);
+	ft_strcat(res, s3);
+	return (res);
 }
