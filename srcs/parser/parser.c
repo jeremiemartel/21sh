@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 06:53:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 10:55:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ int		sh_parser(t_list *tokens, t_shell *shell)
 	}
 	shell->parser.tokens = tokens;
 	if ((ret = sh_parse_token_list(&shell->parser)) == 2)
-		ft_dprintf(2, "syntax error\n");
+		ft_perror_err("syntax error", NULL);
 	return (ret);
 }
