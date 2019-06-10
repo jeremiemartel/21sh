@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/06 00:11:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 11:16:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ void	t_token_show(t_token *token)
 {
 	t_token_show_id(token->id);
 	ft_printf(":%s", token->value);
+	if (token->quoted)
+		ft_printf(" quoted:%c", token->quoted);
+	if (token->expansion)
+		ft_printf(" (expansion)");
 }
 
 void	t_token_show_id(int i)

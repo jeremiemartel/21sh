@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 18:14:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 10:56:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		lexer_lexical_conventions(t_lexer *lexer) // Is this function steel usefull
 		return (LEX_OK);
 	token = (t_token*)head->content;
 	// My own rule to detect assignment
-	if (ft_strchr(token->value, '='))
+	if (ft_strchr(token->value, '=') && !token->quoted)
 	{
 		if (sh_is_name_var_assign(token->value))
 			t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);

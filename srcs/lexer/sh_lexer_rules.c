@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:36:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 16:55:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 11:05:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		lexer_rule1(t_lexer *lexer)
 {
 	if (lexer->c == '\0' )//||lexer->c == LEX_TOK_NEWLINE)
 	{
-		if (lexer->quoted)
+		if (lexer->quoted > 0)
 		{
 			if (!isatty(0))
 			{
@@ -95,7 +95,7 @@ int		lexer_rule2(t_lexer *lexer)
 {
 	static char		operators[] = LEX_OPERATOR_TAB;
 
-	if (lexer->quoted)
+	if (lexer->quoted > 0)
 		return (LEX_CONTINUE);
 	if (lexer->current_id == 0)
 		return (LEX_CONTINUE);
@@ -185,7 +185,7 @@ int		lexer_rule6(t_lexer *lexer)
 {
 	static char		operators[] = LEX_OPERATOR_TAB;
 
-	if (lexer->quoted)
+	if (lexer->quoted > 0)
 		return (LEX_CONTINUE);
 	if (ft_strchr(operators, lexer->c))
 	{
@@ -202,7 +202,7 @@ int		lexer_rule6(t_lexer *lexer)
 
 int		lexer_rule7(t_lexer *lexer)
 {
-	if (lexer->quoted)
+	if (lexer->quoted > 0)
 		return (LEX_CONTINUE);
 	if (lexer->c == LEX_TOK_NEWLINE)
 	{
@@ -215,7 +215,7 @@ int		lexer_rule7(t_lexer *lexer)
 
 int		lexer_rule8(t_lexer *lexer)
 {
-	if (lexer->quoted)
+	if (lexer->quoted > 0)
 		return (LEX_CONTINUE);
 	if (ft_iswhite(lexer->c))
 	{
