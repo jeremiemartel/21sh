@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 10:56:56 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 13:28:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-# define LEX_RULES_LEN	11
+# define LEX_RULES_LEN	10
 
 /*
 ** sh_is_name:
@@ -60,7 +60,7 @@ int		lexer_lexical_conventions(t_lexer *lexer) // Is this function steel usefull
 	{
 		token = (t_token*)head->content;
 		if (token->id == LEX_TOK_UNKNOWN)
-			return (ft_perror("Unknow token detected", "lexer"));
+			return (ft_perror_err("lexer", "Unknow token detected"));
 		if (head->next)
 			next_token = (t_token*)(head->next->content);
 		else
@@ -89,7 +89,6 @@ int		sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		&lexer_rule8,
 		&lexer_rule9,
 		&lexer_rule10,
-		&lexer_rule11,
 	};
 
 	if (!(lexer.input = ft_strdup(input)))

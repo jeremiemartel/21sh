@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/10 11:43:58 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 13:11:09 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,7 @@ LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rules.c \
 						sh_lexer_quoting.c \
 						sh_lexer_exp.c \
-						t_lexer.c t_token.c
+						t_lexer.c t_token.c t_token_show.c
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c \
 						sh_prod_case_clause.c sh_prod_case_item.c \
