@@ -81,6 +81,7 @@ int			 sh_expansions_hash(t_context *context, t_expansion *exp, char *format);
 */
 void			t_expansion_free_content(t_expansion *expansion);
 void			t_expansion_show(t_expansion *exp);
+void			t_expansion_show_type(t_expansion *exp);
 
 /*
 **sh_expansions_process_tilde.c

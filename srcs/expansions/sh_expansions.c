@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 11:50:54 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 12:11:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ int		sh_expansion_process_recursive(char **input, char *original, t_context *con
 
 int			sh_expansions_replace(t_expansion *expansion, char **input)
 {
+	if (sh_verbose_expansion())
+	{
+		t_expansion_show_type(expansion);
+		ft_dprintf(2, " expansion : ");
+		ft_dprintf(2, "%s%s => %s%s\n", L_BLUE, expansion->original, expansion->res->str, EOC);
+	}
 	*input = ft_strrep_free(*input, expansion->res->str, expansion->original, 1);
 	if (!(*input))
 		return (FAILURE);
