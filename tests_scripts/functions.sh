@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 15:58:19 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/05 23:35:46 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 09:49:29 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ test()
 			echo "${i}" >> buffer ; fi;
 	done
 	diff_tried=$((diff_tried+1))
-	res=`diff <(<buffer bash 2>res2.bash) <(<buffer ./21sh 2>res2.21sh)`
+	res=`diff <(<buffer bash 2>res2.bash) <(<buffer ./${exec} 2>res2.21sh)`
 
 	if [ ! -z "$res" ] ; then
 		echo -e "${red}KO${eoc}"
