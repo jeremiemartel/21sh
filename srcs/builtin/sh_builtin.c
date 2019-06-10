@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 19:04:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 16:09:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 16:15:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_builtin_container	*get_builtins(void)
 		{ "where", sh_builtin_where },
 		{ "cd", sh_builtin_cd },
 		{ "verbose", sh_builtin_verbose },
-		{ "set", sh_builtin_set }
+		{ "set", sh_builtin_set },
+		{ "hash", sh_builtin_hash }
 	};
 	return (res);
 }

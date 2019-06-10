@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 12:41:17 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 15:50:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,15 @@ typedef struct		s_hash_table
 	unsigned long	size;
 	t_list			**data;
 }					t_hash_table;
+
+typedef struct		s_hash_finder
+{
+	t_list			*prev;
+	t_list			*current;
+	t_list			**list;
+	int				found;
+	void			*content;
+}					t_hash_finder;
 
 /*
 ********************************** atoi  **************************************
@@ -344,8 +353,12 @@ char				*ft_asprintf(const char *format, ...);
 
 t_hash_table		*ft_hash_table_new(unsigned long size);
 int					ft_hash_table_add(t_hash_table *hash_table,
-						void *content, unsigned long (*hash_function)(void *));
+						void *to_add, void *to_hash,
+							unsigned long (*hash_function)(void *));
 void				*ft_hash_table_get(t_hash_table *hash_table,
+						void *content, unsigned long (*hash_function)(void *),
+									int (*compare)(void *ptr1, void *ptr2));
+t_hash_finder		ft_hash_table_find(t_hash_table *hash_table,
 						void *content, unsigned long (*hash_function)(void *),
 									int (*compare)(void *ptr1, void *ptr2));
 int					ft_hash_cmp_str(void *str1, void *str2);

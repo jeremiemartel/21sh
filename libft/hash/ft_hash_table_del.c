@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 12:35:40 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 12:39:00 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 17:12:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ void	ft_hash_table_del(t_hash_table *table,
 		ft_lstdel(&table->data[i], del_func);
 		i++;
 	}
+	free(table->data);
 	free(table);
 }

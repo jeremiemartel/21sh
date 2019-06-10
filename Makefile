@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/10 10:40:29 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 16:15:55 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,8 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 SRCS_NO_PREFIX =		main.c index.c ft_perror.c ft_perror2.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
-						historic.c home.c init_tabs.c non_canonical_mode.c
+						historic.c home.c init_tabs.c non_canonical_mode.c \
+						hash_binaries.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						first_sets.c debug.c \
@@ -163,6 +164,7 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_cd_tools.c \
 						sh_builtin_where.c \
 						sh_builtin_verbose.c \
+						sh_builtin_hash.c \
 						sh_builtin_set.c
 
 EXP_SRCS_NO_PREFIX =	\

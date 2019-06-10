@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 15:53:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 16:15:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct		s_builtin_container
 */
 t_builtin		sh_builtin_find(t_context *context);
 
-# define NB_BUILTINS	7
+# define NB_BUILTINS	8
 
 /*
 ** builtins :
@@ -47,6 +47,7 @@ int				sh_builtin_pwd(t_context *context);
 int				sh_builtin_where(t_context *context);
 int				sh_builtin_verbose(t_context *context);
 int				sh_builtin_set(t_context *context);
+int				sh_builtin_hash(t_context *context);
 
 /*
 ** sh_builtin_cd_tools.c
