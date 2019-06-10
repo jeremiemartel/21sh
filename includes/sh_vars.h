@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/24 13:51:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 18:22:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define VERBOSE_LEXER		0x0002
 # define VERBOSE_EXEC		0x0004
 # define VERBOSE_PIPE		0x0008
+# define VERBOSE_EXPANSION	0x0010
 
 /*
 ** sh_variables.c
@@ -51,5 +52,6 @@ int		sh_verbose_ast(void);
 int		sh_verbose_lexer(void);
 int		sh_verbose_exec(void);
 int		sh_verbose_pipe(void);
+int		sh_verbose_expansion(void);
 
 #endif

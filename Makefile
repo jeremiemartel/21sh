@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/07 14:25:38 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 10:40:29 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ LIBFT_INCLUDEDIR = includes
 LIBFT = $(LIBFTDIR)/libft.a
 
 OK_COLOR = \x1b[32;01m
+#COMP_COLOR = \x1b[34;01m
+COMP_COLOR =
 EOC = \033[0m
 
 TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
@@ -222,7 +224,6 @@ LFLAGS =	-L $(LIBFTDIR) -lft -ltermcap
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -fsanitize=address
-	#CFLAGS += -DDEBUG
 	CC += -g3
 	SPEED = -j8
 else
@@ -245,51 +246,63 @@ $(BINDIR)/$(NAME): $(OBJECTS) $(LIBFT)
 
 $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/%.o : $(SRCDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(COMMANDLINE_DIR)/%.o : $(SRCDIR)/$(COMMANDLINE_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(COMMANDLINE_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(LEXER_DIR)/%.o : $(SRCDIR)/$(LEXER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(LEXER_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(TRAV_DIR)/%.o : $(SRCDIR)/$(TRAV_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(TRAV_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(TRAVT_DIR)/%.o : $(SRCDIR)/$(TRAVT_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(TRAVT_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(PARSER_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(VARS_DIR)/%.o : $(SRCDIR)/$(VARS_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(VARS_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(EXEC_DIR)/%.o : $(SRCDIR)/$(EXEC_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(EXEC_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(BUILT_DIR)/%.o : $(SRCDIR)/$(BUILT_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(BUILT_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(EXP_DIR)/%.o : $(SRCDIR)/$(EXP_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(EXP_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	@@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 clean:
 	@make clean -C $(LIBFTDIR)

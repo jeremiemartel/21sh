@@ -6,12 +6,20 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:56:29 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 14:02:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/08 19:10:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+/*
+** sh_expansions_tilde_detect:
+**	Function used to detect valid tilde expansion. 
+**
+** return :
+**		-1 : String given is invalid
+**		<0 : Lenght of the valid expansion detecteda
+*/
 int		sh_expansions_tilde_detect(char *start)
 {
 	int		i;
@@ -24,6 +32,16 @@ int		sh_expansions_tilde_detect(char *start)
 	return (i);
 }
 
+/*
+** sh_expansions_tilde_fill:
+**	Try to fill type, expansion, original and process fields of a t_expansion
+**	structure.
+**
+**	Return Value:
+**		FAILURE : malloc error
+**		ERROR : expansion is invalid
+**		SUCCESS : successfully filled expansion
+*/
 int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 {
 	int		i;
@@ -38,13 +56,18 @@ int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 	return (SUCCESS);
 }
 
+
 /*
 ** sh_expansions_tilde_process:
-**	Choose between the two possible format of tilde expansion : 
+**	Function called to fill the expansion's res field using informations given
+**	in the t_expansion structure.
+**	It vhoose between the two possible format of tilde expansion : 
 **		case 1 : ~/ or ~
 **		case 2 : ~user/
 **
-**	return SUCCESS or FAILURE
+**	return Value:
+**		FAILURE : malloc error
+**		SUCCESS : Successfullly filled exp->res
 */
 int		sh_expansions_tilde_process(t_context *context, t_expansion *exp)
 {

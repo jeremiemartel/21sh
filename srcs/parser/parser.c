@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/08 09:03:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 11:16:20 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		sh_parse_token_list(t_lr_parser *parser)
 		return (ret);
 	else
 	{
-		if (sh_verbose_ast() || 1)
+		if (sh_verbose_ast())
 		{
 			ft_printf("OK !\n");
 			ft_printf("\nAST:\n");

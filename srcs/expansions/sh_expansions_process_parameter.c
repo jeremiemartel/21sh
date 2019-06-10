@@ -6,11 +6,23 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 14:16:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/07 20:32:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+static void	sh_expansions_parameter_fill_format(char *head, char *format, int n)
+{
+	format[n] = 0;
+	n--;
+	while (n >= 0)
+	{
+		format[n] = head[n];
+		n--;
+	}
+	return ;
+}
 
 int		sh_expansions_parameter_format(t_expansion *exp, char *format)
 {
@@ -30,16 +42,14 @@ int		sh_expansions_parameter_format(t_expansion *exp, char *format)
 	head++;
 	while (ft_isalnum((int)*head) || *head == '_')
 		head++;
-	if (!ft_chpbrk(head[0], ":-=?+%"))
+	if (ft_chpbrk(head[0], "-=?+") == 1)
+		sh_expansions_parameter_fill_format(head, format + i, 1);
+	else if (ft_chpbrk(head[0], ":") == 1 && ft_chpbrk(head[1], "-=?+") == 1)
+		sh_expansions_parameter_fill_format(head, format + i, 2);
+	else if (ft_strnstr(head, "##", 2) || ft_strnstr(head, "%%", 2))
+		sh_expansions_parameter_fill_format(head, format + i, 2);
+	else
 		return (ft_perror_err(exp->original, "bad substitution"));
-	format[i] = *head;
-	i++;
-	if (ft_chpbrk(head[0], ":#%") && ft_chpbrk(head[1], "-=?+#%"))
-	{
-		format[i] = head[1];
-		i++;
-	}
-	format[i] = 0;
 	return (SUCCESS);
 }
 
@@ -131,6 +141,16 @@ int		sh_expansions_parameter_equal(t_context *context, t_expansion *exp, char *f
 	return (SUCCESS);
 }
 
+static int		sh_expansions_parameter_quest_msg(char *expansion, char *word)
+{
+	char	*buf;
+
+	buf = ft_strpbrk(expansion, ":?");
+	*buf = 0;
+	ft_dprintf(2, "bash: %s: %s\n", expansion, word);
+	return (ERROR);
+}
+
 int		sh_expansions_parameter_quest(t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
@@ -139,18 +159,18 @@ int		sh_expansions_parameter_quest(t_context *context, t_expansion *exp, char *f
 	param = sh_expansions_parameter_get_param(context, exp);
 	word = sh_expansions_parameter_get_word(context, exp, format);
 	if (!param)
-		exp->res = ft_dy_str_new_str(word);
+		return (sh_expansions_parameter_quest_msg(exp->expansion, word));
 	else if (!*param)
 	{
 		if (ft_strchr(format, ':'))
-			return (FAILURE);
+			return (sh_expansions_parameter_quest_msg(exp->expansion, word));
 		else
 			exp->res = ft_dy_str_new_str("");
 	}
 	else
-		return (FAILURE);
+		exp->res = ft_dy_str_new_str(param);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_"));
+		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -185,8 +205,7 @@ int		sh_expansions_percent(t_context *context, t_expansion *exp, char *format)
 
 	param = sh_expansions_parameter_get_param(context, exp);
 	word = sh_expansions_parameter_get_word(context, exp, format);
-	exp->res = ft_dy_str_new_str("Percent Parameter expansion not implemented yet");
-	return (SUCCESS);
+	return (ft_perror_err("Percent Parameter expansion not implemented yet", NULL));
 }
 
 // Need to implement Hash !
@@ -197,6 +216,5 @@ int		sh_expansions_hash(t_context *context, t_expansion *exp, char *format)
 
 	param = sh_expansions_parameter_get_param(context, exp);
 	word = sh_expansions_parameter_get_word(context, exp, format);
-	exp->res = ft_dy_str_new_str("Hash Parameter expansion not implemented yet");
-	return (SUCCESS);
+	return (ft_perror_err("Hash Parameter expansion not implemented yet", NULL));
 }

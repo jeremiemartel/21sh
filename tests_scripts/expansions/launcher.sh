@@ -21,7 +21,7 @@
 ##			(ex : expansions for test_expansions.sh)
 ##			else, every files would be launched
 
-path="../../"
+path="../.."
 suppressions_file="my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
@@ -68,7 +68,12 @@ cyan=\\033[36m
 grey=\\033[37m
 eoc=\\033[0m
 
-make -C $path debug && cp ${path}/${exec} .
+make -C $path && cp ${path}/${exec} .
+
+if ! [ -e "${path}/${exec}" ] ; then
+	echo -e "${red}Can't find ${exec}${eoc}"
+	exit 
+fi
 
 ((passed=0))
 ((tried=0))
@@ -91,7 +96,7 @@ launch "Others"
 	test 'mkdir test123 ; cd test123 ; ls -a ; ls | cat | wc -c > fifi ; cat fifi ; cd .. ; rm -r test123'
 finish
 
-rm ${exec}
+#rm ${exec}
 echo "passed ${passed} valgrind tests out of ${tried}"
 echo "passed ${diff_passed} diff tests out of ${diff_tried}"
 rm -rf "${exec}.dSYM"
