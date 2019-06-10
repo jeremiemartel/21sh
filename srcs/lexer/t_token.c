@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 13:06:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 16:06:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,31 @@ void	t_token_update_id(int id, t_token *token)
 	token->index = sh_index(id);
 }
 
-t_token	*t_token_new(int id, char *value)
+t_list	*t_token_new_link(int id, char *value)
 {
 	t_token		*token;
+	t_list		*link;
 
 	if (!(token = malloc(sizeof(*token))))
 		return (NULL);
+	token->value = NULL;
 	if (value)
-	{
 		if (!(token->value = ft_strdup(value)))
 		{
 			free(token);
 			return (NULL);
 		}
+	if (!(link = ft_lstnew(token, sizeof(token))))
+	{
+		free(token);
+		return (NULL);
 	}
-	else
-		token->value = NULL;
 	token->id = id;
 	token->index = sh_index(id);
 	token->token_type = TYPE_STR;
 	token->quoted = 0;
 	token->expansion = 0;
-	return (token);
+	return (link);
 }
 
 void	t_token_free(t_token *token)

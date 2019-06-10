@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 15:26:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 15:15:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 		return (sh_process_execute(context));
 	else
 	{
-		ft_perror(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
+		ft_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		sh_env_vars_update_question_mark(context, 127);
 		return (ERROR);
 	}
@@ -172,6 +172,6 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name)
 	if (access(path, X_OK))
 		return (ft_perror(SH_ERR1_PERM_DENIED, command_name));
 	if (!S_ISREG(st.st_mode))
-		return (ft_perror(SH_ERR1_CMD_NOT_FOUND, command_name));
+		return (ft_perror_err(SH_ERR1_CMD_NOT_FOUND, command_name));
 	return (SUCCESS);
 }

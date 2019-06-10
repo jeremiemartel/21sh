@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_process_execute.c                               :+:      :+:    :+:   */
+/*   sh_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 03:15:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 15:14:53 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ int		sh_process_execute(t_context *context)
 		sh_process_execute_dup_pipes(context);
 		execve(context->path, (char **)context->params->tbl, (char **)context->env->tbl);
 		sh_process_execute_close_pipes(context);
-		ft_perror(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
+		ft_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		exit(FAILURE);
 	}
 	else

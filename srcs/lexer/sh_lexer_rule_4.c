@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_lexer_quoting.c                                 :+:      :+:    :+:   */
+/*   sh_lexer_rule_4.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/20 10:50:09 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 13:13:56 by jmartel          ###   ########.fr       */
+/*   Created: 2019/06/10 14:36:01 by jmartel           #+#    #+#             */
+/*   Updated: 2019/06/10 14:37:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		lexer_quoting_backslash(t_lexer *lexer)
+static int		lexer_quoting_backslash(t_lexer *lexer)
 {
 	if (lexer->quoted == '\\')
 	{
@@ -29,7 +29,7 @@ int		lexer_quoting_backslash(t_lexer *lexer)
 	return (LEX_OK);
 }
 
-int		lexer_quoting_start_quote(t_lexer *lexer)
+static int		lexer_quoting_start_quote(t_lexer *lexer)
 {
 	lexer->quoted = lexer->c;
 	ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
@@ -38,7 +38,7 @@ int		lexer_quoting_start_quote(t_lexer *lexer)
 	return (LEX_OK);
 }
 
-int		lexer_quoting_simple_quote(t_lexer *lexer)
+static int		lexer_quoting_simple_quote(t_lexer *lexer)
 {
 	if (lexer->c == '\'')
 	{
@@ -52,7 +52,7 @@ int		lexer_quoting_simple_quote(t_lexer *lexer)
 	return (LEX_OK);
 }
 
-int		lexer_quoting_double_quote(t_lexer *lexer)
+static int		lexer_quoting_double_quote(t_lexer *lexer)
 {
 	if (lexer->c == '$' || lexer->c == '`' || lexer->c == '\\')
 		return (LEX_CONTINUE);
@@ -66,4 +66,17 @@ int		lexer_quoting_double_quote(t_lexer *lexer)
 	else
 		lexer->tok_len++;
 	return (LEX_OK);
+}
+
+int				sh_lexer_rule4(t_lexer *lexer)
+{
+	if (lexer->quoted != '\'' && (lexer->c == '\\' || lexer->quoted == '\\'))
+		return (lexer_quoting_backslash(lexer));
+	else if (!lexer->quoted && (lexer->c == '\'' || lexer->c == '"'))
+		return (lexer_quoting_start_quote(lexer));
+	if (lexer->quoted == '\'')
+		return (lexer_quoting_simple_quote(lexer));
+	else if (lexer->quoted == '"')
+		return (lexer_quoting_double_quote(lexer));
+	return (LEX_CONTINUE);
 }

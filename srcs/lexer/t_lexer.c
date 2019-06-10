@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:39:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 13:21:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 16:08:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	lexer_init(t_lexer *lexer, int tok_start)
+void	sh_lexer_init(t_lexer *lexer, int tok_start)
 {
 	lexer->quoted = 0;
 	lexer->expansion = 0;
@@ -22,37 +22,34 @@ void	lexer_init(t_lexer *lexer, int tok_start)
 	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
 }
 
-int		lexer_add_token(t_lexer *lexer)
+int		sh_lexer_add_token(t_lexer *lexer)
 {
-	t_list		*new;
+	t_list		*link;
 	t_token		*token;
 
 	if (lexer->tok_len == 0 && lexer->current_id == LEX_TOK_UNKNOWN)
 	{
-		lexer_init(lexer, lexer->tok_start + lexer->tok_len);
+		sh_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 		return (LEX_OK);
 	}
-	if (!(token = t_token_new(lexer->current_id, NULL)))
+	if (!(link = t_token_new_link(lexer->current_id, NULL)))
 		return (LEX_FAIL);
-	if (!(new = ft_lstnew(token, sizeof(token))))
+	token = link->content;
+	ft_lstadd_last(&lexer->list, link);
+	token->value = ft_strndup(lexer->input + lexer->tok_start, lexer->tok_len);
+	if (!token->value)
 	{
 		free(token);
-		return (LEX_FAIL);
-	}
-	ft_lstadd_last(&lexer->list, new);
-	if (!(token->value = ft_strndup(lexer->input + lexer->tok_start, lexer->tok_len)))
-	{
-		free(token);
-		free(new);
+		free(link);
 		return (LEX_FAIL);
 	}
 	token->quoted = ft_abs(lexer->quoted);
 	token->expansion = lexer->expansion;
-	lexer_init(lexer, lexer->tok_start + lexer->tok_len);
+	sh_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 	return (LEX_OK);
 }
 
-void	lexer_show(t_lexer *lexer)
+void	sh_lexer_show(t_lexer *lexer)
 {
 	t_list	*head;
 

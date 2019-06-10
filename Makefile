@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/10 13:11:09 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 15:00:59 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,8 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						heredoc.c research_historic.c render_research.c \
 						free_command_line.c sh_delete_command.c \
 						sh_process_shift_vertical.c \
-						sh_process_shift_horizontal.c update_prompt_keys.c
+						sh_process_shift_horizontal.c update_prompt_keys.c \
+						sh_process_quoted.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 
@@ -103,10 +104,18 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						fill_lr_tables.c shift.c compute_closure_tools.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
-						sh_lexer_rules.c \
-						sh_lexer_quoting.c \
-						sh_lexer_exp.c \
-						t_lexer.c t_token.c t_token_show.c
+						sh_lexer_rule_1.c \
+						sh_lexer_rule_2.c \
+						sh_lexer_rule_3.c \
+						sh_lexer_rule_4.c \
+						sh_lexer_rule_5.c \
+						sh_lexer_rule_6.c \
+						sh_lexer_rule_7.c \
+						sh_lexer_rule_8.c \
+						sh_lexer_rule_9.c \
+						sh_lexer_rule_10.c \
+						sh_lexer_rule_tools.c \
+						t_lexer.c t_token.c t_token_show.c \
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c \
 						sh_prod_case_clause.c sh_prod_case_item.c \
