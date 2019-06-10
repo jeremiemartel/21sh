@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/10 10:40:29 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 11:43:58 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,21 +47,16 @@ EOC = \033[0m
 
 TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_default.c \
-						sh_traverse_complete_command.c \
 						sh_traverse_semicol.c \
 						sh_traverse_and_if.c \
 						sh_traverse_or_if.c \
-						sh_traverse_pipeline.c \
 						sh_traverse_pipe_sequence.c \
-						sh_traverse_command.c \
 						sh_traverse_assigment_word.c \
 						sh_traverse_simple_command.c \
-						sh_traverse_tok_pipe.c \
 						sh_traverse_cmd_name.c \
 						sh_traverse_cmd_word.c \
 						sh_traverse_cmd_suffix.c \
 						sh_traverse_io_redirect.c \
-						sh_traverse_filename.c \
 						sh_traverse_io_here.c \
 						sh_traverse_io_here_canonical.c \
 						sh_traverse_io_file.c \

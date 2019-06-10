@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 14:19:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 14:25:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 11:45:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"UNKNOWN", 0, 1, NULL, &sh_traverse_default},
-	{"|", 0, 1, NULL, &sh_traverse_tok_pipe},
+	{"|", 0, 1, NULL, &sh_traverse_default},
 	{"&", 0, 1, NULL, &sh_traverse_default},
 	{";", 0, 1, NULL, &sh_traverse_semicol},
 	{"<", 0, 1, NULL, &sh_traverse_less},
@@ -82,13 +82,13 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"COMPLETE_COMMANDS", 0, 1, &sh_init_prod_complete_commands,
 		&sh_traverse_default},
 	{"COMPLETE_COMMAND", 0, 1, &sh_init_prod_complete_command,
-		&sh_traverse_complete_command},
+		&sh_traverse_default},
 	{"LIST", 1, 1, &sh_init_prod_list, &sh_traverse_list},
 	{"AND_OR", 0, 1, &sh_init_prod_and_or, &sh_traverse_default},
-	{"PIPELINE", 0, 1, &sh_init_prod_pipeline, &sh_traverse_pipeline},
+	{"PIPELINE", 0, 1, &sh_init_prod_pipeline, &sh_traverse_default},
 	{"PIPE_SEQUENCE", 1, 1, &sh_init_prod_pipe_sequence,
 		&sh_traverse_pipe_sequence},
-	{"COMMAND", 0, 1, &sh_init_prod_command, &sh_traverse_command},
+	{"COMMAND", 0, 1, &sh_init_prod_command, &sh_traverse_default},
 	{"COMPOUND_COMMAND", 0, 1, &sh_init_prod_compound_command,
 		&sh_traverse_default},
 	{"SUBSHELL", 0, 1, &sh_init_prod_subshell, &sh_traverse_default},
@@ -123,7 +123,7 @@ t_grammar_holder g_grammar[NB_SYMBOLS] = {
 	{"REDIRECT_LIST", 0, 1, &sh_init_prod_redirect_list, &sh_traverse_default},
 	{"IO_REDIRECT", 0, 1, &sh_init_prod_io_redirect, &sh_traverse_io_redirect},
 	{"IO_FILE", 0, 1, &sh_init_prod_io_file, &sh_traverse_io_file},
-	{"FILENAME", 0, 1, &sh_init_prod_filename, &sh_traverse_filename},
+	{"FILENAME", 0, 1, &sh_init_prod_filename, &sh_traverse_default},
 	{"IO_HERE", 0, 1, &sh_init_prod_io_here, &sh_traverse_io_here},
 	{"HERE_END", 0, 1, &sh_init_prod_here_end, &sh_traverse_default},
 	{"NEWLINE_LIST", 0, 1, &sh_init_prod_newline_list, &sh_traverse_default},
