@@ -90,13 +90,7 @@ else
 	done
 fi
 
-
-## Other tests
-launch "Others"
-	test 'mkdir test123 ; cd test123 ; ls -a ; ls | cat | wc -c > fifi ; cat fifi ; cd .. ; rm -r test123'
-finish
-
-#rm ${exec}
+rm ${exec}
 echo "passed ${passed} valgrind tests out of ${tried}"
 echo "passed ${diff_passed} diff tests out of ${diff_tried}"
 rm -rf "${exec}.dSYM"
