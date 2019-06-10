@@ -68,6 +68,7 @@ int		sh_init_shell(t_shell *shell, char **env)
 	s = shell->term;
 	ft_bzero(shell, sizeof(t_shell));
 	ft_bzero(&g_glob.command_line, sizeof(t_command_line));
+	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
 	shell->term = s;
 	if (!(shell->env = main_init_env(env)))
 		return (FAILURE);

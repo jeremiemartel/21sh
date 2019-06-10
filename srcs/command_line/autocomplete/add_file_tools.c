@@ -103,6 +103,8 @@ t_file		*new_file(t_shell *shell, char *name, char *fullname)
 	(void)shell;
 	if (!(res = (t_file *)malloc(sizeof(t_file))))
 		return (NULL);
+	res->x = 0;
+	res->y = 0;
 	res->fullname = fullname;
 	if (populate_file(res, name, &path, shell))
 		return (NULL);

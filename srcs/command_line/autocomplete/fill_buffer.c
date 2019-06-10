@@ -54,7 +54,7 @@ void	process_fill_buffer_from_file(t_file *file, int is_current,
 		ft_strcpy(*print_buffer, str);
 		*print_buffer += ft_strlen(str);
 	}
-	else if (S_ISDIR(file->st.st_mode))
+	else if (!file->unstatable && S_ISDIR(file->st.st_mode))
 	{
 		ft_strcpy(*print_buffer, DIR_COLOR);
 		*print_buffer += ft_strlen(DIR_COLOR);
@@ -62,7 +62,7 @@ void	process_fill_buffer_from_file(t_file *file, int is_current,
 	ft_strcpy(*print_buffer, file->name);
 	*i = ft_strlen(file->name);
 	*print_buffer += *i;
-	if (S_ISDIR(file->st.st_mode))
+	if (!file->unstatable && S_ISDIR(file->st.st_mode))
 		process_fill_buffer_folder_suffix(is_current, print_buffer, i);
 }
 

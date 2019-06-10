@@ -14,7 +14,8 @@
 
 int		sh_get_file_len(t_file *file)
 {
-	return (ft_strlen_utf8(file->name) + S_ISDIR(file->st.st_mode));
+	return (ft_strlen_utf8(file->name) + (!file->unstatable
+			&& S_ISDIR(file->st.st_mode)));
 }
 
 int		sh_get_max_file_len(t_dlist *dlist)
