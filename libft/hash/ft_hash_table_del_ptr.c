@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_assigment_word.c                       :+:      :+:    :+:   */
+/*   ft_hash_table_del_ptr.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/20 12:11:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/09 19:44:02 by ldedier          ###   ########.fr       */
+/*   Created: 2019/06/10 12:40:11 by ldedier           #+#    #+#             */
+/*   Updated: 2019/06/10 12:40:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include "libft.h"
 
-int		sh_traverse_assigment_word(t_ast_node *node, t_context *context)
+void	ft_hash_table_del_ptr(t_hash_table *table)
 {
-	return (sh_vars_assignment(context->env, context->vars,
-				node->token->value));
+	unsigned long i;
+
+	i = 0;
+	while (i < table->size)
+	{
+		ft_lstdel_ptr(&table->data[i]);
+		i++;
+	}
+	free(table);
 }

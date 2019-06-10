@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/10 10:40:51 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/10 12:35:18 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,6 +140,14 @@ SRCS	+=	./dlst/ft_dlstnew.c \
 SRCS	+=	./freeturn/ft_free_turn.c \
 			./freeturn/ft_free_turn_dy_str.c \
 			./freeturn/ft_free_turn_n.c
+
+SRCS	+=	./hash/ft_hash_table_new.c \
+			./hash/ft_hash_table_get.c \
+			./hash/ft_hash_table_add.c \
+			./hash/ft_hash_str.c \
+			./hash/ft_hash_table_del_ptr.c \
+			./hash/ft_hash_table_del_value.c \
+			./hash/ft_hash_table_del.c
 
 OBJS		= $(SRCS:%.c=%.o)
 

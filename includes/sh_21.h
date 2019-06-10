@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 12:15:51 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 12:45:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct		s_shell
 	t_historic		historic;
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
+	t_hash_table	*binaries;
 	char			running;
 	struct termios	term;
 }					t_shell;

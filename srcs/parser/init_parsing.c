@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 23:40:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 14:53:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/09 19:07:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		sh_init_parsing(t_lr_parser *parser)
 {
-	g_cfg = &parser->cfg; //todel : usefull for debug (yes it is a global)
+	g_glob.cfg = &parser->cfg;
 	parser->ast_root = NULL;
 	parser->cst_root = NULL;
 	parser->states = NULL;

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 19:04:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 07:11:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/09 19:09:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void	sh_print_item(t_item *item)
 	while (i < NB_TERMS)
 	{
 		if (item->lookaheads[i])
-			sh_print_symbol(&g_cfg->symbols[i]);
+			sh_print_symbol(&g_glob.cfg->symbols[i]);
 			ft_printf(" ");
 		i++;
 	}
@@ -349,7 +349,7 @@ void	sh_print_ast(t_ast_node *node, int depth)
 	if (!node->token)
 		sh_print_symbol(node->symbol);
 	else
-		sh_print_token(node->token, g_cfg);
+		sh_print_token(node->token, g_glob.cfg);
 	ft_printf("\n");
 	ptr = node->children;
 	j = 0;

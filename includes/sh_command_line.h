@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 03:32:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/09 19:08:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct      s_glob
 {
 	struct termios	term_init;
 	t_command_line	command_line;
+	t_cfg			*cfg;
 	int				cursor;
 	struct winsize	winsize;
 	int				verbose;
