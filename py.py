@@ -21,9 +21,8 @@
 import os
 import re;
 
-dir = "./srcs/"
-
-#dir = "./srcs/expansions"
+#dir = "./srcs/lexer"
+dir = "./srcs/expansions"
 #header = "./includes/expansions.h"
 
 format = "^(void|int|char|t_*)"
@@ -34,7 +33,7 @@ for filename in os.listdir(dir):
 	fd = open(os.path.join(dir, filename))
 	line1 = fd.readline()
 	print("/*")
-	print("**" + filename);
+	print("** " + filename);
 	print("*/")
 	while (line1 != ""):
 		if (re.search(format, line1) != None):
