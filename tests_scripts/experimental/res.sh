@@ -1,7 +1,7 @@
 #!/bin/bash
 
 very_old_log_file="./log/save"
-old_log_file="./los/prev"
+old_log_file="./log/prev"
 new_log_file="./log/new"
 
 new_ok=`grep -c OK $new_log_file`
