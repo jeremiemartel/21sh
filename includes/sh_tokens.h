@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:18:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/04 10:13:02 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 14:15:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,46 +20,41 @@
 
 typedef enum		e_symbol_id
 {
-	LEX_TOK_UNKNOWN = 0, //1
-	//simple operators
-	LEX_TOK_PIPE = '|', //2
-	LEX_TOK_AND = '&', //3
-	LEX_TOK_SEMICOL = ';', //4
-	LEX_TOK_LESS = '<', //5
-	LEX_TOK_GREAT = '>', //6
-	LEX_TOK_OPN_PAR = '(', //7
-	LEX_TOK_CLS_PAR = ')', //8 
-	LEX_TOK_LBRACE = '{', //9 
-	LEX_TOK_RBRACE = '}', //10
-	LEX_TOK_BANG = '!', //11
-	LEX_TOK_DOLLAR = '$', //12
-	//Quoting tokens
-	LEX_TOK_BACK_SLASH = '\\', //13
-	LEX_TOK_QUOTE_BACK = '`', //14
-	LEX_TOK_QUOTE_SPL = '\'', //15
-	LEX_TOK_QUOTE_DBL = '"', //16
-	LEX_TOK_SPACE = ' ', //17
-	LEX_TOK_TAB = '\t', //18
-	LEX_TOK_NEWLINE = '\n', //19
-	//Special chars
-	LEX_TOK_STAR = '*', //20
-	LEX_TOK_QUEST = '?', //21
-	LEX_TOK_HASH = '#', //22
-	LEX_TOK_TILD = '~', //23
-	LEX_TOK_EQUAL = '=', //24
-	LEX_TOK_PERCENT = '%', //25
-	//Composed operators
-	LEX_TOK_AND_IF = '&' + 0xff00 * '&', //26				//&&
-	LEX_TOK_OR_IF = '|' + 0xff00 * '|',	//27			//||
-	LEX_TOK_DSEMI = ';' + 0xff00 * ';',	//28			//;;
-	LEX_TOK_DLESS = '<' + 0xff00 * '<',	//29			//<<
-	LEX_TOK_DGREAT = '>' + 0xff00 * '>', //30				//>>
-	LEX_TOK_LESSAND = '<' + 0xff00 * '&', //31				//<&
-	LEX_TOK_GREATAND = '>' + 0xff00 * '&', //32				//>&
-	LEX_TOK_LESSGREAT = '<' + 0xff00 * '>',	//33			//<>
-	LEX_TOK_DLESSDASH = '<' + 0xff00 * '<' + 0xff0000 * '-',//34	//<<-
-	LEX_TOK_CLOBBER = '>' + 0xff00 * '|',	//35			//>| // index 34
-	
+	LEX_TOK_UNKNOWN = 0,
+	LEX_TOK_PIPE = '|',
+	LEX_TOK_AND = '&',
+	LEX_TOK_SEMICOL = ';',
+	LEX_TOK_LESS = '<',
+	LEX_TOK_GREAT = '>',
+	LEX_TOK_OPN_PAR = '(',
+	LEX_TOK_CLS_PAR = ')',
+	LEX_TOK_LBRACE = '{',
+	LEX_TOK_RBRACE = '}',
+	LEX_TOK_BANG = '!',
+	LEX_TOK_DOLLAR = '$',
+	LEX_TOK_BACK_SLASH = '\\',
+	LEX_TOK_QUOTE_BACK = '`',
+	LEX_TOK_QUOTE_SPL = '\'',
+	LEX_TOK_QUOTE_DBL = '"',
+	LEX_TOK_SPACE = ' ',
+	LEX_TOK_TAB = '\t',
+	LEX_TOK_NEWLINE = '\n',
+	LEX_TOK_STAR = '*',
+	LEX_TOK_QUEST = '?',
+	LEX_TOK_HASH = '#',
+	LEX_TOK_TILD = '~',
+	LEX_TOK_EQUAL = '=',
+	LEX_TOK_PERCENT = '%',
+	LEX_TOK_AND_IF = '&' + 0xff00 * '&',
+	LEX_TOK_OR_IF = '|' + 0xff00 * '|',
+	LEX_TOK_DSEMI = ';' + 0xff00 * ';',
+	LEX_TOK_DLESS = '<' + 0xff00 * '<',
+	LEX_TOK_DGREAT = '>' + 0xff00 * '>',
+	LEX_TOK_LESSAND = '<' + 0xff00 * '&',
+	LEX_TOK_GREATAND = '>' + 0xff00 * '&',
+	LEX_TOK_LESSGREAT = '<' + 0xff00 * '>',
+	LEX_TOK_DLESSDASH = '<' + 0xff00 * '<' + 0xff0000 * '-',
+	LEX_TOK_CLOBBER = '>' + 0xff00 * '|',
 	LEX_TOK_IF,
 	LEX_TOK_THEN,
 	LEX_TOK_ELSE,
@@ -72,21 +67,14 @@ typedef enum		e_symbol_id
 	LEX_TOK_WHILE,
 	LEX_TOK_UNTIL,
 	LEX_TOK_FOR,
-	LEX_TOK_IN, //index 47
-
-	//Other
+	LEX_TOK_IN,
 	LEX_TOK_TOKEN = 130,
 	LEX_TOK_WORD,
-	LEX_TOK_ASSIGNMENT_WORD, //index 50
+	LEX_TOK_ASSIGNMENT_WORD,
 	LEX_TOK_NAME,
 	LEX_TOK_IO_NUMBER,
-
-		//Specials
 	END_OF_INPUT,
-	EPS, //index 54 (NB_TERMS = 55)
-
-	//Non Terminals
-
+	EPS,
 	PROGRAM,
 	COMPLETE_COMMANDS,
 	COMPLETE_COMMAND,
@@ -133,7 +121,7 @@ typedef enum		e_symbol_id
 	LINEBREAK,
 	SEPARATOR_OP,
 	SEPARATOR,
-	SEQUENTIAL_SEP, // + 47
+	SEQUENTIAL_SEP
 }					t_symbol_id;
 
 #endif
