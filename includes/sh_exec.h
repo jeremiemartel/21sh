@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 10:55:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 15:41:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,36 @@
 # define DGREAT_OPT		(O_WRONLY | O_APPEND | O_CREAT)
 # define GREAT_OPT		(O_WRONLY | O_TRUNC | O_CREAT)
 
-typedef enum			e_redirection_type
+static pid_t g_parent = 0;
+
+typedef enum		e_redirection_type
 {
 	INPUT,
 	OUTPUT
-}						t_redirection_type;
+}					t_redirection_type;
 
-typedef struct			s_redirection
+typedef struct		s_redirection
 {
 	t_redirection_type	type;
 	int					redirected_fd;
 	int					fd;
-}						t_redirection;
+}					t_redirection;
 
-typedef struct			s_command_metadata
+typedef struct		s_command_metadata
 {
-	t_list				*redirections;
-}						t_command_metadata;
+	t_list			*redirections;
+}					t_command_metadata;
 
-typedef struct			s_heredoc_metadata
+typedef struct		s_heredoc_metadata
 {
 	t_redirection		redirection;
-}						t_heredoc_metadata;
+}					t_heredoc_metadata;
 
-typedef union			u_metadata
+typedef union		u_metadata
 {
 	t_command_metadata	command_metadata;
 	t_heredoc_metadata	heredoc_metadata;
-}						t_metadata;
+}					t_metadata;
 
 typedef enum		e_phase
 {
@@ -63,7 +65,7 @@ typedef struct		s_context
 	t_dy_tab		*vars;
 	char			*path;
 	t_dy_tab		*params;
-	int				(*builtin)(t_context *);
+	int				(*builtin)(struct s_context *);
 	int				redirected_fd;
 	int				fd[3];
 	t_phase			phase;
@@ -78,33 +80,36 @@ typedef struct		s_context
 /*
 ** sh_execute.c
 */
-void			transmit_sig_and_die(int signal);
-void			transmit_sig(int signal);
-int				sh_process_execute_builtin_fill_fd(t_context *context);
-int				sh_process_execute_builtin(t_context *context);
-int				sh_process_execute(t_context *context);
+int					sh_process_execute_close_pipes(t_context *context);
+int					sh_process_execute(t_context *context);
 
 /*
 ** t_context.c
 */
-int				t_context_init(t_context *context, t_shell *shell);
-void			t_context_free_content(t_context *context);
+int					t_context_init(t_context *context, t_shell *shell);
+void				t_context_free_content(t_context *context);
 
 /*
 ** sh_redirections.c
 */
-t_redirection	*get_redirection(
+t_redirection		*get_redirection(
 	t_redirection_type type, int redirected_fd, t_list *list);
-int				sh_add_redirection(
+int					sh_add_redirection(
 	t_redirection_type type, int redirected_fd, int fd, t_list **list);
-int				get_redirected_fd(
+int					get_redirected_fd(
 	t_redirection_type type, int fd, t_list *redirections);
-int				sh_process_fd_aggregation(
+int					sh_process_fd_aggregation(
 	t_redirection_type type, int redirected_fd, int fd, t_list **redirections);
+
 /*
 ** sh_debug.c
 */
-void			print_redirection(t_redirection *redirection);
-void			print_redirection_list(t_list *list);
+void				print_redirection(t_redirection *redirection);
+void				print_redirection_list(t_list *list);
+
+/*
+** sh_exec_builtin.c
+*/
+int					sh_exec_builtin(t_context *context);
 
 #endif

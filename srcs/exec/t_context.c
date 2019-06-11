@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 15:49:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 **
 **	return : SUCCESS or FAILURE
 */
+
 int		t_context_init(t_context *context, t_shell *shell)
 {
 	if (!(context->params = ft_dy_tab_new(5)))
@@ -38,6 +39,7 @@ int		t_context_init(t_context *context, t_shell *shell)
 ** t_context_free_content:
 **	Free any allocated memory in a t_context structure
 */
+
 void	t_context_free_content(t_context *context)
 {
 	ft_dy_tab_del(context->params);

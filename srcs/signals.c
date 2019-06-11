@@ -3,16 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:57:54 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 03:14:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 15:45:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	handle_resize(int signal)
+extern pid_t g_parent;
+
+static void	transmit_sig_and_die(int signal)
+{
+	if (g_parent)
+		kill(g_parent, signal);
+	return (exit(sh_reset_shell(0)));
+}
+
+static void	transmit_sig(int signal)
+{
+	if (g_parent)
+		kill(g_parent, signal);
+	if (isatty(0) && g_glob.command_line.dy_str)
+	{
+		get_down_from_command(&g_glob.command_line);
+		g_glob.cursor = 0;
+		g_glob.command_line.dy_str->current_size = 0;
+		g_glob.command_line.current_index = 0;
+		ft_bzero(g_glob.command_line.dy_str->str,
+			g_glob.command_line.dy_str->max_size);
+		g_glob.command_line.nb_chars = 0;
+		render_command_line(&g_glob.command_line, 0, 1);
+	}
+}
+
+static void	handle_resize(int signal)
 {
 	(void)signal;
 	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
@@ -20,7 +46,7 @@ void	handle_resize(int signal)
 		render_command_line(&g_glob.command_line, 0, 1);
 }
 
-void	init_signals(void)
+void		init_signals(void)
 {
 	signal(SIGWINCH, handle_resize);
 	signal(SIGALRM, transmit_sig_and_die);
