@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 15:09:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 int		sh_traverse_sc_no_slash_cmd(t_context *context)
 {
 	if ((context->builtin = sh_builtin_find(context)))
-		return (sh_process_execute_builtin(context));
+		return (sh_exec_builtin(context));
 	// undefined behaviour names
 	// Looking for functions
 	// Reserved utility

@@ -6,14 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 15:16:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 15:49:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-t_redirection	*get_redirection(t_redirection_type type,
-					int redirected_fd, t_list *list)
+t_redirection	*get_redirection(t_redirection_type type, int redirected_fd, t_list *list)
 {
 	t_list			*ptr;
 	t_redirection	*redirection;
@@ -30,8 +29,7 @@ t_redirection	*get_redirection(t_redirection_type type,
 	return (NULL);
 }
 
-int		sh_add_redirection(t_redirection_type type,
-			int redirected_fd, int fd, t_list **list)
+int				sh_add_redirection(t_redirection_type type, int redirected_fd, int fd, t_list **list)
 {
 	t_redirection	redirection;
 	t_redirection	*found;
@@ -60,7 +58,7 @@ int		sh_add_redirection(t_redirection_type type,
 	return (SUCCESS);
 }
 
-int		get_redirected_fd(t_redirection_type type, int fd, t_list *redirections)
+int				get_redirected_fd(t_redirection_type type, int fd, t_list *redirections)
 {
 	t_list			*ptr;
 	t_redirection	*redir;
@@ -76,12 +74,10 @@ int		get_redirected_fd(t_redirection_type type, int fd, t_list *redirections)
 	return (fd);
 }
 
-int		sh_process_fd_aggregation(t_redirection_type type,
-			int redirected_fd, int fd, t_list **redirections)
+int				sh_process_fd_aggregation(t_redirection_type type, int redirected_fd, int fd, t_list **redirections)
 {
 	int new_fd;
 
 	new_fd = get_redirected_fd(type, fd, *redirections);
 	return (sh_add_redirection(type, redirected_fd, new_fd, redirections));
 }
-

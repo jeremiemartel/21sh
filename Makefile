@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/11 11:14:32 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/11 15:13:08 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -155,6 +155,7 @@ VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
 						sh_verbose.c sh_env_vars.c
 
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
+						sh_exec_builtin.c \
 						t_context.c \
 						sh_redirections.c\
 						sh_debug.c
