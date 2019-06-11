@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 16:05:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 10:25:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct		s_lexer
 	char			quoted;
 	char			expansion;
 	t_list			*list;
-	t_dy_tab 		*env;
+	t_dy_tab		*env;
 	t_dy_tab		*vars;
 	t_shell			*shell;
 }					t_lexer;
@@ -75,86 +75,90 @@ typedef struct		s_token
 }					t_token;
 
 /*
-**sh_lexer.c
+********************************************************************************
 */
-int		sh_is_var_name(char *name);
-int		sh_lexer_lexical_conventions(t_lexer *lexer);
-int		sh_lexer(char *input, t_list **tokens, t_shell *shell);
 
 /*
-**sh_lexer_rule_1.c
+** sh_lexer_rule_3.c
 */
-int		sh_lexer_rule1(t_lexer *lexer);
+int					sh_lexer_rule3(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_10.c
+** sh_lexer_rule_10.c
 */
-int		sh_lexer_rule10(t_lexer *lexer);
+int					sh_lexer_rule10(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_2.c
+** t_lexer.c
 */
-int		sh_lexer_rule2(t_lexer *lexer);
+void				sh_lexer_init(t_lexer *lexer, int tok_start);
+int					sh_lexer_add_token(t_lexer *lexer);
+void				sh_lexer_show(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_3.c
+** sh_lexer_rule_2.c
 */
-int		sh_lexer_rule3(t_lexer *lexer);
+int					sh_lexer_rule2(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_4.c
+** sh_lexer_rule_7.c
 */
-int				sh_lexer_rule4(t_lexer *lexer);
+int					sh_lexer_rule7(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_5.c
+** sh_lexer_rule_tools.c
 */
-int				sh_lexer_rule5(t_lexer *lexer);
+int					sh_lexer_is_operator(int op);
 
 /*
-**sh_lexer_rule_6.c
+** sh_lexer_rule_6.c
 */
-int			sh_lexer_rule6(t_lexer *lexer);
+int					sh_lexer_rule6(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_7.c
+** sh_lexer_rule_9.c
 */
-int		sh_lexer_rule7(t_lexer *lexer);
+int					sh_lexer_rule9(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_8.c
+** sh_lexer_rule_8.c
 */
-int		sh_lexer_rule8(t_lexer *lexer);
+int					sh_lexer_rule8(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_9.c
+** sh_lexer_rule_1.c
 */
-int		sh_lexer_rule9(t_lexer *lexer);
+int					sh_lexer_rule1(t_lexer *lexer);
 
 /*
-**sh_lexer_rule_tools.c
+** t_token_show.c
 */
-int		sh_lexer_is_operator(int op);
+void				t_token_show(t_token *token);
+void				t_token_show_id(int i);
 
 /*
-**t_lexer.c
+** sh_lexer_rule_5.c
 */
-void	sh_lexer_init(t_lexer *lexer, int tok_start);
-int		sh_lexer_add_token(t_lexer *lexer);
-void	sh_lexer_show(t_lexer *lexer);
+int					sh_lexer_rule5(t_lexer *lexer);
 
 /*
-**t_token.c
+** sh_lexer.c
 */
-void	t_token_update_id(int id, t_token *token);
-t_list	*t_token_new_link(int id, char *value);
-void	t_token_free(t_token *token);
-void	t_token_free_list(t_list *head);
+int					sh_is_var_name(char *name);
+int					sh_lexer_lexical_conventions(t_lexer *lexer);
+int					sh_lexer(char *input, t_list **tokens, t_shell *shell);
 
 /*
-**t_token_show.c
+** sh_lexer_rule_4.c
 */
-void		t_token_show(t_token *token);
-void		t_token_show_id(int i);
+int					sh_lexer_rule4(t_lexer *lexer);
+
+/*
+** t_token.c
+*/
+void				t_token_update_id(int id, t_token *token);
+t_list				*t_token_new_link(int id, char *value);
+void				t_token_free(t_token *token);
+void				t_token_free_list(t_list *head);
 
 #endif
