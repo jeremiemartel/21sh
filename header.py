@@ -124,4 +124,5 @@ automatic_header("./srcs/vars", "./includes/sh_vars.h", 0)
 ## Can't launch : prototypes on two lines
 # automatic_header("./srcs/traverse", "./includes/sh_traverse.h", 0)
 # automatic_header("./srcs/builtin", "./includes/sh_builtin.h", 0)
-# automatic_header("./srcs/exec", "./includes/sh_exec.h", 0)
+automatic_header("./srcs/exec", "./includes/sh_exec.h", 5)
+# automatic_header("./srcs/perror", "./includes/sh_perror.h", 0)
