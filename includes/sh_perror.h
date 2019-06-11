@@ -10,8 +10,8 @@
 /*																			*/
 /* ************************************************************************** */
 
-#ifndef SH_PERROR_H
-# define SH_PERROR_H
+#ifndef PERROR_H
+# define PERROR_H
 
 # include "sh_21.h"
 

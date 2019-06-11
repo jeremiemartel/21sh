@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 12:55:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int		sh_init_historic(t_historic *historic)
 	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR, S_IRWXU)) == -1)
 	{
 		perror("open");
-		return (ft_perror(SH_ERR1_HISTORIC, "sh_unit_historic"));
+		return (sh_perror(SH_ERR1_HISTORIC, "sh_unit_historic"));
 	}
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
 		if (ft_add_to_dlist_ptr(&historic->commands, line, sizeof(line)))
-			return (ft_perror(SH_ERR1_MALLOC, "sh_init_historic"));
+			return (sh_perror(SH_ERR1_MALLOC, "sh_init_historic"));
 	}
 	free(line);
 	historic->head_start.next = historic->commands;
@@ -57,7 +57,7 @@ int		sh_init_command_line(t_shell *shell, t_command_line *command_line)
 		return (FAILURE);
 	command_line->clipboard = NULL;
 	if (!(command_line->dy_str = ft_dy_str_new(63)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_init_command_line"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_init_command_line"));
 	return (SUCCESS);
 }
 

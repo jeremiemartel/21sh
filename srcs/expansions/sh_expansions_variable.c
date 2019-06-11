@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 17:19:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int		sh_expansions_variable_fill(t_expansion *exp, char *start)
 	if ((i = sh_expansions_variable_detect(start)) == -1)
 		return (ERROR);
 	if (!(exp->original = ft_strndup(start, i + 1)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_variable_detect_name (1)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_exp_variable_detect_name (1)"));
 	if (!(exp->expansion = ft_strndup(start + 1, i + 1)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (2)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (2)"));
 	exp->type = EXP_VAR;
 	exp->process = &sh_expansions_variable_process;
 	return (SUCCESS);
@@ -99,6 +99,6 @@ int		sh_expansions_variable_process(t_context *context, t_expansion *exp)
 			exp->res = ft_dy_str_new_str(value);
 	}
 	if (!(exp->res))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_variable (1)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_variable (1)"));
 	return (SUCCESS);
 }

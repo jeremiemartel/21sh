@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 06:52:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_stack_item	*new_stack_item(t_ast_builder *ast_builder, int state_index)
 	t_stack_item *res;
 
 	if (!(res = (t_stack_item *)malloc(sizeof(t_stack_item))))
-		return (ft_perrorn(SH_ERR1_MALLOC, "new_stack_item"));
+		return (sh_perrorn(SH_ERR1_MALLOC, "new_stack_item"));
 	if (!ast_builder)
 	{
 		res->stack_enum = E_STACK_STATE_INDEX;
@@ -87,7 +87,7 @@ int				sh_lr_parse(t_lr_parser *parser)
 	if (ft_lstaddnew_ptr(&parser->stack, stack_item, sizeof(t_stack_item *)))
 	{
 		sh_free_stack_item(stack_item);
-		return (ft_perror(SH_ERR1_MALLOC, "sh_lr_parse"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_lr_parse"));
 	}
 	while (parser->tokens)
 	{

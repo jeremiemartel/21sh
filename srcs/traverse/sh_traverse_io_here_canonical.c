@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_traverse_io_here_canonical.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 04:29:57 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 04:31:26 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ static int		process_heredoc_canonical_mode(t_gnl_info info,
 		if (!(tmp = heredoc_func(info.line)))
 		{
 			return (ft_free_turn_2(*res, info.line,
-				ft_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode")));
+				sh_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode")));
 		}
 		if (!ft_strcmp(tmp, eof))
 			return (ft_free_turn_2(tmp, info.line, SUCCESS));
 		free(info.line);
 		if (!(*res = ft_strjoin_free(*res, tmp, 3)))
-			return (ft_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+			return (sh_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
 		if (!(*res = ft_strjoin_free(*res, "\n", 1)))
-			return (ft_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+			return (sh_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
 	}
 	else
 	{
 		free(info.line);
-		return (ft_perror("Illegal characters received from input",
+		return (sh_perror("Illegal characters received from input",
 					"heredoc_canonical_mode"));
 	}
 	return (3);
@@ -49,7 +49,7 @@ char			*heredoc_canonical_mode(char *eof,
 	char		*res;
 
 	if (!(res = ft_strnew(0)))
-		return (ft_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+		return (sh_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
 	while ((gnl_ret = get_next_line2(0, &info)) == 1)
 	{
 		if ((*ret = process_heredoc_canonical_mode(info,

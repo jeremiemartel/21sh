@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 11:01:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		sh_add_to_dy_str(t_dy_str *dy_str,
 	ft_memcpy(buffer2, buffer, nb_bytes);
 	buffer2[nb_bytes] = 0;
 	if (ft_substitute_dy_str(dy_str, buffer2, ft_strlen(dy_str->str), 0))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_add_to_dy_str"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_add_to_dy_str"));
 	return (SUCCESS);
 }
 

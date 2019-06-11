@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:21:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/07 14:26:21 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		sh_vars_mod_key(t_dy_tab *vars, char *key, char *value)
 	if ((index = sh_vars_get_index(vars, key)) == -1)
 		return (sh_vars_add_key(vars, key, value));
 	if (!(buff = ft_strjoin_3(key, "=", value)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_vars_mod_key"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_vars_mod_key"));
 	free(vars->tbl[index]);
 	vars->tbl[index] = buff;
 	return (SUCCESS);
@@ -47,11 +47,11 @@ int		sh_vars_add_key(t_dy_tab *vars, char *key, char *value)
 	if (sh_vars_get_index(vars, key) != -1)
 		return (sh_vars_mod_key(vars, key, value));
 	if (!(buff = ft_strjoin_3(key, "=", value)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_vars_add_key (1)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_vars_add_key (1)"));
 	if (ft_dy_tab_add_ptr(vars, buff))
 	{
 		free(buff);
-		return (ft_perror(SH_ERR1_MALLOC, "sh_vars_add_key (2)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_vars_add_key (2)"));
 	}
 	return (SUCCESS);
 }

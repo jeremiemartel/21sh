@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:56:29 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 17:17:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 	if ((i = sh_expansions_tilde_detect(start)) == -1)
 		return (ERROR);
 	if (!(exp->original = ft_strndup(start, i + 1)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_exp_variable_detect_name (1)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_exp_variable_detect_name (1)"));
 	exp->expansion = NULL;
 	exp->type = EXP_VAR;
 	exp->process = &sh_expansions_tilde_process;
@@ -94,11 +94,11 @@ int		sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 	char	*home;
 
 	if (!(home = get_env_value((char**)context->env->tbl, "HOME")))
-		return (ft_perror(SH_ERR1_ENV_NOT_SET, "HOME"));
+		return (sh_perror(SH_ERR1_ENV_NOT_SET, "HOME"));
 	if (!(exp->res = (t_dy_str *)malloc(sizeof(t_dy_str))))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (1)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (1)"));
 	if (!(exp->res->str = ft_strrep_free(exp->original, home, "~", 0)))
-		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (2)"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (2)"));
 	return (SUCCESS);
 }
 
@@ -116,14 +116,14 @@ int		sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 	struct passwd	*passwd;
 
 	if (!(buf = ft_strndup(exp->original + 1, ft_strlen(exp->original) - 2)))
-		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (1)"));
+		return (sh_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (1)"));
 	if (!(passwd = getpwnam(buf)))
 		exp->res = ft_dy_str_new_str(exp->original);
 	else
 		exp->res = ft_dy_str_new_str(passwd->pw_dir);
 	free(buf);
 	if (!(exp->res))
-		return (ft_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (2)"));
+		return (sh_perror(SH_ERR1_MALLOC, "expansion_process_tilde_2 (2)"));
 	return (SUCCESS);
 	(void)context;
 }

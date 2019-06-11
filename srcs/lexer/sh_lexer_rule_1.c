@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:25:15 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 14:55:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		sh_lexer_rule1(t_lexer *lexer)
 		{
 			if (!isatty(0))
 			{
-				ft_perror(SH_ERR1_UNEXPECTED_EOF, "sh_lexer_rule1");
+				sh_perror(SH_ERR1_UNEXPECTED_EOF, "sh_lexer_rule1");
 				return (LEX_FAIL);
 			}
 			else

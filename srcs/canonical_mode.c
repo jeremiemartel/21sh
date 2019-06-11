@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   canonical_mode.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 18:06:46 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 02:58:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int		sh_process_read_canonical_gnl(t_shell *shell, t_gnl_info *info)
 	else
 	{
 		free(info->line);
-		return (ft_perror("Illegal characters received from input",
+		return (sh_perror("Illegal characters received from input",
 			"sh_process_read_canonical_gnl"));
 	}
 	free(info->line);
@@ -51,7 +51,7 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 			return (FAILURE);
 	}
 	if (gnl_ret == -1)
-		return (ft_perror("get_next_line error", "sh_process_read_canonical"));
+		return (sh_perror("get_next_line error", "sh_process_read_canonical"));
 	free(info.line);
 	return (SUCCESS);
 }
