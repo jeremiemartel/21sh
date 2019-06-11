@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:35:24 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 17:43:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			sh_expansions_parameter_format(t_expansion *exp, char *format)
 		head++;
 	}
 	if (!ft_isalpha(*head) && *head != '_')
-		return (ft_perror_err(exp->original, "bad substitution"));
+		return (sh_perror_err(exp->original, "bad substitution"));
 	head++;
 	while (ft_isalnum((int)*head) || *head == '_')
 		head++;
@@ -49,7 +49,7 @@ int			sh_expansions_parameter_format(t_expansion *exp, char *format)
 	else if (ft_strnstr(head, "##", 2) || ft_strnstr(head, "%%", 2))
 		sh_expansions_parameter_fill_format(head, format + i, 2);
 	else
-		return (ft_perror_err(exp->original, "bad substitution"));
+		return (sh_perror_err(exp->original, "bad substitution"));
 	return (SUCCESS);
 }
 

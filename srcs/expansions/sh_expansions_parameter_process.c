@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 17:43:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			sh_expansions_parameter_minus(t_context *context, t_expansion *exp, char *
 	else
 		exp->res = ft_dy_str_new_str(param);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_parameter_minus"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_parameter_minus"));
 	return (SUCCESS);
 }
 
@@ -80,7 +80,7 @@ int			sh_expansions_parameter_equal(t_context *context, t_expansion *exp, char *
 	else
 		exp->res = ft_dy_str_new_str(param);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_parameter_equal"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_parameter_equal"));
 	return (SUCCESS);
 }
 
@@ -167,6 +167,6 @@ int			sh_expansions_parameter_plus(t_context *context, t_expansion *exp, char *f
 	else
 		exp->res = ft_dy_str_new_str(word);
 	if (!exp->res)
-		return (ft_perror(SH_ERR1_MALLOC, "sh_expansions_"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_"));
 	return (SUCCESS);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::	  ::::::::   */
-/*   perror.h										   :+:	  :+:	:+:   */
+/*   sh_perror.h										   :+:	  :+:	:+:   */
 /*													+:+ +:+		 +:+	 */
 /*   By: jmartel <jmartel@student.42.fr>			+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
@@ -10,8 +10,8 @@
 /*																			*/
 /* ************************************************************************** */
 
-#ifndef PERROR_H
-# define PERROR_H
+#ifndef SH_PERROR_H
+# define SH_PERROR_H
 
 # include "sh_21.h"
 
@@ -35,23 +35,23 @@
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 
 /*
-**ft_perror.c
+**sh_perror.c
 */
-int			 ft_perror(const char *error, const char *suffix);
-int			 ft_perror_err(const char *error, const char *suffix);
-void		*ft_perrorn(const char *error, const char *suffix);
-int			 ft_perror_fd(int fd, const char *error, const char *suffix);
-int			 ft_perror_err_fd(int fd, const char *error, const char *suffix);
-void		*ft_perrorn_fd(int fd, const char *error, const char *suffix);
+int			 sh_perror(const char *error, const char *suffix);
+int			 sh_perror_err(const char *error, const char *suffix);
+void		*sh_perrorn(const char *error, const char *suffix);
+int			 sh_perror_fd(int fd, const char *error, const char *suffix);
+int			 sh_perror_err_fd(int fd, const char *error, const char *suffix);
+void		*sh_perrorn_fd(int fd, const char *error, const char *suffix);
 
 /*
-**ft_perror2.c
+**sh_perror2.c
 */
-int			 ft_perror2(const char *error, const char *prefix, const char *suffix);
-int			 ft_perror2_err(const char *error, const char *prefix, const char *suffix);
-void		*ft_perror2n(const char *error, const char *prefix, const char *suffix);
-int			 ft_perror2_fd(int fd, const char *error, const char *prefix, const char *suffix);
-int			 ft_perror2_err_fd(int fd, const char *error, const char *prefix, const char *suffix);
-void		*ft_perror2n_fd(int fd, const char *error, const char *prefix, const char *suffix);
+int			 sh_perror2(const char *error, const char *prefix, const char *suffix);
+int			 sh_perror2_err(const char *error, const char *prefix, const char *suffix);
+void		*sh_perror2n(const char *error, const char *prefix, const char *suffix);
+int			 sh_perror2_fd(int fd, const char *error, const char *prefix, const char *suffix);
+int			 sh_perror2_err_fd(int fd, const char *error, const char *prefix, const char *suffix);
+void		*sh_perror2n_fd(int fd, const char *error, const char *prefix, const char *suffix);
 
 #endif

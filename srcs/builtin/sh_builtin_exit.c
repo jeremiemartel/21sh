@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_builtin_exit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:14:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/10 19:01:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int				sh_builtin_exit(t_context *context)
 {
 	if (context->params->tbl[0] && context->params->tbl[1] && context->params->tbl[2])
-		return (ft_perror(context->params->tbl[0], SH_ERR1_TOO_MANY_ARGS));
+		return (sh_perror(context->params->tbl[0], SH_ERR1_TOO_MANY_ARGS));
 	else if (context->params->tbl[1])
 	{
 		context->shell->running = 0;

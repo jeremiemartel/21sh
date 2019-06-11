@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 15:14:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	sh_process_execute_dup_pipes(t_context *context)
 				ft_dprintf(2, "\t%d became %d\n",
 					redir->fd, redir->redirected_fd);
 			if (dup2(redir->fd, redir->redirected_fd) == -1)
-				return (ft_perror(SH_ERR1_INTERN_ERR,
+				return (sh_perror(SH_ERR1_INTERN_ERR,
 					"process_exec_dup_pipes 2"));
 		}
 		else if (redir->fd == -1)
@@ -159,7 +159,7 @@ int		sh_process_execute_builtin(t_context *context)
 	res = context->builtin(context);
 	sh_env_vars_update_question_mark(context, res);
 	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
-		return (ft_perror("Could not modify this terminal attributes",
+		return (sh_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));
 	sh_process_execute_close_pipes(context);
 	return (SUCCESS);
@@ -181,7 +181,7 @@ int		sh_process_execute(t_context *context)
 		sh_process_execute_dup_pipes(context);
 		execve(context->path, (char **)context->params->tbl, (char **)context->env->tbl);
 		sh_process_execute_close_pipes(context);
-		ft_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
+		sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		exit(FAILURE);
 	}
 	else
@@ -191,7 +191,7 @@ int		sh_process_execute(t_context *context)
 		g_parent = 0;
 		sh_process_execute_close_pipes(context);
 		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
-			return (ft_perror("Could not modify this terminal attributes",
+			return (sh_perror("Could not modify this terminal attributes",
 				"sh_init_terminal"));
 	}
 	return (SUCCESS);

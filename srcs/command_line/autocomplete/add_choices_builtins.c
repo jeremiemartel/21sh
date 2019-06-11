@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_choices_builtins.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 15:24:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/06 23:07:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		process_add_choices_from_name(t_shell *shell,
 		if (!(to_add = ft_dlstnew_ptr(file, sizeof(t_file))))
 		{
 			free_file(file);
-			return (ft_perror(SH_ERR1_MALLOC, "process_add_choices_from_name"));
+			return (sh_perror(SH_ERR1_MALLOC, "process_add_choices_from_name"));
 		}
 		add_node_next_to_node(prev_to_add, to_add);
 		if (ret)

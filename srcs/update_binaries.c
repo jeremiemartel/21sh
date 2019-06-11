@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 15:15:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 		return (sh_process_execute(context));
 	else
 	{
-		ft_perror(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
+		sh_perror(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		sh_env_vars_update_question_mark(context, 127);
 		return (ERROR);
 	}
@@ -66,7 +66,7 @@ int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 			if (!(buf = ft_strjoin_path(path, dirent->d_name)))
 			{
 				closedir(dir);
-				return (ft_perror(SH_ERR1_MALLOC,
+				return (sh_perror(SH_ERR1_MALLOC,
 					"traverse_sc_search_in_dir"));
 			}
 			if (sh_traverse_sc_check_perm(buf,
@@ -130,8 +130,8 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name)
 	if (stat(path, &st) == -1)
 		return (FAILURE);
 	if (access(path, X_OK))
-		return (ft_perror(SH_ERR1_PERM_DENIED, command_name));
+		return (sh_perror(SH_ERR1_PERM_DENIED, command_name));
 	if (!S_ISREG(st.st_mode))
-		return (ft_perror(SH_ERR1_CMD_NOT_FOUND, command_name));
+		return (sh_perror(SH_ERR1_CMD_NOT_FOUND, command_name));
 	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_choices.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 02:33:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 00:21:43 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		render_choices(t_command_line *command_line)
 	if (!sh_should_render_choices(command_line, nb_visible_lines))
 		return (SUCCESS);
 	if (!(print_buffer = new_print_buffer()))
-		return (ft_perror(SH_ERR1_MALLOC, "render_choices"));
+		return (sh_perror(SH_ERR1_MALLOC, "render_choices"));
 	if (nb_visible_lines + command_line_nb_rows(command_line)
 			> g_glob.winsize.ws_row)
 		fill_buffer_partial_from_tables(command_line,

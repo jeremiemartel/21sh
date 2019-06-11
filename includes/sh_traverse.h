@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 10:34:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:05:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		sh_traverse_list(t_ast_node *node, t_context *context);
 /*
 ** sh_traverse_io_here_canonical.c
 */
-char			*heredoc_canonical_mode(char *eof,
+char	*heredoc_canonical_mode(char *eof,
 			char *(*heredoc_func)(const char *), int *ret);
 
 /*
@@ -64,7 +64,7 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name);
 /*
 ** sh_traverse_io_file.c
 */
-int			get_io_file_return(t_ast_node *redir_child,
+int		get_io_file_return(t_ast_node *redir_child,
 			char *filename, t_context *context);
 int		sh_traverse_io_file(t_ast_node *node, t_context *context);
 

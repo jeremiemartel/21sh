@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/11 10:46:13 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/11 11:14:32 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ AUTO_DIR	= autocomplete
 EXEC_DIR	= exec
 BUILT_DIR	= builtin
 EXP_DIR		= expansions
-
+PERROR_DIR	= perror
 SPEED = -j1
 LIBFT_INCLUDEDIR = includes
 LIBFT = $(LIBFTDIR)/libft.a
@@ -87,7 +87,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 
 
-SRCS_NO_PREFIX =		main.c index.c ft_perror.c ft_perror2.c init.c \
+SRCS_NO_PREFIX =		main.c index.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c
@@ -169,14 +169,17 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_verbose.c \
 						sh_builtin_set.c
 
-EXP_SRCS_NO_PREFIX =	\
-						sh_expansions.c \
+EXP_SRCS_NO_PREFIX =	sh_expansions.c \
 						sh_expansions_parameter.c \
 						sh_expansions_parameter_process.c \
 						sh_expansions_parameter_tools.c \
 						sh_expansions_tilde.c \
 						sh_expansions_variable.c \
 						t_expansion.c
+
+PERROR_SRCS_NO_PREFIX =	sh_perror.c \
+						sh_perror2.c \
+						sh_perror_fd.c
 
 INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
 					  	sh_command_line.h sh_autocompletion.h sh_exec.h sh_builtin.h sh_expansions.h
@@ -193,6 +196,7 @@ VARS_SOURCES = $(addprefix $(SRCDIR)/$(VARS_DIR)/, $(VARS_SRCS_NO_PREFIX))
 EXEC_SOURCES = $(addprefix $(SRCDIR)/$(EXEC_DIR)/, $(EXEC_SRCS_NO_PREFIX))
 BUILT_SOURCES = $(addprefix $(SRCDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX))
 EXP_SOURCES = $(addprefix $(SRCDIR)/$(EXP_DIR)/, $(EXP_SRCS_NO_PREFIX))
+PERROR_SOURCES = $(addprefix $(SRCDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
@@ -206,6 +210,7 @@ BUILT_OBJECTS = $(addprefix $(OBJDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX:%.c=
 AUTO_OBJECTS = $(addprefix $(OBJDIR)/$(COMMANDLINE_DIR)/$(AUTO_DIR)/, $(AUTO_SRCS_NO_PREFIX:%.c=%.o))
 COMMANDLINE_OBJECTS = $(addprefix $(OBJDIR)/$(COMMANDLINE_DIR)/, $(COMMANDLINE_SRCS_NO_PREFIX:%.c=%.o))
 EXP_OBJECTS = $(addprefix $(OBJDIR)/$(EXP_DIR)/, $(EXP_SRCS_NO_PREFIX:%.c=%.o))
+PERROR_OBJECTS = $(addprefix $(OBJDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX:%.c=%.o))
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
@@ -220,6 +225,7 @@ OBJECTS += $(EXEC_OBJECTS)
 OBJECTS += $(BUILT_OBJECTS)
 OBJECTS += $(COMMANDLINE_OBJECTS)
 OBJECTS += $(EXP_OBJECTS)
+OBJECTS += $(PERROR_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR)
 
@@ -303,6 +309,11 @@ $(OBJDIR)/$(EXP_DIR)/%.o : $(SRCDIR)/$(EXP_DIR)/%.c $(INCLUDES)
 	@$(CC) -c $< -o $@ $(CFLAGS)
 	@echo "${COMP_COLOR}$< ${EOC}"
 
+$(OBJDIR)/$(PERROR_DIR)/%.o : $(SRCDIR)/$(PERROR_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(PERROR_DIR)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
+
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)
 	@@$(CC) -c $< -o $@ $(CFLAGS)
@@ -318,5 +329,11 @@ fclean: clean
 	@rm -f $(BINDIR)/$(NAME)
 
 re: fclean all
+
+rere:
+	@rm -f $(OBJECTS)
+	@rm -rf $(OBJDIR)
+	@rm -f $(BINDIR)/$(NAME)
+	make all
 
 .PHONY: all clean fclean re

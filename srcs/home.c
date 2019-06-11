@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   home.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:46:13 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/20 16:49:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int		process_subst_home(t_shell *shell, char **str)
 	char *subst;
 
 	if (!(subst = get_home_dup(shell)))
-		return (ft_perror(SH_ERR1_MALLOC, "process_subst_home"));
+		return (sh_perror(SH_ERR1_MALLOC, "process_subst_home"));
 	else if (ft_substitute_str(str, subst, 0, 1))
 	{
 		free(subst);
-		return (ft_perror(SH_ERR1_MALLOC, "process_subst_home"));
+		return (sh_perror(SH_ERR1_MALLOC, "process_subst_home"));
 	}
 	free(subst);
 	return (SUCCESS);

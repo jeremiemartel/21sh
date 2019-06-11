@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:51:35 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 00:25:20 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		substitute_current_index(t_command_line *command_line, t_file *file)
 	populate_word_by_index(command_line->dy_str->str,
 		command_line->current_index, &word);
 	if (!(to_replace = get_completion_str_file(file)))
-		return (ft_perror(SH_ERR1_MALLOC, "substitute_current_index"));
+		return (sh_perror(SH_ERR1_MALLOC, "substitute_current_index"));
 	if (process_substitute_command(command_line, to_replace, word, 1))
 	{
 		free(to_replace);

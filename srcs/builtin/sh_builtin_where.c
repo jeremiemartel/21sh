@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 15:09:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/13 11:32:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int		sh_where_binaries_readdir(char *path, DIR *dir, t_context *context)
 				continue ;
 			if (!(buf = ft_strjoin_path(path, dirent->d_name)))
 			{
-				ft_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, buf);
+				sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, buf);
 				free(buf);
 				return (FAILURE);
 			}

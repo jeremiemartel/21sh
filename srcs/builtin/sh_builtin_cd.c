@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:43:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 15:54:02 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int		ft_print_cd_errors(char *path, t_context *context)
 	struct stat st;
 
 	if (access(path, F_OK))
-		ft_perror2_fd(context->fd[FD_ERR], SH_ERR2_NO_SUCH_FILE_OR_DIR, "cd", path);
+		sh_perror2_fd(context->fd[FD_ERR], SH_ERR2_NO_SUCH_FILE_OR_DIR, "cd", path);
 	else
 	{
 		if (stat(path, &st) == -1)
@@ -25,9 +25,9 @@ static int		ft_print_cd_errors(char *path, t_context *context)
 		else
 		{
 			if (!S_ISDIR(st.st_mode))
-				ft_perror2_fd(context->fd[FD_ERR], SH_ERR1_NOT_A_DIR, "cd", path);
+				sh_perror2_fd(context->fd[FD_ERR], SH_ERR1_NOT_A_DIR, "cd", path);
 			else if (access(path, X_OK))
-				ft_perror2_fd(context->fd[FD_ERR], SH_ERR1_PERM_DENIED, "cd", path);
+				sh_perror2_fd(context->fd[FD_ERR], SH_ERR1_PERM_DENIED, "cd", path);
 		}
 	}
 	return (SUCCESS);
@@ -59,7 +59,7 @@ int		ft_process_cd_args(t_context *context, int flag, int i)
 			return (sh_builtin_pwd(context));
 		}
 		else
-			return (ft_perror2_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "cd", "OLDPWD"));
+			return (sh_perror2_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "cd", "OLDPWD"));
 	}
 	else
 		return (ft_process_cd(context->params->tbl[i], flag, context));
@@ -86,6 +86,6 @@ int		sh_builtin_cd(t_context *context)
 	if ((home_str = get_env_value((char **)context->env->tbl, "HOME")))
 		return (ft_process_cd(home_str, flag, context));
 	else
-		return (ft_perror2_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "cd", "HOME"));
+		return (sh_perror2_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "cd", "HOME"));
 	return (SUCCESS);
 }

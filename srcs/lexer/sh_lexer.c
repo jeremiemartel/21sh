@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 15:50:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				sh_lexer_lexical_conventions(t_lexer *lexer)
 	{
 		token = (t_token*)head->content;
 		if (token->id == LEX_TOK_UNKNOWN)
-			return (ft_perror_err("lexer", "Unknow token detected"));
+			return (sh_perror_err("lexer", "Unknow token detected"));
 		head = head->next;
 	}
 	return (LEX_OK);

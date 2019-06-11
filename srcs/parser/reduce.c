@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reduce.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:57:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 06:54:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ static int sh_process_reduce_pop(t_production *production,
 	{
 		ft_lstpop(&parser->stack); // pop state_index
 		if (!(stack_item = ft_lstpop_ptr(&parser->stack))) //ast_builder
-			return (ft_perror(SH_ERR1_MALLOC, "sh_process_reduce_pop"));
+			return (sh_perror(SH_ERR1_MALLOC, "sh_process_reduce_pop"));
 		child_ast_builder = stack_item->stack_union.ast_builder;
 		child_ast_builder->cst_node->builder = NULL;
 		child_ast_builder->ast_node->builder = NULL;
 		if (ft_lstaddnew_ptr(&parser->cst_root->children, child_ast_builder->cst_node, sizeof(t_ast_node *)))
 		{
 			free(stack_item);
-			return (ft_perror(SH_ERR1_MALLOC, "sh_process_reduce_pop"));
+			return (sh_perror(SH_ERR1_MALLOC, "sh_process_reduce_pop"));
 		}
 		if (child_ast_builder->symbol->relevant)
 		{
@@ -103,7 +103,7 @@ int		sh_process_reduce(t_production *production, t_lr_parser *parser)
 	{
 		child_ast_builder = (t_ast_builder *)ft_lstpop_ptr(&ast_builder_list);
 		if (ft_lstaddnew_ptr_last(&ast_builder->ast_node->children, child_ast_builder->ast_node, sizeof(t_ast_node *)))
-			return (ft_perror(SH_ERR1_MALLOC, "sh_process_reduce"));
+			return (sh_perror(SH_ERR1_MALLOC, "sh_process_reduce"));
 		free(child_ast_builder);
 	}
 	if (sh_process_reduce_add_to_stack(parser, production, ast_builder))

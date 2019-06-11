@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 12:11:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 int		t_context_init(t_context *context, t_shell *shell)
 {
 	if (!(context->params = ft_dy_tab_new(5)))
-		return (ft_perror(SH_ERR1_MALLOC, "t_context_init"));
+		return (sh_perror(SH_ERR1_MALLOC, "t_context_init"));
 	context->path = NULL;
 	context->shell = shell;
 	context->env = shell->env;
