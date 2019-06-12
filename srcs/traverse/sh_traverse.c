@@ -24,6 +24,7 @@ int		sh_process_traverse(t_shell *shell)
 		traverse(shell->parser.ast_root, &context)))
 	{
 		ft_dy_tab_del(context.params);
+		ft_printf("%d %d", ret);
 		return (ret);
 	}
 	context.phase = E_TRAVERSE_PHASE_REDIRECTIONS;
