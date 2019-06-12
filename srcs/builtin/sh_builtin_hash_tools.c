@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_builtin_env.c                                   :+:      :+:    :+:   */
+/*   sh_builtin_hash_tools.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/12 18:39:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/12 18:39:47 by ldedier          ###   ########.fr       */
+/*   Created: 2019/06/12 19:23:54 by ldedier           #+#    #+#             */
+/*   Updated: 2019/06/12 19:23:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int			sh_builtin_env(t_context *context)
+void		process_builtin_hash_suppr_all(t_shell *shell)
 {
-	size_t		i;
-	t_dy_tab	*env;
+	t_hash_table	*table;
+	unsigned long	i;
 
-	env = context->env;
+	table = shell->binaries;
 	i = 0;
-	while (i < env->current_size)
+	while (i < table->size)
 	{
-		ft_dprintf(context->fd[FD_OUT], "%s\n", env->tbl[i]);
+		ft_lstdel(&table->data[i], sh_free_binary_lst);
 		i++;
 	}
-	return (SUCCESS);
 }

@@ -73,5 +73,10 @@ void			update_hash_stats(t_hash_table *table, t_binary_stats *stats);
 /*
 ** sh_builtin_setenv_tools.c
 */
-int				sh_process_setenv_equal(char *entry, t_dy_tab *env);
+int				sh_process_setenv_equal(char *entry, t_dy_tab *env, t_context *context);
+
+/*
+** sh_builtin_hash_tools.c
+*/
+void        process_builtin_hash_suppr_all(t_shell *shell);
 #endif

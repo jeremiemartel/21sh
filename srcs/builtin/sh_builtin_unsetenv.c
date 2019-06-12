@@ -25,6 +25,8 @@ int		sh_builtin_unsetenv(t_context *context)
 		{
 			if (is_key_of_entry(context->env->tbl[i], context->params->tbl[1]))
 			{
+				if (!ft_strcmp(context->params->tbl[1], "PATH"))
+					process_builtin_hash_suppr_all(context->shell);
 				ft_dy_tab_suppr_index(context->env, i);
 				break ;
 			}

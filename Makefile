@@ -169,7 +169,8 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_unsetenv.c \
 						sh_builtin_env.c \
 						sh_builtin_env_tools.c \
-						sh_builtin_setenv_tools.c 
+						sh_builtin_setenv_tools.c \
+						sh_builtin_hash_tools.c
 
 EXP_SRCS_NO_PREFIX =	sh_expansions.c \
 						sh_expansions_init.c \

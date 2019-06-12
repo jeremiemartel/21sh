@@ -51,20 +51,6 @@ static void		process_builtin_hash_show(t_shell *shell)
 		ft_printf("hash: hash table empty\n");
 }
 
-static void		process_builtin_hash_suppr_all(t_shell *shell)
-{
-	t_hash_table	*table;
-	unsigned long	i;
-
-	table = shell->binaries;
-	i = 0;
-	while (i < table->size)
-	{
-		ft_lstdel(&table->data[i], sh_free_binary_lst);
-		i++;
-	}
-}
-
 static int		print_usage(void)
 {
 	ft_dprintf(2, "21sh: hash: usage: hash [-r]\n");

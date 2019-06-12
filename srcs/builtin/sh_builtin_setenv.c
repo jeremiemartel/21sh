@@ -22,7 +22,7 @@ int		sh_builtin_setenv(t_context *context)
 	while (i < len)
 	{
 		if (sh_process_setenv_equal((char *)(context->params->tbl[i]),
-				context->env) == -1)
+				context->env, context) == -1)
 			return (-1);
 		i++;
 	}

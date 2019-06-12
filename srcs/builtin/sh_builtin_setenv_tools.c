@@ -59,7 +59,7 @@ int		is_bad_assignment(char *entry, int *key_len)
 	return (SUCCESS);
 }
 
-int		sh_process_setenv_equal(char *entry, t_dy_tab *env)
+int		sh_process_setenv_equal(char *entry, t_dy_tab *env, t_context *context)
 {
 	char	*value;
 	char	*key;
@@ -83,6 +83,8 @@ int		sh_process_setenv_equal(char *entry, t_dy_tab *env)
 		free(value);
 		return (ft_perror(SH_ERR1_MALLOC, "sh_process_setenv_equal"));
 	}
+	if (!ft_strcmp(key, "PATH"))
+		process_builtin_hash_suppr_all(context->shell);
 	free(key);
 	free(value);
 	return (SUCCESS);
