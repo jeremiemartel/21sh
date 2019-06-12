@@ -33,6 +33,11 @@ def read_dir(dir):
 		while (line1 != ""):
 			if (re.search(format, line1) != None):
 				prototype = line1.rstrip()
+				if (prototype[-1] != ")"):
+					buffer = fd.readline()
+					buffer = buffer.strip()
+					prototype += " " + buffer
+					# print(buffer)
 				prototype = prototype.split('\t')
 				prototype = [i for i in prototype if (i != "")]
 				buffer = {"type" : prototype[0], "name" : prototype[1]}
@@ -70,9 +75,9 @@ def format_dir_datas(dir_data, tab_offset):
 			if (len(str) + 3 * max_tabs >= 80):
 				str = function["type"]
 				str += "\t" * (max_tabs - (len(function["type"]) // 4))
-				str += function["name"].split("(")[0]
+				str += function["name"].split("(", 1)[0]
 				str += "(\n\t"
-				str += function["name"].split("(")[1]
+				str += function["name"].split("(", 1)[1]
 				str += ";\n"
 			res += str
 		res += "\n"
@@ -112,6 +117,7 @@ def automatic_header(dir, header, tab_offset):
 	dir_data = read_dir(dir)
 	res = format_dir_datas(dir_data, tab_offset)
 	header_content = create_header(header, res)
+	# print(header_content)
 	write_header(header, header_content)
 
 automatic_header("./srcs/lexer", "./includes/sh_lexer.h", 5)
@@ -122,7 +128,10 @@ automatic_header("./srcs/vars", "./includes/sh_vars.h", 0)
 # automatic_header("./srcs/", "./includes/sh_.h", 0)
 
 ## Can't launch : prototypes on two lines
-# automatic_header("./srcs/traverse", "./includes/sh_traverse.h", 0)
-# automatic_header("./srcs/builtin", "./includes/sh_builtin.h", 0)
+automatic_header("./srcs/traverse", "./includes/sh_traverse.h", 0)
+automatic_header("./srcs/builtin", "./includes/sh_builtin.h", 0)
 automatic_header("./srcs/exec", "./includes/sh_exec.h", 5)
-# automatic_header("./srcs/perror", "./includes/sh_perror.h", 0)
+automatic_header("./srcs/perror", "./includes/sh_perror.h", 0)
+
+# automatic_header("./test", "./header.h", 0)
+
