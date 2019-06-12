@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/14 22:28:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 15:18:48 by ldedier          ###   ########.fr       */
+/*   Created: 2019/06/12 18:43:35 by ldedier           #+#    #+#             */
+/*   Updated: 2019/06/12 18:43:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int		sh_add_to_env(t_dy_tab *env, char *key, char *value)
 		i++;
 	}
 	if (!(entry = ft_strjoin_3(key, "=", value)))
-		return (1);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_add_to_env"));
 	if (ft_dy_tab_add_ptr(env, entry))
-		return (1);
-	return (0);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_add_to_env"));
+	return (SUCCESS);
 }
 
 int		is_bad_assignment(char *entry, int *key_len)
@@ -56,10 +56,10 @@ int		is_bad_assignment(char *entry, int *key_len)
 		return (1);
 	if ((*key_len = get_key_len(entry)) <= 0)
 		return (1);
-	return (0);
+	return (SUCCESS);
 }
 
-int		ft_process_set_env_equal(char *entry, t_dy_tab *env)
+int		sh_process_setenv_equal(char *entry, t_dy_tab *env)
 {
 	char	*value;
 	char	*key;
@@ -75,33 +75,15 @@ int		ft_process_set_env_equal(char *entry, t_dy_tab *env)
 	if (!(value = ft_strnrest(entry, key_len + 1)))
 	{
 		free(key);
-		return (-1);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_process_setenv_equal"));
 	}
 	if (sh_add_to_env(env, key, value))
 	{
 		free(key);
 		free(value);
-		return (-1);
+		return (ft_perror(SH_ERR1_MALLOC, "sh_process_setenv_equal"));
 	}
 	free(key);
 	free(value);
-	return (1);
+	return (SUCCESS);
 }
-
-/*
-int		ms_setenv(t_shell *shell)
-{
-	int i;
-	int len;
-
-	len = ft_splitlen(shell->params);
-	i = 1;
-	while (i < len)
-	{
-		if (ft_process_set_env_equal(shell->params[i], shell->env) == -1)
-			return (-1);
-		i++;
-	}
-	return (1);
-}
-*/

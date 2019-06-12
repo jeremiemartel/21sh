@@ -223,7 +223,8 @@ SRCS	+=	./hash/ft_hash_table_new.c \
 			./hash/ft_hash_str.c \
 			./hash/ft_hash_table_del_ptr.c \
 			./hash/ft_hash_table_del_value.c \
-			./hash/ft_hash_table_del.c
+			./hash/ft_hash_table_del.c \
+			./hash/ft_hash_table_show_perf.c
 
 OBJS		= $(SRCS:%.c=%.o)
 

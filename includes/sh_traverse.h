@@ -21,6 +21,8 @@ int			sh_traverse_default(t_ast_node *this, t_context *context);
 
 int			sh_traverse_list(t_ast_node *node, t_context *context);
 
+
+
 /*
 ** COMPLETE_COMMAND and sons
 */
@@ -29,8 +31,7 @@ int			sh_traverse_assigment_word(t_ast_node *node, t_context *context);
 int			sh_traverse_command(t_ast_node *node, t_context *context);
 int			sh_traverse_and_or(t_ast_node *node, t_context *context);
 int			sh_traverse_semicol(t_ast_node *node, t_context *context);
-int			sh_traverse_and_if(t_ast_node *node, t_context *context);
-int			sh_traverse_or_if(t_ast_node *node, t_context *context);
+int			sh_traverse_and_or(t_ast_node *node, t_context *context);
 int			sh_traverse_simple_command(t_ast_node *node, t_context *context);
 int			sh_traverse_cmd_name(t_ast_node *this, t_context *context);
 int			sh_traverse_cmd_word(t_ast_node *this, t_context *context);

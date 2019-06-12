@@ -39,7 +39,7 @@ int			sh_append_to_historic(t_shell *shell, char *command)
 		return (ft_perror(SH_ERR1_MALLOC, "sh_append_to_historic"));
 	}
 	if ((fd = open(PATH"/"HISTORIC_FILE,
-			O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
+			O_WRONLY | O_CREAT | O_APPEND | O_NOFOLLOW, S_IRWXU)) == -1)
 		return (ft_perror(SH_ERR1_HISTORIC, "sh_append_to_historic"));
 	ft_dprintf(fd, "%s\n", command);
 	shell->historic.head_start.next = shell->historic.commands;

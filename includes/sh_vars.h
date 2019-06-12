@@ -43,7 +43,7 @@ int		sh_vars_assign_key_val(t_dy_tab *env, t_dy_tab *vars, char *key, char *valu
 ** sh_env_vars.c
 */
 int		sh_env_vars_update_question_mark(t_context *context, int res);
-
+int		ft_process_set_env_equal(char *entry, t_dy_tab *env);
 /*
 ** sh_verbose.c
 */

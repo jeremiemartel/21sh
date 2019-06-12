@@ -19,10 +19,11 @@ int		sh_init_historic(t_historic *historic)
 	int			ret;
 
 	historic->commands = NULL;
-	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR, S_IRWXU)) == -1)
+	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR | O_NOFOLLOW,
+		S_IRWXU)) == -1)
 	{
 		perror("open");
-		return (ft_perror(SH_ERR1_HISTORIC, "sh_unit_historic"));
+		return (ft_perror(SH_ERR1_HISTORIC, "sh_init_historic"));
 	}
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{

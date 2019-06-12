@@ -49,8 +49,6 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_default.c \
 						sh_traverse_complete_command.c \
 						sh_traverse_semicol.c \
-						sh_traverse_and_if.c \
-						sh_traverse_or_if.c \
 						sh_traverse_pipeline.c \
 						sh_traverse_pipe_sequence.c \
 						sh_traverse_command.c \
@@ -72,6 +70,7 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_greatand.c \
 						sh_traverse_dgreat.c \
 						sh_traverse_lessgreat.c \
+						sh_traverse_and_or.c \
 						sh_traverse_list.c 
 
 
@@ -147,8 +146,7 @@ AUTO_SRCS_NO_PREFIX	=	add_choices_from_dir.c auto_completion.c \
 						fill_buffer_from_tables.c add_file_tools.c \
 						auto_completion_tools.c
 
-VARS_SRCS_NO_PREFIX	=	env.c set_env.c \
-						sh_vars_tools_1.c sh_vars_tools_2.c \
+VARS_SRCS_NO_PREFIX	=	sh_vars_tools_1.c sh_vars_tools_2.c \
 						sh_verbose.c sh_env_vars.c
 
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
@@ -166,10 +164,14 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_verbose.c \
 						sh_builtin_hash.c \
 						sh_builtin_hash_stats.c \
-						sh_builtin_set.c
+						sh_builtin_set.c \
+						sh_builtin_setenv.c \
+						sh_builtin_unsetenv.c \
+						sh_builtin_env.c \
+						sh_builtin_env_tools.c \
+						sh_builtin_setenv_tools.c 
 
-EXP_SRCS_NO_PREFIX =	\
-						sh_expansions.c \
+EXP_SRCS_NO_PREFIX =	sh_expansions.c \
 						sh_expansions_init.c \
 						sh_expansions_parameter.c \
 						sh_expansions_process_parameter.c \

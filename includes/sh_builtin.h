@@ -39,7 +39,7 @@ typedef struct		s_builtin_container
 */
 t_builtin		sh_builtin_find(t_context *context);
 
-# define NB_BUILTINS	8
+# define NB_BUILTINS	11
 
 /*
 ** builtins :
@@ -54,6 +54,9 @@ int				sh_builtin_where(t_context *context);
 int				sh_builtin_verbose(t_context *context);
 int				sh_builtin_set(t_context *context);
 int				sh_builtin_hash(t_context *context);
+int				sh_builtin_setenv(t_context *context);
+int				sh_builtin_unsetenv(t_context *context);
+int				sh_builtin_env(t_context *context);
 
 /*
 ** sh_builtin_cd_tools.c
@@ -67,4 +70,8 @@ int				ft_update_old_pwd(char *old_pwd, char *path, t_cd_opt flag,
 */
 void			update_hash_stats(t_hash_table *table, t_binary_stats *stats);
 
+/*
+** sh_builtin_setenv_tools.c
+*/
+int				sh_process_setenv_equal(char *entry, t_dy_tab *env);
 #endif

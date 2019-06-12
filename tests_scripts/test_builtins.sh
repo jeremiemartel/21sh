@@ -32,7 +32,7 @@ launch "pwd (builtin)"
 launch "hash (builtin)"
 	test "hash"
 	test "hash -r" "hash"
-	test "cat file " "hash" "hash -r" "hash"
+	test "cat file " "hash -r" "hash"
 
 
 launch "cd (builtin)"

@@ -57,7 +57,7 @@
 # define HISTORIC_FILE	".historic"
 
 # define MAX_LEN_HISTORIC_ENTRY	500
-# define BINARIES_TABLE_SIZE	1000
+# define BINARIES_TABLE_SIZE	100
 
 /*
 ** Macros of fdin, fdout and fderr in context->fd
@@ -171,7 +171,7 @@ int			clear_all(void);
 int			is_key_of_entry(char *entry, char *key);
 char		*get_env_value(char **env, char *str);
 char		*get_env_entry(char **env, char *str);
-int			process_ms_env(t_dy_tab *env);
+//int			process_ms_env(t_dy_tab *env);
 
 
 /*

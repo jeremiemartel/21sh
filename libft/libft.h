@@ -369,5 +369,5 @@ void				ft_hash_table_del(t_hash_table *table,
 						void (*del_func)(void *, size_t));
 void				ft_hash_table_del_value(t_hash_table *table);
 void				ft_hash_table_del_ptr(t_hash_table *table);
-
+void				ft_hash_table_show_perf(t_hash_table *table);
 #endif

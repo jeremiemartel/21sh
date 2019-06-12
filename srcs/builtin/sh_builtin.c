@@ -22,7 +22,10 @@ t_builtin_container	*get_builtins(void)
 		{ "cd", sh_builtin_cd },
 		{ "verbose", sh_builtin_verbose },
 		{ "set", sh_builtin_set },
-		{ "hash", sh_builtin_hash }
+		{ "hash", sh_builtin_hash },
+		{ "unsetenv", sh_builtin_unsetenv },
+		{ "setenv", sh_builtin_setenv },
+		{ "env", sh_builtin_env }
 	};
 	return (res);
 }
