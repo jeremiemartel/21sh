@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/13 21:38:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,13 @@ int				sh_lexer_lexical_conventions(t_lexer *lexer)
 	if (!head || !head->content)
 		return (LEX_OK);
 	token = (t_token*)head->content;
-	if (ft_strchr(token->value, '=') && !token->quoted)
+	while (head && ft_strchr(token->value, '=') && !token->quoted)
 	{
 		if (sh_is_var_name(token->value))
 			t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);
+		head = head->next;
+		if (head)
+			token = (t_token*)head->content;
 	}
 	while (head)
 	{
