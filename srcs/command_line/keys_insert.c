@@ -58,10 +58,14 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 	else if (buffer[0] == 4)
 	{
 		if (command_line->dy_str->current_size == 0
-				&& command_line->context == E_CONTEXT_STANDARD)
+				&& (command_line->context == E_CONTEXT_STANDARD
+					|| command_line->context == E_CONTEXT_HEREDOC))
 		{
-			shell->running = 0;
-			ft_dprintf(0, "exit\n");
+			if (command_line->context == E_CONTEXT_STANDARD)
+			{
+				shell->running = 0;
+				ft_dprintf(0, "exit\n");
+			}
 			return (CTRL_D);
 		}
 		else

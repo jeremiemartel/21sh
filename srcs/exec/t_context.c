@@ -32,6 +32,7 @@ int		t_context_init(t_context *context, t_shell *shell)
 	context->fd[1] = 1;
 	context->fd[2] = 2;
 	context->builtin = NULL;
+	context->ret_value = 0;
 	return (SUCCESS);
 }
 

@@ -43,15 +43,23 @@ int		substitute_current_index(t_command_line *command_line, t_file *file)
 	t_word	word;
 	char	*to_replace;
 
-	populate_word_by_index(command_line->dy_str->str,
-		command_line->current_index, &word);
+	if (populate_word_by_index(command_line->dy_str->str,
+			command_line->current_index, &word) == FAILURE)
+		return (FAILURE);
 	if (!(to_replace = get_completion_str_file(file)))
 		return (sh_perror(SH_ERR1_MALLOC, "substitute_current_index"));
+	{
+		free(word.str);
+		return (sh_perror(SH_ERR1_MALLOC, "substitute_current_index"));
+	}
 	if (process_substitute_command(command_line, to_replace, word, 1))
 	{
+		free(word.str);
 		free(to_replace);
 		return (FAILURE);
 	}
+	free(word.str);
+	free(to_replace);
 	return (SUCCESS);
 }
 

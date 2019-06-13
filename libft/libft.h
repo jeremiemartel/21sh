@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 12:41:17 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/10 17:45:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,15 @@ typedef struct		s_hash_table
 	t_list			**data;
 }					t_hash_table;
 
+typedef struct		s_hash_finder
+{
+	t_list			*prev;
+	t_list			*current;
+	t_list			**list;
+	int				found;
+	void			*content;
+}					t_hash_finder;
+
 /*
 ********************************** atoi  **************************************
 */
@@ -104,6 +113,7 @@ char				*ft_lltoa(long long l, int base);
 char				*ft_ulltoa(unsigned long long l, int base);
 char				*ft_ftoa(long double f, int prec);
 int					ft_atoi(const char *str);
+int					ft_patoi(char **str);
 long				ft_atol(const char *str);
 
 /*
@@ -139,7 +149,7 @@ long				ft_pow(long x, long y);
 float				ft_roundf(float x);
 long double			ft_roundl(long double x);
 size_t				ft_longlen(long nb);
-
+int					ft_onesign(int n);
 /*
 ********************************** mem  ***************************************
 */
@@ -200,11 +210,13 @@ int					ft_iswhite_only(char *str);
 int					ft_toupper_only(char *str);
 int					ft_tolower_only(char *str);
 
+int					ft_isspace(int c);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isseparator(int c);
+int					ft_isseparator_light(int c);
 int					ft_isprint(int c);
 int					ft_iswhite(char c);
 int					ft_toupper(int c);
@@ -336,7 +348,6 @@ t_gnl		*ft_get_gnl(int fd, t_list **gnls);
 */
 int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
-char				*ft_asprintf(const char *format, ...);
 
 /*
 ************************************ hash **************************************
@@ -344,8 +355,12 @@ char				*ft_asprintf(const char *format, ...);
 
 t_hash_table		*ft_hash_table_new(unsigned long size);
 int					ft_hash_table_add(t_hash_table *hash_table,
-						void *content, unsigned long (*hash_function)(void *));
+						void *to_add, void *to_hash,
+							unsigned long (*hash_function)(void *));
 void				*ft_hash_table_get(t_hash_table *hash_table,
+						void *content, unsigned long (*hash_function)(void *),
+									int (*compare)(void *ptr1, void *ptr2));
+t_hash_finder		ft_hash_table_find(t_hash_table *hash_table,
 						void *content, unsigned long (*hash_function)(void *),
 									int (*compare)(void *ptr1, void *ptr2));
 int					ft_hash_cmp_str(void *str1, void *str2);
@@ -354,5 +369,5 @@ void				ft_hash_table_del(t_hash_table *table,
 						void (*del_func)(void *, size_t));
 void				ft_hash_table_del_value(t_hash_table *table);
 void				ft_hash_table_del_ptr(t_hash_table *table);
-
+void				ft_hash_table_show_perf(t_hash_table *table);
 #endif

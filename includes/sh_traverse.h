@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/12 08:24:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/13 18:16:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ int		sh_traverse_io_here(t_ast_node *node, t_context *context);
 ** sh_traverse_cmd_word.c
 */
 int		sh_traverse_cmd_word(t_ast_node *node, t_context *context);
+
+/*
+** sh_traverse_and_or.c
+*/
+int			sh_traverse_and_or(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_lessgreat.c
@@ -74,17 +79,7 @@ int		sh_traverse_default(t_ast_node *node, t_context *context);
 int		sh_traverse_great(t_ast_node *node, t_context *context);
 
 /*
-** sh_traverse_or_if.c
-*/
-int		sh_traverse_or_if(t_ast_node *node, t_context *context);
-
-/*
-** sh_traverse_and_if.c
-*/
-int		sh_traverse_and_if(t_ast_node *node, t_context *context);
-
-/*
-** sh_traverse_cmd_name.c
+** sh_traverse_default.c
 */
 int		sh_traverse_cmd_name(t_ast_node *node, t_context *context);
 

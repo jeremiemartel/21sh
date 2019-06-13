@@ -6,20 +6,27 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 10:38:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 16:15:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_BUILTIN_H
 # define SH_BUILTIN_H
 
-# define NB_BUILTINS	7
+# define NB_BUILTINS	11
 
 typedef enum		e_cd_opt
 {
 	e_cd_opt_logic,
 	e_cd_opt_physic
 }					t_cd_opt;
+
+typedef struct		s_binary_stats
+{
+	int				max_path_len;
+	int				max_name_len;
+	int				max_hits_str_len;
+}					t_binary_stats;
 
 typedef	int	(*t_builtin)(t_context *);
 
@@ -47,6 +54,7 @@ int					ft_process_cd(
 int					ft_process_cd_args(
 	t_context *context, int flag, int i);
 int					sh_builtin_cd(t_context *context);
+int				sh_builtin_cd(t_context *context);
 
 /*
 ** sh_builtin_echo.c
@@ -61,7 +69,27 @@ int					sh_builtin_set(t_context *context);
 /*
 ** sh_builtin_exit.c
 */
-int					sh_builtin_exit(t_context *context);
+int				sh_builtin_exit(t_context *context);
+
+/*
+** sh_builtin_hash.c
+*/
+int				sh_builtin_hash(t_context *context);
+
+/*
+** sh_builtin_setenv.c
+*/
+int				sh_builtin_setenv(t_context *context);
+
+/*
+** sh_builtin_unsetenv.c
+*/
+int				sh_builtin_unsetenv(t_context *context);
+
+/*
+** sh_builtin_env.c
+*/
+int				sh_builtin_env(t_context *context);
 
 /*
 ** sh_builtin_cd_tools.c
@@ -86,4 +114,18 @@ int					sh_builtin_where(t_context *context);
 */
 int					sh_builtin_verbose(t_context *context);
 
+/*
+** sh_builtin_hash_stats.c
+*/
+void			update_hash_stats(t_hash_table *table, t_binary_stats *stats);
+
+/*
+** sh_builtin_setenv_tools.c
+*/
+int				sh_process_setenv_equal(char *entry, t_dy_tab *env, t_context *context);
+
+/*
+** sh_builtin_hash_tools.c
+*/
+void        process_builtin_hash_suppr_all(t_shell *shell);
 #endif

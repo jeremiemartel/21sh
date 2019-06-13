@@ -70,6 +70,7 @@ typedef struct		s_context
 	int				fd[3];
 	t_phase			phase;
 	t_ast_node		*current_command_node;
+	int				ret_value;
 	t_list			**redirections;
 }					t_context;
 

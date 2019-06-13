@@ -47,11 +47,8 @@ char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 /*
 ** env.c
 */
-int		is_key_of_entry(char *entry, char *key);
-char	*get_env_value(char **env, char *str);
-char	*get_env_entry(char **env, char *str);
-int		process_sh_env(t_dy_tab *env);
 
+int		sh_env_vars_update_question_mark(t_context *context, int res);
 /*
 ** sh_verbose.c
 */
