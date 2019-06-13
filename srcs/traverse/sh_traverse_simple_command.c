@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 15:09:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 16:36:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,36 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		return (sh_traverse_tools_browse(node, context));
 }
 
+int		sh_traverse_sc_search_in_hash(t_context *context)
+{
+	t_binary		*binary;
+	t_hash_finder	finder;
+
+	finder = ft_hash_table_find(context->shell->binaries,
+		context->params->tbl[0], ft_hash_str, compare_str_to_binary);
+	if (finder.found)
+	{
+		binary = (t_binary *)finder.content;
+		binary->hits++;
+		if (access(binary->path, F_OK))
+		{
+			if (finder.prev)
+				finder.prev->next = finder.prev->next->next;
+			else
+				*finder.list = (*(finder.list))->next;
+			sh_free_binary(binary);
+			free(finder.current);
+			return (ERROR);
+		}
+		if (sh_traverse_sc_check_perm(binary->path, binary->name))
+			return (SUCCESS); // Exists but no permisssions !
+		context->path = ft_strdup(binary->path);
+		return (SUCCESS);
+	}
+	else
+		return (ERROR);
+}
+
 /*
 ** sh_traverse_sc_no_slash_cmd:
 **	Function launching the execution of a process if context->params->tbl[0]
@@ -71,8 +101,11 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 	// undefined behaviour names
 	// Looking for functions
 	// Reserved utility
-	if (sh_traverse_sc_search_in_path(context) == FAILURE)
-		return (FAILURE);
+	if (sh_traverse_sc_search_in_hash(context) != SUCCESS)
+	{
+		if (sh_traverse_sc_search_in_path(context) == FAILURE)
+			return (FAILURE);
+	}
 	if (context->path)
 		return (sh_process_execute(context));
 	else
@@ -117,6 +150,9 @@ int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 			}
 			context->path = buf;
 			closedir(dir);
+			if (sh_update_hash_table(context->shell,
+				context->path, context->params->tbl[0]) != SUCCESS)
+				return (FAILURE);
 			return (SUCCESS);
 		}
 	}

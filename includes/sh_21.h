@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:05:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 16:36:07 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@
 # define KEEP_READ		5
 
 # define HISTORIC_FILE	".historic"
+
 # define MAX_LEN_HISTORIC_ENTRY	500
+# define BINARIES_TABLE_SIZE	100
 
 /*
 ** Macros of fdin, fdout and fderr in context->fd
@@ -116,6 +118,13 @@
 
 typedef struct dirent	t_dirent;
 
+typedef	struct		s_binary
+{
+	char			*path;
+	char			*name;
+	int				hits;
+}					t_binary;
+
 typedef struct		s_shell
 {
 	t_lr_parser		parser;
@@ -162,7 +171,7 @@ int			clear_all(void);
 int			is_key_of_entry(char *entry, char *key);
 char		*get_env_value(char **env, char *str);
 char		*get_env_entry(char **env, char *str);
-int			process_ms_env(t_dy_tab *env);
+//int			process_ms_env(t_dy_tab *env);
 
 
 /*
@@ -190,7 +199,8 @@ void	sh_free_ast_builder(t_ast_builder *ast_builder);
 void	sh_free_ast_node(t_ast_node **ast_node, int update);
 void	sh_free_parser_trees(t_lr_parser *parser);
 void	sh_free_token_lst(void *t, size_t dummy);
-
+void	sh_free_binary(t_binary *binary);
+void    sh_free_binary_lst(void *b, size_t dummy);
 /*
 ** canonical_mode.c
 */
@@ -211,4 +221,10 @@ int			sh_append_to_historic(t_shell *shell, char *command);
 */
 int			process_subst_home(t_shell *shell, char **str);
 char		*get_home_dup(t_shell *shell);
+
+/*
+** hash_binaries.c
+*/
+int			compare_str_to_binary(void *str, void *binary);
+int     sh_update_hash_table(t_shell *shell, char *path, char *name);
 #endif

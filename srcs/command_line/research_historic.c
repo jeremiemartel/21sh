@@ -38,8 +38,10 @@ int		progress_process_research_historic(t_command_line *command_line,
 
 	to_search_in = (char *)command_line->searcher.head->content;
 	if ((found = ft_strstr(&(to_search_in[command_line->searcher.
-			match_index + 1]), command_line->searcher.dy_str->str)))
-		return (process_find_in_historic(command_line, to_search_in, found));
+			match_index + 1]), command_line->searcher.dy_str->str))
+				&& ft_strcmp(to_search_in, command_line->dy_str->str))
+				return (process_find_in_historic(command_line,
+					to_search_in, found));
 	command_line->searcher.match_index = -1;
 	if ((command_line->searcher.head = command_line->searcher.head->next)
 			== shell->historic.commands)
@@ -69,6 +71,8 @@ int		process_research_historic(t_command_line *command_line, t_shell *shell)
 				progress_process_research_historic(command_line, shell)))
 				render_command_line(command_line, 0, 1);
 		}
+		else
+			render_command_line(command_line, 0, 1);
 	}
 	else
 	{

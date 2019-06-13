@@ -36,6 +36,11 @@ int		sh_traverse_io_here(t_ast_node *node, t_context *context);
 int		sh_traverse_cmd_word(t_ast_node *node, t_context *context);
 
 /*
+** sh_traverse_and_or.c
+*/
+int			sh_traverse_and_or(t_ast_node *node, t_context *context);
+
+/*
 ** sh_traverse_lessgreat.c
 */
 int		sh_traverse_lessgreat(t_ast_node *node, t_context *context);
@@ -72,16 +77,6 @@ int		sh_traverse_io_file(t_ast_node *node, t_context *context);
 ** sh_traverse_great.c
 */
 int		sh_traverse_great(t_ast_node *node, t_context *context);
-
-/*
-** sh_traverse_or_if.c
-*/
-int		sh_traverse_or_if(t_ast_node *node, t_context *context);
-
-/*
-** sh_traverse_and_if.c
-*/
-int		sh_traverse_and_if(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_default.c

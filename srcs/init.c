@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/10 14:40:23 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int		sh_init_historic(t_historic *historic)
 	int			ret;
 
 	historic->commands = NULL;
-	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR, S_IRWXU)) == -1)
+	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR | O_NOFOLLOW,
+		S_IRWXU)) == -1)
 	{
 		perror("open");
-		return (sh_perror(SH_ERR1_HISTORIC, "sh_unit_historic"));
+		return (sh_perror(SH_ERR1_HISTORIC, "sh_init_historic"));
 	}
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
@@ -68,6 +69,7 @@ int		sh_init_shell(t_shell *shell, char **env)
 	s = shell->term;
 	ft_bzero(shell, sizeof(t_shell));
 	ft_bzero(&g_glob.command_line, sizeof(t_command_line));
+	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
 	shell->term = s;
 	if (!(shell->env = main_init_env(env)))
 		return (FAILURE);
@@ -82,7 +84,7 @@ int		sh_init_shell(t_shell *shell, char **env)
 		return (FAILURE);
 	if ((sh_init_historic(&shell->historic)) != SUCCESS)
 		return (FAILURE);
-//	if ((sh_update_binaries(&shell->binaries) != SUCCESS))
-//		return (FAILURE);
+	if (!(shell->binaries = ft_hash_table_new(BINARIES_TABLE_SIZE)))
+		return (FAILURE);
 	return (SUCCESS);
 }

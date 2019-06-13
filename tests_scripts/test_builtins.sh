@@ -31,6 +31,12 @@ launch "pwd (builtin)"
 	test "pwd | cat -e | wc"
 	test "PWD=" "OLDPWD=" "pwd"
 
+launch "hash (builtin)"
+	test "hash"
+	test "hash -r" "hash"
+	test "cat file " "hash -r" "hash"
+
+
 launch "cd (builtin)"
 	test "cd" "pwd"
 	test "cd ~/" "pwd" "cd .. ; pwd"

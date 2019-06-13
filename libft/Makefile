@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/10 12:35:18 by ldedier          ###   ########.fr        #
+#    Updated: 2019/06/10 18:37:30 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,16 +87,92 @@ SRCS	+=	./atoi/ft_atoi.c ./atoi/ft_ltoa.c \
 			./atoi/ft_lltoa.c ./atoi/ft_ulltoa.c \
 			./atoi/ft_ftoa.c ./atoi/ft_itoa.c ./atoi/ft_atol.c
 
-SRCS	+=	./ft_printf/ft_printf.c ./ft_printf/ft_dprintf.c \
-			./ft_printf/ft_asprintf.c ./ft_printf/ft_printf_split.c \
-			./ft_printf/ft_printf_conv.c ./ft_printf/ft_printf_put.c \
-			./ft_printf/ft_printf_conv_is.c ./ft_printf/ft_printf_fill.c \
-			./ft_printf/ft_printf_fill2.c ./ft_printf/ft_printf_cast.c \
-			./ft_printf/ft_printf_flag.c ./ft_printf/ft_printf_flag_prec.c \
-			./ft_printf/ft_printf_flag_prec2.c \
-			./ft_printf/ft_printf_flag_size.c \
-			./ft_printf/ft_printf_flag_size2.c \
-			./ft_printf/ft_printf_flag_hash.c
+SRCS	+=	./ft_printf/ft_printf.c\
+			./ft_printf/ft_dprintf.c\
+			./ft_printf/ft_sprintf.c\
+			./ft_printf/ft_abs.c\
+			./ft_printf/ft_atoi.c\
+			./ft_printf/ft_atoll.c\
+			./ft_printf/ft_bonus_flags.c\
+			./ft_printf/ft_display_len_integer.c\
+			./ft_printf/ft_display_len_p.c\
+			./ft_printf/ft_display_len_string.c\
+			./ft_printf/ft_display_len_wchar.c\
+			./ft_printf/ft_dlstadd.c\
+			./ft_printf/ft_dprintf.c\
+			./ft_printf/ft_dprintf.o\
+			./ft_printf/ft_fclamp.c\
+			./ft_printf/ft_flag_c_maj.c\
+			./ft_printf/ft_flags_f.c\
+			./ft_printf/ft_flags_integer.c\
+			./ft_printf/ft_flags_o.c\
+			./ft_printf/ft_flags_others.c\
+			./ft_printf/ft_flags_s.c\
+			./ft_printf/ft_flags_x_p.c\
+			./ft_printf/ft_free_split.c\
+			./ft_printf/ft_get_buffer.c\
+			./ft_printf/ft_get_casted_values.c\
+			./ft_printf/ft_get_casted_values_func.c\
+			./ft_printf/ft_get_casted_values_func_2.c\
+			./ft_printf/ft_get_casted_values_func_3.c\
+			./ft_printf/ft_init.c\
+			./ft_printf/ft_max.c\
+			./ft_printf/ft_may_error.c\
+			./ft_printf/ft_memalloc.c\
+			./ft_printf/ft_memccpy.c\
+			./ft_printf/ft_memchr.c\
+			./ft_printf/ft_memcmp.c\
+			./ft_printf/ft_memcpy.c\
+			./ft_printf/ft_memdel.c\
+			./ft_printf/ft_memmove.c\
+			./ft_printf/ft_memset.c\
+			./ft_printf/ft_min.c\
+			./ft_printf/ft_mod_len.c\
+			./ft_printf/ft_onesign.c\
+			./ft_printf/ft_padding.c\
+			./ft_printf/ft_patof.c\
+			./ft_printf/ft_patoi.c\
+			./ft_printf/ft_patoi_hex.c\
+			./ft_printf/ft_precision.c\
+			./ft_printf/ft_prefix_pf.c\
+			./ft_printf/ft_print_line.c\
+			./ft_printf/ft_printf.c\
+			./ft_printf/ft_printf.o\
+			./ft_printf/ft_put_wchar.c\
+			./ft_printf/ft_put_wchar_len_3_4.c\
+			./ft_printf/ft_putbin.c\
+			./ft_printf/ft_putchar.c\
+			./ft_printf/ft_putchar_buff.c\
+			./ft_printf/ft_putchar_fd.c\
+			./ft_printf/ft_putdbl.c\
+			./ft_printf/ft_putendl.c\
+			./ft_printf/ft_putendl_fd.c\
+			./ft_printf/ft_puthex_max.c\
+			./ft_printf/ft_putnbr.c\
+			./ft_printf/ft_putnbr_buff.c\
+			./ft_printf/ft_putnbr_fd.c\
+			./ft_printf/ft_putnbr_max.c\
+			./ft_printf/ft_putnbr_unsigned.c\
+			./ft_printf/ft_putnstr.c\
+			./ft_printf/ft_putoctal.c\
+			./ft_printf/ft_putoctal_max.c\
+			./ft_printf/ft_putstr.c\
+			./ft_printf/ft_putstr_fd.c\
+			./ft_printf/ft_putstr_non_printable.c\
+			./ft_printf/ft_return.c\
+			./ft_printf/ft_round.c\
+			./ft_printf/ft_split_whitespace.c\
+			./ft_printf/ft_splitlen.c\
+			./ft_printf/ft_sprintf.c\
+			./ft_printf/ft_sprintf.o\
+			./ft_printf/ft_strichr.c\
+			./ft_printf/ft_strichr_last.c\
+			./ft_printf/ft_strjoin_3.c\
+			./ft_printf/ft_strnjoin_free.c\
+			./ft_printf/ft_strnrest.c\
+			./ft_printf/ft_strnstr.c\
+			./ft_printf/ft_strrchr.c\
+			./ft_printf/ft_tools.c
 
 SRCS	+=	./dytab/ft_dy_tab_add_index_ptr.c \
 			./dytab/ft_dy_tab_add_ptr.c \
@@ -147,13 +223,14 @@ SRCS	+=	./hash/ft_hash_table_new.c \
 			./hash/ft_hash_str.c \
 			./hash/ft_hash_table_del_ptr.c \
 			./hash/ft_hash_table_del_value.c \
-			./hash/ft_hash_table_del.c
+			./hash/ft_hash_table_del.c \
+			./hash/ft_hash_table_show_perf.c
 
 OBJS		= $(SRCS:%.c=%.o)
 
 HEADERS		= ./ft_printf/ft_printf.h ./libft.h
 
-INCLUDES	= -I. -I./ft_printf/
+INCLUDES	= -I . -I ./ft_printf/
 
 CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra $(INCLUDES)
