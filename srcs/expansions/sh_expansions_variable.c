@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/13 21:31:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int		sh_expansions_variable_detect(char *start)
 	i++;
 	while (start[i] && (ft_isalnum(start[i]) || start[i] == '_'))
 		i++;
-	i--;
 	return (i);
 }
 
@@ -54,9 +53,9 @@ int		sh_expansions_variable_fill(t_expansion *exp, char *start)
 
 	if ((i = sh_expansions_variable_detect(start)) == -1)
 		return (ERROR);
-	if (!(exp->original = ft_strndup(start, i + 1)))
+	if (!(exp->original = ft_strndup(start, i)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_exp_variable_detect_name (1)"));
-	if (!(exp->expansion = ft_strndup(start + 1, i + 1)))
+	if (!(exp->expansion = ft_strndup(start + 1, i - 1)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_exp_init_detect_pattern (2)"));
 	exp->type = EXP_VAR;
 	exp->process = &sh_expansions_variable_process;

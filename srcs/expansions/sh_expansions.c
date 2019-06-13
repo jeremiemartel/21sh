@@ -6,16 +6,40 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/12 21:21:57 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/13 21:30:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+int			sh_expansions(t_context *context, t_ast_node *node)
+{
+	char	**input;
+	int		ret;
+
+	if (!node || !node->token || !node->token->value)
+		return (SUCCESS);
+	input = &node->token->value;
+	if (sh_verbose_expansion())
+		ft_dprintf(2, "expansion looking for tilde\n");
+	ret = sh_expansions_process_tilde(input, *input, context);
+	if (ret != SUCCESS)
+		return (ret);
+	while (ft_strpbrk(*input, "$"))
+	{
+		if (sh_verbose_expansion())
+			ft_dprintf(2, "expansion var detected\n");
+		ret = sh_expansions_process(input, *input, context);
+		if (ret != SUCCESS)
+			return (ret);
+	}
+	return (ret);
+}
+
 /*
 ** sh_expansions_init:
 **	Try to fill type, expansion, original and process fields of a t_expansion
-**	structure.
+**	structure for parameter and variable expansions.
 **
 **	Return Value:
 **		FAILURE : malloc error
@@ -32,26 +56,42 @@ static int	sh_expansions_init(char *original, t_expansion *exp)
 	exp->original = NULL;
 	exp->process = NULL;
 	exp->res = NULL;
-	if (!(start = ft_strpbrk(original, "$~`")))
+	if (!(start = ft_strpbrk(original, "$")))
 		return (ERROR);
 	if (ft_strnstr(start, "${", 2))
 		return (sh_expansions_parameter_fill(exp, start));
 	else if (ft_strnstr(start, "$", 1))
 		return (sh_expansions_variable_fill(exp, start));
-	else if (ft_strnstr(start, "~", 1))
-		return (sh_expansions_tilde_fill(exp, start));
 	else
 		return (ERROR);
 }
 
-int			sh_expansions(t_context *context, t_ast_node *node)
-{
-	char	**input;
+/*
+** sh_expansions_init_tilde:
+**	Try to fill type, expansion, original and process fields of a t_expansion
+**	structure for tilde expansion.
+**
+**	Return Value:
+**		FAILURE : malloc error
+**		ERROR : expansion is invalid
+**		SUCCESS : successfully filled expansion
+*/
 
-	if (!node || !node->token || !node->token->value)
-		return (SUCCESS);
-	input = &node->token->value;
-	return (sh_expansions_process(input, *input, context));
+static int	sh_expansions_init_tilde(char *original, t_expansion *exp)
+{
+	char	*start;
+
+	exp->res = NULL;
+	exp->expansion = NULL;
+	exp->original = NULL;
+	exp->process = NULL;
+	exp->res = NULL;
+	if (!(start = ft_strpbrk(original, "~")))
+		return (ERROR);
+	if (ft_strnstr(start, "~", 1))
+		return (sh_expansions_tilde_fill(exp, start));
+	else
+		return (ERROR);
 }
 
 int			sh_expansions_process(char **input, char *original, t_context *context)
@@ -59,13 +99,44 @@ int			sh_expansions_process(char **input, char *original, t_context *context)
 	t_expansion	exp;
 	int			ret;
 
-	if (!ft_strpbrk(original, "$~`"))
+	if (!ft_strpbrk(original, "$"))
 		return (SUCCESS);
 	if (sh_expansions_init(original, &exp) != SUCCESS)
 	{
 		t_expansion_free_content(&exp);
 		return (ERROR);
 	}
+	if (sh_verbose_expansion())
+		t_expansion_show(&exp);
+	if ((ret = exp.process(context, &exp)) != SUCCESS)
+	{
+		t_expansion_free_content(&exp);
+		return (ret);
+	}
+	if ((ret = sh_expansions_replace(&exp, input)) != SUCCESS)
+	{
+		t_expansion_free_content(&exp);
+		return (ret);
+	}
+	t_expansion_free_content(&exp);
+	return (SUCCESS);
+}
+
+int			sh_expansions_process_tilde(char **input, char *original, t_context *context)
+{
+	t_expansion	exp;
+	int			ret;
+
+	if (!ft_strpbrk(original, "~"))
+		return (SUCCESS);
+	if (sh_expansions_init_tilde(original, &exp) != SUCCESS)
+	{
+		t_expansion_free_content(&exp);
+		return (ERROR);
+	}
+	if (sh_verbose_expansion())
+		t_expansion_show(&exp);
+
 	if ((ret = exp.process(context, &exp)) != SUCCESS)
 	{
 		t_expansion_free_content(&exp);
