@@ -29,26 +29,12 @@
 int		sh_env_vars_update_question_mark(t_context *context, int res);
 
 /*
-** set_env.c
-*/
-int		get_key_len(char *entry);
-int		sh_add_to_env(t_dy_tab *env, char *key, char *value);
-int		is_bad_assignment(char *entry, int *key_len);
-int		ft_process_set_env_equal(char *entry, t_dy_tab *env);
-int		ms_setenv(t_shell *shell);
-
-/*
 ** sh_vars_tools_1.c
 */
 int		sh_vars_key_exist(t_dy_tab *vars, char *key);
 int		sh_vars_get_index(t_dy_tab *vars, char *key);
 char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 
-/*
-** env.c
-*/
-
-int		sh_env_vars_update_question_mark(t_context *context, int res);
 /*
 ** sh_verbose.c
 */
@@ -68,5 +54,12 @@ int		sh_vars_assignment(
 	t_dy_tab *env, t_dy_tab *vars, char *assignment);
 int		sh_vars_assign_key_val(
 	t_dy_tab *env, t_dy_tab *vars, char *key, char *value);
+
+/*
+** env.c
+*/
+int		is_key_of_entry(char *entry, char *key);
+char	*get_env_value(char **env, char *str);
+char	*get_env_entry(char **env, char *str);
 
 #endif

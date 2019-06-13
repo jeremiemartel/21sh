@@ -54,7 +54,16 @@ int					ft_process_cd(
 int					ft_process_cd_args(
 	t_context *context, int flag, int i);
 int					sh_builtin_cd(t_context *context);
-int				sh_builtin_cd(t_context *context);
+
+/*
+** sh_builtin_hash_tools.c
+*/
+void				process_builtin_hash_suppr_all(t_shell *shell);
+
+/*
+** sh_builtin_setenv.c
+*/
+int					sh_builtin_setenv(t_context *context);
 
 /*
 ** sh_builtin_echo.c
@@ -67,29 +76,20 @@ int					sh_builtin_echo(t_context *context);
 int					sh_builtin_set(t_context *context);
 
 /*
-** sh_builtin_exit.c
+** sh_builtin_hash_stats.c
 */
-int				sh_builtin_exit(t_context *context);
-
-/*
-** sh_builtin_hash.c
-*/
-int				sh_builtin_hash(t_context *context);
-
-/*
-** sh_builtin_setenv.c
-*/
-int				sh_builtin_setenv(t_context *context);
+void				update_hash_stats(
+	t_hash_table *table, t_binary_stats *stats);
 
 /*
 ** sh_builtin_unsetenv.c
 */
-int				sh_builtin_unsetenv(t_context *context);
+int					sh_builtin_unsetenv(t_context *context);
 
 /*
-** sh_builtin_env.c
+** sh_builtin_hash.c
 */
-int				sh_builtin_env(t_context *context);
+int					sh_builtin_hash(t_context *context);
 
 /*
 ** sh_builtin_cd_tools.c
@@ -100,9 +100,30 @@ int					ft_update_old_pwd(
 	char *old_pwd, char *path, t_cd_opt flag, t_context *context);
 
 /*
+** sh_builtin_env_tools.c
+*/
+int					is_key_of_entry(char *entry, char *key);
+char				*get_env_value(char **env, char *str);
+char				*get_env_entry(char **env, char *str);
+
+/*
+** sh_builtin_setenv_tools.c
+*/
+int					get_key_len(char *entry);
+int					sh_add_to_env(t_dy_tab *env, char *key, char *value);
+int					is_bad_assignment(char *entry, int *key_len);
+int					sh_process_setenv_equal(
+	char *entry, t_dy_tab *env, t_context *context);
+
+/*
 ** sh_builtin_pwd.c
 */
 int					sh_builtin_pwd(t_context *context);
+
+/*
+** sh_builtin_exit.c
+*/
+int					sh_builtin_exit(t_context *context);
 
 /*
 ** sh_builtin_where.c
@@ -115,17 +136,8 @@ int					sh_builtin_where(t_context *context);
 int					sh_builtin_verbose(t_context *context);
 
 /*
-** sh_builtin_hash_stats.c
+** sh_builtin_env.c
 */
-void			update_hash_stats(t_hash_table *table, t_binary_stats *stats);
+int					sh_builtin_env(t_context *context);
 
-/*
-** sh_builtin_setenv_tools.c
-*/
-int				sh_process_setenv_equal(char *entry, t_dy_tab *env, t_context *context);
-
-/*
-** sh_builtin_hash_tools.c
-*/
-void        process_builtin_hash_suppr_all(t_shell *shell);
 #endif

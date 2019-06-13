@@ -36,11 +36,6 @@ int		sh_traverse_io_here(t_ast_node *node, t_context *context);
 int		sh_traverse_cmd_word(t_ast_node *node, t_context *context);
 
 /*
-** sh_traverse_and_or.c
-*/
-int			sh_traverse_and_or(t_ast_node *node, t_context *context);
-
-/*
 ** sh_traverse_lessgreat.c
 */
 int		sh_traverse_lessgreat(t_ast_node *node, t_context *context);
@@ -79,7 +74,7 @@ int		sh_traverse_default(t_ast_node *node, t_context *context);
 int		sh_traverse_great(t_ast_node *node, t_context *context);
 
 /*
-** sh_traverse_default.c
+** sh_traverse_cmd_name.c
 */
 int		sh_traverse_cmd_name(t_ast_node *node, t_context *context);
 
@@ -87,6 +82,7 @@ int		sh_traverse_cmd_name(t_ast_node *node, t_context *context);
 ** sh_traverse_simple_command.c
 */
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context);
+int		sh_traverse_sc_search_in_hash(t_context *context);
 int		sh_traverse_sc_no_slash_cmd(t_context *context);
 int		sh_traverse_sc_search_in_dir(
 	char *path, DIR *dir, t_context *context);
@@ -120,6 +116,11 @@ int		sh_process_traverse(t_shell *shell);
 ** sh_traverse_less.c
 */
 int		sh_traverse_less(t_ast_node *node, t_context *context);
+
+/*
+** sh_traverse_and_or.c
+*/
+int		sh_traverse_and_or(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_pipe_sequence.c

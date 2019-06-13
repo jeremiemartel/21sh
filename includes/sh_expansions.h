@@ -47,6 +47,8 @@ struct	s_expansion
 int		sh_expansions(t_context *context, t_ast_node *node);
 int		sh_expansions_process(
 	char **input, char *original, t_context *context);
+int		sh_expansions_process_tilde(
+	char **input, char *original, t_context *context);
 int		sh_expansions_replace(t_expansion *expansion, char **input);
 
 /*

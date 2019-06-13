@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 16:36:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/13 19:32:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
+# define BONUS_HASH_VARIABLE	1
+# define BONUS_TILDE_EXP		1
+
 typedef struct dirent	t_dirent;
 
 typedef	struct		s_binary
@@ -146,7 +149,7 @@ void		init_signals(void);
 /*
 ** init_tabs.c
 */
-t_dy_tab    *main_init_env(char **env);
+int			sh_main_init_env(t_shell *shell, char **env);
 int			sh_update_shell_lvl(t_shell *shell);
 int			sh_main_init_vars(t_shell *shell);
 
