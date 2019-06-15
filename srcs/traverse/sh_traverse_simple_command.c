@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 13:29:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 15:35:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		{
 			if (!(context->path = ft_strdup(context->params->tbl[0])))
 				return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
-			ret = sh_process_execute(context);
+			if (sh_traverse_sc_check_perm(context->path, context->params->tbl[0]) != SUCCESS)
+				ret = ERROR;
+			else
+				ret = sh_process_execute(context);
 		}
 		// NEED TO IMPLEMENT EXECVE ERRORS TREATMENT
 		sh_traverse_tools_reset_params(context);
@@ -73,7 +76,7 @@ int		sh_traverse_sc_search_in_hash(t_context *context)
 			free(finder.current);
 			return (ERROR);
 		}
-		if (sh_traverse_sc_check_perm(binary->path, binary->name))
+		if (sh_traverse_sc_check_perm(binary->path, binary->name) == ERROR)
 			return (SUCCESS); // Exists but no permisssions !
 		context->path = ft_strdup(binary->path);
 		return (SUCCESS);
@@ -142,7 +145,7 @@ int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 					"traverse_sc_search_in_dir"));
 			}
 			if (sh_traverse_sc_check_perm(buf,
-					context->params->tbl[0]) == FAILURE)
+					context->params->tbl[0]) != SUCCESS)
 			{
 				free(buf);
 				continue ;
@@ -199,15 +202,40 @@ int		sh_traverse_sc_search_in_path(t_context *context)
 	return (SUCCESS);
 }
 
+/*
+** sh_traverse_sc_check_perm:
+**	Check if a file pointed by path exists, is a regular file,
+**	can be executed by current user. If not it return an error
+**	and print error message on stderr.
+**
+**	return Value:
+**		SUCESS : file can be considered as an executable
+**		ERROR : file cannot be considered as an executable
+*/
+
 int		sh_traverse_sc_check_perm(char *path, char *command_name)
 {
 	struct stat		st;
 
 	if (stat(path, &st) == -1)
-		return (FAILURE);
+	{
+		if (sh_verbose_exec())
+			ft_dprintf(2, "%s do not exists\n", path);
+		return (sh_perror_err(path, SH_ERR2_NO_SUCH_FILE_OR_DIR));
+	}
 	if (access(path, X_OK))
-		return (sh_perror(SH_ERR1_PERM_DENIED, command_name));
+	{
+		if (sh_verbose_exec())
+			ft_dprintf(2, "You do not have execution rights on %s\n", command_name);
+		return (sh_perror_err(command_name, SH_ERR1_PERM_DENIED));
+	}
 	if (!S_ISREG(st.st_mode))
-		return (sh_perror_err(SH_ERR1_CMD_NOT_FOUND, command_name));
+	{
+		if (S_ISDIR(st.st_mode))
+		return (sh_perror_err("is a directory", path));
+		if (sh_verbose_exec())
+			ft_dprintf(2, "%s is not a regular file\n", command_name);
+		return (sh_perror_err(command_name, SH_ERR1_CMD_NOT_FOUND));
+	}
 	return (SUCCESS);
 }

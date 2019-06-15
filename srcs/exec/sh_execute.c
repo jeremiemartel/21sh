@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 15:58:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 15:03:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int			sh_process_execute(t_context *context)
 		sh_process_execute_dup_pipes(context);
 		execve(context->path, (char **)context->params->tbl, (char **)context->env->tbl);
 		sh_process_execute_close_pipes(context);
+		if (sh_verbose_exec())
+			ft_dprintf(2, "Execve failed\n");
 		sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		exit(FAILURE);
 	}
