@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 16:06:40 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/14 19:04:27 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	t_token_free_list(t_list *head)
 	while (head)
 	{
 		buf = head;
+		head = head->next;
 		t_token_free(buf->content);
 		free(buf);
-		head = head->next;
 	}
 }

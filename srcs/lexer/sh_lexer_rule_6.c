@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:43:21 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 14:55:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/14 18:10:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int			sh_lexer_rule6(t_lexer *lexer)
 		if (lexer->current_id == LEX_TOK_WORD)
 			if (sh_lexer_rule6_detect_io_number(lexer))
 				lexer->current_id = LEX_TOK_IO_NUMBER;
-		sh_lexer_add_token(lexer);
+		t_lexer_add_token(lexer);
 		lexer->tok_len = 1;
 		lexer->current_id = lexer->c & 0x00ff;
 		return (LEX_OK);

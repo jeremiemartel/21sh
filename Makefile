@@ -12,7 +12,7 @@
 
 NAME	= 21sh
 
-CC		= gcc
+CC		= gcc -g3
 
 PWD = \"$(shell pwd)\"
 

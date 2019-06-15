@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:39:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 16:08:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/14 18:34:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	sh_lexer_init(t_lexer *lexer, int tok_start)
+void	t_lexer_init(t_lexer *lexer, int tok_start)
 {
 	lexer->quoted = 0;
 	lexer->expansion = 0;
@@ -22,14 +22,14 @@ void	sh_lexer_init(t_lexer *lexer, int tok_start)
 	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
 }
 
-int		sh_lexer_add_token(t_lexer *lexer)
+int		t_lexer_add_token(t_lexer *lexer)
 {
 	t_list		*link;
 	t_token		*token;
 
 	if (lexer->tok_len == 0 && lexer->current_id == LEX_TOK_UNKNOWN)
 	{
-		sh_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
+		t_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 		return (LEX_OK);
 	}
 	if (!(link = t_token_new_link(lexer->current_id, NULL)))
@@ -45,11 +45,11 @@ int		sh_lexer_add_token(t_lexer *lexer)
 	}
 	token->quoted = ft_abs(lexer->quoted);
 	token->expansion = lexer->expansion;
-	sh_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
+	t_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 	return (LEX_OK);
 }
 
-void	sh_lexer_show(t_lexer *lexer)
+void	t_lexer_show(t_lexer *lexer)
 {
 	t_list	*head;
 

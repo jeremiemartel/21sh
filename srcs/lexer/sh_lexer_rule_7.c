@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:43:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 14:55:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/14 18:10:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		sh_lexer_rule7(t_lexer *lexer)
 		return (LEX_CONTINUE);
 	if (ft_iswhite(lexer->c))
 	{
-		sh_lexer_add_token(lexer);
+		t_lexer_add_token(lexer);
 		lexer->tok_start++;
 		return (LEX_OK);
 	}

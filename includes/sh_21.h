@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/13 19:32:36 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/14 18:42:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@
 # define EOC        "\033[0m"
 
 # define BONUS_HASH_VARIABLE	1
-# define BONUS_TILDE_EXP		1
+# define BONUS_TILDE_EXP		0
 
 typedef struct dirent	t_dirent;
 
