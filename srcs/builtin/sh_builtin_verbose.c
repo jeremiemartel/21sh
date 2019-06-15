@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 12:21:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 15:56:21 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	sh_builtin_verbose_usage(t_context *context)
 {
 	ft_dprintf(context->fd[FD_ERR], "usage: verbose on/off ");
 	ft_dprintf(context->fd[FD_ERR], "[lexer,ast,pipe,exec,expansion]\n");
-	return (FAILURE);
+	return (ERROR);
 }
 
 int			sh_builtin_verbose(t_context *context)

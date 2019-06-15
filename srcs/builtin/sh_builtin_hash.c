@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_builtin_hash.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:18:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 18:39:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/15 15:52:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		process_builtin_hash_show(t_shell *shell)
 static int		print_usage(void)
 {
 	ft_dprintf(2, "21sh: hash: usage: hash [-r]\n");
-	return (FAILURE);
+	return (ERROR);
 }
 
 int				sh_builtin_hash(t_context *context)

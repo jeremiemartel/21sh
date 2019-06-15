@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 15:09:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 15:57:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int		sh_where_binaries_readdir(char *path, DIR *dir, t_context *context)
 			{
 				sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, buf);
 				free(buf);
-				return (FAILURE);
+				return (ERROR);
 			}
 			ft_dprintf(context->fd[FD_OUT], "%s\n", buf);
 			free(buf);
@@ -60,7 +60,7 @@ static int		sh_where_binaries(t_context *context)
 
 	split = ft_strsplit(sh_vars_get_value(context->env, NULL, "PATH"), ':');
 	if (!(split))
-		return (FAILURE);
+		return (sh_perror(SH_ERR1_MALLOC, "sh_where_binaries (1)"));
 	i = 0;
 	while (split[i])
 	{
