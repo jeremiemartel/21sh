@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:05:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 16:47:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ int				sh_builtin_pwd(t_context *context)
 {
 	char	*pwd;
 
-	// Commented to be used in "cd -" command
-	// if (context->params->tbl[1])
-	// 	return (sh_perror("pwd", SH_ERR1_TOO_MANY_ARGS)); 
 	pwd = sh_builtin_pwd_tool(context->env);
 	if (!pwd)
 		return (FAILURE);

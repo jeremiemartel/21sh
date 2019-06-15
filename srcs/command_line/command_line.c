@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:51:35 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 16:43:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int		substitute_current_index(t_command_line *command_line, t_file *file)
 			command_line->current_index, &word) == FAILURE)
 		return (FAILURE);
 	if (!(to_replace = get_completion_str_file(file)))
-		return (sh_perror(SH_ERR1_MALLOC, "substitute_current_index"));
 	{
 		free(word.str);
 		return (sh_perror(SH_ERR1_MALLOC, "substitute_current_index"));
