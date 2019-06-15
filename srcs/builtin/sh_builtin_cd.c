@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:43:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 16:52:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/15 17:19:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ int				sh_builtin_cd(t_context *context)
 	if ((home_str = get_env_value((char **)context->env->tbl, "HOME")))
 		return (ft_process_cd(home_str, flag, context));
 	else
+	{
 		return (sh_perror2_fd(context->fd[FD_ERR],
-			SH_ERR1_ENV_NOT_SET, "cd", "HOME"));
+				SH_ERR1_ENV_NOT_SET, "cd", "HOME"));
+	}
 	return (SUCCESS);
 }

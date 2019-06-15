@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 15:09:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/15 15:57:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 17:16:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int		sh_where_is_ok(char *path, t_dirent *dirent)
 	return (1);
 }
 
-static int		sh_where_binaries_readdir(char *path, DIR *dir, t_context *context)
+static int		sh_where_binaries_readdir(char *path, DIR *dir,
+					t_context *context)
 {
 	t_dirent	*dirent;
 	char		*buf;
@@ -86,7 +87,8 @@ int				sh_builtin_where(t_context *context)
 	while (*context->params->tbl)
 	{
 		if (sh_builtin_find(context))
-			ft_printf("%s: %s built-in command\n",context->params->tbl[0] , SH_NAME);
+			ft_printf("%s: %s built-in command\n", context->params->tbl[0],
+					SH_NAME);
 		if (sh_where_binaries(context) == FAILURE)
 		{
 			context->params->tbl -= i;

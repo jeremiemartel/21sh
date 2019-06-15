@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:43:35 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/12 18:43:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/15 17:16:07 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ int		is_bad_assignment(char *entry, int *key_len)
 	return (SUCCESS);
 }
 
+int		sh_process_bad_assignment(t_context *context, char *entry)
+{
+	ft_dprintf(context->fd[FD_ERR], "%s: \'%s\' bad assignment\n",
+		SH_NAME, entry);
+	return (1);
+}
+
 int		sh_process_setenv_equal(char *entry, t_dy_tab *env, t_context *context)
 {
 	char	*value;
@@ -66,10 +73,7 @@ int		sh_process_setenv_equal(char *entry, t_dy_tab *env, t_context *context)
 	int		key_len;
 
 	if (is_bad_assignment(entry, &key_len))
-	{
-		ft_dprintf(2, "%s: \'%s\' bad assignment\n", SH_NAME, entry);
-		return (1);
-	}
+		return (sh_process_bad_assignment(context, entry));
 	if (!(key = ft_strndup(entry, key_len)))
 		return (-1);
 	if (!(value = ft_strnrest(entry, key_len + 1)))
