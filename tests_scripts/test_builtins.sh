@@ -43,7 +43,4 @@ launch "cd (builtin)"
 	test "cd /" "cd ../.." "pwd"
 	test "cd ." "pwd" "cd ../../" "pwd"
 
-launch "set (builtin)"
-	test "set"
-
 finish

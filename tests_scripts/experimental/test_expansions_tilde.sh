@@ -1,1 +1,1 @@
-../expansions/test_expansions_tilde.sh
+../test_expansions_tilde.sh

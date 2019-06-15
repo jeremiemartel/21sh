@@ -35,6 +35,7 @@ test()
 		echo -e "${red}KO${eoc}"
 		if [ -n "$verbose" ] ; then
 			echo -e "${yellow}`cat buffer`${eoc}"
+			echo -e "${cyan}${res}${eoc}"
 		fi
 	elif [ "${test_stderr}" -ne 0 ] && [ ! -z "`diff res2.bash res2.21sh`" ] ; then 
 		res=`diff res2.bash res2.21sh`

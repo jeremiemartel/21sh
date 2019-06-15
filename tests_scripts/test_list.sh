@@ -14,7 +14,7 @@ launch "Lists of commands"
 
 ## ; tests
 	test 'ls -la ; pwd'
-	test 'asd ; asd a ; qweqweqw ; ls -la'
+	test 'asd ; asd a ; qweqweqw ; pwd ; ls /'
 	test 'echo okalm ; ls nofile ; pwd ; asdqw ; cat nofile'
 
 ## && tests

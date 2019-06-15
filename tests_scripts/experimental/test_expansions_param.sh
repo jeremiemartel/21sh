@@ -1,1 +1,1 @@
-../expansions/test_expansions_param.sh
+../test_expansions_param.sh

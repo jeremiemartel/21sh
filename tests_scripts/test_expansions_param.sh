@@ -6,12 +6,16 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:50 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/08 18:25:36 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/15 14:53:06 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ## Redirections tests
 launch "Parameter expansion"
+	launch "General"
+	test 'foo=okalm bar=tamer' 'echo ${foo}' 'echo ${bar}' 'echo ${foo}${bar}'
+	test ''
+
 	launch ":- and -"
 	## :- and -
 	test 'var=wea' 'echo ${var:-okalm}'
@@ -132,13 +136,11 @@ launch "Parameter expansion"
 	## Valid tests
 	test 'echo ${X:=abc}'
 	test 'echo ${posix:?}'
-									test 'echo ${3:+posix}'
 	test 'echo ${#HOME}'
-									test 'echo ${x#$HOME}'
+	test 'echo ${x#$HOME}'
 	test 'dest="/backups"' 'printf "$dest"'
 	test 'echo ${USER:=foo}'
 	test 'ls ~/${asd:-okalm}'
 	test 'ls ~/${}'
 	test 'ls ~/$'
-									test 'echo ${x%.c}.o'
 finish
