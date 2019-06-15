@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/10 18:12:55 by ldedier          ###   ########.fr        #
+#    Updated: 2019/06/15 17:29:01 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						render_command_line.c arrows.c home_end.c \
 						command_line.c xy.c \
 						copy_paste_delete.c update_prompt.c \
-						keys_insert.c keys_others.c keys_insert.c \
+						keys_insert.c keys_others.c keys_ctrl.c \
 						cursor_tools.c selection.c sh_process_historic.c \
 						heredoc.c research_historic.c render_research.c \
 						free_command_line.c sh_delete_command.c \

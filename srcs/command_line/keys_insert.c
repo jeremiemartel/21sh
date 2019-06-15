@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 02:28:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/15 17:32:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ int		process_enter(t_command_line *command_line)
 	return (1);
 }
 
-void	process_ctrl_c(t_shell *shell, t_command_line *command_line)
-{
-	command_line->autocompletion.head = NULL;
-	command_line->autocompletion.active = 0;
-	if (command_line->searcher.active == 0)
-	{
-		get_down_from_command(command_line);
-		reset_command_line(shell, command_line);
-	}
-	command_line->searcher.active = 0;
-	render_command_line(command_line, 0, 1);
-}
-
 int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 		unsigned char *buffer)
 {
@@ -57,27 +44,13 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 	}
 	else if (buffer[0] == 4)
 	{
-		if (command_line->dy_str->current_size == 0
-				&& (command_line->context == E_CONTEXT_STANDARD
-					|| command_line->context == E_CONTEXT_HEREDOC))
-		{
-			if (command_line->context == E_CONTEXT_STANDARD)
-			{
-				shell->running = 0;
-				ft_dprintf(0, "exit\n");
-			}
+		if (process_ctrl_d(shell, command_line) != KEEP_READ)
 			return (CTRL_D);
-		}
-		else
-			ring_bell();
 	}
 	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
 		return (FAILURE);
 	else if (buffer[0] == 3)
-	{
-		process_ctrl_c(shell, command_line);
-		return (CTRL_C);
-	}
+		return (process_ctrl_c(shell, command_line));
 	return (KEEP_READ);
 }
 

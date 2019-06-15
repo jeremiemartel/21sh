@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 14:22:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 17:31:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,12 @@ int		is_printable_utf8(unsigned char *buffer, int nb_bytes);
 */
 int		get_keys(t_shell *shell, t_command_line *command_line);
 void	print_buffer(unsigned char buffer[READ_BUFF_SIZE]);
+
+/*
+** keys_ctrl.c
+*/
+int		process_ctrl_c(t_shell *shell, t_command_line *command_line);
+int		process_ctrl_d(t_shell *shell, t_command_line *command_line);
 
 /*
 ** keys_insert.c
