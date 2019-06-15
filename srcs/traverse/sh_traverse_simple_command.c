@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 15:35:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 15:46:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 			else
 				ret = sh_process_execute(context);
 		}
-		// NEED TO IMPLEMENT EXECVE ERRORS TREATMENT
 		sh_traverse_tools_reset_params(context);
 		return (ret);
 	}
