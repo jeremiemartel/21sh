@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 16:36:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/15 13:29:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,11 @@ int		sh_traverse_sc_search_in_hash(t_context *context)
 **	ERROR : command not found
 **	any value returned by a builtin executed or a process launched
 */
+
 int		sh_traverse_sc_no_slash_cmd(t_context *context)
 {
 	if ((context->builtin = sh_builtin_find(context)))
 		return (sh_exec_builtin(context));
-	// undefined behaviour names
-	// Looking for functions
-	// Reserved utility
 	if (sh_traverse_sc_search_in_hash(context) != SUCCESS)
 	{
 		if (sh_traverse_sc_search_in_path(context) == FAILURE)
@@ -112,7 +110,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 	{
 		sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		sh_env_vars_update_question_mark(context, 127);
-		return (ERROR);
+		return (SUCCESS);
 	}
 }
 
@@ -126,6 +124,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 **		FAILURE : malloc error	
 **		SUCCESS : any error occur
 */
+
 int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 {
 	t_dirent	*dirent;
@@ -170,6 +169,7 @@ int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 **		ERROR : $PATH is empty
 **		SUCCESS : Any error occured
 */
+
 int		sh_traverse_sc_search_in_path(t_context *context)
 {
 	char	**split;
