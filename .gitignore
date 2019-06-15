@@ -3,6 +3,7 @@ ok
 test
 file
 logs
+log
 
 tests_scripts/*.log
 tests_scripts/logs/*
