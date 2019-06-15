@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 15:47:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/15 17:55:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,6 @@ int			sh_process_execute_close_pipes(t_context *context)
 					ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
 				close(redir->redirected_fd);
 			}
-		}
-		else if (redir->fd == -2)
-		{
-			if (sh_verbose_pipe())
-				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
-			close(redir->redirected_fd);
 		}
 		head = head->next;
 	}
