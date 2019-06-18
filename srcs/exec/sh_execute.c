@@ -6,84 +6,23 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 17:55:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/18 17:27:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-extern pid_t g_parent;
+static pid_t g_parent;
 
-static int	sh_process_execute_dup_pipes(t_context *context)
+void		sh_execute_child(t_context *context)
 {
-	t_list			*head;
-	t_redirection	*redir;
-
-	if (!context->redirections)
-		return (SUCCESS);
-	if (sh_verbose_pipe())
-		ft_dprintf(2, "Redirections for %s:\n", context->params->tbl[0]);
-	head = *(context->redirections);
-	while (head)
-	{
-		redir = (t_redirection*)head->content;
-		if (redir->fd >= 0)
-		{
-			if (sh_verbose_pipe())
-				ft_dprintf(2, "\t%d became %d\n",
-					redir->fd, redir->redirected_fd);
-			if (dup2(redir->fd, redir->redirected_fd) == -1)
-				return (sh_perror(SH_ERR1_INTERN_ERR,
-					"process_exec_dup_pipes 2"));
-		}
-		else if (redir->fd == -1)
-		{
-			if (sh_verbose_pipe())
-				ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
-			close(redir->redirected_fd);
-		}
-		else if (redir->fd == -2)
-		{
-			redir->fd = dup(redir->redirected_fd);
-			dup2(redir->fd, redir->redirected_fd);
-			ft_dprintf(2, "\t%d became %d\n", redir->fd, redir->redirected_fd);
-		}
-		head = head->next;
-	}
-	return (SUCCESS);
-}
-
-int			sh_process_execute_close_pipes(t_context *context)
-{
-	t_list			*head;
-	t_redirection	*redir;
-
-	if (!context->redirections)
-		return (SUCCESS);
-	if (sh_verbose_pipe())
-		ft_dprintf(2, "closing for %s:\n", context->params->tbl[0]);
-	head = *(context->redirections);
-	while (head)
-	{
-		redir = (t_redirection*)head->content;
-		if (redir->fd > 2)
-		{
-			if (sh_verbose_pipe())
-				ft_dprintf(2, "\tclosing %d\n", redir->fd);
-			close(redir->fd);
-		}
-		else if (redir->fd >= 0)
-		{
-			if (redir->fd != redir->redirected_fd)
-			{
-				if (sh_verbose_pipe())
-					ft_dprintf(2, "\tclosing %d\n", redir->redirected_fd);
-				close(redir->redirected_fd);
-			}
-		}
-		head = head->next;
-	}
-	return (SUCCESS);
+	sh_process_execute_dup_pipes(context);
+	execve(context->path, (char **)context->params->tbl,
+			(char **)context->env->tbl);
+	sh_process_execute_close_pipes(context);
+	if (sh_verbose_exec())
+		ft_dprintf(2, "Execve failed\n");
+	exit(FAILURE);
 }
 
 int			sh_process_execute(t_context *context)
@@ -98,14 +37,7 @@ int			sh_process_execute(t_context *context)
 	if ((g_parent = fork()) == -1)
 		return (FAILURE);
 	if (g_parent == 0)
-	{
-		sh_process_execute_dup_pipes(context);
-		execve(context->path, (char **)context->params->tbl, (char **)context->env->tbl);
-		sh_process_execute_close_pipes(context);
-		if (sh_verbose_exec())
-			ft_dprintf(2, "Execve failed\n");
-		exit(FAILURE);
-	}
+		sh_execute_child(context);
 	else
 	{
 		wait(&res);

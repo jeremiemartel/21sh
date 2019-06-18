@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/15 17:29:01 by ldedier          ###   ########.fr        #
+#    Updated: 2019/06/18 17:28:05 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ SRCS_NO_PREFIX =		main.c index.c init.c \
 						hash_binaries.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
-						first_sets.c debug.c \
+						first_sets.c debug.c print_ast.c \
 						compute_lr_automata.c compute_lr_tables.c \
 						lr_parse.c compute_first_state.c state.c \
 						compute_closure.c compute_transitions.c \
@@ -101,7 +101,8 @@ PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
 						free_parser.c transitive_first_sets.c \
 						first_sets_tools.c transition_tools.c \
 						closure_tools.c free_node.c free_parser_tools.c \
-						fill_lr_tables.c shift.c compute_closure_tools.c
+						fill_lr_tables.c shift.c compute_closure_tools.c \
+						reduce_pop.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rule_1.c \
@@ -154,6 +155,7 @@ VARS_SRCS_NO_PREFIX	=	sh_vars_tools_1.c sh_vars_tools_2.c \
 						sh_verbose.c sh_env_vars.c
 
 EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
+						sh_execute_pipes.c \
 						sh_exec_builtin.c \
 						t_context.c \
 						sh_redirections.c\

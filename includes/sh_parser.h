@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 05:30:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/18 16:52:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,13 @@ int     sh_add_prod(t_symbol *symbol, t_cfg *cfg, int nb_symbols, ...);
 */
 int		sh_process_reduce(t_production *production, t_lr_parser *parser);
 
+
+/*
+** reduce_pop.c
+*/
+int			sh_process_reduce_pop(t_production *production,
+				t_lr_parser *parser, t_list **ast_builder_list,
+					t_ast_node **replacing_ast_node);
 /*
 ** lr_parse.c
 */

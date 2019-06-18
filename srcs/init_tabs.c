@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/13 20:02:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/18 16:55:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int			sh_main_init_env(t_shell *shell, char **env)
 ** sh_main_init_vars:
 **	Create a t_dy_tab used to store shell variables.
 **	It also initialize some shell special parameters : #, ?
-**	
 */
 
 int			sh_main_init_vars(t_shell *shell)
