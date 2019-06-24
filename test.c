@@ -14,12 +14,23 @@
 
 # define BUFF_SIZE 10000
 
+int	segfault(void)
+{
+	char	*ptr;
+
+	ptr = NULL;
+	printf("%c", *ptr);
+	return (0);
+}
+
 int main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
 	char buffer[BUFF_SIZE + 1];
 	int readd = 0;
+
+	segfault();
 
 	if (!readd)
 	{
