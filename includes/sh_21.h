@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/14 18:42:52 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/17 11:38:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ char		*get_env_entry(char **env, char *str);
 /*
 ** set_env.c
 */
-int			sh_add_to_env(t_dy_tab *env, char *key, char *value);
 int			sh_add_to_command(t_command_line *command,
 				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
 

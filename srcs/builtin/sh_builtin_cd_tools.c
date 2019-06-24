@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:48:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 15:33:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/17 11:36:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int		ft_update_old_pwd(char *old_pwd, char *path, t_cd_opt flag,
 	if (!final_pwd)
 		return (FAILURE);
 	if (!(pwd_value = get_env_value((char **)context->env->tbl, "PWD")))
-		sh_add_to_env(context->env, "OLDPWD", old_pwd);
+		sh_vars_assign_key_val(context->env, NULL, "OLDPWD", old_pwd);
 	else
-		sh_add_to_env(context->env, "OLDPWD", pwd_value);
-	sh_add_to_env(context->env, "PWD", final_pwd);
+		sh_vars_assign_key_val(context->env, NULL, "OLDPWD", pwd_value);
+	sh_vars_assign_key_val(context->env, NULL, "PWD", final_pwd);
 	free(final_pwd);
 	return (SUCCESS);
 }

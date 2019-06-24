@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/18 16:55:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/24 10:09:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			sh_update_shell_lvl(t_shell *shell)
 		ft_dy_tab_del(shell->env);
 		return (sh_perror(SH_ERR1_MALLOC, "sh_update_shell_lvl"));
 	}
-	if (sh_add_to_env(shell->env, "SHLVL", new_lvl_str))
+	if (sh_vars_assign_key_val(shell->env, NULL, "SHLVL", new_lvl_str))
 	{
 		free(new_lvl_str);
 		ft_dy_tab_del(shell->env);

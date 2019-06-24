@@ -13,10 +13,11 @@
 # **************************************************************************** #
 
 ## Usage : 
-##	./launcher [-v] [-q] [-2] [file]
+##	./launcher [-v] [-q] [-2] [-e] [file]
 ##		-v : Activate Valgrind tests
 ##		-2 : Activate comparison on stderr
 ##		-q : Activate quiet mode : only show OK or KO
+##		-e : Show only fqiled tests (hide [OK])
 ##		file : give the name of a file, or simply it's kind
 ##			(ex : expansions for test_expansions.sh)
 ##			else, every files would be launched
@@ -27,8 +28,9 @@ exec="21sh"
 log_dir="logs" # watchout we rm -rf this
 
 
-test_stderr=0
+test_stderr=""
 verbose="ok"
+show_error=""
 for arg in $@ ; do
 	if [ "$arg" = "-v" ] ; then
 		valgrind=true
@@ -37,11 +39,15 @@ for arg in $@ ; do
 	fi
 
 	if [ "$arg" = "-2" ] ; then
-		test_stderr=1
+		test_stderr="ok"
 	fi
 
 	if [ "$arg" = "-q" ] ; then
 		verbose=""
+	fi
+
+	if [ "$arg" = "-e" ] ; then
+		show_error="ok"
 	fi
 
 	if [ -f "test_${arg}.sh" ] ; then

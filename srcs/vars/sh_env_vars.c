@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 13:48:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/17 11:37:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		sh_env_vars_update_question_mark(t_context *context, int res)
 		return (sh_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
 	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"%s\n"COLOR_END, str);
-	res = sh_add_to_env(context->env, "?", str);
+	res = sh_vars_assign_key_val(context->env, NULL, "?", str);
 	free(str);
 	return (res);
 }

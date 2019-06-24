@@ -109,9 +109,6 @@ char				*get_env_entry(char **env, char *str);
 /*
 ** sh_builtin_setenv_tools.c
 */
-int					get_key_len(char *entry);
-int					sh_add_to_env(t_dy_tab *env, char *key, char *value);
-int					is_bad_assignment(char *entry, int *key_len);
 int					sh_process_setenv_equal(
 	char *entry, t_dy_tab *env, t_context *context);
 
@@ -133,6 +130,8 @@ int					sh_builtin_where(t_context *context);
 /*
 ** sh_builtin_verbose.c
 */
+void				sh_process_builtin_verbose(
+	t_context *context, char key[6][20], char value[3]);
 int					sh_builtin_verbose(t_context *context);
 
 /*
