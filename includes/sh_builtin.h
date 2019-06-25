@@ -76,20 +76,20 @@ int					sh_builtin_echo(t_context *context);
 int					sh_builtin_set(t_context *context);
 
 /*
-** sh_builtin_hash_stats.c
-*/
-void				update_hash_stats(
-	t_hash_table *table, t_binary_stats *stats);
-
-/*
 ** sh_builtin_unsetenv.c
 */
 int					sh_builtin_unsetenv(t_context *context);
 
 /*
-** sh_builtin_hash.c
+** sh_builtin_setenv_tools.c
 */
-int					sh_builtin_hash(t_context *context);
+int					sh_process_setenv_equal(
+	char *entry, t_dy_tab *env, t_context *context);
+
+/*
+** sh_builtin_exit.c
+*/
+int					sh_builtin_exit(t_context *context);
 
 /*
 ** sh_builtin_cd_tools.c
@@ -100,17 +100,10 @@ int					ft_update_old_pwd(
 	char *old_pwd, char *path, t_cd_opt flag, t_context *context);
 
 /*
-** sh_builtin_env_tools.c
+** sh_builtin_hash_stats.c
 */
-int					is_key_of_entry(char *entry, char *key);
-char				*get_env_value(char **env, char *str);
-char				*get_env_entry(char **env, char *str);
-
-/*
-** sh_builtin_setenv_tools.c
-*/
-int					sh_process_setenv_equal(
-	char *entry, t_dy_tab *env, t_context *context);
+void				update_hash_stats(
+	t_hash_table *table, t_binary_stats *stats);
 
 /*
 ** sh_builtin_pwd.c
@@ -118,9 +111,9 @@ int					sh_process_setenv_equal(
 int					sh_builtin_pwd(t_context *context);
 
 /*
-** sh_builtin_exit.c
+** sh_builtin_hash.c
 */
-int					sh_builtin_exit(t_context *context);
+int					sh_builtin_hash(t_context *context);
 
 /*
 ** sh_builtin_where.c

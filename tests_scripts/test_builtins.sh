@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:41 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/20 13:35:36 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/25 11:32:29 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,26 @@ launch "cd"
 	test_launch "cd /" "cd ../.." "pwd"
 	test_launch "cd ." "pwd" "cd ../../" "pwd"
 	test_launch "cd ../../../../../../../../../../"
-	test_launch "ln -s . ../link" "cd ../link" "ls" "pwd" "cd .." "rm link"
+	test_launch "mkdir sandbox ; cd sandbox ; ln -s ../sandbox  ./link" "cd ./link" "ls -la" "pwd" "cd .." "rm -r sandbox"
 	test_launch "mkdir dir ; ln -s dir link" "cd dir" "pwd" "cd ../link ; ls" "rm -r dir ; rm file ; rm link"
+
+launch "env"
+	test_launch 'env'
+	test_launch 'env -i ls'
+	test_launch 'env -i path=/bin ls'
+	test_launch 'env -i PATH=/bin ls'
+	test_launch 'echo "echo Hello World" > file ; chmod +x file ; ./file' 'rm file'
+	test_launch 'echo "echo Hello World" > file ; chmod +x file ; env -i ./file' 'rm file'
+	test_launch 'env -i rora=okalm'
+	test_launch 'env pasd=laisjd pqwei=asdasd asdasd=scvsd'
+	test_launch 'env -i'
+	test_launch 'env -asd'
+	test_launch 'env -asd ls'
+	test_launch 'env asdq='
+	test_launch 'env asdq= ls'
+	test_launch 'env =aasd'
+	test_launch 'env =aasd ls'
+	test_launch 'env ='
+	test_launch 'env = ls'
 
 finish

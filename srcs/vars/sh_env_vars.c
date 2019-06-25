@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 13:48:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/17 11:37:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/25 13:57:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,48 @@ int		sh_env_vars_update_question_mark(t_context *context, int res)
 	res = sh_vars_assign_key_val(context->env, NULL, "?", str);
 	free(str);
 	return (res);
+}
+
+int			is_key_of_entry(char *entry, char *key)
+{
+	int i;
+
+	i = 0;
+	while (key[i] && entry[i] && key[i] == entry[i])
+		i++;
+	if (key[i])
+		return (0);
+	if (entry[i] != '=')
+		return (0);
+	return (1);
+}
+
+char		*get_env_value(char **env, char *str)
+{
+	int len;
+	int i;
+
+	len = ft_strlen(str);
+	i = 0;
+	while (env[i])
+	{
+		if (is_key_of_entry(env[i], str))
+			return (&(env[i][len + 1]));
+		i++;
+	}
+	return (NULL);
+}
+
+char		*get_env_entry(char **env, char *str)
+{
+	int i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (is_key_of_entry(env[i], str))
+			return (env[i]);
+		i++;
+	}
+	return (NULL);
 }

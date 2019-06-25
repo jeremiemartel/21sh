@@ -18,6 +18,7 @@
 ##		-2 : Activate comparison on stderr
 ##		-q : Activate quiet mode : only show OK or KO
 ##		-e : Show only fqiled tests (hide [OK])
+##		-r : Compare returned values with bash
 ##		file : give the name of a file, or simply it's kind
 ##			(ex : expansions for test_expansions.sh)
 ##			else, every files would be launched
@@ -31,6 +32,7 @@ log_dir="logs" # watchout we rm -rf this
 test_stderr=""
 verbose="ok"
 show_error=""
+test_returned_values=""
 for arg in $@ ; do
 	if [ "$arg" = "-v" ] ; then
 		valgrind=true
@@ -48,6 +50,10 @@ for arg in $@ ; do
 
 	if [ "$arg" = "-e" ] ; then
 		show_error="ok"
+	fi
+
+	if [ "$arg" = "-r" ] ; then
+		test_returned_values="ok"
 	fi
 
 	if [ -f "test_${arg}.sh" ] ; then

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:39:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/25 10:02:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/25 12:42:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_dy_tab	*sh_builtin_env_init_new_env(t_dy_tab *env)
 
 	if (!env)
 	{
-		if (!(tbl = ft_dy_tab_new(2)))
+		if (!(tbl = ft_dy_tab_new(3)))
 			return (NULL);
 		return (tbl);
 	}
@@ -105,7 +105,7 @@ static int	sh_builtin_env_process_command(t_context *context)
 	else
 	{
 		if (!(context->path = ft_strdup(context->params->tbl[0])))
-			return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
+			return (sh_perror(SH_ERR1_MALLOC, "sh_builtin_env_process_command"));
 		if (sh_traverse_sc_check_perm(context->path, context->params->tbl[0]) != SUCCESS)
 			ret = ERROR;
 		else
@@ -134,7 +134,7 @@ int			sh_builtin_env(t_context *context)
 	if (!new_env)
 		return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_main_init_env"));
 
-	while (ft_strchr(params[i], '='))
+	while (params[i] && ft_strchr(params[i], '='))
 	{
 		if (!sh_is_var_name(params[i]))
 			break ;
@@ -152,10 +152,14 @@ int			sh_builtin_env(t_context *context)
 	save_env = context->env;
 	save_params =context->params;
 
+
 	context->env = new_env;
 	context->params = sh_builtin_env_init_new_params(context->params, i);
+
 	if (!context->params)
-		return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_main_init_params"));
+		return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_main_init_params")); // leaks !!!!!!!!!!
+	if (!(context->params->tbl[i]) || !(((char**)context->params->tbl)[i][0]))
+		return (sh_builtin_env_no_args(context)); // leaks !!!!!!!
 
 	sh_builtin_env_process_command(context); // check returned value
 

@@ -33,8 +33,8 @@ diff_files()
 	res=`diff $1 $2`
 	if [ -n "$res" ] ; then
 		echo -e "${red}KO${eoc}"
+		echo -e "${yellow}`cat buffer`${eoc}"
 		if [ -n "$verbose" ] ; then
-			echo -e "${yellow}`cat buffer`${eoc}"
 			echo -e "${cyan}" `cat $1` "${eoc}"
 			echo -e "${cyan}" `cat $2` "${eoc}"
 		fi
@@ -68,11 +68,19 @@ valgrind_test()
 
 check_ret_value()
 {
-	ret=$?
-	ret=$((ret & 0x0F))
-	if [ $ret -eq 0 ] ; then return 0 ; fi
-	if [ $ret -eq 11 ] || [ "ret" -eq 10 ] ; then 
+	ret1=$1
+	ret2=$2
+	sh_ret=$((ret1 & 0x0F))
+	bash_ret=$((ret2 & 0x0F))
+
+	if [ "$sh_ret" -eq 11 -o "$sh_ret" -eq 10 ] ; then 
 		echo -e "${red}SEGFAULT${eoc}"
+		return 1
+	fi
+
+	if [ "$sh_ret" -ne  "$bash_ret" ] ; then 
+		echo -e "${red}BAD RETURNED VALUE"
+		echo -e "bash : $bash_ret || 21sh : $sh_ret{eoc}"
 		return 1
 	fi
 	return 0
@@ -89,12 +97,16 @@ test_launch()
 	diff_tried=$((diff_tried+1))
 	touch res1.bash res2.bash res1.21sh res2.21sh
 	<buffer bash 1>res1.bash 2>res2.bash
+	bash_ret=$?
 	<buffer ./${exec} 1>res1.21sh 2>res2.21sh
+	sh_ret=$?
 
 	continue=0
-# echo "continue (return): $continue"
-	check_ret_value
-	continue=$?
+
+	if [ -n "$test_returned_values" ] ; then
+		check_ret_value sh_ret bash_ret
+		continue=$?
+	fi
 
 # echo "continue (stdout): $continue"
 	if [ 0 -eq "$continue" ] ; then

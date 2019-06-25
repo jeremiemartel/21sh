@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:21:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/24 10:49:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/25 12:38:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ int		sh_vars_assign_key_val(t_dy_tab *env, t_dy_tab *vars, char *key, char *valu
 {
 	int		res;
 
-	if (env && sh_vars_get_index(env, key) != -1)
+	if (env && sh_vars_key_exist(env, key))
 		res = sh_vars_mod_key(env, key, value);
-	else if (vars && sh_vars_get_index(vars, key) != -1)
+	else if (vars && sh_vars_key_exist(vars, key))
 		res = sh_vars_mod_key(vars, key, value);
 	else if (vars)
 		res = sh_vars_add_key(vars, key, value);

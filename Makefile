@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/18 17:28:05 by ldedier          ###   ########.fr        #
+#    Updated: 2019/06/25 13:57:55 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -176,7 +176,6 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_setenv.c \
 						sh_builtin_unsetenv.c \
 						sh_builtin_env.c \
-						sh_builtin_env_tools.c \
 						sh_builtin_setenv_tools.c \
 						sh_builtin_hash_tools.c
 
