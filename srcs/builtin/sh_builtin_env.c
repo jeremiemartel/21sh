@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:39:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/25 06:36:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/25 10:02:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static t_dy_tab	*sh_builtin_env_init_new_env(t_dy_tab *env)
 	{
 		if (!(tbl = ft_dy_tab_new(2)))
 			return (NULL);
+		return (tbl);
 	}
 	len = env->current_size;
 	if (!(tbl = ft_dy_tab_new(len + 5)))
@@ -124,7 +125,10 @@ int			sh_builtin_env(t_context *context)
 		return (sh_builtin_env_no_args(context));
 	i = 1;
 	if (params[i] && ft_strequ(params[i], "-i"))
+	{
 		new_env = sh_builtin_env_init_new_env(NULL);
+		i++;
+	}
 	else
 		new_env = sh_builtin_env_init_new_env(context->env);
 	if (!new_env)

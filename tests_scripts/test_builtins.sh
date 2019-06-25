@@ -40,8 +40,8 @@ launch "hash"
 	test_launch "hash -e"
 	test_launch "hash -r" "hash"
 	test_launch "cat file " "hash -r" "hash"
-	test_launch "ls -la" "hash" "hash"
-	test_launch "ls -la" "pwd" "ls" "hash" "hash -r" "hash"
+	test_launch "cat file" "hash" "hash"
+	test_launch "ls" "pwd" "ls" "cat file" "hash" "hash -r" "hash"
 
 launch "cd"
 	test_launch "cd" "pwd"
@@ -50,6 +50,6 @@ launch "cd"
 	test_launch "cd ." "pwd" "cd ../../" "pwd"
 	test_launch "cd ../../../../../../../../../../"
 	test_launch "ln -s . ../link" "cd ../link" "ls" "pwd" "cd .." "rm link"
-	test_launch "mkdir dir ; ln -s dir link" "cd dir" "pwd" "cd ../link ; ls" "rm -r dir ; rm file"
-	
+	test_launch "mkdir dir ; ln -s dir link" "cd dir" "pwd" "cd ../link ; ls" "rm -r dir ; rm file ; rm link"
+
 finish
