@@ -78,10 +78,13 @@ check_ret_value()
 		return 1
 	fi
 
-	if [ "$sh_ret" -ne  "$bash_ret" ] ; then 
-		echo -e "${red}BAD RETURNED VALUE"
-		echo -e "bash : $bash_ret || 21sh : $sh_ret{eoc}"
-		return 1
+	if [ -n "$test_returned_values" ] ; then
+
+		if [ "$sh_ret" -ne  "$bash_ret" ] ; then 
+			echo -e "${red}BAD RETURNED VALUE"
+			echo -e "bash : $bash_ret || 21sh : $sh_ret{eoc}"
+			return 1
+		fi
 	fi
 	return 0
 }
@@ -101,12 +104,8 @@ test_launch()
 	<buffer ./${exec} 1>res1.21sh 2>res2.21sh
 	sh_ret=$?
 
-	continue=0
-
-	if [ -n "$test_returned_values" ] ; then
-		check_ret_value sh_ret bash_ret
-		continue=$?
-	fi
+	check_ret_value sh_ret bash_ret
+	continue=$?
 
 # echo "continue (stdout): $continue"
 	if [ 0 -eq "$continue" ] ; then

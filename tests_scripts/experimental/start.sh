@@ -105,6 +105,9 @@ else
 fi
 
 rm ${exec}
-echo "passed ${passed} valgrind tests out of ${tried}"
+if [ "$tried" -ne 0 ] ; then
+	echo "passed ${passed} valgrind tests out of ${tried}"
+fi
 echo "passed ${diff_passed} diff tests out of ${diff_tried}"
+
 rm -rf "${exec}.dSYM"

@@ -61,6 +61,9 @@ launch "setenv"
 	test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
 	test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
 
+launch "unsetenv"
+	test_launch 'unsetenv PATH'
+
 launch "env"
 	test_launch 'env | grep HOME'
 	test_launch 'env | grep USER'
