@@ -19,4 +19,15 @@ launch "exec"
 	test_launch 'rm -rf dir'
 	test_launch './nofile'
 	test_launch './functions.sh'
+
+	launch "Permissions"
+	test_launch 'echo "echo lol" > file' 'chmod 777 file' './file' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo lol" > file' 'chmod 600 file' './file' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo lol" > file' 'chmod 500 file' './file' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo lol" > file' 'chmod 400 file' './file' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo lol" > file' 'chmod 300 file' './file' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo lol" > file' 'chmod 200 file' './file' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo lol" > file' 'chmod 100 file' './file' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo lol" > file' 'chmod 000 file' './file' 'chmod 777 file ; rm file'
+
 finish

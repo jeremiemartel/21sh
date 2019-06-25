@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/15 17:11:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/25 05:48:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,44 @@ static int	sh_builtin_verbose_usage(t_context *context)
 {
 	ft_dprintf(context->fd[FD_ERR], "usage: verbose on/off ");
 	ft_dprintf(context->fd[FD_ERR], "[lexer,ast,pipe,exec,expansion]\n");
+	ft_dprintf(context->fd[FD_ERR], "If no options are given, \n");
+	ft_dprintf(context->fd[FD_ERR], "they are all enabled\n");
 	return (ERROR);
 }
 
-void		sh_process_builtin_verbose(t_context *context, char key[6][20],
+static int		sh_process_builtin_verbose(t_context *context, char key[6][20],
 				char value[3])
 {
 	int			i;
 	int			j;
+	int			ret;
 
 	i = 2;
-	while (context->params->tbl[i])
+	ret = 0;
+	while (!ret && context->params->tbl[i])
 	{
 		j = 0;
-		while (*key[j])
+		while (!ret && *key[j])
 		{
 			if (ft_strequ(context->params->tbl[i], key[j] + 8))
-				sh_vars_assign_key_val(context->env,
+				ret = sh_vars_assign_key_val(context->env,
 					context->vars, key[j], value);
 			j++;
 		}
 		i++;
 	}
+	if (i == 2)
+	{
+		i = 0;
+		while (!ret && key[i][0])
+		{
+			ret = sh_vars_assign_key_val(context->env, context->vars, key[i], value);
+			i++;
+		}
+	}
+	if (ret != SUCCESS)
+		return (ret);
+	return (SUCCESS);
 }
 
 int			sh_builtin_verbose(t_context *context)

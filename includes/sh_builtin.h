@@ -130,8 +130,6 @@ int					sh_builtin_where(t_context *context);
 /*
 ** sh_builtin_verbose.c
 */
-void				sh_process_builtin_verbose(
-	t_context *context, char key[6][20], char value[3]);
 int					sh_builtin_verbose(t_context *context);
 
 /*

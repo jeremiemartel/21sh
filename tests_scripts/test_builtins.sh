@@ -12,7 +12,8 @@
 
 ##	Builtin tests
 ##		Echo :
-launch "Echo (builtin)"
+launch "Builtins"
+launch "Echo"
 	test_launch "echo -n okalm"
 	test_launch "echo -n "
 	test_launch "echo"
@@ -25,22 +26,30 @@ launch "Echo (builtin)"
 	test_launch 'echo $var $var $var'
 	test_launch 'echo $s#var $var'
 
-launch "pwd (builtin)"
+launch "pwd"
 	test_launch "pwd"
 	test_launch "pwd | cat -e"
 	test_launch "pwd | cat -e | wc"
 	test_launch "PWD=" "OLDPWD=" "pwd"
+	test_launch "pwd sqs"
+	test_launch "pwd sqs aze"
 
-launch "hash (builtin)"
+launch "hash"
 	test_launch "hash"
+	test_launch "hash qkjhbdnsj"
+	test_launch "hash -e"
 	test_launch "hash -r" "hash"
 	test_launch "cat file " "hash -r" "hash"
+	test_launch "ls -la" "hash" "hash"
+	test_launch "ls -la" "pwd" "ls" "hash" "hash -r" "hash"
 
-
-launch "cd (builtin)"
+launch "cd"
 	test_launch "cd" "pwd"
 	test_launch "cd ~/" "pwd" "cd .. ; pwd"
 	test_launch "cd /" "cd ../.." "pwd"
 	test_launch "cd ." "pwd" "cd ../../" "pwd"
-
+	test_launch "cd ../../../../../../../../../../"
+	test_launch "ln -s . ../link" "cd ../link" "ls" "pwd" "cd .." "rm link"
+	test_launch "mkdir dir ; ln -s dir link" "cd dir" "pwd" "cd ../link ; ls" "rm -r dir ; rm file"
+	
 finish

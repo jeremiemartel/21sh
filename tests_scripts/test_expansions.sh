@@ -32,6 +32,7 @@ launch "Expansions"
 finish
 launch "Variables"
 	launch "Basic"
+	test_launch '=qsda'
 	test_launch 'var=okalm ; echo $var'
 	test_launch 'var=qwe 	&& echo $var'
 	test_launch 'var=asdqw || echo $vqr'

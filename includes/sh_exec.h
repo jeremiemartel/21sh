@@ -79,16 +79,22 @@ typedef struct		s_context
 */
 
 /*
-** sh_execute.c
-*/
-int					sh_process_execute_close_pipes(t_context *context);
-int					sh_process_execute(t_context *context);
-
-/*
 ** t_context.c
 */
 int					t_context_init(t_context *context, t_shell *shell);
 void				t_context_free_content(t_context *context);
+
+/*
+** sh_execute.c
+*/
+void				sh_execute_child(t_context *context);
+int					sh_process_execute(t_context *context);
+
+/*
+** sh_execute_pipes.c
+*/
+int					sh_process_execute_dup_pipes(t_context *context);
+int					sh_process_execute_close_pipes(t_context *context);
 
 /*
 ** sh_redirections.c
@@ -112,13 +118,5 @@ void				print_redirection_list(t_list *list);
 ** sh_exec_builtin.c
 */
 int					sh_exec_builtin(t_context *context);
-
-/*
-** sh_exec_pipes.c
-*/
-
-int					sh_process_execute_dup_pipes(t_context *context);
-int					sh_process_execute_close_pipes(t_context *context);
-
 
 #endif
