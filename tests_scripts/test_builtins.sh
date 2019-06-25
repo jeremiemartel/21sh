@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-##	Builtin tests
-##		Echo :
 launch "Builtins"
 launch "Echo"
 	test_launch "echo -n okalm"
@@ -52,23 +50,37 @@ launch "cd"
 	test_launch "mkdir sandbox ; cd sandbox ; ln -s ../sandbox  ./link" "cd ./link" "ls -la" "pwd" "cd .." "rm -r sandbox"
 	test_launch "mkdir dir ; ln -s dir link" "cd dir" "pwd" "cd ../link ; ls" "rm -r dir ; rm file ; rm link"
 
+launch "exit"
+	test_launch 'exit ; ls'
+	test_launch 'exit' 'ls'
+	test_launch 'exit && ls'
+	test_launch 'exit || ls'
+
+launch "setenv"
+	test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
+	test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
+	test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
+
 launch "env"
-	test_launch 'env'
-	test_launch 'env -i ls'
-	test_launch 'env -i path=/bin ls'
-	test_launch 'env -i PATH=/bin ls'
-	test_launch 'echo "echo Hello World" > file ; chmod +x file ; ./file' 'rm file'
-	test_launch 'echo "echo Hello World" > file ; chmod +x file ; env -i ./file' 'rm file'
+	test_launch 'env | grep HOME'
+	test_launch 'env | grep USER'
+	test_launch 'env | grep jkas'
+	test_launch 'env -i brew'
+	test_launch 'echo "#!/bin/bash" > file' 'echo "echo Hello World" >> file ; chmod +x file ; env ./file' 'rm file'
+	test_launch 'echo "#!/bin/bash" > file' 'echo "echo Hello World" >> file ; chmod +x file ; env -i ./file' 'rm file'
 	test_launch 'env -i rora=okalm'
-	test_launch 'env pasd=laisjd pqwei=asdasd asdasd=scvsd'
+	test_launch 'env -i pasd=laisjd pqwei=asdasd asdasd=scvsd'
 	test_launch 'env -i'
 	test_launch 'env -asd'
 	test_launch 'env -asd ls'
-	test_launch 'env asdq='
-	test_launch 'env asdq= ls'
-	test_launch 'env =aasd'
-	test_launch 'env =aasd ls'
-	test_launch 'env ='
-	test_launch 'env = ls'
+	test_launch 'env -i asdq='
+	test_launch 'env -i asdq= brew'
+	test_launch 'env -i =aasd'
+	test_launch 'env -i =aasd ls'
+	test_launch 'env -i ='
+	test_launch 'env -i = ls'
+	test_launch 'ls' 'env -i path=asd'
+	test_launch 'env -i var=asd q=qwe e=ewer r=asd t=asda y=asd u= i= o= p=sf a=asd s=asd d=asd f=asd g=hgfd h=sdf j=fsa'
+	test_launch 'env -i var=asd q=qwe e=ewer r=asd t=asda y=asd u= i= o= p=sf a=asd s=asd d=asd f=asd g=hgfd h=sdf j=fsa env'
 
 finish

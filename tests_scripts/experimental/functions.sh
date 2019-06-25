@@ -22,7 +22,7 @@ finish()
 
 echo_ok()
 {
-	if [ -n "$show_error" ] ; then
+	if [ ! -n "$show_error" ] ; then
 		echo -e ${green}"OK"${eoc}
 	fi
 	diff_passed=$((diff_passed+1))
@@ -123,6 +123,49 @@ test_launch()
 		echo_ok
 	fi
 # echo "continue (valgrind): $continue"
+	if [ -n "$valgrind" ] ; then
+		valgrind_test
+	fi
+
+	rm -f buffer
+	rm -f res1.bash res1.21sh
+	rm -f res2.bash res2.21sh
+}
+
+## Result is given in $1 and $2 (stdin and stderr)
+## No return value comparision is done
+
+test_given_res()
+{
+	echo "$1" > res1.bash
+	echo "$2" > res2.bash
+
+	echo "$3" > buffer
+	for i in "$4" "$5" "$6" "$7" "$8" "$9"
+	do
+		if [ -n "$i" ] ; then 
+			echo "${i}" >> buffer ; fi;
+	done
+	diff_tried=$((diff_tried+1))
+	touch res1.bash res2.bash res1.21sh res2.21sh
+	<buffer ./${exec} 1>res1.21sh 2>res2.21sh
+
+	continue=0
+
+	if [ 0 -eq "$continue" ] ; then
+		diff_files res1.21sh res1.bash
+		continue=$?
+	fi
+
+	if [ 0 -eq "$continue" ] && [ -n "${test_stderr}" ] ; then
+		diff_files res2.21sh res2.bash
+		continue=$?
+	fi
+
+	if [ 0 -eq "$continue" ] ; then
+		echo_ok
+	fi
+
 	if [ -n "$valgrind" ] ; then
 		valgrind_test
 	fi

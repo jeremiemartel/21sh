@@ -17,7 +17,7 @@
 ##		-v : Activate Valgrind tests
 ##		-2 : Activate comparison on stderr
 ##		-q : Activate quiet mode : only show OK or KO
-##		-e : Show only fqiled tests (hide [OK])
+##		-e : Show only failed tests (hide [OK])
 ##		-r : Compare returned values with bash
 ##		file : give the name of a file, or simply it's kind
 ##			(ex : expansions for test_expansions.sh)
@@ -57,9 +57,9 @@ for arg in $@ ; do
 	fi
 
 	if [ -f "test_${arg}.sh" ] ; then
-		file="test_${arg}.sh"
+		file="$file test_${arg}.sh"
 	elif [ -f "${arg}" ] ; then
-		file=${arg}
+		file="$fie ${arg}"
 	fi
 done
 
@@ -95,7 +95,9 @@ fi
 source functions.sh
 
 if [ -n "$file" ] ; then
-	source $file
+	for f in $file ; do
+		source $f
+	done
 else
 	for file in `ls test_*` ; do
 		source $file
