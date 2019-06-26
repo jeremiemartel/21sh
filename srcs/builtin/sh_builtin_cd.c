@@ -41,7 +41,11 @@ int				ft_process_cd(char *path, t_cd_opt flag, t_context *context)
 	char		old_pwd[CWD_LEN];
 
 	if (!getcwd(old_pwd, CWD_LEN))
+	{
+		perror("getcwd");
+		ft_printf("ca va pas\n");
 		return (FAILURE);
+	}
 	if (chdir(path) != 0)
 		return (ft_print_cd_errors(path, context));
 	else if (ft_update_old_pwd(old_pwd, path, flag, context) == FAILURE)

@@ -191,8 +191,9 @@ PERROR_SRCS_NO_PREFIX =	sh_perror.c \
 						sh_perror2.c \
 						sh_perror_fd.c
 
-INCLUDES_NO_PREFIX	= sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
-					  	sh_command_line.h sh_autocompletion.h sh_exec.h sh_builtin.h sh_expansions.h
+INCLUDES_NO_PREFIX	=	sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
+					  	sh_command_line.h sh_autocompletion.h sh_exec.h\
+						sh_builtin.h sh_expansions.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))

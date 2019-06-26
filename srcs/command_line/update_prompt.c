@@ -61,7 +61,7 @@ int		update_prompt_context(t_shell *shell, t_command_line *command_line,
 	if (command_line->context == E_CONTEXT_STANDARD)
 	{
 		if (update_prompt_cwd(shell, new_prompt))
-			return (FAILURE);
+			return (1);
 		if (!(*new_prompt = ft_strjoin_free(*new_prompt, PROMPT, 1)))
 			return (sh_perror(SH_ERR1_MALLOC, "update_prompt"));
 	}
@@ -89,8 +89,7 @@ int		update_prompt(t_shell *shell, t_command_line *command_line)
 {
 	char *new_prompt;
 
-	if (command_line->prompt)
-		free(command_line->prompt);
+	ft_strdel(&command_line->prompt);
 	if (update_prompt_context(shell, command_line, &new_prompt))
 		return (FAILURE);
 	if (command_line->mode == E_MODE_VISUAL)
