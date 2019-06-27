@@ -69,6 +69,11 @@ int					sh_builtin_setenv(t_context *context);
 int					sh_builtin_echo(t_context *context);
 
 /*
+** sh_builtin_cd.save
+*/
+int					sh_builtin_cd(t_context *context);
+
+/*
 ** sh_builtin_set.c
 */
 int					sh_builtin_set(t_context *context);

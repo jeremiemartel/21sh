@@ -94,6 +94,8 @@ fi
 
 source functions.sh
 
+del_historic
+
 if [ -n "$file" ] ; then
 	for f in $file ; do
 		source $f
@@ -111,3 +113,4 @@ fi
 echo "passed ${diff_passed} diff tests out of ${diff_tried}"
 
 rm -rf "${exec}.dSYM"
+del_historic

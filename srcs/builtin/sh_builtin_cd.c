@@ -6,98 +6,148 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:43:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/26 16:32:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/27 19:16:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int		sh_builtin_cd_print_errors(char *path, t_context *context)
+static int sh_builtin_cd_rule5(t_context *context, char **curpath, char *param)
 {
-	struct stat st;
+	char	*cdpath;
 
-	if (access(path, F_OK))
-		sh_perror2_fd(context->fd[FD_ERR],
-			SH_ERR2_NO_SUCH_FILE_OR_DIR, "cd", path);
-	else
+	cdpath = sh_vars_get_value(context->env, NULL, "CDPATH");
+	if (!cdpath)
 	{
-		if (stat(path, &st) == -1)
-			return (FAILURE);
-		if (!S_ISDIR(st.st_mode))
-			sh_perror2_fd(context->fd[FD_ERR], SH_ERR1_NOT_A_DIR, "cd", path);
-		else if (access(path, X_OK))
-			sh_perror2_fd(context->fd[FD_ERR], SH_ERR1_PERM_DENIED, "cd", path);
+		*curpath = ft_strjoin_path(".", param); // protect malloc
+		if (!curpath)
+			return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_rule5"));
+		return (SUCCESS);
 	}
-	return (SUCCESS); // return ERROR ??
+	return (ERROR); // need to implement CDPATH
 }
 
-static int		sh_builtin_cd_process(char *path, t_cd_opt flag, t_context *context)
+static int sh_builtin_cd_rule7(t_context *context, char **curpath, char flags)
 {
-	char		old_pwd[CWD_LEN];
-
-	if (!getcwd(old_pwd, CWD_LEN))
+	if (flags == 'L')
 	{
-		perror("getcwd");
-		ft_printf("ca va pas\n");
-		return (FAILURE);
+		if (**curpath != '/')
+		{
+			char	*pwd = sh_vars_get_value(context->env, NULL, "PWD");
+			if (!pwd)
+			{
+				free(*curpath);
+				return (sh_perror_err_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "PWD"));
+			}
+			*curpath = ft_strjoin_path(pwd, *curpath); // free curpath and protect mallocs
+		}
 	}
-	if (chdir(path) != 0)
-		return (sh_builtin_cd_print_errors(path, context));
-	else if (ft_update_old_pwd(old_pwd, path, flag, context) == FAILURE)
-		return (FAILURE);
+	// else
+		// sh_builtin_cd_rule10(context, &curpath);
 	return (SUCCESS);
 }
 
-static int		sh_builtin_cd_args(t_context *context, int flag, int i)
+static int sh_builtin_cd_rule8(t_context *context, char **curpath)
 {
-	char	*str;
+	char	*find;
+	char	*end;
+	char	*start;
 
-	if (!ft_strcmp("-", context->params->tbl[i]))
+	while ((find = ft_strstr(*curpath, "..")))
 	{
-		if ((str = get_env_value((char **)context->env->tbl, "OLDPWD")))
+		end = find + 2;
+		if (find[2] == '/')
+			end++;
+		if (find - 1 == *curpath)
+			start = find;
+		else
 		{
-			if (sh_builtin_cd_process(str, flag, context) == FAILURE)
-				return (FAILURE);
-			return (sh_builtin_pwd(context));
+			find[-1] = 0;
+			start = ft_strrchr(*curpath, '/');
 		}
-		else
-			return (sh_perror2_fd(context->fd[FD_ERR],
-				SH_ERR1_ENV_NOT_SET, "cd", "OLDPWD"));
+		ft_strdelchars(start, 0, end - start);
 	}
-	else
-		return (sh_builtin_cd_process(context->params->tbl[i], flag, context));
-}
-
-static int		sh_builtin_cd_home(t_context *context, int flag)
-{
-	char	*home_str;
-
-	if ((home_str = get_env_value((char **)context->env->tbl, "HOME")))
-		return (sh_builtin_cd_process(home_str, flag, context));
-	else
+	while ((find = ft_strnstr(*curpath, ".", 2)))
 	{
-		sh_perror2_fd(context->fd[FD_ERR],
-				SH_ERR1_ENV_NOT_SET, "cd", "HOME");
-		return (ERROR);
+		if (find[1] == '/')
+			ft_strdelchars(find, 0, 2);
+		else
+			ft_strdelchars(find, 0, 1);
 	}
+	while ((find = ft_strstr(*curpath, "//")))
+		ft_strdelchars(find, 0, 2);
+	return (SUCCESS);
+	context = NULL;
 }
 
-int				sh_builtin_cd(t_context *context)
+static int		sh_builtin_cd_update_pwd(t_context *context) // Use curdir as pwd??
 {
+	char		*pwd;
+	char		*old_pwd;
+
+	if (!(pwd = getcwd(NULL, CWD_LEN)))
+		return (FAILURE); // ?? error message
+	if (!(old_pwd = sh_vars_get_value(context->env, NULL, "PWD")))
+		old_pwd = pwd;
+	if (sh_vars_assign_key_val(context->env, NULL, "OLDPWD", old_pwd) != SUCCESS)
+		return (FAILURE);
+	if (sh_vars_assign_key_val(context->env, NULL, "PWD", pwd) != SUCCESS)
+		return (FAILURE);
+	free(pwd);
+	return (SUCCESS);
+}
+
+int		sh_builtin_cd(t_context *context)
+{
+	char	*home;
+	char	*param;
+	char	*curpath;
+	char	flags;
 	int		i;
-	int		flag;
+	int		ret;
 
-	flag = e_cd_opt_logic;
+	// parsing : flags, 
 	i = 1;
-	while (context->params->tbl[i])
+	flags = 'L';
+	curpath = NULL;
+
+	home = sh_vars_get_value(context->env, NULL, "HOME");
+	param = context->params->tbl[i];
+	// rules 1 - 2
+	if ((!param || !*param) && (!home || !*home))
+		return (sh_perror_err_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "HOME"));
+	else if (!param || !*param)
+		curpath = ft_strdup(home);
+	// rules 3 - 6
+	else if (*param == '/')
 	{
-		if (!ft_strcmp(context->params->tbl[i], "-P"))
-			flag = e_cd_opt_physic;
-		else if (!ft_strcmp(context->params->tbl[i], "-L"))
-			flag = e_cd_opt_logic;
-		else
-			return (sh_builtin_cd_args(context, flag, i));
-		i++;
+		curpath = ft_strdup(param);
+
 	}
-	return (sh_builtin_cd_home(context, flag));
+	else if (*param == '.' || ft_strnstr(param, "..", 2))
+	{
+		curpath = ft_strdup(param);
+	}
+	else
+		if ((ret = sh_builtin_cd_rule5(context, &curpath, param)) != SUCCESS)
+			return (ret);
+	//rule 6 : drop ??
+
+	// ft_dprintf(2, "curpath : %s\n", curpath);
+
+	// if (flags == 'P')
+	// 	sh_builtin_cd_rule10(context);
+
+	// rules 7 - 10
+	sh_builtin_cd_rule7(context, &curpath, flags);
+	sh_builtin_cd_rule8(context, &curpath);
+	// rule 9
+	// rule 10
+	if (curpath)
+	{
+		chdir(curpath);
+		sh_builtin_cd_update_pwd(context);
+	}
+	free(curpath);
+	return (SUCCESS);
 }

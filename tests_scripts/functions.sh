@@ -6,9 +6,14 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 15:58:19 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/10 09:49:29 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/27 12:19:00 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+del_historic()
+{
+	find . -name ".historic" -delete
+}
 
 launch()
 {
