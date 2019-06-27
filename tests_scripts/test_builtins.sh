@@ -31,6 +31,7 @@ launch "pwd"
 	test_launch "PWD=" "OLDPWD=" "pwd"
 	test_launch "pwd sqs"
 	test_launch "pwd sqs aze"
+	test_launch "mkdir dir ; cd dir ; rm -r ../dir ; pwd"
 
 launch "hash"
 	test_launch "hash"
@@ -57,12 +58,17 @@ launch "exit"
 	test_launch 'exit || ls'
 
 launch "setenv"
-	test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
-	test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
-	test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
+	# test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
+	# test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
+	# test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
 
 launch "unsetenv"
-	test_launch 'unsetenv PATH'
+	# test_launch 'unsetenv PATH'
+	# test_launch 'unsetenv'
+	# test_launch 'unsetenv -wasd qwe -APSD asd #@'
+	# test_launch 'unsetenv PWD OLDPWD ; env grep PWD'
+	# test_launch 'unsetenv PWD A OLD PWD' 'env | grep PWD'
+	# test_launch 'unsetenv PATH ; echo lol ; brew'
 
 launch "env"
 	test_launch 'env | grep HOME'

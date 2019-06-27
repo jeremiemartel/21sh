@@ -23,7 +23,7 @@
 ##			(ex : expansions for test_expansions.sh)
 ##			else, every files would be launched
 
-path="../.."
+path=".."
 suppressions_file="my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
@@ -82,7 +82,7 @@ eoc=\\033[0m
 
 make -C $path && cp ${path}/${exec} .
 
-if ! [ -e "${path}/${exec}" ] ; then
+if [ ! -e "${path}/${exec}" ] ; then
 	echo -e "${red}Can't find ${exec}${eoc}"
 	exit 
 fi
