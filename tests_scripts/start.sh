@@ -17,13 +17,13 @@
 ##		-v : Activate Valgrind tests
 ##		-2 : Activate comparison on stderr
 ##		-q : Activate quiet mode : only show OK or KO
-##		-e : Show only fqiled tests (hide [OK])
+##		-e : Show only failed tests (hide [OK])
 ##		-r : Compare returned values with bash
 ##		file : give the name of a file, or simply it's kind
 ##			(ex : expansions for test_expansions.sh)
 ##			else, every files would be launched
 
-path="../.."
+path=".."
 suppressions_file="my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
@@ -57,9 +57,9 @@ for arg in $@ ; do
 	fi
 
 	if [ -f "test_${arg}.sh" ] ; then
-		file="test_${arg}.sh"
+		file="$file test_${arg}.sh"
 	elif [ -f "${arg}" ] ; then
-		file=${arg}
+		file="$fie ${arg}"
 	fi
 done
 
@@ -82,7 +82,7 @@ eoc=\\033[0m
 
 make -C $path && cp ${path}/${exec} .
 
-if ! [ -e "${path}/${exec}" ] ; then
+if [ ! -e "${path}/${exec}" ] ; then
 	echo -e "${red}Can't find ${exec}${eoc}"
 	exit 
 fi
@@ -95,7 +95,9 @@ fi
 source functions.sh
 
 if [ -n "$file" ] ; then
-	source $file
+	for f in $file ; do
+		source $f
+	done
 else
 	for file in `ls test_*` ; do
 		source $file
@@ -103,6 +105,9 @@ else
 fi
 
 rm ${exec}
-echo "passed ${passed} valgrind tests out of ${tried}"
+if [ "$tried" -ne 0 ] ; then
+	echo "passed ${passed} valgrind tests out of ${tried}"
+fi
 echo "passed ${diff_passed} diff tests out of ${diff_tried}"
+
 rm -rf "${exec}.dSYM"

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 13:58:11 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/26 14:39:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		update_prompt_cwd(t_shell *shell, char **new_prompt)
 	if (!(*new_prompt = ft_strdup("→ ")))
 		return (sh_perror("cwd error", "update_prompt_cwd"));
 	if (!(cwd = getcwd(NULL, 0)))
-		return (ft_free_turn(*new_prompt, sh_perror("cwd error", "cwd")));
+		return (ft_free_turn(*new_prompt, sh_perror("cwd error", "getcwd")));
 	if (!(home = get_home_dup(shell)))
 	{
 		free(*new_prompt);

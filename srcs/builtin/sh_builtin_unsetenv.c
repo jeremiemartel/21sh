@@ -6,32 +6,37 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:37:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 17:01:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/26 14:37:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_builtin_unsetenv(t_context *context)
+static int sh_builtin_unsetenv_error(t_context *context)
+{
+	ft_dprintf(context->fd[FD_ERR], "unsetenv: Too few arguments.");
+	return (ERROR);
+}
+
+int			sh_builtin_unsetenv(t_context *context)
 {
 	int i;
+	int	j;
 
 	if (context->params->current_size == 1)
-		return (ERROR);
-	else
+		return (sh_builtin_unsetenv_error(context));
+	i = 0;
+	while (context->params->tbl[i])
 	{
-		i = 0;
-		while (context->env->tbl[i])
+		if (sh_vars_key_exist(context->env, context->params->tbl[i]))
 		{
-			if (is_key_of_entry(context->env->tbl[i], context->params->tbl[1]))
-			{
-				if (!ft_strcmp(context->params->tbl[1], "PATH"))
-					process_builtin_hash_suppr_all(context->shell);
-				ft_dy_tab_suppr_index(context->env, i);
-				break ;
-			}
-			i++;
+			if (!ft_strcmp(context->params->tbl[i], "PATH"))
+				process_builtin_hash_suppr_all(context->shell);
+			j = sh_vars_get_index(context->env, context->params->tbl[i]);
+			if (j != -1)
+				ft_dy_tab_suppr_index(context->env, j);
 		}
+		i++;
 	}
 	return (SUCCESS);
 }

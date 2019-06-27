@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:39:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/25 12:42:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/25 16:29:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,10 @@ static int	sh_builtin_env_process_command(t_context *context)
 
 int			sh_builtin_env(t_context *context)
 {
-	int		i;
-	char	**params;
+	int			i;
+	char		**params;
 	t_dy_tab	*new_env;
+	int			ret;
 
 	params = (char**)context->params->tbl;
 	if (!params[1] || !params[1][0])
@@ -136,12 +137,10 @@ int			sh_builtin_env(t_context *context)
 
 	while (params[i] && ft_strchr(params[i], '='))
 	{
-		if (!sh_is_var_name(params[i]))
-			break ;
-		if (sh_vars_assignment(new_env, NULL, params[i]) == FAILURE)
+		if ((ret = sh_builtin_setenv_process(params[i], new_env, context)) != SUCCESS)
 		{
 			ft_dy_tab_del(new_env);
-			return (FAILURE);
+			return (ret); //leaks ?
 		}
 		i++;
 	}
@@ -156,16 +155,17 @@ int			sh_builtin_env(t_context *context)
 	context->env = new_env;
 	context->params = sh_builtin_env_init_new_params(context->params, i);
 
+	ret = SUCCESS;
 	if (!context->params)
-		return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_main_init_params")); // leaks !!!!!!!!!!
-	if (!(context->params->tbl[i]) || !(((char**)context->params->tbl)[i][0]))
-		return (sh_builtin_env_no_args(context)); // leaks !!!!!!!
-
-	sh_builtin_env_process_command(context); // check returned value
+		ret = sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_main_init_params");
+	if (!ret && !(context->params->tbl[0]))
+		ret = sh_builtin_env_no_args(context);
+	if (!ret)
+		ret = sh_builtin_env_process_command(context);
 
 	ft_dy_tab_del(new_env);
 	ft_dy_tab_del(context->params);
 	context->env = save_env;
 	context->params = save_params;
-	return (SUCCESS);
+	return (ret);
 }

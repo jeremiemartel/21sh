@@ -13,7 +13,7 @@
 ## Redirections tests
 launch "Redirections simple"
 	test_launch "echo Okalm > mybuf ; cat mybuf | wc -c ; rm mybuf"
-	test_launch "echo tamer > file ; <file wc | cat | wc"
+	test_launch "echo tamer > file ; <file wc | cat | wc ; rm file"
 	test_launch "echo tamer > file ; <file wc | cat | wc > file ; ls -a file ; rm file"
 	test_launch "echo lol > file ; echo lalala | cat < file ; rm file"
 

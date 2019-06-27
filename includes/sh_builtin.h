@@ -49,10 +49,6 @@ t_builtin			sh_builtin_find(t_context *context);
 /*
 ** sh_builtin_cd.c
 */
-int					ft_process_cd(
-	char *path, t_cd_opt flag, t_context *context);
-int					ft_process_cd_args(
-	t_context *context, int flag, int i);
 int					sh_builtin_cd(t_context *context);
 
 /*
@@ -63,6 +59,8 @@ void				process_builtin_hash_suppr_all(t_shell *shell);
 /*
 ** sh_builtin_setenv.c
 */
+int					sh_builtin_setenv_process (
+	char *entry, t_dy_tab *env, t_context *context);
 int					sh_builtin_setenv(t_context *context);
 
 /*
@@ -79,12 +77,6 @@ int					sh_builtin_set(t_context *context);
 ** sh_builtin_unsetenv.c
 */
 int					sh_builtin_unsetenv(t_context *context);
-
-/*
-** sh_builtin_setenv_tools.c
-*/
-int					sh_process_setenv_equal(
-	char *entry, t_dy_tab *env, t_context *context);
 
 /*
 ** sh_builtin_exit.c
