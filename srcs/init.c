@@ -67,6 +67,7 @@ int		sh_init_shell(t_shell *shell, char **env)
 	struct termios s;
 
 	s = shell->term;
+	shell->ret_value = 0;
 	ft_bzero(shell, sizeof(t_shell));
 	ft_bzero(&g_glob.command_line, sizeof(t_command_line));
 	ioctl(0, TIOCGWINSZ, &g_glob.winsize);

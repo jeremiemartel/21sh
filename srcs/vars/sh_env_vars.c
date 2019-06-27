@@ -16,7 +16,7 @@ int		sh_env_vars_update_question_mark(t_context *context, int res)
 {
 	char	*str;
 
-	context->ret_value = res;
+	context->shell->ret_value = res;
 	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"Updating ? <=> "COLOR_END);
 	if (!(str = ft_itoa(res)))

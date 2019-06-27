@@ -25,9 +25,9 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	{
 		if (prev_symbol != 1
 				&& ((prev_symbol == sh_index(LEX_TOK_AND_IF)
-					&& context->ret_value)
+					&& context->shell->ret_value)
 						|| (prev_symbol == sh_index(LEX_TOK_OR_IF)
-							&& !context->ret_value)))
+							&& !context->shell->ret_value)))
 			break ;
 		child = (t_ast_node *)ptr->content;
 		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))

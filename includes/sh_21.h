@@ -137,6 +137,7 @@ typedef struct		s_shell
 	t_hash_table	*binaries;
 	char			running;
 	struct termios	term;
+	int				ret_value;
 }					t_shell;
 
 /*
