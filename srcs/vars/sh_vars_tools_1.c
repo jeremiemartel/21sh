@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:15:48 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/25 17:28:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/26 14:38:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 /*
 ** sh_vars_key_exist:
 **	Look if a variable, identified by its key, exists in a t_dy_tab
-**	Key can be send as a key=value.
 **	return:
 **		True or False
 */
+
 int		sh_vars_key_exist(t_dy_tab *vars, char *key)
 {
 	int		i;
@@ -42,7 +42,6 @@ int		sh_vars_key_exist(t_dy_tab *vars, char *key)
 /*
 ** sh_vars_get_index:
 **	Look if a variable, identified by its key, exists in a t_dy_tab.
-**	Key can be send as a key=value.
 **	return:
 **		Index of in the tab, or -1 if it does not exists
 */
