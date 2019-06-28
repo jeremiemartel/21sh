@@ -81,7 +81,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						free_command_line.c sh_delete_command.c \
 						sh_process_shift_vertical.c \
 						sh_process_shift_horizontal.c update_prompt_keys.c \
-						sh_process_quoted.c
+						sh_process_quoted.c sh_clipboard.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 

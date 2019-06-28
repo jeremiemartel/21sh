@@ -38,6 +38,23 @@ int		process_substitute_command(t_command_line *command_line, char *str,
 	return (0);
 }
 
+ int		add_to_command_line(t_command_line *command_line, char *str)
+{
+	int len;
+	int utf8_len;
+
+	len = ft_strlen(str);
+	utf8_len = ft_strlen_utf8(str);
+	if (ft_substitute_dy_str(command_line->dy_str, str,
+		command_line->current_index, 0))
+		return (1);
+	render_command_line(command_line,
+		ft_strlen_utf8(command_line->dy_str->str) - g_glob.cursor, 1);
+	command_line->current_index += ft_strlen(str);
+	command_line->nb_chars += ft_strlen_utf8(str);
+	return (0);
+}
+
 int		substitute_current_index(t_command_line *command_line, t_file *file)
 {
 	t_word	word;

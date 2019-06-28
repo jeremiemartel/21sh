@@ -18,6 +18,7 @@ int		main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+
 	init_signals();
 	if (!isatty(0))
 		return (sh_process_canonical_mode(&shell, env));
