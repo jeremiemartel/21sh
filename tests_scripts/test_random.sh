@@ -13,4 +13,7 @@
 launch "Shell"
 	launch "Random"
 	test_launch 'mkdir test123 ; cd test123 ; ls -a ; ls | cat | wc -c > fifi ; cat fifi ; cd .. ; rm -r test123'
+	test_launch '.' './'
+	test_launch '..' '../'
+	test_launch '././..' '../../.'
 finish
