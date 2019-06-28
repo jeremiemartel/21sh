@@ -25,14 +25,21 @@ int		sh_process_command(t_shell *shell, char *command)
 	return (sh_process_traverse(shell));
 }
 
+int		sh_process_received_command(t_shell *shell,
+			t_command_line *command_line)
+{
+	if (sh_append_to_historic(shell,
+			command_line->dy_str->str) != SUCCESS)
+		return (FAILURE);
+	return (sh_process_command(shell, command_line->dy_str->str));
+}
+
 int		sh_await_command(t_shell *shell)
 {
 	if (sh_get_command(shell, &g_glob.command_line) != SUCCESS)
 		return (FAILURE);
-	if (sh_append_to_historic(shell,
-			g_glob.command_line.dy_str->str) != SUCCESS)
-		return (FAILURE);
-	return (sh_process_command(shell, g_glob.command_line.dy_str->str));
+	return (sh_process_received_command(shell,
+		&g_glob.command_line));
 }
 
 int		sh_process_noncanonical_mode(t_shell *shell)

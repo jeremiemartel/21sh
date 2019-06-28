@@ -212,8 +212,9 @@ int			sh_process_canonical_mode(t_shell *shell, char **env);
 /*
 ** non_canonical_mode.c
 */
+int		sh_process_received_command(t_shell *shell,
+			t_command_line *command_line);
 int		sh_process_noncanonical_mode(t_shell *shell);
-
 /*
 ** process_historic.c
 */

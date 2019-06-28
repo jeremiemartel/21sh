@@ -161,7 +161,7 @@ void	print_buffer(unsigned char buffer[READ_BUFF_SIZE]);
 */
 int		process_ctrl_c(t_shell *shell, t_command_line *command_line);
 int		process_ctrl_d(t_shell *shell, t_command_line *command_line);
-
+int		process_enter_no_autocompletion(t_command_line *command_line);
 /*
 ** keys_insert.c
 */
@@ -219,6 +219,7 @@ int		process_substitute_command(t_command_line *command_line,
 int		paste_current_index(t_command_line *command_line, char *to_paste);
 int		delete_command_line_selection(t_command_line *command_line);
 int		command_line_nb_rows(t_command_line *command_line);
+int		add_to_command_line(t_command_line *command_line, char *str);
 /*
 ** xy.c
 */
@@ -278,4 +279,8 @@ void 	sh_free_command_line(t_command_line *command_line);
 */
 int		sh_process_quoted(t_lexer *lexer);
 
+/*
+** sh_clipboard.c
+*/
+int		process_clipboard_shell(t_shell *shell, t_command_line *command_line);
 #endif

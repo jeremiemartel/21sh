@@ -12,17 +12,20 @@
 
 #include "sh_21.h"
 
+int		process_enter_no_autocompletion(t_command_line *command_line)
+{
+	command_line->autocompletion.active = 0;
+	command_line->searcher.active = 0;
+	render_command_line(command_line, 0, 0);
+	get_down_from_command(command_line);
+	command_line->dy_str->current_size = 0;
+	return (0);
+}
+
 int		process_enter(t_command_line *command_line)
 {
 	if (command_line->autocompletion.head == NULL)
-	{
-		command_line->autocompletion.active = 0;
-		command_line->searcher.active = 0;
-		render_command_line(command_line, 0, 0);
-		get_down_from_command(command_line);
-		command_line->dy_str->current_size = 0;
-		return (0);
-	}
+		return (process_enter_no_autocompletion(command_line));
 	else
 	{
 		substitute_current_index(command_line,
@@ -46,6 +49,11 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 	{
 		if (process_ctrl_d(shell, command_line) != KEEP_READ)
 			return (CTRL_D);
+	}
+	else if (buffer[0] == 16)
+	{
+		if (process_clipboard_shell(shell, command_line))
+			return (FAILURE);
 	}
 	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
 		return (FAILURE);

@@ -54,7 +54,7 @@ int		process_right(t_shell *shell, t_command_line *command_line)
 		return (process_autocompletion_right(command_line));
 	else
 	{
-		process_edit_command_left(command_line);
+		command_line->autocompletion.active = 0;
 		process_edit_command_right(command_line);
 	}
 	return (SUCCESS);
