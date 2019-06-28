@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:43:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/28 12:52:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/28 17:21:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,30 @@
 
 static int	sh_builtin_cd_parser(t_context *context, int *i, char *flags, char **curpath)
 {
+	char	**params;
+	char	*oldpwd;
 
+	params = (char**)context->params->tbl;
+	while (params[*i])
+	{
+		if (ft_strequ(params[*i], "-P"))
+			*flags = CD_OPT_LOGIC;
+		else if (ft_strequ(params[*i], "-L"))
+			*flags = CD_OPT_PHYSIC;
+		else if (ft_strequ(params[*i], "-"))
+		{
+			if (!(oldpwd = sh_vars_get_value(context->env, NULL, "OLDPWD")) || !*oldpwd)
+				return (sh_perror_err_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "OLDPWD"));
+			if (!(*curpath  = ft_strdup(oldpwd)))
+				return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_parser"));
+			*flags += CD_OPT_HYPHEN;
+			return (SUCCESS);
+		}
+		else
+			return (SUCCESS);
+		*i += 1;
+	}
+	return (SUCCESS);
 }
 
 
@@ -93,20 +116,28 @@ static int sh_builtin_cd_rule8(t_context *context, char **curpath)
 	context = NULL;
 }
 
-static int		sh_builtin_cd_update_pwd(t_context *context) // Use curdir as pwd??
+static int		sh_builtin_cd_update_pwd(t_context *context, int flags, char *curpath) // Use curdir as pwd??
 {
 	char		*pwd;
 	char		*old_pwd;
 
-	if (!(pwd = getcwd(NULL, CWD_LEN)))
-		return (FAILURE); // ?? error message
+	if (flags & CD_OPT_LOGIC)
+	{
+		if (!(pwd = ft_strdup(curpath)))
+			return (FAILURE); // Error message
+	}
+	else
+	{
+		// pwd = res `pwd -P`
+		if (!(pwd = getcwd(NULL, CWD_LEN))) // ?? works 
+			return (FAILURE); // ?? error message
+	}
 	if (!(old_pwd = sh_vars_get_value(context->env, NULL, "PWD")))
 		old_pwd = pwd;
 	if (sh_vars_assign_key_val(context->env, NULL, "OLDPWD", old_pwd) != SUCCESS)
 		return (FAILURE);
 	if (sh_vars_assign_key_val(context->env, NULL, "PWD", pwd) != SUCCESS)
 		return (FAILURE);
-	free(pwd);
 	return (SUCCESS);
 }
 
@@ -122,7 +153,8 @@ int		sh_builtin_cd(t_context *context)
 	i = 1;
 	flags = CD_OPT_LOGIC;
 	curpath = NULL;
-	sh_builtin_cd_parser(context, &i, &flags, &curpath);
+	if ((ret = sh_builtin_cd_parser(context, &i, &flags, &curpath)) != SUCCESS)
+		return (ret);
 
 	home = sh_vars_get_value(context->env, NULL, "HOME");
 	param = context->params->tbl[i];
@@ -157,9 +189,17 @@ int		sh_builtin_cd(t_context *context)
 	if (curpath)
 	{
 		if (access(curpath, X_OK))
+		{
 			sh_perror2_err_fd(context->fd[FD_ERR], SH_ERR2_NO_SUCH_FILE_OR_DIR, "cd", curpath);
+			free(curpath);
+			return (ERROR);
+		}
 		chdir(curpath);
-		sh_builtin_cd_update_pwd(context);
+		sh_builtin_cd_update_pwd(context, flags, curpath);
+	}
+	if (flags & CD_OPT_HYPHEN)
+	{
+		ft_dprintf(context->fd[FD_OUT], "%s\n", sh_vars_get_value(context->env, NULL, "PWD"));
 	}
 	free(curpath);
 	return (SUCCESS);

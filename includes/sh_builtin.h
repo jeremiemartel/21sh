@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/28 12:51:21 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/28 13:13:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int					sh_builtin_exit(t_context *context);
 */
 int					end_with_char(char *str, char c);
 char				*get_path_from_request(char *old_pwd, char *path);
-int					ft_update_old_pwd(
-	char *old_pwd, char *path, t_cd_opt flag, t_context *context);
 
 /*
 ** sh_builtin_hash_stats.c
