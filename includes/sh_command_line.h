@@ -26,7 +26,7 @@
 # define VISUAL_PROMPT	"(visual)"
 # define HEREDOC_PROMPT	"heredoc"
 # define PROMPT_SUFFIX	"> "
-# define READ_BUFF_SIZE	6
+# define READ_BUFF_SIZE	4
 
 # define SUCCESS_RSRCH		"failing bck-i-search: "
 # define UNSUCCESS_RSRCH	"bck-i-search: "

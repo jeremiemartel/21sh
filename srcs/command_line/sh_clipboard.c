@@ -12,46 +12,51 @@
 
 #include "sh_21.h"
 
-char	*ft_strjoin_free_clipboard(char *str, char *to_join)
+int		process_clipboard_line_nl(t_shell *shell, t_command_line *command_line,
+			t_gnl_info *info)
 {
-	char	*res;
-	int		j;
-	int		i;
-	int		len;
-
-	len = ft_strlen(str);
-	if (!(res = ft_strnew(len + ft_strlen(to_join) + 1)))
-		return (0);
-	ft_strcpy(res, str);
-	i = len;
-	j = 0;
-	while (to_join[j])
+	if (paste_current_index(command_line, info->line))
 	{
-		if (ft_isseparator(to_join[i]) && to_join[i] != '\n')
-			to_join[j] = ' ';
-		res[i] = to_join[j];
-		j++;
-		i++;
+		free(info->line);
+		return (FAILURE);
 	}
-	free(str);
-	return (res);
+	process_enter_no_autocompletion(command_line);
+	if (sh_process_received_command(shell, command_line)
+			&& shell->running == 0)
+	{
+		free(info->line);
+		return (FAILURE);
+	}
+	if (reset_command_line(shell, command_line) == FAILURE)
+	{
+		free(info->line);
+		return (FAILURE);
+	}
+	render_command_line(command_line, 0, 1);
+	return (SUCCESS);
 }
 
-char	*get_string_from_fd(int fd)
+int		process_clipboard_line(t_shell *shell, t_command_line *command_line,
+			t_gnl_info *info)
 {
-	int ret;
-	char *res;
-	char buffer[4096 + 1];
-	
-	if (!(res = ft_strnew(0)))
-		return (NULL);
-	while ((ret = read(fd, buffer, 4096)) > 0)
+	if (info->separator == '\n')
 	{
-		buffer[ret] = '\0';
-		if (!(res = ft_strjoin_free_clipboard(res, buffer)))
-			return (NULL);
+		if (process_clipboard_line_nl(shell, command_line, info))
+			return (FAILURE);
 	}
-	return (res);
+	else if (info->separator == '\0')
+	{
+		free(info->line);
+		return (sh_perror(SH_ERR1_UNEXPECTED_EOF,
+					"process_clipboard_from_fd"));
+	}
+	else if (paste_current_index(command_line, info->line))
+	{
+		free(info->line);
+		return (FAILURE);
+	}
+	free(info->line);
+	return (SUCCESS);
 }
 
 int		process_clipboard_from_fd(t_shell *shell, int fd, t_command_line *command_line)
@@ -59,39 +64,15 @@ int		process_clipboard_from_fd(t_shell *shell, int fd, t_command_line *command_l
 	t_gnl_info	info;
 	int			ret;
 
-	if (command_line->dy_str->current_size > 0)
-	{
-
-	}
 	while ((ret = get_next_line2(fd, &info)) > 0)
 	{
-		if (info.separator == '\n')
-		{
-			if (add_to_command_line(command_line, info.line))
-			{
-				free(info.line);
-				return (1);
-			}
-			free(info.line);
-			process_enter_no_autocompletion(command_line);
-			if (sh_process_received_command(shell, command_line)
-					&& shell->running == 0)
-				return (1);
-			if (reset_command_line(shell, command_line) == FAILURE)
-				return (FAILURE);
-			render_command_line(command_line, 0, 1);
-		}
-		else
-		{
-			if (add_to_command_line(command_line, info.line))
-			{
-				free(info.line);
-				return (1);
-			}
-		}
+		if (process_clipboard_line(shell, command_line, &info))
+			return (FAILURE);
 	}
+	if (ret == -1)
+		return (sh_perror(SH_ERR1_MALLOC, "process_clipboard_from_fd"));
 	free(info.line);
-	return (0);
+	return (SUCCESS);
 }
 
 int 	process_clipboard(t_shell *shell, t_command_line *command_line,
@@ -109,7 +90,7 @@ int 	process_clipboard(t_shell *shell, t_command_line *command_line,
 	{
 		close(fds[PIPE_OUT]);
 		dup2(fds[PIPE_IN], 1);
-		if(!(split = ft_strsplit(pbpaste_path, ' ')))
+		if (!(split = ft_strsplit(pbpaste_path, ' ')))
 			return (1);
 		execve(pbpaste_path, split, NULL);
 		return (1);
