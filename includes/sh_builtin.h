@@ -101,6 +101,8 @@ void				update_hash_stats(
 /*
 ** sh_builtin_pwd.c
 */
+char				*sh_builtin_pwd_physical(int fd_err);
+char				*sh_builtin_pwd_logical(t_dy_tab *env, int fd_err);
 int					sh_builtin_pwd(t_context *context);
 
 /*
