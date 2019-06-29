@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 15:09:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/29 11:22:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name)
 	struct stat		st;
 
 	if (stat(path, &st) == -1)
-		return (FAILURE);
+		return (FAILURE); // Need to return ERROR no ?
 	if (access(path, X_OK))
-		return (sh_perror(SH_ERR1_PERM_DENIED, command_name));
+		return (sh_perror(SH_ERR1_PERM_DENIED, command_name)); // Same
 	if (!S_ISREG(st.st_mode))
-		return (sh_perror(SH_ERR1_CMD_NOT_FOUND, command_name));
+		return (sh_perror(SH_ERR1_CMD_NOT_FOUND, command_name)); // Same
 	return (SUCCESS);
 }

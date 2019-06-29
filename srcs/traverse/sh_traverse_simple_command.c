@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/24 10:58:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/28 11:51:59 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name)
 	if (!S_ISREG(st.st_mode))
 	{
 		if (S_ISDIR(st.st_mode))
-		return (sh_perror_err("is a directory", path));
+			return (ERROR);
 		if (sh_verbose_exec())
 			ft_dprintf(2, "%s is not a regular file\n", command_name);
 		return (sh_perror_err(command_name, SH_ERR1_CMD_NOT_FOUND));

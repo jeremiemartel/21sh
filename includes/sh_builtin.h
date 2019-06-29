@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 16:15:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/28 13:13:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 
 # define NB_BUILTINS	11
 
-typedef enum		e_cd_opt
-{
-	e_cd_opt_logic,
-	e_cd_opt_physic
-}					t_cd_opt;
+# define CD_OPT_LOGIC	0x01
+# define CD_OPT_PHYSIC	0x02
+# define CD_OPT_HYPHEN	0x04
 
 typedef struct		s_binary_stats
 {
@@ -93,8 +91,6 @@ int					sh_builtin_exit(t_context *context);
 */
 int					end_with_char(char *str, char c);
 char				*get_path_from_request(char *old_pwd, char *path);
-int					ft_update_old_pwd(
-	char *old_pwd, char *path, t_cd_opt flag, t_context *context);
 
 /*
 ** sh_builtin_hash_stats.c
@@ -105,6 +101,8 @@ void				update_hash_stats(
 /*
 ** sh_builtin_pwd.c
 */
+char				*sh_builtin_pwd_physical(int fd_err);
+char				*sh_builtin_pwd_logical(t_dy_tab *env, int fd_err);
 int					sh_builtin_pwd(t_context *context);
 
 /*
