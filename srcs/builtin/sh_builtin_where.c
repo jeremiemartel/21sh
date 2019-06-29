@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 15:09:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/15 17:16:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/29 15:58:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ static int		sh_where_binaries(t_context *context)
 	char	**split;
 	int		i;
 	DIR		*dir;
+	char	*path;
 
-	split = ft_strsplit(sh_vars_get_value(context->env, NULL, "PATH"), ':');
-	if (!(split))
+	if (!(path = sh_vars_get_value(context->env, NULL, "PATH")))
+		return (SUCCESS);
+	if (!(split = ft_strsplit(path, ':')))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_where_binaries (1)"));
 	i = 0;
 	while (split[i])

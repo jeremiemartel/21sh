@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:32:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/25 16:07:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/29 16:19:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ static int	is_bad_assignment(char *entry, int *key_len)
 
 static int	sh_process_bad_assignment(t_context *context, char *entry)
 {
-	ft_dprintf(context->fd[FD_ERR], "%s: \'%s\' bad assignment\n",
-		SH_NAME, entry);
+	sh_perror_err_fd(context->fd[FD_ERR], "bad assignment", entry);
 	return (ERROR);
 }
 
