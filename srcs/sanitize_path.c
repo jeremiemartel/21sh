@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   sanitize_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:53:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/11 17:56:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/30 13:53:05 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-char	*ft_get_previous_directory(char *current_directory)
+static int	end_with_char(char *str, char c)
+{
+       int i;
+
+       i = 0;
+       while (str[i])
+               i++;
+       if (--i >= 0 && str[i] == c)
+               return (FAILURE);
+       return (SUCCESS);
+}
+
+char		*ft_get_previous_directory(char *current_directory)
 {
 	int i;
 	int index;
@@ -31,7 +43,7 @@ char	*ft_get_previous_directory(char *current_directory)
 		return (ft_strndup(current_directory, ft_max(1, index)));
 }
 
-char	*get_first_path_from_path(char **path)
+char		*get_first_path_from_path(char **path)
 {
 	int		i;
 	char	*added_path;
@@ -48,7 +60,7 @@ char	*get_first_path_from_path(char **path)
 	return (added_path);
 }
 
-int		add_to_path_dot_dot(char **old_path)
+int			add_to_path_dot_dot(char **old_path)
 {
 	int		i;
 	int		index;
@@ -71,7 +83,7 @@ int		add_to_path_dot_dot(char **old_path)
 	return (0);
 }
 
-int		add_to_path_pwd(char **old_path, char *partial_path)
+int			add_to_path_pwd(char **old_path, char *partial_path)
 {
 	char *tmp;
 	char *res;
@@ -99,7 +111,7 @@ int		add_to_path_pwd(char **old_path, char *partial_path)
 		return (0);
 }
 
-char	*get_sanitized_path_from_old(char *old_pwd, char *path)
+char		*get_sanitized_path_from_old(char *old_pwd, char *path)
 {
 	char	*res;
 	char	*partial_path;
