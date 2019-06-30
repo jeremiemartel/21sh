@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/30 16:31:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 16:32:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ static int		sh_builtin_verbose_process_all(
 	int		i;
 
 	i = 0;
+	ret = 0;
 	while (!ret && key[i][0])
 	{
 		ret = sh_vars_assign_key_val(
 			context->env, context->vars, key[i], value);
 		i++;
 	}
+	return (ret);
 }
 
 static int		sh_builtin_verbose_process(
