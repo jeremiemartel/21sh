@@ -30,6 +30,7 @@ launch "Expansions"
 									# test_launch 'ahsdiouashdiuasdhioasjdopasdjoldniouhjnqwioejqnwoel=adisuhiduashnodklajsodiajlsdlkasasdhuasodiu' 'echo $ahsdiouashdiuasdhioasjdopasdjoldniouhjnqwioejqnwoel='
 
 finish
+
 launch "Variables"
 	launch "Basic"
 	test_launch '=qsda'
@@ -58,6 +59,13 @@ launch "Variables"
 	test_launch 'echo #$d#v#ar $v#ar#'
 	test_launch 'echo #~$~d#v#ar $v#ar#'
 	test_launch 'echo #~$d~#~v#~ar $v~#ar#'
+
+	launch "Special Variables"
+	test_launch 'echo $?'
+	test_launch 'echo $? ; ls ; echo $?'
+	test_launch 'echo $? ; ls asdqwe ; echo $?'
+	test_launch 'echo $? ; okalm ; echo $?'
+	test_launch 'echo $? ; echo $?'
 
 finish
 
