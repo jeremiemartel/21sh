@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 17:19:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,14 @@ int			sh_expansions_parameter_equal(t_context *context, t_expansion *exp, char *
 **		ERROR
 */
 
-static int	sh_expansions_parameter_quest_msg(char *expansion, char *word)
+static int	sh_expansions_parameter_quest_msg(
+	t_context *context, char *expansion, char *word)
 {
 	char	*buf;
 
 	buf = ft_strpbrk(expansion, ":?");
 	*buf = 0;
-	ft_dprintf(2, "bash: %s: %s\n", expansion, word);
+	sh_perror_err_fd(context->fd[FD_ERR], expansion, word);
 	return (ERROR);
 }
 
@@ -111,6 +112,7 @@ static int	sh_expansions_parameter_quest_msg(char *expansion, char *word)
 **
 **	return Value:
 **		SUCCESS : exp->res sucessfully filled
+**		ERROR : On of the previous condition appeared
 **		FAILURE : malloc error
 */
 
@@ -122,11 +124,11 @@ int			sh_expansions_parameter_quest(t_context *context, t_expansion *exp, char *
 	param = sh_expansions_parameter_get_param(context, exp);
 	word = sh_expansions_parameter_get_word(context, exp, format);
 	if (!param)
-		return (sh_expansions_parameter_quest_msg(exp->expansion, word));
+		return (sh_expansions_parameter_quest_msg(context, exp->expansion, word));
 	else if (!*param)
 	{
 		if (ft_strchr(format, ':'))
-			return (sh_expansions_parameter_quest_msg(exp->expansion, word));
+			return (sh_expansions_parameter_quest_msg(context, exp->expansion, word));
 		else
 			exp->res = ft_dy_str_new_str("");
 	}

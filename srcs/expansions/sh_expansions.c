@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/13 21:30:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 17:21:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 	input = &node->token->value;
 	if (sh_verbose_expansion())
 		ft_dprintf(2, "expansion looking for tilde\n");
-	ret = sh_expansions_process_tilde(input, *input, context);
-	if (ret != SUCCESS)
+	if ((ret = sh_expansions_process_tilde(input, *input, context)) != SUCCESS)
 		return (ret);
 	while (ft_strpbrk(*input, "$"))
 	{
 		if (sh_verbose_expansion())
 			ft_dprintf(2, "expansion var detected\n");
-		ret = sh_expansions_process(input, *input, context);
-		if (ret != SUCCESS)
+		if ((ret = sh_expansions_process(input, *input, context)) != SUCCESS)
 			return (ret);
 	}
 	return (ret);
