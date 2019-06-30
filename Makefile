@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/06/29 17:07:55 by jmartel          ###   ########.fr        #
+#    Updated: 2019/06/30 13:51:53 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,7 +166,6 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_echo.c \
 						sh_builtin_exit.c \
 						sh_builtin_cd.c \
-						sh_builtin_cd_tools.c \
 						sh_builtin_where.c \
 						sh_builtin_verbose.c \
 						sh_builtin_set.c \

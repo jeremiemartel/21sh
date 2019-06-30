@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 17:07:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/29 17:33:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 15:52:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_dy_tab	*sh_builtin_env_parser_env_new(t_dy_tab *env)
 }
 
 /*
-** sh_builtin_env_init_new_params:
+** sh_builtin_env_parser_param:
 **	Create a new t_dy_tab, cloning a t_dy_tab, after a given offset.
 **	This new dy_tab is stored in new.
 **	It is used keep the command to execute, without env parameters.
@@ -70,8 +70,11 @@ static int		sh_builtin_env_parser_param(
 
 	i = offset;
 	if (!(*new = ft_dy_tab_new(params->current_size + 1)))
-		return (sh_perror_fd(
-			fd_err, SH_ERR1_MALLOC, "sh_builtin_env_init_new_params (1)"));
+	{
+		sh_perror_fd(
+			fd_err, SH_ERR1_MALLOC, "sh_builtin_env_init_new_params (1)");
+		return (FAILURE);
+	}
 	while (params->tbl[i])
 	{
 		if (ft_dy_tab_add_str(*new, params->tbl[i]))
@@ -85,15 +88,63 @@ static int		sh_builtin_env_parser_param(
 	return (SUCCESS);
 }
 
+/*
+** sh_builtin_env_parser_env:
+**	Read assginemnts given as params and modify the environnemnt accordingly.
+**
+**	returned Values:
+**		FAILURE : Malloc error
+**		ERROR : Invalid assignment
+**		SUCCESS : new var had been updated
+*/
 
-int				sh_builtin_env_parser_env(t_context *context, t_dy_tab **new_env, int *i, char **params)
+static int		sh_bultin_env_parser_env_assign(
+	t_context *context, t_dy_tab **new_env, int *i, char **params)
 {
 	int		ret;
 
+	while (params[*i] && ft_strchr(params[*i], '='))
+	{
+		if ((ret = sh_builtin_setenv_process(
+			params[*i], *new_env, context)) != SUCCESS)
+		{
+			if (ret == ERROR)
+				sh_builtin_env_usage(context->fd[FD_ERR]);
+			ft_dy_tab_del(*new_env);
+			*new_env = NULL;
+			return (ret);
+		}
+		*i += 1;
+	}
+	return (SUCCESS);
+}
+
+/*
+** sh_builtin_env_parser_env:
+**	Create a new t_dy_tab, using options given as params.
+**	This new dy_tab is stored in new_env.
+**	If the -i option is given new env is empty when created. Else,
+**	it is cloned from current env.
+**	This env will be given to the son process, or will be printed.
+**
+**	returned Values:
+**		FAILURE : Malloc error
+**		ERROR : Invalid option or assignment
+**		SUCCESS: new var had been updated
+*/
+
+static int		sh_builtin_env_parser_env(
+	t_context *context, t_dy_tab **new_env, int *i, char **params)
+{
 	while (params[*i] && params[*i][0] == '-')
 	{
 		if (params[*i][1] != 'i')
-			return (sh_perror2_err_fd(context->fd[FD_ERR], "invalid option", "env", params[*i]));
+		{
+			sh_perror2_err_fd(
+				context->fd[FD_ERR], SH_ERR2_INVALID_OPT, "env", params[*i]);
+			sh_builtin_env_usage(context->fd[FD_ERR]);
+			return (ERROR);
+		}
 		if (!*new_env)
 			*new_env = sh_builtin_env_parser_env_new(NULL);
 		*i += 1;
@@ -101,17 +152,12 @@ int				sh_builtin_env_parser_env(t_context *context, t_dy_tab **new_env, int *i,
 	if (*i == 1)
 		*new_env = sh_builtin_env_parser_env_new(context->env);
 	if (!*new_env)
-		return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_main_init_env"));
-	while (params[*i] && ft_strchr(params[*i], '='))
 	{
-		if ((ret = sh_builtin_setenv_process(params[*i], *new_env, context)) != SUCCESS)
-		{
-			ft_dy_tab_del(*new_env);
-			return (ret);
-		}
-		*i += 1;
+		sh_perror_fd(
+			context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_env_parser_env");
+		return (FAILURE);
 	}
-	return (SUCCESS);
+	return (sh_bultin_env_parser_env_assign(context, new_env, i, params));
 }
 
 /*
@@ -138,6 +184,7 @@ int				sh_builtin_env_parser(
 	ret = sh_builtin_env_parser_env(context, new_env, &i, params);
 	if (ret != SUCCESS)
 		return (ret);
-	ret = sh_builtin_env_parser_param(context->params, new_param, i, context->fd[FD_ERR]);
+	ret = sh_builtin_env_parser_param(
+		context->params, new_param, i, context->fd[FD_ERR]);
 	return (ret);
 }
