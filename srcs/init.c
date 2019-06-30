@@ -35,12 +35,26 @@ char	*refine_historic_entry(char *entry)
 	return (new);
 }
 
+int		process_read_historic(t_historic *historic, char *line)
+{
+	char *res;
+
+	if (!(res = refine_historic_entry(line)))
+	{
+		free(line);
+		return (FAILURE);
+	}
+	free(line);
+	if (ft_add_to_dlist_ptr(&historic->commands, res, sizeof(res)))
+		return (sh_perror(SH_ERR1_MALLOC, "sh_init_historic"));
+	return (SUCCESS);
+}
+
 int		sh_init_historic(t_historic *historic)
 {
 	int			fd;
 	char		*line;
 	int			ret;
-	char		*res;
 
 	historic->commands = NULL;
 	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR | O_NOFOLLOW,
@@ -51,15 +65,11 @@ int		sh_init_historic(t_historic *historic)
 	}
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
-		if (!(res = refine_historic_entry(line)))
-		{
-			free(line);
+		if (process_read_historic(historic, line) != SUCCESS)
 			return (FAILURE);
-		}
-		free(line);
-		if (ft_add_to_dlist_ptr(&historic->commands, res, sizeof(line)))
-			return (sh_perror(SH_ERR1_MALLOC, "sh_init_historic"));
 	}
+	if (ret == -1)
+		return (FAILURE);
 	free(line);
 	historic->head_start.next = historic->commands;
 	historic->head_start.prev = NULL;
