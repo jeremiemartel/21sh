@@ -1,6 +1,0 @@
-mkdir sandbox ; cd sandbox ; ln -s ../sandbox  ./link
-cd ./link
-ls -la
-pwd
-cd ..
-rm -r sandbox
