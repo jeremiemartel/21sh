@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/25 05:48:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 16:31:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_builtin_verbose_usage(t_context *context)
+static int		sh_builtin_verbose_usage(t_context *context)
 {
 	ft_dprintf(context->fd[FD_ERR], "usage: verbose on/off ");
 	ft_dprintf(context->fd[FD_ERR], "[lexer,ast,pipe,exec,expansion]\n");
@@ -21,8 +21,23 @@ static int	sh_builtin_verbose_usage(t_context *context)
 	return (ERROR);
 }
 
-static int		sh_process_builtin_verbose(t_context *context, char key[6][20],
-				char value[3])
+static int		sh_builtin_verbose_process_all(
+	t_context *context, char key[6][20], char value[3])
+{
+	int		ret;
+	int		i;
+
+	i = 0;
+	while (!ret && key[i][0])
+	{
+		ret = sh_vars_assign_key_val(
+			context->env, context->vars, key[i], value);
+		i++;
+	}
+}
+
+static int		sh_builtin_verbose_process(
+	t_context *context, char key[6][20], char value[3])
 {
 	int			i;
 	int			j;
@@ -43,20 +58,11 @@ static int		sh_process_builtin_verbose(t_context *context, char key[6][20],
 		i++;
 	}
 	if (i == 2)
-	{
-		i = 0;
-		while (!ret && key[i][0])
-		{
-			ret = sh_vars_assign_key_val(context->env, context->vars, key[i], value);
-			i++;
-		}
-	}
-	if (ret != SUCCESS)
-		return (ret);
-	return (SUCCESS);
+		return (sh_builtin_verbose_process_all(context, key, value));
+	return (ret);
 }
 
-int			sh_builtin_verbose(t_context *context)
+int				sh_builtin_verbose(t_context *context)
 {
 	char		value[3];
 	static char	key[6][20] = {"verbose_ast", "verbose_lexer", "verbose_exec",
@@ -68,6 +74,5 @@ int			sh_builtin_verbose(t_context *context)
 		ft_strcpy(value, "");
 	else
 		return (sh_builtin_verbose_usage(context));
-	sh_process_builtin_verbose(context, key, value);
-	return (SUCCESS);
+	return (sh_builtin_verbose_process(context, key, value));
 }

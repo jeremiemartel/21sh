@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:37:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/26 14:37:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 16:26:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int sh_builtin_unsetenv_error(t_context *context)
+static int	sh_builtin_unsetenv_error(t_context *context)
 {
 	ft_dprintf(context->fd[FD_ERR], "unsetenv: Too few arguments.");
 	return (ERROR);
