@@ -6,11 +6,54 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/15 14:41:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 18:21:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		sh_expansions_variable_detect_special(char *name)
+{
+	if (!name || !*name)
+		return (0);
+	if (ft_strequ(name, "$$"))
+		return (1);
+	if (*name == '$')
+		name++;
+	if (ft_strequ(name, "$") || ft_strequ(name, "?"))
+		return (1);
+	return (0);
+}
+
+/*
+** sh_expansions_variable_valid_name:
+**	Check if an assignment is a valid POSIX name variable name is correct
+**	In the shell command language, a word consisting solely of underscores,
+**	digits, and alphabetics from the portable character set.
+**	The first character of a name is not a digit.
+**	Loop finish when it met any '=' sign.
+**	(Used to detect valid assignment in lexer)
+**
+**	return Value : True or False
+*/
+
+int		sh_expansions_variable_valid_name(char *name)
+{
+	int		i;
+
+	if (sh_expansions_variable_detect_special(name))
+		return (1);
+	if (!ft_isalpha(*name) && !(*name == '_'))
+		return (0);
+	i = 0;
+	while (name[i] && name[i] != '=')
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 /*
 ** sh_expansions_variable_detect:
@@ -26,6 +69,8 @@ int		sh_expansions_variable_detect(char *start)
 	int		i;
 
 	i = 0;
+	if (sh_expansions_variable_detect_special(start))
+		return (2);
 	if (*start == '$')
 		i++;
 	if (!(ft_isalpha(start[i]) || start[i] == '_'))

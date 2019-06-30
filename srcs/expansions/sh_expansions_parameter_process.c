@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/30 17:19:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 17:52:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ static int	sh_expansions_parameter_quest_msg(
 	buf = ft_strpbrk(expansion, ":?");
 	*buf = 0;
 	sh_perror_err_fd(context->fd[FD_ERR], expansion, word);
-	return (ERROR);
+	if (isatty(0))
+		return (FAILURE);
+	else
+		return (ERROR);
 }
 
 /*
@@ -112,8 +115,8 @@ static int	sh_expansions_parameter_quest_msg(
 **
 **	return Value:
 **		SUCCESS : exp->res sucessfully filled
-**		ERROR : On of the previous condition appeared
-**		FAILURE : malloc error
+**		ERROR : One of the previous condition happend
+**		FAILURE : malloc error, one of previos condition happend
 */
 
 int			sh_expansions_parameter_quest(t_context *context, t_expansion *exp, char *format)

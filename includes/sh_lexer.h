@@ -144,7 +144,6 @@ int					sh_lexer_rule5(t_lexer *lexer);
 /*
 ** sh_lexer.c
 */
-int					sh_is_var_name(char *name);
 int					sh_lexer_lexical_conventions(t_lexer *lexer);
 int					sh_lexer(char *input, t_list **tokens, t_shell *shell);
 

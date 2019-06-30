@@ -6,42 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/25 16:04:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 18:16:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-/*
-** sh_is_var_name:
-**	Check if an assignment is a valid POSIX name variable name is correct
-**	In the shell command language, a word consisting solely of underscores,
-**	digits, and alphabetics from the portable character set.
-**	The first character of a name is not a digit.
-**	Loop finish when it met any '=' sign
-**
-**	return Value : True or False
-*/
-
-int				sh_is_var_name(char *name)
-{
-	int		i;
-
-	if (!ft_isalpha(*name) && !(*name == '_'))
-		return (0);
-	i = 0;
-	while (name[i] && name[i] != '=')
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-/*
-** Is this function steel usefull ??
-*/
+// Is this function steel usefull ??
 
 int				sh_lexer_lexical_conventions(t_lexer *lexer)
 {
@@ -54,7 +25,7 @@ int				sh_lexer_lexical_conventions(t_lexer *lexer)
 	token = (t_token*)head->content;
 	while (head && ft_strchr(token->value, '=') && !token->quoted)
 	{
-		if (sh_is_var_name(token->value))
+		if (sh_expansions_variable_valid_name(token->value))
 			t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);
 		head = head->next;
 		if (head)
