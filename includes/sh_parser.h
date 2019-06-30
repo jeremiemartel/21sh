@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_parser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/18 16:52:32 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/30 17:24:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,6 @@ t_item			*sh_new_item_advance(t_item *item);
 /*
 ** traverse.c
 */
-int		sh_traverse(t_ast_node *node);
 int     sh_add_prod(t_symbol *symbol, t_cfg *cfg, int nb_symbols, ...);
 
 /*
