@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:32:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/29 16:19:36 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/30 16:15:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** is_bad_assignment:
 **	Check that an entry is a correct key=value, where value can be empty.
 **
-** Return Value : 
+** Return Value :
 **		True if incorrect
 **		False if correct
 */
@@ -62,7 +62,7 @@ static int	sh_process_bad_assignment(t_context *context, char *entry)
 **		ERROR : entry is not on good format
 */
 
-int	sh_builtin_setenv_process
+int			sh_builtin_setenv_process
 	(char *entry, t_dy_tab *env, t_context *context)
 {
 	char	*value;
@@ -88,8 +88,20 @@ int	sh_builtin_setenv_process
 		process_builtin_hash_suppr_all(context->shell);
 	free(key);
 	free(value);
-	return (SUCCESS) ;
+	return (SUCCESS);
 }
+
+/*
+** sh_builtin_setenv:
+**	setenv [key=value] ...
+**	Set every key=value couple in environment. If key already exists,
+**	it's associated value is modified.
+**
+**	Return Value :
+**		SUCCESS
+**		FAILURE : malloc error
+**		ERROR : entry is not on good format (invalid assignment)
+*/
 
 int			sh_builtin_setenv(t_context *context)
 {
