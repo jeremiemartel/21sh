@@ -24,15 +24,19 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 		child = (t_ast_node *)ptr->content;
 		context->phase = E_TRAVERSE_PHASE_EXPANSIONS;
 		ret = g_grammar[child->symbol->id].traverse(child, context);
-		if (ret != SUCCESS)
-			return (ret);
+		if (ret)
+		{
+			if ((ptr = ptr->next))
+				ptr = ptr->next;
+			continue;
+		}
 		context->phase = E_TRAVERSE_PHASE_REDIRECTIONS;
 		ret = g_grammar[child->symbol->id].traverse(child, context);
-		if (ret != SUCCESS)
+		if (ret == FAILURE)
 			return (ret);
 		context->phase = E_TRAVERSE_PHASE_EXECUTE;
 		ret = g_grammar[child->symbol->id].traverse(child, context);
-		if (ret != SUCCESS)
+		if (ret == FAILURE)
 			return (ret);
 		if ((ptr = ptr->next))
 			ptr = ptr->next;
