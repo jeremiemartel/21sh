@@ -12,6 +12,44 @@
 
 #include "sh_21.h"
 
+char	*refine_historic_entry(char *entry)
+{
+	int		len;
+	char	*new;
+	int		i;
+
+	i = 0;
+	len = ft_strlen(entry);
+	if (!(new = ft_strnew(len)))
+		return (sh_perrorn(SH_ERR1_MALLOC, "refine_historic_entry"));
+	while (entry[i])
+	{
+		if (!ft_isascii(entry[i]) || !ft_isprint(entry[i]))
+		{
+			new[i] = ' ';
+		}
+		else
+			new[i] = entry[i];
+		i++;
+	}
+	return (new);
+}
+
+int		process_read_historic(t_historic *historic, char *line)
+{
+	char *res;
+
+	if (!(res = refine_historic_entry(line)))
+	{
+		free(line);
+		return (FAILURE);
+	}
+	free(line);
+	if (ft_add_to_dlist_ptr(&historic->commands, res, sizeof(res)))
+		return (sh_perror(SH_ERR1_MALLOC, "sh_init_historic"));
+	return (SUCCESS);
+}
+
 int		sh_init_historic(t_historic *historic)
 {
 	int			fd;
@@ -27,9 +65,11 @@ int		sh_init_historic(t_historic *historic)
 	}
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
-		if (ft_add_to_dlist_ptr(&historic->commands, line, sizeof(line)))
-			return (sh_perror(SH_ERR1_MALLOC, "sh_init_historic"));
+		if (process_read_historic(historic, line) != SUCCESS)
+			return (FAILURE);
 	}
+	if (ret == -1)
+		return (FAILURE);
 	free(line);
 	historic->head_start.next = historic->commands;
 	historic->head_start.prev = NULL;

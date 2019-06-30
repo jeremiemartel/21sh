@@ -16,21 +16,20 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 {
 	t_list		*ptr;
 	t_ast_node	*child;
-	int			ret;
 
 	ptr = node->children;
 	while (ptr != NULL)
 	{
 		child = (t_ast_node *)ptr->content;
 		context->phase = E_TRAVERSE_PHASE_EXPANSIONS;
-		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))
-			return (ret);
+		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+			return (FAILURE);
 		context->phase = E_TRAVERSE_PHASE_REDIRECTIONS;
-		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))
-			return (ret);
+		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+			return (FAILURE);
 		context->phase = E_TRAVERSE_PHASE_EXECUTE;
-		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))
-			return (ret);
+		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+			return (FAILURE);
 		if ((ptr = ptr->next))
 			ptr = ptr->next;
 	}

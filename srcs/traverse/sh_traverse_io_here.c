@@ -50,10 +50,7 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	first_child = (t_ast_node *)node->children->content;
 	if (!(heredoc_res = get_heredoc(context, first_child->token->value,
 			heredoc_func, &ret)))
-	{
-		ft_printf("%d\n", ret);
 		return (ret);
-	}
 	if (pipe(fds))
 		return (sh_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end"));
 	(*redirection)->type = INPUT;
