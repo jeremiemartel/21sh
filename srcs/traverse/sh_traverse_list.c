@@ -38,6 +38,8 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 		ret = g_grammar[child->symbol->id].traverse(child, context);
 		if (ret == FAILURE)
 			return (ret);
+		if (!context->shell->running)
+			return (0);
 		if ((ptr = ptr->next))
 			ptr = ptr->next;
 	}
