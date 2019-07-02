@@ -34,12 +34,16 @@ char	*get_env_entry(char **env, char *str);
 /*
 ** sh_verbose.c
 */
+int		sh_verbose_update(t_shell *shell);
+
+/*
+** sh_verbose_check.c
+*/
 int		sh_verbose_ast(void);
 int		sh_verbose_lexer(void);
 int		sh_verbose_exec(void);
 int		sh_verbose_pipe(void);
 int		sh_verbose_expansion(void);
-int		sh_verbose_update(t_shell *shell);
 
 /*
 ** sh_vars_tools_1.c

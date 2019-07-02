@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/30 14:07:21 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:59:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 # define SH_ERR2_INVALID_OPT			"Invalid option"
+
 /*
 ********************************************************************************
 */
@@ -42,7 +43,7 @@
 ** sh_perror_fd.c
 */
 int		sh_perror2_fd(
-	 int fd, const char *error, const char *prefix, const char *suffix);
+	int fd, const char *error, const char *prefix, const char *suffix);
 int		sh_perror_fd(int fd, const char *error, const char *suffix);
 
 /*
@@ -60,12 +61,12 @@ void	*sh_perrorn_fd(int fd, const char *error, const char *suffix);
 int		sh_perror2(
 	const char *error, const char *prefix, const char *suffix);
 int		sh_perror2_err(
-	 const char *error, const char *prefix, const char *suffix);
+	const char *error, const char *prefix, const char *suffix);
 void	*sh_perror2n(
 	const char *error, const char *prefix, const char *suffix);
 int		sh_perror2_err_fd(
-	 int fd, const char *error, const char *prefix, const char *suffix);
+	int fd, const char *error, const char *prefix, const char *suffix);
 void	*sh_perror2n_fd(
-	 int fd, const char *error, const char *prefix, const char *suffix);
+	int fd, const char *error, const char *prefix, const char *suffix);
 
 #endif
