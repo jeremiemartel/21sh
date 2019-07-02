@@ -165,7 +165,7 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_pwd.c \
 						sh_builtin_echo.c \
 						sh_builtin_exit.c \
-						sh_builtin_cd.c \
+						sh_builtin_cd.c sh_builtin_cd_pre_rules.c\
 						sh_builtin_where.c \
 						sh_builtin_verbose.c \
 						sh_builtin_set.c \

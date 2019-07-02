@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_builtin_cd.c                                    :+:      :+:    :+:   */
+/*   sh_builtin_cd_post_rules.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/11 17:43:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/02 13:33:46 by jmartel          ###   ########.fr       */
+/*   Created: 2019/07/02 13:33:24 by jmartel           #+#    #+#             */
+/*   Updated: 2019/07/02 13:37:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_builtin_cd_rule7(t_context *context, char **curpath, char flags)
+int	sh_builtin_cd_rule7(t_context *context, char **curpath, char flags)
 {
 	char	*pwd;
 
@@ -54,7 +54,7 @@ static int	sh_builtin_cd_rule8_2(char **curpath)
 	return (SUCCESS);
 }
 
-static int	sh_builtin_cd_rule8_1(char **curpath)
+int	sh_builtin_cd_rule8_1(char **curpath)
 {
 	char	*find;
 	char	*end;
@@ -78,51 +78,29 @@ static int	sh_builtin_cd_rule8_1(char **curpath)
 	return (sh_builtin_cd_rule8_2(curpath));
 }
 
-static int		sh_builtin_cd_update_pwd(t_context *context, int flags, char *curpath) // Use curdir as pwd??
+int	sh_builtin_cd_rule10(t_context *context, char *curpath, int flags, char *param)
 {
-	char		*pwd;
-	char		*old_pwd;
+	int			ret;
+	struct stat	st;
 
-	if (flags & CD_OPT_LOGIC)
-		pwd = curpath;
-	else
-		pwd = sh_builtin_pwd_physical(context->fd[FD_ERR]);
-	if (!pwd)
-		return (ERROR);
-	old_pwd = sh_vars_get_value(context->env, NULL, "PWD");
-	if (old_pwd)
-		if (sh_vars_assign_key_val(context->env, NULL, "OLDPWD", old_pwd) != SUCCESS)
-			return (FAILURE);
-	if (sh_vars_assign_key_val(context->env, NULL, "PWD", pwd) != SUCCESS)
-		return (FAILURE);
-	// free(pwd);
-	return (SUCCESS);
-	flags = 0;
-}
-
-int		sh_builtin_cd(t_context *context)
-{
-	char	*param;
-	char	*curpath;
-	char	flags;
-	int		i;
-	int		ret;
-
-	i = 1;
-	curpath = NULL;
-	if ((ret = sh_builtin_cd_parser(context, &i, &flags, &curpath)))
-		return (ret);
-	param = context->params->tbl[i];
-	if ((ret = sh_builtin_cd_pre_rules(context, param, &curpath)))
-		return (ret);
-	if (ft_strequ(param, "-"))
-		param[0] = 0;
-	if (!(flags & CD_OPT_PHYSIC))
+	ret = SUCCESS;
+	if (curpath && *curpath)
 	{
-		sh_builtin_cd_rule7(context, &curpath, flags);
-		sh_builtin_cd_rule8_1(&curpath);
+		if (access(curpath, F_OK))
+			ret = sh_perror_err_fd(context->fd[FD_ERR], param, SH_ERR2_NO_SUCH_FILE_OR_DIR);
+		else if (stat(curpath, &st) == -1)
+			ret = sh_perror_err_fd(context->fd[FD_ERR], param, SH_ERR2_NO_SUCH_FILE_OR_DIR);
+		else if (!S_ISDIR(st.st_mode))
+			ret = sh_perror2_err_fd(context->fd[FD_ERR], SH_ERR1_NOT_A_DIR, "cd", param);
+		else if (access(curpath, X_OK))
+			ret = sh_perror2_err_fd(context->fd[FD_ERR], SH_ERR1_PERM_DENIED, "cd", param);
 	}
-	ret = sh_builtin_cd_rule10(context, curpath, flags, param);
-	free(curpath);
+	if (!ret && curpath && *curpath)
+		chdir(curpath);
+	if (!ret)
+		sh_builtin_cd_update_pwd(context, flags, curpath);
+	if (flags & CD_OPT_HYPHEN)
+		ft_dprintf(context->fd[FD_OUT], "%s\n", sh_vars_get_value(context->env, NULL, "PWD"));
 	return (ret);
+	
 }
