@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/30 17:24:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 23:15:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,18 +119,13 @@ typedef struct		s_lr_parser
 /*
 ** transitive_first_sets.c
 */
+void	sh_process_transitive_first_set_2(char first_sets[NB_TERMS], int index);
 void	sh_process_transitive_first_sets_2(char first_sets[NB_TERMS],
 			t_symbol *prod_symbol);
 void	sh_process_transitive_first_sets(t_symbol *symbol,
 			t_symbol *prod_symbol, int *changes);
 void	sh_process_transitive_first_set(t_symbol *symbol,
 			int index, int *changes);
-
-/*
-** first_sets_tools.c
-*/
-
-int		has_eps_prod(t_symbol *symbol);
 
 /*
 ** parser.c

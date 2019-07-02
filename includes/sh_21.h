@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/17 11:38:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 23:14:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@
 # include "libft.h"
 # include "sh_perror.h"
 # include "sh_tokens.h"
+# include "sh_parser.h"
+# include "sh_productions.h"
 # include "sh_grammar.h"
 # include "sh_autocompletion.h"
-# include "sh_parser.h"
 # include "sh_lexer.h"
 # include "sh_exec.h"
 # include "sh_builtin.h"
