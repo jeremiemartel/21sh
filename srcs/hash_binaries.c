@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_binaries.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:55:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 16:36:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:11:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_binary	*sh_new_binary(char *path, char *name)
 		return (NULL);
 	}
 	if (!(res->name = ft_strdup(name)))
-	{ 
+	{
 		free(res);
 		free(res->path);
 		return (NULL);
@@ -33,12 +33,12 @@ t_binary	*sh_new_binary(char *path, char *name)
 	return (res);
 }
 
-int		compare_str_to_binary(void *str, void *binary)
+int			compare_str_to_binary(void *str, void *binary)
 {
 	return (ft_strcmp((char *)str, ((t_binary *)(binary))->name));
 }
 
-int		sh_update_hash_table(t_shell *shell, char *path, char *name)
+int			sh_update_hash_table(t_shell *shell, char *path, char *name)
 {
 	t_binary *res;
 

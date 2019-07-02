@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 13:48:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/25 13:57:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 21:57:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		sh_env_vars_update_question_mark(t_context *context, int res)
 	return (res);
 }
 
-int			is_key_of_entry(char *entry, char *key)
+int		is_key_of_entry(char *entry, char *key)
 {
 	int i;
 
@@ -42,7 +42,7 @@ int			is_key_of_entry(char *entry, char *key)
 	return (1);
 }
 
-char		*get_env_value(char **env, char *str)
+char	*get_env_value(char **env, char *str)
 {
 	int len;
 	int i;
@@ -58,7 +58,7 @@ char		*get_env_value(char **env, char *str)
 	return (NULL);
 }
 
-char		*get_env_entry(char **env, char *str)
+char	*get_env_entry(char **env, char *str)
 {
 	int i;
 

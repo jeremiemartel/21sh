@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/30 17:33:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:08:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,17 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 		child = (t_ast_node *)ptr->content;
 		context->phase = E_TRAVERSE_PHASE_EXPANSIONS;
 		ret = g_grammar[child->symbol->id].traverse(child, context);
+		if ((ptr = ptr->next))
+			ptr = ptr->next;
 		if (ret)
-		{
-			if ((ptr = ptr->next))
-				ptr = ptr->next;
 			continue;
-		}
 		context->phase = E_TRAVERSE_PHASE_REDIRECTIONS;
 		ret = g_grammar[child->symbol->id].traverse(child, context);
 		if (ret == FAILURE)
 			return (ret);
 		context->phase = E_TRAVERSE_PHASE_EXECUTE;
-		ret = g_grammar[child->symbol->id].traverse(child, context);
-		if (ret == FAILURE)
-			return (ret);
-		if ((ptr = ptr->next))
-			ptr = ptr->next;
+		if (g_grammar[child->symbol->id].traverse(child, context) == FAILURE)
+			return (FAILURE);
 	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:21:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/25 12:38:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 21:58:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 **	return:
 **		SUCESS or FAILURE
 */
+
 int		sh_vars_mod_key(t_dy_tab *vars, char *key, char *value)
 {
 	int		index;
@@ -40,6 +41,7 @@ int		sh_vars_mod_key(t_dy_tab *vars, char *key, char *value)
 **	return:
 **		SUCESS or FAILURE
 */
+
 int		sh_vars_add_key(t_dy_tab *vars, char *key, char *value)
 {
 	char	*buff;
@@ -61,7 +63,7 @@ int		sh_vars_add_key(t_dy_tab *vars, char *key, char *value)
 **	Treat any assignment with form "key=value" and call sh_vars_add_value
 **	or sh_vars_mod_value, with well formatted arguments
 **	It first look for the key in env, then in vars, if the key already exists
-**	value is modified, else the key is created in the vars 
+**	value is modified, else the key is created in the vars
 **	(or in env if var is NULL).
 **	return:
 **		SUCESS or FAILURE
@@ -97,7 +99,8 @@ int		sh_vars_assignment(t_dy_tab *env, t_dy_tab *vars, char *assignment)
 **		SUCCESS or FAILURE
 */
 
-int		sh_vars_assign_key_val(t_dy_tab *env, t_dy_tab *vars, char *key, char *value)
+int		sh_vars_assign_key_val(
+	t_dy_tab *env, t_dy_tab *vars, char *key, char *value)
 {
 	int		res;
 
