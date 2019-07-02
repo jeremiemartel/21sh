@@ -10,6 +10,8 @@ compare_results()
 	new_ko=`grep -c KO $new_log_file`
 	old_ko=`grep -c KO $old_log_file`
 
+	segfault=`grep -c SEGFAULT $new_log_file`
+
 	if [ "$old_ok" -ne "$new_ok" ] ; then
 		echo New Ok : $new_ok
 		echo Old Ok : $old_ok
@@ -18,6 +20,9 @@ compare_results()
 		echo Old Ko : $old_ko
 	else
 		echo OK
+	fi
+	if [ "$segfault" -ne 0 ] ; then
+		echo $segfault SEGFAULT detected
 	fi
 }
 
