@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/30 17:52:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:11:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 **		FAILURE : malloc error
 */
 
-int			sh_expansions_parameter_minus(t_context *context, t_expansion *exp, char *format)
+int			sh_expansions_parameter_minus(
+	t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
@@ -57,7 +58,8 @@ int			sh_expansions_parameter_minus(t_context *context, t_expansion *exp, char *
 **		FAILURE : malloc error
 */
 
-int			sh_expansions_parameter_equal(t_context *context, t_expansion *exp, char *format)
+int			sh_expansions_parameter_equal(
+	t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
@@ -119,7 +121,8 @@ static int	sh_expansions_parameter_quest_msg(
 **		FAILURE : malloc error, one of previos condition happend
 */
 
-int			sh_expansions_parameter_quest(t_context *context, t_expansion *exp, char *format)
+int			sh_expansions_parameter_quest(
+	t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
@@ -153,7 +156,8 @@ int			sh_expansions_parameter_quest(t_context *context, t_expansion *exp, char *
 **		FAILURE : malloc error
 */
 
-int			sh_expansions_parameter_plus(t_context *context, t_expansion *exp, char *format)
+int			sh_expansions_parameter_plus(
+	t_context *context, t_expansion *exp, char *format)
 {
 	char	*param;
 	char	*word;
