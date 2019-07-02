@@ -32,11 +32,11 @@ def get_file_names():
 		dirname = sys.argv[1]
 	else :
 		dirname = "."
-	if (os.path.isdir(dirname) == False):
-		print("Invalid directory")
-		exit(1)
 	filepaths = []
-	recursive_list_dir(dirname, filepaths)
+	if (os.path.isdir(dirname)):
+		recursive_list_dir(dirname, filepaths)
+	else :
+		filepaths = [dirname]
 	return (filepaths)
 
 def read_file(filepath):
@@ -51,14 +51,23 @@ def read_file(filepath):
 	fdr.close()
 	return (content)
 
+def norminette_line_len(line):
+	len = 0
+	for i in line:
+		if (i == '\t'):
+			len += 4
+		else :
+			len += 1
+	return len
+
 def norminette(filename, content):
 	print(filename)
 	funclen = -1
 	funcname = ""
 	funcnumber = 0
 	for i in range(len(content)):
-		if (len(content[i]) > 81):
-			print("\t{:-3d}: line is too long ({:d})".format(i + 1, len(content[i]) - 1))
+		if (norminette_line_len(content[i]) > 81):
+			print("\t{:-3d}: line is too long ({:d})".format(i + 1, norminette_line_len(content[i])- 1))
 		if (re.search(format, content[i]) != None):
 			prototype = content[i].rstrip()
 			prototype = prototype.split('\t')
