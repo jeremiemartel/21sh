@@ -56,11 +56,14 @@ void				update_hash_stats(
 	t_hash_table *table, t_binary_stats *stats);
 
 /*
-** sh_builtin_setenv.c
+** sh_builtin_cd_pre_rules.c
 */
-int					sh_builtin_setenv_process (
-	char *entry, t_dy_tab *env, t_context *context);
-int					sh_builtin_setenv(t_context *context);
+int					sh_builtin_cd_parser(
+	t_context *context, int *i, char *flag, char **curpath);
+int					sh_builtin_cd_pre_rules(
+	t_context *context, char *param, char **curpath);
+int					sh_builtin_cd_rule5(
+	t_context *context, char **curpath, char *param);
 
 /*
 ** sh_builtin_echo.c
@@ -68,14 +71,30 @@ int					sh_builtin_setenv(t_context *context);
 int					sh_builtin_echo(t_context *context);
 
 /*
+** sh_builtin_unsetenv.c
+*/
+int					sh_builtin_unsetenv(t_context *context);
+
+/*
+** sh_builtin_cd_post_rules.c
+*/
+int					sh_builtin_cd_rule7(
+	t_context *context, char **curpath, char flags);
+int					sh_builtin_cd_rule8_1(char **curpath);
+int					sh_builtin_cd_rule10(
+	t_context *context, char *curpath, int flags, char *param);
+
+/*
 ** sh_builtin_set.c
 */
 int					sh_builtin_set(t_context *context);
 
 /*
-** sh_builtin_unsetenv.c
+** sh_builtin_setenv.c
 */
-int					sh_builtin_unsetenv(t_context *context);
+int					sh_builtin_setenv_process (
+	char *entry, t_dy_tab *env, t_context *context);
+int					sh_builtin_setenv(t_context *context);
 
 /*
 ** sh_builtin_exit.c
