@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:50:45 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/01 15:20:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 21:19:27 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,22 @@ static int	sh_builtin_cd_parser_hyphen(
 	char	*oldpwd;
 
 	if (!(oldpwd = sh_vars_get_value(context->env, NULL, "OLDPWD")))
-		return (sh_perror_err_fd(
-			context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "OLDPWD"));
-	if (!(*curpath  = ft_strdup(oldpwd)))
-		return (sh_perror_fd(
-			context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_parser"));
+	{
+		sh_perror_err_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "OLDPWD");
+		return (ERROR);
+	}
+	if (!(*curpath = ft_strdup(oldpwd)))
+	{
+		sh_perror_fd(
+			context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_parser");
+		return (FAILURE);
+	}
 	*flag += CD_OPT_HYPHEN;
 	return (SUCCESS);
 }
 
-int	sh_builtin_cd_parser(t_context *context, int *i, char *flag, char **curpath)
+int			sh_builtin_cd_parser(
+	t_context *context, int *i, char *flag, char **curpath)
 {
 	char	**params;
 
@@ -48,36 +54,36 @@ int	sh_builtin_cd_parser(t_context *context, int *i, char *flag, char **curpath)
 	return (SUCCESS);
 }
 
-int	sh_builtin_cd_pre_rules(t_context *context, char *param, char **curpath)
+int			sh_builtin_cd_pre_rules(
+	t_context *context, char *param, char **curpath)
 {
 	char	*home;
 	int		ret;
 
 	home = sh_vars_get_value(context->env, NULL, "HOME");
-	// rules 1 - 2
 	if (*curpath)
 		;
 	else if ((!param || !*param) && (!home || !*home))
-		return (sh_perror_err_fd(context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "HOME"));
+		return (sh_perror_err_fd(
+			context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "HOME"));
 	else if (!param || !*param)
 		*curpath = ft_strdup(home);
-	// rules 3 - 6
 	else if (*param == '/')
 		*curpath = ft_strdup(param);
 	else if (*param == '.' || ft_strnstr(param, "..", 2))
 		*curpath = ft_strdup(param);
-	else
-	{
-		if ((ret = sh_builtin_cd_rule5(context, curpath, param)) != SUCCESS)
-			return (ret);
-	}
+	else if ((ret = sh_builtin_cd_rule5(context, curpath, param)) != SUCCESS)
+		return (ret);
 	if (!*curpath)
-		return (sh_perror_fd(
-			context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_pre_rules"));
+	{
+		sh_perror_fd(
+			context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_pre_rules");
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
-int	sh_builtin_cd_rule5(t_context *context, char **curpath, char *param)
+int			sh_builtin_cd_rule5(t_context *context, char **curpath, char *param)
 {
 	char	*cdpath;
 
@@ -86,8 +92,11 @@ int	sh_builtin_cd_rule5(t_context *context, char **curpath, char *param)
 	{
 		*curpath = ft_strjoin_path(".", param);
 		if (!curpath)
-			return (sh_perror_fd(
-				context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_rule5"));
+		{
+			sh_perror_fd(
+				context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_rule5");
+			return (FAILURE);
+		}
 		return (SUCCESS);
 	}
 	return (ERROR); // need to implement CDPATH
