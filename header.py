@@ -33,11 +33,10 @@ def read_dir(dir):
 		while (line1 != ""):
 			if (re.search(format, line1) != None):
 				prototype = line1.rstrip()
-				if (prototype[-1] != ")"):
+				while (prototype[-1] != ")"):
 					buffer = fd.readline()
 					buffer = buffer.strip()
 					prototype += " " + buffer
-					# print(buffer)
 				prototype = prototype.split('\t')
 				prototype = [i for i in prototype if (i != "")]
 				buffer = {"type" : prototype[0], "name" : prototype[1]}
@@ -77,8 +76,17 @@ def format_dir_datas(dir_data, tab_offset):
 				str += "\t" * (max_tabs - (len(function["type"]) // 4))
 				str += function["name"].split("(", 1)[0]
 				str += "(\n\t"
-				str += function["name"].split("(", 1)[1].strip()
-				str += ";\n"
+				# str += function["name"].split("(", 1)[1].strip()
+				buff = function["name"].split("(", 1)[1].strip()
+				if (len(buff) + 3 * max_tabs >= 80):
+					for a in buff.split(","):
+						str += a.strip()
+						if (a.strip()[-1] == ')'):
+							str += ";\n"
+						else :
+							str += ",\n\t"
+				else :
+					str += buff + ";\n"
 			res += str
 		res += "\n"
 	return res
@@ -120,20 +128,23 @@ def automatic_header(dir, header, tab_offset):
 	# print(header_content)
 	write_header(header, header_content)
 
-automatic_header("./srcs/lexer", "./includes/sh_lexer.h", 5)
-automatic_header("./srcs/expansions", "./includes/sh_expansions.h", 0)
-automatic_header("./srcs/traverse_tools", "./includes/sh_traverse_tools.h", 0)
-automatic_header("./srcs/vars", "./includes/sh_vars.h", 0)
-# automatic_header("./srcs/", "./includes/sh_.h", 0)
-# automatic_header("./srcs/", "./includes/sh_.h", 0)
+automatic_header("./srcs/lexer", 			"./includes/sh_lexer.h", 5)
+automatic_header("./srcs/expansions",		"./includes/sh_expansions.h", 0)
+automatic_header("./srcs/traverse_tools",	"./includes/sh_traverse_tools.h", 0)
+automatic_header("./srcs/vars",				"./includes/sh_vars.h", 0)
+automatic_header("./srcs/traverse",			"./includes/sh_traverse.h", 0)
+automatic_header("./srcs/builtin",			"./includes/sh_builtin.h", 0)
+automatic_header("./srcs/exec",				"./includes/sh_exec.h", 5)
+automatic_header("./srcs/perror",			"./includes/sh_perror.h", 0)
+# automatic_header("./srcs/grammar",		"./includes/sh_grammar.h", 5)
+automatic_header("./srcs/parser/productions","./includes/sh_productions.h", 0)
+automatic_header("./srcs/parser",			"./includes/sh_parser.h", 5)
 
-## Can't launch : prototypes on two lines
-automatic_header("./srcs/traverse", "./includes/sh_traverse.h", 0)
-automatic_header("./srcs/builtin", "./includes/sh_builtin.h", 0)
-automatic_header("./srcs/exec", "./includes/sh_exec.h", 5)
-automatic_header("./srcs/perror", "./includes/sh_perror.h", 0)
-automatic_header("./srcs/grammar", "./includes/sh_grammar.h", 5)
-automatic_header("./srcs/parser/productions", "./includes/sh_productions.h", 0)
+#automatic_header("./srcs/parser", "./includes/sh_command_line.h", 0)
+#automatic_header("./srcs/command_line/autocomplete", "./includes/sh_autocompletion.h", 0)
+######automatic_header("./srcs/parser", "./includes/sh_tokens.h", 0)
+
+
 
 # automatic_header("./test", "./header.h", 0)
 

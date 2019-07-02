@@ -101,11 +101,17 @@ int					sh_process_execute_close_pipes(t_context *context);
 t_redirection		*get_redirection(
 	t_redirection_type type, int redirected_fd, t_list *list);
 int					sh_add_redirection(
-	t_redirection_type type, int redirected_fd, int fd, t_list **list);
+	t_redirection_type type,
+	int redirected_fd,
+	int fd,
+	t_list **list);
 int					get_redirected_fd(
 	t_redirection_type type, int fd, t_list *redirections);
 int					sh_process_fd_aggregation(
-	t_redirection_type type, int redirected_fd, int fd, t_list **redirections);
+	t_redirection_type type,
+	int redirected_fd,
+	int fd,
+	t_list **redirections);
 
 /*
 ** sh_debug.c
