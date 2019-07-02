@@ -6,14 +6,14 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 00:10:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 00:20:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_21_H
 # define SH_21_H
 
-#include <stdio.h>
+# include <stdio.h>
 
 # include <stdarg.h>
 # include <termcap.h>
@@ -142,123 +142,118 @@ typedef struct		s_shell
 }					t_shell;
 
 /*
-** init.c
+********************************************************************************
 */
-int			sh_init_shell(t_shell *shell, char **env);
-int			sh_init_terminal(t_shell *shell, char **env);
-void		init_signals(void);
 
 /*
-** init_tabs.c
+** free_all.c
 */
-int			sh_main_init_env(t_shell *shell, char **env);
-int			sh_update_shell_lvl(t_shell *shell);
-int			sh_main_init_vars(t_shell *shell);
+void				sh_free_binary(t_binary *binary);
+void				sh_free_binary_lst(void *b, size_t dummy);
+void				sh_free_token_lst(void *t, size_t dummy);
+void				free_file(t_file *file);
+void				free_file_dlst(void *f, size_t dummy);
+void				sh_free_all(t_shell *shell);
 
 /*
 ** index.c
 */
-int			sh_index(t_symbol_id id);
-int			is_key_of_entry(char *entry, char *key);
+int					sh_index_4(t_symbol_id id);
+int					sh_index_3(t_symbol_id id);
+int					sh_index_2(t_symbol_id id);
+int					sh_index(t_symbol_id id);
 
+/*
+** init_tabs.c
+*/
+int					sh_update_shell_lvl(t_shell *shell);
+int					sh_main_init_env(t_shell *shell, char **env);
+int					sh_main_init_vars(t_shell *shell);
 
 /*
 ** shell_tools.c
 */
-int			sh_reset_shell(int ret);
-int			putchar_int(int i);
-void		move(int x, int y);
-int			clear_all(void);
+int					putchar_int(int i);
+int					sh_reset_shell(int ret);
+int					sh_set_shell(struct termios term, int ret);
+int					clear_all(void);
 
 /*
-** env.c
+** init.c
 */
-int			is_key_of_entry(char *entry, char *key);
-char		*get_env_value(char **env, char *str);
-char		*get_env_entry(char **env, char *str);
-//int			process_ms_env(t_dy_tab *env);
+char				*refine_historic_entry(char *entry);
+int					process_read_historic(
+	t_historic *historic, char *line);
+int					sh_init_historic(t_historic *historic);
+int					sh_init_command_line(
+	t_shell *shell, t_command_line *command_line);
+int					sh_init_shell(t_shell *shell, char **env);
 
-
-/*
-** set_env.c
-*/
-int			sh_add_to_command(t_command_line *command,
-				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
-
-/*
-** sanitize_path.c
-*/
-char		*get_sanitized_path_from_old(char *old_pwd, char *path);
-
-int			sh_await_command(t_shell *shell);
-/*
-** free_all.c
-*/
-void		sh_free_all(t_shell *shell);
-void	free_file_dlst(void *f, size_t dummy);
-void	free_file(t_file *file);
-void	sh_free_lr_automata(t_lr_parser *parser);
-int		sh_process_command(t_shell *shell, char *command);
-void	sh_free_ast_builder(t_ast_builder *ast_builder);
-void	sh_free_ast_node(t_ast_node **ast_node, int update);
-void	sh_free_parser_trees(t_lr_parser *parser);
-void	sh_free_token_lst(void *t, size_t dummy);
-void	sh_free_binary(t_binary *binary);
-void    sh_free_binary_lst(void *b, size_t dummy);
 /*
 ** canonical_mode.c
 */
-int			sh_process_canonical_mode(t_shell *shell, char **env);
-
-/*
-** non_canonical_mode.c
-*/
-int		sh_process_received_command(t_shell *shell,
-			t_command_line *command_line);
-int		sh_process_noncanonical_mode(t_shell *shell);
-/*
-** process_historic.c
-*/
-int			sh_append_to_historic(t_shell *shell, char *command);
-
-/*
-** home.c
-*/
-int			process_subst_home(t_shell *shell, char **str);
-char		*get_home_dup(t_shell *shell);
-
-/*
-** hash_binaries.c
-*/
-int			compare_str_to_binary(void *str, void *binary);
-int     sh_update_hash_table(t_shell *shell, char *path, char *name);
-
-/*
-** signal.c
-*/
-void		init_signals(void);
-
-/*
-** free_command_line.c
-*/
-void	sh_free_command_line(t_command_line *command_line);
-
-/*
-** update_prompt.c
-*/
-int		update_prompt_from_absolute_path(char *cwd, char **new_prompt);
-int		update_prompt_cwd(t_shell *shell, char **new_prompt);
-int		update_prompt_context(t_shell *shell, t_command_line *command_line,
-			char **new_prompt);
-int		update_prompt(t_shell *shell, t_command_line *command_line);
-int		update_prompt_from_quote(t_shell *shell, t_command_line *command_line,
-			char quote);
+int					sh_process_canonical_mode(t_shell *shell, char **env);
 
 /*
 ** tools.c
 */
-int		get_file_in_dir(char *filename, char *dirname);
-int		get_path_from_absolute_path(char *str, char **path);
-int		get_path_and_file_from_str(char *str, char **path, char **file);
+int					get_file_in_dir(char *filename, char *dirname);
+int					get_path_from_absolute_path(char *str, char **path);
+int					get_path_and_file_from_str(
+	char *str, char **path, char **file);
+
+/*
+** signals.c
+*/
+void				init_signals(void);
+
+/*
+** init_term.c
+*/
+int					sh_init_terminal_database(char **env);
+int					sh_init_terminal(t_shell *shell, char **env);
+
+/*
+** home.c
+*/
+char				*get_home_dup(t_shell *shell);
+int					process_subst_home(t_shell *shell, char **str);
+
+/*
+** non_canonical_mode.c
+*/
+int					sh_process_command(t_shell *shell, char *command);
+int					sh_process_received_command(
+	t_shell *shell, t_command_line *command_line);
+int					sh_await_command(t_shell *shell);
+int					sh_process_noncanonical_mode(t_shell *shell);
+
+/*
+** historic.c
+*/
+int					sh_append_to_historic(t_shell *shell, char *command);
+
+/*
+** hash_binaries.c
+*/
+t_binary			*sh_new_binary(char *path, char *name);
+int					compare_str_to_binary(void *str, void *binary);
+int					sh_update_hash_table(
+	t_shell *shell, char *path, char *name);
+
+/*
+** main.c
+*/
+int					main(int argc, char **argv, char **env);
+
+/*
+** sanitize_path.c
+*/
+char				*ft_get_previous_directory(char *current_directory);
+char				*get_first_path_from_path(char **path);
+int					add_to_path_dot_dot(char **old_path);
+int					add_to_path_pwd(char **old_path, char *partial_path);
+char				*get_sanitized_path_from_old(
+	char *old_pwd, char *path);
 
 #endif
