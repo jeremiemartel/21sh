@@ -77,7 +77,7 @@ def format_dir_datas(dir_data, tab_offset):
 				str += "\t" * (max_tabs - (len(function["type"]) // 4))
 				str += function["name"].split("(", 1)[0]
 				str += "(\n\t"
-				str += function["name"].split("(", 1)[1]
+				str += function["name"].split("(", 1)[1].strip()
 				str += ";\n"
 			res += str
 		res += "\n"
