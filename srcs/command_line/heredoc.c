@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 19:14:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 03:52:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 00:12:54 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*heredoc_ret_str(t_shell *shell,
 }
 
 int			process_heredoc_through_command(char **res, t_shell *shell,
-	char *(*heredoc_func)(const char *), t_command_line *command_line)
+	t_heredoc_func heredoc_func, t_command_line *command_line)
 {
 	char	*tmp;
 
@@ -60,7 +60,7 @@ void		init_heredoc_command_line(t_shell *shell,
 }
 
 char		*heredoc(t_shell *shell, char *stop,
-			char *(*heredoc_func)(const char *), int *ret)
+			t_heredoc_func heredoc_func, int *ret)
 {
 	char			*res;
 	t_command_line	*command_line;

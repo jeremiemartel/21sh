@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/02 23:14:25 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 00:10:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,4 +232,33 @@ char		*get_home_dup(t_shell *shell);
 */
 int			compare_str_to_binary(void *str, void *binary);
 int     sh_update_hash_table(t_shell *shell, char *path, char *name);
+
+/*
+** signal.c
+*/
+void		init_signals(void);
+
+/*
+** free_command_line.c
+*/
+void	sh_free_command_line(t_command_line *command_line);
+
+/*
+** update_prompt.c
+*/
+int		update_prompt_from_absolute_path(char *cwd, char **new_prompt);
+int		update_prompt_cwd(t_shell *shell, char **new_prompt);
+int		update_prompt_context(t_shell *shell, t_command_line *command_line,
+			char **new_prompt);
+int		update_prompt(t_shell *shell, t_command_line *command_line);
+int		update_prompt_from_quote(t_shell *shell, t_command_line *command_line,
+			char quote);
+
+/*
+** tools.c
+*/
+int		get_file_in_dir(char *filename, char *dirname);
+int		get_path_from_absolute_path(char *str, char **path);
+int		get_path_and_file_from_str(char *str, char **path, char **file);
+
 #endif

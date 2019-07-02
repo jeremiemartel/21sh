@@ -140,8 +140,8 @@ automatic_header("./srcs/perror",			"./includes/sh_perror.h", 0)
 automatic_header("./srcs/parser/productions","./includes/sh_productions.h", 0)
 automatic_header("./srcs/parser",			"./includes/sh_parser.h", 5)
 
-#automatic_header("./srcs/parser", "./includes/sh_command_line.h", 0)
-#automatic_header("./srcs/command_line/autocomplete", "./includes/sh_autocompletion.h", 0)
+automatic_header("./srcs/command_line", "./includes/sh_command_line.h", 5)
+automatic_header("./srcs/command_line/autocomplete", "./includes/sh_autocompletion.h", 5)
 ######automatic_header("./srcs/parser", "./includes/sh_tokens.h", 0)
 
 

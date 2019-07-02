@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_clipboard.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 23:50:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/27 23:50:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 00:14:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int		process_clipboard_line(t_shell *shell, t_command_line *command_line,
 	return (SUCCESS);
 }
 
-int		process_clipboard_from_fd(t_shell *shell, int fd, t_command_line *command_line)
+int		process_clipboard_from_fd(
+	t_shell *shell, int fd, t_command_line *command_line)
 {
 	t_gnl_info	info;
 	int			ret;
@@ -75,7 +76,7 @@ int		process_clipboard_from_fd(t_shell *shell, int fd, t_command_line *command_l
 	return (SUCCESS);
 }
 
-int 	process_clipboard(t_shell *shell, t_command_line *command_line,
+int		process_clipboard(t_shell *shell, t_command_line *command_line,
 			char *pbpaste_path)
 {
 	int		pid;
@@ -102,6 +103,7 @@ int 	process_clipboard(t_shell *shell, t_command_line *command_line,
 		return (process_clipboard_from_fd(shell, fds[PIPE_OUT], command_line));
 	}
 }
+
 int		process_clipboard_shell(t_shell *shell, t_command_line *command_line)
 {
 	(void)shell;
