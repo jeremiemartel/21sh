@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dy_str_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 15:12:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 15:12:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:43:27 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,4 @@ void	ft_dy_str_free(t_dy_str **dy_str)
 	free((*dy_str)->str);
 	free(*dy_str);
 	*dy_str = NULL;
-
 }

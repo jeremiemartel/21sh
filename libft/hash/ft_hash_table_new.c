@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hash_table_new.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 11:59:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 12:25:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:44:27 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_hash_table *ft_hash_table_new(unsigned long size)
+t_hash_table	*ft_hash_table_new(unsigned long size)
 {
 	t_hash_table *res;
 

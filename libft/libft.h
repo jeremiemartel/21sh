@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/27 15:12:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:49:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 */
 # include <stdio.h>
 
+/*
+** get_next_line
+*/
+# define BUFF_SIZE	4096
+# define GNL_MAX_FD	2000
+
 typedef struct		s_list
 {
 	void			*content;
@@ -46,7 +52,7 @@ typedef struct		s_dystr
 	int				size;
 }					t_dystr;
 
-typedef struct      s_dy_str
+typedef struct		s_dy_str
 {
 	char			*str;
 	size_t			current_size;
@@ -83,11 +89,11 @@ typedef enum		e_separator
 	E_SEPARATOR_EOF = EOF
 }					t_separator;
 
-typedef struct	s_gnl_info
+typedef struct		s_gnl_info
 {
 	t_separator	separator;
 	char		*line;
-}				t_gnl_info;
+}					t_gnl_info;
 
 typedef struct		s_hash_table
 {
@@ -288,7 +294,6 @@ int					ft_dlstlength(t_dlist *dlist);
 int					ft_dlstadd_sorted(t_dlist **dlst,
 						void *content, int (*sort)(void*, void *));
 
-
 /*
 ************************************ dystr  ***********************************
 */
@@ -324,25 +329,26 @@ t_dy_tab			*ft_dy_tab_cpy_str(t_dy_tab *d_tab);
 ******************************** free_turn ***********************************
 */
 
-char	*ft_free_turn_str(char **to_del, char *res);
-char	*ft_free_turn_strs(char **to_del, char **to_del2, char *res);
-int		ft_free_turn_dy_str(t_dy_str *dy_str, int ret);
-int		ft_free_turn(void *to_free, int ret);
-int		ft_del_turn(void **to_free, int ret);
-int		ft_del_turn_char(char **to_free, int ret);
-int		ft_free_turn_2(void *to_free, void *to_free2, int ret);
-int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
+char				*ft_free_turn_str(char **to_del, char *res);
+char				*ft_free_turn_strs(
+						char **to_del, char **to_del2, char *res);
+int					ft_free_turn_dy_str(t_dy_str *dy_str, int ret);
+int					ft_free_turn(void *to_free, int ret);
+int					ft_del_turn(void **to_free, int ret);
+int					ft_del_turn_char(char **to_free, int ret);
+int					ft_free_turn_2(
+						void *to_free, void *to_free2, int ret);
+int					ft_free_turn_3(
+						void *to_free, void *to_free2, void *to_free3, int ret);
 
 /*
 ******************************** get_next_line  *******************************
 */
-# define BUFF_SIZE	4096
-# define GNL_MAX_FD	2000
 
-int			get_next_line(const int fd, char **line);
-int			get_next_line2(int const fd, t_gnl_info *info);
-int			ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del);
-t_gnl		*ft_get_gnl(int fd, t_list **gnls);
+int					get_next_line(const int fd, char **line);
+int					get_next_line2(int const fd, t_gnl_info *info);
+int					ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del);
+t_gnl				*ft_get_gnl(int fd, t_list **gnls);
 
 /*
 ********************************** ft_printf  *********************************
@@ -371,4 +377,5 @@ void				ft_hash_table_del(t_hash_table *table,
 void				ft_hash_table_del_value(t_hash_table *table);
 void				ft_hash_table_del_ptr(t_hash_table *table);
 void				ft_hash_table_show_perf(t_hash_table *table);
+
 #endif

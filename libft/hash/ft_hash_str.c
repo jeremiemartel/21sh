@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hash_str.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 12:07:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 12:27:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/02 22:44:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ unsigned long	ft_hash_str(void *ptr)
 {
 	unsigned long	hash;
 	int				c;
-	char 			*str;
+	char			*str;
 
 	str = (char *)ptr;
 	hash = 5381;
 	while ((c = *str++))
 		hash = ((hash << 5) + hash) + c;
-	return hash;
+	return (hash);
 }
