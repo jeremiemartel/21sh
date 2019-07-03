@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:33:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/14 18:10:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 14:49:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		sh_lexer_rule3(t_lexer *lexer)
 			lexer->tok_len = 0;
 			return (LEX_OK);
 		}
-		return (LEX_ERR);// ???
+		return (LEX_ERR);
 	}
 	return (LEX_CONTINUE);
 }

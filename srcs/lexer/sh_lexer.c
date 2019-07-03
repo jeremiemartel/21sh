@@ -6,13 +6,22 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/30 18:16:06 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 14:53:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-// Is this function steel usefull ??
+/*
+** sh_lexer_lexical_conventions:
+**	Look for assignment words and tranform then into LEX_TOK_ASSIGMENT
+**	Check that any unknown token is present, send an error if any is founc,
+**	to avoid sending it to parser.
+**
+**	Returned Values:
+**		LEX_OK : Assignment word changed, no unknown token found.
+**		LEX_ERR : unknown / unidentified token found
+*/
 
 int				sh_lexer_lexical_conventions(t_lexer *lexer)
 {
@@ -60,11 +69,11 @@ static int		sh_lexer_run_rules(t_lexer *lexer)
 	i = 0;
 	ret = LEX_CONTINUE;
 	if (sh_verbose_lexer())
-		ft_dprintf(2, "lexer in progress on : %1c\t", lexer->c);
+		ft_dprintf(2, "lexer in progress on :%.2c\t", lexer->c);
 	while ((ret = rules[i](lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)
 		i++;
 	if (sh_verbose_lexer())
-		ft_dprintf(2, COLOR_GREEN"\trule %d applied\n"COLOR_END, i + 1);
+		ft_dprintf(2, COLOR_GREEN"\trule %2d applied\n"COLOR_END, i + 1);
 	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
 	return (ret);
 }

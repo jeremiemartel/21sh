@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:50:45 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 21:19:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 14:45:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,5 @@ int			sh_builtin_cd_rule5(t_context *context, char **curpath, char *param)
 		}
 		return (SUCCESS);
 	}
-	return (ERROR); // need to implement CDPATH
+	return (ERROR);
 }

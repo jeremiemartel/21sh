@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 13:33:24 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 21:01:25 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 14:45:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			sh_builtin_cd_rule7(t_context *context, char **curpath, char flags)
 				free(*curpath);
 				return (ERROR);
 			}
-			if (!(*curpath = ft_strjoin_path_free(pwd, *curpath, 0x02)))
+			if (!(*curpath = ft_strjoin_path_free(pwd, *curpath, 0x01 + 0x02)))
 				return (sh_perror_fd(context->fd[FD_ERR],
 					SH_ERR1_MALLOC, "sh_builtin_cd_rule7"));
 		}
@@ -78,11 +78,23 @@ int			sh_builtin_cd_rule8_1(char **curpath)
 	return (sh_builtin_cd_rule8_2(curpath));
 }
 
+/*
+** sh_builtin_cd_update_pwd:
+**	Update the PWD and OLDPW env variables. New value depend of options given.
+**	If -P had been used, the getcwd (3) function will be used.
+**	Else, the current curpath var will be used.
+**
+**	Returned Values:
+**		FAILURE : malloc error
+**		SUCCESS : updated the two env vars
+*/
+
 static int	sh_builtin_cd_update_pwd(
 	t_context *context, int flags, char *curpath)
 {
 	char		*pwd;
 	char		*old_pwd;
+	int			ret;
 
 	if (flags & CD_OPT_LOGIC)
 		pwd = curpath;
@@ -91,15 +103,37 @@ static int	sh_builtin_cd_update_pwd(
 	if (!pwd)
 		return (ERROR);
 	old_pwd = sh_vars_get_value(context->env, NULL, "PWD");
+	ret = SUCCESS;
 	if (old_pwd)
-		if (sh_vars_assign_key_val(
-			context->env, NULL, "OLDPWD", old_pwd) != SUCCESS)
-			return (FAILURE);
-	if (sh_vars_assign_key_val(
-		context->env, NULL, "PWD", pwd) != SUCCESS)
-		return (FAILURE);
-	return (SUCCESS);
+		ret = sh_vars_assign_key_val(
+			context->env, NULL, "OLDPWD", old_pwd);
+	if (!ret)
+		ret = sh_vars_assign_key_val(context->env, NULL, "PWD", pwd);
+	if (flags & CD_OPT_PHYSIC)
+		free(pwd);
+	return (ret);
 }
+
+/*
+** sh_builtin_cd_rule10:
+**	10. The cd utility shall then perform actions equivalent to the chdir()
+**	function called with curpath as the path argument. If these actions
+**	fail for any reason, the cd utility shall display an appropriate error
+**	message and the remainder of this step shall not be executed. If
+**	the	-P  option  is	not  in  effect, the PWD environment variable
+**	shall be set to the value that curpath had on entry to step 9
+**	(i.e., before conversion to a relative pathname). If the -P option is in
+**	effect, the PWD environment variable shall be set to the string  that
+**	would  be output by pwd -P.	If there is insufficient permission on
+**	the new directory, or on any parent of that directory, to determine
+**	the current working directory, the value of the PWD environment
+**	variable is unspecified.
+**
+**	Returned Values:
+**		FAILURE : malloc error
+**		SUCCESS : Successfully changed current directory,
+**					and updated PWD and OLDPWD
+*/
 
 int			sh_builtin_cd_rule10(
 	t_context *context, char *curpath, int flags, char *param)
