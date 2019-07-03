@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 22:54:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void		sh_init_command_redirections_list(t_ast_node *node)
 		child = ptr->content;
 		((t_ast_node *)(child->children->content))
 			->metadata.command_metadata.redirections = NULL;
+		((t_ast_node *)(child->children->content))
+			->metadata.command_metadata.should_exec = 1;
 		if ((ptr = ptr->next))
 			ptr = ptr->next;
 	}

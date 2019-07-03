@@ -40,6 +40,8 @@ int		process_enter(t_command_line *command_line)
 int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 		unsigned char *buffer)
 {
+	int ret;
+
 	if (buffer[0] == 10)
 	{
 		if (process_enter(command_line) == 0)
@@ -52,8 +54,8 @@ int		process_keys_ret(t_shell *shell, t_command_line *command_line,
 	}
 	else if (buffer[0] == 16)
 	{
-		if (process_clipboard_shell(shell, command_line))
-			return (FAILURE);
+		if ((ret = process_clipboard_shell(shell, command_line)))
+			return (ret);
 	}
 	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
 		return (FAILURE);

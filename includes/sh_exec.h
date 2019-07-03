@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_exec.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/04 00:22:40 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 01:14:29 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct		s_redirection
 typedef struct		s_command_metadata
 {
 	t_list			*redirections;
+	int				should_exec;
 }					t_command_metadata;
 
 typedef struct		s_heredoc_metadata
