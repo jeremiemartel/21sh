@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 16:13:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 23:24:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		{
 			if (!(context->path = ft_strdup(context->params->tbl[0])))
 				return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
-			if (sh_traverse_sc_check_perm(
+			if (sh_traverse_sc_check_perm(context,
 				context->path, context->params->tbl[0]) != SUCCESS)
 				ret = ERROR;
 			else
@@ -76,7 +76,7 @@ int		sh_traverse_sc_search_in_hash(t_context *context)
 			free(finder.current);
 			return (ERROR);
 		}
-		if (sh_traverse_sc_check_perm(binary->path, binary->name) == ERROR)
+		if (sh_traverse_sc_check_perm(context, binary->path, binary->name) == ERROR)
 			return (SUCCESS); // Exists but no permisssions !
 		context->path = ft_strdup(binary->path);
 		return (SUCCESS);
@@ -90,6 +90,7 @@ int		sh_traverse_sc_search_in_hash(t_context *context)
 **	do not contain a path (does not contain a '/' character)
 **	It try to launch any builtin, then look in $PATH env variable.
 **	If any command was found it is launched
+**	(Final else return SUCCESS to let cmd || cmd works)
 **
 ** return  :
 **	FAILURE : malloc error
@@ -111,7 +112,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 	else
 	{
 		sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
-		sh_env_vars_update_question_mark(context, 127);
+		sh_env_vars_update_question_mark(context, SH_RET_CMD_NOT_FOUND);
 		return (SUCCESS);
 	}
 }
@@ -142,7 +143,7 @@ int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 				return (sh_perror(SH_ERR1_MALLOC,
 					"traverse_sc_search_in_dir"));
 			}
-			if (sh_traverse_sc_check_perm(buf,
+			if (sh_traverse_sc_check_perm(context, buf,
 					context->params->tbl[0]) != SUCCESS)
 			{
 				free(buf);
@@ -211,7 +212,7 @@ int		sh_traverse_sc_search_in_path(t_context *context)
 **		ERROR : file cannot be considered as an executable
 */
 
-int		sh_traverse_sc_check_perm(char *path, char *command_name)
+int		sh_traverse_sc_check_perm(t_context *context, char *path, char *command_name)
 {
 	struct stat		st;
 
@@ -226,6 +227,7 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name)
 		if (sh_verbose_exec())
 			ft_dprintf(2,
 			"You do not have execution rights on %s\n", command_name);
+		sh_env_vars_update_question_mark(context, SH_RET_PERM_DENIED);
 		return (sh_perror_err(command_name, SH_ERR1_PERM_DENIED));
 	}
 	if (!S_ISREG(st.st_mode))
@@ -234,6 +236,7 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name)
 			return (ERROR);
 		if (sh_verbose_exec())
 			ft_dprintf(2, "%s is not a regular file\n", command_name);
+		sh_env_vars_update_question_mark(context, SH_RET_CMD_NOT_FOUND);
 		return (sh_perror_err(command_name, SH_ERR1_CMD_NOT_FOUND));
 	}
 	return (SUCCESS);

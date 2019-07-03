@@ -60,7 +60,8 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context);
 int		sh_traverse_sc_search_in_dir(
 	char *path, DIR *dir, t_context *context);
 int		sh_traverse_sc_search_in_path(t_context *context);
-int		sh_traverse_sc_check_perm(char *path, char *command_name);
+int		sh_traverse_sc_check_perm(
+	t_context *context, char *path, char *command_name);
 
 /*
 ** sh_traverse_io_file.c

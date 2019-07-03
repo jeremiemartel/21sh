@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 13:48:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 21:57:52 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 22:40:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int		sh_env_vars_update_question_mark(t_context *context, int res)
 {
 	char	*str;
 
-	context->shell->ret_value = res;
+	context->shell->ret_value = res >> 8;
 	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"Updating ? <=> "COLOR_END);
-	if (!(str = ft_itoa(res)))
+	if (!(str = ft_itoa(context->shell->ret_value)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
 	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"%s\n"COLOR_END, str);

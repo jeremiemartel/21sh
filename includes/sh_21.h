@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 00:20:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 00:23:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct		s_shell
 	char			running;
 	struct termios	term;
 	int				ret_value;
+	short			exit_value;
 }					t_shell;
 
 /*
@@ -150,7 +151,6 @@ typedef struct		s_shell
 */
 void				sh_free_binary(t_binary *binary);
 void				sh_free_binary_lst(void *b, size_t dummy);
-void				sh_free_token_lst(void *t, size_t dummy);
 void				free_file(t_file *file);
 void				free_file_dlst(void *f, size_t dummy);
 void				sh_free_all(t_shell *shell);

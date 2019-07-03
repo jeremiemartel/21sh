@@ -159,5 +159,6 @@ void				t_token_update_id(int id, t_token *token);
 t_list				*t_token_new(int id, char *value);
 void				t_token_free(t_token *token);
 void				t_token_free_list(t_list *head);
+void				sh_free_token_lst(void *t, size_t dummy);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 14:27:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 15:58:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 00:21:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ void	sh_free_all(t_shell *shell)
 	sh_free_parser(&shell->parser);
 	sh_free_command_line(&g_glob.command_line);
 	ft_dlstdel_value(&shell->historic.commands);
-	ft_dy_tab_del(shell->vars);
-	ft_dy_tab_del(shell->env);
+	if (shell->vars)
+		ft_dy_tab_del(shell->vars);
+	if (shell->env)
+		ft_dy_tab_del(shell->env);
 	if (shell->binaries)
 		ft_hash_table_del(shell->binaries, sh_free_binary_lst);
 }

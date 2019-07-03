@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 22:59:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 22:45:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@
 
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 # define SH_ERR2_INVALID_OPT			"Invalid option"
+
+# define SH_RET_BUILTIN			1 << 8
+# define SH_RET_CMD_NOT_FOUND	127 << 8
+# define SH_RET_PERM_DENIED		126 << 8
 
 /*
 ********************************************************************************
