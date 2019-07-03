@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 21:42:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 21:36:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int		sh_parse_token_list(t_lr_parser *parser)
 	{
 		if (sh_verbose_ast())
 		{
-			ft_printf("OK !\n");
-			ft_printf("\nAST:\n");
+			ft_dprintf(2, "OK !\n");
+			ft_dprintf(2, "\nAST:\n");
 			sh_print_ast(parser->ast_root, 0);
 		}
 		return (SUCCESS);
@@ -56,7 +56,7 @@ int		sh_parser(t_list *tokens, t_shell *shell)
 	ft_lstdel(&shell->parser.tokens, sh_free_token_lst);
 	if (sh_verbose_ast())
 	{
-		ft_printf("input tokens: ");
+		ft_dprintf(2, "input tokens: ");
 		sh_print_token_list(tokens, &shell->parser.cfg);
 	}
 	shell->parser.tokens = tokens;

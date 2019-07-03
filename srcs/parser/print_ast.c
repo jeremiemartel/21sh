@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:13:39 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/18 17:13:43 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 21:36:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	sh_print_ast_child(int depth, int *j, t_ast_node *child)
 	i = depth;
 	k = 0;
 	while (i--)
-		ft_printf("%s| "EOC, sh_color_depth(k++));
-	ft_printf("%sɸ %s%schild #%d:%s", sh_color_depth(k), EOC,
+		ft_dprintf(2, "%s| "EOC, sh_color_depth(k++));
+	ft_dprintf(2, "%sɸ %s%schild #%d:%s", sh_color_depth(k), EOC,
 			sh_color_depth(k + 1), ++(*j), EOC);
 	sh_print_ast(child, depth + 1);
 }
@@ -47,14 +47,14 @@ void	sh_print_ast(t_ast_node *node, int depth)
 
 	if (!node)
 	{
-		ft_printf("LEAF NODE");
+		ft_dprintf(2, "LEAF NODE");
 		return ;
 	}
 	if (!node->token)
 		sh_print_symbol(node->symbol);
 	else
 		sh_print_token(node->token, g_glob.cfg);
-	ft_printf("\n");
+	ft_dprintf(2, "\n");
 	ptr = node->children;
 	j = 0;
 	while (ptr != NULL)

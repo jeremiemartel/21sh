@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 16:16:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 11:09:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 21:31:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void		t_expansion_free_content(t_expansion *expansion)
 
 void		t_expansion_show(t_expansion *exp)
 {
-	ft_printf("exp : ");
+	ft_dprintf(2, "exp : ");
 	if (exp->res)
-		ft_printf("\tres : >>%s<<", exp->res->str);
+		ft_dprintf(2, "\tres : >>%s<<", exp->res->str);
 	if (exp->original)
-		ft_printf("\toriginal : >>%s<<", exp->original);
+		ft_dprintf(2, "\toriginal : >>%s<<", exp->original);
 	if (exp->expansion)
-		ft_printf("\texpansion : >>%s<<", exp->expansion);
-	ft_putstrn("");
+		ft_dprintf(2, "\texpansion : >>%s<<", exp->expansion);
+	ft_putstr_fd("\n", 2);
 }
 
 /*
