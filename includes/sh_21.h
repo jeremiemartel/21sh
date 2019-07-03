@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 00:20:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 19:08:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int					get_file_in_dir(char *filename, char *dirname);
 int					get_path_from_absolute_path(char *str, char **path);
 int					get_path_and_file_from_str(
 	char *str, char **path, char **file);
+int					end_with_char(char *str, char c);
 
 /*
 ** signals.c

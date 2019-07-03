@@ -6,11 +6,23 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 22:29:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 03:17:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 19:09:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		end_with_char(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	if (--i >= 0 && str[i] == c)
+		return (FAILURE);
+	return (SUCCESS);
+}
 
 int		get_file_in_dir(char *filename, char *dirname)
 {
