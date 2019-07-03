@@ -66,6 +66,7 @@ launch "Variables"
 	test_launch 'echo $? ; ls asdqwe ; echo $?'
 	test_launch 'echo $? ; okalm ; echo $?'
 	test_launch 'echo $? ; echo $?'
+	test_launch 'touch file ; chmod 666 file' './file ; echo $?' 'rm file'
 
 finish
 

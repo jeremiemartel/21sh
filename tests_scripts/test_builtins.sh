@@ -73,6 +73,11 @@ launch "exit"
 	test_launch 'exit' 'ls'
 	test_launch 'exit && ls'
 	test_launch 'exit || ls'
+	test_launch 'exit 1 ; echo $?'
+	test_launch 'exit 12 ; echo $?'
+	test_launch 'exit 1231983287123 ; echo $?'
+	test_launch 'echo tamer ; exit 3 ; echo $?'
+	test_launch 'exit 123 ; echo $?'
 
 launch "setenv"
 	# test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
