@@ -16,6 +16,8 @@ import re;
 
 format = "^(void|int|char|t_*)"
 
+ignored_files=["grammar.c"]
+
 ## read_dir(filename):
 ##	open every files in dir argument, if file is valid it's extracts prototypes
 ##	using regex. it stocked in a dictionnary using filenames as keys, every value
@@ -26,6 +28,8 @@ def read_dir(dir):
 	res = {}
 	for filename in os.listdir(dir):
 		if (os.path.isfile(os.path.join(dir, filename)) == False):
+			continue
+		if (filename in ignored_files):
 			continue
 		fd = open(os.path.join(dir, filename))
 		line1 = fd.readline()
@@ -136,7 +140,7 @@ automatic_header("./srcs/traverse",			"./includes/sh_traverse.h", 0)
 automatic_header("./srcs/builtin",			"./includes/sh_builtin.h", 0)
 automatic_header("./srcs/exec",				"./includes/sh_exec.h", 5)
 automatic_header("./srcs/perror",			"./includes/sh_perror.h", 0)
-# automatic_header("./srcs/grammar",		"./includes/sh_grammar.h", 5)
+automatic_header("./srcs/grammar",		"./includes/sh_grammar.h", 5)
 automatic_header("./srcs/parser/productions","./includes/sh_productions.h", 0)
 automatic_header("./srcs/parser",			"./includes/sh_parser.h", 5)
 automatic_header("./srcs/command_line", "./includes/sh_command_line.h", 5)
