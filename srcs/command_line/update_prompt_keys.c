@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   update_prompt_keys.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 02:49:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 02:49:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 15:55:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		update_prompt_cwd_home(char **new_prompt)
+{
+	if (!(*new_prompt = ft_strjoin_free(*new_prompt, "~", 1)))
+		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
+	return (SUCCESS);
+}
 
 int		process_escape(t_shell *shell, t_command_line *command_line)
 {

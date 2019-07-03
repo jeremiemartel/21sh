@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:39:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/14 18:34:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 16:00:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		t_lexer_add_token(t_lexer *lexer)
 		t_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 		return (LEX_OK);
 	}
-	if (!(link = t_token_new_link(lexer->current_id, NULL)))
+	if (!(link = t_token_new(lexer->current_id, NULL)))
 		return (LEX_FAIL);
 	token = link->content;
 	ft_lstadd_last(&lexer->list, link);

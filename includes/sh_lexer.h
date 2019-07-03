@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/14 18:10:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 16:00:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int					sh_lexer_rule4(t_lexer *lexer);
 ** t_token.c
 */
 void				t_token_update_id(int id, t_token *token);
-t_list				*t_token_new_link(int id, char *value);
+t_list				*t_token_new(int id, char *value);
 void				t_token_free(t_token *token);
 void				t_token_free_list(t_list *head);
 

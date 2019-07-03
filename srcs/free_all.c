@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 14:27:47 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/10 17:11:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 15:58:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ void	sh_free_binary_lst(void *b, size_t dummy)
 {
 	(void)dummy;
 	sh_free_binary((t_binary *)b);
-}
-
-void	sh_free_token_lst(void *t, size_t dummy)
-{
-	(void)dummy;
-	t_token_free((t_token *)t);
 }
 
 void	free_file(t_file *file)

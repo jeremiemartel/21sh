@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 13:58:11 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/29 15:08:29 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 15:55:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,22 @@ int		update_prompt_cwd(t_shell *shell, char **new_prompt)
 
 	if (!(*new_prompt = ft_strdup("→ ")))
 		return (sh_perror("cwd error", "update_prompt_cwd"));
-	// if (!(cwd = getcwd(NULL, 0)))
-	// 	return (ft_free_turn(*new_prompt, sh_perror("cwd error", "getcwd")));
 	if (!(cwd = sh_builtin_pwd_logical(shell->env, 2)))
-		return (ft_free_turn(*new_prompt, sh_perror("Can't determine current working directory", "update_prompt_cwd")));
+	{
+		return (ft_free_turn(*new_prompt, sh_perror(
+			"Can't determine current working directory", "update_prompt_cwd")));
+	}
 	if (!(home = get_home_dup(shell)))
 	{
 		free(*new_prompt);
 		free(cwd);
 		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
 	}
-	if (!ft_strcmp(home, cwd))
+	if (ft_strequ(home, cwd))
 	{
 		free(cwd);
 		free(home);
-		if (!(*new_prompt = ft_strjoin_free(*new_prompt, "~", 1)))
-			return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
-		return (SUCCESS);
+		return (update_prompt_cwd_home(new_prompt));
 	}
 	free(home);
 	return (update_prompt_from_absolute_path(cwd, new_prompt));

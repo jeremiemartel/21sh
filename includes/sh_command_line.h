@@ -301,6 +301,7 @@ int					sh_get_command(
 /*
 ** update_prompt_keys.c
 */
+int					update_prompt_cwd_home(char **new_prompt);
 int					process_escape(
 	t_shell *shell, t_command_line *command_line);
 int					process_i(

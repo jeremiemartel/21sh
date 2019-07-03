@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/28 11:51:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 16:13:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 **	SUCCESS : no command were given
 **	any value returned by a builtin executed or a process launched
 */
+
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
 	int		ret;
@@ -42,7 +43,8 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		{
 			if (!(context->path = ft_strdup(context->params->tbl[0])))
 				return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
-			if (sh_traverse_sc_check_perm(context->path, context->params->tbl[0]) != SUCCESS)
+			if (sh_traverse_sc_check_perm(
+				context->path, context->params->tbl[0]) != SUCCESS)
 				ret = ERROR;
 			else
 				ret = sh_process_execute(context);
@@ -50,8 +52,7 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		sh_traverse_tools_reset_params(context);
 		return (ret);
 	}
-	else
-		return (sh_traverse_tools_browse(node, context));
+	return (sh_traverse_tools_browse(node, context));
 }
 
 int		sh_traverse_sc_search_in_hash(t_context *context)
@@ -80,8 +81,7 @@ int		sh_traverse_sc_search_in_hash(t_context *context)
 		context->path = ft_strdup(binary->path);
 		return (SUCCESS);
 	}
-	else
-		return (ERROR);
+	return (ERROR);
 }
 
 /*
@@ -122,8 +122,8 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 **		in the directory defined by path and dir
 **		If any valid match is ffound, context->path is filled
 **
-**		return : 
-**		FAILURE : malloc error	
+**		return :
+**		FAILURE : malloc error
 **		SUCCESS : any error occur
 */
 
@@ -224,7 +224,8 @@ int		sh_traverse_sc_check_perm(char *path, char *command_name)
 	if (access(path, X_OK))
 	{
 		if (sh_verbose_exec())
-			ft_dprintf(2, "You do not have execution rights on %s\n", command_name);
+			ft_dprintf(2,
+			"You do not have execution rights on %s\n", command_name);
 		return (sh_perror_err(command_name, SH_ERR1_PERM_DENIED));
 	}
 	if (!S_ISREG(st.st_mode))
