@@ -16,4 +16,5 @@ launch "Shell"
 	test_launch '.' './'
 	test_launch '..' '../'
 	test_launch '././..' '../../.'
+	test_launch 'echo tamer > file' 'echo okalm >> file' '<file cat' '<file cat >file' 'cat file' 'rm file'
 finish
