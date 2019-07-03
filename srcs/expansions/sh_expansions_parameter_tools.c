@@ -6,11 +6,16 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:35:24 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 11:08:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+/*
+** sh_expansions_parameter_fill_format:
+**	Write the expansion format in a static buffer using the head string.
+*/
 
 static void	sh_expansions_parameter_fill_format(char *head, char *format, int n)
 {
@@ -23,6 +28,18 @@ static void	sh_expansions_parameter_fill_format(char *head, char *format, int n)
 	}
 	return ;
 }
+
+/*
+** sh_expansions_parameter_format:
+**	read exp->expansion to find the foramt associated to the expansion.
+**	It fill the format static string with the components.
+**	The resulting format correspond to one of those :
+**		[#] [:] -=?+ '\0'	or ##	or %%
+**
+**	Returned Values:
+**		ERROR : wrong format detected
+**		SUCCESS : format was successfully filled
+*/
 
 int			sh_expansions_parameter_format(t_expansion *exp, char *format)
 {
@@ -53,7 +70,19 @@ int			sh_expansions_parameter_format(t_expansion *exp, char *format)
 	return (SUCCESS);
 }
 
-char		*sh_expansions_parameter_get_param(t_context *context, t_expansion *exp)
+/*
+** sh_expansions_parameter_get_param :
+**	read the t_expansion to get the param in an expresion of type ${param:+word}
+**	then it's look for any assignment in environnment and then in vars.
+**	The value of this assignment is returned, or null if no one were found.
+**
+**	Returned Values:
+**		Value of var $param
+**		NULL if no assignment was found
+*/
+
+char		*sh_expansions_parameter_get_param(
+	t_context *context, t_expansion *exp)
 {
 	char	*value;
 	char	*end;
@@ -68,7 +97,15 @@ char		*sh_expansions_parameter_get_param(t_context *context, t_expansion *exp)
 	return (value);
 }
 
-char		*sh_expansions_parameter_get_word(t_context *context, t_expansion *exp, char *format)
+/*
+** sh_expansions_parameter_get_param :
+**	read the t_expansion to get the word in an expresion of type ${param:+word}.
+**
+**	Returned Values:
+**		Starting char of the null terminated string word.
+*/
+
+char		*sh_expansions_parameter_get_word(t_expansion *exp, char *format)
 {
 	char	*start;
 
@@ -77,5 +114,4 @@ char		*sh_expansions_parameter_get_word(t_context *context, t_expansion *exp, ch
 		format++;
 	start += ft_strlen(format);
 	return (start);
-	(void)context;
 }

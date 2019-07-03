@@ -6,21 +6,30 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/30 18:21:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 13:01:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_expansions_variable_detect_special(char *name)
+/*
+** sh_expansions_variable_detect_special:
+**		Used to detect special variables : as $? or $$.
+**
+**	Returned Values:
+**		1 : True
+**		0 : False
+*/
+
+static int	sh_expansions_variable_detect_special(char *name)
 {
 	if (!name || !*name)
 		return (0);
-	if (ft_strequ(name, "$$"))
+	if (ft_strnstr(name, "$$", 2))
 		return (1);
 	if (*name == '$')
 		name++;
-	if (ft_strequ(name, "$") || ft_strequ(name, "?"))
+	if (ft_strnstr(name, "$", 1) || ft_strnstr(name, "?", 1))
 		return (1);
 	return (0);
 }
@@ -37,7 +46,7 @@ int		sh_expansions_variable_detect_special(char *name)
 **	return Value : True or False
 */
 
-int		sh_expansions_variable_valid_name(char *name)
+int			sh_expansions_variable_valid_name(char *name)
 {
 	int		i;
 
@@ -64,7 +73,7 @@ int		sh_expansions_variable_valid_name(char *name)
 **		<0 : Lenght of the valid expansion detecteda
 */
 
-int		sh_expansions_variable_detect(char *start)
+int			sh_expansions_variable_detect(char *start)
 {
 	int		i;
 
@@ -92,7 +101,7 @@ int		sh_expansions_variable_detect(char *start)
 **		SUCCESS : successfully filled expansion
 */
 
-int		sh_expansions_variable_fill(t_expansion *exp, char *start)
+int			sh_expansions_variable_fill(t_expansion *exp, char *start)
 {
 	int		i;
 
@@ -121,7 +130,7 @@ int		sh_expansions_variable_fill(t_expansion *exp, char *start)
 **		SUCCESS : Successfullly filled exp->res
 */
 
-int		sh_expansions_variable_process(t_context *context, t_expansion *exp)
+int			sh_expansions_variable_process(t_context *context, t_expansion *exp)
 {
 	char	*value;
 

@@ -42,12 +42,16 @@ struct	s_expansion
 */
 
 /*
+** sh_expansions_tilde_process.c
+*/
+int		sh_expansions_process_tilde(
+	char **input, char *original, t_context *context);
+
+/*
 ** sh_expansions.c
 */
 int		sh_expansions(t_context *context, t_ast_node *node);
 int		sh_expansions_process(
-	char **input, char *original, t_context *context);
-int		sh_expansions_process_tilde(
 	char **input, char *original, t_context *context);
 int		sh_expansions_replace(t_expansion *expansion, char **input);
 
@@ -70,7 +74,6 @@ void	t_expansion_show_type(t_expansion *exp);
 /*
 ** sh_expansions_variable.c
 */
-int		sh_expansions_variable_detect_special(char *name);
 int		sh_expansions_variable_valid_name(char *name);
 int		sh_expansions_variable_detect(char *start);
 int		sh_expansions_variable_fill(t_expansion *exp, char *start);
@@ -83,8 +86,7 @@ int		sh_expansions_variable_process(
 int		sh_expansions_parameter_format(t_expansion *exp, char *format);
 char	*sh_expansions_parameter_get_param(
 	t_context *context, t_expansion *exp);
-char	*sh_expansions_parameter_get_word(
-	t_context *context, t_expansion *exp, char *format);
+char	*sh_expansions_parameter_get_word(t_expansion *exp, char *format);
 
 /*
 ** sh_expansions_parameter_process.c

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 16:16:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 16:23:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 11:09:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void		t_expansion_free_content(t_expansion *expansion)
 
 /*
 ** t_expansion_show
-**	show res, original and expansion fields of a t_expansion structure
+**	show res, original and expansion fields of a t_expansion structure.
+**	This print every thing on a single line, with a newline.
 */
 
 void		t_expansion_show(t_expansion *exp)

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 22:11:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 11:06:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			sh_expansions_parameter_minus(
 	char	*word;
 
 	param = sh_expansions_parameter_get_param(context, exp);
-	word = sh_expansions_parameter_get_word(context, exp, format);
+	word = sh_expansions_parameter_get_word(exp, format);
 	if (!param)
 		exp->res = ft_dy_str_new_str(word);
 	else if (!*param)
@@ -66,7 +66,7 @@ int			sh_expansions_parameter_equal(
 	char	buff;
 
 	param = sh_expansions_parameter_get_param(context, exp);
-	word = sh_expansions_parameter_get_word(context, exp, format);
+	word = sh_expansions_parameter_get_word(exp, format);
 	if (!param || (!(*param) && ft_strchr(format, ':')))
 	{
 		param = ft_strstr(exp->expansion, format);
@@ -128,13 +128,15 @@ int			sh_expansions_parameter_quest(
 	char	*word;
 
 	param = sh_expansions_parameter_get_param(context, exp);
-	word = sh_expansions_parameter_get_word(context, exp, format);
+	word = sh_expansions_parameter_get_word(exp, format);
 	if (!param)
-		return (sh_expansions_parameter_quest_msg(context, exp->expansion, word));
+		return (sh_expansions_parameter_quest_msg(
+			context, exp->expansion, word));
 	else if (!*param)
 	{
 		if (ft_strchr(format, ':'))
-			return (sh_expansions_parameter_quest_msg(context, exp->expansion, word));
+			return (sh_expansions_parameter_quest_msg(
+				context, exp->expansion, word));
 		else
 			exp->res = ft_dy_str_new_str("");
 	}
@@ -163,7 +165,7 @@ int			sh_expansions_parameter_plus(
 	char	*word;
 
 	param = sh_expansions_parameter_get_param(context, exp);
-	word = sh_expansions_parameter_get_word(context, exp, format);
+	word = sh_expansions_parameter_get_word(exp, format);
 	if (!param)
 		exp->res = ft_dy_str_new_str("");
 	else if (!*param)
