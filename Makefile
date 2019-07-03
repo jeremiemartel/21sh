@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/03 13:00:59 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/03 13:25:00 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ INCLUDESDIR = includes
 LIBFTDIR = libft
 PRINTFDIR = ft_printf
 
+GRAM_DIR	= grammar
 COMMANDLINE_DIR = command_line
 PROD_DIR   = productions
 LEXER_DIR	= lexer
@@ -37,6 +38,7 @@ EXEC_DIR	= exec
 BUILT_DIR	= builtin
 EXP_DIR		= expansions
 PERROR_DIR	= perror
+
 SPEED = -j1
 LIBFT = $(LIBFTDIR)/libft.a
 
@@ -44,6 +46,12 @@ OK_COLOR = \x1b[32;01m
 #COMP_COLOR = \x1b[34;01m
 COMP_COLOR =
 EOC = \033[0m
+
+GRAM_SRCS_NO_PREFIX =	debug.c \
+						first_sets.c \
+						first_sets_tools.c \
+						grammar.c \
+						init_cfg.c
 
 TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_default.c \
@@ -68,7 +76,6 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_and_or.c \
 						sh_traverse_list.c 
 
-
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
 						get_command.c utf8_tools.c  \
@@ -92,14 +99,14 @@ SRCS_NO_PREFIX =		main.c index.c init.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c \
 						hash_binaries.c
 
-PARSER_SRCS_NO_PREFIX =	parser.c init_cfg.c \
-						first_sets.c debug.c print_ast.c \
+PARSER_SRCS_NO_PREFIX =	parser.c \
+						print_ast.c \
 						compute_lr_automata.c compute_lr_tables.c \
 						lr_parse.c compute_first_state.c state.c \
 						compute_closure.c compute_transitions.c \
-						init_parsing.c grammar.c reduce.c reduce_tools.c \
+						init_parsing.c reduce.c reduce_tools.c \
 						free_parser.c transitive_first_sets.c \
-						first_sets_tools.c transition_tools.c \
+						transition_tools.c \
 						closure_tools.c free_node.c free_parser_tools.c \
 						fill_lr_tables.c shift.c compute_closure_tools.c \
 						reduce_pop.c
@@ -194,6 +201,7 @@ INCLUDES_NO_PREFIX	=	sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
 						sh_builtin.h sh_expansions.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
+GRAM_SOURCES = $(addprefix $(SRCDIR)/$(GRAM_DIR)/, $(GRAM_SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
 PARSER_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX))
 PROD_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX))
@@ -208,6 +216,7 @@ EXP_SOURCES = $(addprefix $(SRCDIR)/$(EXP_DIR)/, $(EXP_SRCS_NO_PREFIX))
 PERROR_SOURCES = $(addprefix $(SRCDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX))
 
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
+GRAM_OBJECTS = $(addprefix $(OBJDIR)/$(GRAM_DIR)/, $(GRAM_SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
 PARSER_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX:%.c=%.o))
 PROD_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/, $(PROD_SRCS_NO_PREFIX:%.c=%.o))
@@ -224,6 +233,7 @@ PERROR_OBJECTS = $(addprefix $(OBJDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX:%
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
 OBJECTS += $(PROD_OBJECTS)
+OBJECTS += $(GRAM_OBJECTS)
 OBJECTS += $(LEXER_OBJECTS)
 OBJECTS += $(PARSER_OBJECTS)
 OBJECTS += $(TRAV_OBJECTS)
@@ -263,6 +273,11 @@ $(LIBFT):
 $(BINDIR)/$(NAME): $(OBJECTS) $(LIBFT)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
 	@echo "$(OK_COLOR)$(NAME) linked with success !$(EOC)"
+
+$(OBJDIR)/$(GRAM_DIR)/%.o : $(SRCDIR)/$(GRAM_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(GRAM_DIR)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.o : $(SRCDIR)/$(PARSER_DIR)/$(PROD_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(PARSER_DIR)/$(PROD_DIR)
