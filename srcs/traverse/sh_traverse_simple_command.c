@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 19:23:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 23:25:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,52 @@
 **	any value returned by a builtin executed or a process launched
 */
 
-int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
+
+
+int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 {
 	int		ret;
+
+	if ((ret = sh_traverse_tools_browse(node, context)))
+		return (ret);
+	if (!context->params->tbl[0])
+		return (SUCCESS);
+	if (!ft_strchr(context->params->tbl[0], '/'))
+		ret = sh_traverse_sc_no_slash_cmd(context);
+	else
+	{
+		if (!(context->path = ft_strdup(context->params->tbl[0])))
+			return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
+		if (sh_traverse_sc_check_perm(
+					context->path, context->params->tbl[0]) != SUCCESS)
+			ret = ERROR;
+		else
+			ret = sh_process_execute(context);
+	}
+	sh_traverse_tools_reset_params(context);
+	return (ret);
+}
+
+int		sh_traverse_simple_command_no_exec(t_ast_node *node,
+			t_context *context)
+{
+	(void)node;
+	(void)context;
+	sh_process_execute_close_pipes(context);
+	sh_env_vars_update_question_mark(context, 1);
+	return (ERROR);
+}
+
+int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
+{
 
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		context->redirections = &node->metadata.command_metadata.redirections;
-		if ((ret = sh_traverse_tools_browse(node, context)))
-			return (ret);
-		if (!context->params->tbl[0])
-			return (SUCCESS);
-		if (!ft_strchr(context->params->tbl[0], '/'))
-			ret = sh_traverse_sc_no_slash_cmd(context);
+		if (node->metadata.command_metadata.should_exec)
+			return (sh_traverse_simple_command_exec(node, context));
 		else
-		{
-			if (!(context->path = ft_strdup(context->params->tbl[0])))
-				return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
-			if (sh_traverse_sc_check_perm(
-				context->path, context->params->tbl[0]) != SUCCESS)
-				ret = ERROR;
-			else
-				ret = sh_process_execute(context);
-		}
-		sh_traverse_tools_reset_params(context);
-		return (ret);
+			return (sh_traverse_simple_command_no_exec(node, context));
 	}
 	return (sh_traverse_tools_browse(node, context));
 }

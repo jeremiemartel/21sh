@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/18 17:29:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 22:52:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct		s_redirection
 typedef struct		s_command_metadata
 {
 	t_list			*redirections;
+	int				should_exec;
 }					t_command_metadata;
 
 typedef struct		s_heredoc_metadata
