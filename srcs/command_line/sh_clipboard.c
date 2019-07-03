@@ -82,6 +82,7 @@ int		process_clipboard(t_shell *shell, t_command_line *command_line,
 	int		pid;
 	int		fds[2];
 	char	**split;
+	int		ret;
 
 	if (pipe(fds))
 		return (1);
@@ -93,19 +94,24 @@ int		process_clipboard(t_shell *shell, t_command_line *command_line,
 		dup2(fds[PIPE_IN], 1);
 		if (!(split = ft_strsplit(pbpaste_path, ' ')))
 			return (1);
-		execve(pbpaste_path, split, NULL);
+		if (execve(pbpaste_path, split, NULL) == -1)
+		{
+			ft_strtab_free(split);
+			exit(1);
+		}
 		return (1);
 	}
 	else
 	{
 		close(fds[PIPE_IN]);
-		wait(NULL);
+		wait(&ret);
+		if (ret)
+			return (sh_perror(SH_ERR1_PBPASTE, "process_clipboard"));
 		return (process_clipboard_from_fd(shell, fds[PIPE_OUT], command_line));
 	}
 }
 
 int		process_clipboard_shell(t_shell *shell, t_command_line *command_line)
 {
-	(void)shell;
 	return (process_clipboard(shell, command_line, "/usr/bin/pbpaste"));
 }
