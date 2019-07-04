@@ -88,6 +88,7 @@ check_ret_value()
 		if [ "$sh_ret" -ne  "$bash_ret" ] ; then 
 			echo -e "${red}BAD RETURNED VALUE"
 			echo -e "bash : $bash_ret || 21sh : $sh_ret${eoc}"
+			echo -e "${yellow}`cat buffer`${eoc}"
 			return 1
 		fi
 	fi
