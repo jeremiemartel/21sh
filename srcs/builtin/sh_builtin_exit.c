@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:14:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/04 00:30:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 02:48:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int				sh_builtin_exit(t_context *context)
 	else if (context->params->tbl[1])
 		context->shell->exit_value = ft_atoi(context->params->tbl[1]) & 0xff;
 	context->shell->running = 0;
-	ft_dprintf(context->fd[FD_ERR], "exit\n");
+	if (isatty(0))
+		ft_dprintf(context->fd[FD_ERR], "exit\n");
 	return (SUCCESS);
 }

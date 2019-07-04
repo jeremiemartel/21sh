@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 01:13:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/04 03:39:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 **	SUCCESS : no command were given
 **	any value returned by a builtin executed or a process launched
 */
-
-
 
 int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 {
@@ -56,10 +54,9 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 			t_context *context)
 {
 	(void)node;
-	(void)context;
 	sh_process_execute_close_pipes(context);
-	sh_env_vars_update_question_mark(context, 1);
-	return (ERROR);
+	sh_env_vars_update_question_mark(context, 256);
+	return (SUCCESS);
 }
 
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)

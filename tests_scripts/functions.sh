@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 15:58:19 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/27 12:19:00 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/04 05:34:36 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,11 +53,11 @@ valgrind_test()
 		tried=$((tried+1))
 		tmp_log_file="tmp_log"
 		inner_log_dir="${log_dir}/test_${tried}"
-		error_exit_code=17
+		error_exit_code=247
 		valgrind --leak-check=full --suppressions=$suppressions_file \
 			--error-exitcode=$error_exit_code --log-file=$tmp_log_file ./21sh < buffer >/dev/null 2>&1
 		ret=$?
-		if [ $ret -eq $error_exit_code ] || ([ $ret -ne 1 ] && [ $ret -ne 0 ]) ; then
+		if [ $ret -eq $error_exit_code ] ; then
 			echo -e "${red}valgrind error, tracing logs at ${inner_log_dir}${eoc}"
 			echo -e "${yellow}`cat buffer`${eoc}"
 			mkdir -p $inner_log_dir

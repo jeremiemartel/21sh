@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/17 18:29:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/04 03:54:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,17 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	ptr = node->children;
 	while (ptr != NULL)
 	{
-		if (prev_symbol != 1
-				&& ((prev_symbol == sh_index(LEX_TOK_AND_IF)
-					&& context->shell->ret_value)
-						|| (prev_symbol == sh_index(LEX_TOK_OR_IF)
-							&& !context->shell->ret_value)))
+		if (prev_symbol != -1
+			&& ((prev_symbol == sh_index(LEX_TOK_AND_IF)
+				&& context->shell->ret_value)
+					|| (prev_symbol == sh_index(LEX_TOK_OR_IF)
+						&& !context->shell->ret_value)))
 			break ;
 		child = (t_ast_node *)ptr->content;
-		if ((ret = g_grammar[child->symbol->id].traverse(child, context)))
+		if ((ret = g_grammar[child->symbol->id].traverse(child, context)) == FAILURE)
 			return (ret);
+		if (!context->shell->running)
+			return (SUCCESS);
 		if ((ptr = ptr->next))
 		{
 			prev_symbol = ((t_ast_node *)(ptr->content))->symbol->id;

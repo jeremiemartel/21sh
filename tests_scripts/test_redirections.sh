@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:50 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/03 23:34:51 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/04 05:45:17 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ launch "Redirections simple"
 	test_launch "cat 1<&"
 	test_launch "cat 1<&"
 	test_launch "cat <&"
+	test_launch "ls -l .dqwd qwd qw ~ 2>&1 | cat -e"
 	test_launch "touch file ; cat < file >&- ; rm file"
 	test_launch "echo lol > file ; cat < file <&- ; rm file"
 	test_launch "echo \"lol iuuiuiu\" > file ; cat < file | cat -e >> file ; cat file ; rm file"
@@ -51,5 +52,6 @@ launch "Redirections simple"
 	test_launch "cat < auteur < auteur < auteur < auteur < auteur < Makefile < dqwdqwdqwfqwf ; ls"
 	test_launch "cat < auteur < auteur < auteur < auteur < auteur < auteur < dqwdqwdqwfqwf && ls"
 	test_launch "cat < auteur < auteur < auteur < auteur < auteur < auteur < dqwdqwdqwfqwf || ls"
+	test_launch "cat" "hello"
 
 finish

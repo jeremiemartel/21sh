@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:41 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/25 11:32:29 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/04 03:50:11 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,9 @@ launch "exit"
 	test_launch 'exit ; ls'
 	test_launch 'exit' 'ls'
 	test_launch 'exit && ls'
+	test_launch 'exit && ls ; ls'
 	test_launch 'exit || ls'
+	test_launch 'exit | ls'
 
 launch "setenv"
 	# test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
