@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 00:16:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 19:27:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define VISUAL_PROMPT	"(visual)"
 # define HEREDOC_PROMPT	"heredoc"
 # define PROMPT_SUFFIX	"> "
-# define READ_BUFF_SIZE	4
+# define READ_BUFF_SIZE	6
 
 # define SUCCESS_RSRCH		"failing bck-i-search: "
 # define UNSUCCESS_RSRCH	"bck-i-search: "

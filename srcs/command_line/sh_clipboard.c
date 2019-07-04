@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 23:50:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 00:14:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 20:18:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,36 +76,40 @@ int		process_clipboard_from_fd(
 	return (SUCCESS);
 }
 
-int		process_clipboard(t_shell *shell, t_command_line *command_line,
-			char *pbpaste_path)
+int		process_clipboard_son(int fds[2], char *pbpaste_path)
+{
+	char	**split;
+
+	close(fds[PIPE_OUT]);
+	dup2(fds[PIPE_IN], 1);
+	if (!(split = ft_strsplit(pbpaste_path, ' ')))
+		return (1);
+	if (execve(pbpaste_path, split, NULL) == -1)
+	{
+		ft_strtab_free(split);
+		return (1);
+	}
+	return (1);
+}
+
+int		process_clipboard_shell(t_shell *shell, t_command_line *command_line)
 {
 	int		pid;
 	int		fds[2];
-	char	**split;
+	int		ret;
 
 	if (pipe(fds))
 		return (1);
 	if ((pid = fork()) == -1)
 		return (1);
 	if (pid == 0)
-	{
-		close(fds[PIPE_OUT]);
-		dup2(fds[PIPE_IN], 1);
-		if (!(split = ft_strsplit(pbpaste_path, ' ')))
-			return (1);
-		execve(pbpaste_path, split, NULL);
-		return (1);
-	}
+		exit(process_clipboard_son(fds, "/usr/bin/pbpaste"));
 	else
 	{
 		close(fds[PIPE_IN]);
-		wait(NULL);
+		wait(&ret);
+		if (ret)
+			return (sh_perror(SH_ERR1_PBPASTE, "process_clipboard"));
 		return (process_clipboard_from_fd(shell, fds[PIPE_OUT], command_line));
 	}
-}
-
-int		process_clipboard_shell(t_shell *shell, t_command_line *command_line)
-{
-	(void)shell;
-	return (process_clipboard(shell, command_line, "/usr/bin/pbpaste"));
 }

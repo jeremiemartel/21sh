@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/13 18:16:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 19:22:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,12 @@ char	*heredoc_canonical_mode(
 ** sh_traverse_simple_command.c
 */
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context);
-int		sh_traverse_sc_search_in_hash(t_context *context);
 int		sh_traverse_sc_no_slash_cmd(t_context *context);
+
+/*
+** sh_traverse_simple_command_tools.c
+*/
+int		sh_traverse_sc_search_in_hash(t_context *context);
 int		sh_traverse_sc_search_in_dir(
 	char *path, DIR *dir, t_context *context);
 int		sh_traverse_sc_search_in_path(t_context *context);

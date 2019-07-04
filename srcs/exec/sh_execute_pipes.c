@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:26:22 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/18 17:53:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/03 23:19:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int			sh_process_execute_close_pipes(t_context *context)
 
 	if (!context->redirections)
 		return (SUCCESS);
-	if (sh_verbose_pipe())
+	if (sh_verbose_pipe() && context->params->tbl[0] != NULL)
 		ft_dprintf(2, "closing for %s:\n", context->params->tbl[0]);
 	head = *(context->redirections);
 	while (head)

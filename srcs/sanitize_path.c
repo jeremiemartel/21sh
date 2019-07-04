@@ -6,23 +6,11 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:53:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 16:01:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 19:08:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-static int	end_with_char(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	if (--i >= 0 && str[i] == c)
-		return (FAILURE);
-	return (SUCCESS);
-}
 
 char		*ft_get_previous_directory(char *current_directory)
 {
