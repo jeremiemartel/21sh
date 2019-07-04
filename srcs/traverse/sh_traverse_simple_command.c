@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 03:39:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/05 00:45:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,20 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 	else
 	{
 		if (!(context->path = ft_strdup(context->params->tbl[0])))
+		{
+			sh_process_execute_close_pipes(context);
 			return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
+		}
 		if (sh_traverse_sc_check_perm(context,
 					context->path, context->params->tbl[0]) != SUCCESS)
 			ret = ERROR;
 		else
 			ret = sh_process_execute(context);
 	}
+	if (ret == ERROR)
+		sh_process_execute_close_pipes(context);
 	sh_traverse_tools_reset_params(context);
-	return (ret);
+	return (ret == FAILURE ? FAILURE : SUCCESS);
 }
 
 int		sh_traverse_simple_command_no_exec(t_ast_node *node,
@@ -61,7 +66,6 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
-
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		context->redirections = &node->metadata.command_metadata.redirections;
@@ -102,6 +106,6 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 	{
 		sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 		sh_env_vars_update_question_mark(context, SH_RET_CMD_NOT_FOUND);
-		return (SUCCESS);
+		return (ERROR);
 	}
 }

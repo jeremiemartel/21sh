@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:31:43 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 23:24:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 23:28:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ static int	sh_builtin_env_process_slash(t_context *context, t_dy_tab *new_env)
 
 	if (!(context->path = ft_strdup(context->params->tbl[0])))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_builtin_env_process_command"));
-	if (sh_traverse_sc_check_perm(context, context->path, context->params->tbl[0]))
+	if (sh_traverse_sc_check_perm(context, context->path,
+		context->params->tbl[0]))
 		ret = ERROR;
 	else
 	{

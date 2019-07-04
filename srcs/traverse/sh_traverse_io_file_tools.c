@@ -6,12 +6,11 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 04:55:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 01:15:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/05 00:45:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
 
 void	set_failed_command(t_context *context)
 {

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 22:49:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 22:14:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,8 @@ void				ft_strdelchar(char *str, int index);
 void				ft_strdelchars(char *str, int index, int len);
 
 char				*ft_strjoin_3(char const *s1, char const *s2,
+						char const *s3);
+char				*ft_strjoin_3_free(char const *s1, char const *s2,
 						char const *s3);
 char				*ft_strnrest(char *str, int n);
 int					ft_strichr_last(const char *s, int c);

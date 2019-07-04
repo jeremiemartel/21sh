@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_cmd_word.c                             :+:      :+:    :+:   */
+/*   ok.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 00:46:49 by ldedier          ###   ########.fr       */
+/*   Created: 2019/07/04 22:32:25 by ldedier           #+#    #+#             */
+/*   Updated: 2019/07/04 22:32:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh_21.h"
+#include <stdio.h>
 
-int		sh_traverse_cmd_word(t_ast_node *node, t_context *context)
+int main(int argc, char **argv)
 {
-	return (sh_traverse_cmd_name(node, context));
+	(void)argc;
+	(void)argv;
+
+	printf("OK!\n");
+	return (0);
 }

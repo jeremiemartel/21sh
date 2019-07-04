@@ -6,12 +6,12 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:50 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/04 05:45:17 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/04 21:40:43 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ## Redirections tests
-launch "Redirections simple"
+launch "Redirections"
 	test_launch "echo Okalm > mybuf ; cat mybuf | wc -c ; rm mybuf"
 	test_launch "echo tamer > file ; <file wc | cat | wc ; rm file"
 	test_launch "echo tamer > file ; <file wc | cat | wc > file ; ls -a file ; rm file"
@@ -53,5 +53,7 @@ launch "Redirections simple"
 	test_launch "cat < auteur < auteur < auteur < auteur < auteur < auteur < dqwdqwdqwfqwf && ls"
 	test_launch "cat < auteur < auteur < auteur < auteur < auteur < auteur < dqwdqwdqwfqwf || ls"
 	test_launch "cat" "hello"
+	test_launch "dwqdwq | cat"
+	test_launch "cat | dqwd"
 
 finish

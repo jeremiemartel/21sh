@@ -6,16 +6,41 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 03:54:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/05 00:43:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+static int		sh_process_traverse_and_or_execute(t_list **ptr,
+		int *prev_symbol, t_context *context)
+{
+	t_ast_node	*child;
+	int			ret;
+
+	if (*prev_symbol != -1
+			&& ((*prev_symbol == sh_index(LEX_TOK_AND_IF)
+				&& context->shell->ret_value)
+					|| (*prev_symbol == sh_index(LEX_TOK_OR_IF)
+						&& !context->shell->ret_value)))
+		return (SUCCESS);
+	child = (t_ast_node *)(*ptr)->content;
+	if ((ret = g_grammar[child->symbol->id].traverse(child, context))
+			== FAILURE)
+		return (ret);
+	if (!context->shell->running)
+		return (SUCCESS);
+	if ((*ptr = (*ptr)->next))
+	{
+		*prev_symbol = ((t_ast_node *)((*ptr)->content))->symbol->id;
+		*ptr = (*ptr)->next;
+	}
+	return (KEEP_READ);
+}
+
 static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 {
 	t_list		*ptr;
-	t_ast_node	*child;
 	int			ret;
 	int			prev_symbol;
 
@@ -23,21 +48,10 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	ptr = node->children;
 	while (ptr != NULL)
 	{
-		if (prev_symbol != -1
-			&& ((prev_symbol == sh_index(LEX_TOK_AND_IF)
-				&& context->shell->ret_value)
-					|| (prev_symbol == sh_index(LEX_TOK_OR_IF)
-						&& !context->shell->ret_value)))
-			break ;
-		child = (t_ast_node *)ptr->content;
-		if ((ret = g_grammar[child->symbol->id].traverse(child, context)) == FAILURE)
-			return (ret);
-		if (!context->shell->running)
-			return (SUCCESS);
-		if ((ptr = ptr->next))
+		if ((ret = sh_process_traverse_and_or_execute(&ptr,
+			&prev_symbol, context) != KEEP_READ))
 		{
-			prev_symbol = ((t_ast_node *)(ptr->content))->symbol->id;
-			ptr = ptr->next;
+			return (ret);
 		}
 	}
 	return (SUCCESS);
