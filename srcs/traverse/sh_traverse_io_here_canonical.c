@@ -50,7 +50,7 @@ char			*heredoc_canonical_mode(char *eof,
 
 	if (!(res = ft_strnew(0)))
 		return (sh_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
-	while ((gnl_ret = get_next_line2(0, &info)) == 1)
+	while ((gnl_ret = get_next_line2(0, &info, BUFF_SIZE)) == 1)
 	{
 		if ((*ret = process_heredoc_canonical_mode(info,
 				&res, heredoc_func, eof)) != 3)

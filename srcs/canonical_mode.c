@@ -20,7 +20,6 @@ static int		sh_process_read_canonical_gnl(t_shell *shell, t_gnl_info *info)
 	{
 		if ((ret = (sh_process_command(shell, info->line)) == FAILURE))
 		{
-			ft_printf(RED"%s\n"EOC, info->line);
 			free(info->line);
 			return (ret);
 		}
@@ -46,7 +45,7 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 	t_gnl_info	info;
 	int			ret;
 
-	while (shell->running && (gnl_ret = get_next_line2(0, &info)) == 1)
+	while (shell->running && (gnl_ret = get_next_line2(0, &info, 1)) == 1)
 	{
 		if ((ret = sh_process_read_canonical_gnl(shell, &info)))
 		{

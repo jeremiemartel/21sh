@@ -65,7 +65,7 @@ int		process_clipboard_from_fd(
 	t_gnl_info	info;
 	int			ret;
 
-	while ((ret = get_next_line2(fd, &info)) > 0)
+	while ((ret = get_next_line2(fd, &info, BUFF_SIZE)) > 0)
 	{
 		if (process_clipboard_line(shell, command_line, &info))
 			return (FAILURE);

@@ -346,7 +346,7 @@ int					ft_free_turn_3(
 */
 
 int					get_next_line(const int fd, char **line);
-int					get_next_line2(int const fd, t_gnl_info *info);
+int					get_next_line2(int const fd, t_gnl_info *info, int bfsize);
 int					ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del);
 t_gnl				*ft_get_gnl(int fd, t_list **gnls);
 
