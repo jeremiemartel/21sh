@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 18:06:46 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 23:31:43 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/04 16:49:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int		sh_process_read_canonical_gnl(t_shell *shell, t_gnl_info *info)
 
 	if (info->separator != E_SEPARATOR_ZERO)
 	{
-		if ((ret = (sh_process_command(shell, info->line)) == FAILURE))
+		ret = sh_process_command(shell, info->line);
+		if (ret == FAILURE)
 		{
-//			ft_printf(RED"%s\n"EOC, info->line);
 			free(info->line);
 			return (ret);
 		}
@@ -37,7 +37,7 @@ static int		sh_process_read_canonical_gnl(t_shell *shell, t_gnl_info *info)
 			"sh_process_read_canonical_gnl"));
 	}
 	free(info->line);
-	return (SUCCESS);
+	return (ret);
 }
 
 static int		sh_process_read_canonical_mode(t_shell *shell)
@@ -51,13 +51,13 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 //		ft_printf("%s\n", info.line);
 		if ((ret = sh_process_read_canonical_gnl(shell, &info)))
 		{
-			return (FAILURE);
+			return (ret);
 		}
 	}
 	if (gnl_ret == -1)
 		return (sh_perror("get_next_line error", "sh_process_read_canonical"));
 	free(info.line);
-	return (SUCCESS);
+	return (ret);
 }
 
 int				sh_process_canonical_mode(t_shell *shell, char **env)

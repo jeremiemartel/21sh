@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/04 15:03:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 16:51:02 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int		main(int argc, char **argv, char **env)
 	(void)argv;
 	init_signals();
 	if (!isatty(0))
+	{
 		ret = sh_process_canonical_mode(&shell, env);
+	}
 	else
 	{
 		if (sh_init_terminal(&shell, env) != SUCCESS)
@@ -37,5 +39,7 @@ int		main(int argc, char **argv, char **env)
 		ret = shell.exit_value;
 	else if (shell.ret_value)
 		ret = shell.ret_value;
+	if (ret == ERROR)
+		ret = 1;
 	return (ret);
 }

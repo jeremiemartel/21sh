@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:41:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 00:20:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 16:49:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int		sh_process_command(t_shell *shell, char *command)
 		return (ret);
 	if ((ret = sh_parser(tokens, shell)))
 		return (ret);
-	return (sh_process_traverse(shell));
+	ret = sh_process_traverse(shell);
+	return (ret);
 }
 
 int		sh_process_received_command(t_shell *shell,
