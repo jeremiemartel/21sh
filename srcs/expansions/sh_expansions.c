@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 12:57:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 12:28:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 /*
 ** sh_expansions:
-**
+**	Mother function of expansions process. Read the current token in context,
+**	and perform various expansions on it. It first detect its category,
+**	then perform it, and finally replace original value by result.
 **
 **	Returned Values:
 **		FAILURE : malloc error, see ${?} or ${:?}
