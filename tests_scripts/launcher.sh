@@ -48,6 +48,12 @@ compare_return_value()
 		echo ""
 		echo New Ko : $new_ko
 		echo Old Ko : $old_ko
+		
+		echo "Do you want to uodate log fils ? (y)"
+		read str
+		if [ "$str" = "y" ] ; then
+			mv $new_log_file $old_log_file
+		fi
 	else
 		echo "OK ($new_ko failed tests)"
 	fi

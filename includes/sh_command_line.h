@@ -307,11 +307,14 @@ int					process_v(
 	t_shell *shell, t_command_line *command_line);
 
 /*
-** selection.c
+** utf8_tools.c
 */
-void				populate_min_max_selection(
-	t_command_line *command_line, int *min, int *max);
-void				render_command_visual(t_command_line *command_line);
+int					ft_strlen_utf8(char *str);
+int					ft_strnlen_utf8(char *str, int n);
+int					get_left_w_char_index_dy_str(
+	t_dy_str *dy_str, int index);
+int					get_left_w_char_index(t_command_line *command_line);
+int					get_right_w_char_index(t_command_line *command_line);
 
 /*
 ** cursor_tools.c
@@ -389,14 +392,11 @@ int					process_historic_up(
 	t_shell *shell, t_command_line *command_line);
 
 /*
-** utf8_tools.c
+** selection.c
 */
-int					ft_strlen_utf8(char *str);
-int					ft_strnlen_utf8(char *str, int n);
-int					get_left_w_char_index_dy_str(
-	t_dy_str *dy_str, int index);
-int					get_left_w_char_index(t_command_line *command_line);
-int					get_right_w_char_index(t_command_line *command_line);
+void				populate_min_max_selection(
+	t_command_line *command_line, int *min, int *max);
+void				render_command_visual(t_command_line *command_line);
 
 /*
 ** edit_command.c

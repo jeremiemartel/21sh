@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_traverse_simple_command_check_perm.c            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:23:20 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 01:24:20 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/05 11:41:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int			sh_traverse_sc_check_perm(t_context *context, char *path,
 	{
 		if (sh_verbose_exec())
 			ft_dprintf(2, "%s do not exists\n", path);
+			context->shell->ret_value = 127;
 		return (sh_perror_err(path, SH_ERR2_NO_SUCH_FILE_OR_DIR));
 	}
 	if (access(path, X_OK))
@@ -50,6 +51,7 @@ int			sh_traverse_sc_check_perm(t_context *context, char *path,
 		if (sh_verbose_exec())
 			ft_dprintf(2,
 			"You do not have execution rights on %s\n", command_name);
+			context->shell->ret_value = 126;
 		sh_env_vars_update_question_mark(context, SH_RET_PERM_DENIED);
 		return (sh_perror_err(command_name, SH_ERR1_PERM_DENIED));
 	}

@@ -66,9 +66,9 @@ int		sh_init_prod_case_list(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_complete_commands(t_cfg *cfg, t_symbol *symbol);
 
 /*
-** sh_prod_program.c
+** sh_prod_cmd_word.c
 */
-int		sh_init_prod_program(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_cmd_word(t_cfg *cfg, t_symbol *symbol);
 
 /*
 ** sh_prod_simple_command.c
@@ -101,9 +101,9 @@ int		sh_init_prod_case_item(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_command(t_cfg *cfg, t_symbol *symbol);
 
 /*
-** sh_prod_cmd_word.c
+** sh_prod_program.c
 */
-int		sh_init_prod_cmd_word(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_program(t_cfg *cfg, t_symbol *symbol);
 
 /*
 ** sh_prod_function_body.c
@@ -131,9 +131,9 @@ int		sh_init_prod_if_clause(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_pipe_sequence(t_cfg *cfg, t_symbol *symbol);
 
 /*
-** sh_prod_do_group.c
+** sh_prod_case_clause.c
 */
-int		sh_init_prod_do_group(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_case_clause(t_cfg *cfg, t_symbol *symbol);
 
 /*
 ** sh_prod_io_file.c
@@ -221,9 +221,9 @@ int		sh_init_prod_function_definition(t_cfg *cfg, t_symbol *symbol);
 int		sh_init_prod_pipeline(t_cfg *cfg, t_symbol *symbol);
 
 /*
-** sh_prod_case_clause.c
+** sh_prod_do_group.c
 */
-int		sh_init_prod_case_clause(t_cfg *cfg, t_symbol *symbol);
+int		sh_init_prod_do_group(t_cfg *cfg, t_symbol *symbol);
 
 /*
 ** sh_prod_term.c
