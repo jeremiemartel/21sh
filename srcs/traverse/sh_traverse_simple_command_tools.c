@@ -88,13 +88,16 @@ int		sh_traverse_sc_search_in_dir_found(char *path, DIR *dir,
 int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 {
 	t_dirent	*dirent;
-
+	int			ret;
 	while ((dirent = readdir(dir)))
 	{
 		if (ft_strequ(dirent->d_name, context->params->tbl[0]))
 		{
-			return (sh_traverse_sc_search_in_dir_found(path, dir,
-				dirent, context));
+			if ((ret = sh_traverse_sc_search_in_dir_found(path, dir,
+				dirent, context)) != KEEP_READ)
+				return (ret);
+			else
+				continue ;
 		}
 	}
 	closedir(dir);
