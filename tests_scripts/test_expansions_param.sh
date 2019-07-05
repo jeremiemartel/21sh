@@ -130,17 +130,24 @@ launch "Parameter expansion"
 	test_launch 'echo ${s:}'
 	test_launch 'echo ${{{{}'
 	test_launch 'echo ${{{{'
+	test_launch 'echo ${?}'
 
-									# test_launch 'echo $}}}}'
-	
-	## Valid tests
 	test_launch 'echo ${X:=abc}'
 	test_launch 'echo ${posix:?}'
 	test_launch 'echo ${#HOME}'
 	test_launch 'echo ${x#$HOME}'
-	test_launch 'dest="/backups"' 'echo "$dest"'
+	test_launch 'dest=/backups' 'echo "$dest"'
 	test_launch 'echo ${USER:=foo}'
 	test_launch 'ls ~/${asd:-okalm}'
 	test_launch 'ls ~/${}'
 	test_launch 'ls ~/$'
+
+	# launch "Deprecated"
+	# test_launch 'echo $}}}}'
+	# test_launch 'echo ${#?}'
+	# test_launch 'echo ${??}'
+	# test_launch 'echo ${$}'
+	# test_launch 'echo ${#$}'
+	# test_launch 'echo ${$$}'
+
 finish
