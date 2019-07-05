@@ -32,7 +32,7 @@ static void	transmit_sig(int signal)
 		g_glob.command_line.dy_str->current_size = 0;
 		g_glob.command_line.current_index = 0;
 		ft_bzero(g_glob.command_line.dy_str->str,
-			g_glob.command_line.dy_str->max_size);
+				g_glob.command_line.dy_str->max_size);
 		g_glob.command_line.nb_chars = 0;
 		render_command_line(&g_glob.command_line, 0, 1);
 	}
@@ -46,17 +46,37 @@ static void	handle_resize(int signal)
 		render_command_line(&g_glob.command_line, 0, 1);
 }
 
-void		init_signals(void)
+void	init_signal_transmit_sig_and_die(void)
 {
-	signal(SIGWINCH, handle_resize);
 	signal(SIGALRM, transmit_sig_and_die);
 	signal(SIGTERM, transmit_sig_and_die);
 	signal(SIGHUP, transmit_sig_and_die);
 	signal(SIGABRT, transmit_sig_and_die);
+	signal(SIGILL, transmit_sig_and_die);
+	signal(SIGTRAP, transmit_sig_and_die);
+	signal(SIGEMT, transmit_sig_and_die);
+	signal(SIGFPE, transmit_sig_and_die);
+	signal(SIGBUS, transmit_sig_and_die);
+	signal(SIGSEGV, transmit_sig_and_die);
+	signal(SIGSYS, transmit_sig_and_die);
+	signal(SIGTTIN, transmit_sig_and_die);
+	signal(SIGTTOU, transmit_sig_and_die);
+	signal(SIGXCPU, transmit_sig_and_die);
+	signal(SIGXFSZ, transmit_sig_and_die);
+	signal(SIGVTALRM, transmit_sig_and_die);
+	signal(SIGPROF, transmit_sig_and_die);
+	signal(SIGUSR1, transmit_sig_and_die);
+	signal(SIGUSR2, transmit_sig_and_die);
+}
+
+void		init_signals(void)
+{
+	signal(SIGWINCH, handle_resize);
 	signal(SIGCONT, transmit_sig);
 	signal(SIGQUIT, transmit_sig);
 	signal(SIGTSTP, transmit_sig);
 	signal(SIGSTOP, transmit_sig);
 	signal(SIGKILL, transmit_sig);
 	signal(SIGINT, transmit_sig);
+	init_signal_transmit_sig_and_die();
 }
