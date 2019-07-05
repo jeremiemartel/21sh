@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 11:34:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 11:50:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,6 @@
 ** read(2)
 */
 # include <fcntl.h>
-
-typedef struct dirent	t_dirent;
-typedef struct s_binary		t_binary;
-typedef struct s_shell		t_shell;
 
 # include "libft.h"
 # include "sh_perror.h"
@@ -124,12 +120,7 @@ typedef struct s_shell		t_shell;
 # define BONUS_HASH_VARIABLE	1
 # define BONUS_TILDE_EXP		0
 
-struct				s_binary
-{
-	char			*path;
-	char			*name;
-	int				hits;
-};
+typedef struct s_shell		t_shell;
 
 struct				s_shell
 {

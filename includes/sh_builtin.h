@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/28 13:13:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 11:49:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,23 @@
 # define CD_OPT_PHYSIC	0x02
 # define CD_OPT_HYPHEN	0x04
 
-typedef struct		s_binary_stats
+typedef struct s_binary			t_binary;
+typedef struct s_binary_stats	t_binary_stats;
+typedef	int	(*t_builtin)(t_context *);
+
+struct				s_binary
+{
+	char			*path;
+	char			*name;
+	int				hits;
+};
+
+struct		s_binary_stats
 {
 	int				max_path_len;
 	int				max_name_len;
 	int				max_hits_str_len;
-}					t_binary_stats;
-
-typedef	int	(*t_builtin)(t_context *);
+};
 
 typedef struct		s_builtin_container
 {
