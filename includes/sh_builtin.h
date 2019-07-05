@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/05 11:49:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 11:52:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ struct				s_binary
 	int				hits;
 };
 
-struct		s_binary_stats
+struct				s_binary_stats
 {
 	int				max_path_len;
 	int				max_name_len;

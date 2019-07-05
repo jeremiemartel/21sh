@@ -91,8 +91,6 @@ int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context);
 int		sh_found_sc_search_in_hash(
 	t_context *context, t_binary *binary, t_hash_finder finder);
 int		sh_traverse_sc_search_in_hash(t_context *context);
-int		sh_traverse_sc_search_in_dir_found(
-	char *path, DIR *dir, t_dirent *dirent, t_context *context);
 int		sh_traverse_sc_search_in_dir(
 	char *path, DIR *dir, t_context *context);
 int		sh_traverse_sc_search_in_path(t_context *context);

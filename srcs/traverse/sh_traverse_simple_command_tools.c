@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 11:42:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 12:03:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_found_sc_search_in_hash(t_context *context, t_binary *binary,
+int			sh_found_sc_search_in_hash(t_context *context, t_binary *binary,
 			t_hash_finder finder)
 {
 	binary->hits++;
@@ -34,7 +34,7 @@ int		sh_found_sc_search_in_hash(t_context *context, t_binary *binary,
 	return (SUCCESS);
 }
 
-int		sh_traverse_sc_search_in_hash(t_context *context)
+int			sh_traverse_sc_search_in_hash(t_context *context)
 {
 	t_binary		*binary;
 	t_hash_finder	finder;
@@ -49,18 +49,7 @@ int		sh_traverse_sc_search_in_hash(t_context *context)
 	return (ERROR);
 }
 
-/*
-** sh_traverse_sc_search_in_dir:
-**		Look for any executable matching the context->params->tbl[0],
-**		in the directory defined by path and dir
-**		If any valid match is ffound, context->path is filled
-**
-**		return :
-**		FAILURE : malloc error
-**		SUCCESS : any error occur
-*/
-
-int		sh_traverse_sc_search_in_dir_found(char *path, DIR *dir,
+static int	sh_traverse_sc_search_in_dir_found(char *path, DIR *dir,
 			t_dirent *dirent, t_context *context)
 {
 	char *buf;
@@ -85,10 +74,23 @@ int		sh_traverse_sc_search_in_dir_found(char *path, DIR *dir,
 	return (SUCCESS);
 }
 
-int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
+/*
+** sh_traverse_sc_search_in_dir:
+**		Look for any executable matching the context->params->tbl[0],
+**		in the directory defined by path and dir
+**		If any valid match is ffound, context->path is filled
+**
+**		return :
+**		FAILURE : malloc error
+**		SUCCESS : any error occur
+*/
+
+int			sh_traverse_sc_search_in_dir(
+	char *path, DIR *dir, t_context *context)
 {
 	t_dirent	*dirent;
 	int			ret;
+
 	while ((dirent = readdir(dir)))
 	{
 		if (ft_strequ(dirent->d_name, context->params->tbl[0]))
@@ -115,7 +117,7 @@ int		sh_traverse_sc_search_in_dir(char *path, DIR *dir, t_context *context)
 **		SUCCESS : Any error occured
 */
 
-int		sh_traverse_sc_search_in_path(t_context *context)
+int			sh_traverse_sc_search_in_path(t_context *context)
 {
 	char	**split;
 	int		i;
