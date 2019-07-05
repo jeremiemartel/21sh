@@ -74,6 +74,7 @@ void	t_expansion_show_type(t_expansion *exp);
 /*
 ** sh_expansions_variable.c
 */
+int		sh_expansions_variable_detect_special(char *name);
 int		sh_expansions_variable_valid_name(char *name);
 int		sh_expansions_variable_detect(char *start);
 int		sh_expansions_variable_fill(t_expansion *exp, char *start);

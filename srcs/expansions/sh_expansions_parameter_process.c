@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 11:06:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 16:23:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,11 @@ static int	sh_expansions_parameter_quest_msg(
 	buf = ft_strpbrk(expansion, ":?");
 	*buf = 0;
 	sh_perror_err_fd(context->fd[FD_ERR], expansion, word);
-	if (isatty(0))
+	if (!isatty(0))
+	{
+		context->shell->running = 0;
 		return (FAILURE);
+	}
 	else
 		return (ERROR);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:52:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/15 14:37:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 16:21:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,31 @@ int		sh_expansions_parameter_fill(t_expansion *exp, char *start)
 }
 
 /*
+** sh_expansions_parameter_detect_special_var:
+**	Detect if expansion is a special variable expansion for expample:
+**		${$} or ${?}
+**	This function is directly linked to sh_expansions_variable_detect_special,
+**	You need to modify them together, cause they detect the same special vars,
+**	not using the same method.
+**
+**	Returned Values:
+**		True : special var had been detected
+**		Else : continue normal parameter process
+*/
+
+static int	sh_expansions_parameter_detect_special_var(t_expansion *exp)
+{
+	char	*expansion;
+
+	expansion = exp->expansion;
+	if (*expansion == '#')
+		expansion++;
+	if (ft_strequ(expansion, "$") || ft_strequ(expansion, "?"))
+		return (1);
+	return (0);
+}
+
+/*
 ** sh_expansions_variable_process:
 **	Function called to fill the expansion's res field using informations given
 **	in the t_expansion structure.
@@ -90,6 +115,8 @@ int		sh_expansions_parameter_process(t_context *context, t_expansion *exp)
 {
 	char	format[4];
 
+	if (sh_expansions_parameter_detect_special_var(exp))
+		return (sh_expansions_variable_process(context, exp));
 	if (!ft_strpbrk(exp->expansion, ":-=?+%"))
 	{
 		if (exp->expansion[0] == '#')

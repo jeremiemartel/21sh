@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 13:01:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 15:59:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 /*
 ** sh_expansions_variable_detect_special:
 **		Used to detect special variables : as $? or $$.
+**	This function is directly linked to
+**	sh_expansions_parameter_detect_special_var,
+**	You need to modify them together, cause they detect the same special vars,
+**	not using the same method.
 **
 **	Returned Values:
 **		1 : True
 **		0 : False
 */
 
-static int	sh_expansions_variable_detect_special(char *name)
+int			sh_expansions_variable_detect_special(char *name)
 {
 	if (!name || !*name)
 		return (0);
@@ -50,11 +54,14 @@ int			sh_expansions_variable_valid_name(char *name)
 {
 	int		i;
 
+	// ft_dprintf(2, "valid name : 0\n");
 	if (sh_expansions_variable_detect_special(name))
 		return (1);
+	// ft_dprintf(2, "valid name : 1\n");
 	if (!ft_isalpha(*name) && !(*name == '_'))
 		return (0);
 	i = 0;
+	// ft_dprintf(2, "valid name : 2\n");
 	while (name[i] && name[i] != '=')
 	{
 		if (!ft_isalnum(name[i]) && name[i] != '_')
