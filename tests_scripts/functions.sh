@@ -17,12 +17,16 @@ del_historic()
 
 launch()
 {
-	echo -e "${pink}$1 tests :${eoc}"
+	if [ ! -n "$show_error" ] ; then
+		echo -e "${pink}$1 tests :${eoc}"
+	fi
 }
 
 finish()
 {
-	echo ""
+	if [ ! -n "$show_error" ] ; then
+		echo ""
+	fi
 }
 
 echo_ok()
