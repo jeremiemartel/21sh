@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/04 00:24:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/04 17:13:12 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,9 @@ int		main(int argc, char **argv, char **env)
 	}
 	if (shell.exit_value)
 		ret = shell.exit_value;
+	else if (shell.ret_value)
+		ret = shell.ret_value;
+	if (ret == ERROR)
+		ret = 1;
 	return (ret);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_traverse_simple_command_tools.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 01:24:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/05 11:30:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,48 @@ int		sh_traverse_sc_search_in_path(t_context *context)
 		i++;
 	}
 	ft_strtab_free(split);
+	return (SUCCESS);
+}
+
+/*
+** sh_traverse_sc_check_perm:
+**	Check if a file pointed by path exists, is a regular file,
+**	can be executed by current user. If not it return an error
+**	and print error message on stderr.
+**
+**	return Value:
+**		SUCESS : file can be considered as an executable
+**		ERROR : file cannot be considered as an executable
+*/
+
+int		sh_traverse_sc_check_perm(t_context *context, char *path, char *command_name)
+{
+	struct stat		st;
+
+	if (stat(path, &st) == -1)
+	{
+		if (sh_verbose_exec())
+			ft_dprintf(2, "%s do not exists\n", path);
+		context->shell->ret_value = 127;
+		return (sh_perror_err(path, SH_ERR2_NO_SUCH_FILE_OR_DIR));
+	}
+	if (access(path, X_OK))
+	{
+		if (sh_verbose_exec())
+			ft_dprintf(2,
+			"You do not have execution rights on %s\n", command_name);
+		context->shell->ret_value = 126;
+		// sh_env_vars_update_question_mark(context, SH_RET_PERM_DENIED);
+		return (sh_perror_err(command_name, SH_ERR1_PERM_DENIED));
+	}
+	if (!S_ISREG(st.st_mode))
+	{
+		if (S_ISDIR(st.st_mode))
+			return (ERROR);
+		if (sh_verbose_exec())
+			ft_dprintf(2, "%s is not a regular file\n", command_name);
+		sh_env_vars_update_question_mark(context, SH_RET_CMD_NOT_FOUND);
+		return (sh_perror_err(command_name, SH_ERR1_CMD_NOT_FOUND));
+	}
 	return (SUCCESS);
 }

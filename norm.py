@@ -66,6 +66,8 @@ def norminette(filename, content):
 	funcname = ""
 	funcnumber = 0
 	for i in range(len(content)):
+		if (content[i] == content[i - 1] == "\n"):
+			print("\t{:-3d}: multiple empty lines".format(i + 1 ))
 		if (norminette_line_len(content[i]) > 81):
 			print("\t{:-3d}: line is too long ({:d})".format(i + 1, norminette_line_len(content[i])- 1))
 		if (re.search(format, content[i]) != None):

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_21.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 01:02:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/04 17:28:15 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 ** read(2)
 */
 # include <fcntl.h>
+
+typedef struct dirent	t_dirent;
 
 # include "libft.h"
 # include "sh_perror.h"
@@ -120,8 +122,6 @@
 # define BONUS_HASH_VARIABLE	1
 # define BONUS_TILDE_EXP		0
 
-typedef struct dirent	t_dirent;
-
 typedef	struct		s_binary
 {
 	char			*path;
@@ -147,13 +147,10 @@ typedef struct		s_shell
 */
 
 /*
-** free_all.c
+** init_term.c
 */
-void				sh_free_binary(t_binary *binary);
-void				sh_free_binary_lst(void *b, size_t dummy);
-void				free_file(t_file *file);
-void				free_file_dlst(void *f, size_t dummy);
-void				sh_free_all(t_shell *shell);
+int					sh_init_terminal_database(char **env);
+int					sh_init_terminal(t_shell *shell, char **env);
 
 /*
 ** index.c
@@ -171,14 +168,6 @@ int					sh_main_init_env(t_shell *shell, char **env);
 int					sh_main_init_vars(t_shell *shell);
 
 /*
-** shell_tools.c
-*/
-int					putchar_int(int i);
-int					sh_reset_shell(int ret);
-int					sh_set_shell(struct termios term, int ret);
-int					clear_all(void);
-
-/*
 ** init.c
 */
 char				*refine_historic_entry(char *entry);
@@ -190,6 +179,27 @@ int					sh_init_command_line(
 int					sh_init_shell(t_shell *shell, char **env);
 
 /*
+** shell_tools.c
+*/
+int					putchar_int(int i);
+int					sh_reset_shell(int ret);
+int					sh_set_shell(struct termios term, int ret);
+int					clear_all(void);
+
+/*
+** free_all.c
+*/
+void				sh_free_binary(t_binary *binary);
+void				sh_free_binary_lst(void *b, size_t dummy);
+void				free_file(t_file *file);
+void				free_file_dlst(void *f, size_t dummy);
+void				sh_free_all(t_shell *shell);
+
+/*
+** .cursor_motion.c.swp
+*/
+
+/*
 ** canonical_mode.c
 */
 int					sh_process_canonical_mode(t_shell *shell, char **env);
@@ -197,22 +207,16 @@ int					sh_process_canonical_mode(t_shell *shell, char **env);
 /*
 ** tools.c
 */
+int					end_with_char(char *str, char c);
 int					get_file_in_dir(char *filename, char *dirname);
 int					get_path_from_absolute_path(char *str, char **path);
 int					get_path_and_file_from_str(
 	char *str, char **path, char **file);
-int					end_with_char(char *str, char c);
 
 /*
 ** signals.c
 */
 void				init_signals(void);
-
-/*
-** init_term.c
-*/
-int					sh_init_terminal_database(char **env);
-int					sh_init_terminal(t_shell *shell, char **env);
 
 /*
 ** home.c
