@@ -27,9 +27,17 @@
 ** sh_env_vars.c
 */
 int		sh_env_vars_update_question_mark(t_context *context, int res);
+int		sh_env_vars_update_question_mark_shell(t_shell *shell, int res);
 int		is_key_of_entry(char *entry, char *key);
 char	*get_env_value(char **env, char *str);
 char	*get_env_entry(char **env, char *str);
+
+/*
+** sh_vars_tools_1.c
+*/
+int		sh_vars_key_exist(t_dy_tab *vars, char *key);
+int		sh_vars_get_index(t_dy_tab *vars, char *key);
+char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 
 /*
 ** sh_verbose.c
@@ -44,13 +52,6 @@ int		sh_verbose_lexer(void);
 int		sh_verbose_exec(void);
 int		sh_verbose_pipe(void);
 int		sh_verbose_expansion(void);
-
-/*
-** sh_vars_tools_1.c
-*/
-int		sh_vars_key_exist(t_dy_tab *vars, char *key);
-int		sh_vars_get_index(t_dy_tab *vars, char *key);
-char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 
 /*
 ** sh_vars_tools_2.c

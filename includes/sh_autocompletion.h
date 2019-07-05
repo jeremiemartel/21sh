@@ -97,16 +97,16 @@ t_file				***update_file_tables(t_command_line *command_line);
 void				free_tbl(t_file ***tbl, int width);
 
 /*
-** populate_word_by_index.c
+** add_file_tools.c
 */
-int					get_word_len(char *s, int index);
-int					process_populate_empty_word(t_word *word);
-int					process_populate_word_by_index(
-	t_word *word, int nb_words, int parse_w, int index);
-void				increment_word(
-	int i, int index, t_word *word, char *str);
-int					populate_word_by_index(
-	char *s, int index, t_word *word);
+void				copy_str_to_res(
+	char *res, char *str, int *i, int to_add);
+int					ft_isprint_only_utf8(char *str);
+char				*ft_str_to_ascii_dup(char *str);
+int					populate_file(
+	t_file *file, char *name, char **path, t_shell *shell);
+t_file				*new_file(
+	t_shell *shell, char *name, char *fullname);
 
 /*
 ** add_choices_builtins.c
@@ -128,19 +128,6 @@ int					populate_choices_from_word(
 	t_command_line *command_line, t_shell *shell, t_word *word);
 
 /*
-** left_arrow.c
-*/
-int					process_update_autocompletion_head_left(
-	t_command_line *command_line,
-	t_file *file_iter,
-	t_file *file,
-	t_dlist *ptr);
-void				update_autocompletion_head_left(
-	t_command_line *command_line);
-int					process_autocompletion_left(
-	t_command_line *command_line);
-
-/*
 ** auto_completion.c
 */
 int					process_advanced_completion(
@@ -151,6 +138,20 @@ int					process_completion(
 	t_command_line *command_line, t_word word);
 int					process_tab(
 	t_shell *shell, t_command_line *command_line);
+
+/*
+** fill_buffer_from_tables.c
+*/
+void				fill_buffer_from_tables(
+	t_command_line *command_line,
+	char *print_buffer,
+	t_file ***tbl,
+	int max_len);
+void				fill_buffer_partial_from_tables(
+	t_command_line *command_line,
+	char *print_buffer,
+	t_file ***tbl,
+	int max_len);
 
 /*
 ** render_choices_tools.c
@@ -219,30 +220,29 @@ int					substitute_command_str(
 	t_command_line *command_line, char *str);
 
 /*
-** fill_buffer_from_tables.c
+** left_arrow.c
 */
-void				fill_buffer_from_tables(
+int					process_update_autocompletion_head_left(
 	t_command_line *command_line,
-	char *print_buffer,
-	t_file ***tbl,
-	int max_len);
-void				fill_buffer_partial_from_tables(
-	t_command_line *command_line,
-	char *print_buffer,
-	t_file ***tbl,
-	int max_len);
+	t_file *file_iter,
+	t_file *file,
+	t_dlist *ptr);
+void				update_autocompletion_head_left(
+	t_command_line *command_line);
+int					process_autocompletion_left(
+	t_command_line *command_line);
 
 /*
-** add_file_tools.c
+** populate_word_by_index.c
 */
-void				copy_str_to_res(
-	char *res, char *str, int *i, int to_add);
-int					ft_isprint_only_utf8(char *str);
-char				*ft_str_to_ascii_dup(char *str);
-int					populate_file(
-	t_file *file, char *name, char **path, t_shell *shell);
-t_file				*new_file(
-	t_shell *shell, char *name, char *fullname);
+int					get_word_len(char *s, int index);
+int					process_populate_empty_word(t_word *word);
+int					process_populate_word_by_index(
+	t_word *word, int nb_words, int parse_w, int index);
+void				increment_word(
+	int i, int index, t_word *word, char *str);
+int					populate_word_by_index(
+	char *s, int index, t_word *word);
 
 /*
 ** preprocess_choice_add.c

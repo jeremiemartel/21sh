@@ -209,6 +209,15 @@ int					sh_update_lookaheads(
 int					sh_init_parsing(t_lr_parser *parser);
 
 /*
+** free_parser_tools.c
+*/
+void				sh_free_stack_item(t_stack_item *stack_item);
+void				sh_free_stack_item_lst(void *si, size_t dummy);
+void				free_state_lst(void *s, size_t dummy);
+void				sh_free_lr_automata(t_lr_parser *parser);
+void				sh_free_production(void *p, size_t dummy);
+
+/*
 ** state.c
 */
 t_state				*sh_new_state(void);
@@ -236,17 +245,18 @@ void				sh_compute_first_sets_str_append(
 	char first_sets[NB_TERMS], t_list *w, t_symbol *append);
 
 /*
-** compute_transitions.c
+** compute_closure.c
 */
-int					sh_add_transition(
-	t_state *from, t_state *to, t_symbol *symbol);
-t_state				*sh_new_parser_state_from_item(
-	t_item *item, t_lr_parser *parser);
-int					sh_add_to_state_check(
-	t_state *state, t_item *item, int *changes);
-int					sh_add_transition_item(
-	t_item *item, t_state *state, t_lr_parser *parser, int *changes);
-int					sh_compute_transitions(
+int					process_process_compute_closure_item(
+	t_state *state,
+	t_item *item,
+	char first_sets[NB_TERMS],
+	t_lr_parser *parser);
+int					sh_process_compute_closure_item(
+	t_item *item, t_state *state, t_lr_parser *parser);
+int					sh_process_compute_closure(
+	t_state *state, t_lr_parser *parser);
+int					sh_compute_closure(
 	t_state *state, t_lr_parser *parser);
 
 /*
@@ -303,13 +313,18 @@ int					sh_parse_token_list(t_lr_parser *parser);
 int					sh_parser(t_list *tokens, t_shell *shell);
 
 /*
-** free_parser_tools.c
+** compute_transitions.c
 */
-void				sh_free_stack_item(t_stack_item *stack_item);
-void				sh_free_stack_item_lst(void *si, size_t dummy);
-void				free_state_lst(void *s, size_t dummy);
-void				sh_free_lr_automata(t_lr_parser *parser);
-void				sh_free_production(void *p, size_t dummy);
+int					sh_add_transition(
+	t_state *from, t_state *to, t_symbol *symbol);
+t_state				*sh_new_parser_state_from_item(
+	t_item *item, t_lr_parser *parser);
+int					sh_add_to_state_check(
+	t_state *state, t_item *item, int *changes);
+int					sh_add_transition_item(
+	t_item *item, t_state *state, t_lr_parser *parser, int *changes);
+int					sh_compute_transitions(
+	t_state *state, t_lr_parser *parser);
 
 /*
 ** reduce.c
@@ -321,20 +336,5 @@ int					sh_process_reduce_add_to_ast(
 	t_lr_parser *parser);
 int					sh_process_reduce(
 	t_production *production, t_lr_parser *parser);
-
-/*
-** compute_closure.c
-*/
-int					process_process_compute_closure_item(
-	t_state *state,
-	t_item *item,
-	char first_sets[NB_TERMS],
-	t_lr_parser *parser);
-int					sh_process_compute_closure_item(
-	t_item *item, t_state *state, t_lr_parser *parser);
-int					sh_process_compute_closure(
-	t_state *state, t_lr_parser *parser);
-int					sh_compute_closure(
-	t_state *state, t_lr_parser *parser);
 
 #endif
