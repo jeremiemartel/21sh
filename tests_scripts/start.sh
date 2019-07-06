@@ -63,7 +63,7 @@ for arg in $@ ; do
 	fi
 done
 
-if [ ! -z $valgrind ] && [ ! -f $suppressions_file ] ; then
+if [ ! -z $valgrind ] ; then
 	echo "initializing the valgrind configuration..."
 	./init.sh
 	echo "OK !"
