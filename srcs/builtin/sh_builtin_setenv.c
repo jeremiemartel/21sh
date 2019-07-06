@@ -6,11 +6,21 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:32:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/30 16:15:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/06 15:12:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+/*
+** sh_builtin_setenv_usage:
+**	Print setenv usage on current stderr.
+*/
+
+static void	sh_builtin_setenv_usage(int fderr)
+{
+	ft_dprintf(fderr, "usage : setenv var=value [...]\n");
+}
 
 /*
 ** is_bad_assignment:
@@ -118,5 +128,7 @@ int			sh_builtin_setenv(t_context *context)
 			return (ret);
 		i++;
 	}
+	if (i == 1)
+		sh_builtin_setenv_usage(context->fd[FD_ERR]);
 	return (SUCCESS);
 }
