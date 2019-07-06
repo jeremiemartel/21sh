@@ -21,12 +21,6 @@ launch "Lexer"
 	test_launch '"e"c"h"o lol'
 	test_launch '"e"c"h"o lol'
 	test_launch '"e"c"h"o lol'
-	test_launch ''
-	test_launch ''
-	test_launch ''
-	test_launch ''
-	test_launch ''
-
 
 	launch "Random"
 	test_launch '"var=pwe"'
