@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/30 16:32:29 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/06 12:15:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int		sh_builtin_verbose_usage(t_context *context)
 {
 	ft_dprintf(context->fd[FD_ERR], "usage: verbose on/off ");
 	ft_dprintf(context->fd[FD_ERR], "[lexer,ast,pipe,exec,expansion]\n");
-	ft_dprintf(context->fd[FD_ERR], "If no options are given, \n");
+	ft_dprintf(context->fd[FD_ERR], "If no options are given, ");
 	ft_dprintf(context->fd[FD_ERR], "they are all enabled\n");
 	return (ERROR);
 }
