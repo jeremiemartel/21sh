@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:41 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/05 11:29:15 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/06 15:27:31 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ launch "Echo"
 	test_launch 'echo -n $TERM $PATH'
 	test_launch 'echo $var $var $var'
 	test_launch 'echo $s#var $var'
+	test_launch 'echo "" "" "" "" okalm'
 
 launch "pwd"
 	test_launch "pwd"
@@ -74,17 +75,17 @@ launch "exit"
 	test_launch 'exit 123 ; echo $?'
 
 launch "setenv"
-	# test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
-	# test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
-	# test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
+	test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
+	test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
+	test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
 
 launch "unsetenv"
-	# test_launch 'unsetenv PATH'
-	# test_launch 'unsetenv'
-	# test_launch 'unsetenv -wasd qwe -APSD asd #@'
-	# test_launch 'unsetenv PWD OLDPWD ; env grep PWD'
-	# test_launch 'unsetenv PWD A OLD PWD' 'env | grep PWD'
-	# test_launch 'unsetenv PATH ; echo lol ; brew'
+	test_launch 'unsetenv PATH'
+	test_launch 'unsetenv'
+	test_launch 'unsetenv -wasd qwe -APSD asd #@'
+	test_launch 'unsetenv PWD OLDPWD ; env grep PWD'
+	test_launch 'unsetenv PWD A OLD PWD' 'env | grep PWD'
+	test_launch 'unsetenv PATH ; echo lol ; brew'
 
 launch "env"
 	test_launch 'env | grep HOME'

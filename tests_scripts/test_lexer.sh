@@ -11,7 +11,19 @@
 # **************************************************************************** #
 
 launch "Lexer"
+	launch "Quotes"
+	test_launch '"e"c"h"o lol'
+	test_launch '"echo" lol'
+	test_launch '""echo""  "" lol'
+	test_launch '""echo"" "lol"'
+	test_launch '"ech"o Okalm'
+
+	test_launch '"e"c"h"o lol'
+	test_launch '"e"c"h"o lol'
+	test_launch '"e"c"h"o lol'
+
 	launch "Random"
 	test_launch '"var=pwe"'
 	test_launch 'ls ""'
+
 finish

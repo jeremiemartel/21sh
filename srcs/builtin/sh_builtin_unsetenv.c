@@ -6,15 +6,15 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:37:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/30 16:26:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/06 15:22:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_builtin_unsetenv_error(t_context *context)
+static int	sh_builtin_unsetenv_usage(int fderr)
 {
-	ft_dprintf(context->fd[FD_ERR], "unsetenv: Too few arguments.");
+	ft_dprintf(fderr, "usage : unsetenv varname [...]");
 	return (ERROR);
 }
 
@@ -23,9 +23,7 @@ int			sh_builtin_unsetenv(t_context *context)
 	int i;
 	int	j;
 
-	if (context->params->current_size == 1)
-		return (sh_builtin_unsetenv_error(context));
-	i = 0;
+	i = 1;
 	while (context->params->tbl[i])
 	{
 		if (sh_vars_key_exist(context->env, context->params->tbl[i]))
@@ -38,5 +36,7 @@ int			sh_builtin_unsetenv(t_context *context)
 		}
 		i++;
 	}
+	if (i == 1)
+		return (sh_builtin_unsetenv_usage(context->fd[FD_ERR]));
 	return (SUCCESS);
 }
