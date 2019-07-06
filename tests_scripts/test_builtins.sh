@@ -32,8 +32,6 @@ launch "pwd"
 	test_launch "pwd sqs"
 	test_launch "pwd sqs aze"
 	test_launch "mkdir dir ; cd dir ; rm -r ../dir ; pwd" "cd .. ; pwd"
-	test_launch "ln -s . link" "cd link ; pwd" "cd link ; pwd" "pwd -P" " pwd -L" "rm link"
-	test_launch "ln -s . link" "cd link" "cd link" "pwd -L ; pwd -P" "rm link" # "cd .." "pwd ; cd ."
 
 launch "hash"
 	test_launch "hash"
@@ -41,8 +39,6 @@ launch "hash"
 	test_launch "hash -e"
 	test_launch "hash -r" "hash"
 	test_launch "cat file " "hash -r" "hash"
-	test_launch "cat file" "hash" "hash"
-	test_launch "ls" "pwd" "ls" "cat file" "hash" "hash -r" "hash"
 
 launch "cd"
 	test_launch "cd" "pwd"
@@ -53,13 +49,10 @@ launch "cd"
 	test_launch "cd -P /var" "pwd"
 	test_launch "cd -L /var" "pwd"
 	test_launch "mkdir sandbox ; cd sandbox ; ln -s ../sandbox  ./link" "cd ./link" "ls -la" "pwd" "cd .." "rm -r sandbox"
-	test_launch "mkdir dir ; ln -s dir link" "cd dir" "pwd" "cd ../link ; ls" "rm -r dir ; rm file ; rm link"
+	test_launch "mkdir dir ; ln -s dir link" "cd dir ; pwd ; pwd -P" "cd ../link ; pwd ; pwd -P" "cd -P ../link ; pwd ; pwd -P" "cd .. ; rm -r dir link"
 
 	test_launch "cd -" "pwd"
 	test_launch "cd ../../ ; cd -"
-	test_launch "PWD=" "OLDPWD=" "cd -" "cd -"
-	test_launch "PWD=/ OLDPWD=/var cd - ; cd -"
-	test_launch "PWD=/ OLDPWD=/var cd -" "cd -"
 	test_launch "PWD=asdqw OLDPWD=Okalm cd -" "cd -"
 	test_launch "PWD=asdqw OLDPWD=Okalm" "cd -"
 	test_launch "touch file" "cd file && wd && cd .." "rm file"
@@ -113,4 +106,11 @@ launch "env"
 	test_launch 'env -i var=asd q=qwe e=ewer r=asd t=asda y=asd u= i= o= p=sf a=asd s=asd d=asd f=asd g=hgfd h=sdf j=fsa env'
 	test_launch 'env -i var=asd q=qwe e=ewer r=asd t=asda y=asd u= i= o= p=sf a=asd s=asd d=asd f=asd g=hgfd h=sdf j=fsa env'
 
-# finish
+#	launch "Deprecated"
+	# test_launch "PWD=" "OLDPWD=" "cd -" "cd -"
+	# test_launch "PWD=/ OLDPWD=/var cd - ; cd -"
+	# test_launch "PWD=/ OLDPWD=/var cd -" "cd -"
+	# test_launch "ln -s . link" "cd link ; pwd" "cd link ; pwd" "pwd -P" " pwd -L" "rm link"
+	# test_launch "ln -s . link" "cd link" "cd link" "pwd -L ; pwd -P" "rm link" # "cd .." "pwd ; cd ."
+
+finish
