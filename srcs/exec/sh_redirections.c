@@ -30,24 +30,19 @@ t_redirection	*get_redirection(t_redirection_type type,
 	return (NULL);
 }
 
-int				sh_add_redirection(t_redirection_type type,
-					int redirected_fd, int fd, t_list **list)
+int				sh_add_redirection(t_redirection redirection, t_list **list)
 {
-	t_redirection	redirection;
 	t_redirection	*found;
 
-	redirection.type = type;
-	if (redirected_fd == -1)
+	if (redirection.redirected_fd == -1)
 	{
-		if (type == INPUT)
+		if (redirection.type == INPUT)
 			redirection.redirected_fd = 0;
 		else
 			redirection.redirected_fd = 1;
 	}
-	else
-		redirection.redirected_fd = redirected_fd;
-	redirection.fd = fd;
-	if (!(found = get_redirection(type, redirected_fd, *list)))
+	if (!(found = get_redirection(redirection.type,
+		redirection.redirected_fd, *list)))
 	{
 		if (ft_lstaddnew_last(list, &redirection, sizeof(t_redirection)))
 			return (sh_perror(SH_ERR1_MALLOC, "sh_add_redirection"));
@@ -55,7 +50,7 @@ int				sh_add_redirection(t_redirection_type type,
 	else
 	{
 		close(found->fd);
-		found->fd = fd;
+		found->fd = redirection.fd;
 	}
 	return (SUCCESS);
 }
@@ -83,5 +78,16 @@ int				sh_process_fd_aggregation(t_redirection_type type,
 	int new_fd;
 
 	new_fd = get_redirected_fd(type, fd, *redirections);
-	return (sh_add_redirection(type, redirected_fd, new_fd, redirections));
+	return (sh_add_redirection(sh_new_redir(type, redirected_fd, new_fd),
+		redirections));
+}
+
+t_redirection	sh_new_redir(t_redirection_type type, int redirected_fd, int fd)
+{
+	t_redirection redir;
+
+	redir.type = type;
+	redir.redirected_fd = redirected_fd;
+	redir.fd = fd;
+	return (redir);
 }

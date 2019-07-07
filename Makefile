@@ -57,6 +57,7 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_default.c \
 						sh_traverse_semicol.c \
 						sh_traverse_pipe_sequence.c \
+						sh_traverse_pipe_sequence_execute.c \
 						sh_traverse_assigment_word.c \
 						sh_traverse_simple_command.c \
 						sh_traverse_simple_command_tools.c \

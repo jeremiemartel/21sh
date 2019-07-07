@@ -55,7 +55,7 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 	}
 	if (gnl_ret == -1)
 		return (sh_perror("get_next_line error", "sh_process_read_canonical"));
-	free(info.line); // Do this line need to be before previous condition ?
+	free(info.line);
 	return (ret);
 }
 

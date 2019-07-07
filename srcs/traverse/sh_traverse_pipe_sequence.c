@@ -14,15 +14,21 @@
 
 static int		sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
 {
-	int fds[2];
+	int				fds[2];
+	t_redirection	redir;
 
 	if (pipe(fds))
 		return (sh_perror(SH_ERR1_PIPE, "add_pipe_redirections"));
-	if (sh_add_redirection(OUTPUT, 1, fds[PIPE_IN],
-			&from->metadata.command_metadata.redirections))
+	redir.type = OUTPUT;
+	redir.redirected_fd = 1;
+	redir.fd = fds[PIPE_IN];
+	if (sh_add_redirection(redir,
+		&from->metadata.command_metadata.redirections))
 		return (FAILURE);
-	if (sh_add_redirection(INPUT, 0, fds[PIPE_OUT],
-			&to->metadata.command_metadata.redirections))
+	redir.type = INPUT;
+	redir.redirected_fd = 0;
+	redir.fd = fds[PIPE_OUT];
+	if (sh_add_redirection(redir, &to->metadata.command_metadata.redirections))
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -66,7 +72,7 @@ static int		sh_process_pipe_redirections(t_ast_node *node)
 }
 
 static int		sh_traverse_pipe_sequences_redirections(t_ast_node *node,
-			t_context *context)
+		t_context *context)
 {
 	t_ast_node	*from;
 	t_ast_node	*simple_command_node;
@@ -93,8 +99,8 @@ int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 {
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 		return (sh_traverse_pipe_sequences_redirections(node, context));
+	else if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
+		return (sh_traverse_pipe_sequence_execute(node, context));
 	else
-	{
 		return (sh_traverse_tools_browse(node, context));
-	}
 }

@@ -35,8 +35,8 @@ static int	sh_process_file_greatand(char *filename, t_context *context)
 
 	if (!ft_strcmp(filename, "-"))
 	{
-		if (sh_add_redirection(OUTPUT, context->redirected_fd, -1,
-			&context->current_command_node->
+		if (sh_add_redirection(sh_new_redir(OUTPUT, context->redirected_fd,
+			-1), &context->current_command_node->
 				metadata.command_metadata.redirections))
 			return (FAILURE);
 		return (SUCCESS);
@@ -62,7 +62,7 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 
 	if (!ft_strcmp(filename, "-"))
 	{
-		if (sh_add_redirection(OUTPUT, context->redirected_fd, -1,
+		if (sh_add_redirection(sh_new_redir(OUTPUT, context->redirected_fd, -1),
 			&context->current_command_node->
 				metadata.command_metadata.redirections))
 			return (FAILURE);

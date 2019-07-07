@@ -94,7 +94,12 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 int		sh_traverse_sc_no_slash_cmd(t_context *context)
 {
 	if ((context->builtin = sh_builtin_find(context)))
-		return (sh_exec_builtin(context));
+	{
+		if (context->current_pipe_sequence_node)
+			return (sh_add_to_pipe_sequence(context));
+		else
+			return (sh_exec_builtin(context));
+	}
 	if (sh_traverse_sc_search_in_hash(context) != SUCCESS)
 	{
 		if (sh_traverse_sc_search_in_path(context) == FAILURE)

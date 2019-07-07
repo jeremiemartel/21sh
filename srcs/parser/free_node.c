@@ -24,6 +24,15 @@ void	sh_free_token(t_ast_node *node, t_token **token)
 	}
 }
 
+void	sh_free_ast_node_meta(t_ast_node **node)
+{
+	if ((*node)->symbol->id == sh_index(SIMPLE_COMMAND))
+		ft_lstdel_value(&(*node)->metadata.command_metadata.redirections);
+	else if ((*node)->symbol->id == sh_index(PIPE_SEQUENCE))
+		ft_lstdel(&(*node)->metadata.pipe_metadata.contexts,
+			sh_free_context_dup_lst);
+}
+
 void	sh_free_ast_node(t_ast_node **node, int update)
 {
 	t_ast_node		*child;
@@ -33,8 +42,7 @@ void	sh_free_ast_node(t_ast_node **node, int update)
 		return ;
 	if ((*node)->token)
 		sh_free_token(*node, &(*node)->token);
-	if ((*node)->symbol->id == sh_index(SIMPLE_COMMAND))
-		ft_lstdel_value(&(*node)->metadata.command_metadata.redirections);
+	sh_free_ast_node_meta(node);
 	while ((*node)->children != NULL)
 	{
 		child = (t_ast_node *)ft_lstpop_ptr(&(*node)->children);
