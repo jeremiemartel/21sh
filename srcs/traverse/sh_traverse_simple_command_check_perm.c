@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:23:20 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 11:56:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/05 17:19:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ static int	sh_traverse_sc_check_perm_reg(t_context *context, struct stat st,
 			char *command_name)
 {
 	if (S_ISDIR(st.st_mode))
-		return (ERROR);
+	{
+		sh_env_vars_update_question_mark(context, 126);
+		return (sh_perror(context->params->tbl[0], SH_ERR1_IS_DIR));
+	}
 	if (sh_verbose_exec())
 		ft_dprintf(2, "%s is not a regular file\n", command_name);
 	sh_env_vars_update_question_mark(context, SH_RET_CMD_NOT_FOUND);
