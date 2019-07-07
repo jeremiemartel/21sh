@@ -14,9 +14,36 @@
 
 static pid_t g_parent;
 
-void		sh_execute_child(t_context *context)
+void		sh_close_all_other_contexts(t_context *context, t_list *contexts)
+{
+	t_context *current_context;
+	t_list *ptr;
+
+	ptr = contexts;
+	while (ptr != NULL)
+	{
+		current_context = (t_context *)ptr->content;
+		if (current_context != context)
+			sh_process_execute_close_pipes(current_context);
+		ptr = ptr->next;
+	}
+}
+
+void		sh_execute_child_builtin(t_context *context, t_list *contexts)
+{
+	int ret;
+
+	sh_process_execute_dup_pipes(context);
+	sh_close_all_other_contexts(context, contexts);
+	signal(SIGINT, SIG_DFL);
+	ret = context->builtin(context);
+	exit(ret);
+}
+
+void		sh_execute_child_binary(t_context *context, t_list *contexts)
 {
 	sh_process_execute_dup_pipes(context);
+	sh_close_all_other_contexts(context, contexts);
 	execve(context->path, (char **)context->params->tbl,
 			(char **)context->env->tbl);
 	sh_process_execute_close_pipes(context);
@@ -25,9 +52,17 @@ void		sh_execute_child(t_context *context)
 	exit(FAILURE);
 }
 
-int			sh_process_execute(t_context *context)
+void	sh_execute_child(t_context *context, t_list *contexts)
 {
-	int		res;
+	if (context->builtin)
+		sh_execute_child_builtin(context, contexts);
+	else
+		sh_execute_child_binary(context, contexts);
+}
+
+int			sh_process_process_execute(t_context *context)
+{
+	int			res;
 
 	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
@@ -37,7 +72,7 @@ int			sh_process_execute(t_context *context)
 	if ((g_parent = fork()) == -1)
 		return (FAILURE);
 	if (g_parent == 0)
-		sh_execute_child(context);
+		sh_execute_child_binary(context, NULL);
 	else
 	{
 		wait(&res);
@@ -49,4 +84,25 @@ int			sh_process_execute(t_context *context)
 				"sh_init_terminal"));
 	}
 	return (SUCCESS);
+}
+
+int			sh_add_to_pipe_sequence(t_context *context)
+{
+	t_context	*context_dup;
+
+	if (!(context_dup = t_context_dup(context)))
+		return (FAILURE);
+	if (ft_lstaddnew_ptr_last(&context->current_pipe_sequence_node->
+				metadata.pipe_metadata.contexts, context_dup, sizeof(t_context)))
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+
+int			sh_process_execute(t_context *context)
+{
+	if (context->current_pipe_sequence_node)
+		return (sh_add_to_pipe_sequence(context));
+	else
+		return (sh_process_process_execute(context));
 }

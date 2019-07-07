@@ -41,7 +41,7 @@ int		sh_process_file_output(char *filename,
 		set_failed_command(context);
 		return (sh_perror_err("Can't create file", filename));
 	}
-	if (sh_add_redirection(OUTPUT, context->redirected_fd, fd,
+	if (sh_add_redirection(sh_new_redir(OUTPUT, context->redirected_fd, fd),
 		&context->current_command_node->metadata.command_metadata.redirections))
 		return (FAILURE);
 	return (SUCCESS);
@@ -70,7 +70,7 @@ int		sh_process_file_input(char *filename,
 	}
 	if ((fd = open(filename, options)) < 0)
 		return (sh_perror("Can't open file", filename));
-	if (sh_add_redirection(INPUT, context->redirected_fd, fd,
+	if (sh_add_redirection(sh_new_redir(INPUT, context->redirected_fd, fd),
 		&context->current_command_node->metadata.command_metadata.redirections))
 		return (FAILURE);
 	return (SUCCESS);

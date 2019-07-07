@@ -12,6 +12,27 @@
 
 #include "sh_21.h"
 
+t_context	*t_context_dup(t_context *context)
+{
+	t_context *res;
+
+	if (!(res = (t_context *)malloc(sizeof(t_context))))
+		return (NULL);
+	ft_memcpy(res, context, sizeof(t_context));
+	if (context->path && (!(res->path = ft_strdup(context->path))))
+	{
+		free(res);
+		return (NULL);
+	}
+	if (!(res->params = ft_dy_tab_cpy_str(context->params)))
+	{
+		ft_strdel(&res->path);
+		free(res);
+		return (NULL);
+	}
+	return (res);
+}
+
 /*
 ** t_context_init:
 **	take a t_context* in parameter and set every values to it's default value

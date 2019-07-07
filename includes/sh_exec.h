@@ -31,7 +31,13 @@ typedef struct		s_redirection
 	t_redirection_type	type;
 	int					redirected_fd;
 	int					fd;
+	int					other_pipe_fd;
 }					t_redirection;
+
+typedef struct		s_pipe_metadata
+{
+	t_list			*contexts;
+}					t_pipe_metadata;
 
 typedef struct		s_command_metadata
 {
@@ -47,6 +53,7 @@ typedef struct		s_heredoc_metadata
 typedef union		u_metadata
 {
 	t_command_metadata	command_metadata;
+	t_pipe_metadata		pipe_metadata;
 	t_heredoc_metadata	heredoc_metadata;
 }					t_metadata;
 
@@ -71,7 +78,9 @@ typedef struct		s_context
 	int				fd[3];
 	t_phase			phase;
 	t_ast_node		*current_command_node;
+	t_ast_node		*current_pipe_sequence_node;
 	t_list			**redirections;
+	pid_t			pid;
 }					t_context;
 
 /*
@@ -83,13 +92,16 @@ typedef struct		s_context
 */
 int					t_context_init(t_context *context, t_shell *shell);
 void				t_context_free_content(t_context *context);
+t_context			*t_context_dup(t_context *context);
 
 /*
 ** sh_execute.c
 */
-void				sh_execute_child(t_context *context);
+void				sh_execute_child(t_context *context, t_list *ctxs);
+void				sh_execute_child_binary(t_context *context, t_list *ctxs);
+void				sh_execute_child_builtin(t_context *context, t_list *ctxs);
 int					sh_process_execute(t_context *context);
-
+int					sh_add_to_pipe_sequence(t_context *context);
 /*
 ** sh_execute_pipes.c
 */
@@ -102,9 +114,7 @@ int					sh_process_execute_close_pipes(t_context *context);
 t_redirection		*get_redirection(
 	t_redirection_type type, int redirected_fd, t_list *list);
 int					sh_add_redirection(
-	t_redirection_type type,
-	int redirected_fd,
-	int fd,
+	t_redirection redirection,
 	t_list **list);
 int					get_redirected_fd(
 	t_redirection_type type, int fd, t_list *redirections);
@@ -113,7 +123,7 @@ int					sh_process_fd_aggregation(
 	int redirected_fd,
 	int fd,
 	t_list **redirections);
-
+t_redirection		sh_new_redir(t_redirection_type type, int redir_fd, int fd);
 /*
 ** sh_debug.c
 */

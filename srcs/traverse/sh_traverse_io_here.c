@@ -81,8 +81,8 @@ int				sh_traverse_io_here(t_ast_node *node, t_context *context)
 	}
 	else if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 	{
-		if (sh_add_redirection(redirection->type,
-				redirection->redirected_fd, redirection->fd,
+		if (sh_add_redirection(sh_new_redir(redirection->type,
+				redirection->redirected_fd, redirection->fd),
 					&context->current_command_node
 						->metadata.command_metadata.redirections))
 			return (FAILURE);
