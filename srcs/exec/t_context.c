@@ -12,6 +12,20 @@
 
 #include "sh_21.h"
 
+void		sh_free_context_dup(t_context *context)
+{
+	if (context->path)
+		ft_strdel(&context->path);
+	ft_dy_tab_del(context->params);
+	free(context);
+}
+
+void		sh_free_context_dup_lst(void *c, size_t dummy)
+{
+	(void)dummy;
+	sh_free_context_dup((t_context *)c);
+}
+
 t_context	*t_context_dup(t_context *context)
 {
 	t_context *res;

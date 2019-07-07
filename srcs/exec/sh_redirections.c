@@ -89,6 +89,5 @@ t_redirection	sh_new_redir(t_redirection_type type, int redirected_fd, int fd)
 	redir.type = type;
 	redir.redirected_fd = redirected_fd;
 	redir.fd = fd;
-	redir.other_pipe_fd = -1;
 	return (redir);
 }

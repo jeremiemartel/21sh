@@ -31,7 +31,6 @@ typedef struct		s_redirection
 	t_redirection_type	type;
 	int					redirected_fd;
 	int					fd;
-	int					other_pipe_fd;
 }					t_redirection;
 
 typedef struct		s_pipe_metadata
@@ -90,6 +89,7 @@ typedef struct		s_context
 /*
 ** t_context.c
 */
+void				sh_free_context_dup_lst(void *c, size_t dummy);
 int					t_context_init(t_context *context, t_shell *shell);
 void				t_context_free_content(t_context *context);
 t_context			*t_context_dup(t_context *context);
