@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 00:23:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/07 13:54:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ int		sh_init_shell(t_shell *shell, char **env)
 	if (sh_init_command_line(shell, &g_glob.command_line) != SUCCESS)
 		return (FAILURE);
 	shell->running = 1;
-	if (sh_update_shell_lvl(shell) != SUCCESS)
-		return (FAILURE);
 	if (sh_init_parsing(&shell->parser) != SUCCESS)
 		return (FAILURE);
 	if ((sh_init_historic(&shell->historic)) != SUCCESS)
