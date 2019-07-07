@@ -146,6 +146,11 @@ int		sh_traverse_sc_check_perm(
 int		sh_traverse_pipe_sequence(t_ast_node *node, t_context *context);
 
 /*
+** sh_traverse_pipe_sequence_execute.c
+*/
+int		sh_traverse_pipe_sequence_execute(t_ast_node *node, t_context *context);
+
+/*
 ** sh_traverse_assigment_word.c
 */
 int		sh_traverse_assigment_word(t_ast_node *node, t_context *context);
