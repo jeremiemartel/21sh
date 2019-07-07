@@ -74,18 +74,18 @@ launch "exit"
 	test_launch 'echo tamer ; exit 3 ; echo $?'
 	test_launch 'exit 123 ; echo $?'
 
-launch "setenv"
-	test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
-	test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
-	test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
+# launch "setenv"
+# 	test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
+# 	test_given_res "" "21sh: '=asd' bad assignment" 'setenv =asd'
+# 	test_given_res "" "21sh: '=' bad assignment" 'setenv =' 'env | grep =asd'
 
-launch "unsetenv"
-	test_launch 'unsetenv PATH'
-	test_launch 'unsetenv'
-	test_launch 'unsetenv -wasd qwe -APSD asd #@'
-	test_launch 'unsetenv PWD OLDPWD ; env grep PWD'
-	test_launch 'unsetenv PWD A OLD PWD' 'env | grep PWD'
-	test_launch 'unsetenv PATH ; echo lol ; brew'
+# launch "unsetenv"
+# 	test_launch 'unsetenv PATH'
+# 	test_launch 'unsetenv'
+# 	test_launch 'unsetenv -wasd qwe -APSD asd #@'
+# 	test_launch 'unsetenv PWD OLDPWD ; env grep PWD'
+# 	test_launch 'unsetenv PWD A OLD PWD' 'env | grep PWD'
+# 	test_launch 'unsetenv PATH ; echo lol ; brew'
 
 launch "env"
 	test_launch 'env | grep HOME'
