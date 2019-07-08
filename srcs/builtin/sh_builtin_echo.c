@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:57:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/06 15:27:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 12:38:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		sh_builtin_echo(t_context *context)
 		return (SUCCESS);
 	}
 	i = 1;
-	if (ft_strequ(context->params->tbl[1], "-n"))
+	while (context->params->tbl[i] && ft_strequ(context->params->tbl[i], "-n"))
 		i++;
 	while (context->params->tbl[i + 1])
 	{
