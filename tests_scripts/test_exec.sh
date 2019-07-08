@@ -19,6 +19,7 @@ launch "exec"
 	test_launch 'rm -rf dir'
 	test_launch './nofile'
 	test_launch './functions.sh'
+	test_launch '" ls "' 'echo $?' '"ls "' 'echo $?'
 
 	launch "Permissions"
 	test_launch 'echo "#!/bin/bash" >file' 'echo "echo lol" >> file' 'chmod 777 file' './file' 'chmod 777 file ; rm file'

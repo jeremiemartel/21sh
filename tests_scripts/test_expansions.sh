@@ -13,8 +13,8 @@
 ## Expansions tests
 launch "Expansions"
 	launch "Random"
-	test_launch 'echo $var'
-									# test_launch 'echo $TERM'
+	test_launch 'echo $var'
+									test_launch 'echo $TERM'
 	test_launch 'var=Okalm' 'echo $var'
 	test_launch 'var=Okalm' 'echo $var' 'var=po' 'echo $var'
 	test_launch 'var=Okalm' 'echo ${pwd:=ol}'
@@ -22,12 +22,11 @@ launch "Expansions"
 	test_launch 'w=' 'echo $w'
 	test_launch '${}' '$()'
 	test_launch '${)' '$}'
-
-	launch "Hard"
-									# test_launch '321=asd' 'echo $321' '312=' 'echo $312'
+	test_launch '$novar ls'
+	test_launch	'$pwd $pwd'
 
 	launch "List tests"
-									# test_launch 'ahsdiouashdiuasdhioasjdopasdjoldniouhjnqwioejqnwoel=adisuhiduashnodklajsodiajlsdlkasasdhuasodiu' 'echo $ahsdiouashdiuasdhioasjdopasdjoldniouhjnqwioejqnwoel='
+	test_launch 'ahsdiouashdiuasdhioasjdopasdjoldniouhjnqwioejqnwoel=adisuhiduashnodklajsodiajlsdlkasasdhuasodiu' 'echo $ahsdiouashdiuasdhioasjdopasdjoldniouhjnqwioejqnwoel='
 
 finish
 
@@ -45,16 +44,16 @@ launch "Variables"
 	test_launch 'var=pwd' '$var'
 	
 	launch "#"
-	# test_launch 'var=Okalm' 'echo $#var $var'
-	# test_launch 'var=' 'echo $#var $var'
+	test_launch 'var=Okalm' 'echo $#var $var'
+	test_launch 'var=' 'echo $#var $var'
 	test_launch 'echo $s#var $var'
-	# test_launch 'var=asd' 'echo $#v#ar $v#ar'
-	# test_launch 'var=asd' 'echo #$#v#ar $v#ar'
-	# test_launch 'var=asd' 'echo #$#v#ar $v#ar#'
+	test_launch 'var=asd' 'echo $#v#ar $v#ar'
+	test_launch 'var=asd' 'echo #$#v#ar $v#ar'
+	test_launch 'var=asd' 'echo #$#v#ar $v#ar#'
 	test_launch 'var=' 'echo $s#v#ar $v#ar'
-	# test_launch 'var=' 'echo #$#v#ar $v#ar'
-	# test_launch 'var=' 'echo #$#v#ar $v#ar#'
-	# test_launch 'echo $#v#ar $v#ar'
+	test_launch 'var=' 'echo #$#v#ar $v#ar'
+	test_launch 'var=' 'echo #$#v#ar $v#ar#'
+	test_launch 'echo $#v#ar $v#ar'
 	test_launch 'echo #$g#v#ar $v#ar'
 	test_launch 'echo #$d#v#ar $v#ar#'
 	test_launch 'echo #~$~d#v#ar $v#ar#'
@@ -67,6 +66,11 @@ launch "Variables"
 	test_launch 'echo $? ; okalm ; echo $?'
 	test_launch 'echo $? ; echo $?'
 	test_launch 'touch file ; chmod 666 file' './file ; echo $?' 'rm file'
+
+# launch "Deprecated"
+	# launch "Hard"
+	# test_launch '321=asd' 'echo $321' '312=' 'echo $312'
+
 
 finish
 

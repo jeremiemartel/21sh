@@ -33,6 +33,7 @@ test_stderr=""
 verbose="ok"
 show_error=""
 test_returned_values=""
+file=""
 for arg in $@ ; do
 	if [ "$arg" = "-v" ] ; then
 		valgrind=true
@@ -59,7 +60,7 @@ for arg in $@ ; do
 	if [ -f "test_${arg}.sh" ] ; then
 		file="$file test_${arg}.sh"
 	elif [ -f "${arg}" ] ; then
-		file="$fie ${arg}"
+		file="$file ${arg}"
 	fi
 done
 

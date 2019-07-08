@@ -62,12 +62,12 @@ launch "Parameter expansion"
 
 	launch ":? and ?"
 	## :? and ?
-	test_launch 'var=wea' 'echo ${var:?okalm}'
-	test_launch 'var=wea' 'echo ${var?okalm}'
-	test_launch 'var=' 'echo ${var:?okalm}'
-	test_launch 'var=' 'echo ${var?okalm}'
-	test_launch 'echo ${var:?okalm}'
-	test_launch 'echo ${var?okalm}'
+	test_launch 'var=wea' 'echo ${var:?okalm}' 'ls'
+	test_launch 'var=wea' 'echo ${var?okalm}' 'ls'
+	test_launch 'var=' 'echo ${var:?okalm}' 'ls'
+	test_launch 'var=' 'echo ${var?okalm}' 'ls'
+	test_launch 'echo ${var:?okalm}' 'ls'
+	test_launch 'echo ${var?okalm}' 'ls'
 	test_launch 'qweqweqwe=wea' 'echo ${qweqweqwe:?okalm}' 'ls'
 	test_launch 'qweqweqwe=wea' 'echo ${qweqweqwe?okalm}' 'ls'
 	test_launch 'qweqweqwe=' 'echo ${qweqweqwe:?okalm}' 'ls'
@@ -75,13 +75,13 @@ launch "Parameter expansion"
 	test_launch 'echo ${qweqweqwe:?okalm} ; ls'
 	test_launch 'echo ${qweqweqwe?okalm} && ls'
 	test_launch 'echo ${qweqweqwe?okalm} || ls'
-	test_launch 'echo ${?}'
+	test_launch 'echo ${?}' 'ls'
 
-	test_launch 'echo ${:?}'
-	test_launch 'echo ${sd?}'
-	test_launch 'echo ${sd:?}'
-	test_launch 'echo ${?asd}'
-	test_launch 'echo ${:?asd}'
+	test_launch 'echo ${:?}' 'ls'
+	test_launch 'echo ${sd?}' 'ls'
+	test_launch 'echo ${sd:?}' 'ls'
+	test_launch 'echo ${?asd}' 'ls '
+	test_launch 'echo ${:?asd}' 'ls'
 
 	launch ":+ and +"
 	## :+ and +

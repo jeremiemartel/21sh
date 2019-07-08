@@ -24,6 +24,7 @@ launch "Echo"
 	test_launch 'echo $var $var $var'
 	test_launch 'echo $s#var $var'
 	test_launch 'echo "" "" "" "" okalm'
+	test_launch 'echo -n -n -n ls -n'
 
 launch "pwd"
 	test_launch "pwd"
@@ -88,7 +89,7 @@ launch "exit"
 # 	test_launch 'unsetenv PATH ; echo lol ; brew'
 
 launch "env"
-	test_launch 'env | grep HOME'
+	test_launch 'env | grep LANG'
 	test_launch 'env | grep USER'
 	test_launch 'env | grep jkas'
 	test_launch 'env -i brew'
