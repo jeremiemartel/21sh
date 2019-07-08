@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 12:33:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int			sh_traverse_cmd_suffix(t_ast_node *node, t_context *context)
 		}
 		if (context->phase == E_TRAVERSE_PHASE_EXECUTE && child->token)
 		{
-			if (ft_dy_tab_add_str(context->params, child->token->value))
-				return (sh_perror(SH_ERR1_MALLOC, "sh_traverse_cmd_suffix"));
+			if (!(!*child->token->value && child->token->expansion))
+				if (ft_dy_tab_add_str(context->params, child->token->value))
+					return (sh_perror(SH_ERR1_MALLOC, "sh_traverse_cmd_suffix"));
 		}
 		else if ((ret = g_grammar[child->symbol->id].
 			traverse(child, context)))
