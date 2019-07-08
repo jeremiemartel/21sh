@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:36:01 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/10 14:37:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 14:59:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int				sh_lexer_rule4(t_lexer *lexer)
 {
 	if (lexer->quoted != '\'' && (lexer->c == '\\' || lexer->quoted == '\\'))
 		return (lexer_quoting_backslash(lexer));
-	else if (!lexer->quoted && (lexer->c == '\'' || lexer->c == '"'))
+	if (lexer->quoted <= 0 && (lexer->c == '\'' || lexer->c == '"'))
 		return (lexer_quoting_start_quote(lexer));
 	if (lexer->quoted == '\'')
 		return (lexer_quoting_simple_quote(lexer));
