@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/05 16:23:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 13:21:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ static int	sh_expansions_parameter_quest_msg(
 	if (!isatty(0))
 	{
 		context->shell->running = 0;
-		return (FAILURE);
+		return (STOP_CMD_LINE);
 	}
 	else
-		return (ERROR);
+		return (STOP_CMD_LINE);
 }
 
 /*

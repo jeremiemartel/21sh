@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/08 12:00:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 13:25:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,15 @@
 # include "sh_vars.h"
 
 # define SUCCESS		0
-# define FAILURE		1
-# define ATTR_ERROR		2
-# define ERROR			3
+# define ERROR			1
+# define FAILURE		2
+# define ATTR_ERROR		3
+# define STOP_CMD_LINE	4
 
-# define CTRL_D			3
-# define CTRL_C			4
+# define CTRL_D			5
+# define CTRL_C			6
 
-# define KEEP_READ		5
+# define KEEP_READ		7
 
 # define HISTORIC_FILE	".historic"
 
