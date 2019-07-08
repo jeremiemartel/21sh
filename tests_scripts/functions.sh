@@ -141,6 +141,48 @@ test_launch()
 	rm -f res2.bash res2.21sh
 }
 
+test_launch_pipe()
+{
+	if [ ! -n "$1" ] ; then echo "test_launch_pipe : No file given" ; fi
+	if [ ! -e "$1" ] ; then echo "test_launch_pipe : can't find $1" ;  return ; fi
+
+	cp "$1" "buffer"
+
+	diff_tried=$((diff_tried+1))
+	touch res1.bash res2.bash res1.21sh res2.21sh
+	cat "$1" | bash 1>res1.bash 2>res2.bash
+	bash_ret=$?
+	cat "$1" | ./${exec} 1>res1.21sh 2>res2.21sh
+	sh_ret=$?
+
+	check_ret_value sh_ret bash_ret
+	continue=$?
+
+# echo "continue (stdout): $continue"
+	if [ 0 -eq "$continue" ] ; then
+		diff_files res1.21sh res1.bash
+		continue=$?
+	fi
+# echo "continue (stderr): $continue"
+	if [ 0 -eq "$continue" ] && [ -n "${test_stderr}" ] ; then
+		diff_files res2.21sh res2.bash
+		continue=$?
+	fi
+# echo "continue (ok): $continue"
+	if [ 0 -eq "$continue" ] ; then
+		echo_ok
+	fi
+# echo "continue (valgrind): $continue"
+	if [ -n "$valgrind" ] ; then
+		valgrind_test
+	fi
+
+	rm -f buffer
+	rm -f res1.bash res1.21sh
+	rm -f res2.bash res2.21sh
+}
+
+
 ## Result is given in $1 and $2 (stdin and stderr)
 ## No return value comparision is done
 
