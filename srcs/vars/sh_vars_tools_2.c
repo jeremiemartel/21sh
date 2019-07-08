@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:21:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 21:58:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/07 13:47:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ int		sh_vars_assignment(t_dy_tab *env, t_dy_tab *vars, char *assignment)
 
 /*
 ** sh_vars_assign_key_val:
-**	Treat amny assignment as sh_vars_assignment, but it takes assignation
+**	Treat any assignment as sh_vars_assignment, but it takes assignation
 **	as two strings : key and value
 **	Return Values:
-**		SUCCESS or FAILURE
+**		FAILURE : malloc error
+**		SUCCESS
 */
 
 int		sh_vars_assign_key_val(

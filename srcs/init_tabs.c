@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/24 10:09:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/07 14:12:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,51 @@ int			sh_update_shell_lvl(t_shell *shell)
 		return (sh_perror(SH_ERR1_MALLOC, "sh_update_shell_lvl"));
 	}
 	free(new_lvl_str);
-	return (0);
+	return (SUCCESS);
 }
+
+/*
+** sh_main_init_env_special_vars:
+**	Create some special vars in environment :
+**		SHLVL is initalized
+**		If pwd is not set, it is filled using getcwd
+**
+**	Returned Values:
+**		FAILURE : malloc error
+**		SUCCESS
+*/
+
+static int	sh_main_init_env_special_vars(t_shell *shell)
+{
+	char	*pwd;
+
+	if (sh_update_shell_lvl(shell) != SUCCESS)
+		return (FAILURE);
+	if (sh_vars_get_index(shell->env, "PWD") == -1)
+	{
+		if (!(pwd = sh_builtin_pwd_physical(2)))
+			return (FAILURE);
+		if (sh_vars_assign_key_val(shell->env, NULL, "PWD", pwd) == FAILURE)
+		{
+			free(pwd);
+			return (FAILURE);
+		}
+		free(pwd);
+	}
+	(void)(shell);
+	return (SUCCESS);
+}
+
+/*
+** sh_main_init_env:
+**	Create a t_dy_tab cloning the char **env. Then it calls the function
+**	sh_main_init_env_special_vars to modify this nnew env.
+**	If any error occur, every locally allocated memory is free.
+**
+**	Returned Values:
+**		FAILURE : malloc error
+**		SUCCESS
+*/
 
 int			sh_main_init_env(t_shell *shell, char **env)
 {
@@ -57,13 +100,25 @@ int			sh_main_init_env(t_shell *shell, char **env)
 		i++;
 	}
 	shell->env = tbl;
+	if (sh_main_init_env_special_vars(shell) == FAILURE)
+	{
+		shell->env = NULL;
+		ft_dy_tab_del(tbl);
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
 /*
 ** sh_main_init_vars:
 **	Create a t_dy_tab used to store shell variables.
-**	It also initialize some shell special parameters : #, ?
+**	It also initialize some shell special parameters :
+**		# (bonus), ?
+**	If any error occur, every locally allocated memory is free.
+**
+**	Returned Values:
+**		FAILURE : malloc error
+**		SUCCESS
 */
 
 int			sh_main_init_vars(t_shell *shell)
@@ -74,7 +129,10 @@ int			sh_main_init_vars(t_shell *shell)
 	if (!(shell->vars = ft_dy_tab_new(10)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_main_init_vars"));
 	if (ft_dy_tab_add_str(shell->vars, "?=0"))
+	{
+		shell->ret_value = 0;
 		return (sh_perror(SH_ERR1_MALLOC, "sh_main_init_vars (1)"));
+	}
 	if (BONUS_HASH_VARIABLE)
 	{
 		pid = getpid();
