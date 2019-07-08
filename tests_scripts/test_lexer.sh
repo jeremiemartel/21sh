@@ -17,10 +17,18 @@ launch "Lexer"
 	test_launch '""echo""  "" lol'
 	test_launch '""echo"" "lol"'
 	test_launch '"ech"o Okalm'
+	test_launch '"e"c"h"o lol'
+	test_launch '"e"c"h"o lol'
+	test_launch '"e"c"h"o lol'
+	test_launch '""""""ec""""h""o lol'
+	test_launch 'ec"ho lol'
 
-	test_launch '"e"c"h"o lol'
-	test_launch '"e"c"h"o lol'
-	test_launch '"e"c"h"o lol'
+	launch
+	test_launch '\ls \$HOME'
+	test_launch '\ls $\H\O\M\E'
+	test_launch 'l\s $HOME\'
+	test_launch '""'
+	test_launch '"\\\""\\ls'
 
 	launch "Random"
 	test_launch '"var=pwe"'

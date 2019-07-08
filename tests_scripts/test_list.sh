@@ -12,19 +12,19 @@
 
 launch "Lists of commands"
 
-## ; tests
+	launch ";"
 	test_launch 'ls - ; pwd'
 	test_launch 'asd ; asd a ; qweqweqw ; pwd ; ls /'
 	test_launch 'echo okalm ; ls nofile ; pwd ; asdqw ; cat nofile'
 
-## && tests
+	launch "&&"
 	test_launch 'ls && pwd'
 	test_launch 'ls nofile && pwd && echo okalm'
 	test_launch 'echo okalm && ls nofile && echo okalm'
 	test_launch 'echo okalm && ls && echo okalm'
 	test_launch 'ecasd okalm && ls && echo okalm'
 
-## || tests
+	launch "||"
 	test_launch 'ls || pwd'
 	test_launch 'ls nofile || echo okalm'
 	test_launch 'ls nofile || echo okalm || echo okalm'
