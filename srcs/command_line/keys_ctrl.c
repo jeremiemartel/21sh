@@ -33,10 +33,7 @@ int		process_ctrl_d(t_shell *shell, t_command_line *command_line)
 				|| command_line->context == E_CONTEXT_HEREDOC))
 	{
 		if (command_line->context == E_CONTEXT_STANDARD)
-		{
 			shell->running = 0;
-			ft_dprintf(0, "exit\n");
-		}
 		return (CTRL_D);
 	}
 	else

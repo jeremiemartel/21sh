@@ -20,7 +20,5 @@ int				sh_builtin_exit(t_context *context)
 	else if (context->params->tbl[1])
 		context->shell->exit_value = ft_atoi(context->params->tbl[1]) & 0xff;
 	context->shell->running = 0;
-	if (isatty(0))
-		ft_dprintf(context->fd[FD_ERR], "exit\n");
 	return (SUCCESS);
 }

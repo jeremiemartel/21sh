@@ -39,5 +39,6 @@ int		main(int argc, char **argv, char **env)
 		ret = shell.ret_value;
 	if (ret == ERROR)
 		ret = 1;
+	ft_dprintf(0, "exit\n");
 	return (ret);
 }
