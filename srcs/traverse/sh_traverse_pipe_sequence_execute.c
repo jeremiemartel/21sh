@@ -66,7 +66,7 @@ int				sh_process_pipe_sequence_execute(t_context *context,
 	if (sh_process_pipe_exec_fork(contexts) == FAILURE)
 		return (FAILURE);
 	sh_process_execute_close_pipes_list(contexts);
-	while ((wpid = wait(&res) > 0))
+	while ((wpid = wait(&res)) > 0)
 	{
 		if (wpid == g_parent)
 			res_save = res;

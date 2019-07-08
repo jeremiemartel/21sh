@@ -51,6 +51,7 @@ t_hash_finder	ft_hash_table_find(t_hash_table *hash_table,
 			return (finder);
 		}
 		finder.prev = finder.current;
+		finder.current = finder.current->next;
 	}
 	return (finder);
 }
