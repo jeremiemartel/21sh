@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/07 14:12:42 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 12:01:10 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int			sh_main_init_env(t_shell *shell, char **env)
 ** sh_main_init_vars:
 **	Create a t_dy_tab used to store shell variables.
 **	It also initialize some shell special parameters :
-**		# (bonus), ?
+**		$ (bonus), ?
 **	If any error occur, every locally allocated memory is free.
 **
 **	Returned Values:
@@ -133,13 +133,15 @@ int			sh_main_init_vars(t_shell *shell)
 		shell->ret_value = 0;
 		return (sh_perror(SH_ERR1_MALLOC, "sh_main_init_vars (1)"));
 	}
-	if (BONUS_HASH_VARIABLE)
+	if (ft_dy_tab_add_str(shell->vars, "#=0"))
+		return (sh_perror(SH_ERR1_MALLOC, "sh_main_init_vars (2)"));
+	if (BONUS_DOLLAR_VARIABLE)
 	{
 		pid = getpid();
 		if (!(buff = ft_itoa(pid)))
-			return (sh_perror(SH_ERR1_MALLOC, "sh_main_init_vars (2)"));
-		if (sh_vars_assign_key_val(NULL, shell->vars, "$", buff) == FAILURE)
 			return (sh_perror(SH_ERR1_MALLOC, "sh_main_init_vars (3)"));
+		if (sh_vars_assign_key_val(NULL, shell->vars, "$", buff) == FAILURE)
+			return (sh_perror(SH_ERR1_MALLOC, "sh_main_init_vars (4)"));
 		free(buff);
 	}
 	return (SUCCESS);

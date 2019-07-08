@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:52:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/05 16:21:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 12:06:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ static int	sh_expansions_parameter_detect_special_var(t_expansion *exp)
 	if (*expansion == '#')
 		expansion++;
 	if (ft_strequ(expansion, "$") || ft_strequ(expansion, "?"))
+		return (1);
+	if (ft_strequ(expansion, "#"))
 		return (1);
 	return (0);
 }

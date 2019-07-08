@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:38:26 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/05 15:59:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/08 12:17:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			sh_expansions_variable_detect_special(char *name)
 		return (1);
 	if (*name == '$')
 		name++;
-	if (ft_strnstr(name, "$", 1) || ft_strnstr(name, "?", 1))
+	if (*name == '?' || *name == '$' || *name == '#')
 		return (1);
 	return (0);
 }
@@ -54,14 +54,11 @@ int			sh_expansions_variable_valid_name(char *name)
 {
 	int		i;
 
-	// ft_dprintf(2, "valid name : 0\n");
 	if (sh_expansions_variable_detect_special(name))
 		return (1);
-	// ft_dprintf(2, "valid name : 1\n");
 	if (!ft_isalpha(*name) && !(*name == '_'))
 		return (0);
 	i = 0;
-	// ft_dprintf(2, "valid name : 2\n");
 	while (name[i] && name[i] != '=')
 	{
 		if (!ft_isalnum(name[i]) && name[i] != '_')
