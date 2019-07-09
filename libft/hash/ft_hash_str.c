@@ -14,6 +14,7 @@
 
 int				ft_hash_cmp_str(void *str1, void *str2)
 {
+	ft_printf("%s , %s\n", str1, str2);
 	return (ft_strcmp((char *)str1, (char *)str2));
 }
 

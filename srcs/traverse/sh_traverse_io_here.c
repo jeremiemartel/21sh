@@ -17,7 +17,7 @@ char			*heredoc_dash(const char *str)
 	int i;
 
 	i = 0;
-	while (str[i] && str[i] != '\t')
+	while (str[i] && str[i] == '\t')
 		i++;
 	return (ft_strdup(&str[i]));
 }
