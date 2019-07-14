@@ -12,16 +12,16 @@
 
 launch "Lexer"
 	launch "Quotes"
-	test_launch '"e"c"h"o lol'
-	test_launch '"echo" lol'
-	test_launch '""echo""  "" lol'
-	test_launch '""echo"" "lol"'
-	test_launch '"ech"o Okalm'
-	test_launch '"e"c"h"o lol'
-	test_launch '"e"c"h"o lol'
-	test_launch '"e"c"h"o lol'
-	test_launch '""""""ec""""h""o lol'
-	test_launch 'ec"ho lol'
+	test_launch '"e"c"h"o lol' 'ls'
+	test_launch '"echo" lol' 'ls'
+	test_launch '""echo""  "" lol' 'ls'
+	test_launch '""echo"" "lol"' 'ls'
+	test_launch '"ech"o Okalm' 'ls'
+	test_launch '"e"c"h"o lol' 'ls'
+	test_launch '"e"c"h"o lol' 'ls'
+	test_launch '"e"c"h"o lol' 'ls'
+	test_launch '""""""ec""""h""o lol' 'ls'
+	test_launch 'ec"ho lol' 'ls'
 
 	launch
 	test_launch '\ls \$HOME'

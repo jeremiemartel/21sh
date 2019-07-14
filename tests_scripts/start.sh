@@ -13,7 +13,7 @@
 # **************************************************************************** #
 
 ## Usage : 
-##	./launcher [-v] [-q] [-2] [-e] [file]
+##	./start.sh [-v] [-q] [-2] [-e] [file]
 ##		-v : Activate Valgrind tests
 ##		-2 : Activate comparison on stderr
 ##		-q : Activate quiet mode : only show OK or KO

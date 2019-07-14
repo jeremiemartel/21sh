@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 15:58:19 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/04 05:34:36 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/13 19:10:36 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,9 @@ valgrind_test()
 			cat $tmp_log_file > ${inner_log_dir}/valgrind_trace
 			rm -f $tmp_log_file
 		else
-			echo -e "${green}no valgrind errors${eoc}"
+			if [ ! -n "$show_error" ] ; then
+				echo -e "${green}no valgrind errors${eoc}"
+			fi
 			passed=$((passed+1))
 			rm -f $tmp_log_file
 		fi
