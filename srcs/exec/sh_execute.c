@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 23:28:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/14 12:48:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int			sh_add_to_pipe_sequence(t_context *context)
 		return (FAILURE);
 	return (SUCCESS);
 }
-
 
 int			sh_process_execute(t_context *context)
 {
