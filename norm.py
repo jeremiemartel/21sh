@@ -28,15 +28,18 @@ def recursive_list_dir(dirpath, filepaths):
 	return (filepaths)
 
 def get_file_names():
+	dirname = []
 	if (len(sys.argv) > 1):
-		dirname = sys.argv[1]
+		for i in range(1, len(sys.argv)):
+			dirname.append(sys.argv[i])
 	else :
-		dirname = "."
+		dirname = ["."]
 	filepaths = []
-	if (os.path.isdir(dirname)):
-		recursive_list_dir(dirname, filepaths)
-	else :
-		filepaths = [dirname]
+	for dir in dirname:
+		if (os.path.isdir(dir)):
+			recursive_list_dir(dir, filepaths)
+		else :
+			filepaths.append(dir)
 	return (filepaths)
 
 def read_file(filepath):
@@ -52,30 +55,41 @@ def read_file(filepath):
 	return (content)
 
 def norminette_line_len(line):
-	len = 0
-	for i in line:
-		if (i == '\t'):
-			len += 4
+	line_len = 0
+	tab_len = 4
+	for i in range(len(line)):
+		if (line[i] == '\t'):
+			line_len += tab_len
+			tab_len = 4
 		else :
-			len += 1
-	return len
+			if (tab_len > 0):
+				tab_len -= 1
+			else :
+				tab_len = 3
+			line_len += 1
+	return line_len
 
 def norminette(filename, content):
-	print(filename)
 	funclen = -1
 	funcname = ""
 	funcnumber = 0
+	errors = 0
+	messages = []
 	for i in range(len(content)):
+		## Multiple empty lines
 		if (content[i] == content[i - 1] == "\n"):
-			print("\t{:-3d}: multiple empty lines".format(i + 1 ))
-		if (norminette_line_len(content[i]) > 81):
-			print("\t{:-3d}: line is too long ({:d})".format(i + 1, norminette_line_len(content[i])- 1))
+			messages.append("\t{:-3d}: multiple empty lines".format(i + 1 ))
+		## Line len
+		line_len = norminette_line_len(content[i])
+		if (line_len > 81):
+			messages.append("\t{:-3d}: line is too long ({:d})".format(i + 1, line_len - 1)) ## -1 ??
+		## Functions len and declaration
 		if (re.search(format, content[i]) != None):
 			prototype = content[i].rstrip()
 			prototype = prototype.split('\t')
 			prototype = [k for k in prototype if (k != "")]
 			if (len(prototype) < 2):
-				print("\t{:-3d}: bad declaration: {:s}".format(i + 1, prototype[0]))
+				messages.append("\t{:-3d}: bad declaration: {:s}".format(i + 1, prototype[0]))
 				return
 			funcname = prototype[1]
 			funcname = funcname.split('(')[0]
@@ -84,14 +98,19 @@ def norminette(filename, content):
 			funclen = 0
 		elif (content[i] == '}\n'):
 			if (funclen > 25):
-				print("\t{:-3d}: {:s}: {:d} lines".format(i - funclen - 1, funcname, funclen))
+				messages.append("\t{:-3d}: {:s}: {:d} lines".format(i - funclen - 1, funcname, funclen))
 			funclen = -1
 		elif (funclen >= 0):
 			funclen += 1
 		if (content[int(i)].find('//') != -1):
-			print("\t{:-3d}: c++ comment".format(i))
+			messages.append("\t{:-3d}: c++ comment".format(i))
 	if (funcnumber > 5):
-		print("\t{:d} functions in file".format(funcnumber))
+		messages.append("\t{:d} functions in file".format(funcnumber))
+	if (len(messages) > 0):
+		print(filename)
+		for msg in messages:
+			print(msg)
+
 
 def main():
 	filepaths = get_file_names()
