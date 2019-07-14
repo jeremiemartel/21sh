@@ -69,6 +69,36 @@ def norminette_line_len(line):
 			line_len += 1
 	return line_len
 
+def norminette_functions(content, i, messages):
+	prototype = content[i].rstrip()
+	prototype = prototype.split('\t')
+	prototype = [k for k in prototype if (k != "")]
+	if (len(prototype) < 2):
+		return
+	funcname = prototype[1]
+	funcname = funcname.split('(')[0]
+	funclen = 0
+	j = i + 1
+	while (j < len(content)):
+		if (content[j] == '{\n'):
+			funclen = 0
+		elif (content[j] == '}\n'):
+			break
+		elif (funclen >= 0):
+			funclen += 1
+		if (content[int(j)].find('//') != -1):
+			messages.append("{:-3d}: c++ comment".format(j))
+		first_char = content[j].lstrip("\t")[0]
+		if (first_char == ' '):
+			messages.append("{:d}: bad indentation".format(j + 1))
+		j += 1
+
+	if (j == len(content) and content[0] != '}'):
+		messages.append("Bad format for function : {:s}".format(funcname))
+	elif (funclen > 25):
+		messages.append("{:-3d}: {:s}: {:d} lines".format(j - funclen - 1, funcname, funclen))
+
+
 def norminette(filename, content):
 	funclen = -1
 	funcname = ""
@@ -78,38 +108,22 @@ def norminette(filename, content):
 	for i in range(len(content)):
 		## Multiple empty lines
 		if (content[i] == content[i - 1] == "\n"):
-			messages.append("\t{:-3d}: multiple empty lines".format(i + 1 ))
+			messages.append("{:-3d}: multiple empty lines".format(i + 1 ))
 		## Line len
 		line_len = norminette_line_len(content[i])
 		if (line_len > 81):
-			messages.append("\t{:-3d}: line is too long ({:d})".format(i + 1, line_len - 1)) ## -1 ??
-		## Functions len and declaration
+			messages.append("{:-3d}: line is too long ({:d})".format(i + 1, line_len - 1)) ## -1 ??
+		## Functions len and format
 		if (re.search(format, content[i]) != None):
-			prototype = content[i].rstrip()
-			prototype = prototype.split('\t')
-			prototype = [k for k in prototype if (k != "")]
-			if (len(prototype) < 2):
-				messages.append("\t{:-3d}: bad declaration: {:s}".format(i + 1, prototype[0]))
-				return
-			funcname = prototype[1]
-			funcname = funcname.split('(')[0]
 			funcnumber += 1
-		elif (content[i] == '{\n'):
-			funclen = 0
-		elif (content[i] == '}\n'):
-			if (funclen > 25):
-				messages.append("\t{:-3d}: {:s}: {:d} lines".format(i - funclen - 1, funcname, funclen))
-			funclen = -1
-		elif (funclen >= 0):
-			funclen += 1
-		if (content[int(i)].find('//') != -1):
-			messages.append("\t{:-3d}: c++ comment".format(i))
+			norminette_functions(content, i, messages)
+
 	if (funcnumber > 5):
-		messages.append("\t{:d} functions in file".format(funcnumber))
+		messages.append("{:d} functions in file".format(funcnumber))
 	if (len(messages) > 0):
 		print(filename)
 		for msg in messages:
-			print(msg)
+			print("\t" + msg)
 
 
 def main():
