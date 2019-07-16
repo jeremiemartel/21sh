@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 13:33:24 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 14:45:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/15 09:23:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,23 @@ int			sh_builtin_cd_rule10(
 	if (curpath && *curpath)
 	{
 		if (access(curpath, F_OK) || stat(curpath, &st) == -1)
+		{
 			ret = sh_perror_err_fd(
 				context->fd[FD_ERR], param, SH_ERR2_NO_SUCH_FILE_OR_DIR);
+			sh_env_update_exit_status(context, SH_RET_ERROR);
+		}
 		else if (!S_ISDIR(st.st_mode))
+		{
 			ret = sh_perror2_err_fd(
 				context->fd[FD_ERR], SH_ERR1_NOT_A_DIR, "cd", param);
+			sh_env_update_exit_status(context, SH_RET_ERROR);
+		}
 		else if (access(curpath, X_OK))
+		{
 			ret = sh_perror2_err_fd(
 				context->fd[FD_ERR], SH_ERR1_PERM_DENIED, "cd", param);
+			sh_env_update_exit_status(context, SH_RET_ERROR);
+		}
 	}
 	if (!ret && curpath && *curpath)
 		chdir(curpath);

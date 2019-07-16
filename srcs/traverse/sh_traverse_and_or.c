@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sh_traverse_and_or.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 00:43:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/15 09:18:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int		sh_process_traverse_and_or_execute(t_list **ptr,
+static int		sh_traverse_and_or_execute_process(t_list **ptr,
 		int *prev_symbol, t_context *context)
 {
 	t_ast_node	*child;
@@ -20,13 +20,15 @@ static int		sh_process_traverse_and_or_execute(t_list **ptr,
 
 	if (*prev_symbol != -1
 			&& ((*prev_symbol == sh_index(LEX_TOK_AND_IF)
-				&& context->shell->ret_value)
+				&& context->exit_status)
 					|| (*prev_symbol == sh_index(LEX_TOK_OR_IF)
-						&& !context->shell->ret_value)))
+						&& !context->exit_status)))
 		return (SUCCESS);
 	child = (t_ast_node *)(*ptr)->content;
-	if ((ret = g_grammar[child->symbol->id].traverse(child, context))
-			== FAILURE)
+	ret = g_grammar[child->symbol->id].traverse(child, context);
+	sh_env_update_exit_status(context, ret);
+	sh_env_update_question_mark(context);
+	if (ret == FAILURE)
 		return (ret);
 	if (!context->shell->running)
 		return (SUCCESS);
@@ -48,7 +50,7 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	ptr = node->children;
 	while (ptr != NULL)
 	{
-		if ((ret = sh_process_traverse_and_or_execute(&ptr,
+		if ((ret = sh_traverse_and_or_execute_process(&ptr,
 			&prev_symbol, context) != KEEP_READ))
 		{
 			return (ret);

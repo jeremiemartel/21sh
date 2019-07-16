@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_traverse_pipe_sequence.c                        :+:      :+:    :+:   */
+/*   sh_traverse_pipe_sequence_execute.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 22:54:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/15 09:00:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int				sh_process_pipe_sequence_execute(t_context *context,
 		if (wpid == g_parent)
 			res_save = res;
 	}
-	sh_env_vars_update_question_mark(context, res_save);
+	sh_env_update_exit_status(context, EXIT_STATUS(res_save));
 	g_parent = 0;
 	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 		return (sh_perror("Could not modify this terminal attributes",
@@ -93,7 +93,8 @@ int				sh_traverse_pipe_sequence_execute(t_ast_node *node,
 	else
 	{
 		context->current_pipe_sequence_node = node;
-		ret = sh_traverse_tools_browse(node, context);
+		if ((ret = sh_traverse_tools_browse(node, context)) != SUCCESS)
+			return (ret);
 		return (sh_process_pipe_sequence_execute(context, node->metadata.
 					pipe_metadata.contexts));
 	}

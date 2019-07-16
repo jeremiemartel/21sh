@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 22:45:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/14 15:13:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,15 @@
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 # define SH_ERR2_INVALID_OPT			"Invalid option"
 
-# define SH_RET_BUILTIN			1 << 8
-# define SH_RET_CMD_NOT_FOUND	127 << 8
-# define SH_RET_PERM_DENIED		126 << 8
+# define SH_RET_SUCCESS			0
+# define SH_RET_ERROR			1
+# define SH_RET_BUILTIN			1
+# define SH_RET_NOT_EXECUTABLE	126
+# define SH_RET_CMD_NOT_FOUND	127
 
 /*
 ********************************************************************************
 */
-
-/*
-** sh_perror_fd.c
-*/
-int		sh_perror2_fd(
-	int fd, const char *error, const char *prefix, const char *suffix);
-int		sh_perror_fd(int fd, const char *error, const char *suffix);
 
 /*
 ** sh_perror.c
@@ -59,6 +54,13 @@ int		sh_perror_err(const char *error, const char *suffix);
 void	*sh_perrorn(const char *error, const char *suffix);
 int		sh_perror_err_fd(int fd, const char *error, const char *suffix);
 void	*sh_perrorn_fd(int fd, const char *error, const char *suffix);
+
+/*
+** sh_perror_fd.c
+*/
+int		sh_perror2_fd(
+	int fd, const char *error, const char *prefix, const char *suffix);
+int		sh_perror_fd(int fd, const char *error, const char *suffix);
 
 /*
 ** sh_perror2.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_exec.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/04 01:14:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/14 15:03:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 # include "sh_21.h"
 
-# define DGREAT_OPT		(O_WRONLY | O_APPEND | O_CREAT)
-# define GREAT_OPT		(O_WRONLY | O_TRUNC | O_CREAT)
+# define DGREAT_OPT			(O_WRONLY | O_APPEND | O_CREAT)
+# define GREAT_OPT			(O_WRONLY | O_TRUNC | O_CREAT)
+# define EXIT_STATUS(res)	res >> 8
 
 static pid_t g_parent = 0;
 
@@ -80,6 +81,8 @@ typedef struct		s_context
 	t_ast_node		*current_pipe_sequence_node;
 	t_list			**redirections;
 	pid_t			pid;
+	int				exit_status;
+	int				exit_status_set;
 }					t_context;
 
 /*
@@ -87,43 +90,19 @@ typedef struct		s_context
 */
 
 /*
-** t_context.c
-*/
-void				sh_free_context_dup_lst(void *c, size_t dummy);
-int					t_context_init(t_context *context, t_shell *shell);
-void				t_context_free_content(t_context *context);
-t_context			*t_context_dup(t_context *context);
-
-/*
 ** sh_execute.c
 */
-void				sh_execute_child(t_context *context, t_list *ctxs);
-void				sh_execute_child_binary(t_context *context, t_list *ctxs);
-void				sh_execute_child_builtin(t_context *context, t_list *ctxs);
-int					sh_process_execute(t_context *context);
+void				sh_close_all_other_contexts(
+	t_context *context, t_list *contexts);
+void				sh_execute_child_builtin(
+	t_context *context, t_list *contexts);
+void				sh_execute_child_binary(
+	t_context *context, t_list *contexts);
+void				sh_execute_child(t_context *context, t_list *contexts);
+int					sh_process_process_execute(t_context *context);
 int					sh_add_to_pipe_sequence(t_context *context);
-/*
-** sh_execute_pipes.c
-*/
-int					sh_process_execute_dup_pipes(t_context *context);
-int					sh_process_execute_close_pipes(t_context *context);
+int					sh_process_execute(t_context *context);
 
-/*
-** sh_redirections.c
-*/
-t_redirection		*get_redirection(
-	t_redirection_type type, int redirected_fd, t_list *list);
-int					sh_add_redirection(
-	t_redirection redirection,
-	t_list **list);
-int					get_redirected_fd(
-	t_redirection_type type, int fd, t_list *redirections);
-int					sh_process_fd_aggregation(
-	t_redirection_type type,
-	int redirected_fd,
-	int fd,
-	t_list **redirections);
-t_redirection		sh_new_redir(t_redirection_type type, int redir_fd, int fd);
 /*
 ** sh_debug.c
 */
@@ -131,8 +110,39 @@ void				print_redirection(t_redirection *redirection);
 void				print_redirection_list(t_list *list);
 
 /*
+** sh_execute_pipes.c
+*/
+int					sh_process_execute_dup_pipes(t_context *context);
+int					sh_process_execute_close_pipes(t_context *context);
+
+/*
 ** sh_exec_builtin.c
 */
 int					sh_exec_builtin(t_context *context);
+
+/*
+** t_context.c
+*/
+void				sh_free_context_dup_lst(void *c, size_t dummy);
+t_context			*t_context_dup(t_context *context);
+int					t_context_init(t_context *context, t_shell *shell);
+void				t_context_free_content(t_context *context);
+
+/*
+** sh_redirections.c
+*/
+t_redirection		*get_redirection(
+	t_redirection_type type, int redirected_fd, t_list *list);
+int					sh_add_redirection(
+	t_redirection redirection, t_list **list);
+int					get_redirected_fd(
+	t_redirection_type type, int fd, t_list *redirections);
+int					sh_process_fd_aggregation(
+	t_redirection_type type,
+	int redirected_fd,
+	int fd,
+	t_list **redirections);
+t_redirection		sh_new_redir(
+	t_redirection_type type, int redirected_fd, int fd);
 
 #endif

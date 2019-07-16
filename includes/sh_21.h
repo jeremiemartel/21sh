@@ -141,21 +141,21 @@ struct				s_shell
 */
 
 /*
-** free_all.c
+** home.c
 */
-void				sh_free_binary(t_binary *binary);
-void				sh_free_binary_lst(void *b, size_t dummy);
-void				free_file(t_file *file);
-void				free_file_dlst(void *f, size_t dummy);
-void				sh_free_all(t_shell *shell);
+char				*get_home_dup(t_shell *shell);
+int					process_subst_home(t_shell *shell, char **str);
 
 /*
-** index.c
+** init_term.c
 */
-int					sh_index_4(t_symbol_id id);
-int					sh_index_3(t_symbol_id id);
-int					sh_index_2(t_symbol_id id);
-int					sh_index(t_symbol_id id);
+int					sh_init_terminal_database(char **env);
+int					sh_init_terminal(t_shell *shell, char **env);
+
+/*
+** historic.c
+*/
+int					sh_append_to_historic(t_shell *shell, char *command);
 
 /*
 ** init_tabs.c
@@ -165,12 +165,22 @@ int					sh_main_init_env(t_shell *shell, char **env);
 int					sh_main_init_vars(t_shell *shell);
 
 /*
-** shell_tools.c
+** tools.c
 */
-int					putchar_int(int i);
-int					sh_reset_shell(int ret);
-int					sh_set_shell(struct termios term, int ret);
-int					clear_all(void);
+int					end_with_char(char *str, char c);
+int					get_file_in_dir(char *filename, char *dirname);
+int					get_path_from_absolute_path(char *str, char **path);
+int					get_path_and_file_from_str(
+	char *str, char **path, char **file);
+
+/*
+** free_all.c
+*/
+void				sh_free_binary(t_binary *binary);
+void				sh_free_binary_lst(void *b, size_t dummy);
+void				free_file(t_file *file);
+void				free_file_dlst(void *f, size_t dummy);
+void				sh_free_all(t_shell *shell);
 
 /*
 ** init.c
@@ -184,42 +194,6 @@ int					sh_init_command_line(
 int					sh_init_shell(t_shell *shell, char **env);
 
 /*
-** .cursor_motion.c.swp
-*/
-
-/*
-** canonical_mode.c
-*/
-int					sh_process_canonical_mode(t_shell *shell, char **env);
-
-/*
-** tools.c
-*/
-int					end_with_char(char *str, char c);
-int					get_file_in_dir(char *filename, char *dirname);
-int					get_path_from_absolute_path(char *str, char **path);
-int					get_path_and_file_from_str(
-	char *str, char **path, char **file);
-
-/*
-** signals.c
-*/
-void				init_signal_transmit_sig_and_die(void);
-void				init_signals(void);
-
-/*
-** init_term.c
-*/
-int					sh_init_terminal_database(char **env);
-int					sh_init_terminal(t_shell *shell, char **env);
-
-/*
-** home.c
-*/
-char				*get_home_dup(t_shell *shell);
-int					process_subst_home(t_shell *shell, char **str);
-
-/*
 ** non_canonical_mode.c
 */
 int					sh_process_command(t_shell *shell, char *command);
@@ -229,22 +203,12 @@ int					sh_await_command(t_shell *shell);
 int					sh_process_noncanonical_mode(t_shell *shell);
 
 /*
-** historic.c
+** shell_tools.c
 */
-int					sh_append_to_historic(t_shell *shell, char *command);
-
-/*
-** hash_binaries.c
-*/
-t_binary			*sh_new_binary(char *path, char *name);
-int					compare_str_to_binary(void *str, void *binary);
-int					sh_update_hash_table(
-	t_shell *shell, char *path, char *name);
-
-/*
-** main.c
-*/
-int					main(int argc, char **argv, char **env);
+int					putchar_int(int i);
+int					sh_reset_shell(int ret);
+int					sh_set_shell(struct termios term, int ret);
+int					clear_all(void);
 
 /*
 ** sanitize_path.c
@@ -255,5 +219,37 @@ int					add_to_path_dot_dot(char **old_path);
 int					add_to_path_pwd(char **old_path, char *partial_path);
 char				*get_sanitized_path_from_old(
 	char *old_pwd, char *path);
+
+/*
+** index.c
+*/
+int					sh_index_4(t_symbol_id id);
+int					sh_index_3(t_symbol_id id);
+int					sh_index_2(t_symbol_id id);
+int					sh_index(t_symbol_id id);
+
+/*
+** main.c
+*/
+int					main(int argc, char **argv, char **env);
+
+/*
+** hash_binaries.c
+*/
+t_binary			*sh_new_binary(char *path, char *name);
+int					compare_str_to_binary(void *str, void *binary);
+int					sh_update_hash_table(
+	t_shell *shell, char *path, char *name);
+
+/*
+** canonical_mode.c
+*/
+int					sh_process_canonical_mode(t_shell *shell, char **env);
+
+/*
+** signals.c
+*/
+void				init_signal_transmit_sig_and_die(void);
+void				init_signals(void);
 
 #endif

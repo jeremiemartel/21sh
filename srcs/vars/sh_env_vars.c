@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 13:48:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/04 17:31:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/14 14:58:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int		sh_env_vars_update_question_mark_shell(t_shell *shell, int res)
 		ft_dprintf(2, COLOR_CYAN"Updating ? <=> "COLOR_END);
 	if (!(str = ft_itoa(shell->ret_value)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
-	if (sh_verbose_exec())
-		ft_dprintf(2, COLOR_CYAN"%s\n"COLOR_END, str);
 	res = sh_vars_assign_key_val(shell->env, NULL, "?", str);
 	free(str);
 	return (res);

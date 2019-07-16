@@ -6,24 +6,27 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 15:49:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/14 14:48:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void		sh_free_context_dup(t_context *context)
+/*
+** sh_free_context_dup_lst:
+**	Free a t_context object. Function is used with ft_lstdel.
+*/
+
+void		sh_free_context_dup_lst(void *c, size_t dummy)
 {
+	t_context	*context;
+
+	context = (t_context *)c;
 	if (context->path)
 		ft_strdel(&context->path);
 	ft_dy_tab_del(context->params);
 	free(context);
-}
-
-void		sh_free_context_dup_lst(void *c, size_t dummy)
-{
 	(void)dummy;
-	sh_free_context_dup((t_context *)c);
 }
 
 t_context	*t_context_dup(t_context *context)
@@ -67,6 +70,8 @@ int		t_context_init(t_context *context, t_shell *shell)
 	context->fd[1] = 1;
 	context->fd[2] = 2;
 	context->builtin = NULL;
+	context->exit_status = 0;
+	context->exit_status_set = 0;
 	return (SUCCESS);
 }
 

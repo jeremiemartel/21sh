@@ -48,21 +48,11 @@ typedef struct		s_builtin_container
 */
 
 /*
-** sh_builtin.c
+** sh_builtin_setenv.c
 */
-t_builtin_container	*get_builtins(void);
-t_builtin			sh_builtin_find(t_context *context);
-
-/*
-** sh_builtin_cd.c
-*/
-int					sh_builtin_cd(t_context *context);
-
-/*
-** sh_builtin_hash_stats.c
-*/
-void				update_hash_stats(
-	t_hash_table *table, t_binary_stats *stats);
+int					sh_builtin_setenv_process (
+	char *entry, t_dy_tab *env, t_context *context);
+int					sh_builtin_setenv(t_context *context);
 
 /*
 ** sh_builtin_cd_pre_rules.c
@@ -80,9 +70,61 @@ int					sh_builtin_cd_rule5(
 int					sh_builtin_echo(t_context *context);
 
 /*
+** sh_builtin_verbose.c
+*/
+int					sh_builtin_verbose(t_context *context);
+
+/*
+** sh_builtin_set.c
+*/
+int					sh_builtin_set(t_context *context);
+
+/*
+** sh_builtin_env_parser.c
+*/
+int					sh_builtin_env_parser(
+	t_context *context, t_dy_tab **new_env, t_dy_tab **new_param);
+
+/*
+** sh_builtin_pwd.c
+*/
+char				*sh_builtin_pwd_physical(int fd_err);
+char				*sh_builtin_pwd_logical(t_dy_tab *env, int fd_err);
+int					sh_builtin_pwd(t_context *context);
+
+/*
+** sh_builtin_env.c
+*/
+void				sh_builtin_env_usage(int fdout);
+int					sh_builtin_env(t_context *context);
+
+/*
 ** sh_builtin_unsetenv.c
 */
 int					sh_builtin_unsetenv(t_context *context);
+
+/*
+** sh_builtin_env_process.c
+*/
+int					sh_builtin_env_no_args(t_context *context);
+int					sh_builtin_env_process_command (
+	t_context *context, t_dy_tab *new_env);
+
+/*
+** sh_builtin_hash_tools.c
+*/
+void				process_builtin_hash_suppr_all(t_shell *shell);
+
+/*
+** sh_builtin_hash.c
+*/
+int					sh_builtin_hash(t_context *context);
+
+/*
+** sh_builtin.c
+*/
+t_builtin_container	*get_builtins(void);
+t_builtin			sh_builtin_find(t_context *context);
 
 /*
 ** sh_builtin_cd_post_rules.c
@@ -94,16 +136,9 @@ int					sh_builtin_cd_rule10(
 	t_context *context, char *curpath, int flags, char *param);
 
 /*
-** sh_builtin_set.c
+** sh_builtin_where.c
 */
-int					sh_builtin_set(t_context *context);
-
-/*
-** sh_builtin_setenv.c
-*/
-int					sh_builtin_setenv_process (
-	char *entry, t_dy_tab *env, t_context *context);
-int					sh_builtin_setenv(t_context *context);
+int					sh_builtin_where(t_context *context);
 
 /*
 ** sh_builtin_exit.c
@@ -111,49 +146,14 @@ int					sh_builtin_setenv(t_context *context);
 int					sh_builtin_exit(t_context *context);
 
 /*
-** sh_builtin_env_process.c
+** sh_builtin_cd.c
 */
-int					sh_builtin_env_no_args(t_context *context);
-int					sh_builtin_env_process_command (
-	t_context *context, t_dy_tab *new_env);
+int					sh_builtin_cd(t_context *context);
 
 /*
-** sh_builtin_pwd.c
+** sh_builtin_hash_stats.c
 */
-char				*sh_builtin_pwd_physical(int fd_err);
-char				*sh_builtin_pwd_logical(t_dy_tab *env, int fd_err);
-int					sh_builtin_pwd(t_context *context);
-
-/*
-** sh_builtin_hash.c
-*/
-int					sh_builtin_hash(t_context *context);
-
-/*
-** sh_builtin_hash_tools.c
-*/
-void				process_builtin_hash_suppr_all(t_shell *shell);
-
-/*
-** sh_builtin_verbose.c
-*/
-int					sh_builtin_verbose(t_context *context);
-
-/*
-** sh_builtin_env.c
-*/
-void				sh_builtin_env_usage(int fdout);
-int					sh_builtin_env(t_context *context);
-
-/*
-** sh_builtin_where.c
-*/
-int					sh_builtin_where(t_context *context);
-
-/*
-** sh_builtin_env_parser.c
-*/
-int					sh_builtin_env_parser(
-	t_context *context, t_dy_tab **new_env, t_dy_tab **new_param);
+void				update_hash_stats(
+	t_hash_table *table, t_binary_stats *stats);
 
 #endif
