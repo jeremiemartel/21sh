@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/05 12:28:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/17 00:25:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,21 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 		return (SUCCESS);
 	input = &node->token->value;
 	if ((ret = sh_expansions_process_tilde(input, *input, context)) != SUCCESS)
+	{
+		sh_env_update_status_and_question(context, ret);
 		return (ret);
+	}
 	while (ft_strpbrk(*input, "$"))
 	{
 		if (sh_verbose_expansion())
 			ft_dprintf(2, "expansion var detected\n");
 		if ((ret = sh_expansions_process(input, *input, context)) != SUCCESS)
+		{
+			sh_env_update_status_and_question(context, ret);
 			return (ret);
+		}
 	}
-	return (ret);
+	return (SUCCESS);
 }
 
 /*

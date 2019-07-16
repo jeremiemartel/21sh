@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/15 09:18:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/17 00:25:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static int		sh_traverse_and_or_execute_process(t_list **ptr,
 		return (SUCCESS);
 	child = (t_ast_node *)(*ptr)->content;
 	ret = g_grammar[child->symbol->id].traverse(child, context);
-	sh_env_update_exit_status(context, ret);
-	sh_env_update_question_mark(context);
+	sh_env_update_status_and_question(context, ret);
 	if (ret == FAILURE)
 		return (ret);
 	if (!context->shell->running)

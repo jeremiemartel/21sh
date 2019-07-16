@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:41:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/04 17:29:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/16 21:56:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ int		sh_process_command(t_shell *shell, char *command)
 	sh_verbose_update(shell);
 	if ((ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
 	{
-		sh_env_vars_update_question_mark_shell(shell, ret);
+		sh_env_update_exit_status_shell(shell, ret);
+		sh_env_update_question_mark_shell(shell);
 		return (ret);
 	}
 	if ((ret = sh_parser(tokens, shell)))
 	{
-		sh_env_vars_update_question_mark_shell(shell, ret);
+		sh_env_update_exit_status_shell(shell, ret);
+		sh_env_update_question_mark_shell(shell);
 		return (ret);
 	}
 	ret = sh_process_traverse(shell);
@@ -43,8 +45,10 @@ int		sh_process_received_command(t_shell *shell,
 
 int		sh_await_command(t_shell *shell)
 {
-	if (sh_get_command(shell, &g_glob.command_line) != SUCCESS)
-		return (FAILURE);
+	int		ret;
+
+	if ((ret = sh_get_command(shell, &g_glob.command_line) != SUCCESS))
+		return (ret);
 	return (sh_process_received_command(shell,
 		&g_glob.command_line));
 }
