@@ -25,7 +25,7 @@ launch "Pipes on Builtins"
 	test_launch 'yes | head -c1'
 	test_launch 'cat | cat | wc'
 	test_launch 'emacs | emacs'
-	test_launch 
+	test_launch 'cat start.sh | wc | cat 1>&2 | ls | cat sd | ls'
 	test_launch 
 	test_launch 
 finish
