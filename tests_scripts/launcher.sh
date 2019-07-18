@@ -12,7 +12,7 @@ compare_results()
 
 	segfault=`grep -c SEGFAULT $new_log_file`
 
-	if [ "$old_ok" -ne "$new_ok" ] ; then
+	if [ "$old_ok" -ne "$new_ok" -o "$old_ko" -ne "$new_ko" ] ; then
 		echo New Ok : $new_ok
 		echo Old Ok : $old_ok
 		echo ""
@@ -49,7 +49,7 @@ compare_return_value()
 	old_ko=`grep -c "BAD RETURNED VALUE" $old_log_file`
 	segfault=`grep -c SEGFAULT $new_log_file`
 
-	if [ "$old_ok" -ne "$new_ok" ] ; then
+	if [ "$old_ok" -ne "$new_ok" -o "$old_ko" -ne "$new_ko" ]; then
 		echo New Ok : $new_ok
 		echo Old Ok : $old_ok
 		echo ""

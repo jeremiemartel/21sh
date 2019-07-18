@@ -18,7 +18,6 @@ launch "Expansions"
 	test_launch 'var=Okalm' 'echo $var'
 	test_launch 'var=Okalm' 'echo $var' 'var=po' 'echo $var'
 	test_launch 'var=Okalm' 'echo ${pwd:=ol}'
-	test_launch 'var=Okalm' 'echo ${'
 	test_launch 'w=' 'echo $w'
 	test_launch '${}'
 	test_launch '${)' '$}'

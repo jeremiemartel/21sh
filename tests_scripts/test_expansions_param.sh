@@ -121,7 +121,7 @@ launch "Parameter expansion"
 	test_launch 'echo ${=:}' 'echo ${?:}' 'echo ${-:}' 'echo ${+:}'
 	test_launch 'echo ${::}' 'echo ${:==}'  'echo ${=:::+}'  'echo ${+::=}'  'echo ${=::-}' 
 	test_launch 'echo ${}'
-	test_launch 'echo ${'
+	# test_launch 'echo ${'
 	test_launch 'echo \$}'
 	test_launch 'echo ${()}'
 	test_launch 'echo ${asdw+}'
@@ -129,7 +129,7 @@ launch "Parameter expansion"
 	test_launch 'echo ${:}'
 	test_launch 'echo ${s:}'
 	test_launch 'echo ${{{{}'
-	test_launch 'echo ${{{{'
+	# test_launch 'echo ${{{{'
 	test_launch 'echo ${?}'
 
 	test_launch 'echo ${X:=abc}'
