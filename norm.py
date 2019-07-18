@@ -15,6 +15,10 @@ import os
 import re
 import sys
 
+## If True scritp check uncommented functions
+check_comments=False
+
+## Regex used to detect functions prototype
 format = "^(static|void|int|char|t_*)"
 
 def recursive_list_dir(dirpath, filepaths):
@@ -78,6 +82,9 @@ def norminette_functions(content, i, messages):
 	funcname = prototype[1]
 	funcname = funcname.split('(')[0]
 	funclen = 0
+	if (check_comments):
+		if (content[i - 1 ] != "*/" or content[i - 2] != "*/"):
+			messages.append("{:-3d}: {:s}: not commented function".format(i - 1, funcname))
 	j = i + 1
 	while (j < len(content)):
 		if (content[j] == '{\n'):
