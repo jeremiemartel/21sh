@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/07 13:54:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:10:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,13 @@ int		sh_init_shell(t_shell *shell, char **env)
 	struct termios s;
 
 	s = shell->term;
-	shell->ret_value = 0;
 	ft_bzero(shell, sizeof(t_shell));
 	ft_bzero(&g_glob.command_line, sizeof(t_command_line));
 	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
 	shell->term = s;
 	shell->exit_value = 0;
+	shell->ret_value = 0;
+	shell->ret_value_set = 0;
 	if (sh_main_init_env(shell, env) == FAILURE)
 		return (FAILURE);
 	if (sh_main_init_vars(shell) == FAILURE)

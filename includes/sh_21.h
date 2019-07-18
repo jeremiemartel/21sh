@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/08 13:25:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:09:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ struct				s_shell
 	t_hash_table	*binaries;
 	char			running;
 	struct termios	term;
+	int				ret_value_set;
 	int				ret_value;
 	short			exit_value;
 };

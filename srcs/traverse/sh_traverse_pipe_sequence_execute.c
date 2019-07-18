@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 13:54:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,40 +66,15 @@ int				sh_process_pipe_sequence_execute(t_context *context,
 	if (sh_process_pipe_exec_fork(contexts) == FAILURE)
 		return (FAILURE);
 	sh_process_execute_close_pipes_list(contexts);
-	
-	
-	int		len = ft_lstlen(contexts);
-	ft_dprintf(2, "pipe len : %d\n", len);
-	int		i = 0;
-	while (i < len + 1)
-	{
-		wpid = wait(&res);
-		ft_dprintf(2, "returned value : %d => %d\n", res, EXIT_STATUS(res));
-		if (wpid == g_parent)
-		{
-			ft_dprintf(2, "exit status set : %d\n", EXIT_STATUS(res));
-			// sh_env_update_exit_status(context, EXIT_STATUS(res));
-			sh_env_update_exit_status_process_ret(context, res);
-			// sh_env_update_status_and_question(context, EXIT_STATUS(res));
-			res_save = res;
-		}
-		i++;
-	}
-
-
 	while ((wpid = wait(&res)) > 0)
 	{
-		ft_dprintf(2, "returned value : %d => %d\n", res, EXIT_STATUS(res));
 		if (wpid == g_parent)
 		{
-			ft_dprintf(2, "exit status set : %d\n", EXIT_STATUS(res));
-			// sh_env_update_exit_status(context, EXIT_STATUS(res));
-			sh_env_update_exit_status_process_ret(context, res);
-			// sh_env_update_status_and_question(context, EXIT_STATUS(res));
+			sh_env_update_ret_value_process_ret(context, res);
 			res_save = res;
 		}
 	}
-	sh_env_update_exit_status_process_ret(context, res_save);
+	sh_env_update_ret_value_process_ret(context, res_save);
 	g_parent = 0;
 	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 		return (sh_perror("Could not modify this terminal attributes",

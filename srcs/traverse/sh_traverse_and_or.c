@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/17 00:25:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:13:21 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static int		sh_traverse_and_or_execute_process(t_list **ptr,
 
 	if (*prev_symbol != -1
 			&& ((*prev_symbol == sh_index(LEX_TOK_AND_IF)
-				&& context->exit_status)
+				&& context->ret_value)
 					|| (*prev_symbol == sh_index(LEX_TOK_OR_IF)
-						&& !context->exit_status)))
+						&& !context->ret_value)))
 		return (SUCCESS);
 	child = (t_ast_node *)(*ptr)->content;
 	ret = g_grammar[child->symbol->id].traverse(child, context);

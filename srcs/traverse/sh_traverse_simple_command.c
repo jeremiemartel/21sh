@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/17 00:26:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 {
 	(void)node;
 	sh_process_execute_close_pipes(context);
-	sh_env_update_exit_status(context, 256); // Wtf is that return value
+	sh_env_update_ret_value(context, 256); // Wtf is that return value
 	return (SUCCESS);
 }
 
@@ -69,6 +69,8 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		context->redirections = &node->metadata.command_metadata.redirections;
+		if (context->current_pipe_sequence_node)
+			sh_env_update_question_mark(context); // Is this OK with redirections troubles ??
 		if (node->metadata.command_metadata.should_exec)
 			return (sh_traverse_simple_command_exec(node, context));
 		else
@@ -110,7 +112,7 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 	else
 	{
 		sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
-		sh_env_update_exit_status(context, SH_RET_CMD_NOT_FOUND);
+		sh_env_update_ret_value(context, SH_RET_CMD_NOT_FOUND);
 		return (ERROR);
 	}
 }

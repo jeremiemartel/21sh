@@ -6,18 +6,18 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/18 12:36:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	sh_env_update_exit_status_process_ret(t_context *context, int res)
+void	sh_env_update_ret_value_process_ret(t_context *context, int res)
 {
-	if (!context->exit_status_set)
+	if (!context->ret_value_set)
 	{
-		context->exit_status = EXIT_STATUS(res);
-		context->exit_status_set = 1;
+		context->ret_value = EXIT_STATUS(res);
+		context->ret_value_set = 1;
 		context->shell->ret_value = EXIT_STATUS(res);
 		if (sh_verbose_exec())
 		{
@@ -30,32 +30,36 @@ void	sh_env_update_exit_status_process_ret(t_context *context, int res)
 	return ;
 }
 
-void	sh_env_update_exit_status(t_context *context, int res)
+void	sh_env_update_ret_value(t_context *context, int res)
 {
-	if (!context->exit_status_set)
+	if (!context->ret_value_set)
 	{
-		context->exit_status = res;
-		context->exit_status_set = 1;
+		context->ret_value = res;
+		context->ret_value_set = 1;
 		context->shell->ret_value = res;
-		// context->shell->exit_value = context->exit_status;
 		if (sh_verbose_exec())
 			ft_dprintf(2, COLOR_CYAN"context exit status set : %d\n"COLOR_END,
-			context->exit_status);
+			context->ret_value);
 	}
 	return ;
 }
 
-void	sh_env_update_exit_status_shell(t_shell *shell, int res)
+void	sh_env_update_ret_value_shell(t_shell *shell, int res)
 {
-	shell->ret_value = res;
-	if (sh_verbose_exec())
-		ft_dprintf(2, COLOR_CYAN"shell returned value set : %d\n"COLOR_END,
-			shell->ret_value);
+	if (!shell->ret_value_set)
+	{
+		shell->ret_value = res;
+		shell->ret_value_set = 1;
+		if (sh_verbose_exec())
+			ft_dprintf(2, COLOR_CYAN"shell returned value set : %d\n"COLOR_END,
+				shell->ret_value);
+	}
+	return ;
 }
 
 int		sh_env_update_status_and_question(t_context *context, int res)
 {
-	sh_env_update_exit_status(context, res);
+	sh_env_update_ret_value(context, res);
 	return (sh_env_update_question_mark(context));
 }
 
@@ -64,6 +68,8 @@ int		sh_env_update_question_mark_shell(t_shell *shell)
 	char	*str;
 	int		ret;
 
+	if (!shell->ret_value_set)
+		return (ERROR);
 	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"Updating ? <=> %d\n"COLOR_END,
 		shell->ret_value);
@@ -79,15 +85,15 @@ int		sh_env_update_question_mark(t_context *context)
 	char	*str;
 	int		res;
 
-	if (!context->exit_status_set)
+	if (!context->ret_value_set)
 		return (ERROR);
 	if (sh_verbose_exec())
 		ft_dprintf(2, COLOR_CYAN"Updating ? <=> %d\n"COLOR_END,
-		context->exit_status);
-	if (!(str = ft_itoa(context->exit_status)))
+		context->ret_value);
+	if (!(str = ft_itoa(context->ret_value)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
 	res = sh_vars_assign_key_val(context->env, NULL, "?", str);
 	free(str);
-	context->exit_status_set = 0;
+	context->ret_value_set = 0;
 	return (res);
 }

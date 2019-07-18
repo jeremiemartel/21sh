@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:31:43 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/05 11:28:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:37:59 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int	sh_builtin_env_process_no_slash
 	else
 	{
 		sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
+		sh_env_update_ret_value(context, SH_RET_CMD_NOT_FOUND);
 		return (SUCCESS);
 	}
 }

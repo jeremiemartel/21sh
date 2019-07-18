@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/25 13:58:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 /*
 ** sh_env.c
 */
-void	sh_env_update_exit_status_process_ret(t_context *context, int res);
-void	sh_env_update_exit_status(t_context *context, int res);
-void	sh_env_update_exit_status_shell(t_shell *shell, int res);
+void	sh_env_update_ret_value_process_ret(t_context *context, int res);
+void	sh_env_update_ret_value(t_context *context, int res);
+void	sh_env_update_ret_value_shell(t_shell *shell, int res);
 int		sh_env_update_status_and_question(t_context *context, int res);
 int		sh_env_update_question_mark_shell(t_shell *shell);
 int		sh_env_update_question_mark(t_context *context);
