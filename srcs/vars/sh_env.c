@@ -6,17 +6,35 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/17 00:24:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/18 12:36:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
+void	sh_env_update_exit_status_process_ret(t_context *context, int res)
+{
+	if (!context->exit_status_set)
+	{
+		context->exit_status = EXIT_STATUS(res);
+		context->exit_status_set = 1;
+		context->shell->ret_value = EXIT_STATUS(res);
+		if (sh_verbose_exec())
+		{
+			ft_dprintf(2, COLOR_CYAN"context exit status set : %d\n"COLOR_END,
+			EXIT_STATUS(res));
+			ft_dprintf(2, COLOR_CYAN"Process signal sent : %d\n"COLOR_END,
+			res);
+		}
+	}
+	return ;
+}
+
 void	sh_env_update_exit_status(t_context *context, int res)
 {
 	if (!context->exit_status_set)
 	{
-		context->exit_status = res;// >> 8;
+		context->exit_status = res;
 		context->exit_status_set = 1;
 		context->shell->ret_value = res;
 		// context->shell->exit_value = context->exit_status;

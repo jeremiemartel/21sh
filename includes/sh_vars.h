@@ -33,6 +33,7 @@ char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 /*
 ** sh_env.c
 */
+void	sh_env_update_exit_status_process_ret(t_context *context, int res);
 void	sh_env_update_exit_status(t_context *context, int res);
 void	sh_env_update_exit_status_shell(t_shell *shell, int res);
 int		sh_env_update_status_and_question(t_context *context, int res);

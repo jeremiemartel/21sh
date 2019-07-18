@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:23:20 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/14 15:15:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/17 21:37:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			sh_traverse_sc_check_perm(t_context *context, char *path,
 	{
 		if (sh_verbose_exec())
 			ft_dprintf(2, "%s do not exists\n", path);
-		context->shell->ret_value = 127;
+		sh_env_update_exit_status(context, SH_RET_CMD_NOT_FOUND);
 		return (sh_perror_err(path, SH_ERR2_NO_SUCH_FILE_OR_DIR));
 	}
 	if (access(path, X_OK))
@@ -54,7 +54,6 @@ int			sh_traverse_sc_check_perm(t_context *context, char *path,
 		if (sh_verbose_exec())
 			ft_dprintf(2,
 			"You do not have execution rights on %s\n", command_name);
-		context->shell->ret_value = 126;
 		sh_env_update_exit_status(context, SH_RET_NOT_EXECUTABLE);
 		return (sh_perror_err(command_name, SH_ERR1_PERM_DENIED));
 	}
