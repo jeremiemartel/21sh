@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:57:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/18 11:36:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 08:54:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ static int	sh_builtin_echo_write(t_context * context, char *str)
 	ret = write(context->fd[FD_OUT], str, len);
 	if (ret == -1)
 	{
-		return (sh_perror2_err_fd(context->fd[FD_ERR], "echo", "write error", SH_ERR1_BAD_FD));
+		return (sh_perror2_err_fd(context->fd[FD_ERR], "echo", "write error",
+			SH_ERR1_BAD_FD));
 	}
 	return (SUCCESS);
 }
 
 int		sh_builtin_echo(t_context *context)
 {
-	int 	i;
+	int		i;
 	int		ret;
 
 	if (!context->params->tbl[1])

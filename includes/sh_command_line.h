@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 19:27:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/19 11:42:29 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define VISUAL_PROMPT	"(visual)"
 # define HEREDOC_PROMPT	"heredoc"
 # define PROMPT_SUFFIX	"> "
-# define READ_BUFF_SIZE	6
+# define READ_BUFF_SIZE	4
 
 # define SUCCESS_RSRCH		"failing bck-i-search: "
 # define UNSUCCESS_RSRCH	"bck-i-search: "
@@ -68,6 +68,7 @@ typedef struct		s_command_line
 	int				nb_chars;
 	int				current_index;
 	t_mode			mode;
+	int				interrupted;
 	char			*clipboard;
 	int				pinned_index;
 	int				last_char_input;
@@ -407,4 +408,14 @@ int					delete_command_line_selection(
 */
 void				sh_free_command_line(t_command_line *command_line);
 
+/*
+** sh_get_position.c
+*/
+int					sh_get_cursor_position(int *x, int *y);
+
+/*
+** sh_command_line_tools.c
+*/
+void				print_eof_delimiter(void);
+int					sh_add_eof(int interrupted);
 #endif

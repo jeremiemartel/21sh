@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 16:13:21 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 11:26:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_context	*t_context_dup(t_context *context)
 **	return : SUCCESS or FAILURE
 */
 
-int		t_context_init(t_context *context, t_shell *shell)
+int			t_context_init(t_context *context, t_shell *shell)
 {
 	if (!(context->params = ft_dy_tab_new(5)))
 		return (sh_perror(SH_ERR1_MALLOC, "t_context_init"));
@@ -80,7 +80,7 @@ int		t_context_init(t_context *context, t_shell *shell)
 **	Free any allocated memory in a t_context structure
 */
 
-void	t_context_free_content(t_context *context)
+void		t_context_free_content(t_context *context)
 {
 	ft_dy_tab_del(context->params);
 	if (context->path)

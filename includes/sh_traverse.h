@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 11:50:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:46:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,6 @@ int		sh_traverse_greatand(t_ast_node *node, t_context *context);
 /*
 ** sh_traverse_pipe_sequence_execute.c
 */
-void	sh_process_execute_close_pipes_list(t_list *contexts);
-int		sh_process_pipe_exec_fork(t_list *contexts);
-int		sh_process_pipe_sequence_execute(
-	t_context *context, t_list *contexts);
 int		sh_traverse_pipe_sequence_execute(
 	t_ast_node *node, t_context *context);
 

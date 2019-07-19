@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/14 13:57:54 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 11:56:52 by jmartel          ###   ########.fr       */
+/*   Created: 2019/07/19 08:53:23 by ldedier           #+#    #+#             */
+/*   Updated: 2019/07/19 09:04:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 extern pid_t g_parent;
-
-void	transmit_sig_and_die(int signal)
-{
-	if (g_parent)
-		kill(g_parent, signal);
-	return (exit(sh_reset_shell(0)));
-}
 
 static void	transmit_sig(int signal)
 {

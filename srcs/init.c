@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 16:10:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:59:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int		sh_init_command_line(t_shell *shell, t_command_line *command_line)
 	command_line->autocompletion.choices = NULL;
 	command_line->autocompletion.head = NULL;
 	command_line->autocompletion.active = 0;
+	command_line->interrupted = 0;
 	command_line->autocompletion.scrolled_lines = 0;
 	command_line->pinned_index = -1;
 	command_line->last_char_input = -1;

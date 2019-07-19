@@ -6,7 +6,7 @@
 /*   By: lcavalle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/12 00:21:27 by lcavalle          #+#    #+#             */
-/*   Updated: 2017/11/18 00:45:08 by lcavalle         ###   ########.fr       */
+/*   Updated: 2019/07/19 08:28:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_patoi(char **str)
 
 	result = 0;
 	multiplier = 1;
-	while (ft_isspace(**str))
+	while (ft_iswhite(**str))
 		(*str)++;
 	if (**str == '-')
 	{
