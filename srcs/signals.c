@@ -14,7 +14,7 @@
 
 extern pid_t g_parent;
 
-static void	transmit_sig_and_die(int signal)
+void	transmit_sig_and_die(int signal)
 {
 	if (g_parent)
 		kill(g_parent, signal);
@@ -48,25 +48,25 @@ static void	handle_resize(int signal)
 
 void		init_signal_transmit_sig_and_die(void)
 {
-	signal(SIGALRM, transmit_sig_and_die);
-	signal(SIGTERM, transmit_sig_and_die);
-	signal(SIGHUP, transmit_sig_and_die);
-	signal(SIGABRT, transmit_sig_and_die);
-	signal(SIGILL, transmit_sig_and_die);
-	signal(SIGTRAP, transmit_sig_and_die);
-	signal(SIGEMT, transmit_sig_and_die);
-	signal(SIGFPE, transmit_sig_and_die);
-	signal(SIGBUS, transmit_sig_and_die);
-	signal(SIGSEGV, transmit_sig_and_die);
-	signal(SIGSYS, transmit_sig_and_die);
-	signal(SIGTTIN, transmit_sig_and_die);
-	signal(SIGTTOU, transmit_sig_and_die);
-	signal(SIGXCPU, transmit_sig_and_die);
-	signal(SIGXFSZ, transmit_sig_and_die);
-	signal(SIGVTALRM, transmit_sig_and_die);
-	signal(SIGPROF, transmit_sig_and_die);
-	signal(SIGUSR1, transmit_sig_and_die);
-	signal(SIGUSR2, transmit_sig_and_die);
+	signal(SIGALRM, transmit_sig);
+	signal(SIGTERM, transmit_sig);
+	signal(SIGHUP, transmit_sig);
+	signal(SIGABRT, transmit_sig);
+	signal(SIGILL, transmit_sig);
+	signal(SIGTRAP, transmit_sig);
+	signal(SIGEMT, transmit_sig);
+	signal(SIGFPE, transmit_sig);
+	signal(SIGBUS, transmit_sig);
+	signal(SIGSEGV, transmit_sig);
+	signal(SIGSYS, transmit_sig);
+	signal(SIGTTIN, transmit_sig);
+	signal(SIGTTOU, transmit_sig);
+	signal(SIGXCPU, transmit_sig);
+	signal(SIGXFSZ, transmit_sig);
+	signal(SIGVTALRM, transmit_sig);
+	signal(SIGPROF, transmit_sig);
+	signal(SIGUSR1, transmit_sig);
+	signal(SIGUSR2, transmit_sig);
 }
 
 void		init_signals(void)

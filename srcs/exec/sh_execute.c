@@ -93,7 +93,7 @@ int			sh_add_to_pipe_sequence(t_context *context)
 	if (!(context_dup = t_context_dup(context)))
 		return (FAILURE);
 	if (ft_lstaddnew_ptr_last(&context->current_pipe_sequence_node->
-				metadata.pipe_metadata.contexts, context_dup, sizeof(t_context)))
+		metadata.pipe_metadata.contexts, context_dup, sizeof(t_context)))
 		return (FAILURE);
 	return (SUCCESS);
 }
