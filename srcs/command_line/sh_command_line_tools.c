@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 09:50:22 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:12:41 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/19 14:04:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	print_eof_delimiter(void)
 {
 	char *res;
 
+	res = tgetstr("ce", NULL);
+	tputs(res, 1, putchar_int);
 	res = tgetstr("mr", NULL);
 	tputs(res, 1, putchar_int);
 	ft_printf("%%");
@@ -27,7 +29,7 @@ int		sh_add_eof(int interrupted)
 {
 	int x;
 
-	if (!interrupted)
+	if (!interrupted && 1)
 	{
 		if (sh_get_cursor_position(&x, NULL) != SUCCESS)
 			return (FAILURE);
