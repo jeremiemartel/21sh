@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 12:14:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/19 14:27:15 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,19 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	unsigned char	buffer[READ_BUFF_SIZE];
 	int				ret;
 	int				res;
+	int				progress;
+	char			tmp;
 
 	ft_bzero(buffer, READ_BUFF_SIZE);
+	progress = 0;
 	while (1)
 	{
-		ret = read(0, buffer, READ_BUFF_SIZE);
+		ret = read(0, buffer + progress, 1);
+		tmp = *(buffer + progress);
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{
-			res = process_keys_insert(buffer, shell, command_line, ret);
+			res = process_keys_insert(buffer, shell, command_line, &progress);
 			if (command_line->context != E_CONTEXT_HEREDOC
 					&& res != KEEP_READ && res != CTRL_C)
 				return (res);
@@ -100,8 +104,8 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		}
 		else if (process_keys_others(buffer, shell, command_line) != SUCCESS)
 			return (FAILURE);
-		command_line->last_char_input = buffer[0];
-		ft_bzero(buffer, READ_BUFF_SIZE);
+		command_line->last_char_input = tmp;
+//		ft_bzero(buffer, READ_BUFF_SIZE);
 	}
 	return (SUCCESS);
 }

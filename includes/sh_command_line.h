@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:42:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/19 15:50:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,17 +299,17 @@ int					process_enter(t_command_line *command_line);
 int					process_keys_ret(
 	t_shell *shell,
 	t_command_line *command_line,
-	unsigned char *buffer);
+	unsigned char *buffer, int *progress);
 int					process_key_insert_printable_utf8(
 	unsigned char buffer[READ_BUFF_SIZE],
 	t_shell *shell,
 	t_command_line *command_line,
-	int ret);
+	int *progress);
 int					process_keys_insert(
 	unsigned char buffer[READ_BUFF_SIZE],
 	t_shell *shell,
 	t_command_line *command_line,
-	int ret);
+	int *progress);
 
 /*
 ** get_command.c

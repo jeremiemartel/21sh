@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:50:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/19 16:56:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,38 +38,42 @@ int		process_enter(t_command_line *command_line)
 }
 
 int		process_keys_ret(t_shell *shell, t_command_line *command_line,
-		unsigned char *buffer)
+		unsigned char *buffer, int *progress)
 {
 	int ret;
 
-	if (buffer[0] == 10)
+	(void)progress;
+	if (buffer[0] == 10 && *progress == 0)
 	{
 		if (process_enter(command_line) == 0)
 			return (SUCCESS);
 	}
-	else if (buffer[0] == 4)
+	else if (buffer[0] == 4 && *progress == 0)
 	{
 		if (process_ctrl_d(shell, command_line) != KEEP_READ)
 			return (CTRL_D);
 	}
-	else if (buffer[0] == 16)
+	else if (buffer[0] == 16 && *progress == 0)
 	{
 		if ((ret = process_clipboard_shell(shell, command_line)))
 			return (ret);
 	}
-	else if (buffer[0] == 9 && process_tab(shell, command_line) != SUCCESS)
+	else if (buffer[0] == 9  && *progress == 0
+		&& process_tab(shell, command_line) != SUCCESS)
 		return (FAILURE);
-	else if (buffer[0] == 3)
+	else if (buffer[0] == 3 && *progress == 0)
 		return (process_ctrl_c(shell, command_line));
+	else
+		(*progress)++;
 	return (KEEP_READ);
 }
 
 int		process_key_insert_printable_utf8(unsigned char buffer[READ_BUFF_SIZE],
-		t_shell *shell, t_command_line *command_line, int ret)
+		t_shell *shell, t_command_line *command_line, int *progress)
 {
 	if (command_line->searcher.active)
 	{
-		if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, ret))
+		if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, *progress + 1))
 			return (FAILURE);
 		buffer[0] = 0;
 		if (sh_add_to_dy_str(command_line->searcher.dy_str, buffer, 1))
@@ -78,15 +82,17 @@ int		process_key_insert_printable_utf8(unsigned char buffer[READ_BUFF_SIZE],
 	}
 	else
 	{
-		if (sh_add_to_command(command_line, buffer, ret))
+		if (sh_add_to_command(command_line, buffer, *progress + 1))
 			return (FAILURE);
 		render_command_line(command_line, 1, 1);
 	}
+	ft_bzero(buffer, READ_BUFF_SIZE);
+	*progress = 0;
 	return (SUCCESS);
 }
 
 int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
-		t_shell *shell, t_command_line *command_line, int ret)
+		t_shell *shell, t_command_line *command_line, int *progress)
 {
 	if (buffer[0] != 10 && buffer[0] != 9
 			&& (buffer[0] != 27 || buffer[1] != 91
@@ -95,10 +101,10 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 		command_line->autocompletion.head = NULL;
 		command_line->autocompletion.active = 0;
 	}
-	if (is_printable_utf8(buffer, ret))
+	if (is_printable_utf8(buffer, *progress + 1))
 	{
 		if (process_key_insert_printable_utf8(buffer,
-				shell, command_line, ret) != SUCCESS)
+				shell, command_line, progress) != SUCCESS)
 			return (FAILURE);
 	}
 	else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 65)
@@ -107,5 +113,5 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 		process_down(shell, command_line);
 	else if (buffer[0] == 18 && process_research_historic(command_line, shell))
 		return (FAILURE);
-	return (process_keys_ret(shell, command_line, buffer));
+	return (process_keys_ret(shell, command_line, buffer, progress));
 }
