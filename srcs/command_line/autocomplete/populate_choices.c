@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   populate_choices.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 00:13:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:08:35 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		populate_choices_from_binaries(t_shell *shell, t_word *word)
 	char *path_str;
 
 	word->to_compare = word->str;
-	if ((path_str = get_env_value((char **)shell->env->tbl, "PATH")))
+	if ((path_str = sh_vars_get_value(shell->env, NULL, "PATH")))
 	{
 		if (add_choices_path(shell, word, path_str))
 			return (1);

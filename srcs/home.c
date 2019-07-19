@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 16:46:13 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:02:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_home_dup(t_shell *shell)
 	struct passwd	*pwd;
 	uid_t			uid;
 
-	if (!(str = get_env_value((char **)shell->env->tbl, "HOME")))
+	if (!(str = sh_vars_get_value(shell->env, NULL, "HOME")))
 	{
 		uid = geteuid();
 		if (!(pwd = getpwuid(uid)))

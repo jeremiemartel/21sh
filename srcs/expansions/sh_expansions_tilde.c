@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:56:29 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 22:12:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:10:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 {
 	char	*home;
 
-	if (!(home = get_env_value((char**)context->env->tbl, "HOME")))
+	if (!(home = sh_vars_get_value(context->env, NULL, "HOME")))
 		return (sh_perror(SH_ERR1_ENV_NOT_SET, "HOME"));
 	if (!(exp->res = (t_dy_str *)malloc(sizeof(t_dy_str))))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (1)"));

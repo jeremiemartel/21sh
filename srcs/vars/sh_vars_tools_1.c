@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:15:48 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 22:04:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:04:54 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,44 @@ int		sh_vars_get_index(t_dy_tab *vars, char *key)
 */
 
 char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key)
+{
+	int		index;
+
+	if (!env)
+	{
+		if ((index = sh_vars_get_index(vars, key)) == -1)
+			return (NULL);
+		return (ft_strchr((char*)vars->tbl[index], '=') + 1);
+	}
+	else if (!vars)
+	{
+		if ((index = sh_vars_get_index(env, key)) == -1)
+			return (NULL);
+		return (ft_strchr((char*)env->tbl[index], '=') + 1);
+	}
+	else
+	{
+		if ((index = sh_vars_get_index(env, key)) == -1)
+		{
+			if ((index = sh_vars_get_index(vars, key)) == -1)
+				return (NULL);
+			return (ft_strchr((char*)vars->tbl[index], '=') + 1);
+		}
+		return (ft_strchr((char*)env->tbl[index], '=') + 1);
+	}
+}
+
+/*
+** sh_vars_get_value:
+**	Look for the value of an entry in environment and variables dynamic tables,
+**	identified by it's key
+**	It is possible to look only one table, by sending NULL in the other param
+**	return:
+**		NULL if key does not exists
+**		Address of the begining of the value
+*/
+
+char	*sh_vars_get_value_strtab(t_dy_tab *env, t_dy_tab *vars, char *key)
 {
 	int		index;
 
