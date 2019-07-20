@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/19 11:31:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 09:40:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,15 @@ int		sh_env_update_question_mark_shell(t_shell *shell)
 	if (!shell->ret_value_set)
 		return (ERROR);
 	if (sh_verbose_exec())
-		ft_dprintf(2, COLOR_CYAN"Updating ? <=> %d\n"COLOR_END,
+	{
+		ft_dprintf(2, COLOR_CYAN"Updating ? from shell <=> %d\n"COLOR_END,
 		shell->ret_value);
+	}
 	if (!(str = ft_itoa(shell->ret_value)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark_shell"));
 	ret = sh_vars_assign_key_val(shell->env, NULL, "?", str);
 	free(str);
+	shell->ret_value_set = 0;
 	return (ret);
 }
 
@@ -88,7 +91,7 @@ int		sh_env_update_question_mark(t_context *context)
 	if (!context->ret_value_set)
 		return (ERROR);
 	if (sh_verbose_exec())
-		ft_dprintf(2, COLOR_CYAN"Updating ? <=> %d\n"COLOR_END,
+		ft_dprintf(2, COLOR_CYAN"Updating ? from context <=> %d\n"COLOR_END,
 		context->ret_value);
 	if (!(str = ft_itoa(context->ret_value)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_env_update_question_mark"));
