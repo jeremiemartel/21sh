@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 07:39:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 13:19:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ static int		sh_traverse_and_or_execute_process(t_list **ptr,
 
 	if (*prev_symbol != -1
 			&& ((*prev_symbol == sh_index(LEX_TOK_AND_IF)
-				&& context->ret_value)
+				&& context->shell->ret_value)
 					|| (*prev_symbol == sh_index(LEX_TOK_OR_IF)
-						&& !context->ret_value)))
+						&& !context->shell->ret_value)))
 		return (SUCCESS);
 	child = (t_ast_node *)(*ptr)->content;
 	ret = g_grammar[child->symbol->id].traverse(child, context);
-	// sh_env_update_status_and_question(context, ret);
 	if (ret == FAILURE)
 		return (ret);
 	if (!context->shell->running)
@@ -49,11 +48,11 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	ptr = node->children;
 	while (ptr != NULL)
 	{
+		if (sh_verbose_traverse())
+			ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC, node->symbol->debug);
 		if ((ret = sh_traverse_and_or_execute_process(&ptr,
-			&prev_symbol, context) != KEEP_READ))
-		{
+			&prev_symbol, context)) != KEEP_READ)
 			return (ret);
-		}
 	}
 	return (SUCCESS);
 }

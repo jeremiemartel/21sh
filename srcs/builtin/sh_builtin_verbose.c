@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/06 12:15:40 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 10:02:15 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		sh_builtin_verbose_usage(t_context *context)
 }
 
 static int		sh_builtin_verbose_process_all(
-	t_context *context, char key[6][20], char value[3])
+	t_context *context, char key[8][20], char value[3])
 {
 	int		ret;
 	int		i;
@@ -39,7 +39,7 @@ static int		sh_builtin_verbose_process_all(
 }
 
 static int		sh_builtin_verbose_process(
-	t_context *context, char key[6][20], char value[3])
+	t_context *context, char key[8][20], char value[3])
 {
 	int			i;
 	int			j;
@@ -67,8 +67,9 @@ static int		sh_builtin_verbose_process(
 int				sh_builtin_verbose(t_context *context)
 {
 	char		value[3];
-	static char	key[6][20] = {"verbose_ast", "verbose_lexer", "verbose_exec",
-		"verbose_pipe", "verbose_expansion", ""};
+	static char	key[9][20] = {"verbose_ast", "verbose_lexer", "verbose_exec",
+		"verbose_pipe", "verbose_expansion", "verbose_builtin", "verbose_traverse", ""};
+	int		ret;
 
 	if (ft_strequ(context->params->tbl[1], "on"))
 		ft_strcpy(value, "on");
@@ -76,5 +77,9 @@ int				sh_builtin_verbose(t_context *context)
 		ft_strcpy(value, "");
 	else
 		return (sh_builtin_verbose_usage(context));
-	return (sh_builtin_verbose_process(context, key, value));
+	ret = sh_builtin_verbose_process(context, key, value);
+	if (ret)
+		return(ret);
+	sh_verbose_update(context->shell);
+	return (ret);
 }

@@ -46,3 +46,17 @@ int		sh_verbose_expansion(void)
 		return (1);
 	return (0);
 }
+
+int		sh_verbose_builtin(void)
+{
+	if (g_glob.verbose & VERBOSE_BUILTIN)
+		return (1);
+	return (0);
+}
+
+int		sh_verbose_traverse(void)
+{
+	if (g_glob.verbose & VERBOSE_TRAVERSE)
+		return (1);
+	return (0);
+}

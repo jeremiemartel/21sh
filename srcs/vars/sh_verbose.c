@@ -33,6 +33,28 @@ static int	sh_verbose_update_2(t_shell *shell)
 		buffer = g_glob.verbose & VERBOSE_EXPANSION ? VERBOSE_EXPANSION : 0;
 		g_glob.verbose -= buffer;
 	}
+	if ((value = sh_vars_get_value(shell->env, shell->vars,
+		"verbose_builtin")) && *value)
+	{
+		buffer = g_glob.verbose & VERBOSE_BUILTIN ? 0 : VERBOSE_BUILTIN;
+		g_glob.verbose += buffer;
+	}
+	else
+	{
+		buffer = g_glob.verbose & VERBOSE_BUILTIN ? VERBOSE_BUILTIN : 0;
+		g_glob.verbose -= buffer;
+	}
+	if ((value = sh_vars_get_value(shell->env, shell->vars,
+		"verbose_traverse")) && *value)
+	{
+		buffer = g_glob.verbose & VERBOSE_TRAVERSE ? 0 : VERBOSE_TRAVERSE;
+		g_glob.verbose += buffer;
+	}
+	else
+	{
+		buffer = g_glob.verbose & VERBOSE_TRAVERSE ? VERBOSE_TRAVERSE : 0;
+		g_glob.verbose -= buffer;
+	}
 	return (SUCCESS);
 }
 

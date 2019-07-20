@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:23:20 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 09:46:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static int	sh_traverse_sc_check_perm_reg(t_context *context, struct stat st,
 {
 	if (S_ISDIR(st.st_mode))
 	{
-		sh_env_update_ret_value(context, SH_RET_NOT_EXECUTABLE);
+		sh_env_update_ret_value(context->shell, SH_RET_NOT_EXECUTABLE);
 		return (sh_perror(context->params->tbl[0], SH_ERR1_IS_DIR));
 	}
 	if (sh_verbose_exec())
 		ft_dprintf(2, "%s is not a regular file\n", command_name);
-	sh_env_update_ret_value(context, SH_RET_CMD_NOT_FOUND);
+	sh_env_update_ret_value(context->shell, SH_RET_CMD_NOT_FOUND);
 	return (sh_perror_err(command_name, SH_ERR1_CMD_NOT_FOUND));
 }
 
@@ -46,7 +46,7 @@ int			sh_traverse_sc_check_perm(t_context *context, char *path,
 	{
 		if (sh_verbose_exec())
 			ft_dprintf(2, "%s do not exists\n", path);
-		sh_env_update_ret_value(context, SH_RET_CMD_NOT_FOUND);
+		sh_env_update_ret_value(context->shell, SH_RET_CMD_NOT_FOUND);
 		return (sh_perror_err(path, SH_ERR2_NO_SUCH_FILE_OR_DIR));
 	}
 	if (access(path, X_OK))
@@ -54,7 +54,7 @@ int			sh_traverse_sc_check_perm(t_context *context, char *path,
 		if (sh_verbose_exec())
 			ft_dprintf(2,
 			"You do not have execution rights on %s\n", command_name);
-		sh_env_update_ret_value(context, SH_RET_NOT_EXECUTABLE);
+		sh_env_update_ret_value(context->shell, SH_RET_NOT_EXECUTABLE);
 		return (sh_perror_err(command_name, SH_ERR1_PERM_DENIED));
 	}
 	if (!S_ISREG(st.st_mode))

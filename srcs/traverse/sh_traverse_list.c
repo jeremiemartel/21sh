@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:30:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/20 12:53:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 	int			ret;
 
 	ptr = node->children;
-	while (ptr != NULL)
+	if (sh_verbose_traverse())
+		ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC, node->symbol->debug);
+	while (ptr != NULL && context->shell->running)
 	{
 		child = (t_ast_node *)ptr->content;
 		if ((ret = sh_process_traverse_list_redir_exec(child, context, &ptr)))

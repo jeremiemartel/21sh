@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 08:05:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 13:20:08 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ typedef struct		s_context
 	t_ast_node		*current_pipe_sequence_node;
 	t_list			**redirections;
 	pid_t			pid;
-	int				ret_value;
-	int				ret_value_set;
 }					t_context;
 
 /*

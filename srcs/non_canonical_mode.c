@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:41:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 11:04:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,13 @@ int		sh_process_command(t_shell *shell, char *command)
 	int		ret;
 
 	sh_verbose_update(shell);
-	if ((ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
-	{
-		sh_env_update_ret_value_shell(shell, ret);
-		sh_env_update_question_mark_shell(shell);
-		return (ret);
-	}
-	if ((ret = sh_parser(tokens, shell)))
-	{
-		sh_env_update_ret_value_shell(shell, ret);
-		sh_env_update_question_mark_shell(shell);
-		return (ret);
-	}
-	ret = sh_process_traverse(shell);
+	ret = 0;
+	if (!ret && (ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
+		sh_env_update_status_and_question(shell, ret);
+	if (!ret && (ret = sh_parser(tokens, shell)))
+		sh_env_update_status_and_question(shell, ret);
+	if (!ret)
+		ret = sh_process_traverse(shell);
 	return (ret);
 }
 

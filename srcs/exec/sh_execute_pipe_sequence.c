@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 08:05:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 09:49:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void		sh_execute_pipe_sequence_waits(t_context *context, int *res_save)
 	{
 		if (wpid == g_parent)
 		{
-			sh_env_update_ret_value_fork_result(context, res); // Is it necessarry ??
+			sh_env_update_ret_value_fork_result(context->shell, res); // Is it necessarry ??
 			*res_save = res;
 		}
 	}
@@ -79,7 +79,7 @@ int				sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 		return (FAILURE);
 	sh_execute_pipe_sequence_close_pipes_list(contexts);
 	sh_execute_pipe_sequence_waits(context, &res_save);
-	sh_env_update_ret_value_fork_result(context, res_save);
+	sh_env_update_ret_value_fork_result(context->shell, res_save);
 	g_parent = 0;
 	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 	{

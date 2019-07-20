@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:26:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/20 13:20:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int			t_context_init(t_context *context, t_shell *shell)
 	context->fd[1] = 1;
 	context->fd[2] = 2;
 	context->builtin = NULL;
-	context->ret_value = 0;
-	context->ret_value_set = 0;
 	return (SUCCESS);
 }
 
