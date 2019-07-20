@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 10:02:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 16:30:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int				sh_builtin_verbose(t_context *context)
 {
 	char		value[3];
 	static char	key[9][20] = {"verbose_ast", "verbose_lexer", "verbose_exec",
-		"verbose_pipe", "verbose_expansion", "verbose_builtin", "verbose_traverse", ""};
+			"verbose_pipe", "verbose_expansion", "verbose_builtin",
+				"verbose_traverse", ""};
 	int		ret;
 
 	if (ft_strequ(context->params->tbl[1], "on"))

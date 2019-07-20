@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 09:46:02 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 16:25:58 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 /*
 ** sh_env.c
 */
-void	sh_env_update_ret_value_fork_result(t_shell *shell, int res);
+void	sh_env_update_ret_value_wait_result(t_shell *shell, int res);
 void	sh_env_update_ret_value(t_shell *shell, int res);
 int		sh_env_update_status_and_question(t_shell *shell, int res);
 int		sh_env_update_question_mark(t_shell *shell);
@@ -64,7 +64,7 @@ int		sh_verbose_traverse(void);
 /*
 ** sh_verbose.c
 */
-int		sh_verbose_update(t_shell *shell);
+void	sh_verbose_update(t_shell *shell);
 
 /*
 ** sh_env_tools.c

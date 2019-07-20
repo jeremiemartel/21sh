@@ -12,12 +12,26 @@
 
 #include "sh_21.h"
 
+/*
+**	Check if verbose is active on in the given phase.
+**
+** Returned Values:
+**		True or False
+*/
+
 int		sh_verbose_ast(void)
 {
 	if (g_glob.verbose & VERBOSE_AST)
 		return (1);
 	return (0);
 }
+
+/*
+**	Check if verbose is active on in the given phase.
+**
+** Returned Values:
+**		True or False
+*/
 
 int		sh_verbose_lexer(void)
 {
@@ -26,12 +40,26 @@ int		sh_verbose_lexer(void)
 	return (0);
 }
 
+/*
+**	Check if verbose is active on in the given phase.
+**
+** Returned Values:
+**		True or False
+*/
+
 int		sh_verbose_exec(void)
 {
 	if (g_glob.verbose & VERBOSE_EXEC)
 		return (1);
 	return (0);
 }
+
+/*
+**	Check if verbose is active on in the given phase.
+**
+** Returned Values:
+**		True or False
+*/
 
 int		sh_verbose_pipe(void)
 {
@@ -40,23 +68,16 @@ int		sh_verbose_pipe(void)
 	return (0);
 }
 
+/*
+**	Check if verbose is active on in the given phase.
+**
+** Returned Values:
+**		True or False
+*/
+
 int		sh_verbose_expansion(void)
 {
 	if (g_glob.verbose & VERBOSE_EXPANSION)
-		return (1);
-	return (0);
-}
-
-int		sh_verbose_builtin(void)
-{
-	if (g_glob.verbose & VERBOSE_BUILTIN)
-		return (1);
-	return (0);
-}
-
-int		sh_verbose_traverse(void)
-{
-	if (g_glob.verbose & VERBOSE_TRAVERSE)
 		return (1);
 	return (0);
 }

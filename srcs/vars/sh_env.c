@@ -6,13 +6,19 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 13:06:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 16:28:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	sh_env_update_ret_value_fork_result(t_shell *shell, int res)
+/*
+** sh_env_update_ret_value_wait_result:
+**	If not already set update the value of shell->ret_value.
+**	res is considered as the value stored by a wait (2) function.
+*/
+
+void	sh_env_update_ret_value_wait_result(t_shell *shell, int res)
 {
 	if (!shell->ret_value_set)
 	{
@@ -29,6 +35,11 @@ void	sh_env_update_ret_value_fork_result(t_shell *shell, int res)
 	return ;
 }
 
+/*
+** sh_env_update_ret_value:
+**	If not already set update the value of shell->ret_value.
+*/
+
 void	sh_env_update_ret_value(t_shell *shell, int res)
 {
 	if (!shell->ret_value_set)
@@ -42,11 +53,15 @@ void	sh_env_update_ret_value(t_shell *shell, int res)
 	return ;
 }
 
-int		sh_env_update_status_and_question(t_shell *shell, int res)
-{
-	sh_env_update_ret_value(shell, res);
-	return (sh_env_update_question_mark(shell));
-}
+/*
+** sh_env_update_status_and_question:
+**	Update $? env variable. It use shell->ret_value, if it had been set.
+**
+**	Returned Values:
+**		ERROR : ret_value unset
+**		FAILURE : malloc error
+**		SUCCESS
+*/
 
 int		sh_env_update_question_mark(t_shell *shell)
 {
@@ -64,4 +79,20 @@ int		sh_env_update_question_mark(t_shell *shell)
 	res = sh_vars_assign_key_val(shell->env, NULL, "?", str);
 	free(str);
 	return (res);
+}
+
+/*
+** sh_env_update_status_and_question:
+**	Update status and $? in one function.
+**
+**	Returned Values:
+**		ERROR : ret_value unset
+**		FAILURE : malloc error
+**		SUCCESS
+*/
+
+int		sh_env_update_status_and_question(t_shell *shell, int res)
+{
+	sh_env_update_ret_value(shell, res);
+	return (sh_env_update_question_mark(shell));
 }
