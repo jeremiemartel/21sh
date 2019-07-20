@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 11:31:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	sh_env_update_ret_value_process_ret(t_context *context, int res)
+void	sh_env_update_ret_value_fork_result(t_context *context, int res)
 {
 	if (!context->ret_value_set)
 	{

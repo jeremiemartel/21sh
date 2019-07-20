@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:41:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:08:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		sh_init_terminal_database(char **env)
 	char	*termtype;
 	int		success;
 
-	termtype = get_env_value(env, "TERM");
+	termtype = sh_env_get_value(env, "TERM");
 	if (termtype == NULL)
 	{
 		return (sh_perror("Specify a terminal type with 'export TERM'",

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 10:45:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/20 08:05:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				sh_traverse_pipe_sequence_execute(t_ast_node *node,
 		context->current_pipe_sequence_node = node;
 		if ((ret = sh_traverse_tools_browse(node, context)) != SUCCESS)
 			return (ret);
-		return (sh_process_pipe_sequence_execute(context,
+		return (sh_execute_pipe_sequence(context,
 			node->metadata.pipe_metadata.contexts));
 	}
 }

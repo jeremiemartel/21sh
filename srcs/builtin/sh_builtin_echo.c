@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:57:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/19 08:54:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/20 08:35:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	sh_builtin_echo_write(t_context * context, char *str)
 	int		len;
 	int		ret;
 
-	len = ft_strlen(str);
+	if ((len = ft_strlen(str)) == 0)
+		return (SUCCESS);
 	ret = write(context->fd[FD_OUT], str, len);
 	if (ret == -1)
 	{
@@ -38,8 +39,9 @@ int		sh_builtin_echo(t_context *context)
 	while (context->params->tbl[i] && ft_strequ(context->params->tbl[i], "-n"))
 		i++;
 	ret = 0;
-	while (!ret && context->params->tbl[i + 1])
+	while (!ret && context->params->tbl[i] && context->params->tbl[i + 1])
 	{
+		// ft_dprintf(2, "param %d : %s\n", i, context->params->tbl[i]);
 		ret = sh_builtin_echo_write(context, context->params->tbl[i]);
 		if (!ret)
 			ret = sh_builtin_echo_write(context, " ");
@@ -47,6 +49,7 @@ int		sh_builtin_echo(t_context *context)
 	}
 	if (ret)
 		return (ERROR);
+	// ft_dprintf(2, "last param : %s\n", context->params->tbl[i]);
 	if (sh_builtin_echo_write(context, context->params->tbl[i]) == ERROR)
 		return (ERROR);
 	if (!ft_strequ(context->params->tbl[1], "-n"))

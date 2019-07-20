@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 07:47:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 	if (ret == ERROR)
 		sh_process_execute_close_pipes(context);
 	sh_traverse_tools_reset_params(context);
+	sh_env_update_question_mark(context);
 	return (ret == FAILURE ? FAILURE : SUCCESS);
 }
 
@@ -61,6 +62,7 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 	(void)node;
 	sh_process_execute_close_pipes(context);
 	sh_env_update_ret_value(context, 256); // Wtf is that return value
+	sh_env_update_question_mark(context);
 	return (SUCCESS);
 }
 

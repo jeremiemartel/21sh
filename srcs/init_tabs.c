@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/08 12:01:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 10:02:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			sh_update_shell_lvl(t_shell *shell)
 	int		new_lvl;
 	char	*new_lvl_str;
 
-	if (!(str = get_env_value((char **)shell->env->tbl, "SHLVL")))
+	if (!(str = sh_vars_get_value(shell->env, NULL, "SHLVL")))
 		new_lvl = 1;
 	else
 		new_lvl = ft_atoi(str) + 1;
