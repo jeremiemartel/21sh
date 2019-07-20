@@ -33,4 +33,6 @@ launch "here documents"
 	test_launch '<<eof cat' 'olqsd' 'qdza ' 'eof' 'ls'
 	test_launch '3<<eof cat' 'olqsd' 'qdza ' 'eof' 'ls'
 	test_launch '1<<eof cat' 'olqsd' 'qdza ' 'eof' 'ls'
+	test_launch '1<<eof 2<<eof2 cat' 'olqsd' 'eof' 'tamer' 'eof2' 'ls'
+	test_launch '2<<eof 1<<eof2 cat' 'olqsd' 'eof' 'tamer' 'eof2' 'ls'
 finish
