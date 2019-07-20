@@ -28,4 +28,9 @@ launch "Pipes on Builtins"
 	test_launch 'cat start.sh | wc | cat 1>&2 | ls | cat sd | ls'
 	test_launch 
 	test_launch 
+
+launch "here documents"
+	test_launch '<<eof cat' 'olqsd' 'qdza ' 'eof' 'ls'
+	test_launch '3<<eof cat' 'olqsd' 'qdza ' 'eof' 'ls'
+	test_launch '1<<eof cat' 'olqsd' 'qdza ' 'eof' 'ls'
 finish
