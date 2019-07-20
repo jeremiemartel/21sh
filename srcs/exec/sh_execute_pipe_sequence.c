@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sh_execute_pipe_sequence.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:21:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/20 08:05:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void			sh_process_execute_close_pipes_list(t_list *contexts)
+static void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
 {
 	t_list		*ptr;
 	t_context	*context;
@@ -26,7 +26,7 @@ void			sh_process_execute_close_pipes_list(t_list *contexts)
 	}
 }
 
-int				sh_process_pipe_exec_fork(t_list *contexts)
+static int		sh_execute_pipe_sequence_exec_forks(t_list *contexts)
 {
 	t_list		*ptr;
 	t_context	*context_iter;
@@ -37,7 +37,7 @@ int				sh_process_pipe_exec_fork(t_list *contexts)
 		context_iter = (t_context *)ptr->content;
 		if ((context_iter->pid = fork()) == -1)
 		{
-			sh_process_execute_close_pipes_list(contexts);
+			sh_execute_pipe_sequence_close_pipes_list(contexts);
 			return (FAILURE);
 		}
 		if (context_iter->pid == 0)
@@ -51,7 +51,7 @@ int				sh_process_pipe_exec_fork(t_list *contexts)
 	return (SUCCESS);
 }
 
-void			sh_process_pipe_sequence_execute_wait(int *res_save)
+static void		sh_execute_pipe_sequence_waits(t_context *context, int *res_save)
 {
 	pid_t		wpid;
 	int			res;
@@ -59,25 +59,27 @@ void			sh_process_pipe_sequence_execute_wait(int *res_save)
 	while ((wpid = wait(&res)) > 0)
 	{
 		if (wpid == g_parent)
+		{
+			sh_env_update_ret_value_fork_result(context, res); // Is it necessarry ??
 			*res_save = res;
+		}
 	}
 }
 
-int				sh_process_pipe_sequence_execute(t_context *context,
-					t_list *contexts)
+int				sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 {
 	int			res_save;
 
 	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
-		sh_process_execute_close_pipes_list(contexts);
+		sh_execute_pipe_sequence_close_pipes_list(contexts);
 		return (FAILURE);
 	}
-	if (sh_process_pipe_exec_fork(contexts) == FAILURE)
+	if (sh_execute_pipe_sequence_exec_forks(contexts) == FAILURE)
 		return (FAILURE);
-	sh_process_execute_close_pipes_list(contexts);
-	sh_process_pipe_sequence_execute_wait(&res_save);
-	sh_env_update_ret_value_process_ret(context, res_save);
+	sh_execute_pipe_sequence_close_pipes_list(contexts);
+	sh_execute_pipe_sequence_waits(context, &res_save);
+	sh_env_update_ret_value_fork_result(context, res_save);
 	g_parent = 0;
 	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 	{

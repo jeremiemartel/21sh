@@ -133,6 +133,11 @@ int					process_keys_others(
 	t_command_line *command_line);
 
 /*
+** sh_get_cursor_position.c
+*/
+int					sh_get_cursor_position(int *x, int *y);
+
+/*
 ** cursor_motion.c
 */
 void				go_right(int right);
@@ -222,6 +227,12 @@ int					update_prompt_from_quote(
 void				populate_min_max_selection(
 	t_command_line *command_line, int *min, int *max);
 void				render_command_visual(t_command_line *command_line);
+
+/*
+** sh_command_line_tools.c
+*/
+void				print_eof_delimiter(void);
+int					sh_add_eof(int interrupted);
 
 /*
 ** keys_ctrl.c
@@ -408,14 +419,4 @@ int					delete_command_line_selection(
 */
 void				sh_free_command_line(t_command_line *command_line);
 
-/*
-** sh_get_position.c
-*/
-int					sh_get_cursor_position(int *x, int *y);
-
-/*
-** sh_command_line_tools.c
-*/
-void				print_eof_delimiter(void);
-int					sh_add_eof(int interrupted);
 #endif

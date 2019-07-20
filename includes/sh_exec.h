@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/19 11:17:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/20 08:05:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,23 +90,17 @@ typedef struct		s_context
 */
 
 /*
+** sh_execute_pipe_sequence.c
+*/
+int					sh_execute_pipe_sequence(
+	t_context *context, t_list *contexts);
+
+/*
 ** sh_execute.c
 */
-
 int					sh_process_process_execute(t_context *context);
 int					sh_add_to_pipe_sequence(t_context *context);
 int					sh_process_execute(t_context *context);
-
-/*
-** sh_execute_tools.c
-*/
-void				sh_close_all_other_contexts(
-	t_context *context, t_list *contexts);
-void				sh_execute_child_builtin(
-	t_context *context, t_list *contexts);
-void				sh_execute_child_binary(
-	t_context *context, t_list *contexts);
-void				sh_execute_child(t_context *context, t_list *contexts);
 
 /*
 ** sh_debug.c
@@ -119,6 +113,17 @@ void				print_redirection_list(t_list *list);
 */
 int					sh_process_execute_dup_pipes(t_context *context);
 int					sh_process_execute_close_pipes(t_context *context);
+
+/*
+** sh_execute_tools.c
+*/
+void				sh_close_all_other_contexts(
+	t_context *context, t_list *contexts);
+void				sh_execute_child_builtin(
+	t_context *context, t_list *contexts);
+void				sh_execute_child_binary(
+	t_context *context, t_list *contexts);
+void				sh_execute_child(t_context *context, t_list *contexts);
 
 /*
 ** sh_exec_builtin.c
@@ -150,11 +155,4 @@ int					sh_process_fd_aggregation(
 t_redirection		sh_new_redir(
 	t_redirection_type type, int redirected_fd, int fd);
 
-/*
-** sh_execute_pipe_sequence.c
-*/
-void				sh_process_execute_close_pipes_list(t_list *contexts);
-int					sh_process_pipe_exec_fork(t_list *contexts);
-int					sh_process_pipe_sequence_execute(
-		t_context *context, t_list *contexts);
 #endif

@@ -159,6 +159,8 @@ int		sh_traverse_pipe_sequence_execute(
 /*
 ** sh_traverse_cmd_suffix.c
 */
+int		sh_process_traverse_cmd_suffix(
+	t_ast_node *child, t_context *context);
 int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context);
 
 /*
