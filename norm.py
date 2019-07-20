@@ -16,7 +16,12 @@ import re
 import sys
 
 ## If True scritp check uncommented functions
-check_comments=False
+option_check_comments=False
+
+if (len(sys.argv) > 1):
+	for arg in sys.argv:
+		if (arg == "-c"):
+			option_check_comments=True
 
 ## Regex used to detect functions prototype
 format = "^(static|void|int|char|t_*)"
@@ -35,6 +40,8 @@ def get_file_names():
 	dirname = []
 	if (len(sys.argv) > 1):
 		for i in range(1, len(sys.argv)):
+			if (sys.argv[i][0] == '-'):
+				continue
 			dirname.append(sys.argv[i])
 	else :
 		dirname = ["."]
@@ -82,8 +89,8 @@ def norminette_functions(content, i, messages):
 	funcname = prototype[1]
 	funcname = funcname.split('(')[0]
 	funclen = 0
-	if (check_comments):
-		if (content[i - 1 ] != "*/" or content[i - 2] != "*/"):
+	if (option_check_comments):
+		if (content[i - 1] != "*/\n" and content[i - 2] != "*/\n"):
 			messages.append("{:-3d}: {:s}: not commented function".format(i - 1, funcname))
 	j = i + 1
 	while (j < len(content)):
@@ -93,8 +100,8 @@ def norminette_functions(content, i, messages):
 			break
 		elif (funclen >= 0):
 			funclen += 1
-		if (content[int(j)].find('//') != -1):
-			messages.append("{:-3d}: c++ comment".format(j))
+		# if (content[int(j)].find('//') != -1):
+		# 	messages.append("{:-3d}: c++ comment".format(j))
 		first_char = content[j].lstrip("\t")[0]
 		if (first_char == ' '):
 			messages.append("{:d}: bad indentation".format(j + 1))
