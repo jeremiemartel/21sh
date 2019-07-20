@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 16:34:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/19 11:31:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ int				sh_process_pipe_sequence_execute(t_context *context,
 	{
 		if (wpid == g_parent)
 		{
-			sh_env_update_ret_value_process_ret(context, res);
+			sh_env_update_ret_value_fork_result(context, res);
 			res_save = res;
 		}
 	}
-	sh_env_update_ret_value_process_ret(context, res_save);
+	sh_env_update_ret_value_fork_result(context, res_save);
 	g_parent = 0;
 	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 		return (sh_perror("Could not modify this terminal attributes",

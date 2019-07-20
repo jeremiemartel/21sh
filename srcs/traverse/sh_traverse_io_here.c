@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 07:23:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,12 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 			heredoc_func, &ret)))
 		return (ret);
 	if (ret == CTRL_D)
-		ft_dprintf(2, "21sh: warning: here-document at line 1 "
+	{
+		sh_env_update_status_and_question(context, SH_RET_ERROR);
+		ft_dprintf(2, "21sh: warning: here-document "
 			"delimited by end of file (wanted `%s\')\n",
 				first_child->token->value);
+	}
 	if (pipe(fds))
 		return (sh_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end"));
 	(*redirection)->type = INPUT;
