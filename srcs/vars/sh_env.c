@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/21 10:52:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/21 15:12:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		sh_env_update_question_mark(t_shell *shell)
 }
 
 /*
-** sh_env_update_status_and_question:
+** sh_env_update_ret_value_and_question:
 **	Update status and $? in one function.
 **
 **	Returned Values:
@@ -91,25 +91,8 @@ int		sh_env_update_question_mark(t_shell *shell)
 **		SUCCESS
 */
 
-int		sh_env_update_status_and_question(t_shell *shell, int res)
+int		sh_env_update_ret_value_and_question(t_shell *shell, int res)
 {
 	sh_env_update_ret_value(shell, res);
 	return (sh_env_update_question_mark(shell));
-}
-
-int		sh_env_update_question_mark_no_context(t_shell *shell, int ret)
-{
-	char	*str;
-	int		res;
-
-	if (sh_verbose_exec())
-		ft_dprintf(2, COLOR_CYAN"Updating ? <=> %d\n"COLOR_END, ret);
-	if (!(str = ft_itoa(ret)))
-	{
-		return (sh_perror(SH_ERR1_MALLOC,
-			"sh_env_update_question_mark_no_context"));
-	}
-	res = sh_vars_assign_key_val(shell->env, NULL, "?", str);
-	free(str);
-	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/05 11:52:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 11:37:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,12 @@ int					sh_builtin_env_process_command (
 /*
 ** sh_builtin_hash_tools.c
 */
-void				process_builtin_hash_suppr_all(t_shell *shell);
+int					sh_builtin_hash_add_utility(
+	t_context *context, char *utility);
+void				sh_builtin_hash_empty_table(t_shell *shell);
+void				sh_builtin_hash_show(t_shell *shell);
+void				sh_builtin_hash_update_stats(
+	t_hash_table *table, t_binary_stats *stats);
 
 /*
 ** sh_builtin_hash.c
@@ -149,11 +154,5 @@ int					sh_builtin_exit(t_context *context);
 ** sh_builtin_cd.c
 */
 int					sh_builtin_cd(t_context *context);
-
-/*
-** sh_builtin_hash_stats.c
-*/
-void				update_hash_stats(
-	t_hash_table *table, t_binary_stats *stats);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 10:02:26 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/20 17:03:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int			sh_update_shell_lvl(t_shell *shell)
+static char	*sh_update_shell_lvl_get_value(t_shell *shell)
 {
 	char	*str;
 	int		new_lvl;
@@ -21,12 +21,29 @@ int			sh_update_shell_lvl(t_shell *shell)
 	if (!(str = sh_vars_get_value(shell->env, NULL, "SHLVL")))
 		new_lvl = 1;
 	else
+	{
 		new_lvl = ft_atoi(str) + 1;
+		if (new_lvl > 1000)
+		{
+			sh_perror("warning", "shell level too high, reseting to 1");
+			new_lvl = 1;
+		}
+	}
+
 	if (!(new_lvl_str = ft_itoa(new_lvl)))
 	{
 		ft_dy_tab_del(shell->env);
-		return (sh_perror(SH_ERR1_MALLOC, "sh_update_shell_lvl"));
+		return (sh_perrorn(SH_ERR1_MALLOC, "sh_update_shell_lvl"));
 	}
+	return (new_lvl_str);
+}
+
+int			sh_update_shell_lvl(t_shell *shell)
+{
+	char	*new_lvl_str;
+
+	if (!(new_lvl_str = sh_update_shell_lvl_get_value(shell)))
+		return (FAILURE);
 	if (sh_vars_assign_key_val(shell->env, NULL, "SHLVL", new_lvl_str))
 	{
 		free(new_lvl_str);

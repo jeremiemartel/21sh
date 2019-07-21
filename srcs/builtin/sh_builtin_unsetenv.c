@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:37:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/06 15:22:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 10:46:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			sh_builtin_unsetenv(t_context *context)
 		if (sh_vars_key_exist(context->env, context->params->tbl[i]))
 		{
 			if (!ft_strcmp(context->params->tbl[i], "PATH"))
-				process_builtin_hash_suppr_all(context->shell);
+				sh_builtin_hash_empty_table(context->shell);
 			j = sh_vars_get_index(context->env, context->params->tbl[i]);
 			if (j != -1)
 				ft_dy_tab_suppr_index(context->env, j);

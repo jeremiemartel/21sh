@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys_ctrl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 17:27:55 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 17:31:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/21 15:12:38 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int		process_ctrl_c(t_shell *shell, t_command_line *command_line)
 		reset_command_line(shell, command_line);
 	}
 	command_line->searcher.active = 0;
-	if (sh_env_update_question_mark_no_context(shell, 130))
+	shell->ret_value_set = 0;
+	if (sh_env_update_ret_value_and_question(shell, 130))
 		return (FAILURE);
 	render_command_line(command_line, 0, 1);
 	return (CTRL_C);

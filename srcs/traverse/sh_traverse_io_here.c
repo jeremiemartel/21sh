@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 12:20:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 15:12:38 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 		return (ret);
 	if (ret == CTRL_D)
 	{
-		sh_env_update_status_and_question(context->shell, SH_RET_ERROR);
+		sh_env_update_ret_value_and_question(context->shell, SH_RET_ERROR);
 		ft_dprintf(2, "21sh: warning: here-document "
 			"delimited by end of file (wanted `%s\')\n",
 				first_child->token->value);

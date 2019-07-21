@@ -184,7 +184,6 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_verbose.c \
 						sh_builtin_set.c \
 						sh_builtin_hash.c \
-						sh_builtin_hash_stats.c \
 						sh_builtin_set.c \
 						sh_builtin_setenv.c \
 						sh_builtin_unsetenv.c \

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 18:32:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/06 15:12:56 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 10:46:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int			sh_builtin_setenv_process
 		return (sh_perror(SH_ERR1_MALLOC, "sh_builtin_setenv_process (1)"));
 	}
 	if (!ft_strcmp(key, "PATH"))
-		process_builtin_hash_suppr_all(context->shell);
+		sh_builtin_hash_empty_table(context->shell);
 	free(key);
 	free(value);
 	return (SUCCESS);
