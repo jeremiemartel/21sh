@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 12:20:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 16:14:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	if (pipe(fds))
 		return (sh_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end"));
 	(*redirection)->type = INPUT;
-	(*redirection)->redirected_fd = 0;
+	(*redirection)->redirected_fd = context->redirected_fd;
 	(*redirection)->fd = fds[0];
 	ft_putstr_fd(heredoc_res, fds[1]);
 	free(heredoc_res);
