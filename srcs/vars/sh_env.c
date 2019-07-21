@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/21 15:12:43 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 15:21:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	sh_env_update_ret_value_wait_result(t_shell *shell, int res)
 {
 	if (!shell->ret_value_set)
 	{
-		shell->ret_value = EXIT_STATUS(res);
+		if ((res & 0xff) == 2)
+			shell->ret_value = SH_RET_CTRL_C;
+		else
+			shell->ret_value = EXIT_STATUS(res);
 		shell->ret_value_set = 1;
 		if (sh_verbose_exec())
 		{

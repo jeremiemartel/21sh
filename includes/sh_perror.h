@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/14 15:13:57 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 15:21:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define SH_RET_BUILTIN			1
 # define SH_RET_NOT_EXECUTABLE	126
 # define SH_RET_CMD_NOT_FOUND	127
+# define SH_RET_CTRL_C			130
 
 /*
 ********************************************************************************
