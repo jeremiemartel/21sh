@@ -53,9 +53,10 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 			return (ret);
 		}
 	}
-	if (gnl_ret == -1)
+	if (shell->running && gnl_ret == -1)
 		return (sh_perror("get_next_line error", "sh_process_read_canonical"));
-	// free(info.line); // Temporarly commented to avoid double free
+	if (shell->running)
+		free(info.line); // Temporarly commented to avoid double free
 	return (ret);
 }
 

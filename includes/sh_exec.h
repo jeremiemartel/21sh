@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 13:20:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 17:16:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_redirection
 	t_redirection_type	type;
 	int					redirected_fd;
 	int					fd;
+	int					closed;
 }					t_redirection;
 
 typedef struct		s_pipe_metadata
