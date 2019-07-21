@@ -39,7 +39,7 @@ void	sh_env_update_ret_value_shell(t_shell *shell, int res);
 int		sh_env_update_status_and_question(t_context *context, int res);
 int		sh_env_update_question_mark_shell(t_shell *shell);
 int		sh_env_update_question_mark(t_context *context);
-
+int		sh_env_update_question_mark_no_context(t_shell *shell, int ret);
 /*
 ** sh_vars_tools_2.c
 */

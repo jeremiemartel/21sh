@@ -46,7 +46,7 @@ int				process_lr_parser_ret(t_lr_parser *parser, t_action action)
 	else if (action.action_enum == E_ACTION_ACCEPT)
 		return (SUCCESS);
 	else if (action.action_enum == E_ACTION_ERROR)
-		return (2);
+		return (ERROR);
 	return (3);
 }
 
@@ -58,10 +58,10 @@ int				process_lr_parse(t_lr_parser *parser)
 	int				state_index;
 
 	if (parser->stack == NULL)
-		return (2);
+		return (ERROR);
 	stack_item = (t_stack_item *)parser->stack->content;
 	if (stack_item->stack_enum != E_STACK_STATE_INDEX)
-		return (2);
+		return (ERROR);
 	else
 		state_index = stack_item->stack_union.state_index;
 	token = (t_token *)parser->tokens->content;
@@ -72,7 +72,7 @@ int				process_lr_parse(t_lr_parser *parser)
 /*
 **		return values:
 **
-** 2		-> syntax error
+** ERROR	-> syntax error
 ** FAILURE	-> malloc error
 */
 
@@ -95,5 +95,5 @@ int				sh_lr_parse(t_lr_parser *parser)
 		if (ret != 3)
 			return (ret);
 	}
-	return (2);
+	return (ERROR);
 }

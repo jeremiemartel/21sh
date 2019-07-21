@@ -97,3 +97,21 @@ int		sh_env_update_question_mark(t_context *context)
 	context->ret_value_set = 0;
 	return (res);
 }
+
+int		sh_env_update_question_mark_no_context(t_shell *shell, int ret)
+{
+	char	*str;
+	int		res;
+
+	sh_env_update_ret_value_shell(shell, ret);
+	if (sh_verbose_exec())
+		ft_dprintf(2, COLOR_CYAN"Updating ? <=> %d\n"COLOR_END, ret);
+	if (!(str = ft_itoa(ret)))
+	{
+		return (sh_perror(SH_ERR1_MALLOC,
+			"sh_env_update_question_mark_no_context"));
+	}
+	res = sh_vars_assign_key_val(shell->env, NULL, "?", str);
+	free(str);
+	return (res);
+}

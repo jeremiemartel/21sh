@@ -47,9 +47,13 @@ int				sh_get_cursor_position(int *x, int *y)
 		if (answer[answer_len++] == 'R')
 			break ;
 		else if (answer_len == 4096)
+		{
+			close(fd);
 			return (sh_perror("Could not get cursor position",
 				"sh_get_cursor_position"));
+		}
 	}
+	close(fd);
 	answer[answer_len] = '\0';
 	get_cursor_position_from_answer(x, y, answer, answer_len);
 	return (SUCCESS);
