@@ -60,7 +60,7 @@ int		sh_parser(t_list *tokens, t_shell *shell)
 		sh_print_token_list(tokens, &shell->parser.cfg);
 	}
 	shell->parser.tokens = tokens;
-	if ((ret = sh_parse_token_list(&shell->parser)) == 2)
+	if ((ret = sh_parse_token_list(&shell->parser)) != SUCCESS)
 		sh_perror_err("syntax error", NULL);
 	return (ret);
 }

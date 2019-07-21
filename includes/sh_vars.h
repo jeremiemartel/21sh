@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 16:25:58 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 10:52:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	sh_env_update_ret_value_wait_result(t_shell *shell, int res);
 void	sh_env_update_ret_value(t_shell *shell, int res);
 int		sh_env_update_status_and_question(t_shell *shell, int res);
 int		sh_env_update_question_mark(t_shell *shell);
+int		sh_env_update_question_mark_no_context(t_shell *shell, int ret);
 
 /*
 ** sh_vars_tools_2.c

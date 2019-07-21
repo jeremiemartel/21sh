@@ -78,6 +78,7 @@ int				sh_traverse_io_here(t_ast_node *node, t_context *context)
 	redirection = &node->metadata.heredoc_metadata.redirection;
 	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
 	{
+		g_glob.command_line.interrupted = 1;
 		first_child = node->children->content;
 		if (first_child->symbol->id == sh_index(LEX_TOK_DLESSDASH))
 			heredoc_func = &heredoc_dash;

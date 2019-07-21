@@ -22,6 +22,8 @@ int		process_ctrl_c(t_shell *shell, t_command_line *command_line)
 		reset_command_line(shell, command_line);
 	}
 	command_line->searcher.active = 0;
+	if (sh_env_update_question_mark_no_context(shell, 130))
+		return (FAILURE);
 	render_command_line(command_line, 0, 1);
 	return (CTRL_C);
 }

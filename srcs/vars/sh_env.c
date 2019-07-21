@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 16:28:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 10:52:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,21 @@ int		sh_env_update_status_and_question(t_shell *shell, int res)
 {
 	sh_env_update_ret_value(shell, res);
 	return (sh_env_update_question_mark(shell));
+}
+
+int		sh_env_update_question_mark_no_context(t_shell *shell, int ret)
+{
+	char	*str;
+	int		res;
+
+	if (sh_verbose_exec())
+		ft_dprintf(2, COLOR_CYAN"Updating ? <=> %d\n"COLOR_END, ret);
+	if (!(str = ft_itoa(ret)))
+	{
+		return (sh_perror(SH_ERR1_MALLOC,
+			"sh_env_update_question_mark_no_context"));
+	}
+	res = sh_vars_assign_key_val(shell->env, NULL, "?", str);
+	free(str);
+	return (res);
 }

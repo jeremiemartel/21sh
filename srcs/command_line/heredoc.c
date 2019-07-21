@@ -75,6 +75,8 @@ char		*heredoc(t_shell *shell, char *stop,
 			command_line) != 3)
 			return (res);
 	}
+	if (*ret == CTRL_C)
+		command_line->interrupted = 1;
 	if (*ret == CTRL_D)
 		return (heredoc_ret_str(shell, command_line, res));
 	else
