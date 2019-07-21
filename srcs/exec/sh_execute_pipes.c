@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:26:22 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/21 15:03:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/21 18:52:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	sh_process_process_execute_close_pipes(t_redirection *redir)
 	//		close(redir->redirected_fd);
 		}
 	}
+	redir->closed = 1;
 }
 
 int			sh_process_execute_close_pipes(t_context *context)
