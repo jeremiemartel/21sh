@@ -37,8 +37,8 @@ char	*sh_vars_get_value(t_dy_tab *env, t_dy_tab *vars, char *key);
 */
 void	sh_env_update_ret_value_wait_result(t_shell *shell, int res);
 void	sh_env_update_ret_value(t_shell *shell, int res);
-int		sh_env_update_status_and_question(t_shell *shell, int res);
 int		sh_env_update_question_mark(t_shell *shell);
+int		sh_env_update_status_and_question(t_shell *shell, int res);
 
 /*
 ** sh_vars_tools_2.c
@@ -58,13 +58,13 @@ int		sh_verbose_lexer(void);
 int		sh_verbose_exec(void);
 int		sh_verbose_pipe(void);
 int		sh_verbose_expansion(void);
-int		sh_verbose_builtin(void);
-int		sh_verbose_traverse(void);
 
 /*
 ** sh_verbose.c
 */
 void	sh_verbose_update(t_shell *shell);
+int		sh_verbose_traverse(void);
+int		sh_verbose_builtin(void);
 
 /*
 ** sh_env_tools.c

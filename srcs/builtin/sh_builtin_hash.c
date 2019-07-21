@@ -6,74 +6,60 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:18:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 15:52:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 14:52:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static void		show_binary(t_binary *binary,
-		t_binary_stats *stats, int *empty)
+static int	sh_builtin_hash_usage(t_context *context, char *invalid_opt)
 {
-	if (*empty == 1)
-	{
-		ft_printf("%-*s %-*s %-*s\n", stats->max_hits_str_len, "hits",
-			stats->max_name_len, "name", stats->max_path_len, "path");
-		*empty = 0;
-	}
-	ft_printf("%4d %-*s %-*s\n", binary->hits,
-		stats->max_name_len, binary->name, stats->max_path_len, binary->path);
-}
-
-static void		process_builtin_hash_show(t_shell *shell)
-{
-	t_hash_table	*table;
-	unsigned long	i;
-	t_list			*ptr;
-	int				empty;
-	t_binary_stats	stats;
-
-	empty = 1;
-	table = shell->binaries;
-	update_hash_stats(table, &stats);
-	i = 0;
-	while (i < table->size)
-	{
-		ptr = table->data[i];
-		while (ptr != NULL)
-		{
-			show_binary((t_binary *)ptr->content, &stats, &empty);
-			ptr = ptr->next;
-		}
-		i++;
-	}
-	if (empty)
-		ft_printf("hash: hash table empty\n");
-}
-
-static int		print_usage(void)
-{
-	ft_dprintf(2, "21sh: hash: usage: hash [-r]\n");
+	sh_env_update_ret_value(context->shell, 2);
+	if (invalid_opt)
+		sh_perror2_err_fd(context->fd[FD_ERR],
+		invalid_opt, "hash", SH_ERR2_INVALID_OPT);
+	sh_perror_fd(context->fd[FD_ERR], "hash", "usage: hash [-r] [utility...]");
 	return (ERROR);
 }
 
-int				sh_builtin_hash(t_context *context)
+static int	sh_builtin_hash_process_utilities(t_context *context, int i)
 {
+	int		ret;
+
+	while(context->params->tbl[i])
+	{
+		ret = sh_builtin_hash_add_utility(context, context->params->tbl[i]);
+		if (ret == FAILURE)
+			return (FAILURE);
+		else if (ret == ERROR)
+			sh_env_update_ret_value(context->shell, ret);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int			sh_builtin_hash(t_context *context)
+{
+	int		i;
+	int		ret;
+
 	if (context->params->current_size == 1)
 	{
-		process_builtin_hash_show(context->shell);
+		sh_builtin_hash_show(context->shell);
 		return (SUCCESS);
 	}
-	else if (context->params->current_size == 2)
+	i = 1;
+	ret = 0;
+	while (context->params->tbl[i]
+		&& ((char**)context->params->tbl)[i][0] == '-')
 	{
-		if (ft_strcmp(context->params->tbl[1], "-r"))
-			return (print_usage());
+		if (ft_strequ(((char**)context->params->tbl)[i], "-r"))
+			ret = 1;
 		else
-		{
-			process_builtin_hash_suppr_all(context->shell);
-			return (SUCCESS);
-		}
+			return (sh_builtin_hash_usage(context, context->params->tbl[i]));
+		i++;
 	}
-	else
-		return (print_usage());
+	if (ret)
+		sh_builtin_hash_empty_table(context->shell);
+	return (sh_builtin_hash_process_utilities(context, i));
 }
