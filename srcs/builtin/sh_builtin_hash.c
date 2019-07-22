@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:18:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 08:45:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 12:07:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	sh_builtin_hash_usage(t_context *context, char *invalid_opt)
 
 static int	sh_builtin_hash_process_utilities(t_context *context, int i)
 {
-	int		ret;
+	int				ret;
+	t_hash_finder	finder;
 
 	while (context->params->tbl[i])
 	{
@@ -33,6 +34,13 @@ static int	sh_builtin_hash_process_utilities(t_context *context, int i)
 			return (FAILURE);
 		else if (ret == ERROR)
 			sh_env_update_ret_value(context->shell, ret);
+		else
+		{
+			finder = ft_hash_table_find(context->shell->binaries,
+				context->params->tbl[i], ft_hash_str, compare_str_to_binary);
+			if (finder.found)
+				((t_binary*)finder.current->content)->hits = 0;
+		}
 		i++;
 	}
 	return (SUCCESS);

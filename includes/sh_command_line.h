@@ -136,6 +136,8 @@ int					process_keys_others(
 /*
 ** sh_get_cursor_position.c
 */
+int					process_read_cursor_position(
+	char answer[4096], size_t *answer_len, int fd);
 int					sh_get_cursor_position(int *x, int *y);
 
 /*

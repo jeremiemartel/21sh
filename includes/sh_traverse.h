@@ -34,6 +34,8 @@ int		sh_traverse_list(t_ast_node *node, t_context *context);
 /*
 ** sh_traverse_simple_command.c
 */
+int		sh_process_traverse_simple_command_exec(
+	t_context *context, int *ret);
 int		sh_traverse_simple_command_exec(
 	t_ast_node *node, t_context *context);
 int		sh_traverse_simple_command_no_exec(

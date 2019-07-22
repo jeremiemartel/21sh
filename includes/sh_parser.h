@@ -221,6 +221,7 @@ int					sh_is_replacing(t_ast_builder *ast_builder);
 /*
 ** free_parser.c
 */
+void				sh_free_parser_trees(t_lr_parser *parser);
 void				sh_free_cfg(t_cfg *cfg);
 void				sh_clear_parser(t_lr_parser *parser);
 void				sh_free_parser(t_lr_parser *parser);
@@ -334,9 +335,9 @@ int					sh_parser(t_list *tokens, t_shell *shell);
 ** free_node.c
 */
 void				sh_free_token(t_ast_node *node, t_token **token);
+void				sh_free_redirection(void *red, size_t dummy);
 void				sh_free_ast_node_meta(t_ast_node **node);
 void				sh_free_ast_node(t_ast_node **node, int update);
-void				sh_free_parser_trees(t_lr_parser *parser);
 void				sh_free_ast_builder(t_ast_builder *ast_builder);
 
 #endif

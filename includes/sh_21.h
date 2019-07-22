@@ -155,11 +155,6 @@ int					sh_init_terminal_database(char **env);
 int					sh_init_terminal(t_shell *shell, char **env);
 
 /*
-** check_term.c
-*/
-int					sh_check_term(void);
-
-/*
 ** historic.c
 */
 int					sh_append_to_historic(t_shell *shell, char *command);
@@ -214,8 +209,8 @@ int					sh_process_noncanonical_mode(t_shell *shell);
 */
 int					putchar_int(int i);
 int					sh_reset_shell(int ret);
-int					sh_set_shell(struct termios term, int ret);
 int					sh_set_shell_back(int ret);
+int					sh_set_shell(struct termios term, int ret);
 int					clear_all(void);
 
 /*
@@ -250,23 +245,30 @@ int					sh_update_hash_table(
 	t_shell *shell, char *path, char *name);
 
 /*
+** signal_tools.c
+*/
+void				transmit_sig(int signal);
+void				transmit_sig_and_exit(int signal);
+void				handle_stp(int sgnl);
+void				handle_cont(int sgnl);
+
+/*
 ** canonical_mode.c
 */
 int					sh_process_canonical_mode(t_shell *shell, char **env);
 
 /*
-** signals.c
+** check_term.c
 */
-void				init_signal_transmit_sig_and_die(void);
-void				init_signals(void);
-void				handle_resize(int sgnl);
+char				**get_operations(void);
+int					sh_check_term(void);
 
 /*
-** signal_tools.c
+** signals.c
 */
-void				handle_cont(int sgnl);
-void				handle_stp(int sgnl);
-void				transmit_sig_and_exit(int sgnl);
-void				transmit_sig(int sgnl);
+void				transmit_sig_and_die(int signal);
+void				handle_resize(int signal);
+void				init_signal_transmit_sig_and_die(void);
+void				init_signals(void);
 
 #endif
