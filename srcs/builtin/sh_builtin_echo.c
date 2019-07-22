@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:57:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 16:28:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:31:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_builtin_echo_write(t_context * context, char *str)
+static int	sh_builtin_echo_write(t_context *context, char *str)
 {
 	int		len;
 	int		ret;
@@ -28,7 +28,7 @@ static int	sh_builtin_echo_write(t_context * context, char *str)
 	return (SUCCESS);
 }
 
-int		sh_builtin_echo(t_context *context)
+int			sh_builtin_echo(t_context *context)
 {
 	int		i;
 	int		ret;

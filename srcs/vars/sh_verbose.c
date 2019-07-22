@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:16:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 21:57:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:30:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	sh_verbose_update_check(t_shell *shell, int param, char *str)
 		str)) && *value)
 		g_glob.verbose += g_glob.verbose & param ? 0 : param;
 	else
-		g_glob.verbose -= g_glob.verbose & param ? param : 0;;
+		g_glob.verbose -= g_glob.verbose & param ? param : 0;
 }
 
 /*

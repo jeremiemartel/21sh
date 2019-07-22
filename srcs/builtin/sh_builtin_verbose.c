@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 16:30:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:29:59 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int		sh_builtin_verbose_usage(t_context *context)
+static int	sh_builtin_verbose_usage(t_context *context)
 {
 	ft_dprintf(context->fd[FD_ERR], "usage: verbose on/off ");
 	ft_dprintf(context->fd[FD_ERR], "[lexer,ast,pipe,exec,expansion]\n");
@@ -21,7 +21,7 @@ static int		sh_builtin_verbose_usage(t_context *context)
 	return (ERROR);
 }
 
-static int		sh_builtin_verbose_process_all(
+static int	sh_builtin_verbose_process_all(
 	t_context *context, char key[8][20], char value[3])
 {
 	int		ret;
@@ -38,7 +38,7 @@ static int		sh_builtin_verbose_process_all(
 	return (ret);
 }
 
-static int		sh_builtin_verbose_process(
+static int	sh_builtin_verbose_process(
 	t_context *context, char key[8][20], char value[3])
 {
 	int			i;
@@ -64,13 +64,13 @@ static int		sh_builtin_verbose_process(
 	return (ret);
 }
 
-int				sh_builtin_verbose(t_context *context)
+int			sh_builtin_verbose(t_context *context)
 {
 	char		value[3];
 	static char	key[9][20] = {"verbose_ast", "verbose_lexer", "verbose_exec",
-			"verbose_pipe", "verbose_expansion", "verbose_builtin",
+				"verbose_pipe", "verbose_expansion", "verbose_builtin",
 				"verbose_traverse", ""};
-	int		ret;
+	int			ret;
 
 	if (ft_strequ(context->params->tbl[1], "on"))
 		ft_strcpy(value, "on");
@@ -80,7 +80,7 @@ int				sh_builtin_verbose(t_context *context)
 		return (sh_builtin_verbose_usage(context));
 	ret = sh_builtin_verbose_process(context, key, value);
 	if (ret)
-		return(ret);
+		return (ret);
 	sh_verbose_update(context->shell);
 	return (ret);
 }

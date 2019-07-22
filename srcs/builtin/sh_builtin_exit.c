@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:14:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 10:52:58 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:31:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int				sh_builtin_exit(t_context *context)
 	else
 		ret = 0;
 	if (sh_verbose_builtin())
-		ft_dprintf(context->fd[FD_ERR], "exit: exit value setted to : %d\n", ret);
+		ft_dprintf(
+			context->fd[FD_ERR], "exit: exit value setted to : %d\n", ret);
 	context->shell->exit_value = ret; // Usefull ??
 	sh_env_update_ret_value(context->shell, ret);
 	context->shell->running = 0;

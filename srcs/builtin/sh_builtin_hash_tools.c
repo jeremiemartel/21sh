@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 19:23:54 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 12:07:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:30:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ void		sh_builtin_hash_show(t_shell *shell)
 		ft_printf("hash: hash table empty\n");
 }
 
-void		sh_builtin_hash_update_stats(t_hash_table *table, t_binary_stats *stats)
+void		sh_builtin_hash_update_stats(
+	t_hash_table *table, t_binary_stats *stats)
 {
 	unsigned long	i;
 	t_binary		*binary;
