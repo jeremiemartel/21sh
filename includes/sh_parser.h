@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:31:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/02 23:31:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 08:29:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ int					sh_is_replacing(t_ast_builder *ast_builder);
 ** free_parser.c
 */
 void				sh_free_cfg(t_cfg *cfg);
+void				sh_clear_parser(t_lr_parser *parser);
 void				sh_free_parser(t_lr_parser *parser);
 
 /*

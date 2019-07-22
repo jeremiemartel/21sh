@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:42:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 09:33:45 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct		s_xy
 typedef struct		s_glob
 {
 	struct termios	term_init;
+	struct termios	term;
 	t_command_line	command_line;
 	t_cfg			*cfg;
 	int				cursor;

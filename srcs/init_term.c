@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:41:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 10:08:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 09:33:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int		sh_init_terminal(t_shell *shell, char **env)
 			"sh_init_terminal"));
 	}
 	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
+	g_glob.term = shell->term;
 	return (0);
 }

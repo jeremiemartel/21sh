@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/18 16:09:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 09:34:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ int					sh_process_noncanonical_mode(t_shell *shell);
 int					putchar_int(int i);
 int					sh_reset_shell(int ret);
 int					sh_set_shell(struct termios term, int ret);
+int					sh_set_shell_back(int ret);
 int					clear_all(void);
 
 /*
