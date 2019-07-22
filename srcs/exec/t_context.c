@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 21:45:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 13:20:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/23 00:45:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ int			t_context_init(t_context *context, t_shell *shell)
 	context->fd[1] = 1;
 	context->fd[2] = 2;
 	context->builtin = NULL;
+	context->current_command_node = NULL;
+	context->current_pipe_sequence_node = NULL;
+	context->phase = -1;
+	context->pid = 0;
+	context->redirected_fd = -1;
+	context->redirections = NULL;
 	return (SUCCESS);
 }
 
