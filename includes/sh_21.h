@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:15:17 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:34:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ struct				s_shell
 	struct termios	term;
 	int				ret_value_set;
 	int				ret_value;
-	short			exit_value;
 };
 
 /*

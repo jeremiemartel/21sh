@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/21 11:28:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:34:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,7 @@ int		main(int argc, char **argv, char **env)
 		ret = sh_process_noncanonical_mode(&shell);
 	}
 
-	if (shell.exit_value)
-	{
-		if (sh_verbose_exec())
-			ft_dprintf(2, "Using exit_value\n", ret);
-		ret = shell.exit_value;
-	}
-	else if (shell.ret_value_set || shell.ret_value)
+	if (shell.ret_value_set || shell.ret_value)
 	{
 		if (sh_verbose_exec())
 			ft_dprintf(2, "Using ret_value\n", ret);
