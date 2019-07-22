@@ -6,11 +6,26 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/22 23:34:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:58:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+static int	main_exit_value(t_shell *shell, int ret)
+{
+
+	if (shell->ret_value_set || shell->ret_value)
+	{
+		if (sh_verbose_exec())
+			ft_dprintf(2, "Using ret_value\n", ret);
+		ret = shell->ret_value;
+	}
+	if (sh_verbose_exec())
+		ft_dprintf(2, "Final returned value : %d\n", ret);
+	ft_dprintf(0, "exit\n");
+	return (ret);
+}
 
 int		main(int argc, char **argv, char **env)
 {
@@ -33,21 +48,5 @@ int		main(int argc, char **argv, char **env)
 		}
 		ret = sh_process_noncanonical_mode(&shell);
 	}
-
-	if (shell.ret_value_set || shell.ret_value)
-	{
-		if (sh_verbose_exec())
-			ft_dprintf(2, "Using ret_value\n", ret);
-		ret = shell.ret_value;
-	}
-	// if (ret == ERROR)
-	// {
-	// 	if (sh_verbose_exec())
-	// 		ft_dprintf(2, "Error returned\n", ret);
-	// 	ret = 1;
-	// }
-	if (sh_verbose_exec())
-		ft_dprintf(2, "Final returned value : %d\n", ret);
-	ft_dprintf(0, "exit\n");
-	return (ret);
+	return (main_exit_value(&shell, ret));
 }
