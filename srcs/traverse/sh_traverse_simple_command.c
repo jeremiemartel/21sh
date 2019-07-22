@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:41:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/23 00:03:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 	if (ret == ERROR)
 		sh_process_execute_close_pipes(context);
 	sh_traverse_tools_reset_params(context);
-	sh_env_update_question_mark(context->shell);
+	if (sh_env_update_question_mark(context->shell) == FAILURE)
+		return (FAILURE);
 	return (ret == FAILURE ? FAILURE : SUCCESS);
 }
 
@@ -67,8 +68,8 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 {
 	(void)node;
 	sh_process_execute_close_pipes(context);
-	sh_env_update_ret_value(context->shell, 1);
-	sh_env_update_question_mark(context->shell);
+	if (sh_env_update_ret_value_and_question(context->shell, 1) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -83,7 +84,8 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		}
 		context->redirections = &node->metadata.command_metadata.redirections;
 		if (context->current_pipe_sequence_node)
-			sh_env_update_question_mark(context->shell);
+			if (sh_env_update_question_mark(context->shell) == FAILURE)
+				return (FAILURE);
 		if (node->metadata.command_metadata.should_exec)
 			return (sh_traverse_simple_command_exec(node, context));
 		else
