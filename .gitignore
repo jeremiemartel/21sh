@@ -5,6 +5,7 @@ test
 file
 logs
 log
+sandbox
 
 tests_scripts/*.log
 tests_scripts/logs/*
