@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:05:51 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/19 10:16:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:44:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	sh_env_is_key_of_entry(char *entry, char *key)
 **		Else : start of then null terminated string containing value.
 */
 
-char	*sh_env_get_value(char **env, char *str)
+char		*sh_env_get_value(char **env, char *str)
 {
 	int len;
 	int i;

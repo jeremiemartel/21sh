@@ -6,11 +6,26 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 14:31:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:41:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		sh_process_traverse_simple_command_exec(t_context *context, int *ret)
+{
+	if (!(context->path = ft_strdup(context->params->tbl[0])))
+	{
+		sh_process_execute_close_pipes(context);
+		return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
+	}
+	if (sh_traverse_sc_check_perm(context,
+				context->path, context->params->tbl[0]) != SUCCESS)
+		*ret = ERROR;
+	else
+		*ret = sh_process_execute(context);
+	return (SUCCESS);
+}
 
 /*
 ** sh_traverse_simple_command:
@@ -38,19 +53,8 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 		return (SUCCESS);
 	if (!ft_strchr(context->params->tbl[0], '/'))
 		ret = sh_traverse_sc_no_slash_cmd(context);
-	else
-	{
-		if (!(context->path = ft_strdup(context->params->tbl[0])))
-		{
-			sh_process_execute_close_pipes(context);
-			return (sh_perror(SH_ERR1_MALLOC, "traverse_simple_command"));
-		}
-		if (sh_traverse_sc_check_perm(context,
-					context->path, context->params->tbl[0]) != SUCCESS)
-			ret = ERROR;
-		else
-			ret = sh_process_execute(context);
-	}
+	else if (sh_process_traverse_simple_command_exec(context, &ret) != SUCCESS)
+		return (FAILURE);
 	if (ret == ERROR)
 		sh_process_execute_close_pipes(context);
 	sh_traverse_tools_reset_params(context);
@@ -63,7 +67,7 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 {
 	(void)node;
 	sh_process_execute_close_pipes(context);
-	sh_env_update_ret_value(context->shell, 256); // Wtf is that return value
+	sh_env_update_ret_value(context->shell, 1);
 	sh_env_update_question_mark(context->shell);
 	return (SUCCESS);
 }
@@ -73,10 +77,13 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC, node->symbol->debug);
+		{
+			ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC,
+				node->symbol->debug);
+		}
 		context->redirections = &node->metadata.command_metadata.redirections;
 		if (context->current_pipe_sequence_node)
-			sh_env_update_question_mark(context->shell); // Is this OK with redirections troubles ??
+			sh_env_update_question_mark(context->shell);
 		if (node->metadata.command_metadata.should_exec)
 			return (sh_traverse_simple_command_exec(node, context));
 		else

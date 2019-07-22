@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 07:18:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 07:44:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 10:30:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-char **get_operations(void)
+char	**get_operations(void)
 {
 	static char *res[NB_OPERATIONS] = {
 		"mr",
@@ -28,6 +28,7 @@ char **get_operations(void)
 		"me",
 		"cl"
 	};
+
 	return (res);
 }
 

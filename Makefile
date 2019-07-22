@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/19 11:15:28 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/22 11:14:41 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ SRCS_NO_PREFIX =		main.c index.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c \
-						hash_binaries.c check_term.c
+						hash_binaries.c check_term.c signal_tools.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c \
 						print_ast.c \

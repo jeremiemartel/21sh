@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:37:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 17:03:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:16:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static char	*sh_update_shell_lvl_get_value(t_shell *shell)
 			new_lvl = 1;
 		}
 	}
-
 	if (!(new_lvl_str = ft_itoa(new_lvl)))
 	{
 		ft_dy_tab_del(shell->env);

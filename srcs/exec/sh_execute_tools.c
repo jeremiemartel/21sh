@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 11:14:49 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 11:25:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:31:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void		sh_close_all_other_contexts(t_context *context, t_list *contexts)
 {
-	t_context *current_context;
-	t_list *ptr;
+	t_context	*current_context;
+	t_list		*ptr;
 
 	ptr = contexts;
 	while (ptr != NULL)

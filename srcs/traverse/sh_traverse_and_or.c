@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 13:19:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:30:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	while (ptr != NULL)
 	{
 		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC, node->symbol->debug);
+		{
+			ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC,
+				node->symbol->debug);
+		}
 		if ((ret = sh_traverse_and_or_execute_process(&ptr,
 			&prev_symbol, context)) != KEEP_READ)
 			return (ret);

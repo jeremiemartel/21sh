@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 09:34:52 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:15:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@
 
 # define CWD_LEN		1000
 # define NB_OPERATIONS	12
+
 /*
 ** Pipe input and output indexes in a int[2]
 */
@@ -258,5 +259,14 @@ int					sh_process_canonical_mode(t_shell *shell, char **env);
 */
 void				init_signal_transmit_sig_and_die(void);
 void				init_signals(void);
+void				handle_resize(int sgnl);
+
+/*
+** signal_tools.c
+*/
+void				handle_cont(int sgnl);
+void				handle_stp(int sgnl);
+void				transmit_sig_and_exit(int sgnl);
+void				transmit_sig(int sgnl);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:52:11 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/16 19:07:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:44:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 **		<0 : Lenght of the valid expansion detecteda
 */
 
-int		sh_expansions_parameter_detect(char *start)
+int			sh_expansions_parameter_detect(char *start)
 {
 	int		i;
 	int		quoted;
@@ -61,7 +61,7 @@ int		sh_expansions_parameter_detect(char *start)
 **		SUCCESS : successfully filled expansion
 */
 
-int		sh_expansions_parameter_fill(t_expansion *exp, char *start)
+int			sh_expansions_parameter_fill(t_expansion *exp, char *start)
 {
 	int		i;
 
@@ -113,7 +113,8 @@ static int	sh_expansions_parameter_detect_special_var(t_expansion *exp)
 **		SUCCESS : Successfullly filled exp->res
 */
 
-int		sh_expansions_parameter_process(t_context *context, t_expansion *exp)
+int			sh_expansions_parameter_process(t_context *context,
+				t_expansion *exp)
 {
 	char	format[4];
 

@@ -6,11 +6,17 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 15:19:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 08:29:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:30:29 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+void	sh_free_parser_trees(t_lr_parser *parser)
+{
+	sh_free_ast_node(&parser->ast_root, 1);
+	sh_free_ast_node(&parser->cst_root, 1);
+}
 
 void	sh_free_cfg(t_cfg *cfg)
 {

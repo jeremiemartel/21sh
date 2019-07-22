@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 07:35:35 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 09:02:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:26:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ static void		get_cursor_position_from_answer(int *x, int *y, char *answer,
 		*x = ft_atoi(str);
 }
 
+int				process_read_cursor_position(char answer[4096],
+					size_t *answer_len, int fd)
+{
+	while ((int)(*answer_len) < 4096 - 1
+			&& read(fd, answer + (*answer_len), 1) == 1)
+	{
+		if (answer[(*answer_len)++] == 'R')
+			break ;
+		else if (*answer_len == 4096)
+		{
+			close(fd);
+			return (sh_perror("Could not get cursor position",
+				"sh_get_cursor_position"));
+		}
+	}
+	return (SUCCESS);
+}
+
 int				sh_get_cursor_position(int *x, int *y)
 {
 	int				fd;
@@ -41,18 +59,8 @@ int				sh_get_cursor_position(int *x, int *y)
 	}
 	write(fd, "\x1B[6n", 5);
 	answer_len = 0;
-	while (answer_len < sizeof(answer) - 1
-			&& read(fd, answer + answer_len, 1) == 1)
-	{
-		if (answer[answer_len++] == 'R')
-			break ;
-		else if (answer_len == 4096)
-		{
-			close(fd);
-			return (sh_perror("Could not get cursor position",
-				"sh_get_cursor_position"));
-		}
-	}
+	if (process_read_cursor_position(answer, &answer_len, fd) != SUCCESS)
+		return (FAILURE);
 	close(fd);
 	answer[answer_len] = '\0';
 	get_cursor_position_from_answer(x, y, answer, answer_len);

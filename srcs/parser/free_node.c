@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:11:45 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/21 18:57:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:30:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,6 @@ void	sh_free_ast_node(t_ast_node **node, int update)
 	}
 	free(*node);
 	*node = NULL;
-}
-
-void	sh_free_parser_trees(t_lr_parser *parser)
-{
-	sh_free_ast_node(&parser->ast_root, 1);
-	sh_free_ast_node(&parser->cst_root, 1);
 }
 
 void	sh_free_ast_builder(t_ast_builder *ast_builder)

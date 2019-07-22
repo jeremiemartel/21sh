@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 18:06:46 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 11:19:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 11:17:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 	if (shell->running && gnl_ret == -1)
 		return (sh_perror("get_next_line error", "sh_process_read_canonical"));
 	if (shell->running)
-		free(info.line); // Temporarly commented to avoid double free
+		free(info.line);
 	return (ret);
 }
 
