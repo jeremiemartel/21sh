@@ -1,3 +1,0 @@
-echo "#!/bin/bash" > file
-echo "echo Hello World" >> file ; chmod +x file ; env ./file
-rm file

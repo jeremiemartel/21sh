@@ -34,6 +34,10 @@ int		sh_init_terminal_database(char **env)
 		return (sh_perror("The terminal specified is not defined",
 					"sh_init_terminal_database"));
 	}
+	if (sh_check_term() != SUCCESS)
+	{
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 

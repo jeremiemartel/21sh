@@ -69,7 +69,7 @@
 # define FD_ERR		2
 
 # define CWD_LEN		1000
-
+# define NB_OPERATIONS	12
 /*
 ** Pipe input and output indexes in a int[2]
 */
@@ -152,6 +152,11 @@ int					process_subst_home(t_shell *shell, char **str);
 */
 int					sh_init_terminal_database(char **env);
 int					sh_init_terminal(t_shell *shell, char **env);
+
+/*
+** check_term.c
+*/
+int					sh_check_term(void);
 
 /*
 ** historic.c

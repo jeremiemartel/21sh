@@ -101,7 +101,7 @@ SRCS_NO_PREFIX =		main.c index.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						tools.c sanitize_path.c canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c \
-						hash_binaries.c
+						hash_binaries.c check_term.c
 
 PARSER_SRCS_NO_PREFIX =	parser.c \
 						print_ast.c \
