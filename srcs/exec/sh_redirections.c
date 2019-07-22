@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 15:16:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/17 18:30:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/21 18:43:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int				sh_add_redirection(t_redirection redirection, t_list **list)
 	}
 	else
 	{
-		close(found->fd);
+		if (found->fd > 2)
+			close(found->fd);
 		found->fd = redirection.fd;
 	}
 	return (SUCCESS);
@@ -87,6 +88,7 @@ t_redirection	sh_new_redir(t_redirection_type type, int redirected_fd, int fd)
 	t_redirection redir;
 
 	redir.type = type;
+	redir.closed = 0;
 	redir.redirected_fd = redirected_fd;
 	redir.fd = fd;
 	return (redir);

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 19:23:54 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/21 14:49:25 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 08:43:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ void		sh_builtin_hash_show(t_shell *shell)
 	if (empty)
 		ft_printf("hash: hash table empty\n");
 }
-
-#include "sh_21.h"
 
 void		sh_builtin_hash_update_stats(t_hash_table *table, t_binary_stats *stats)
 {

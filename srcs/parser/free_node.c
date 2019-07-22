@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:11:45 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/03 17:11:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/21 18:57:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,24 @@ void	sh_free_token(t_ast_node *node, t_token **token)
 	}
 }
 
+void	sh_free_redirection(void *red, size_t dummy)
+{
+	t_redirection *redirection;
+
+	(void)dummy;
+	redirection = (t_redirection *)red;
+	if (!redirection->closed)
+		close(redirection->fd);
+	free(redirection);
+}
+
 void	sh_free_ast_node_meta(t_ast_node **node)
 {
 	if ((*node)->symbol->id == sh_index(SIMPLE_COMMAND))
-		ft_lstdel_value(&(*node)->metadata.command_metadata.redirections);
+	{
+		ft_lstdel(&(*node)->metadata.command_metadata.redirections,
+			sh_free_redirection);
+	}
 	else if ((*node)->symbol->id == sh_index(PIPE_SEQUENCE))
 		ft_lstdel(&(*node)->metadata.pipe_metadata.contexts,
 			sh_free_context_dup_lst);

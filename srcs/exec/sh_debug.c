@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:32:36 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 15:47:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/21 11:17:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_redirection(t_redirection *redirection)
 {
-	ft_printf("redirected: %d on %d (on %s)\n", redirection->redirected_fd,
+	ft_dprintf(0, "redirected: %d on %d (on %s)\n", redirection->redirected_fd,
 			redirection->fd, redirection->type == INPUT ? "INPUT" : "OUTPUT");
 }
 

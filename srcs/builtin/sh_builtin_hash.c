@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:18:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/21 14:52:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 08:45:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	sh_builtin_hash_process_utilities(t_context *context, int i)
 {
 	int		ret;
 
-	while(context->params->tbl[i])
+	while (context->params->tbl[i])
 	{
 		ret = sh_builtin_hash_add_utility(context, context->params->tbl[i]);
 		if (ret == FAILURE)
