@@ -115,6 +115,20 @@ launch "env"
 	test_launch 'env -i var=asd q=qwe e=ewer r=asd t=asda y=asd u= i= o= p=sf a=asd s=asd d=asd f=asd g=hgfd h=sdf j=fsa env'
 	test_launch 'env -i var=asd q=qwe e=ewer r=asd t=asda y=asd u= i= o= p=sf a=asd s=asd d=asd f=asd g=hgfd h=sdf j=fsa env'
 
+launch "env in pipes"
+	test_launch 'env ls | cat'
+	test_launch 'cat | env ls'
+	test_launch 'env pwd | cat | env wc'
+	test_launch 'env -i pwd | env -i env | cat | env -i wc | env -i cat'
+	test_launch 'env | env ./qsd | env cat'
+	test_launch 'env qsd | cat | pwd'
+	test_launch 'env pwd | env qsd'
+	test_launch 'cat | env qsd | pwd'
+	test_launch 'echo "echo tamer" > file' 'env -i bash file | env cat' 'rm file'
+	test_launch 'echo "echo tamer" > file' 'chmod 000 file' 'env -i bash file | env cat' 'chmod 777 file ; rm file'
+	test_launch 'echo "echo tamer" > file' 'env bash file | env cat | wc' 'rm file'
+	test_launch 'ls | qsd | ls'
+
 #	launch "Deprecated"
 	# test_launch "PWD=" "OLDPWD=" "cd -" "cd -"
 	# test_launch "PWD=/ OLDPWD=/var cd - ; cd -"
