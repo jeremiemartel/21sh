@@ -65,6 +65,12 @@ int					sh_builtin_cd_rule5(
 	t_context *context, char **curpath, char *param);
 
 /*
+** sh_builtin_cd_last_rules.c
+*/
+int					sh_builtin_cd_rule10(
+	t_context *context, char *curpath, int flags, char *param);
+
+/*
 ** sh_builtin_echo.c
 */
 int					sh_builtin_echo(t_context *context);
@@ -137,8 +143,6 @@ t_builtin			sh_builtin_find(t_context *context);
 int					sh_builtin_cd_rule7(
 	t_context *context, char **curpath, char flags);
 int					sh_builtin_cd_rule8_1(char **curpath);
-int					sh_builtin_cd_rule10(
-	t_context *context, char *curpath, int flags, char *param);
 
 /*
 ** sh_builtin_where.c

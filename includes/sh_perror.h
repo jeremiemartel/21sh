@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/21 15:33:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/23 07:09:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 # define SH_ERR2_INVALID_OPT			"Invalid option"
+# define SH_ERR2_TOO_MANY_SYMLINK		"Too many levels of symbolic links"
 
 # define SH_RET_SUCCESS			0
 # define SH_RET_ERROR			1
