@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_flag_c_maj.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 21:37:22 by ldedier           #+#    #+#             */
-/*   Updated: 2018/12/08 18:10:16 by emuckens         ###   ########.fr       */
+/*   Updated: 2019/07/24 16:16:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		ft_pf_c_maj(t_pf *pf, va_list va, char c)
 	(void)c;
 	pf->var.integer = va_arg(va, int);
 	if ((len = ft_wchar_len(pf->var.integer)) == -1 ||
-			(len > MB_CUR_MAX && pf->var.integer >= 255))
+			((unsigned int)len > MY_MB_CUR_MAX && pf->var.integer >= 255))
 		return (-1);
 	ft_add_padding_pre(pf, len);
 	ft_put_wchar(pf->var.integer, pf);

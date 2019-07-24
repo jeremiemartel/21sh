@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_max.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 16:42:01 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/31 05:07:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:02:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putnbr_max(uintmax_t nb, t_pf *pf)
+void	ft_putnbr_max(UINTMAX nb, t_pf *pf)
 {
-	if ((uintmax_t)((uintmax_t)nb / (uintmax_t)10) == 0)
+	if ((UINTMAX)((UINTMAX)nb / (UINTMAX)10) == 0)
 		ft_putchar_buff(nb % 10 + '0', pf);
 	else
 	{
-		ft_putnbr_max((uintmax_t)((uintmax_t)nb / (uintmax_t)10), pf);
+		ft_putnbr_max((UINTMAX)((UINTMAX)nb / (UINTMAX)10), pf);
 		ft_putchar_buff(nb % 10 + '0', pf);
 	}
 }

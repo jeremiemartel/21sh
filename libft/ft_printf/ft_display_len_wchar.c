@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_display_len_wchar.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 23:43:58 by ldedier           #+#    #+#             */
-/*   Updated: 2018/12/08 18:11:10 by emuckens         ###   ########.fr       */
+/*   Updated: 2019/07/24 16:16:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_wchar_len(int nb)
 		return (-1);
 	else if (nb < 0)
 		return (-1);
-	else if (nb <= 127 || (nb <= 255 && MB_CUR_MAX < 2))
+	else if (nb <= 127 || (nb <= 255 && MY_MB_CUR_MAX < 2))
 		return (1);
 	else if (nb <= 2047)
 		return (2);
@@ -53,7 +53,7 @@ int		ft_has_forbidden_values(t_pf pf)
 	{
 		if ((len = ft_wchar_len(data[i])) == -1)
 			return (1);
-		if (len > MB_CUR_MAX)
+		if ((unsigned int)len > MY_MB_CUR_MAX)
 			return (1);
 		res += ft_wchar_len(data[i]);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_flags_x_p.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 22:45:41 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/31 04:02:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:04:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		ft_pf_p(t_pf *pf, va_list va, char c)
 	int no_padding_bytes;
 
 	(void)c;
-	pf->var.integer = (intmax_t)va_arg(va, void *);
+	pf->var.integer = (INTMAX)va_arg(va, void *);
 	no_padding_bytes = ft_pf_len_p(*pf);
 	ft_add_padding_pre_standard(pf, no_padding_bytes);
 	ft_putnstr("0x", 2, pf);

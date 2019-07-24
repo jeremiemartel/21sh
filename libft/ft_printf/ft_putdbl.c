@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putdbl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/29 22:56:20 by ldedier           #+#    #+#             */
-/*   Updated: 2018/05/08 23:11:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:04:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ void	ft_process_precision_double(int pre, double frac, int decal, t_pf *pf)
 	while (frac2 != 0 && pre)
 	{
 		frac = frac * 10;
-		frac2 = frac - (intmax_t)frac;
+		frac2 = frac - (INTMAX)frac;
 		decal++;
 		pre--;
 	}
 	ft_putchar_buff('.', pf);
-	ft_putnbr_max((intmax_t)frac, pf);
+	ft_putnbr_max((INTMAX)frac, pf);
 	pre--;
 	while (pre >= 0)
 	{
@@ -85,8 +85,8 @@ void	ft_putdbl_long(double d, int precision, t_pf *pf)
 		d = -d;
 	}
 	decal = 0;
-	frac = d - (intmax_t)d;
-	ft_putnbr_max(ft_abs_max((intmax_t)(d)), pf);
+	frac = d - (INTMAX)d;
+	ft_putnbr_max(ft_abs_max((INTMAX)(d)), pf);
 	if (precision != 0)
 		ft_process_precision_double(precision, frac, decal, pf);
 }

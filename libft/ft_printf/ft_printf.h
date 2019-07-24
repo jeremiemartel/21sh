@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 01:13:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/02/10 14:48:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:22:49 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+
+# if __APPLE__ && __MACH__
+#  define INTMAX intmax_t
+#  define UINTMAX uintmax_t
+#  define MY_MB_CUR_MAX (unsigned int)__mb_cur_max
+# else
+#  define INTMAX __intmax_t
+#  define UINTMAX __uintmax_t
+#  define MY_MB_CUR_MAX (__ctype_get_mb_cur_max ())
+# endif
+
+# define PINFINITY	1.0 / 0.0
+# define LINFINITY	- 1.0 / 0.0
 
 # define NB_CHARS	255
 # define BUF_SIZE	1000000
@@ -49,7 +62,7 @@
 
 typedef union		u_var
 {
-	intmax_t		integer;
+	INTMAX		integer;
 	double			flottant;
 	char			*str;
 	int				*wstr;
@@ -182,9 +195,9 @@ void				ft_putbin(size_t nb, t_pf *pf);
 void				ft_putdbl(double d, int precision, t_pf *pf);
 void				ft_putnbr_buff(int nbr, t_pf *pf);
 void				ft_putnbr_unsigned(unsigned int n, t_pf *pf);
-void				ft_putnbr_max(uintmax_t n, t_pf *pf);
+void				ft_putnbr_max(UINTMAX n, t_pf *pf);
 void				ft_putstr_non_printable(const char *s, size_t n, t_pf *pf);
-intmax_t			ft_abs_max(intmax_t a);
+INTMAX			ft_abs_max(INTMAX a);
 void				ft_putnstr(char const *str, size_t n, t_pf *pf);
 double				ft_fabs(double a);
 int					ft_min(int a, int b);
@@ -204,8 +217,8 @@ void				ft_gtvar_ullint(t_pf *pf, va_list va);
 void				ft_gtvar_uintmax_t(t_pf *pf, va_list va);
 void				ft_gtvar_ushort_int(t_pf *pf, va_list va);
 
-void				ft_puthex_max(uintmax_t n, int maj, t_pf *pf);
-void				ft_putoctal_max(uintmax_t n, t_pf *pf);
+void				ft_puthex_max(UINTMAX n, int maj, t_pf *pf);
+void				ft_putoctal_max(UINTMAX n, t_pf *pf);
 char				*ft_get_buffer(const void *s, size_t n, int *disp, t_pf *p);
 void				ft_empty_buffer(t_pf *pf);
 void				ft_no_number(t_pf *pf);

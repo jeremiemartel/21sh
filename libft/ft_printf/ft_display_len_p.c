@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_display_len_p.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 23:48:30 by ldedier           #+#    #+#             */
-/*   Updated: 2018/02/06 21:20:02 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:04:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_pf_len_p(t_pf pf)
 {
-	intmax_t res;
+	INTMAX res;
 
 	if (pf.var.integer == 0)
 	{
