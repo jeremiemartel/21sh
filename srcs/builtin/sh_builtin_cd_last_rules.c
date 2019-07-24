@@ -6,13 +6,11 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 07:20:20 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/23 07:20:58 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/24 15:38:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-extern errno_t errno;
 
 /*
 ** sh_builtin_cd_update_pwd:
@@ -53,24 +51,23 @@ static int	sh_builtin_cd_update_pwd(
 static int	sh_builtin_cd_rule10_check_perms(t_context *context, char *curpath, char *param)
 {
 	int			ret;
+	int			ret_stat;
+	int			ret_lstat;
 	struct stat	st;
-	
+
 	ret = SUCCESS;
-	if (access(curpath, F_OK))
+	ret_lstat = lstat(curpath, &st);
+	ret_stat = stat(curpath, &st);
+	if (ret_lstat != -1 && ret_stat == -1)
 	{
-		if (errno == 62)
-			ret = sh_perror_err_fd(
-				context->fd[FD_ERR], param, SH_ERR2_TOO_MANY_SYMLINK);
-		else
-			ret = sh_perror_err_fd(
-				context->fd[FD_ERR], param, SH_ERR2_NO_SUCH_FILE_OR_DIR);
-		sh_env_update_ret_value(context->shell, SH_RET_ERROR);
+		ret = sh_perror_err_fd(
+			context->fd[FD_ERR], param, SH_ERR2_TOO_MANY_SYMLINK);
 	}
-	else if (stat(curpath, &st) == -1)
+	else if (ret_stat == -1)
 	{
 		ret = sh_perror_err_fd(
 			context->fd[FD_ERR], param, SH_ERR2_NO_SUCH_FILE_OR_DIR);
-		sh_env_update_ret_value(context->shell, SH_RET_ERROR);
+		sh_env_update_ret_value(context->shell, SH_RET_ERROR);		
 	}
 	else if (!S_ISDIR(st.st_mode))
 	{
