@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 23:34:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/24 17:09:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <dirent.h>
+
+/*
+** wait(2)
+*/
+# include <sys/wait.h>
 
 /*
 ** read(2)

@@ -6,11 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:27:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 17:03:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+extern pid_t g_parent;
 
 static void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
 {

@@ -14,6 +14,8 @@ NAME	= 21sh
 
 CC		= gcc -g3
 
+OS		= $(shell uname -s)
+
 PWD = \"$(shell pwd)\"
 
 DEBUG ?= 0
@@ -49,9 +51,9 @@ EOC = \033[0m
 
 GRAM_SRCS_NO_PREFIX =	debug.c \
 						first_sets.c \
-						first_sets_tools.c \
 						grammar.c \
-						init_cfg.c
+						init_cfg.c \
+						first_sets_tools.c
 
 TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_default.c \
@@ -254,8 +256,12 @@ OBJECTS += $(PERROR_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR) -I $(LIBFTDIR)/$(PRINTFDIR)
 
+ifeq ($(OS),"Linux")
+	CFLAGS = -DPATH=$(PWD) $(INC)
+else
+	CFLAGS = -DPATH=$(PWD) $(INC) -Wall -Werror -Wextra
+endif
 
-CFLAGS =	-DPATH=$(PWD) -Wall -Wextra -Werror $(INC)
 LFLAGS =	-L $(LIBFTDIR) -lft -ltermcap
 
 ifeq ($(DEBUG), 1)
@@ -366,5 +372,8 @@ rere:
 	@rm -rf $(OBJDIR)
 	@rm -f $(BINDIR)/$(NAME)
 	make all
+
+os:
+	@echo $(OS)
 
 .PHONY: all clean fclean re

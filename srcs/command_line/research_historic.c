@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   research_historic.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 19:29:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 17:36:57 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:51:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 int		process_find_in_historic(t_command_line *command_line,
 			char *to_search_in, char *found)
 {
-	int			old_len;
 	int			new_len;
 	int			len;
 
 	new_len = ft_strlen_utf8(to_search_in);
 	command_line->searcher.match_index = found - to_search_in;
-	old_len = command_line->nb_chars;
 	ft_dy_str_cpy_str(command_line->dy_str, to_search_in);
 	command_line->nb_chars = new_len;
 	len = ft_strnlen_utf8(to_search_in, command_line->searcher.match_index);

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/21 15:12:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:35:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,104 @@
 # define VERBOSE_EXPANSION	0x0010
 # define VERBOSE_BUILTIN	0x0020
 # define VERBOSE_TRAVERSE	0x0040
+
+# ifndef SIGHUP
+#  define SIGHUP	1	/* hangup */
+#endif
+# ifndef SIGINT
+#  define SIGINT	2	/* interrupt */
+#endif
+# ifndef SIGQUIT
+#  define SIGQUIT	3	/* quit */
+#endif
+# ifndef SIGILL
+#  define SIGILL	4	/* illegal instruction (not reset when caught) */
+#endif
+# ifndef SIGTRAP
+#  define SIGTRAP	5	/* trace trap (not reset when caught) */
+#endif
+# ifndef SIGABRT
+#  define SIGABRT	6	/* abort() */
+#endif
+# ifndef SIGIOT
+#  define SIGIOT	SIGABRT	/* compatibility */
+#endif
+# ifndef SIGEMT
+#  define SIGEMT	7	/* EMT instruction */
+#endif
+# ifndef SIGFPE
+#  define SIGFPE	8	/* floating point exception */
+#endif
+# ifndef SIGKILL
+#  define SIGKILL	9	/* kill (cannot be caught or ignored) */
+#endif
+# ifndef SIGBUS
+#  define SIGBUS	10	/* bus error */
+#endif
+# ifndef SIGSEGV
+#  define SIGSEGV	11	/* segmentation violation */
+#endif
+# ifndef SIGSYS
+#  define SIGSYS	12	/* bad argument to system call */
+#endif
+# ifndef SIGPIPE
+#  define SIGPIPE	13	/* write on a pipe with no one to read it */
+#endif
+# ifndef SIGALRM
+#  define SIGALRM	14	/* alarm clock */
+#endif
+# ifndef SIGTERM
+#  define SIGTERM	15	/* software termination signal from kill */
+#endif
+# ifndef SIGURG
+#  define SIGURG	16	/* urgent condition on IO channel */
+#endif
+# ifndef SIGSTOP
+#  define SIGSTOP	17	/* sendable stop signal not from tty */
+#endif
+# ifndef SIGTSTP
+#  define SIGTSTP	18	/* stop signal from tty */
+#endif
+# ifndef SIGCONT
+#  define SIGCONT	19	/* continue a stopped process */
+#endif
+# ifndef SIGCHLD
+#  define SIGCHLD	20	/* to parent on child stop or exit */
+#endif
+# ifndef SIGTTIN
+#  define SIGTTIN	21	/* to readers pgrp upon background tty read */
+#endif
+# ifndef SIGTTOU
+#  define SIGTTOU	22	/* like TTIN for output if (tp->t_local&LTOSTOP) */
+#endif
+# ifndef SIGIO
+#  define SIGIO	23	/* input/output possible signal */
+#endif
+# ifndef SIGXCPU
+#  define SIGXCPU	24	/* exceeded CPU time limit */
+#endif
+# ifndef SIGXFSZ
+#  define SIGXFSZ	25	/* exceeded file size limit */
+#endif
+# ifndef SIGVTALRM
+#  define SIGVTALRM 26	/* virtual time alarm */
+#endif
+# ifndef SIGPROF
+#  define SIGPROF	27	/* profiling time alarm */
+#endif
+# ifndef SIGWINCH
+#  define SIGWINCH 28	/* window size changes */
+#endif
+# ifndef SIGINFO
+#  define SIGINFO	29	/* information request */
+#endif
+# ifndef SIGUSR1
+#  define SIGUSR1 30	/* user defined signal 1 */
+#endif
+# ifndef SIGUSR2
+#  define SIGUSR2 31	/* user defined signal 2 */
+#endif
+
 
 /*
 ********************************************************************************

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   state.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 12:23:57 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 06:59:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:48:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 t_state		*sh_new_state(void)
 {
 	t_state		*res;
-	int			i;
 	static int	index = 0;
 
 	if (!(res = (t_state *)malloc(sizeof(t_state))))
 		return (NULL);
-	i = 0;
 	res->transitions = NULL;
 	res->items = NULL;
 	res->index = index++;
@@ -29,9 +27,6 @@ t_state		*sh_new_state(void)
 
 void		sh_free_state(t_state *state)
 {
-	int i;
-
-	i = 0;
 	ft_lstdel_value(&state->items);
 	ft_lstdel_value(&state->transitions);
 	free(state);

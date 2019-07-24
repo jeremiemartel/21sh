@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/21 12:05:15 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:44:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static pid_t g_parent;
+extern pid_t g_parent;
 
 int			sh_process_process_execute(t_context *context)
 {
