@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/22 11:14:41 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/25 15:36:19 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ LIBFT = $(LIBFTDIR)/libft.a
 
 OK_COLOR = \x1b[32;01m
 #COMP_COLOR = \x1b[34;01m
+FLAGS_COLOR = \x1b[34;01m
 COMP_COLOR =
 EOC = \033[0m
 
@@ -274,6 +275,7 @@ endif
 
 all:
 	@make -C $(LIBFTDIR) $(SPEED)
+	@echo "$(FLAGS_COLOR)Compiling with flags $(CFLAGS) $(EOC)"
 	@make $(BINDIR)/$(NAME) $(SPEED)
 
 debug:
