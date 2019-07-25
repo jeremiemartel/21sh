@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:25:15 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/08 16:26:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 16:03:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		sh_lexer_rule1(t_lexer *lexer)
 			{
 				if (lexer->quoted != '\\')
 				{
-					ft_dprintf(2, "unexpected EOF while looking for matching %c", lexer->quoted);
+					ft_dprintf(2, "unexpected EOF while looking for matching %c\n", lexer->quoted);
 					return (LEX_FAIL);
 				}
 			}

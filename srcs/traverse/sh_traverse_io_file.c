@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 22:46:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/25 16:41:47 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static int	sh_process_file_greatand(char *filename, t_context *context)
 			return (sh_process_file_output(filename, context,
 				O_WRONLY | O_TRUNC | O_CREAT));
 		else
-			ft_dprintf(2, "%d bad file descriptor", fd);
+			ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
+				SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
 		return (SUCCESS);
 	}
 }
@@ -77,7 +78,8 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 		if (fd == -1)
 			ft_dprintf(2, "ambiguous redirect\n", fd);
 		else
-			ft_dprintf(2, "%d bad file descriptor\n", fd);
+			ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
+				SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
 		return (SUCCESS);
 	}
 }
