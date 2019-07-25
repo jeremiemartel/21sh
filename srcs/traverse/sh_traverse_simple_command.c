@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 00:16:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 00:17:16 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
-	int		ret;
-
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		if (sh_verbose_traverse())
