@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/22 23:58:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 18:58:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	main_exit_value(t_shell *shell, int ret)
 {
-
 	if (shell->ret_value_set || shell->ret_value)
 	{
 		if (sh_verbose_exec())
@@ -27,7 +26,7 @@ static int	main_exit_value(t_shell *shell, int ret)
 	return (ret);
 }
 
-int		main(int argc, char **argv, char **env)
+int			main(int argc, char **argv, char **env)
 {
 	t_shell		shell;
 	int			ret;
