@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/23 00:03:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 00:16:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		sh_process_traverse_simple_command_exec(t_context *context, int *ret)
 ** return  :
 **	FAILURE : malloc error
 **	ERROR : command not found
+**	STOP_CMD_LINE : a builtin askedto stop line execution
 **	SUCCESS : no command were given
 **	any value returned by a builtin executed or a process launched
 */
@@ -60,6 +61,8 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 	sh_traverse_tools_reset_params(context);
 	if (sh_env_update_question_mark(context->shell) == FAILURE)
 		return (FAILURE);
+	if (ret == STOP_CMD_LINE)
+		return (ret);
 	return (ret == FAILURE ? FAILURE : SUCCESS);
 }
 
@@ -75,6 +78,8 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
+	int		ret;
+
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		if (sh_verbose_traverse())

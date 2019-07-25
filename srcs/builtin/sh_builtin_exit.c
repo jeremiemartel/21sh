@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 12:14:59 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/25 22:33:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 22:54:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int				sh_builtin_exit(t_context *context)
 			return (ERROR);
 	if (context->params->tbl[1] && context->params->tbl[2])
 	{
-		return (sh_perror_err_fd(context->fd[FD_ERR],
-			context->params->tbl[0], SH_ERR1_TOO_MANY_ARGS));
+		sh_perror_err_fd(context->fd[FD_ERR],
+			context->params->tbl[0], SH_ERR1_TOO_MANY_ARGS);
+		return (STOP_CMD_LINE);
 	}
 	if (ret == -1)
 		ret = context->shell->ret_value;

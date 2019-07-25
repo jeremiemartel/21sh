@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:30:57 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/26 00:14:36 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int		sh_traverse_and_or_execute_process(t_list **ptr,
 		return (SUCCESS);
 	child = (t_ast_node *)(*ptr)->content;
 	ret = g_grammar[child->symbol->id].traverse(child, context);
-	if (ret == FAILURE)
+	if (ret == FAILURE || ret == STOP_CMD_LINE)
 		return (ret);
 	if (!context->shell->running)
 		return (SUCCESS);
@@ -65,7 +65,5 @@ int				sh_traverse_and_or(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 		return (sh_traverse_and_or_execute(node, context));
 	else
-	{
 		return (sh_traverse_tools_browse(node, context));
-	}
 }
