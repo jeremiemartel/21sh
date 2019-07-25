@@ -55,4 +55,10 @@ launch "Pipes"
 		test_launch "./a.out 4 okalm 4>&1 4>&2 3>file ; cat file ; rm file"
 
 		rm -f file ; rm a.out
+
+	launch "asynchronous"
+		test_launch "sleep 1 | ls ; echo lol"
+		test_launch 'pwd ; cd ..  | echo | exit ; pwd'
+		test_launch 'true | exit'
+		test_launch 'yes | head -c1'
 finish
