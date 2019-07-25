@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/24 17:09:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 19:06:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,5 +274,6 @@ void				transmit_sig_and_die(int signal);
 void				handle_resize(int signal);
 void				init_signal_transmit_sig_and_die(void);
 void				init_signals(void);
+void				reset_signals(void);
 
 #endif
