@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/25 15:36:19 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/25 20:23:55 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -257,7 +257,7 @@ OBJECTS += $(PERROR_OBJECTS)
 
 INC =	-I $(INCLUDESDIR) -I $(LIBFTDIR) -I $(LIBFTDIR)/$(PRINTFDIR)
 
-ifeq ($(OS),"Linux")
+ifeq ($(OS),Linux)
 	CFLAGS = -DPATH=$(PWD) $(INC)
 else
 	CFLAGS = -DPATH=$(PWD) $(INC) -Wall -Werror -Wextra
