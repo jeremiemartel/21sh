@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 01:13:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/25 21:11:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 21:17:09 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 #  define UINTMAX uintmax_t
 #  define MY_MB_CUR_MAX (unsigned int)__mb_cur_max
 # else
-#  define INTMAX __intmax_t
-#  define UINTMAX __uintmax_t
+#  define INTMAX intmax_t
+#  define UINTMAX uintmax_t
 #  define MY_MB_CUR_MAX (__ctype_get_mb_cur_max ())
 # endif
 
