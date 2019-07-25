@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/05 12:03:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 18:56:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static int	sh_traverse_sc_search_in_dir_found(char *path, DIR *dir,
 		return (sh_perror(SH_ERR1_MALLOC,
 					"traverse_sc_search_in_dir"));
 	}
-	if (sh_traverse_sc_check_perm(context, buf,
-				context->params->tbl[0]) != SUCCESS)
+	if (sh_traverse_sc_check_perm_quiet(buf) == ERROR)
 	{
 		free(buf);
 		return (KEEP_READ);

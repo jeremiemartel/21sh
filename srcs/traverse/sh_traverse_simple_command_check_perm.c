@@ -6,11 +6,38 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:23:20 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/20 09:46:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 18:56:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+/*
+** sh_traverse_sc_check_perm_quiet:
+**	(Do the same than sh_traverse_sc_check_perm, with no error messages shown)
+**	Check if a file pointed by path exists, is a regular file,
+**	can be executed by current user. If not it return ERROR.
+**	shell->ret_value is not modified.
+**
+**	return Value:
+**		SUCESS : file can be considered as an executable
+**		ERROR : file cannot be considered as an executable
+*/
+
+int			sh_traverse_sc_check_perm_quiet(char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st) == -1)
+		return (ERROR);
+	if (access(path, X_OK))
+		return (ERROR);
+	if (S_ISDIR(st.st_mode))
+		return (ERROR);
+	if (!S_ISREG(st.st_mode))
+		return (ERROR);
+	return (SUCCESS);
+}
 
 static int	sh_traverse_sc_check_perm_reg(t_context *context, struct stat st,
 			char *command_name)
@@ -31,6 +58,7 @@ static int	sh_traverse_sc_check_perm_reg(t_context *context, struct stat st,
 **	Check if a file pointed by path exists, is a regular file,
 **	can be executed by current user. If not it return an error
 **	and print error message on stderr.
+**	shell->ret_value is updated if any error occured
 **
 **	return Value:
 **		SUCESS : file can be considered as an executable
