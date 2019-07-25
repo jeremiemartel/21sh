@@ -49,6 +49,13 @@
 */
 
 /*
+** sh_perror_fd.c
+*/
+int		sh_perror2_fd(
+	int fd, const char *error, const char *prefix, const char *suffix);
+int		sh_perror_fd(int fd, const char *error, const char *suffix);
+
+/*
 ** sh_perror.c
 */
 int		sh_perror(const char *error, const char *suffix);
@@ -56,13 +63,6 @@ int		sh_perror_err(const char *error, const char *suffix);
 void	*sh_perrorn(const char *error, const char *suffix);
 int		sh_perror_err_fd(int fd, const char *error, const char *suffix);
 void	*sh_perrorn_fd(int fd, const char *error, const char *suffix);
-
-/*
-** sh_perror_fd.c
-*/
-int		sh_perror2_fd(
-	int fd, const char *error, const char *prefix, const char *suffix);
-int		sh_perror_fd(int fd, const char *error, const char *suffix);
 
 /*
 ** sh_perror2.c
