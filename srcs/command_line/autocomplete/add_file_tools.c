@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 16:56:04 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/04 16:56:04 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/25 09:38:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_file		*new_file(t_shell *shell, char *name, char *fullname)
 	res->fullname = fullname;
 	if (populate_file(res, name, &path, shell))
 		return (NULL);
-	if (lstat(path, &res->st) == -1)
+	if (stat(path, &res->st) == -1)
 		res->unstatable = 1;
 	else
 		res->unstatable = 0;
