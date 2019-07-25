@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/24 16:08:09 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/25 21:15:27 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME	= libft.a
 EXEC	= exec
 
 OK_COLOR = \x1b[32;01m
+FLAGS_COLOR = \x1b[34;01m
 #COMP_COLOR = \x1b[34;01m
 COM_COLOR = 
 EOC = \033[0m
@@ -234,14 +235,20 @@ HEADERS		= ./ft_printf/ft_printf.h ./libft.h
 INCLUDES	= -I . -I ./ft_printf/
 
 CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra $(INCLUDES)
+ifeq ($(OS),Linux)
+	CFLAGS		= $(INCLUDES)
+else
+	CFLAGS		= -Wall -Werror -Wextra $(INCLUDES)
+endif
 
 ifeq ($(DEBUG), 1)
 		CFLAGS += -fsanitize=address
 		CC += -g3
 endif
 
-all: $(NAME)
+all: 
+	echo "$(FLAGS_COLOR)Compiling with flags $(CFLAGS) $(EOC)"
+	make -C . $(NAME)
 
 debug:
 	make all DEBUG=1
