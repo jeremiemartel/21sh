@@ -23,15 +23,32 @@ launch "Lexer"
 	test_launch '""""""ec""""h""o lol' 'ls'
 	test_launch 'ec"ho lol' 'ls'
 
-	launch
+	echo "\"l\"\'\'\"l\"\\\\' '\pwd "  > file
+	test_launch_pipe file
+	echo "2'''  '\ \ \ \ \'\'\'\'\"\"\"\"\ \"        \"ls" > file
+	test_launch_pipe file
+
+	launch "lexer on expansion"
 	test_launch '\ls \$HOME'
 	test_launch '\ls $\H\O\M\E'
 	test_launch 'l\s $HOME\'
 	test_launch '""'
 	test_launch '"\\\""\\ls'
 
+	launch "multiple lines"
+	test_launch '"var=pwe" echo $var ; echo $var'
+
 	launch "Random"
 	test_launch '"var=pwe"'
 	test_launch 'ls ""'
 
 finish
+
+# launch "Deprecated"
+# 	test_launch '\ls "
+# 	okalm"'
+	# echo "ls \\" > file ; echo "-a" >>file
+	# test_launch_pipe file
+
+
+rm file
