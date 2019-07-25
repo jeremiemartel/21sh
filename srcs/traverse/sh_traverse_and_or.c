@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 00:14:36 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 00:39:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	{
 		if (sh_verbose_traverse())
 		{
-			ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC,
+			ft_dprintf(2, BLUE"traverse : execute : %s : start\n"EOC,
 				node->symbol->debug);
 		}
 		if ((ret = sh_traverse_and_or_execute_process(&ptr,
@@ -62,8 +62,16 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 
 int				sh_traverse_and_or(t_ast_node *node, t_context *context)
 {
+	int		ret;
+
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
-		return (sh_traverse_and_or_execute(node, context));
+	{
+		ret = sh_traverse_and_or_execute(node, context);
+		if (sh_verbose_traverse())
+			ft_dprintf(2, BLUE
+			"traverse : execute : AND_OR : returned value : %d\n"EOC, ret);
+		return (ret);
+	}
 	else
 		return (sh_traverse_tools_browse(node, context));
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 00:17:16 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 00:42:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 	if ((ret = sh_traverse_tools_browse(node, context)))
 		return (ret);
 	if (sh_verbose_traverse())
-		ft_dprintf(2, BLUE"%s\n"EOC, context->params->tbl[0]);
+		ft_dprintf(2,
+		BLUE"traverse : execute : SIMPLE_COMMAND : cmd name : %s\n"EOC,
+		context->params->tbl[0]);
 	if (!context->params->tbl[0])
 		return (SUCCESS);
 	if (!ft_strchr(context->params->tbl[0], '/'))
@@ -78,11 +80,13 @@ int		sh_traverse_simple_command_no_exec(t_ast_node *node,
 
 int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 {
+	int		ret;
+
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		if (sh_verbose_traverse())
 		{
-			ft_dprintf(2, BLUE"traverse : execute : %s\n"EOC,
+			ft_dprintf(2, BLUE"traverse : execute : %s : start\n"EOC,
 				node->symbol->debug);
 		}
 		context->redirections = &node->metadata.command_metadata.redirections;
@@ -90,9 +94,14 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 			if (sh_env_update_question_mark(context->shell) == FAILURE)
 				return (FAILURE);
 		if (node->metadata.command_metadata.should_exec)
-			return (sh_traverse_simple_command_exec(node, context));
+			ret = sh_traverse_simple_command_exec(node, context);
 		else
-			return (sh_traverse_simple_command_no_exec(node, context));
+			ret = sh_traverse_simple_command_no_exec(node, context);
+		if (sh_verbose_traverse())
+			ft_dprintf(2, BLUE
+			"traverse : execute : SIMPLE_COMMAND : returned value : %d\n"
+			EOC, ret);
+		return (ret);
 	}
 	return (sh_traverse_tools_browse(node, context));
 }
