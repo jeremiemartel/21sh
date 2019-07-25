@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/21 15:21:33 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/25 23:05:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ void	sh_env_update_ret_value(t_shell *shell, int res)
 		shell->ret_value = res;
 		shell->ret_value_set = 1;
 		if (sh_verbose_exec())
-			ft_dprintf(2, COLOR_CYAN"ret value set : %d\n"COLOR_END,
-			EXIT_STATUS(res));
+			ft_dprintf(2, COLOR_CYAN"ret value set : %d\n"COLOR_END, res);
 	}
 	return ;
 }
