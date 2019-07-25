@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/24 17:09:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 01:07:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # include "sh_21.h"
 
-# define DGREAT_OPT			(O_WRONLY | O_APPEND | O_CREAT)
-# define GREAT_OPT			(O_WRONLY | O_TRUNC | O_CREAT)
-# define EXIT_STATUS(res)	res >> 8
+# define DGREAT_OPT					(O_WRONLY | O_APPEND | O_CREAT)
+# define GREAT_OPT					(O_WRONLY | O_TRUNC | O_CREAT)
+# define SH_RET_EXIT_STATUS(res)	res >> 8
+# define SH_RET_SIG_RECEIVED(res)	res & 0xff
 
 static pid_t g_parent = 0;
 

@@ -154,7 +154,7 @@ int		sh_verbose_builtin(void);
 /*
 ** sh_env.c
 */
-void	sh_env_update_ret_value_wait_result(t_shell *shell, int res);
+void	sh_env_update_ret_value_wait_result(t_context *context, int res);
 void	sh_env_update_ret_value(t_shell *shell, int res);
 int		sh_env_update_question_mark(t_shell *shell);
 int		sh_env_update_ret_value_and_question(t_shell *shell, int res);

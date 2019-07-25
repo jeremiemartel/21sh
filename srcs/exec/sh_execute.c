@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/24 16:44:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 01:15:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			sh_process_process_execute(t_context *context)
 	{
 		wait(&res);
 		g_parent = 0;
-		sh_env_update_ret_value_wait_result(context->shell, res);
+		sh_env_update_ret_value_wait_result(context, res);
 		sh_process_execute_close_pipes(context);
 		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
 		{

@@ -6,11 +6,25 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/25 23:05:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 01:20:58 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+static void	sh_env_update_ret_value_treat_sig(t_context *context, int sig)
+{
+	if (sig == 0 || sig == 2)
+		return ;
+	else if (sig == 10)
+		sh_perror("bus error", context->params->tbl[0]);
+	else if (sig == 11)
+		sh_perror("segmentation fault", context->params->tbl[0]);
+	else
+		ft_dprintf(2, "%s%s: %s: %s : %s : %d %s\n",
+			SH_ERR_COLOR, SH_NAME, "Warning", context->params->tbl[0], "received signal", sig, COLOR_END);	
+	return ;
+}
 
 /*
 ** sh_env_update_ret_value_wait_result:
@@ -18,19 +32,23 @@
 **	res is considered as the value stored by a wait (2) function.
 */
 
-void	sh_env_update_ret_value_wait_result(t_shell *shell, int res)
+void	sh_env_update_ret_value_wait_result(t_context *context, int res)
 {
+	t_shell		*shell;
+
+	shell = context->shell;
 	if (!shell->ret_value_set)
 	{
-		if ((res & 0xff) == 2)
+		if ((res & 0xff) == SIGINT)
 			shell->ret_value = SH_RET_CTRL_C;
 		else
-			shell->ret_value = EXIT_STATUS(res);
+			shell->ret_value = SH_RET_EXIT_STATUS(res);
 		shell->ret_value_set = 1;
+		sh_env_update_ret_value_treat_sig(context, SH_RET_SIG_RECEIVED(res));
 		if (sh_verbose_exec())
 		{
 			ft_dprintf(2, COLOR_CYAN"ret value set : %d\n"COLOR_END,
-			EXIT_STATUS(res));
+			SH_RET_EXIT_STATUS(res));
 			ft_dprintf(2, COLOR_CYAN"Process signal sent : %d\n"COLOR_END,
 			res & 0xff);
 		}
