@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/25 21:15:27 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/25 21:18:43 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -235,6 +235,8 @@ HEADERS		= ./ft_printf/ft_printf.h ./libft.h
 INCLUDES	= -I . -I ./ft_printf/
 
 CC			= gcc
+
+OS = $(shell uname -s)
 ifeq ($(OS),Linux)
 	CFLAGS		= $(INCLUDES)
 else
