@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:45:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 06:21:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 00:48:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int		sh_lexer_rule8_assignment(t_lexer *lexer)
 		while (head)
 		{
 			tok = (t_token*)head->content;
-			if (tok->id != LEX_TOK_ASSIGNMENT_WORD)
+			if (tok->id != LEX_TOK_ASSIGNMENT_WORD
+			&& tok->id != LEX_TOK_AND_IF && tok->id != LEX_TOK_OR_IF
+			&& tok->id != LEX_TOK_SEMICOL)
 			{
 				free(buff);
 				return (SUCCESS);
