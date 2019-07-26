@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/25 16:41:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 11:00:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	sh_process_file_greatand(char *filename, t_context *context)
 			return (FAILURE);
 		return (SUCCESS);
 	}
-	else if ((fd = get_fd(filename)) <= 2 && fd >= 0)
+	else if ((fd = get_fd(filename)) >= 0)
 		return (sh_process_fd_aggregation(OUTPUT, context->redirected_fd, fd,
 			&context->current_command_node->
 				metadata.command_metadata.redirections));
@@ -63,14 +63,14 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 
 	if (!ft_strcmp(filename, "-"))
 	{
-		if (sh_add_redirection(sh_new_redir(OUTPUT, context->redirected_fd, -1),
+		if (sh_add_redirection(sh_new_redir(INPUT, context->redirected_fd, -1),
 			&context->current_command_node->
 				metadata.command_metadata.redirections))
 			return (FAILURE);
 		return (SUCCESS);
 	}
-	else if ((fd = get_fd(filename)) <= 2 && fd >= 0)
-		return (sh_process_fd_aggregation(OUTPUT, context->redirected_fd, fd,
+	else if ((fd = get_fd(filename)) >= 0)
+		return (sh_process_fd_aggregation(INPUT, context->redirected_fd, fd,
 			&context->current_command_node->
 				metadata.command_metadata.redirections));
 	else
@@ -78,8 +78,10 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 		if (fd == -1)
 			ft_dprintf(2, "ambiguous redirect\n", fd);
 		else
+		{
 			ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
 				SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
+		}
 		return (SUCCESS);
 	}
 }

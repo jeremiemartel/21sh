@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 15:06:13 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 09:46:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 08:43:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int			sh_exec_builtin(t_context *context)
 		sh_env_update_ret_value(context->shell, SH_RET_SUCCESS);
 	else
 		sh_env_update_ret_value(context->shell, SH_RET_ERROR);
-	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
+	if (isatty(0) && sh_set_shell_back(0) == ATTR_ERROR)
 		return (sh_perror("Could not modify this terminal attributes", NULL));
 	sh_process_execute_close_pipes(context);
 	return (res);

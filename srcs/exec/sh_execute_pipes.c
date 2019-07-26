@@ -6,14 +6,15 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:26:22 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:32:15 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/26 12:01:18 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_process_process_execute_dup_pipes(t_redirection *redir)
+int	sh_process_process_execute_dup_pipes(t_redirection *redir)
 {
+	(void)redir;
 	if (redir->fd >= 0)
 	{
 		if (sh_verbose_pipe())
@@ -41,12 +42,20 @@ int			sh_process_execute_dup_pipes(t_context *context)
 		return (SUCCESS);
 	if (sh_verbose_pipe())
 		ft_dprintf(2, "Redirections for %s:\n", context->params->tbl[0]);
+	ft_printf("redirection list: \n");
+	print_redirection_list(*(context->redirections));
+	
+	ft_printf("\nredirection list: 2\n");
 	head = *(context->redirections);
 	while (head)
 	{
 		redir = (t_redirection*)head->content;
+		print_redirection(redir);
 		if (sh_process_process_execute_dup_pipes(redir))
+		{
+			exit(1);
 			return (FAILURE);
+		}
 		head = head->next;
 	}
 	return (SUCCESS);
