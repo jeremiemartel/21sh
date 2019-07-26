@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:23:20 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 03:15:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 03:22:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static int	sh_traverse_sc_check_perm_reg(t_context *context, struct stat st,
 **		ERROR : file do not exists or is in a loop
 */
 
-static int	sh_traverse_sc_check_symlink_loop(t_context *context, char *path, struct stat *st)
+static int	sh_traverse_sc_check_symlink_loop(
+	t_context *context, char *path, struct stat *st)
 {
 	int			ret_stat;
 	int			ret_lstat;
