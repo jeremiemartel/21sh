@@ -63,6 +63,11 @@ launch "cd"
 	test_launch "mkdir dir ; ln -s dir link" "cd dir ; pwd ; pwd -P" "cd ../link ; pwd ; pwd -P" "cd -P ../link ; pwd ; pwd -P" "cd .. ; rm -r dir link"
 
 	test_launch "cd -" "pwd"
+	test_launch "cd '' '' && pwd"
+	test_launch "cd '' '' || pwd"
+	test_launch "cd '' && pwd"
+	test_launch "cd '' || pwd"
+	test_launch "cd sd tre" "cd gfd fcds ''" "pwd"
 	test_launch "cd ../../ ; cd -"
 	test_launch "PWD=asdqw OLDPWD=Okalm cd -" "cd -"
 	test_launch "PWD=asdqw OLDPWD=Okalm" "cd -"
@@ -71,6 +76,10 @@ launch "cd"
 	test_launch "mkdir dir ; chmod 600 dir ; cd dir && pwd && cd .. ; chmod 777 dir ; rm -r dir" "rm -rf dir"
 	test_launch "mkdir dir ; chmod 666 dir ; cd dir && pwd && cd .. ; chmod 777 dir ; rm -r dir" "rm -rf dir"
 	test_launch "mkdir dir ; chmod 667 dir ; cd dir && pwd && cd .. ; chmod 777 dir ; rm -r dir" "rm -rf dir"
+
+	test_launch "setenv PWD=asd" "cd - ; pwd" "cd - ; pwd"
+	test_launch "setenv OLDPWD=asd" "cd - ; pwd" "cd - ; pwd"
+	test_launch "setenv OLDPWD=asd" "cd .. ; pwd" "cd - ; pwd" "cd - ; pwd"
 
 launch "exit"
 	test_launch 'exit ; ls'
