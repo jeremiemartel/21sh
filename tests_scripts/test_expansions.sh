@@ -67,9 +67,8 @@ launch "Variables"
 	test_launch 'touch file ; chmod 666 file' './file ; echo $?' 'rm file'
 
 	launch 'var=$asd'
-	# To be added if solved problem with assignations like var='value'
-	# test_launch 'PATH='\''$PATH'\'' ; echo $PATH'
-	# test_launch 'PATH='\''$var'\'' ; var='\''$PATH'\'' ; echo $PATH$var$PATH$var$PATH'
+	test_launch 'PATH='\''$PATH'\'' ; echo $PATH'
+	test_launch 'PATH='\''$var'\'' ; var='\''$PATH'\'' ; echo $PATH$var$PATH$var$PATH'
 
 # launch "Deprecated"
 	# launch "Hard"

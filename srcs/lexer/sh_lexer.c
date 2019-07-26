@@ -6,15 +6,14 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 16:16:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 07:06:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 /*
-** sh_lexer_lexical_conventions:
-**	Look for assignment words and tranform then into LEX_TOK_ASSIGMENT
+** sh_lexer_final_check:
 **	Check that any unknown token is present, send an error if any is founc,
 **	to avoid sending it to parser.
 **
@@ -23,7 +22,7 @@
 **		LEX_ERR : unknown / unidentified token found
 */
 
-int				sh_lexer_lexical_conventions(t_lexer *lexer)
+static int		sh_lexer_final_check(t_lexer *lexer)
 {
 	t_list	*head;
 	t_token	*token;
@@ -32,14 +31,6 @@ int				sh_lexer_lexical_conventions(t_lexer *lexer)
 	if (!head || !head->content)
 		return (LEX_OK);
 	token = (t_token*)head->content;
-	while (head && ft_strchr(token->value, '=') && !token->quoted)
-	{
-		if (sh_expansions_variable_valid_name(token->value))
-			t_token_update_id(LEX_TOK_ASSIGNMENT_WORD, token);
-		head = head->next;
-		if (head)
-			token = (t_token*)head->content;
-	}
 	while (head)
 	{
 		token = (t_token*)head->content;
@@ -99,7 +90,7 @@ int				sh_lexer(char *input, t_list **tokens, t_shell *shell)
 		t_token_free_list(lexer.list);
 		return (ret);
 	}
-	ret = sh_lexer_lexical_conventions(&lexer);
+	ret = sh_lexer_final_check(&lexer);
 	if (sh_verbose_lexer())
 		t_lexer_show(&lexer);
 	*tokens = lexer.list;
