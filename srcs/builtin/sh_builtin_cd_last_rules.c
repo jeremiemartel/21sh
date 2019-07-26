@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 07:20:20 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 02:19:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 03:19:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,39 +48,69 @@ static int	sh_builtin_cd_update_pwd(
 	return (ret);
 }
 
-static int	sh_builtin_cd_rule10_check_perms(t_context *context, char *curpath, char *param)
+/*
+** sh_builtin_cd_rule10_check_symlink_loop:
+**	Check if file designated by path exists and is not in a symlink loop.
+**	If it designate a loop lstat will succeed and stat will fail.
+**	If both fail file do not exists.
+**	Error messages are written on fderr.
+**
+**	Returned Values:
+**		SUCCESS : file exists and not in a loop
+**		ERROR : file do not exists or is in a loop
+*/
+
+static int	sh_builtin_cd_rule10_check_symlink_loop(
+	t_context *context, char *path, struct stat *st, char *param)
 {
-	int			ret;
 	int			ret_stat;
 	int			ret_lstat;
+
+	ret_lstat = lstat(path, st);
+	ret_stat = stat(path, st);
+	if (ret_lstat != -1 && ret_stat == -1)
+	{
+		return (sh_perror_err_fd(
+			context->fd[FD_ERR], param, SH_ERR2_TOO_MANY_SYMLINK));
+	}
+	if (ret_stat == -1)
+	{
+		if (sh_verbose_exec())
+			ft_dprintf(2, "%s do not exists\n", param);
+		sh_env_update_ret_value(context->shell, SH_RET_CMD_NOT_FOUND);
+		return (sh_perror_err_fd(
+			context->fd[FD_ERR], path, SH_ERR2_NO_SUCH_FILE_OR_DIR));
+	}
+	return (SUCCESS);
+}
+
+/*
+** sh_builtin_cd_rule10_check_perms:
+**	Check if file designated by path exists, user have sufficient permissions.
+**	Error messages are written on fderr.
+**
+**	Returned Values:
+**		SUCCESS : file is invalid
+**		ERROR : file is invalid
+*/
+
+static int	sh_builtin_cd_rule10_check_perms(
+	t_context *context, char *curpath, char *param)
+{
+	int			ret;
 	struct stat	st;
 
 	ret = SUCCESS;
-	ret_lstat = lstat(curpath, &st);
-	ret_stat = stat(curpath, &st);
-	if (ret_lstat != -1 && ret_stat == -1)
-	{
-		ret = sh_perror_err_fd(
-			context->fd[FD_ERR], param, SH_ERR2_TOO_MANY_SYMLINK);
-	}
-	else if (ret_stat == -1)
-	{
-		ret = sh_perror_err_fd(
-			context->fd[FD_ERR], param, SH_ERR2_NO_SUCH_FILE_OR_DIR);
-		sh_env_update_ret_value(context->shell, SH_RET_ERROR);		
-	}
+	if (sh_builtin_cd_rule10_check_symlink_loop(context, curpath, &st, param))
+		ret = ERROR;
 	else if (!S_ISDIR(st.st_mode))
-	{
 		ret = sh_perror2_err_fd(
 			context->fd[FD_ERR], SH_ERR1_NOT_A_DIR, "cd", param);
-		sh_env_update_ret_value(context->shell, SH_RET_ERROR);
-	}
 	else if (access(curpath, X_OK))
-	{
 		ret = sh_perror2_err_fd(
 			context->fd[FD_ERR], SH_ERR1_PERM_DENIED, "cd", param);
+	if (ret)
 		sh_env_update_ret_value(context->shell, SH_RET_ERROR);
-	}
 	return (ret);
 }
 

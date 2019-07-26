@@ -6,14 +6,14 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:50:45 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 02:35:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 02:43:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
 static int	sh_builtin_cd_parser_hyphen(
-	t_context *context, char *flag, char **curpath)
+	t_context *context, char *flag, char **curpath, int i)
 {
 	char	*oldpwd;
 
@@ -25,8 +25,15 @@ static int	sh_builtin_cd_parser_hyphen(
 	if (!(*curpath = ft_strdup(oldpwd)))
 	{
 		sh_perror_fd(
-			context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_parser");
+			context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd_parser_hyphen");
 		return (FAILURE);
+	}
+	free(context->params->tbl[i]);
+	if (!(context->params->tbl[i] = ft_strdup(*curpath)))
+	{
+		ft_strdel(curpath);
+		return (sh_perror_fd(context->fd[FD_ERR],
+			SH_ERR1_MALLOC, "sh_builtin_cd_parser_hyphen"));
 	}
 	*flag += CD_OPT_HYPHEN;
 	return (SUCCESS);
@@ -46,7 +53,7 @@ int			sh_builtin_cd_parser(
 		else if (ft_strequ(params[*i], "-L"))
 			*flag = CD_OPT_LOGIC;
 		else if (ft_strequ(params[*i], "-"))
-			return (sh_builtin_cd_parser_hyphen(context, flag, curpath));
+			return (sh_builtin_cd_parser_hyphen(context, flag, curpath, *i));
 		else if (params[*i] && params[*i + 1])
 			return (sh_perror_err_fd(
 				context->fd[FD_ERR], "cd", SH_ERR1_TOO_MANY_ARGS));
