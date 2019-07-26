@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:43:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 02:22:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 02:38:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ int		sh_builtin_cd(t_context *context)
 	if (flags & CD_OPT_HYPHEN)
 	{
 		free(context->params->tbl[i]);
-		context->params->tbl[i] = ft_strdup(curpath); // protect
+		if (!(context->params->tbl[i] = ft_strdup(curpath)))
+		{
+			if (curpath)
+				free(curpath);
+			return (sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, "sh_builtin_cd"));
+		}
 	}
 	if (!(flags & CD_OPT_PHYSIC))
 	{
