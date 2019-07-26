@@ -52,7 +52,7 @@ int		sh_expansions_process_tilde(
 */
 int		sh_expansions(t_context *context, t_ast_node *node);
 int		sh_expansions_process(
-	char **input, char *original, t_context *context);
+	char **input, char *original, t_context *context, int *index);
 int		sh_expansions_replace(t_expansion *expansion, char **input);
 
 /*

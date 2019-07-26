@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 03:25:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 05:34:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 {
 	char	**input;
 	int		ret;
+	int		index;
 
 	if (!node || !node->token || !node->token->value)
 		return (SUCCESS);
@@ -39,11 +40,12 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 			return (FAILURE);
 		return (ret);
 	}
-	while (ft_strpbrk(*input, "$"))
+	index = 0;
+	while (*(*input + index) &&  ft_strpbrk(*input + index, "$"))
 	{
 		if (sh_verbose_expansion())
 			ft_dprintf(2, "expansion var detected\n");
-		if ((ret = sh_expansions_process(input, *input, context)) != SUCCESS)
+		if ((ret = sh_expansions_process(input, *input + index, context, &index)) != SUCCESS)
 		{
 			if (sh_env_update_ret_value_and_question(context->shell, ret))
 				return (FAILURE);
@@ -84,7 +86,7 @@ static int	sh_expansions_init(char *original, t_expansion *exp)
 }
 
 int			sh_expansions_process(
-	char **input, char *original, t_context *context)
+	char **input, char *original, t_context *context, int *index)
 {
 	t_expansion	exp;
 	int			ret;
@@ -108,6 +110,7 @@ int			sh_expansions_process(
 		t_expansion_free_content(&exp);
 		return (ret);
 	}
+	*index += ft_strlen(exp.res->str);
 	t_expansion_free_content(&exp);
 	return (SUCCESS);
 }
