@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/25 20:23:55 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/26 03:47:51 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -361,11 +361,13 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INCLUDES)
 clean:
 	@make clean -C $(LIBFTDIR)
 	@rm -f $(OBJECTS)
-	@rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR) && echo "${OK_COLOR}Successfully cleaned $(NAME) objects files ${EOC}"
 
-fclean: clean
+fclean: 
 	@make fclean -C $(LIBFTDIR)
-	@rm -f $(BINDIR)/$(NAME)
+	@rm -f $(OBJECTS)
+	@rm -rf $(OBJDIR) && echo "${OK_COLOR}Successfully cleaned $(NAME) objects files ${EOC}"
+	@rm -f $(BINDIR)/$(NAME)  && echo "${OK_COLOR}Successfully cleaned $(NAME) ${EOC}"
 
 re: fclean all
 

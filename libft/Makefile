@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 12:53:13 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/25 21:18:43 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/26 03:48:41 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -249,7 +249,7 @@ ifeq ($(DEBUG), 1)
 endif
 
 all: 
-	echo "$(FLAGS_COLOR)Compiling with flags $(CFLAGS) $(EOC)"
+	@echo "$(FLAGS_COLOR)Compiling with flags $(CFLAGS) $(EOC)"
 	make -C . $(NAME)
 
 debug:
