@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 23:39:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/24 16:02:49 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 00:32:51 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		ft_pf_len_d(t_pf pf)
 int		ft_pf_len_u(t_pf pf)
 {
 	int			res;
-	UINTMAX	n;
+	UINTMAX		n;
 
 	if (pf.var.integer == 0 && pf.precised_precision)
 		return (pf.flags.precision);
@@ -59,7 +59,7 @@ int		ft_pf_len_u(t_pf pf)
 int		ft_pf_len_b(t_pf pf)
 {
 	int			res;
-	UINTMAX	n;
+	UINTMAX		n;
 
 	n = pf.var.integer;
 	res = 1;
@@ -74,7 +74,7 @@ int		ft_pf_len_b(t_pf pf)
 int		ft_pf_len_o(t_pf pf)
 {
 	int			res;
-	UINTMAX	n;
+	UINTMAX		n;
 
 	if (pf.var.integer == 0 && pf.precised_precision)
 		return (ft_max(pf.flags.precision, pf.flags.display_style));

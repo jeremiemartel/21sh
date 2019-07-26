@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 01:13:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/25 21:17:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 00:32:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@
 
 typedef union		u_var
 {
-	INTMAX		integer;
+	INTMAX			integer;
 	double			flottant;
 	char			*str;
 	int				*wstr;
@@ -198,7 +198,7 @@ void				ft_putnbr_buff(int nbr, t_pf *pf);
 void				ft_putnbr_unsigned(unsigned int n, t_pf *pf);
 void				ft_putnbr_max(UINTMAX n, t_pf *pf);
 void				ft_putstr_non_printable(const char *s, size_t n, t_pf *pf);
-INTMAX			ft_abs_max(INTMAX a);
+INTMAX				ft_abs_max(INTMAX a);
 void				ft_putnstr(char const *str, size_t n, t_pf *pf);
 double				ft_fabs(double a);
 int					ft_min(int a, int b);

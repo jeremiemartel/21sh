@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 21:04:24 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/24 16:04:57 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 00:31:44 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		ft_no_number(t_pf *pf)
 	pf->parse_precision = 0;
 }
 
-INTMAX	ft_abs_max(INTMAX a)
+INTMAX		ft_abs_max(INTMAX a)
 {
 	if (a > 0)
 		return (a);
