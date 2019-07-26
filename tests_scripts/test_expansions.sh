@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 13:10:40 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/20 13:35:36 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/26 22:18:34 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,9 +66,17 @@ launch "Variables"
 	test_launch 'echo $? ; echo $?'
 	test_launch 'touch file ; chmod 666 file' './file ; echo $?' 'rm file'
 
-	launch 'var=$asd'
+	launch 'assignments'
 	test_launch 'PATH='\''$PATH'\'' ; echo $PATH'
 	test_launch 'PATH='\''$var'\'' ; var='\''$PATH'\'' ; echo $PATH$var$PATH$var$PATH'
+	test_launch 'var=$HOME ; echo $var'
+	test_launch 'var='\'''\''$HOME ; echo $var'
+	test_launch 'var='\''$HOME'\'' ; echo $var'
+	test_launch 'var=\"$HOME\" ; echo $var'
+	test_launch 'var='\sd\'\''$HOME ; echo $var'
+	test_launch 'var=$ASD ; echo $var'
+	test_launch 'var=asd'\''$ASD'\'' ; echo $var'
+	test_launch 'var="Okalm os speculos"$USER ; echo $var'
 
 # launch "Deprecated"
 	# launch "Hard"
