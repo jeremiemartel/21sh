@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 22:42:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 00:34:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ int			sh_expansions_process(
 	t_expansion	exp;
 	int			ret;
 
-	if (!ft_strpbrk(original, "$"))
+	if (!ft_strchr(original, '$'))
 		return (SUCCESS);
+	*index = ft_strchr(original, '$') - *input;
 	if (sh_expansions_init(original, &exp) != SUCCESS)
 	{
 		t_expansion_free_content(&exp);
@@ -108,7 +109,7 @@ int			sh_expansions_process(
 		t_expansion_free_content(&exp);
 		return (ret);
 	}
-	if ((ret = sh_expansions_replace(&exp, input)) != SUCCESS)
+	if ((ret = sh_expansions_replace(&exp, input, *index)) != SUCCESS)
 	{
 		t_expansion_free_content(&exp);
 		return (ret);
@@ -118,40 +119,13 @@ int			sh_expansions_process(
 	return (SUCCESS);
 }
 
-// char		*ft_strrep_free(char *s1, char *s2, int start, int len, int param)
-// {
-// 	char	*res;
-// 	int		i1;
-// 	int		i2;
-// 	int		lenp;
-// 	char	*pt;
-
-// 	if (!(pt = ft_strstr(s1, pattern)))
-// 		return (NULL);
-// 	lenp = (ft_strlen(s1) + ft_strlen(s2) - ft_strlen(pattern) + 1);
-// 	if (!(res = malloc(sizeof(*res) * lenp)))
-// 		return (NULL);
-// 	i1 = -1;
-// 	while (s1 + ++i1 != pt)
-// 		res[i1] = s1[i1];
-// 	i2 = -1;
-// 	while (s2[++i2])
-// 		res[i1 + i2] = s2[i2];
-// 	lenp = ft_strlen(pattern);
-// 	i1--;
-// 	while (s1[++i1 + lenp])
-// 		res[i1 + i2] = s1[i1 + lenp];
-// 	res[i1 + i2] = 0;
-// 	ft_strrep_free_free(s1, s2, pattern, param);
-// 	return (res);
-// }
-
-int			sh_expansions_replace(t_expansion *expansion, char **input)
+int			sh_expansions_replace(t_expansion *expansion, char **input, int index)
 {
 	char	*original;
 
 	original = expansion->original;
-	*input = ft_strrep_pattern_free(*input, expansion->res->str, original, 1);
+	*input = ft_strrep_free(
+		*input, expansion->res->str, index, ft_strlen(expansion->original));
 	if (!(*input))
 		return (FAILURE);
 	if (sh_verbose_expansion())

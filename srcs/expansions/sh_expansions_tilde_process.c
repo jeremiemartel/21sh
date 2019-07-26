@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 12:57:07 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 13:00:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 23:37:02 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			sh_expansions_process_tilde(
 		t_expansion_show(&exp);
 	ret = exp.process(context, &exp);
 	if (!ret)
-		ret = sh_expansions_replace(&exp, input);
+		ret = sh_expansions_replace(&exp, input, 0);
 	t_expansion_free_content(&exp);
 	return (ret);
 }
