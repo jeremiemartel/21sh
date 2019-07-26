@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 07:20:20 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/24 15:38:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 02:19:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int			sh_builtin_cd_rule10(
 			chdir(curpath);
 		if (!ret)
 			sh_builtin_cd_update_pwd(context, flags, curpath);
-		if (flags & CD_OPT_HYPHEN)
+		if (!ret && flags & CD_OPT_HYPHEN)
 			ft_dprintf(context->fd[FD_OUT],
 				"%s\n", sh_vars_get_value(context->env, NULL, "PWD"));
 	}

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:50:45 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 14:45:42 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 02:35:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int			sh_builtin_cd_parser(
 			*flag = CD_OPT_LOGIC;
 		else if (ft_strequ(params[*i], "-"))
 			return (sh_builtin_cd_parser_hyphen(context, flag, curpath));
+		else if (params[*i] && params[*i + 1])
+			return (sh_perror_err_fd(
+				context->fd[FD_ERR], "cd", SH_ERR1_TOO_MANY_ARGS));
 		else
 			return (SUCCESS);
 		*i += 1;
@@ -63,10 +66,10 @@ int			sh_builtin_cd_pre_rules(
 	home = sh_vars_get_value(context->env, NULL, "HOME");
 	if (*curpath)
 		;
-	else if ((!param || !*param) && (!home || !*home))
+	else if ((!param) && (!home || !*home))
 		return (sh_perror_err_fd(
 			context->fd[FD_ERR], SH_ERR1_ENV_NOT_SET, "HOME"));
-	else if (!param || !*param)
+	else if (!param)
 		*curpath = ft_strdup(home);
 	else if (*param == '/')
 		*curpath = ft_strdup(param);
