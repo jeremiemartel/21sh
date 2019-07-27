@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/22 23:29:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 13:38:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 static int	sh_builtin_verbose_usage(t_context *context)
 {
-	ft_dprintf(context->fd[FD_ERR], "usage: verbose on/off ");
-	ft_dprintf(context->fd[FD_ERR], "[lexer,ast,pipe,exec,expansion]\n");
-	ft_dprintf(context->fd[FD_ERR], "If no options are given, ");
-	ft_dprintf(context->fd[FD_ERR], "they are all enabled\n");
+	ft_dprintf(context->fd[FD_ERR], SH_ERR_COLOR"verbose: usage: verbose on/");
+	ft_dprintf(context->fd[FD_ERR], "off [lexer,ast,pipe,exec,expansion,");
+	ft_dprintf(context->fd[FD_ERR], "traverse]\n"EOC);
 	return (ERROR);
 }
 
@@ -50,12 +49,16 @@ static int	sh_builtin_verbose_process(
 	while (!ret && context->params->tbl[i])
 	{
 		j = 0;
-		while (!ret && *key[j])
-		{
-			if (ft_strequ(context->params->tbl[i], key[j] + 8))
-				ret = sh_vars_assign_key_val(context->env,
-					context->vars, key[j], value);
+		while (*key[j] && !ft_strequ(context->params->tbl[i], key[j] + 8))
 			j++;
+		if (*key[j])
+			ret = sh_vars_assign_key_val(context->env,
+				context->vars, key[j], value);
+		else if (!*key[j])
+		{
+			ret = sh_perror2_err_fd(context->fd[FD_ERR], SH_ERR2_INVALID_OPT,
+				"verbose", context->params->tbl[i]);
+			sh_builtin_verbose_usage(context);
 		}
 		i++;
 	}
