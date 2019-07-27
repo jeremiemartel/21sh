@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:45:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/27 00:48:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 14:53:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,18 @@ int		sh_lexer_rule8_assignment(t_lexer *lexer)
 	if (sh_expansions_variable_valid_name(buff))
 	{
 		head = lexer->list;
-		while (head)
-		{
-			tok = (t_token*)head->content;
-			if (tok->id != LEX_TOK_ASSIGNMENT_WORD
-			&& tok->id != LEX_TOK_AND_IF && tok->id != LEX_TOK_OR_IF
-			&& tok->id != LEX_TOK_SEMICOL)
-			{
-				free(buff);
-				return (SUCCESS);
-			}
+		while (head && head->next)
 			head = head->next;
-		}
-		lexer->current_id = LEX_TOK_ASSIGNMENT_WORD;
+		if (head)
+			tok = (t_token*)head->content;
+		else
+			tok = NULL;
+		if (!tok
+		|| tok->id == LEX_TOK_ASSIGNMENT_WORD
+		|| tok->id == LEX_TOK_AND_IF
+		|| tok->id == LEX_TOK_OR_IF
+		|| tok->id == LEX_TOK_SEMICOL)
+			lexer->current_id = LEX_TOK_ASSIGNMENT_WORD;
 	}
 	free(buff);
 	return (SUCCESS);
