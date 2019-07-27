@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:19:57 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/27 13:38:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 14:37:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,5 @@ int			sh_builtin_verbose(t_context *context)
 	ret = sh_builtin_verbose_process(context, key, value);
 	if (ret)
 		return (ret);
-	sh_verbose_update(context->shell);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 12:57:07 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 23:37:02 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 13:22:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int			sh_expansions_process_tilde(
 	t_expansion	exp;
 	int			ret;
 
-	if (sh_verbose_expansion())
-		ft_dprintf(2, "tilde expansion detected\n");
 	if (!ft_strpbrk(original, "~"))
 		return (SUCCESS);
 	if (sh_expansions_init_tilde(original, &exp) != SUCCESS)
@@ -55,6 +53,8 @@ int			sh_expansions_process_tilde(
 		t_expansion_free_content(&exp);
 		return (ERROR);
 	}
+	if (sh_verbose_expansion())
+		ft_dprintf(2, "tilde expansion detected\n");
 	if (sh_verbose_expansion())
 		t_expansion_show(&exp);
 	ret = exp.process(context, &exp);
