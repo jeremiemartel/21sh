@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 16:56:04 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/25 09:38:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:55:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int			populate_file(t_file *file, char *name, char **path, t_shell *shell)
 		free(file);
 		return (1);
 	}
-	if (!ft_strncmp(*path, "~/", 2) &&
-			process_subst_home(shell, path))
+	if (!ft_strncmp(*path, "~/", 2)
+			&& process_subst_home(shell, path))
 	{
 		free(*path);
 		free(file);

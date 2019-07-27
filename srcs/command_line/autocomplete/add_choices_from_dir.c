@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/06 23:25:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:55:01 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int			add_choices_from_dir(t_shell *shell, t_word *word, char *dirname,
 	{
 		if (!ft_strncmp(entry->d_name, ".", 1) && word->to_compare[0] != '.')
 			continue;
-		if (ft_isprint_only_utf8(entry->d_name) &&
-				!ft_strncmp(entry->d_name, word->to_compare, len))
+		if (ft_isprint_only_utf8(entry->d_name)
+				&& !ft_strncmp(entry->d_name, word->to_compare, len))
 		{
 			if (process_add_choices_from_dir(shell,
 						&g_glob.command_line, entry, prefix))

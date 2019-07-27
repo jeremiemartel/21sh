@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:35:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/24 16:35:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:57:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 #  define SIGTRAP	5	/* trace trap (not reset when caught) */
 #endif
 # ifndef SIGABRT
-#  define SIGABRT	6	/* abort() */
+#  define SIGABRT	6	/* abort */
 #endif
 # ifndef SIGIOT
 #  define SIGIOT	SIGABRT	/* compatibility */

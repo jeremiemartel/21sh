@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 16:51:41 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 07:01:13 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:57:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int				sh_is_eligible_for_transition(t_state *state, t_item *item)
 	while (ptr != NULL)
 	{
 		item_ptr = (t_item *)ptr->content;
-		if (item->production == item_ptr->production &&
-				item->progress->next == item_ptr->progress)
+		if (item->production == item_ptr->production
+				&& item->progress->next == item_ptr->progress)
 			return (1);
 		ptr = ptr->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 12:57:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/18 16:51:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:57:14 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	sh_process_add_to_list_child_ast_builder(
 			t_ast_node **replacing_ast_node, t_list **ast_builder_list)
 {
 	if (sh_is_replacing(child_ast_builder)
-			&& child_ast_builder->symbol == production->from &&
-			!*replacing_ast_node)
+			&& child_ast_builder->symbol == production->from
+			&& !*replacing_ast_node)
 	{
 		*replacing_ast_node = child_ast_builder->ast_node;
 		free(child_ast_builder);

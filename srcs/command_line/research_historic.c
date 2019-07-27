@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 19:29:29 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/24 16:51:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:56:59 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int		progress_process_research_historic(t_command_line *command_line,
 	to_search_in = (char *)command_line->searcher.head->content;
 	if ((found = ft_strstr(&(to_search_in[command_line->searcher.
 			match_index + 1]), command_line->searcher.dy_str->str))
-				&& ((ft_strcmp(to_search_in, command_line->dy_str->str) ||
-					found - to_search_in != command_line->searcher.
+				&& ((ft_strcmp(to_search_in, command_line->dy_str->str)
+					|| found - to_search_in != command_line->searcher.
 							match_index + 1)))
 	{
 		return (process_find_in_historic(command_line,
@@ -66,8 +66,8 @@ int		process_research_historic(t_command_line *command_line, t_shell *shell)
 {
 	if (command_line->searcher.active)
 	{
-		if (!command_line->searcher.unsuccessful &&
-				ft_strcmp(command_line->searcher.dy_str->str, ""))
+		if (!command_line->searcher.unsuccessful
+				&& ft_strcmp(command_line->searcher.dy_str->str, ""))
 		{
 			if ((command_line->searcher.unsuccessful =
 				progress_process_research_historic(command_line, shell)))

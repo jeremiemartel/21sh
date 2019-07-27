@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 10:08:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:55:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int		populate_choices_from_folder(t_shell *shell, t_word *word)
 		free(file);
 		return (ft_free_turn(transformed_path, 1));
 	}
-	if (!ft_strncmp(path, "~/", 2) &&
-			process_subst_home(shell, &transformed_path))
+	if (!ft_strncmp(path, "~/", 2)
+			&& process_subst_home(shell, &transformed_path))
 		return (ft_free_turn_3(file, transformed_path, path, 1));
 	word->to_compare = file;
 	if (add_choices_from_dir(shell, word, transformed_path, path))
