@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/27 15:51:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:02:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,13 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
-# define BONUS_HOME_AS_TILDE_PROMPT	0
-# define BONUS_DOLLAR_VARIABLE		0
-# define BONUS_TILDE_EXP			0
+/*
+** Activate or not bonuses that require forbidden functions
+*/
+
+# define BONUS_HOME_AS_TILDE_PROMPT	1
+# define BONUS_DOLLAR_VARIABLE		1
+# define BONUS_TILDE_EXP			1
 
 typedef struct s_shell		t_shell;
 
