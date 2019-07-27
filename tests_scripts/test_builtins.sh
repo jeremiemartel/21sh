@@ -52,17 +52,17 @@ launch "hash"
 	# test_launch "hash -r -r ls -r -r ls"
 
 launch "cd"
-	test_launch "cd" "pwd"
-	test_launch "cd ~/" "pwd" "cd .. ; pwd"
-	test_launch "cd /" "cd ../.." "pwd"
-	test_launch "cd ." "pwd" "cd ../../" "pwd"
-	test_launch "cd ../../../../../../../../../../"
-	test_launch "cd -P /var" "pwd"
-	test_launch "cd -L /var" "pwd"
-	test_launch "mkdir sandbox ; cd sandbox ; ln -s ../sandbox  ./link" "cd ./link" "ls -la" "pwd" "cd .." "rm -r sandbox"
-	test_launch "mkdir dir ; ln -s dir link" "cd dir ; pwd ; pwd -P" "cd ../link ; pwd ; pwd -P" "cd -P ../link ; pwd ; pwd -P" "cd .. ; rm -r dir link"
+	test_launch "cd" "echo $?" "pwd"
+	test_launch "cd ~/" 'echo $?' "pwd" "cd .. ; pwd"
+	test_launch "cd /" 'echo $?' "cd ../.." 'echo $?' "pwd" 'echo $?'
+	test_launch "cd ." "pwd" 'echo $?' "cd ../../" "pwd" 'echo $?'
+	test_launch "cd ../../../../../../../../../../" 'echo $?'
+	test_launch "cd -P /var" 'echo $?' "pwd" 'echo $?'
+	test_launch "cd -L /var" 'echo $?' "pwd" 'echo $?'
+	test_launch "mkdir sandbox ; cd sandbox ; echo \$? ; ln -s ../sandbox  ./link" "cd ./link" 'echo $?' "ls -la ; pwd ; cd .. ; rm -r sandbox"
+	test_launch "mkdir dir ; ln -s dir link" 'echo $?' "cd dir ; pwd ; pwd -P" "cd ../link ; pwd ; pwd -P" "cd -P ../link ; pwd ; pwd -P" "cd .. ; rm -r dir link"
 
-	test_launch "cd -" "pwd"
+	test_launch "cd -" 'echo $?' "pwd"
 	test_launch "cd '' '' && pwd"
 	test_launch "cd '' '' || pwd"
 	test_launch "cd '' && pwd"
@@ -80,6 +80,12 @@ launch "cd"
 	test_launch "setenv PWD=asd" "cd - ; pwd" "cd - ; pwd"
 	test_launch "setenv OLDPWD=asd" "cd - ; pwd" "cd - ; pwd"
 	test_launch "setenv OLDPWD=asd" "cd .. ; pwd" "cd - ; pwd" "cd - ; pwd"
+
+	## ret value
+	test_launch "cd nodir" 'echo $?'
+	test_launch "ln -s nowhere link"  "cd link" 'echo $?'
+	test_launch "rm link" "cd .." 'echo $?'
+	test_launch "cd" 'echo $?'
 
 launch "exit"
 	test_launch 'exit ; ls'
