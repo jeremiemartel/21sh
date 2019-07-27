@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 13:58:11 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 15:55:46 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/27 15:56:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int		update_prompt_from_absolute_path(char *cwd, char **new_prompt)
 	if (get_path_from_absolute_path(cwd, &path))
 	{
 		free(cwd);
-		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
+		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd (1)"));
 	}
 	free(cwd);
 	if (!(*new_prompt = ft_strjoin_free(*new_prompt, path, 1)))
-		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
+		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd (2)"));
 	free(path);
 	return (SUCCESS);
 }
@@ -34,25 +34,28 @@ int		update_prompt_cwd(t_shell *shell, char **new_prompt)
 	char	*home;
 
 	if (!(*new_prompt = ft_strdup("→ ")))
-		return (sh_perror("cwd error", "update_prompt_cwd"));
+		return (sh_perror("cwd error", "update_prompt_cwd(3)"));
 	if (!(cwd = sh_builtin_pwd_logical(shell->env, 2)))
 	{
 		return (ft_free_turn(*new_prompt, sh_perror(
-			"Can't determine current working directory", "update_prompt_cwd")));
+			"Can't determine current working directory", "update_prompt_cwd (4)")));
 	}
-	if (!(home = get_home_dup(shell)))
+	if (BONUS_HOME_AS_TILDE_PROMPT)
 	{
-		free(*new_prompt);
-		free(cwd);
-		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd"));
-	}
-	if (ft_strequ(home, cwd))
-	{
-		free(cwd);
+		if (!(home = get_home_dup(shell)))
+		{
+			free(*new_prompt);
+			free(cwd);
+			return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd(5)"));
+		}
+		if (ft_strequ(home, cwd))
+		{
+			free(cwd);
+			free(home);
+			return (update_prompt_cwd_home(new_prompt));
+		}
 		free(home);
-		return (update_prompt_cwd_home(new_prompt));
 	}
-	free(home);
 	return (update_prompt_from_absolute_path(cwd, new_prompt));
 }
 
