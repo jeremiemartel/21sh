@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 00:39:29 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/28 21:03:44 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int		sh_traverse_and_or_execute_process(t_list **ptr,
 	if (ret == FAILURE || ret == STOP_CMD_LINE)
 		return (ret);
 	if (!context->shell->running)
-		return (SUCCESS);
+		return (ret);
 	if ((*ptr = (*ptr)->next))
 	{
 		*prev_symbol = ((t_ast_node *)((*ptr)->content))->symbol->id;
@@ -49,10 +49,7 @@ static int		sh_traverse_and_or_execute(t_ast_node *node, t_context *context)
 	while (ptr != NULL)
 	{
 		if (sh_verbose_traverse())
-		{
-			ft_dprintf(2, BLUE"traverse : execute : %s : start\n"EOC,
-				node->symbol->debug);
-		}
+			ft_dprintf(2, BLUE"traverse : AND_OR : execute : start\n"EOC);
 		if ((ret = sh_traverse_and_or_execute_process(&ptr,
 			&prev_symbol, context)) != KEEP_READ)
 			return (ret);

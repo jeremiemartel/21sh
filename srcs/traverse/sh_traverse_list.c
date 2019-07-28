@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/28 17:57:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/28 22:53:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 		phase = E_TRAVERSE_PHASE_EXPANSIONS;
 		while (phase <= E_TRAVERSE_PHASE_EXECUTE)
 		{
+			if (sh_verbose_traverse())
+				ft_dprintf(2, BLUE
+				"traverse : LIST : %s : start\n"EOC, t_phase_name(phase));
 			ret = sh_traverse_list_launch_phase(child, context, phase);
 			if (sh_verbose_traverse())
 				ft_dprintf(2, BLUE
@@ -58,7 +61,13 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 			if (ret == STOP_CMD_LINE)
 				return (ERROR);
 			if (ret == ERROR)
-				break ;
+			{
+				if (phase - 1 == E_TRAVERSE_PHASE_EXPANSIONS)
+					break ;
+				else
+					set_failed_command(context);
+				continue ;
+			}
 			return (ret);
 		}
 	}
@@ -73,7 +82,7 @@ int			sh_traverse_list(t_ast_node *node, t_context *context)
 	{
 		if (sh_verbose_traverse())
 			ft_dprintf(2, BLUE
-			"traverse : LIST : interactive_redirections : start\n"EOC);
+			"traverse : LIST : %s : start\n"EOC, t_phase_name(context->phase));
 		return (sh_traverse_tools_browse(node, context));
 	}
 	else
