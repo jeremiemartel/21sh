@@ -6,44 +6,30 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/28 16:48:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/28 17:57:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_process_traverse_list_redir_exec(t_ast_node *child,
-	t_context *context, t_list **ptr)
+static int	sh_traverse_list_launch_phase(t_ast_node *child, t_context *context, t_phase phase)
 {
-	int ret;
+	int		ret;
 
-	context->phase = E_TRAVERSE_PHASE_EXPANSIONS;
+	context->phase = phase;
 	ret = g_grammar[child->symbol->id].traverse(child, context);
-	if (ret == STOP_CMD_LINE)
-		return (ERROR);
-	if ((*ptr = (*ptr)->next))
-		*ptr = (*ptr)->next;
+	if (!context->shell->running)
+		return (ret);
 	if (ret)
-		return (KEEP_READ);
-	context->phase = E_TRAVERSE_PHASE_REDIRECTIONS;
-	ret = g_grammar[child->symbol->id].traverse(child, context);
-	if (ret == FAILURE)
-		return (FAILURE);
-	if (ret == ERROR)
 	{
 		if (sh_env_update_question_mark(context->shell) == FAILURE)
 			return (FAILURE);
-		return (KEEP_READ);
+		return (ret);
 	}
-	context->phase = E_TRAVERSE_PHASE_EXECUTE;
-	ret = g_grammar[child->symbol->id].traverse(child, context);
-	if (ret == STOP_CMD_LINE)
+	if (ret == ERROR)
 		return (ERROR);
-	if (ret == FAILURE)
-		return (ret);
-	if (!context->shell->running)
-		return (ret);
-	return (SUCCESS);
+	return (KEEP_READ);
+	
 }
 
 static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
@@ -51,23 +37,29 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 	t_list		*ptr;
 	t_ast_node	*child;
 	int			ret;
+	t_phase		phase;
 
 	ptr = node->children;
-	if (sh_verbose_traverse())
-		ft_dprintf(2,
-		BLUE"traverse : execute : %s : start\n"EOC, node->symbol->debug);
 	while (ptr != NULL && context->shell->running)
 	{
 		child = (t_ast_node *)ptr->content;
-		if ((ret = sh_process_traverse_list_redir_exec(child, context, &ptr)))
+		if ((ptr = (ptr)->next))
+			ptr = (ptr)->next;
+		phase = E_TRAVERSE_PHASE_EXPANSIONS;
+		while (phase <= E_TRAVERSE_PHASE_EXECUTE)
 		{
+			ret = sh_traverse_list_launch_phase(child, context, phase);
 			if (sh_verbose_traverse())
 				ft_dprintf(2, BLUE
-				"traverse : execute : LIST : returned value : %d\n"EOC, ret);
+				"traverse : LIST : %s : returned value : %d\n"EOC, t_phase_name(phase), ret);
+			phase++;
 			if (ret == KEEP_READ)
 				continue ;
-			else
-				return (ret);
+			if (ret == STOP_CMD_LINE)
+				return (ERROR);
+			if (ret == ERROR)
+				break ;
+			return (ret);
 		}
 	}
 	return (SUCCESS);
@@ -81,15 +73,12 @@ int			sh_traverse_list(t_ast_node *node, t_context *context)
 	{
 		if (sh_verbose_traverse())
 			ft_dprintf(2, BLUE
-			"traverse : interactive_redirections : LIST : start\n"EOC);
+			"traverse : LIST : interactive_redirections : start\n"EOC);
 		return (sh_traverse_tools_browse(node, context));
 	}
 	else
 	{
 		ret = sh_traverse_list_redir_exec(node, context);
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE
-			"traverse : execute : LIST : returned value : %d\n"EOC, ret);
 		return (ret);
 	}
 }
