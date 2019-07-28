@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 00:42:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/28 19:16:22 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 		return (ret);
 	if (sh_verbose_traverse())
 		ft_dprintf(2,
-		BLUE"traverse : execute : SIMPLE_COMMAND : cmd name : %s\n"EOC,
-		context->params->tbl[0]);
+		BLUE"traverse : SIMPLE_COMMAND : %s : cmd name : %s\n"EOC,
+		t_phase_name(context->phase), context->params->tbl[0]);
 	if (!context->params->tbl[0])
 		return (SUCCESS);
 	if (!ft_strchr(context->params->tbl[0], '/'))
@@ -86,8 +86,8 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 	{
 		if (sh_verbose_traverse())
 		{
-			ft_dprintf(2, BLUE"traverse : execute : %s : start\n"EOC,
-				node->symbol->debug);
+			ft_dprintf(2, BLUE"traverse : %s : %s : start\n"EOC,
+				node->symbol->debug, t_phase_name(context->phase));
 		}
 		context->redirections = &node->metadata.command_metadata.redirections;
 		if (context->current_pipe_sequence_node)
@@ -99,8 +99,8 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 			ret = sh_traverse_simple_command_no_exec(node, context);
 		if (sh_verbose_traverse())
 			ft_dprintf(2, BLUE
-			"traverse : execute : SIMPLE_COMMAND : returned value : %d\n"
-			EOC, ret);
+			"traverse : SIMPLE_COMMAND : %s : returned value : %d\n"
+			EOC, t_phase_name(context->phase), ret);
 		return (ret);
 	}
 	return (sh_traverse_tools_browse(node, context));
