@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 00:44:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:48:59 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ static int	sh_process_traverse_list_redir_exec(t_ast_node *child,
 	ret = g_grammar[child->symbol->id].traverse(child, context);
 	if (ret == FAILURE)
 		return (FAILURE);
+	if (ret == ERROR)
+	{
+		if (sh_env_update_question_mark(context->shell) == FAILURE)
+			return (FAILURE);
+		return (KEEP_READ);
+	}
 	context->phase = E_TRAVERSE_PHASE_EXECUTE;
 	ret = g_grammar[child->symbol->id].traverse(child, context);
 	if (ret == STOP_CMD_LINE)

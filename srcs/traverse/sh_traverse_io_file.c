@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/25 16:41:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:41:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 	else
 	{
 		if (fd == -1)
-			ft_dprintf(2, "ambiguous redirect\n", fd);
+			return (sh_perror_err(filename, "ambiguous redirect"));
 		else
 			ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
 				SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
@@ -107,6 +107,7 @@ int			sh_traverse_io_file(t_ast_node *node, t_context *context)
 	t_ast_node	*redir_child;
 	t_ast_node	*filename_child;
 	char		*filename;
+	int			ret;
 
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 	{
@@ -114,7 +115,10 @@ int			sh_traverse_io_file(t_ast_node *node, t_context *context)
 		filename_child = node->children->next->content;
 		filename = ((t_ast_node *)
 			(filename_child->children->content))->token->value;
-		return (get_io_file_return(redir_child, filename, context));
+		ret = get_io_file_return(redir_child, filename, context);
+		if (ret)
+			sh_env_update_ret_value(context->shell, ret);
+		return (ret);
 	}
 	return (sh_traverse_tools_browse(node, context));
 }
