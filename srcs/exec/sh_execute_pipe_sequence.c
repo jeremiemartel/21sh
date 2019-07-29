@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 01:15:42 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 08:45:02 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int				sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 	sh_execute_pipe_sequence_waits(context, &res_save);
 	sh_env_update_ret_value_wait_result(context, res_save);
 	g_parent = 0;
-	if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
+	if (isatty(0) && sh_set_shell_back(0) == ATTR_ERROR)
 	{
 		return (sh_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));

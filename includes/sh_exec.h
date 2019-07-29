@@ -127,6 +127,8 @@ void				sh_execute_child(t_context *context, t_list *contexts);
 /*
 ** sh_execute_pipes.c
 */
+int					sh_process_process_execute_dup_pipes(
+	t_redirection *redir);
 int					sh_process_execute_dup_pipes(t_context *context);
 int					sh_process_execute_close_pipes(t_context *context);
 

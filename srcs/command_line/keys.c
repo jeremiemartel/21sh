@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 12:14:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/26 10:02:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
+//		ft_printf(RED);
+//		print_buffer(buffer);
+//		ft_printf(EOC);
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{

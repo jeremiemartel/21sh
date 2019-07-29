@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 07:18:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 10:30:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 18:14:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int		sh_check_term(void)
 	{
 		if (tgetstr(operations[i], NULL) == NULL)
 		{
-			ft_dprintf(2, "Terminal rejected because"
-				" it does not have the %s capability\n", operations[i]);
+			ft_dprintf(2, "%sTerminal rejected because"
+				" it does not have the %s capability %s\n", SH_ERR_COLOR,
+					operations[i], EOC);
 			return (FAILURE);
 		}
 		i++;

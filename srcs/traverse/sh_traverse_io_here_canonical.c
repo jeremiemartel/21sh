@@ -6,31 +6,30 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 04:29:57 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/21 16:24:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 17:19:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int		process_heredoc_canonical_mode(t_gnl_info info,
-				char **res, char *(*heredoc_func)(const char *), char *eof)
+void			populate_command_line(t_command_line *command_line, char *str)
 {
-	char		*tmp;
+	ft_strdel(&command_line->dy_str->str);
+	command_line->dy_str->str = str;
+}
+
+static int		process_heredoc_canonical_mode(t_gnl_info info,
+					char **res, t_shell *shell,
+						char *(*heredoc_func)(const char *))
+{
+	int			ret;
 
 	if (info.separator != E_SEPARATOR_ZERO)
 	{
-		if (!(tmp = heredoc_func(info.line)))
-		{
-			return (ft_free_turn_2(*res, info.line,
-				sh_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode")));
-		}
-		if (!ft_strcmp(tmp, eof))
-			return (ft_free_turn_2(tmp, info.line, SUCCESS));
-		free(info.line);
-		if (!(*res = ft_strjoin_free(*res, tmp, 3)))
-			return (sh_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
-		if (!(*res = ft_strjoin_free(*res, "\n", 1)))
-			return (sh_perror(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+		populate_command_line(&g_glob.command_line, info.line);
+		if ((ret = process_heredoc_through_command(res, shell, heredoc_func,
+			&g_glob.command_line)) != 3)
+			return (ret);
 	}
 	else
 	{
@@ -41,8 +40,41 @@ static int		process_heredoc_canonical_mode(t_gnl_info info,
 	return (3);
 }
 
-char			*heredoc_canonical_mode(char *eof,
-			char *(*heredoc_func)(const char *), int *ret)
+int				heredoc_canonical_mode_eof(char *eof, t_gnl_info *info,
+					char **res)
+{
+	if (g_glob.command_line.to_append_str)
+	{
+		if (ft_strcmp(g_glob.command_line.to_append_str, eof))
+		{
+			ft_dprintf(2, "21sh: warning: here-document "
+					"delimited by end of file (wanted `%s')\n", eof);
+			if (!(*res = ft_strjoin_free(*res,
+				g_glob.command_line.to_append_str, 1)))
+			{
+				ft_strdel(&g_glob.command_line.to_append_str);
+				free(info->line);
+				return (1);
+			}
+			if (!(*res = ft_strjoin_free(*res, "\n", 1)))
+			{
+				ft_strdel(&g_glob.command_line.to_append_str);
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
+
+char			*heredoc_gnl_error(int *ret, char **res)
+{
+	*ret = -2;
+	ft_strdel(&g_glob.command_line.to_append_str);
+	return (ft_free_turn_str(res, NULL));
+}
+
+char			*heredoc_canonical_mode(t_shell *shell, char *eof,
+					char *(*heredoc_func)(const char *), int *ret)
 {
 	int			gnl_ret;
 	t_gnl_info	info;
@@ -50,10 +82,11 @@ char			*heredoc_canonical_mode(char *eof,
 
 	if (!(res = ft_strnew(0)))
 		return (sh_perrorn(SH_ERR1_MALLOC, "heredoc_canonical_mode"));
+	g_glob.command_line.heredoc_eof = eof;
 	while ((gnl_ret = get_next_line2(0, &info, 1)) == 1)
 	{
 		if ((*ret = process_heredoc_canonical_mode(info,
-				&res, heredoc_func, eof)) != 3)
+				&res, shell, heredoc_func)) != 3)
 		{
 			if (*ret == SUCCESS)
 				return (res);
@@ -62,11 +95,10 @@ char			*heredoc_canonical_mode(char *eof,
 		}
 	}
 	if (gnl_ret == -1)
-	{
-		*ret = -2;
-		return (ft_free_turn_str(&res, NULL));
-	}
+		return (heredoc_gnl_error(ret, &res));
 	free(info.line);
 	*ret = SUCCESS;
+	if (heredoc_canonical_mode_eof(eof, &info, &res))
+		return (NULL);
 	return (res);
 }

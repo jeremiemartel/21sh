@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 01:15:42 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/26 09:17:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int			sh_process_process_execute(t_context *context)
 {
 	int			res;
 
-	if (isatty(0) && sh_reset_shell(0) == -1)
-	{
-		sh_process_execute_close_pipes(context);
-		return (FAILURE);
-	}
+//	if (isatty(0) && sh_reset_shell(0) == -1)
+//	{
+//		sh_process_execute_close_pipes(context);
+//		return (FAILURE);
+//	}
 	if ((g_parent = fork()) == -1)
 		return (FAILURE);
 	if (g_parent == 0)
@@ -33,7 +33,7 @@ int			sh_process_process_execute(t_context *context)
 		g_parent = 0;
 		sh_env_update_ret_value_wait_result(context, res);
 		sh_process_execute_close_pipes(context);
-		if (isatty(0) && tcsetattr(0, TCSADRAIN, context->term) == -1)
+		if (isatty(0) && sh_set_shell_back(0) == ATTR_ERROR)
 		{
 			return (sh_perror("Could not modify this terminal attributes",
 				"sh_init_terminal"));

@@ -6,14 +6,15 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:26:22 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:32:15 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 09:48:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static int	sh_process_process_execute_dup_pipes(t_redirection *redir)
+int	sh_process_process_execute_dup_pipes(t_redirection *redir)
 {
+	(void)redir;
 	if (redir->fd >= 0)
 	{
 		if (sh_verbose_pipe())

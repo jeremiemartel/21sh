@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:50 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/28 23:00:31 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/29 14:46:04 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,9 @@ launch "Redirections"
 	test_launch "cat <<eoc 1>file1 2>file2" "ls -a" "okalm" "eoc" "cat file1" "cat file2" "rm file1 file2"
 	test_launch "cat <<   eoc 1>file1 2>file2" "ls -a" "okalm" "eoc" "cat file1" "cat file2" "rm file1 file2"
 	test_launch "cat <<   Okalm" "ls -a" "okalm" " Okalm" "Okalm " "Okalm"
+	test_launch "cat << eof" "dqwdq\\\\" "dwqdq\\" " dqwdq\\" "haha " "e\\" "o\\" "f"
+	test_launch "cat << eof" "dqwdq\\\\\\" "dwqdq\\" " dqwdq\\" "haha " "e\\" "o\\" "f\\"
+	test_launch "cat << eof" "dqwdq\\\\\\" "dwqdq\\" " d\\qwd\\\\qdqwd\\qdqwd\\" "haha " "e\\" "o\\" "f\\"
 
 ## Closing fd
 	test_launch "echo lol 1>&-" "ls -a"

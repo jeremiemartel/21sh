@@ -6,30 +6,52 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 23:50:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 20:18:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 10:02:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		process_clipboard_line_nl(t_shell *shell, t_command_line *command_line,
-			t_gnl_info *info)
+char	*refined_str(char *str)
 {
-	if (paste_current_index(command_line, info->line))
+	int		i;
+	int		len;
+	char	*res;
+
+	len = ft_strlen(str);
+	if (!(res = (char *)malloc(len + 1)))
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
-		free(info->line);
+		if (ft_isascii(str[i]))
+			res[i] = str[i];
+		else
+			res[i] = '?';
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
+int		process_clipboard_line_nl(t_shell *shell, t_command_line *command_line,
+			char *str)
+{
+	if (paste_current_index(command_line, str))
+	{
+		free(str);
 		return (FAILURE);
 	}
 	process_enter_no_autocompletion(command_line);
 	if (sh_process_received_command(shell, command_line)
 			&& shell->running == 0)
 	{
-		free(info->line);
+		free(str);
 		return (FAILURE);
 	}
 	if (reset_command_line(shell, command_line) == FAILURE)
 	{
-		free(info->line);
+		free(str);
 		return (FAILURE);
 	}
 	render_command_line(command_line, 0, 1);
@@ -39,23 +61,31 @@ int		process_clipboard_line_nl(t_shell *shell, t_command_line *command_line,
 int		process_clipboard_line(t_shell *shell, t_command_line *command_line,
 			t_gnl_info *info)
 {
+	char *ref;
+
+	if (!(ref = refined_str(info->line)))
+	{
+		return (FAILURE);
+		free(info->line);
+	}
+	free(info->line);
 	if (info->separator == '\n')
 	{
-		if (process_clipboard_line_nl(shell, command_line, info))
+		if (process_clipboard_line_nl(shell, command_line, ref))
 			return (FAILURE);
 	}
 	else if (info->separator == '\0')
 	{
-		free(info->line);
+		free(ref);
 		return (sh_perror(SH_ERR1_UNEXPECTED_EOF,
 					"process_clipboard_from_fd"));
 	}
-	else if (paste_current_index(command_line, info->line))
+	else if (paste_current_index(command_line, ref))
 	{
-		free(info->line);
+		free(ref);
 		return (FAILURE);
 	}
-	free(info->line);
+	free(ref);
 	return (SUCCESS);
 }
 

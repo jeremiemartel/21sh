@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:41:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 09:33:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/26 09:48:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ int		sh_init_terminal(t_shell *shell, char **env)
 {
 	if (sh_init_terminal_database(env))
 		return (1);
-	if (tcgetattr(0, &shell->term) == -1)
-		return (sh_perror(SH_ERR1_TERM_CPY, "sh_init_terminal"));
 	if (tcgetattr(0, &g_glob.term_init) == -1)
+		return (sh_perror(SH_ERR1_TERM_CPY, "sh_init_terminal"));
+	if (tcgetattr(0, &shell->term) == -1)
 		return (sh_perror(SH_ERR1_TERM_CPY, "sh_init_terminal"));
 	shell->term.c_lflag &= ~(ICANON);
 	shell->term.c_lflag &= ~(ECHO);
-	shell->term.c_lflag |= ISIG;
 	shell->term.c_lflag &= ~(ISIG);
 	shell->term.c_cc[VMIN] = 1;
 	shell->term.c_cc[VTIME] = 0;

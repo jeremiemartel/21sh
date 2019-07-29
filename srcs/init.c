@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 23:34:37 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 13:08:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int		sh_init_command_line(t_shell *shell, t_command_line *command_line)
 	command_line->searcher.head = NULL;
 	command_line->searcher.unsuccessful = 0;
 	command_line->prompt = NULL;
+	command_line->to_append = 0;
+	command_line->to_append_str = NULL;
 	if (update_prompt(shell, command_line) == FAILURE)
 		return (FAILURE);
 	command_line->clipboard = NULL;

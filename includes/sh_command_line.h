@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 09:33:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 16:34:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct		s_command_line
 	int				pinned_index;
 	int				last_char_input;
 	t_cl_context	context;
+	int				to_append;
+	char			*to_append_str;
 }					t_command_line;
 
 typedef struct		s_historic
@@ -160,8 +162,9 @@ void				process_suppr(t_command_line *command_line);
 /*
 ** sh_clipboard.c
 */
+char				*refined_str(char *str);
 int					process_clipboard_line_nl(
-	t_shell *shell, t_command_line *command_line, t_gnl_info *info);
+	t_shell *shell, t_command_line *command_line, char *str);
 int					process_clipboard_line(
 	t_shell *shell, t_command_line *command_line, t_gnl_info *info);
 int					process_clipboard_from_fd(
@@ -256,6 +259,11 @@ int					get_keys(t_shell *shell, t_command_line *command_line);
 /*
 ** heredoc.c
 */
+int					process_heredoc_new_line(
+	char **res,
+	char *tmp,
+	t_shell *shell,
+	t_command_line *command_line);
 int					process_heredoc_through_command(
 	char **res,
 	t_shell *shell,
@@ -263,6 +271,8 @@ int					process_heredoc_through_command(
 	t_command_line *command_line);
 void				init_heredoc_command_line(
 	t_shell *shell, t_command_line *command_line, char *stop);
+char				*heredoc_handle_ctrl_d(
+	t_shell *shell, char *stop, char **res, int *ret);
 char				*heredoc(
 	t_shell *shell,
 	char *stop,
@@ -378,6 +388,16 @@ int					delete_command_line_selection(
 */
 int					process_shift_up(t_command_line *command_line);
 int					process_shift_down(t_command_line *command_line);
+
+/*
+** heredoc_tools.c
+*/
+int					refine_heredoc(char *str);
+int					heredoc_ret(
+	t_shell *shell, t_command_line *command_line, int ret);
+char				*heredoc_ret_str(
+	t_shell *shell, t_command_line *command_line, char *str);
+int					append_to_str(char **str, char *to_append);
 
 /*
 ** update_prompt.c
