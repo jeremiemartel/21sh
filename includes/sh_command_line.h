@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 09:33:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 11:44:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct		s_command_line
 	int				pinned_index;
 	int				last_char_input;
 	t_cl_context	context;
+	int				to_append;
+	char			*to_append_str;
 }					t_command_line;
 
 typedef struct		s_historic
@@ -384,7 +386,7 @@ int					process_clear(t_command_line *command_line);
 ** sh_clipboard.c
 */
 int					process_clipboard_line_nl(
-	t_shell *shell, t_command_line *command_line, t_gnl_info *info);
+	t_shell *shell, t_command_line *command_line, char *str);
 int					process_clipboard_line(
 	t_shell *shell, t_command_line *command_line, t_gnl_info *info);
 int					process_clipboard_from_fd(

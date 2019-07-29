@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 15:16:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 11:34:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 09:50:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,8 @@ int				sh_add_redirection(t_redirection redirection, t_list **list)
 	if (!(found = get_redirection(redirection.type,
 		redirection.redirected_fd, *list)))
 	{
-//		print_redirection(&redirection);
 		if (ft_lstaddnew_last(list, &redirection, sizeof(t_redirection)))
 			return (sh_perror(SH_ERR1_MALLOC, "sh_add_redirection"));
-		ft_printf("\n");
-		print_redirection_list(*list);
-		ft_printf("\n");
 	}
 	else
 	{
@@ -95,5 +91,6 @@ t_redirection	sh_new_redir(t_redirection_type type, int redirected_fd, int fd)
 	redir.closed = 0;
 	redir.redirected_fd = redirected_fd;
 	redir.fd = fd;
+	print_redirection(&redir);
 	return (redir);
 }

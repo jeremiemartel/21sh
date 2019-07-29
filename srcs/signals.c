@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 08:53:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/25 19:01:48 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 13:56:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void		reset_signals()
 
 void		init_signals(void)
 {
+	/*
 	signal(SIGWINCH, handle_resize);
 	signal(SIGQUIT, transmit_sig_no_motion);
 	signal(SIGKILL, transmit_sig);
@@ -108,4 +109,5 @@ void		init_signals(void)
 	signal(SIGALRM, transmit_sig_and_die);
 	signal(SIGTERM, transmit_sig_and_exit);
 	init_signal_transmit_sig_and_die();
+	*/
 }

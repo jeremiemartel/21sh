@@ -6,11 +6,43 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 19:14:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/03 00:12:54 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 14:36:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+/*
+** reduces matching \\ into a single one, returns 1 if str ends up with
+** a single \ and removes it from the string, else returns 0
+*/
+int			refine_heredoc(char *str)
+{
+	int		i;
+	int		n;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!str[i + 1] && str[i] == '\\')
+		{
+			str[i] = '\0';
+			return (1);
+		}
+		if (str[i + 1] == '\\' && str[i] == '\\')
+		{
+			n = 0;
+			while (str[i + n + 1])
+			{
+				str[i + n] = str[i + n + 1];
+				n++;
+			}
+			str[i + n] = '\0';
+		}
+		i++;
+	}
+	return (0);
+}
 
 static int	heredoc_ret(t_shell *shell, t_command_line *command_line, int ret)
 {
@@ -27,24 +59,71 @@ static char	*heredoc_ret_str(t_shell *shell,
 	return (str);
 }
 
-int			process_heredoc_through_command(char **res, t_shell *shell,
-	t_heredoc_func heredoc_func, t_command_line *command_line)
+int		append_to_str(char **str, char *to_append)
 {
-	char	*tmp;
+	if (*str == NULL)
+	{
+		if (!(*str = ft_strdup(to_append)))
+			return (1);
+	}
+	else if (!(*str = ft_strjoin_free(*str, to_append, 1)))
+		return (1);
+	return (0);
+}
 
-	if (!(tmp = heredoc_func(command_line->dy_str->str)))
-		return (heredoc_ret(shell, command_line, FAILURE));
-	if (!ft_strcmp(tmp, command_line->heredoc_eof))
+int			process_heredoc_new_line(char **res, char *tmp, t_shell *shell,
+				t_command_line *command_line)
+{
+	char *to_compare;
+
+	if (!(to_compare = command_line->to_append_str ?
+			ft_strjoin(command_line->to_append_str, tmp) : ft_strdup(tmp)))
 	{
 		free(tmp);
+		ft_strdel(&command_line->to_append_str);
+		return (heredoc_ret(shell, command_line, FAILURE));
+	}
+	free(tmp);
+	if (!ft_strcmp(to_compare, command_line->heredoc_eof))
+	{
+		free(to_compare);
+		ft_strdel(&command_line->to_append_str);
 		return (heredoc_ret(shell, command_line, SUCCESS));
 	}
 	else
 	{
-		if (!(*res = ft_strjoin_free(*res, tmp, 3)))
+		ft_strdel(&command_line->to_append_str);
+		if (!(*res = ft_strjoin_free(*res, to_compare, 3)))
 			return (heredoc_ret(shell, command_line, FAILURE));
 		if (!(*res = ft_strjoin_free(*res, "\n", 1)))
 			return (heredoc_ret(shell, command_line, FAILURE));
+	}
+	return (KEEP_READ);
+}
+
+int			process_heredoc_through_command(char **res, t_shell *shell,
+	t_heredoc_func heredoc_func, t_command_line *command_line)
+{
+	char	*tmp;
+	int		ret;
+
+	command_line->to_append = 0;
+	if (!(tmp = heredoc_func(command_line->dy_str->str)))
+		return (heredoc_ret(shell, command_line, FAILURE));
+	if ((command_line->to_append = (refine_heredoc(tmp))) == 0)
+	{
+		if ((ret = process_heredoc_new_line(res, tmp, shell, command_line))
+			!= KEEP_READ)
+			return (ret);
+	}
+	else
+	{
+		if (append_to_str(&command_line->to_append_str, tmp))
+		{
+			free(tmp);
+			ft_strdel(&command_line->to_append_str);
+			return (heredoc_ret(shell, command_line, FAILURE));
+		}
 	}
 	return (3);
 }
@@ -75,6 +154,7 @@ char		*heredoc(t_shell *shell, char *stop,
 			command_line) != 3)
 			return (res);
 	}
+	ft_strdel(&command_line->to_append_str);
 	if (*ret == CTRL_C)
 		command_line->interrupted = 1;
 	if (*ret == CTRL_D)
