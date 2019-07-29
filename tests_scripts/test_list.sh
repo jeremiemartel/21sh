@@ -30,5 +30,9 @@ launch "Lists of commands"
 	test_launch 'ls nofile || echo okalm || echo okalm'
 	test_launch 'ls -a || echo okalm || echo okalm'
 	test_launch 'lsasdqw -a || echqweo okalm || echo olm'
+	test_launch 'cat <nofile || echo $?'
+	test_launch 'cat <nofile && echo $?'
+	test_launch 'cat <&nofile || echo $?'
+	test_launch 'cat <&nofile && echo $?'
 
 finish

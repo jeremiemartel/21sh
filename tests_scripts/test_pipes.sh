@@ -45,19 +45,19 @@ launch "Pipes"
 	if [ ! -f "fd.c" ] ; then echo "Can't find file fd.c" ; exit ; else gcc fd.c ; fi
 	
 	launch "duplicating fd"
-		test_launch "./a.out 1 okalm > file ; cat file | wc ; rm file"
-		test_launch "./a.out 3 okalm 3>file ; cat file" "rm file"
-		test_launch "./a.out 5 string 3>f3 4>f4 5>f5" "echo 3 ; cat f3" "echo 4 ; cat f4" "echo 5 ; cat f5" "rm f3 f4 f5"
-		test_launch "./a.out 2 stre 2>&- 2>file ; cat file" "ls ;;; ls" "rm file"
-		test_launch "./a.out 1 okalm 1>&- 1>&- 1>&2 1>&-"
-		test_launch "./a.out 4 okalm 4>&- 4>&- 4>&1 4>&-"
-		test_launch "./a.out 4 okalm 4>&1 4>&2 4>&3 3>file ; cat file ; rm file"
-		test_launch "./a.out 4 okalm 4>&1 4>&2 3>file ; cat file ; rm file"
+		test_launch "rm -f file" "./a.out 1 okalm > file ; cat file | wc ; rm file"
+		test_launch "rm -f file" "./a.out 3 okalm 3>file ; cat file" "rm file"
+		test_launch "rm -f file" "./a.out 5 string 3>f3 4>f4 5>f5" "echo 3 ; cat f3" "echo 4 ; cat f4" "echo 5 ; cat f5" "rm f3 f4 f5"
+		test_launch "rm -f file" "./a.out 2 stre 2>&- 2>file ; cat file" "ls ;;; ls"
+		test_launch "rm -f file" "./a.out 1 okalm 1>&- 1>&- 1>&2 1>&-"
+		test_launch "rm -f file" "./a.out 4 okalm 4>&- 4>&- 4>&1 4>&-"
+		test_launch "rm -f file" "./a.out 4 okalm 4>&1 4>&2 4>&3 3>file ; cat file ; rm file"
+		test_launch "rm -f file" "./a.out 4 okalm 4>&1 4>&2 3>file ; cat file ; rm file"
 
 		rm -f file ; rm a.out
 
 	launch "asynchronous"
-		test_launch "sleep 1 | ls ; echo lol"
+		test_launch "sleep 0.1 | ls ; echo lol"
 		test_launch 'pwd ; cd ..  | echo | exit ; pwd'
 		test_launch 'true | exit'
 		test_launch 'yes | head -c1'

@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:50 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/04 21:40:43 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/28 23:00:31 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,33 @@ launch "Redirections"
 ## Closing fd
 	test_launch "echo lol 1>&-" "ls -a"
 	test_launch "ls nofile 2>&-"
+
+## Duplicationg fd
+	test_launch 'ls nowhere 2>&1 ; echo $?'
+	test_launch 'ls . 1>&filename ; echo $?' 'cat filename ; rm filename'
+	test_launch 'ls nowhere 2<&1 ; echo $?'
+	test_launch 'ls nowhere 2<&filename ; echo $?' 'ls filename' 'cat filename ; rm -f filename'
+	test_launch 'ls 1<&2 | cat ; echo $?'
+	test_launch 'ls 1>&2 2>&1 nofile || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 nofile && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 . || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 . && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 1>&- nofile && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 1>&- nofile || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 1>&- . && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 1>&- . || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 2>&- . || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 2>&- . && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 2>&- nofile || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&1 2>&- nofile && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&- . && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&- . || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 1>&- . || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 1>&- . && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&- nofile && echo $?' 'echo $?'
+	test_launch 'ls 1>&2 2>&- nofile || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 1>&- nofile || echo $?' 'echo $?'
+	test_launch 'ls 1>&2 1>&- nofile && echo $?' 'echo $?'
 
 ## Hard
 	test_launch "echo lol > file ; echo lal > file2 ;  cat < file2 | cat -e < file ; rm file ; rm file2"
