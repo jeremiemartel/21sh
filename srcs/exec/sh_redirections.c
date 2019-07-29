@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 15:16:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 09:50:17 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 16:12:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ t_redirection	sh_new_redir(t_redirection_type type, int redirected_fd, int fd)
 	redir.closed = 0;
 	redir.redirected_fd = redirected_fd;
 	redir.fd = fd;
-	print_redirection(&redir);
 	return (redir);
 }

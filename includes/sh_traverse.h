@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:35:27 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 10:46:09 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 15:23:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int		sh_process_traverse(t_shell *shell);
 /*
 ** sh_traverse_io_here_canonical.c
 */
-char	*heredoc_canonical_mode(
-	char *eof, char *(*heredoc_func)(const char *), int *ret);
+char	*heredoc_canonical_mode(t_shell *shell, char *eof,
+			char *(*heredoc_func)(const char *), int *ret);
 
 /*
 ** sh_traverse_lessgreat.c

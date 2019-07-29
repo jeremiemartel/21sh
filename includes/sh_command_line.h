@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 11:44:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/29 16:34:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,6 +300,15 @@ char				*heredoc(
 	t_heredoc_func heredoc_func,
 	int *ret);
 
+/*
+** heredoc_tools.c
+*/
+int					heredoc_ret(t_shell *shell,
+						t_command_line *command_line, int ret);
+char				*heredoc_ret_str(t_shell *shell,
+						t_command_line *command_line, char *str);
+int					append_to_str(char **str, char *to_append);
+int					refine_heredoc(char *str);
 /*
 ** xy.c
 */

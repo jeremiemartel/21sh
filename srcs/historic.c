@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 18:54:13 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 17:42:07 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ int			sh_append_to_historic(t_shell *shell, char *command)
 			&& !ft_strcmp((char *)shell->historic.commands->content, command)))
 		return (SUCCESS);
 	if (!(str = ft_strdup(command)))
-		return (sh_perror(SH_ERR1_MALLOC, "sh_append_to_historic"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_append_to_historic 1"));
 	if (ft_add_to_dlist_ptr(&shell->historic.commands, str, sizeof(str)))
 	{
 		free(str);
-		return (sh_perror(SH_ERR1_MALLOC, "sh_append_to_historic"));
+		return (sh_perror(SH_ERR1_MALLOC, "sh_append_to_historic 2"));
 	}
 	if ((fd = open(PATH"/"HISTORIC_FILE,
 			O_WRONLY | O_CREAT | O_APPEND | O_NOFOLLOW, S_IRWXU)) == -1)
-		return (sh_perror(SH_ERR1_HISTORIC, "sh_append_to_historic"));
+		return (sh_perror(SH_ERR1_HISTORIC, "sh_append_to_historic 3"));
 	ft_dprintf(fd, "%s\n", command);
 	shell->historic.head_start.next = shell->historic.commands;
 	close(fd);

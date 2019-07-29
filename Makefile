@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/25 15:36:19 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/29 16:32:10 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,11 +91,11 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						keys_insert.c keys_others.c keys_ctrl.c \
 						cursor_tools.c selection.c sh_process_historic.c \
 						heredoc.c research_historic.c render_research.c \
-						free_command_line.c sh_delete_command.c \
-						sh_process_shift_vertical.c \
+						heredoc_tools.c free_command_line.c \
+						sh_delete_command.c sh_process_shift_vertical.c \
 						sh_process_shift_horizontal.c update_prompt_keys.c \
 						sh_process_quoted.c sh_clipboard.c \
-						sh_get_cursor_position.c sh_command_line_tools.c
+						sh_get_cursor_position.c sh_command_line_tools.c \
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c 

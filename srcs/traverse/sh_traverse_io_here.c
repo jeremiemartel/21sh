@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/23 00:06:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 16:38:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char		*get_heredoc(t_context *context, char *eof,
 	if (isatty(0))
 		return (heredoc(context->shell, eof, heredoc_func, ret));
 	else
-		return (heredoc_canonical_mode(eof, heredoc_func, ret));
+		return (heredoc_canonical_mode(context->shell, eof, heredoc_func, ret));
 }
 
 /*
@@ -55,9 +55,8 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 	{
 		if (sh_env_update_ret_value_and_question(context->shell, SH_RET_ERROR) == FAILURE)
 			ret = FAILURE; // return (FAILURE) ?? leaks ??
-		ft_dprintf(2, "21sh: warning: here-document "
-			"delimited by end of file (wanted `%s\')\n",
-				first_child->token->value);
+		ft_dprintf(2, "21sh: warning: here-document delimited by end of file "
+			"(wanted `%s\')\n", first_child->token->value);
 	}
 	if (pipe(fds))
 		return (sh_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end")); // Leaks on heredoc_res ??
