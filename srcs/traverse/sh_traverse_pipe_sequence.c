@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 00:47:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 04:25:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,14 @@ static int		sh_traverse_pipe_sequences_redirections(t_ast_node *node,
 	int			ret;
 
 	sh_init_command_redirections_list(node);
-	if (sh_process_pipe_redirections(node))
-		return (FAILURE);
+	if ((ret = sh_process_pipe_redirections(node)))
+		return (ret);
 	ptr = (t_list *)node->children;
 	while (ptr != NULL)
 	{
 		from = (t_ast_node *)(ptr->content);
+		if (sh_verbose_traverse())
+			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : launching : %s\n"EOC, t_phase_name(context->phase), from->symbol->debug);
 		simple_command_node = from->children->content;
 		context->current_command_node = simple_command_node;
 		if ((ret = g_grammar[from->symbol->id].traverse(from, context)))
@@ -100,15 +102,16 @@ static int		sh_traverse_pipe_sequences_redirections(t_ast_node *node,
 
 int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 {
+	int		ret;
+
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 	{
 		if (sh_verbose_traverse())
 			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : start\n"EOC, t_phase_name(context->phase));
-		
-		if (sh_traverse_pipe_sequences_redirections(node, context) == FAILURE)
-			return (FAILURE);
-		return (SUCCESS);
-		// return (sh_traverse_pipe_sequences_redirections(node, context));
+		ret = sh_traverse_pipe_sequences_redirections(node, context);
+		if (sh_verbose_traverse())
+			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : returned value : %s\n"EOC, t_phase_name(context->phase), ret_to_str(ret));
+		return (ret);
 	}
 	else if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/28 16:41:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 04:32:33 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 		else
 			ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
 				SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
-		return (SUCCESS);
+		return (ERROR);
 	}
 }
 
@@ -99,7 +99,7 @@ int			get_io_file_return(t_ast_node *redir_child,
 	else if (redir_child->symbol->id == sh_index(LEX_TOK_LESSAND))
 		return (sh_process_file_lessand(filename, context));
 	else
-		return (0);
+		return (SUCCESS);
 }
 
 int			sh_traverse_io_file(t_ast_node *node, t_context *context)
