@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/28 23:07:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 00:47:18 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 	{
 		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"traverse : PIPE_SEQUENCE : %s : start\n"EOC, t_phase_name(context->phase));
+			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : start\n"EOC, t_phase_name(context->phase));
 		
 		if (sh_traverse_pipe_sequences_redirections(node, context) == FAILURE)
 			return (FAILURE);
@@ -113,7 +113,7 @@ int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 	else if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"traverse : PIPE_SEQUENCE : %s : start\n"EOC, t_phase_name(context->phase));
+			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : start\n"EOC, t_phase_name(context->phase));
 		return (sh_traverse_pipe_sequence_execute(node, context));
 	}
 	else

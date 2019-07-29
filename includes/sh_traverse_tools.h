@@ -32,5 +32,6 @@ void	sh_traverse_tools_reset_params(t_context *context);
 ** sh_traverse_tools_debug.c
 */
 char	*t_phase_name(t_phase phase);
+char	*ret_to_str(int ret);
 
 #endif
