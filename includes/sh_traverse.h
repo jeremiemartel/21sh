@@ -146,8 +146,6 @@ int		sh_traverse_less(t_ast_node *node, t_context *context);
 /*
 ** sh_traverse_and_or.c
 */
-int		sh_traverse_and_or_process_phase(
-	t_ast_node *node, t_context *context, t_phase phase);
 int		sh_traverse_and_or_launch_phase(
 	t_ast_node *node, t_context *context);
 int		sh_traverse_and_or(t_ast_node *node, t_context *context);
