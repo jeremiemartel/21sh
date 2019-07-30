@@ -42,12 +42,9 @@ static int	sh_process_file_greatand(char *filename, t_context *context)
 	}
 	else if ((fd = get_fd(filename)) >= 0)
 	{
-		if (BONUS_FCNTL_GREAT_AND)
-			if (fcntl(fd, F_GETFD) == -1)
-				return (sh_perror_err(filename, SH_ERR1_BAD_FD));
-		return (sh_process_fd_aggregation(OUTPUT, context->redirected_fd, fd,
+		return ((sh_process_fd_aggregation)(OUTPUT, context->redirected_fd, fd,
 			&context->current_command_node->
-				metadata.command_metadata.redirections));
+				metadata.command_metadata));
 	}
 	if (fd == -1)
 		return (sh_process_file_output(filename, context, GREAT_OPT));
@@ -71,7 +68,7 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 	else if ((fd = get_fd(filename)) >= 0)
 		return (sh_process_fd_aggregation(INPUT, context->redirected_fd, fd,
 			&context->current_command_node->
-				metadata.command_metadata.redirections));
+				metadata.command_metadata));
 	else
 	{
 		if (fd == -1)
