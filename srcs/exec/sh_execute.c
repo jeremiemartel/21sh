@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 20:05:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 20:18:11 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int			sh_process_process_execute(t_context *context)
 {
 	int			res;
+
 	if (isatty(0) && sh_reset_shell(0) == -1)
 	{
 		sh_process_execute_close_pipes(context);

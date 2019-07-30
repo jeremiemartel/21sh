@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/27 00:34:56 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 20:27:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,14 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 		return (ret);
 	}
 	index = 0;
-	while (*(*input + index) &&  ft_strpbrk(*input + index, "$"))
-	{
-		if (sh_verbose_expansion())
-		{
-			ft_dprintf(2, "expansion var detected\n");
-			ft_dprintf(2, "index : %d || input : %s\n", index, *input);
-		}
-		if ((ret = sh_expansions_process(input, *input + index, context, &index)) != SUCCESS)
-		{
-			if (sh_env_update_ret_value_and_question(context->shell, ret))
-				return (FAILURE);
-			return (ret);
-		}
-	}
-	return (SUCCESS);
+	while (*(*input + index) && ft_strpbrk(*input + index, "$"))
+		if ((ret = sh_expansions_process(
+			input, *input + index, context, &index)))
+			break ;
+	if (ret != SUCCESS)
+		if (sh_env_update_ret_value_and_question(context->shell, ret))
+			return (FAILURE);
+	return (ret);
 }
 
 /*
@@ -97,19 +90,14 @@ int			sh_expansions_process(
 	if (!ft_strchr(original, '$'))
 		return (SUCCESS);
 	*index = ft_strchr(original, '$') - *input;
-	if (sh_expansions_init(original, &exp) != SUCCESS)
-	{
-		t_expansion_free_content(&exp);
-		return (ERROR);
-	}
+	ret = sh_expansions_init(original, &exp);
 	if (sh_verbose_expansion())
 		t_expansion_show(&exp);
-	if ((ret = exp.process(context, &exp)) != SUCCESS)
-	{
-		t_expansion_free_content(&exp);
-		return (ret);
-	}
-	if ((ret = sh_expansions_replace(&exp, input, *index)) != SUCCESS)
+	if (!ret)
+		ret = exp.process(context, &exp);
+	if (!ret)
+		ret = sh_expansions_replace(&exp, input, *index);
+	if (ret)
 	{
 		t_expansion_free_content(&exp);
 		return (ret);
@@ -119,7 +107,8 @@ int			sh_expansions_process(
 	return (SUCCESS);
 }
 
-int			sh_expansions_replace(t_expansion *expansion, char **input, int index)
+int			sh_expansions_replace(
+	t_expansion *expansion, char **input, int index)
 {
 	char	*original;
 
