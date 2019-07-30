@@ -18,6 +18,9 @@ format = "^(void|int|char|t_*)"
 
 ignored_files=["grammar.c"]
 
+## Activate or unactivate verbose mode, you can define verbose level between 1 and 3.
+verbose = 0
+
 ## read_dir(filename):
 ##	open every files in dir argument, if file is valid it's extracts prototypes
 ##	using regex. it stocked in a dictionnary using filenames as keys, every value
@@ -31,12 +34,18 @@ def read_dir(dir):
 			continue
 		if (filename in ignored_files):
 			continue
+                if (filename[-2] != '.' or filename[-1] != 'c'):
+                        continue
+                if (verbose >= 2):
+                    print(filename)
 		fd = open(os.path.join(dir, filename))
 		line1 = fd.readline()
 		content = []
 		while (line1 != ""):
 			if (re.search(format, line1) != None):
 				prototype = line1.rstrip()
+                                if (verbose >= 2):
+                                    print(prototype)
 				while (prototype[-1] != ")"):
 					buffer = fd.readline()
 					buffer = buffer.strip()
@@ -126,6 +135,8 @@ def write_header(header, content):
 	fd_header.close()
 
 def automatic_header(dir, header, tab_offset):
+        if (verbose):
+            print("dir : " + dir + " || file : " + header)
 	dir_data = read_dir(dir)
 	res = format_dir_datas(dir_data, tab_offset)
 	header_content = create_header(header, res)
