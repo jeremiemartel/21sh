@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 14:20:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 15:40:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define SH_ERR1_IS_DIR			"is a directory"
 # define SH_ERR1_UNEXPECTED_EOF	"unexpected EOF"
 # define SH_ERR1_PIPE			"pipe error"
-# define SH_ERR1_IOCTL			"Ioctl error"
+# define SH_ERR1_IOCTL			"ioctl error"
 # define SH_ERR1_PBPASTE		"could not execute pbpaste"
 
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"

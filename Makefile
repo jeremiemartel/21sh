@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/29 16:32:10 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/30 15:41:01 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -208,7 +208,7 @@ PERROR_SRCS_NO_PREFIX =	sh_perror.c \
 
 INCLUDES_NO_PREFIX	=	sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
 					  	sh_command_line.h sh_autocompletion.h sh_exec.h\
-						sh_builtin.h sh_expansions.h
+						sh_builtin.h sh_expansions.h sh_perror.h
 
 SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
 GRAM_SOURCES = $(addprefix $(SRCDIR)/$(GRAM_DIR)/, $(GRAM_SRCS_NO_PREFIX))
