@@ -85,17 +85,22 @@ static int	sh_process_file_lessand(char *filename, t_context *context)
 int			get_io_file_return(t_ast_node *redir_child,
 			char *filename, t_context *context)
 {
-	if (redir_child->symbol->id == sh_index(LEX_TOK_LESS))
-		return (sh_process_file_input(filename, context, O_RDONLY));
-	else if (redir_child->symbol->id == sh_index(LEX_TOK_DGREAT)
-			|| redir_child->symbol->id == sh_index(LEX_TOK_CLOBBER))
-		return (sh_process_file_output(filename, context, DGREAT_OPT));
-	else if (redir_child->symbol->id == sh_index(LEX_TOK_GREAT))
-		return (sh_process_file_output(filename, context, GREAT_OPT));
-	else if (redir_child->symbol->id == sh_index(LEX_TOK_GREATAND))
-		return (sh_process_file_greatand(filename, context));
-	else if (redir_child->symbol->id == sh_index(LEX_TOK_LESSAND))
-		return (sh_process_file_lessand(filename, context));
+	if (context->current_command_node->metadata.command_metadata.should_exec)
+	{
+		if (redir_child->symbol->id == sh_index(LEX_TOK_LESS))
+			return (sh_process_file_input(filename, context, O_RDONLY));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_DGREAT)
+				|| redir_child->symbol->id == sh_index(LEX_TOK_CLOBBER))
+			return (sh_process_file_output(filename, context, DGREAT_OPT));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_GREAT))
+			return (sh_process_file_output(filename, context, GREAT_OPT));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_GREATAND))
+			return (sh_process_file_greatand(filename, context));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_LESSAND))
+			return (sh_process_file_lessand(filename, context));
+		else
+			return (SUCCESS);
+	}
 	else
 		return (SUCCESS);
 }
