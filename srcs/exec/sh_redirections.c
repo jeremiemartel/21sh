@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 15:16:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 16:12:44 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 16:02:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,14 @@ int				sh_process_fd_aggregation(t_redirection_type type,
 {
 	int new_fd;
 
-	new_fd = get_redirected_fd(type, fd, *redirections);
-	return (sh_add_redirection(sh_new_redir(type, redirected_fd, new_fd),
-		redirections));
+	if (fd != redirected_fd)
+	{
+		new_fd = get_redirected_fd(type, fd, *redirections);
+		return (sh_add_redirection(sh_new_redir(type, redirected_fd, new_fd),
+			redirections));
+	}
+	else
+		return (0);
 }
 
 t_redirection	sh_new_redir(t_redirection_type type, int redirected_fd, int fd)
