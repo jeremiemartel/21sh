@@ -129,6 +129,7 @@ int					sh_lexer_rule8(t_lexer *lexer);
 /*
 ** sh_lexer_rule_1.c
 */
+int					sh_lexer_rule1_process_quoted(t_lexer *lexer);
 int					sh_lexer_rule1(t_lexer *lexer);
 
 /*

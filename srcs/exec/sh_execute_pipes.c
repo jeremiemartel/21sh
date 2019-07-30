@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sh_execute_pipes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:26:22 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 18:38:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 20:11:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int	sh_process_process_execute_dup_pipes(t_redirection *redir)
+int			sh_process_process_execute_dup_pipes(t_redirection *redir)
 {
 	(void)redir;
 	if (redir->fd >= 0)

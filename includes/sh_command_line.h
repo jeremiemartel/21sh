@@ -404,6 +404,8 @@ int					append_to_str(char **str, char *to_append);
 */
 int					update_prompt_from_absolute_path(
 	char *cwd, char **new_prompt);
+int					update_prompt_cwd_bonus_tilde(
+	t_shell *shell, char **new_prompt, char *cwd, int *returned);
 int					update_prompt_cwd(t_shell *shell, char **new_prompt);
 int					update_prompt_context(
 	t_shell *shell, t_command_line *command_line, char **new_prompt);
@@ -432,10 +434,6 @@ int					sh_add_eof(int interrupted);
 void				populate_min_max_selection(
 	t_command_line *command_line, int *min, int *max);
 void				render_command_visual(t_command_line *command_line);
-
-/*
-** .keys.c.swp
-*/
 
 /*
 ** edit_command.c

@@ -83,6 +83,8 @@ launch "Variables"
 	# test_launch '\v\a\r=\=\=\=\=\=\= ; echo $var'
 	test_launch '\v\a\r\=\=\=\=\=\=\= ; echo $var'
 	test_launch '\v\a\r\=\\\\\=\=\=\=\=\= ; echo $var'
+	test_launch 'false' 'var=okalm' 'echo $?'
+	test_launch 'false' 'var=okalm false' 'echo $?'
 
 # launch "Deprecated"
 	# launch "Hard"
