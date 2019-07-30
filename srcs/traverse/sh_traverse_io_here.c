@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/29 16:38:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 19:07:10 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,20 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 		return (ret);
 	if (ret == CTRL_D)
 	{
-		if (sh_env_update_ret_value_and_question(context->shell, SH_RET_ERROR) == FAILURE)
-			ret = FAILURE; // return (FAILURE) ?? leaks ??
 		ft_dprintf(2, "21sh: warning: here-document delimited by end of file "
 			"(wanted `%s\')\n", first_child->token->value);
+		if (sh_env_update_ret_value_and_question(context->shell, SH_RET_ERROR))
+			ret = FAILURE;
 	}
-	if (pipe(fds))
-		return (sh_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end")); // Leaks on heredoc_res ??
+	if (ret != FAILURE && pipe(fds))
+		ret = sh_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end");
 	(*redirection)->type = INPUT;
 	(*redirection)->redirected_fd = context->redirected_fd;
 	(*redirection)->fd = fds[0];
 	ft_putstr_fd(heredoc_res, fds[1]);
 	free(heredoc_res);
 	close(fds[1]);
-	return (SUCCESS);
+	return (ret);
 }
 
 int				sh_traverse_io_here(t_ast_node *node, t_context *context)

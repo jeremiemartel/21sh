@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 08:53:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 14:30:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 19:50:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		transmit_sig_and_die(int signal)
 	exit(sh_reset_shell(0));
 }
 
-void default_sig(int sgnl)
+void		default_sig(int sgnl)
 {
 	sh_reset_shell(0);
 	signal(sgnl, SIG_DFL);
