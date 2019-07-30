@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 11:14:49 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 11:01:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 19:19:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void		sh_execute_child_builtin(t_context *context, t_list *contexts)
 {
 	int ret;
 
-	if (isatty(0) && sh_reset_shell(0) == -1)
-	{
-		sh_process_execute_close_pipes(context);
-		return (exit(1));
-	}
+//	if (isatty(0) && sh_reset_shell(0) == -1)
+//	{
+//		sh_process_execute_close_pipes(context);
+//		return (exit(1));
+//	}
 	sh_process_execute_dup_pipes(context);
 	reset_signals();
 	sh_close_all_other_contexts(context, contexts);
@@ -46,11 +46,11 @@ void		sh_execute_child_builtin(t_context *context, t_list *contexts)
 
 void		sh_execute_child_binary(t_context *context, t_list *contexts)
 {
-	if (isatty(0) && sh_reset_shell(0) == -1)
-	{
-		sh_process_execute_close_pipes(context);
-		return (exit(1));
-	}
+//	if (isatty(0) && sh_reset_shell(0) == -1)
+//	{
+//		sh_process_execute_close_pipes(context);
+//		return (exit(1));
+//	}
 	sh_process_execute_dup_pipes(context);
 	reset_signals();
 	sh_close_all_other_contexts(context, contexts);

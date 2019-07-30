@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 08:53:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 14:30:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 19:51:00 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-extern pid_t g_parent;
+pid_t g_parent = 0;
 
 static void	transmit_sig_no_motion(int signal)
 {

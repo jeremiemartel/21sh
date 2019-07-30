@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 15:54:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 19:51:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define SH_RET_SIG_RECEIVED	128
 # define SH_RET_CTRL_C			130
 
-static pid_t g_parent = 0;
+extern pid_t g_parent;
 
 typedef enum		e_redirection_type
 {

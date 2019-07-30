@@ -85,5 +85,5 @@ launch "Redirections"
 	test_launch "cat" "hello"
 	test_launch "dwqdwq | cat"
 	test_launch "cat | dqwd"
-	test_launch "echo BEFORE ; cat auteur 5<&6 && echo ALLO?? ; echo AFTER"
+	test_launch "echo BEFORE ; echo tamer 5<&6 && echo ALLO?? ; echo AFTER"
 finish
