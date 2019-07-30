@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 13:08:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 14:21:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ int		sh_init_shell(t_shell *shell, char **env)
 	s = shell->term;
 	ft_bzero(shell, sizeof(t_shell));
 	ft_bzero(&g_glob.command_line, sizeof(t_command_line));
-	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
+	if (ioctl(0, TIOCGWINSZ, &g_glob.winsize) == -1)
+		return (sh_perror(SH_ERR1_IOCTL, "sh_init_shell"));
 	shell->term = s;
 	shell->ret_value = 0;
 	shell->ret_value_set = 0;

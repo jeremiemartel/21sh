@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 23:50:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 12:09:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 14:55:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ int		process_clipboard_line(t_shell *shell, t_command_line *command_line,
 	else if (info->separator == '\0')
 	{
 		free(ref);
-		return (sh_perror(SH_ERR1_UNEXPECTED_EOF,
-					"process_clipboard_from_fd"));
+		return (sh_perror(SH_ERR1_UNEXPECTED_EOF, "process_clipboard_from_fd"));
 	}
 	else if (paste_current_index(command_line, ref))
 	{

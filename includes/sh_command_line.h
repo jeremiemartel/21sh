@@ -434,6 +434,10 @@ void				populate_min_max_selection(
 void				render_command_visual(t_command_line *command_line);
 
 /*
+** .keys.c.swp
+*/
+
+/*
 ** edit_command.c
 */
 void				ring_bell(void);
