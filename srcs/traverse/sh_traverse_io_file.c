@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 15:43:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 16:03:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,25 @@ static int	sh_process_file_greatand(char *filename, t_context *context)
 
 	if (!ft_strcmp(filename, "-"))
 	{
-		if (sh_add_redirection(sh_new_redir(OUTPUT, context->redirected_fd,
-			-1), &context->current_command_node->
-				metadata.command_metadata.redirections))
+		if (sh_add_redirection(sh_new_redir(OUTPUT, context->redirected_fd, -1),
+		&context->current_command_node->metadata.command_metadata.redirections))
 			return (FAILURE);
 		return (SUCCESS);
 	}
 	else if ((fd = get_fd(filename)) >= 0)
 	{
 		if (BONUS_FCNTL_GREAT_AND)
-		{
 			if (fcntl(fd, F_GETFD) == -1)
 				return (sh_perror_err(filename, SH_ERR1_BAD_FD));
-		}
 		return (sh_process_fd_aggregation(OUTPUT, context->redirected_fd, fd,
 			&context->current_command_node->
 				metadata.command_metadata.redirections));
 	}
-	else
-	{
-		if (fd == -1)
-			return (sh_process_file_output(filename, context,
-				O_WRONLY | O_TRUNC | O_CREAT));
-		else
-			ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
-				SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
-		return (SUCCESS);
-	}
+	if (fd == -1)
+		return (sh_process_file_output(filename, context, GREAT_OPT));
+	ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
+		SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
+	return (SUCCESS);
 }
 
 static int	sh_process_file_lessand(char *filename, t_context *context)

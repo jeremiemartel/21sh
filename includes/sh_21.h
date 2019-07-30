@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 15:48:59 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 15:55:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@
 # define BONUS_DOLLAR_VARIABLE		1
 # define BONUS_TILDE_EXP			1
 # define BONUS_FCNTL_GREAT_AND		1
+
 typedef struct s_shell		t_shell;
 
 struct				s_shell
