@@ -27,6 +27,10 @@ int		sh_lexer_rule1(t_lexer *lexer)
 					lexer->quoted);
 					return (LEX_FAIL);
 				}
+				else
+				{
+					//keep going lexer from next line
+				}
 			}
 			else
 				return (sh_process_quoted(lexer));

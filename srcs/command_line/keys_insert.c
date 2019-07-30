@@ -89,7 +89,7 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 		t_shell *shell, t_command_line *command_line, int ret)
 {
 	if (buffer[0] != 10 && buffer[0] != 9
-			&& (buffer[0] != 27 || buffer[1] != 91
+			&& (buffer[0] != 27 || (buffer[1] != 91 && buffer[1] != 79)
 				|| (buffer[2] < 65 || buffer[2] > 68)))
 	{
 		command_line->autocompletion.head = NULL;
@@ -101,9 +101,11 @@ int		process_keys_insert(unsigned char buffer[READ_BUFF_SIZE],
 				shell, command_line, ret) != SUCCESS)
 			return (FAILURE);
 	}
-	else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 65)
+	else if (buffer[0] == 27 && (buffer[1] == 91 || buffer[1] == 79)
+		&& buffer[2] == 65)
 		process_up(shell, command_line);
-	else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 66)
+	else if (buffer[0] == 27 && (buffer[1] == 91 || buffer[1] == 79)
+		&& buffer[2] == 66)
 		process_down(shell, command_line);
 	else if (buffer[0] == 18 && process_research_historic(command_line, shell))
 		return (FAILURE);

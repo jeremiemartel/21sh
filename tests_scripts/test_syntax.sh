@@ -19,4 +19,8 @@ launch "syntaxe"
 	test_launch ":>;:.>;"
 	test_launch "<<-"
 
+	test_launch "ls -l \""
+	test_launch "ls -l \'"
+	test_launch "ls \\" "-la"
+
 finish

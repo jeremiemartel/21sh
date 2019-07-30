@@ -31,15 +31,15 @@ int		process_escape_sequence(t_shell *shell, t_command_line *command_line,
 	command_line->searcher.active = 0;
 	if (!(buffer[1] | buffer[2] | buffer[3]))
 		return (process_escape(shell, command_line));
-	else if (buffer[1] == 91 && buffer[2] == 67)
+	else if ((buffer[1] == 91 || buffer[1] == 79) && buffer[2] == 67)
 		process_right(shell, command_line);
-	else if (buffer[1] == 91 && buffer[2] == 68)
+	else if ((buffer[1] == 91 || buffer[1] == 79) && buffer[2] == 68)
 		process_left(shell, command_line);
-	else if (buffer[1] == 91 && buffer[2] == 51)
+	else if ((buffer[1] == 91 || buffer[1] == 79) && buffer[2] == 51)
 		process_suppr(command_line);
-	else if (buffer[1] == 91 && buffer[2] == 72)
+	else if ((buffer[1] == 91 || buffer[1] == 79) && buffer[2] == 72)
 		process_start(command_line);
-	else if (buffer[1] == 91 && buffer[2] == 70)
+	else if ((buffer[1] == 91 || buffer[1] == 79) && buffer[2] == 70)
 		process_end(command_line);
 	return (0);
 }
@@ -87,9 +87,9 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	while (1)
 	{
 		ret = read(0, buffer, READ_BUFF_SIZE);
-//		ft_printf(RED);
-//		print_buffer(buffer);
-//		ft_printf(EOC);
+	//	ft_printf(RED);
+	//	print_buffer(buffer);
+	//	ft_printf(EOC);
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{
