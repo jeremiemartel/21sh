@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:41:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 13:27:15 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 20:12:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		sh_await_command(t_shell *shell)
 {
 	int		ret;
 
-	if ((ret = sh_get_command(shell, &g_glob.command_line))!= SUCCESS)
+	if ((ret = sh_get_command(shell, &g_glob.command_line)) != SUCCESS)
 		return (ret);
 	return (sh_process_received_command(shell,
 		&g_glob.command_line));

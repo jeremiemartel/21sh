@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:59:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 09:51:06 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 20:12:53 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,6 @@ int		sh_set_shell_back(int ret)
 		return (ATTR_ERROR);
 	return (ret);
 }
-
-/*
-int		sh_set_shell(struct termios term, int ret)
-{
-	if (tcsetattr(0, TCSANOW, &term) == -1)
-		return (ATTR_ERROR);
-	return (ret);
-}
-*/
 
 int		clear_all(void)
 {
