@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 08:53:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 10:50:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 14:30:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void default_sig(int sgnl)
 void		handle_resize(int signal)
 {
 	(void)signal;
-	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
+	if (ioctl(0, TIOCGWINSZ, &g_glob.winsize) == -1)
+		exit(sh_reset_shell(1));
 	if (isatty(0) && g_glob.command_line.dy_str)
 		render_command_line(&g_glob.command_line, 0, 1);
 }
@@ -109,7 +110,7 @@ void		init_signals(void)
 	signal(SIGEMT, default_sig);
 	signal(SIGFPE, default_sig);
 	signal(SIGBUS, default_sig);
-	signal(SIGSEGV, default_sig);// transmit_sig_and_die);
+	signal(SIGSEGV, default_sig);
 	signal(SIGSYS, default_sig);
 	signal(SIGPIPE, transmit_sig_and_die);
 	signal(SIGALRM, default_sig);

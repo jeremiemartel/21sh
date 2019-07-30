@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:41:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 09:48:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 14:22:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int		sh_init_terminal(t_shell *shell, char **env)
 		return (sh_perror("Could not modify this terminal attributes",
 			"sh_init_terminal"));
 	}
-	ioctl(0, TIOCGWINSZ, &g_glob.winsize);
+	if (ioctl(0, TIOCGWINSZ, &g_glob.winsize) == -1)
+		return (1);
 	g_glob.term = shell->term;
 	return (0);
 }
