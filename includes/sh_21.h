@@ -131,7 +131,6 @@
 # define BONUS_HOME_AS_TILDE_PROMPT	1
 # define BONUS_DOLLAR_VARIABLE		1
 # define BONUS_TILDE_EXP			1
-# define BONUS_FCNTL_GREAT_AND		1
 
 typedef struct s_shell		t_shell;
 

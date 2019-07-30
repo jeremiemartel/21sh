@@ -73,12 +73,6 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 						sh_traverse_io_here_canonical.c \
 						sh_traverse_io_file.c \
 						sh_traverse_io_file_tools.c \
-						sh_traverse_less.c \
-						sh_traverse_lessand.c \
-						sh_traverse_great.c \
-						sh_traverse_greatand.c \
-						sh_traverse_dgreat.c \
-						sh_traverse_lessgreat.c \
 						sh_traverse_and_or.c \
 						sh_traverse_list.c
 

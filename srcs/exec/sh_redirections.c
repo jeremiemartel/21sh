@@ -70,22 +70,31 @@ int				get_redirected_fd(t_redirection_type type,
 			return (redir->fd);
 		ptr = ptr->next;
 	}
-	return (fd);
+	if (fd >= 0 && fd <= 2)
+		return (fd);
+	else
+		return (-1);
 }
 
 int				sh_process_fd_aggregation(t_redirection_type type,
-					int redirected_fd, int fd, t_list **redirections)
+					int redirected_fd, int fd, t_command_metadata *metadata)
 {
 	int new_fd;
 
 	if (fd != redirected_fd)
 	{
-		new_fd = get_redirected_fd(type, fd, *redirections);
-		return (sh_add_redirection(sh_new_redir(type, redirected_fd, new_fd),
-			redirections));
+		if ((new_fd = get_redirected_fd(type, fd, metadata->redirections)) == -1)
+		{
+			ft_dprintf(2, "%s21sh: %d: bad file descriptor\n%s", SH_ERR_COLOR, fd, EOC);
+			metadata->should_exec = 0;
+			return (SUCCESS);
+		}
+		else
+			return (sh_add_redirection(sh_new_redir(type, redirected_fd, new_fd),
+				&metadata->redirections));
 	}
 	else
-		return (0);
+		return (SUCCESS);
 }
 
 t_redirection	sh_new_redir(t_redirection_type type, int redirected_fd, int fd)
