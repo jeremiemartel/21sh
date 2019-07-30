@@ -21,6 +21,6 @@ launch "syntaxe"
 
 	test_launch "ls -l \""
 	test_launch "ls -l \'"
-	test_launch "ls \\" "-la"
+	test_launch "ls \\" "-A"
 
 finish
