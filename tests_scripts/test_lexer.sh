@@ -34,21 +34,33 @@ launch "Lexer"
 	test_launch 'l\s $HOME\'
 	test_launch '""'
 	test_launch '"\\\""\\ls'
-
+	
 	launch "multiple lines"
 	test_launch '"var=pwe" echo $var ; echo $var'
+
+	test_launch '\ls "
+	okalm"'
+	test_launch_pipe ./tests_files/lexer_1
+	test_launch_pipe ./tests_files/lexer_2
+	test_launch_pipe ./tests_files/lexer_3
+	test_launch_pipe ./tests_files/lexer_4
+	test_launch_pipe ./tests_files/lexer_5
+	test_launch_pipe ./tests_files/lexer_6
+	test_launch_pipe ./tests_files/lexer_7
+	test_launch_pipe ./tests_files/lexer_8
+	test_launch_pipe ./tests_files/lexer_9
+	test_launch_pipe ./tests_files/lexer_10
+	test_launch_pipe ./tests_files/lexer_11
+	test_launch_pipe ./tests_files/lexer_12
+	test_launch_pipe ./tests_files/lexer_13
+
+	echo "ls \\" > file ; echo "-a" >>file
+	test_launch_pipe file
 
 	launch "Random"
 	test_launch '"var=pwe"'
 	test_launch 'ls ""'
 
 finish
-
-# launch "Deprecated"
-# 	test_launch '\ls "
-# 	okalm"'
-	# echo "ls \\" > file ; echo "-a" >>file
-	# test_launch_pipe file
-
 
 rm file
