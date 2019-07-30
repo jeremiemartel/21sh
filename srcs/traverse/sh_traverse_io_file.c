@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/29 17:59:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 15:43:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,16 @@ static int	sh_process_file_greatand(char *filename, t_context *context)
 		return (SUCCESS);
 	}
 	else if ((fd = get_fd(filename)) >= 0)
+	{
+		if (BONUS_FCNTL_GREAT_AND)
+		{
+			if (fcntl(fd, F_GETFD) == -1)
+				return (sh_perror_err(filename, SH_ERR1_BAD_FD));
+		}
 		return (sh_process_fd_aggregation(OUTPUT, context->redirected_fd, fd,
 			&context->current_command_node->
 				metadata.command_metadata.redirections));
+	}
 	else
 	{
 		if (fd == -1)
