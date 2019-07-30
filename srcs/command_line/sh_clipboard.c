@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 23:50:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 10:02:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 12:09:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int		process_clipboard_line_nl(t_shell *shell, t_command_line *command_line,
 		return (FAILURE);
 	}
 	process_enter_no_autocompletion(command_line);
-	if (sh_process_received_command(shell, command_line)
-			&& shell->running == 0)
+	if (sh_process_received_command(shell, command_line) == FAILURE)
 	{
 		free(str);
 		return (FAILURE);
@@ -129,9 +128,9 @@ int		process_clipboard_shell(t_shell *shell, t_command_line *command_line)
 	int		ret;
 
 	if (pipe(fds))
-		return (1);
+		return (sh_perror(SH_ERR1_PIPE, "proces_clipboard_shell"));
 	if ((pid = fork()) == -1)
-		return (1);
+		return (sh_perror(SH_ERR1_FORK, "proces_clipboard_shell"));
 	if (pid == 0)
 		exit(process_clipboard_son(fds, "/usr/bin/pbpaste"));
 	else

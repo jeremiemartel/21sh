@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/27 00:38:19 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 11:58:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static int	main_exit_value(t_shell *shell, int ret)
 {
+	int ret_save;
+
+	ret_save = ret;
 	if (shell->ret_value_set || shell->ret_value)
 	{
 		if (sh_verbose_exec())
@@ -22,7 +25,7 @@ static int	main_exit_value(t_shell *shell, int ret)
 	}
 	if (sh_verbose_exec())
 		ft_dprintf(2, "Final returned value : %d\n", ret);
-	if (isatty(0))
+	if (isatty(0) && ret_save != 2)
 		ft_dprintf(2, "exit\n");
 	return (ret);
 }

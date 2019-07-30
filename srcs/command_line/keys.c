@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 10:02:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 13:21:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,12 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		if (command_line->mode == E_MODE_INSERT)
 		{
 			res = process_keys_insert(buffer, shell, command_line, ret);
-			if (command_line->context != E_CONTEXT_HEREDOC
+			if (res == FAILURE)
+			{
+				ft_printf("ON RETURN FAILURE\n");
+				return (res);
+			}
+			else if (command_line->context != E_CONTEXT_HEREDOC
 					&& res != KEEP_READ && res != CTRL_C)
 				return (res);
 			else if (command_line->context != E_CONTEXT_STANDARD

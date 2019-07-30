@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 10:38:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:10:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 10:14:00 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	handle_stp(int sgnl)
 {
 	(void)sgnl;
 	sh_reset_shell(0);
+	ft_printf("2 DOUA\n");
 	signal(SIGTSTP, SIG_DFL);
 	ioctl(0, TIOCSTI, "\x1a");
 }

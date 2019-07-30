@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 08:45:02 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 12:08:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int		sh_execute_pipe_sequence_exec_forks(t_list *contexts)
 		if ((context_iter->pid = fork()) == -1)
 		{
 			sh_execute_pipe_sequence_close_pipes_list(contexts);
-			return (FAILURE);
+			return (sh_perror(SH_ERR1_FORK,
+				"sh_execute_pipe_sequence_exec_forks"));
 		}
 		if (context_iter->pid == 0)
 			sh_execute_child(context_iter, contexts);

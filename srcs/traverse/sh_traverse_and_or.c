@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 03:11:01 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 11:22:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ int				sh_traverse_and_or_launch_phase(t_ast_node *node, t_context *context)
 					set_failed_command(context);
 				continue ;
 			}
+			else if (ret == FAILURE)
+				return (FAILURE);
 		}
 		if ((ptr = (ptr)->next))
 		{

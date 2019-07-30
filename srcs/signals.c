@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 08:53:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 18:03:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 10:50:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void		transmit_sig_and_die(int signal)
 	exit(sh_reset_shell(0));
 }
 
+void default_sig(int sgnl)
+{
+	sh_reset_shell(0);
+	signal(sgnl, SIG_DFL);
+	kill(0, sgnl);
+}
+
 void		handle_resize(int signal)
 {
 	(void)signal;
@@ -45,13 +52,13 @@ void		init_signal_transmit_sig_and_die(void)
 	signal(SIGTTIN, transmit_sig_no_motion);
 	signal(SIGTTOU, transmit_sig_no_motion);
 	signal(SIGIO, transmit_sig_no_motion);
-	signal(SIGXCPU, transmit_sig_and_die);
-	signal(SIGXFSZ, transmit_sig_and_die);
-	signal(SIGVTALRM, transmit_sig_and_die);
-	signal(SIGPROF, transmit_sig_and_die);
+	signal(SIGXCPU, default_sig);
+	signal(SIGXFSZ, default_sig);
+	signal(SIGVTALRM, default_sig);
+	signal(SIGPROF, default_sig);
 	signal(SIGINFO, transmit_sig_no_motion);
-	signal(SIGUSR1, transmit_sig_and_die);
-	signal(SIGUSR2, transmit_sig_and_die);
+	signal(SIGUSR1, default_sig);
+	signal(SIGUSR2, default_sig);
 }
 
 void		reset_signals()
@@ -93,19 +100,19 @@ void		init_signals(void)
 {
 	signal(SIGWINCH, handle_resize);
 	signal(SIGQUIT, transmit_sig_no_motion);
-	signal(SIGKILL, transmit_sig);
+	signal(SIGKILL, default_sig);
 	signal(SIGINT, transmit_sig);
-	signal(SIGHUP, transmit_sig_and_die);
-	signal(SIGABRT, transmit_sig_and_die);
-	signal(SIGILL, transmit_sig_and_die);
-	signal(SIGTRAP, transmit_sig_and_die);
-	signal(SIGEMT, transmit_sig_and_die);
-	signal(SIGFPE, transmit_sig_and_die);
-	signal(SIGBUS, transmit_sig_and_die);
-	signal(SIGSEGV, SIG_DFL);// transmit_sig_and_die);
-	signal(SIGSYS, transmit_sig_and_die);
+	signal(SIGHUP, default_sig);
+	signal(SIGABRT, default_sig);
+	signal(SIGILL, default_sig);
+	signal(SIGTRAP, default_sig);
+	signal(SIGEMT, default_sig);
+	signal(SIGFPE, default_sig);
+	signal(SIGBUS, default_sig);
+	signal(SIGSEGV, default_sig);// transmit_sig_and_die);
+	signal(SIGSYS, default_sig);
 	signal(SIGPIPE, transmit_sig_and_die);
-	signal(SIGALRM, transmit_sig_and_die);
+	signal(SIGALRM, default_sig);
 	signal(SIGTERM, transmit_sig_and_exit);
 	init_signal_transmit_sig_and_die();
 }

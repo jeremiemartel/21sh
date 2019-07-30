@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/25 19:06:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 11:49:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@
 
 # define HISTORIC_FILE	".historic"
 
-# define MAX_LEN_HISTORIC_ENTRY	500
+# define MAX_LEN_HISTORIC_ENTRY	500000
 # define BINARIES_TABLE_SIZE	100
 
 /*

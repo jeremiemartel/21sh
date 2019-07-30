@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/26 09:17:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/30 12:06:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			sh_process_process_execute(t_context *context)
 //		return (FAILURE);
 //	}
 	if ((g_parent = fork()) == -1)
-		return (FAILURE);
+		return (sh_perror(SH_ERR1_FORK, "sh_process_process_execute"));
 	if (g_parent == 0)
 		sh_execute_child_binary(context, NULL);
 	else

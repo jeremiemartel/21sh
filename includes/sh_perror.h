@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 22:53:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 12:05:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define SH_ERR1_ENV_NOT_SET	"Environnement variable is not set"
 # define SH_ERR1_TERM_CPY		"Could not copy terminal attributes"
 # define SH_ERR1_INTERN_ERR		"System internal error"
+# define SH_ERR1_FORK			"Could not fork, too many processes are running"
 # define SH_ERR1_CMD_NOT_FOUND	"Command not found"
 # define SH_ERR1_HISTORIC		"Could not open the historic file"
 # define SH_ERR1_PERM_DENIED	"Permission denied"

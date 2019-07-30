@@ -1,0 +1,4 @@
+cd -L /var
+echo $?
+pwd
+echo $?
