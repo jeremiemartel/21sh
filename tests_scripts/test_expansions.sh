@@ -77,6 +77,12 @@ launch "Variables"
 	test_launch 'var=$ASD ; echo $var'
 	test_launch 'var=asd'\''$ASD'\'' ; echo $var'
 	test_launch 'var="Okalm os speculos"$USER ; echo $var'
+	test_launch 'var====== ; echo $var'
+	test_launch 'var=\=\=\=\=\=\= ; echo $var'
+	test_launch 'var\=\=\=\=\=\=\= ; echo $var'
+	# test_launch '\v\a\r=\=\=\=\=\=\= ; echo $var'
+	test_launch '\v\a\r\=\=\=\=\=\=\= ; echo $var'
+	test_launch '\v\a\r\=\\\\\=\=\=\=\=\= ; echo $var'
 
 # launch "Deprecated"
 	# launch "Hard"

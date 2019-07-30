@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:45:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/27 14:53:50 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/29 19:48:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int		sh_lexer_rule8_assignment(t_lexer *lexer)
 	t_token	*tok;
 	t_list	*head;
 
+	if (lexer->quoted)
+		return (SUCCESS);
 	buff = ft_strndup(lexer->input + lexer->tok_start, lexer->tok_len + 1); // protect
 	if (sh_expansions_variable_valid_name(buff))
 	{

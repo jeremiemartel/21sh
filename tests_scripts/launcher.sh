@@ -71,7 +71,7 @@ compare_return_value()
 }
 
 if [ "$1" = "-r" ] ; then
-	./start.sh -r -q > ./log/ret_new
+	./start.sh -r -q 1>./log/ret_new
 	compare_return_value
 else
 	./start.sh -q > log/new
