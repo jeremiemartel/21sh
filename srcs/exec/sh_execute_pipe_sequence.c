@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 19:52:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 15:00:52 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int				sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 	sh_execute_pipe_sequence_close_pipes_list(contexts);
 	sh_execute_pipe_sequence_waits(context, &res_save);
 	sh_env_update_ret_value_wait_result(context, res_save);
+	sh_env_update_question_mark(context->shell);
 	g_parent = 0;
 	if (isatty(0) && sh_set_shell_back(0) == ATTR_ERROR)
 	{
