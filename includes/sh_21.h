@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 16:20:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:45:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,8 @@ void				reset_signals();
 void				init_signal_transmit_sig_and_die(
 	void (*default_func)(int));
 void				init_signals(void);
-
+void				transmit_sig_no_motion(int signal);
+void				default_sig_bonus(int sgnl);
 /*
 ** init_term.c
 */

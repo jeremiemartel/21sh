@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:34:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:44:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static int		sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
 		return (sh_perror(SH_ERR1_PIPE, "add_pipe_redirections"));
 	redir.type = OUTPUT;
 	redir.redirected_fd = 1;
+	redir.closed = 0;
 	redir.fd = fds[PIPE_IN];
 	if (sh_add_redirection(redir,
 		&from->metadata.command_metadata.redirections))
 		return (FAILURE);
+	redir.closed = 0;
 	redir.type = INPUT;
 	redir.redirected_fd = 0;
 	redir.fd = fds[PIPE_OUT];

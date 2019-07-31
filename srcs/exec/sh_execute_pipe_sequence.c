@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:06:07 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:45:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
+void			sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
 {
 	t_list		*ptr;
 	t_context	*context;

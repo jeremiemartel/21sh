@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 15:00:23 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 15:51:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	ft_bzero(buffer, READ_BUFF_SIZE);
 	while (1)
 	{
-	//	ft_printf("READ WHILE (%d)\n", getpid());
 		if ((ret = read(0, buffer, READ_BUFF_SIZE)) < 0)
 			return (sh_perror(SH_ERR1_READ, "get_keys"));
 		process_keys(shell, command_line, buffer);
@@ -105,5 +104,4 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		command_line->last_char_input = buffer[0];
 		ft_bzero(buffer, READ_BUFF_SIZE);
 	}
-	return (SUCCESS);
 }

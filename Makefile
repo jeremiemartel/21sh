@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/31 15:36:34 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/31 16:09:48 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						sh_process_shift_horizontal.c update_prompt_keys.c \
 						sh_process_quoted.c sh_clipboard.c \
 						sh_get_cursor_position.c sh_command_line_tools.c \
+						sh_clipboard_tools.c update_prompt_cwd.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \
@@ -98,7 +99,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 
 COMMON_SRCS_NO_PREFIX	= main.c index.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
-						canonical_mode.c \
+						set_signals.c canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c \
 						hash_binaries.c check_term.c signal_tools.c
 
