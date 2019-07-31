@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 12:36:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:05:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct		s_redirection
 typedef struct		s_pipe_metadata
 {
 	t_list			*contexts;
+	int				last_ret_value;
 }					t_pipe_metadata;
 
 typedef struct		s_command_metadata

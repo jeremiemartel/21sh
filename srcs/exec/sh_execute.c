@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 15:07:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:32:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int			sh_add_to_pipe_sequence(t_context *context)
 {
 	t_context	*context_dup;
 
+	if (context->current_pipe_sequence_node)
+		context->current_pipe_sequence_node
+		->metadata.pipe_metadata.last_ret_value = 0;
 	if (!(context_dup = t_context_dup(context)))
 		return (FAILURE);
 	if (ft_lstaddnew_ptr_last(&context->current_pipe_sequence_node->
