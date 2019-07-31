@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_execute_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 11:14:49 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:07:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:49:30 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void		sh_execute_child_builtin(t_context *context, t_list *contexts)
 	sh_close_all_other_contexts(context, contexts);
 	ret = context->builtin(context);
 	sh_free_all(context->shell);
-//	t_context_free_content(context);
-//	ft_lstdel(&contexts, sh_free_context_dup_lst);
 	exit(ret);
 }
 
