@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 19:51:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 12:36:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int					sh_process_execute_close_pipes(t_context *context);
 */
 int					sh_execute_pipe_sequence(
 	t_context *context, t_list *contexts);
+void				sh_execute_pipe_sequence_close_pipes_list(t_list *contexts);
 
 /*
 ** sh_redirections.c
@@ -164,5 +165,12 @@ void				print_redirection_list(t_list *list);
 ** sh_exec_builtin.c
 */
 int					sh_exec_builtin(t_context *context);
+
+/*
+** sh_execute.c
+*/
+int					sh_pre_execution(t_context *context);
+int					sh_pre_execution_pipes(t_list *contexts);
+int					sh_post_execution(void);
 
 #endif

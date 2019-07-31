@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 10:38:19 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 19:53:09 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 15:10:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,10 @@ void	transmit_sig(int signal)
 
 void	transmit_sig_and_exit(int signal)
 {
-	ft_printf("SIGNAL %d received by: %d\n", signal, getpid());
-	ft_printf("g_parent of %d : %d\n", getpid(), g_parent);
 	if (g_parent)
 	{
-		ft_printf("transmitting %d to %lld\n", signal, g_parent);
 		kill(g_parent, signal);
-	}
-	else
-	{
-		ft_printf("olalal\n");
+		waitpid(g_parent, NULL, 0);
 	}
 	ft_dprintf(0, "exit\n");
 	exit(sh_reset_shell(0));

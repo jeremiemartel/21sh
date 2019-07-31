@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/30 15:41:01 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/31 12:24:43 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -169,6 +169,7 @@ EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_execute_pipe_sequence.c \
 						sh_execute_tools.c \
 						sh_exec_builtin.c \
+						sh_execute_prefix_postfix.c \
 						t_context.c \
 						sh_redirections.c\
 						sh_debug.c

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 15:55:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 10:40:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@
 */
 
 # define BONUS_HOME_AS_TILDE_PROMPT	1
+# define BONUS_REDIRECT_SIGNAL		1
 # define BONUS_DOLLAR_VARIABLE		1
 # define BONUS_TILDE_EXP			1
 

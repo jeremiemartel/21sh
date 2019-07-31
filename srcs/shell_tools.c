@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:59:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 20:12:53 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 13:37:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,20 @@ int		putchar_int(int i)
 int		sh_reset_shell(int ret)
 {
 	if (tcsetattr(0, TCSADRAIN, &g_glob.term_init) == -1)
+	{
+		ft_printf("olalalala set shell back\n");
 		return (ATTR_ERROR);
+	}
 	return (ret);
 }
 
 int		sh_set_shell_back(int ret)
 {
 	if (tcsetattr(0, TCSAFLUSH, &g_glob.term) == -1)
+	{
+		ft_printf("olalalala set shell back\n");
 		return (ATTR_ERROR);
+	}
 	return (ret);
 }
 

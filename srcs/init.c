@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 20:12:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 10:36:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ int		sh_init_historic(t_historic *historic)
 	historic->commands = NULL;
 	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR | O_NOFOLLOW,
 		S_IRWXU)) == -1)
-	{
-		perror("open");
 		return (sh_perror(SH_ERR1_HISTORIC, "sh_init_historic"));
-	}
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
 		if (process_read_historic(historic, line) != SUCCESS)

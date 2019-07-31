@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 08:53:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 20:16:47 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 15:17:23 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void		transmit_sig_and_die(int signal)
 void		default_sig_bonus(int sgnl)
 {
 	if (g_parent)
+	{
 		kill(g_parent, sgnl);
+		waitpid(g_parent, NULL, 0);
+	}
 	signal(sgnl, SIG_DFL);
 	sh_reset_shell(0);
 	kill(getpid(), sgnl);
@@ -38,9 +41,13 @@ void		default_sig_bonus(int sgnl)
 
 void		default_sig(int sgnl)
 {
-	if (g_parent)
+  	if (g_parent)
+	{
 		kill(g_parent, sgnl);
-	exit(sh_reset_shell(0));
+		waitpid(g_parent, NULL, 0);
+	}
+	sh_reset_shell(0);
+	exit(0);
 }
 
 void		handle_resize(int signal)
@@ -110,7 +117,7 @@ void		init_signals(void)
 {
 	void (*default_func)(int);
 
-	if (1)
+	if (BONUS_REDIRECT_SIGNAL)
 		default_func = default_sig_bonus;
 	else
 		default_func = default_sig;

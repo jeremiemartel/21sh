@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 19:52:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 12:38:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
+void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
 {
 	t_list		*ptr;
 	t_context	*context;
@@ -72,11 +72,8 @@ int				sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 {
 	int			res_save;
 
-	if (isatty(0) && sh_reset_shell(0) == -1)
-	{
-		sh_execute_pipe_sequence_close_pipes_list(contexts);
+	if (sh_pre_execution_pipes(contexts) != SUCCESS)
 		return (FAILURE);
-	}
 	if (sh_execute_pipe_sequence_exec_forks(contexts) == FAILURE)
 		return (FAILURE);
 	sh_execute_pipe_sequence_close_pipes_list(contexts);
