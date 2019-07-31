@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:25:15 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 15:06:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 16:33:31 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ int		sh_lexer_rule1_process_quoted(t_lexer *lexer)
 		lexer->quoted = 0;
 	gnl_ret = get_next_line2(0, &info, 1);
 	if (!(lexer->input = ft_strjoin_free(lexer->input, info.line, 1)))
+	{
+		free(info.line);
 		return (LEX_FAIL);
+	}
+	free(info.line);
 	if (gnl_ret == 0)
 		reading = 0;
 	else if (gnl_ret == -1)
