@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 16:01:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 19:03:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_list	*t_token_new(int id, char *value)
 		}
 	if (!(link = ft_lstnew(token, sizeof(token))))
 	{
-		free(token);
+		t_token_free(token);
 		return (NULL);
 	}
 	token->id = id;
