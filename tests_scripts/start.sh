@@ -102,7 +102,7 @@ if [ -n "$file" ] ; then
 		source $f
 	done
 else
-	for file in `ls test_*` ; do
+	for file in `ls test_*.sh` ; do
 		source $file
 	done
 fi
