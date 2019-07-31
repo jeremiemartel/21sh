@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 22:21:50 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/07 13:47:09 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 19:13:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ int		sh_vars_mod_key(t_dy_tab *vars, char *key, char *value)
 		return (sh_vars_add_key(vars, key, value));
 	if (!(buff = ft_strjoin_3(key, "=", value)))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_vars_mod_key"));
-	free(vars->tbl[index]);
-	vars->tbl[index] = buff;
+	if (vars)
+	{
+		free(vars->tbl[index]);
+		vars->tbl[index] = buff;
+	}
 	return (SUCCESS);
 }
 
