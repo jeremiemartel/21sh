@@ -31,11 +31,6 @@ void		sh_execute_child_builtin(t_context *context, t_list *contexts)
 {
 	int ret;
 
-//	if (isatty(0) && sh_reset_shell(0) == -1)
-//	{
-//		sh_process_execute_close_pipes(context);
-//		return (exit(1));
-//	}
 	sh_process_execute_dup_pipes(context);
 	reset_signals();
 	sh_close_all_other_contexts(context, contexts);
@@ -46,11 +41,6 @@ void		sh_execute_child_builtin(t_context *context, t_list *contexts)
 
 void		sh_execute_child_binary(t_context *context, t_list *contexts)
 {
-//	if (isatty(0) && sh_reset_shell(0) == -1)
-//	{
-//		sh_process_execute_close_pipes(context);
-//		return (exit(1));
-//	}
 	sh_process_execute_dup_pipes(context);
 	reset_signals();
 	sh_close_all_other_contexts(context, contexts);

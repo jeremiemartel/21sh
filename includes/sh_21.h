@@ -221,7 +221,7 @@ int					get_path_and_file_from_str(
 void				transmit_sig_and_die(int signal);
 void				default_sig(int sgnl);
 void				handle_resize(int signal);
-void				init_signal_transmit_sig_and_die(void);
+void				init_signal_transmit_sig_and_die(void (*default_func)(int));
 void				reset_signals();
 void				init_signals(void);
 
