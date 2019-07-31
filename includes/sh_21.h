@@ -191,6 +191,12 @@ int					sh_set_shell_back(int ret);
 int					clear_all(void);
 
 /*
+** set_signals.c
+*/
+void				reset_signals(void);
+void				init_signals(void);
+
+/*
 ** init.c
 */
 char				*refine_historic_entry(char *entry);
@@ -218,16 +224,12 @@ int					get_path_and_file_from_str(
 /*
 ** signals.c
 */
+void				transmit_sig_no_motion(int signal);
 void				transmit_sig_and_die(int signal);
 void				default_sig_bonus(int sgnl);
 void				default_sig(int sgnl);
 void				handle_resize(int signal);
-void				reset_signals();
-void				init_signal_transmit_sig_and_die(
-	void (*default_func)(int));
-void				init_signals(void);
-void				transmit_sig_no_motion(int signal);
-void				default_sig_bonus(int sgnl);
+
 /*
 ** init_term.c
 */
