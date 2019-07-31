@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 12:11:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 16:05:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:32:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int		sh_traverse_assigment_word(t_ast_node *node, t_context *context)
 		ret = SUCCESS;
 		if (node && node->token && node->token->expansion)
 			ret = sh_expansions(context, node);
-		if (!ret && ft_strnstr(node->token->value, "PATH=", 5))
+		if (!ret && node &&node->token && node->token->value 
+				&& ft_strnstr(node->token->value, "PATH=", 5))
 			sh_builtin_hash_empty_table(context->shell);
 		if (!ret)
 			ret = sh_vars_assignment(context->env, NULL, node->token->value);

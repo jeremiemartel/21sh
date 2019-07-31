@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 14:59:22 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:34:27 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int		sh_process_pipe_redirections(t_ast_node *node)
 	t_ast_node	*to;
 	int			ret;
 
-	ret = 0;
 	ptr = (t_list *)node->children;
 	from = NULL;
 	while (ptr != NULL)

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 16:00:53 by jmartel           #+#    #+#             */
-/*   Updated: 2019/01/11 13:45:08 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:12:29 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int		ft_strstr_count(char *str, char *pattern)
 	int		res;
 
 	i = 0;
-	j = 0;
 	res = 0;
 	while (str[i])
 	{
