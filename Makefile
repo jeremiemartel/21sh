@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/31 12:24:43 by ldedier          ###   ########.fr        #
+#    Updated: 2019/07/31 15:27:38 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						get_command.c utf8_tools.c  \
 						render_command_line.c arrows.c home_end.c \
 						command_line.c xy.c \
-						copy_paste_delete.c update_prompt.c \
+						copy_paste_delete.c update_prompt.c update_prompt_tools.c\
 						keys_insert.c keys_others.c keys_ctrl.c \
 						cursor_tools.c selection.c sh_process_historic.c \
 						heredoc.c research_historic.c render_research.c \
@@ -97,7 +97,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 
 SRCS_NO_PREFIX =		main.c index.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
-						tools.c sanitize_path.c canonical_mode.c \
+						canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c \
 						hash_binaries.c check_term.c signal_tools.c
 
@@ -260,6 +260,7 @@ else
 endif
 
 LFLAGS =	-L $(LIBFTDIR) -lft -ltermcap
+#CFLAGS += --analyze
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -fsanitize=address

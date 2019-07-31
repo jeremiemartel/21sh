@@ -125,6 +125,7 @@ launch "exit"
 	test_launch 'nocmd ; exit 18'
 	test_launch 'false || exit 18'
 	test_launch 'false && exit 18'
+	test_launch 'exit 1 | exit 2 | exit 3 | ls'
 
 # launch "setenv"
 # 	test_given_res 'okalm=sd' '' 'setenv okalm=sd' 'env | grep okalm'
@@ -161,7 +162,7 @@ launch "env in pipes"
 	test_launch 'env ls | cat'
 	test_launch 'cat | env ls'
 	test_launch 'env pwd | cat | env wc'
-	test_launch 'env -i pwd | env -i env | cat | env -i wc | env -i cat'
+	test_launch 'env -i pwd | env -i env | cat | env -i wc | env -i cat'
 	test_launch 'env | env ./qsd | env cat'
 	test_launch 'env qsd | cat | pwd'
 	test_launch 'env pwd | env qsd'
