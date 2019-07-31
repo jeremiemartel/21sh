@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 14:45:18 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 15:45:40 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void		sh_env_update_ret_value(t_shell *shell, int res)
 			res);
 		}
 	}
-	
 	return ;
 }
 

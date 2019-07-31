@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 15:27:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 15:44:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
 	}
 }
 
-static int		sh_execute_pipe_sequence_exec_forks(t_list *contexts)
+static int	sh_execute_pipe_sequence_exec_forks(t_list *contexts)
 {
 	t_list		*ptr;
 	t_context	*context_iter;
@@ -52,7 +52,7 @@ static int		sh_execute_pipe_sequence_exec_forks(t_list *contexts)
 	return (SUCCESS);
 }
 
-static void		sh_execute_pipe_sequence_waits(t_context *context,
+static void	sh_execute_pipe_sequence_waits(t_context *context,
 	int *res_save)
 {
 	pid_t		wpid;
@@ -68,7 +68,7 @@ static void		sh_execute_pipe_sequence_waits(t_context *context,
 	}
 }
 
-int				sh_execute_pipe_sequence(t_context *context, t_list *contexts)
+int			sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 {
 	int			res_save;
 
