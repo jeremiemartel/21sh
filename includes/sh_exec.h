@@ -132,11 +132,21 @@ int					sh_process_execute_dup_pipes(t_context *context);
 int					sh_process_execute_close_pipes(t_context *context);
 
 /*
+** sh_execute_prefix_postfix.c
+*/
+void				sh_reset_signals_pre_exec(void);
+void				sh_reset_signals_post_exec(void);
+int					sh_pre_execution(t_context *context);
+int					sh_pre_execution_pipes(t_list *contexts);
+int					sh_post_execution(void);
+
+/*
 ** sh_execute_pipe_sequence.c
 */
+void				sh_execute_pipe_sequence_close_pipes_list(
+	t_list *contexts);
 int					sh_execute_pipe_sequence(
 	t_context *context, t_list *contexts);
-void				sh_execute_pipe_sequence_close_pipes_list(t_list *contexts);
 
 /*
 ** sh_redirections.c
@@ -165,12 +175,5 @@ void				print_redirection_list(t_list *list);
 ** sh_exec_builtin.c
 */
 int					sh_exec_builtin(t_context *context);
-
-/*
-** sh_execute.c
-*/
-int					sh_pre_execution(t_context *context);
-int					sh_pre_execution_pipes(t_list *contexts);
-int					sh_post_execution(void);
 
 #endif

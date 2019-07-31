@@ -219,10 +219,12 @@ int					get_path_and_file_from_str(
 ** signals.c
 */
 void				transmit_sig_and_die(int signal);
+void				default_sig_bonus(int sgnl);
 void				default_sig(int sgnl);
 void				handle_resize(int signal);
-void				init_signal_transmit_sig_and_die(void (*default_func)(int));
 void				reset_signals();
+void				init_signal_transmit_sig_and_die(
+	void (*default_func)(int));
 void				init_signals(void);
 
 /*
@@ -266,10 +268,5 @@ void				transmit_sig(int signal);
 void				transmit_sig_and_exit(int signal);
 void				handle_stp(int sgnl);
 void				handle_cont(int sgnl);
-
-/*
-** main.c
-*/
-int					main(int argc, char **argv, char **env);
 
 #endif
