@@ -6,33 +6,11 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 23:50:06 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 14:55:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 15:43:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-char	*refined_str(char *str)
-{
-	int		i;
-	int		len;
-	char	*res;
-
-	len = ft_strlen(str);
-	if (!(res = (char *)malloc(len + 1)))
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		if (ft_isascii(str[i]))
-			res[i] = str[i];
-		else
-			res[i] = '?';
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
 
 int		process_clipboard_line_nl(t_shell *shell, t_command_line *command_line,
 			char *str)

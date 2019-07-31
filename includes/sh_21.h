@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 10:40:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 16:14:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,10 +221,10 @@ int					get_path_and_file_from_str(
 void				transmit_sig_and_die(int signal);
 void				default_sig(int sgnl);
 void				handle_resize(int signal);
-void				init_signal_transmit_sig_and_die(void (*default_func)(int));
 void				reset_signals();
 void				init_signals(void);
-
+void				transmit_sig_no_motion(int signal);
+void				default_sig_bonus(int sgnl);
 /*
 ** init_term.c
 */
