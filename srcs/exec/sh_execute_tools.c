@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 11:14:49 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:49:30 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 19:33:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void		sh_execute_child_builtin(t_context *context, t_list *contexts)
 	reset_signals();
 	sh_close_all_other_contexts(context, contexts);
 	ret = context->builtin(context);
+	if (context->shell->ret_value_set)
+		ret = context->shell->ret_value;
 	sh_free_all(context->shell);
 	exit(ret);
 }
