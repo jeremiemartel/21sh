@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 15:44:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:06:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int			sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 {
 	int			res_save;
 
+	res_save = 0;
 	if (sh_pre_execution_pipes(contexts) != SUCCESS)
 		return (FAILURE);
 	if (sh_execute_pipe_sequence_exec_forks(contexts) == FAILURE)
