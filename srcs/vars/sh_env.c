@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 23:23:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 12:13:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ static void	sh_env_update_ret_value_treat_sig(t_context *context, int sig)
 		sh_perror("Bus error", context->params->tbl[0]);
 	else if (sig == 11)
 		sh_perror("Segmentation fault", context->params->tbl[0]);
-	else if (sig == 13)
-		sh_perror("SIGPIPE", context->params->tbl[0]);
-	else
-		ft_dprintf(2, "%s%s: %s: %s : %s : %d %s\n", SH_ERR_COLOR, SH_NAME,
-		"Warning", context->params->tbl[0], "received signal", sig, COLOR_END);
 	context->shell->ret_value = SH_RET_SIG_RECEIVED + sig;
 	return ;
 }
