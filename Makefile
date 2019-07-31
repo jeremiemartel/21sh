@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/31 10:45:05 by jmartel          ###   ########.fr        #
+#    Updated: 2019/07/31 15:34:24 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ INCLUDESDIR = includes
 LIBFTDIR = libft
 PRINTFDIR = ft_printf
 
+COMMON_DIR	= common
 GRAM_DIR	= grammar
 COMMANDLINE_DIR = command_line
 PROD_DIR   = productions
@@ -95,7 +96,7 @@ TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \
 						sh_traverse_tools_debug.c
 
-SRCS_NO_PREFIX =		main.c index.c init.c \
+COMMON_SRCS_NO_PREFIX	= main.c index.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
 						canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c \
@@ -204,7 +205,7 @@ INCLUDES_NO_PREFIX	=	sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
 					  	sh_command_line.h sh_autocompletion.h sh_exec.h\
 						sh_builtin.h sh_expansions.h sh_perror.h
 
-SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
+COMMON_SOURCES = $(addprefix $(SRCDIR)/$(COMMON_DIR)/, $(COMMON_SRCS_NO_PREFIX))
 GRAM_SOURCES = $(addprefix $(SRCDIR)/$(GRAM_DIR)/, $(GRAM_SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
 PARSER_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX))
@@ -219,7 +220,7 @@ BUILT_SOURCES = $(addprefix $(SRCDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX))
 EXP_SOURCES = $(addprefix $(SRCDIR)/$(EXP_DIR)/, $(EXP_SRCS_NO_PREFIX))
 PERROR_SOURCES = $(addprefix $(SRCDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX))
 
-OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
+COMMON_OBJECTS = $(addprefix $(OBJDIR)/$(COMMON_DIR)/, $(COMMON_SRCS_NO_PREFIX:%.c=%.o))
 GRAM_OBJECTS = $(addprefix $(OBJDIR)/$(GRAM_DIR)/, $(GRAM_SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
 PARSER_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX:%.c=%.o))
@@ -236,6 +237,7 @@ PERROR_OBJECTS = $(addprefix $(OBJDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX:%
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
+OBJECTS = $(COMMON_OBJECTS)
 OBJECTS += $(PROD_OBJECTS)
 OBJECTS += $(GRAM_OBJECTS)
 OBJECTS += $(LEXER_OBJECTS)
@@ -283,6 +285,11 @@ $(LIBFT):
 $(BINDIR)/$(NAME): $(OBJECTS) $(LIBFT)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
 	@echo "$(OK_COLOR)$(NAME) linked with success !$(EOC)"
+
+$(OBJDIR)/$(COMMON_DIR)/%.o : $(SRCDIR)/$(COMMON_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(COMMON_DIR)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(GRAM_DIR)/%.o : $(SRCDIR)/$(GRAM_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(GRAM_DIR)

@@ -373,6 +373,15 @@ int					process_right(
 	t_shell *shell, t_command_line *command_line);
 
 /*
+** update_prompt_tools.c
+*/
+int					end_with_char(char *str, char c);
+int					get_file_in_dir(char *filename, char *dirname);
+int					get_path_from_absolute_path(char *str, char **path);
+int					get_path_and_file_from_str(
+	char *str, char **path, char **file);
+
+/*
 ** copy_paste_delete.c
 */
 int					command_line_copy_all(t_command_line *command_line);
