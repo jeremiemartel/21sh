@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 04:29:57 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 17:19:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:47:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ static int		process_heredoc_canonical_mode(t_gnl_info info,
 	return (3);
 }
 
-int				heredoc_canonical_mode_eof(char *eof, t_gnl_info *info,
-					char **res)
+int				heredoc_canonical_mode_eof(char *eof, char **res)
 {
 	if (g_glob.command_line.to_append_str)
 	{
@@ -53,7 +52,6 @@ int				heredoc_canonical_mode_eof(char *eof, t_gnl_info *info,
 				g_glob.command_line.to_append_str, 1)))
 			{
 				ft_strdel(&g_glob.command_line.to_append_str);
-				free(info->line);
 				return (1);
 			}
 			if (!(*res = ft_strjoin_free(*res, "\n", 1)))
@@ -98,7 +96,7 @@ char			*heredoc_canonical_mode(t_shell *shell, char *eof,
 		return (heredoc_gnl_error(ret, &res));
 	free(info.line);
 	*ret = SUCCESS;
-	if (heredoc_canonical_mode_eof(eof, &info, &res))
+	if (heredoc_canonical_mode_eof(eof, &res))
 		return (NULL);
 	return (res);
 }

@@ -52,8 +52,7 @@ int		sh_traverse_list(t_ast_node *node, t_context *context);
 ** sh_traverse_io_here_canonical.c
 */
 void	populate_command_line(t_command_line *command_line, char *str);
-int		heredoc_canonical_mode_eof(
-	char *eof, t_gnl_info *info, char **res);
+int		heredoc_canonical_mode_eof(char *eof, char **res);
 char	*heredoc_gnl_error(int *ret, char **res);
 char	*heredoc_canonical_mode(
 	t_shell *shell, char *eof, char *(*heredoc_func)(const char *), int *ret);
