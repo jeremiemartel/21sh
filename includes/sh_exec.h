@@ -151,7 +151,7 @@ int					sh_process_fd_aggregation(
 	t_redirection_type type,
 	int redirected_fd,
 	int fd,
-	t_command_metadata *meta);
+	t_command_metadata *metadata);
 t_redirection		sh_new_redir(
 	t_redirection_type type, int redirected_fd, int fd);
 

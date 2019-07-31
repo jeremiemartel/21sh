@@ -188,7 +188,6 @@ int					sh_check_term(void);
 int					putchar_int(int i);
 int					sh_reset_shell(int ret);
 int					sh_set_shell_back(int ret);
-int					sh_set_shell(struct termios term, int ret);
 int					clear_all(void);
 
 /*
@@ -272,15 +271,5 @@ void				handle_cont(int sgnl);
 ** main.c
 */
 int					main(int argc, char **argv, char **env);
-
-/*
-** sanitize_path.c
-*/
-char				*ft_get_previous_directory(char *current_directory);
-char				*get_first_path_from_path(char **path);
-int					add_to_path_dot_dot(char **old_path);
-int					add_to_path_pwd(char **old_path, char *partial_path);
-char				*get_sanitized_path_from_old(
-	char *old_pwd, char *path);
 
 #endif
