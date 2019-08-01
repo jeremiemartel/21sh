@@ -74,6 +74,7 @@ int			sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 {
 	int		res_save;
 
+	res_save = 0;
 	if (sh_pre_execution_pipes(contexts) != SUCCESS)
 		return (FAILURE);
 	if (sh_execute_pipe_sequence_exec_forks(contexts) == FAILURE)
