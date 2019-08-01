@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 15:16:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:45:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/01 09:04:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ int				sh_add_redirection(t_redirection redirection, t_list **list)
 	return (SUCCESS);
 }
 
+/*
+** returns the redirected fd, (-1 if closed) or
+** -2 if the fd specified is not open
+*/
+
 int				get_redirected_fd(t_redirection_type type,
 					int fd, t_list *redirections)
 {
@@ -73,7 +78,7 @@ int				get_redirected_fd(t_redirection_type type,
 	if (fd >= 0 && fd <= 2)
 		return (fd);
 	else
-		return (-1);
+		return (-2);
 }
 
 int				sh_process_fd_aggregation(t_redirection_type type,
@@ -84,7 +89,7 @@ int				sh_process_fd_aggregation(t_redirection_type type,
 	if (fd != redirected_fd)
 	{
 		if ((new_fd = get_redirected_fd(type, fd, metadata->redirections))
-			== -1)
+			== -2)
 		{
 			ft_dprintf(2, "%s21sh: %d: bad file descriptor\n%s", SH_ERR_COLOR,
 				fd, EOC);
