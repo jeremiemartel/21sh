@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 16:34:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/01 17:26:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct		s_command_line
 	int				interrupted;
 	char			*clipboard;
 	int				pinned_index;
-	int				last_char_input;
 	t_cl_context	context;
 	int				to_append;
 	char			*to_append_str;
@@ -83,6 +82,13 @@ typedef struct		s_historic
 	t_dlist			*commands;
 	t_dlist			head_start;
 }					t_historic;
+
+typedef struct		s_key_buffer
+{
+	unsigned char	buff[READ_BUFF_SIZE];
+	int				progress;
+	int				last_char_input;
+}					t_key_buffer;
 
 typedef struct		s_xy
 {
@@ -233,35 +239,34 @@ int					process_enter_no_autocompletion(
 	t_command_line *command_line);
 int					process_enter(t_command_line *command_line);
 int					process_keys_ret(
+	t_key_buffer *buffer,
 	t_shell *shell,
-	t_command_line *command_line,
-	unsigned char *buffer);
+	t_command_line *command_line);
 int					process_key_insert_printable_utf8(
-	unsigned char buffer[READ_BUFF_SIZE],
+	t_key_buffer *buffer,
 	t_shell *shell,
-	t_command_line *command_line,
-	int ret);
+	t_command_line *command_line);
 int					process_keys_insert(
-	unsigned char buffer[READ_BUFF_SIZE],
+	t_key_buffer *buffer,
 	t_shell *shell,
-	t_command_line *command_line,
-	int ret);
+	t_command_line *command_line);
 
 /*
 ** keys.c
 */
-void				print_buffer(unsigned char buffer[READ_BUFF_SIZE]);
+void				sh_print_buffer(t_key_buffer buffer);
 int					process_escape_sequence(
 	t_shell *shell,
 	t_command_line *command_line,
-	unsigned char buffer[READ_BUFF_SIZE]);
+	t_key_buffer *buffer);
 void				process_shift(
-	t_command_line *command_line,
-	unsigned char buffer[READ_BUFF_SIZE]);
+	t_key_buffer *buffer, t_command_line *command_line);
 int					process_keys(
+	t_key_buffer *buffer,
 	t_shell *shell,
-	t_command_line *command_line,
-	unsigned char *buffer);
+	t_command_line *command_line);
+void				flush_keys(t_key_buffer *buffer);
+int					flush_keys_ret(t_key_buffer *buffer, int ret);
 int					get_keys(t_shell *shell, t_command_line *command_line);
 
 /*
@@ -356,15 +361,15 @@ int					process_clear(t_command_line *command_line);
 ** keys_others.c
 */
 int					process_keys_command(
-	unsigned char buffer[READ_BUFF_SIZE],
+	t_key_buffer *buffer,
 	t_shell *shell,
 	t_command_line *command_line);
 int					process_keys_visual(
-	unsigned char buffer[READ_BUFF_SIZE],
+	t_key_buffer *buffer,
 	t_shell *shell,
 	t_command_line *command_line);
 int					process_keys_others(
-	unsigned char buffer[READ_BUFF_SIZE],
+	t_key_buffer *buffer,
 	t_shell *shell,
 	t_command_line *command_line);
 
