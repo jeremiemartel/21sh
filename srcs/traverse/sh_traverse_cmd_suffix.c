@@ -18,7 +18,7 @@ static int		sh_process_traverse_cmd_suffix(t_ast_node *child, t_context *context
 
 	if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
 	{
-		if (child && child->token && child->token->expansion)
+		if (child && child->token /*&& child->token->expansion*/)
 			if ((ret = sh_expansions(context, child)) != SUCCESS)
 				return (ret);
 	}

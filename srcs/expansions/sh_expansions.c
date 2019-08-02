@@ -47,16 +47,9 @@ static int			sh_expansions_process(
 	t_expansion	exp;
 	int			ret;
 
-	if (!ft_strchr(original, '$'))
-		return (SUCCESS);
-	*index = ft_strchr(original, '$') - *input;
-	// while (original[*index] != '\'' && original[*index] != '"'
-	// 	&& original[*index] != '\\' && original[*index])
-	// 	*index += 1;
-	if (original)
-	ft_printf("on rentre combien de fois\n");
-	if (original == '\0')
-		return (0);
+	// if (!ft_strchr(original, '$'))
+	// 	return (SUCCESS);
+	// *index = ft_strchr(original, '$') - *input;
 	ret = sh_expansions_init(original, &exp);
 	if (sh_verbose_expansion())
 		t_expansion_show(&exp);
@@ -72,6 +65,78 @@ static int			sh_expansions_process(
 	*index += ft_strlen(exp.res->str);
 	t_expansion_free_content(&exp);
 	return (SUCCESS);
+}
+
+static void		backslash(char *input, int *index, int quoted)
+{
+	if (quoted)
+	{
+		if (input[*index + 1] == '$' || input[*index + 1] == '"'
+			|| input[*index + 1] == '\\')
+			ft_strcpy(input + *index, input + *index + 1);
+	}
+	else
+		ft_strcpy(input + *index, input + *index + 1);
+	(*index) += 1;
+}
+
+static int 		quote_expansion(char **input, int *index, char c, t_context *context)
+{
+	int 	ret;
+
+	ft_strcpy(*input + *index, *input + *index + 1);
+	while ((*input)[*index] != c)
+	{
+		if (c == '"' && (*input)[*index] == '$')
+		{
+			if ((ret = sh_expansions_process(input, *input + *index, context, index)) != SUCCESS)
+				if (sh_env_update_ret_value_and_question(context->shell, ret))
+					return (FAILURE);
+		}
+		else if (c == '"' && (*input)[*index] == '\\')
+			backslash(*input, index, 1);
+		else
+			*index += 1;
+	}
+	ft_strcpy(*input + *index, *input + *index + 1);
+	return (SUCCESS);
+}
+
+static int 		unquote_expansion(char **input, int *index, t_context *context)
+{
+	int 	ret;
+
+	if ((ret = sh_expansions_process(input, *input + *index, context, index)) != SUCCESS)
+		if (sh_env_update_ret_value_and_question(context->shell, ret))
+			return (FAILURE);
+	return (SUCCESS);
+}
+
+static int 		sh_scan_expansions(char **input, int index, t_context *context)
+{
+	int 	ret;
+
+	while ((*input)[index] != '\'' && (*input)[index] != '"'
+		&& (*input)[index] != '\\' && (*input)[index] != '$'
+		&& (*input)[index])
+		index++;
+	if ((*input)[index] == '\0')
+		return (SUCCESS);
+	if ((*input)[index] == '\'' || (*input)[index] == '"')
+	{
+		if ((ret = quote_expansion(input, &index, (*input)[index], context)) != SUCCESS)
+			return (ret);
+	}
+	else if ((*input)[index] == '$')
+	{
+		if ((ret = unquote_expansion(input, &index, context)) != SUCCESS)
+			return (ret);
+	}
+	else
+	{
+		backslash(*input, &index, 0);
+	}
+	return (sh_scan_expansions(input, index, context));
 }
 
 /*
@@ -92,22 +157,23 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 	int		ret;
 	int		index;
 
-	ft_printf("ho :%s\n", node->token->value);
 	if (!node || !node->token || !node->token->value)
 		return (SUCCESS);
+	index = 0;
 	input = &node->token->value;
-	if ((ret = sh_expansions_process_tilde(input, *input, context)) != SUCCESS)
+	if ((*input)[0] == '~'
+		&& (ret = sh_expansions_process_tilde(input, *input, context)) != SUCCESS)
 	{
 		if (sh_env_update_ret_value_and_question(context->shell, ret)
 			== FAILURE)
 			return (FAILURE);
 		return (ret);
 	}
-	index = 0;
-	while (*(*input + index) && ft_strpbrk(*input + index, "$"))
-		if ((ret = sh_expansions_process(
-			input, *input + index, context, &index)))
-			break ;
+	ret = sh_scan_expansions(input, index, context);
+	// while (*(*input + index) && ft_strpbrk(*input + index, "$"))
+		// if ((ret = sh_expansions_process(
+			// input, *input + index, context, &index)))
+			// break ;
 	if (ret != SUCCESS)
 		if (sh_env_update_ret_value_and_question(context->shell, ret))
 			return (FAILURE);
@@ -117,9 +183,6 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 int			sh_expansions_replace(
 	t_expansion *expansion, char **input, int index)
 {
-	char	*original;
-
-	original = expansion->original;
 	*input = ft_strrep_free(
 		*input, expansion->res->str, index, ft_strlen(expansion->original));
 	if (!(*input))
