@@ -12,7 +12,7 @@
 
 #include "sh_21.h"
 
-int		sh_process_traverse_cmd_suffix(t_ast_node *child, t_context *context)
+static int		sh_process_traverse_cmd_suffix(t_ast_node *child, t_context *context)
 {
 	int ret;
 
