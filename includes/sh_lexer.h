@@ -42,6 +42,7 @@ typedef struct		s_lexer
 	int				tok_len;
 	int				current_id;
 	char			quoted;
+	int				backslash;
 	char			expansion;
 	t_list			*list;
 	t_dy_tab		*env;

@@ -79,6 +79,7 @@ int				sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	lexer.env = shell->env;
 	lexer.vars = shell->vars;
 	lexer.list = NULL;
+	lexer.backslash = 0;
 	ret = LEX_OK;
 	while (ret == LEX_OK)
 		ret = sh_lexer_run_rules(&lexer);

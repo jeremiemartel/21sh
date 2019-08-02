@@ -429,7 +429,7 @@ int					update_prompt_context(
 int					update_prompt(
 	t_shell *shell, t_command_line *command_line);
 int					update_prompt_from_quote(
-	t_shell *shell, t_command_line *command_line, char quote);
+	t_shell *shell, t_command_line *command_line, char quotei, int backslash);
 
 /*
 ** sh_process_historic.c
