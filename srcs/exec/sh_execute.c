@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 00:39:53 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 20:18:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:32:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@ int			sh_process_process_execute(t_context *context)
 {
 	int			res;
 
-	if (isatty(0) && sh_reset_shell(0) == -1)
-	{
-		sh_process_execute_close_pipes(context);
+	if (sh_pre_execution(context) != SUCCESS)
 		return (FAILURE);
-	}
 	if ((g_parent = fork()) == -1)
 		return (sh_perror(SH_ERR1_FORK, "sh_process_process_execute"));
 	if (g_parent == 0)
@@ -31,11 +28,8 @@ int			sh_process_process_execute(t_context *context)
 		g_parent = 0;
 		sh_env_update_ret_value_wait_result(context, res);
 		sh_process_execute_close_pipes(context);
-		if (isatty(0) && sh_set_shell_back(0) == ATTR_ERROR)
-		{
-			return (sh_perror("Could not modify this terminal attributes",
-				"sh_init_terminal"));
-		}
+		if (sh_post_execution() != SUCCESS)
+			return (FAILURE);
 		g_glob.command_line.interrupted = WIFSIGNALED(res);
 	}
 	return (SUCCESS);
@@ -45,6 +39,9 @@ int			sh_add_to_pipe_sequence(t_context *context)
 {
 	t_context	*context_dup;
 
+	if (context->current_pipe_sequence_node)
+		context->current_pipe_sequence_node
+		->metadata.pipe_metadata.last_ret_value = 0;
 	if (!(context_dup = t_context_dup(context)))
 		return (FAILURE);
 	if (ft_lstaddnew_ptr_last(&context->current_pipe_sequence_node->

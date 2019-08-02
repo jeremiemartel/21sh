@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/26 07:06:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:20:48 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int		sh_lexer_final_check(t_lexer *lexer)
 	head = lexer->list;
 	if (!head || !head->content)
 		return (LEX_OK);
-	token = (t_token*)head->content;
 	while (head)
 	{
 		token = (t_token*)head->content;
@@ -58,7 +57,6 @@ static int		sh_lexer_run_rules(t_lexer *lexer)
 		&sh_lexer_rule10 };
 
 	i = 0;
-	ret = LEX_CONTINUE;
 	if (sh_verbose_lexer())
 		ft_dprintf(2, "lexer in progress on :%.2c\t", lexer->c);
 	while ((ret = rules[i](lexer)) == LEX_CONTINUE && i < LEX_RULES_LEN)

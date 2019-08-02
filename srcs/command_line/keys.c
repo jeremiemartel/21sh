@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 14:54:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:42:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	ft_bzero(buffer, READ_BUFF_SIZE);
 	while (1)
 	{
-		ret = read(0, buffer, READ_BUFF_SIZE);
+		if ((ret = read(0, buffer, READ_BUFF_SIZE)) < 0)
+			return (sh_perror(SH_ERR1_READ, "get_keys"));
 		process_keys(shell, command_line, buffer);
 		if (command_line->mode == E_MODE_INSERT)
 		{
@@ -102,5 +103,4 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		command_line->last_char_input = buffer[0];
 		ft_bzero(buffer, READ_BUFF_SIZE);
 	}
-	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh_execute_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 11:14:49 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 19:19:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 19:33:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,23 @@ void		sh_execute_child_builtin(t_context *context, t_list *contexts)
 {
 	int ret;
 
-//	if (isatty(0) && sh_reset_shell(0) == -1)
-//	{
-//		sh_process_execute_close_pipes(context);
-//		return (exit(1));
-//	}
 	sh_process_execute_dup_pipes(context);
 	reset_signals();
 	sh_close_all_other_contexts(context, contexts);
-	signal(SIGINT, SIG_DFL);
 	ret = context->builtin(context);
+	if (context->shell->ret_value_set)
+		ret = context->shell->ret_value;
+	sh_free_all(context->shell);
 	exit(ret);
 }
 
 void		sh_execute_child_binary(t_context *context, t_list *contexts)
 {
-//	if (isatty(0) && sh_reset_shell(0) == -1)
-//	{
-//		sh_process_execute_close_pipes(context);
-//		return (exit(1));
-//	}
 	sh_process_execute_dup_pipes(context);
 	reset_signals();
 	sh_close_all_other_contexts(context, contexts);
 	execve(context->path, (char **)context->params->tbl,
-		(char **)context->env->tbl);
+			(char **)context->env->tbl);
 	sh_process_execute_close_pipes(context);
 	if (sh_verbose_exec())
 		ft_dprintf(2, "Execve failed\n");

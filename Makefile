@@ -6,13 +6,13 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/07/30 15:41:01 by ldedier          ###   ########.fr        #
+#    Updated: 2019/08/01 08:33:27 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= 21sh
 
-CC		= gcc -g3
+CC		= gcc -g3 
 
 OS		= $(shell uname -s)
 
@@ -27,6 +27,7 @@ INCLUDESDIR = includes
 LIBFTDIR = libft
 PRINTFDIR = ft_printf
 
+COMMON_DIR	= common
 GRAM_DIR	= grammar
 COMMANDLINE_DIR = command_line
 PROD_DIR   = productions
@@ -81,7 +82,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						get_command.c utf8_tools.c  \
 						render_command_line.c arrows.c home_end.c \
 						command_line.c xy.c \
-						copy_paste_delete.c update_prompt.c \
+						copy_paste_delete.c update_prompt.c update_prompt_tools.c\
 						keys_insert.c keys_others.c keys_ctrl.c \
 						cursor_tools.c selection.c sh_process_historic.c \
 						heredoc.c research_historic.c render_research.c \
@@ -90,14 +91,15 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						sh_process_shift_horizontal.c update_prompt_keys.c \
 						sh_process_quoted.c sh_clipboard.c \
 						sh_get_cursor_position.c sh_command_line_tools.c \
+						sh_clipboard_tools.c update_prompt_cwd.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \
 						sh_traverse_tools_debug.c
 
-SRCS_NO_PREFIX =		main.c index.c init.c \
+COMMON_SRCS_NO_PREFIX	= main.c index.c init.c \
 						shell_tools.c free_all.c init_term.c signals.c \
-						tools.c sanitize_path.c canonical_mode.c \
+						set_signals.c canonical_mode.c \
 						historic.c home.c init_tabs.c non_canonical_mode.c \
 						hash_binaries.c check_term.c signal_tools.c
 
@@ -169,6 +171,7 @@ EXEC_SRCS_NO_PREFIX	=	sh_execute.c \
 						sh_execute_pipe_sequence.c \
 						sh_execute_tools.c \
 						sh_exec_builtin.c \
+						sh_execute_prefix_postfix.c \
 						t_context.c \
 						sh_redirections.c\
 						sh_debug.c
@@ -204,7 +207,7 @@ INCLUDES_NO_PREFIX	=	sh_21.h sh_lexer.h sh_tokens.h sh_parser.h sh_grammar.h \
 					  	sh_command_line.h sh_autocompletion.h sh_exec.h\
 						sh_builtin.h sh_expansions.h sh_perror.h
 
-SOURCES = $(addprefix $(SRCDIR)/, $(SRCS_NO_PREFIX))
+COMMON_SOURCES = $(addprefix $(SRCDIR)/$(COMMON_DIR)/, $(COMMON_SRCS_NO_PREFIX))
 GRAM_SOURCES = $(addprefix $(SRCDIR)/$(GRAM_DIR)/, $(GRAM_SRCS_NO_PREFIX))
 LEXER_SOURCES = $(addprefix $(SRCDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX))
 PARSER_SOURCES = $(addprefix $(SRCDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX))
@@ -219,7 +222,7 @@ BUILT_SOURCES = $(addprefix $(SRCDIR)/$(BUILT_DIR)/, $(BUILT_SRCS_NO_PREFIX))
 EXP_SOURCES = $(addprefix $(SRCDIR)/$(EXP_DIR)/, $(EXP_SRCS_NO_PREFIX))
 PERROR_SOURCES = $(addprefix $(SRCDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX))
 
-OBJECTS = $(addprefix $(OBJDIR)/, $(SRCS_NO_PREFIX:%.c=%.o))
+COMMON_OBJECTS = $(addprefix $(OBJDIR)/$(COMMON_DIR)/, $(COMMON_SRCS_NO_PREFIX:%.c=%.o))
 GRAM_OBJECTS = $(addprefix $(OBJDIR)/$(GRAM_DIR)/, $(GRAM_SRCS_NO_PREFIX:%.c=%.o))
 LEXER_OBJECTS = $(addprefix $(OBJDIR)/$(LEXER_DIR)/, $(LEXER_SRCS_NO_PREFIX:%.c=%.o))
 PARSER_OBJECTS = $(addprefix $(OBJDIR)/$(PARSER_DIR)/, $(PARSER_SRCS_NO_PREFIX:%.c=%.o))
@@ -236,6 +239,7 @@ PERROR_OBJECTS = $(addprefix $(OBJDIR)/$(PERROR_DIR)/, $(PERROR_SRCS_NO_PREFIX:%
 
 INCLUDES = $(addprefix $(INCLUDESDIR)/, $(INCLUDES_NO_PREFIX))
 
+OBJECTS = $(COMMON_OBJECTS)
 OBJECTS += $(PROD_OBJECTS)
 OBJECTS += $(GRAM_OBJECTS)
 OBJECTS += $(LEXER_OBJECTS)
@@ -259,6 +263,7 @@ else
 endif
 
 LFLAGS =	-L $(LIBFTDIR) -lft -ltermcap
+#CFLAGS += --analyze
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -fsanitize=address
@@ -282,6 +287,11 @@ $(LIBFT):
 $(BINDIR)/$(NAME): $(OBJECTS) $(LIBFT)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LFLAGS)
 	@echo "$(OK_COLOR)$(NAME) linked with success !$(EOC)"
+
+$(OBJDIR)/$(COMMON_DIR)/%.o : $(SRCDIR)/$(COMMON_DIR)/%.c $(INCLUDES)
+	@mkdir -p $(OBJDIR)/$(COMMON_DIR)
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo "${COMP_COLOR}$< ${EOC}"
 
 $(OBJDIR)/$(GRAM_DIR)/%.o : $(SRCDIR)/$(GRAM_DIR)/%.c $(INCLUDES)
 	@mkdir -p $(OBJDIR)/$(GRAM_DIR)

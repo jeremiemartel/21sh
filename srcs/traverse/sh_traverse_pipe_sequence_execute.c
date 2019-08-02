@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 12:00:09 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:32:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int				sh_traverse_pipe_sequence_execute(t_ast_node *node,
 	else
 	{
 		context->current_pipe_sequence_node = node;
+		context->current_pipe_sequence_node
+		->metadata.pipe_metadata.last_ret_value = 0;
 		if ((ret = sh_traverse_tools_browse(node, context)) != SUCCESS)
 			return (ret);
 		return (sh_execute_pipe_sequence(context,

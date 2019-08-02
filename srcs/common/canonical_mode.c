@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 18:06:46 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:17:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:20:10 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int		sh_process_read_canonical_mode(t_shell *shell)
 	t_gnl_info	info;
 	int			ret;
 
+	ret = SUCCESS;
 	while (shell->running && (gnl_ret = get_next_line2(0, &info, 1)) == 1)
 	{
 		if ((ret = sh_process_read_canonical_gnl(shell, &info)))

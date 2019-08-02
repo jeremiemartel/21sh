@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:16 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 19:51:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:05:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct		s_redirection
 typedef struct		s_pipe_metadata
 {
 	t_list			*contexts;
+	int				last_ret_value;
 }					t_pipe_metadata;
 
 typedef struct		s_command_metadata
@@ -132,8 +133,19 @@ int					sh_process_execute_dup_pipes(t_context *context);
 int					sh_process_execute_close_pipes(t_context *context);
 
 /*
+** sh_execute_prefix_postfix.c
+*/
+void				sh_reset_signals_pre_exec(void);
+void				sh_reset_signals_post_exec(void);
+int					sh_pre_execution(t_context *context);
+int					sh_pre_execution_pipes(t_list *contexts);
+int					sh_post_execution(void);
+
+/*
 ** sh_execute_pipe_sequence.c
 */
+void				sh_execute_pipe_sequence_close_pipes_list(
+	t_list *contexts);
 int					sh_execute_pipe_sequence(
 	t_context *context, t_list *contexts);
 
@@ -150,7 +162,7 @@ int					sh_process_fd_aggregation(
 	t_redirection_type type,
 	int redirected_fd,
 	int fd,
-	t_command_metadata *meta);
+	t_command_metadata *metadata);
 t_redirection		sh_new_redir(
 	t_redirection_type type, int redirected_fd, int fd);
 

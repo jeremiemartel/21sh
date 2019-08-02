@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 16:00:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:36:34 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 	t_ast_node	*child;
 	int			ret;
 
+	ret = SUCCESS;
 	ptr = node->children;
 	while (ptr != NULL && context->shell->running)
 	{

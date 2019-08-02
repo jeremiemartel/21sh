@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 15:55:55 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:45:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@
 */
 
 # define BONUS_HOME_AS_TILDE_PROMPT	1
+# define BONUS_REDIRECT_SIGNAL		1
 # define BONUS_DOLLAR_VARIABLE		1
 # define BONUS_TILDE_EXP			0
 
@@ -187,8 +188,13 @@ int					sh_check_term(void);
 int					putchar_int(int i);
 int					sh_reset_shell(int ret);
 int					sh_set_shell_back(int ret);
-int					sh_set_shell(struct termios term, int ret);
 int					clear_all(void);
+
+/*
+** set_signals.c
+*/
+void				reset_signals(void);
+void				init_signals(void);
 
 /*
 ** init.c
@@ -218,12 +224,11 @@ int					get_path_and_file_from_str(
 /*
 ** signals.c
 */
+void				transmit_sig_no_motion(int signal);
 void				transmit_sig_and_die(int signal);
+void				default_sig_bonus(int sgnl);
 void				default_sig(int sgnl);
 void				handle_resize(int signal);
-void				init_signal_transmit_sig_and_die(void);
-void				reset_signals();
-void				init_signals(void);
 
 /*
 ** init_term.c
@@ -266,20 +271,5 @@ void				transmit_sig(int signal);
 void				transmit_sig_and_exit(int signal);
 void				handle_stp(int sgnl);
 void				handle_cont(int sgnl);
-
-/*
-** main.c
-*/
-int					main(int argc, char **argv, char **env);
-
-/*
-** sanitize_path.c
-*/
-char				*ft_get_previous_directory(char *current_directory);
-char				*get_first_path_from_path(char **path);
-int					add_to_path_dot_dot(char **old_path);
-int					add_to_path_pwd(char **old_path, char *partial_path);
-char				*get_sanitized_path_from_old(
-	char *old_pwd, char *path);
 
 #endif

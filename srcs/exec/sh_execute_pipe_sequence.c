@@ -6,13 +6,13 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 10:45:00 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 19:52:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/01 08:35:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-static void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
+void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
 {
 	t_list		*ptr;
 	t_context	*context;
@@ -26,7 +26,7 @@ static void		sh_execute_pipe_sequence_close_pipes_list(t_list *contexts)
 	}
 }
 
-static int		sh_execute_pipe_sequence_exec_forks(t_list *contexts)
+static int	sh_execute_pipe_sequence_exec_forks(t_list *contexts)
 {
 	t_list		*ptr;
 	t_context	*context_iter;
@@ -52,8 +52,7 @@ static int		sh_execute_pipe_sequence_exec_forks(t_list *contexts)
 	return (SUCCESS);
 }
 
-static void		sh_execute_pipe_sequence_waits(t_context *context,
-	int *res_save)
+static int	sh_execute_pipe_sequence_waits(t_context *context, int *res_save)
 {
 	pid_t		wpid;
 	int			res;
@@ -66,22 +65,30 @@ static void		sh_execute_pipe_sequence_waits(t_context *context,
 			*res_save = res;
 		}
 	}
+	if (sh_env_update_question_mark(context->shell) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
 }
 
-int				sh_execute_pipe_sequence(t_context *context, t_list *contexts)
+int			sh_execute_pipe_sequence(t_context *context, t_list *contexts)
 {
-	int			res_save;
+	int		res_save;
 
-	if (isatty(0) && sh_reset_shell(0) == -1)
-	{
-		sh_execute_pipe_sequence_close_pipes_list(contexts);
+	res_save = 0;
+	if (sh_pre_execution_pipes(contexts) != SUCCESS)
 		return (FAILURE);
-	}
 	if (sh_execute_pipe_sequence_exec_forks(contexts) == FAILURE)
 		return (FAILURE);
 	sh_execute_pipe_sequence_close_pipes_list(contexts);
-	sh_execute_pipe_sequence_waits(context, &res_save);
-	sh_env_update_ret_value_wait_result(context, res_save);
+	if (sh_execute_pipe_sequence_waits(context, &res_save) == FAILURE)
+		return (FAILURE);
+	if (context->current_pipe_sequence_node->
+			metadata.pipe_metadata.last_ret_value)
+	{
+		if (sh_env_update_ret_value_and_question(context->shell, context->
+		current_pipe_sequence_node->metadata.pipe_metadata.last_ret_value))
+			return (FAILURE);
+	}
 	g_parent = 0;
 	if (isatty(0) && sh_set_shell_back(0) == ATTR_ERROR)
 	{

@@ -16,7 +16,7 @@ import re;
 
 format = "^(void|int|char|t_*)"
 
-ignored_files=["grammar.c"]
+ignored_files=["grammar.c","main.c"]
 
 ## Activate or unactivate verbose mode, you can define verbose level between 1 and 3.
 verbose = 0
@@ -156,7 +156,7 @@ automatic_header("./srcs/parser/productions","./includes/sh_productions.h", 0)
 automatic_header("./srcs/parser",			"./includes/sh_parser.h", 5)
 automatic_header("./srcs/command_line", "./includes/sh_command_line.h", 5)
 automatic_header("./srcs/command_line/autocomplete", "./includes/sh_autocompletion.h", 5)
-automatic_header("./srcs/",			"./includes/sh_21.h", 5)
+automatic_header("./srcs/common",			"./includes/sh_21.h", 5)
 ######automatic_header("./srcs/parser", "./includes/sh_tokens.h", 0)
 
 

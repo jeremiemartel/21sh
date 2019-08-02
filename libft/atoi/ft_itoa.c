@@ -6,7 +6,7 @@
 /*   By: jmartel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 21:33:30 by jmartel           #+#    #+#             */
-/*   Updated: 2018/11/09 21:33:32 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:13:20 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ char		*ft_itoa(int n)
 	char	*res;
 	int		i;
 
-	if (!(res = (char*)malloc(sizeof(*res) * (itoa_len(n) + itoa_sym(n) + 1))))
-		return (NULL);
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
+	if (!(res = (char*)malloc(sizeof(*res) * (itoa_len(n) + itoa_sym(n) + 1))))
+		return (NULL);
 	i = itoa_len(n) + itoa_sym(n);
 	res[i--] = 0;
 	if (n < 0)

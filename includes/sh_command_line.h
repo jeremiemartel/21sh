@@ -142,6 +142,15 @@ int					is_utf8_len_4(unsigned char *buffer);
 int					is_printable_utf8(unsigned char *buffer, int nb_bytes);
 
 /*
+** update_prompt_cwd.c
+*/
+int					update_prompt_from_absolute_path(
+	char *cwd, char **new_prompt);
+int					update_prompt_cwd_bonus_tilde(
+	t_shell *shell, char **new_prompt, char *cwd, int *returned);
+int					update_prompt_cwd(t_shell *shell, char **new_prompt);
+
+/*
 ** keys_ctrl.c
 */
 int					process_ctrl_c(
@@ -162,7 +171,6 @@ void				process_suppr(t_command_line *command_line);
 /*
 ** sh_clipboard.c
 */
-char				*refined_str(char *str);
 int					process_clipboard_line_nl(
 	t_shell *shell, t_command_line *command_line, char *str);
 int					process_clipboard_line(
@@ -373,6 +381,20 @@ int					process_right(
 	t_shell *shell, t_command_line *command_line);
 
 /*
+** sh_clipboard_tools.c
+*/
+char				*refined_str(char *str);
+
+/*
+** update_prompt_tools.c
+*/
+int					end_with_char(char *str, char c);
+int					get_file_in_dir(char *filename, char *dirname);
+int					get_path_from_absolute_path(char *str, char **path);
+int					get_path_and_file_from_str(
+	char *str, char **path, char **file);
+
+/*
 ** copy_paste_delete.c
 */
 int					command_line_copy_all(t_command_line *command_line);
@@ -402,11 +424,6 @@ int					append_to_str(char **str, char *to_append);
 /*
 ** update_prompt.c
 */
-int					update_prompt_from_absolute_path(
-	char *cwd, char **new_prompt);
-int					update_prompt_cwd_bonus_tilde(
-	t_shell *shell, char **new_prompt, char *cwd, int *returned);
-int					update_prompt_cwd(t_shell *shell, char **new_prompt);
 int					update_prompt_context(
 	t_shell *shell, t_command_line *command_line, char **new_prompt);
 int					update_prompt(

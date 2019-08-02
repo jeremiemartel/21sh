@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:43:21 by jmartel           #+#    #+#             */
-/*   Updated: 2019/06/14 18:10:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 11:17:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	sh_lexer_rule6_detect_io_number(t_lexer *lexer)
 	str = lexer->input + lexer->tok_start;
 	len = lexer->tok_len;
 	i = 0;
+	if (!ft_strchr("<>", lexer->c))
+		return (0);
 	while (i < len)
 	{
 		if (!ft_isdigit(str[i]))

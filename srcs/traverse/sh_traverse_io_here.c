@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/30 19:07:10 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 19:16:53 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ static char		*get_heredoc(t_context *context, char *eof,
 **		CTRL_C
 */
 
+static int		sh_traverse_io_here_interactive_ctrl_d(
+	t_ast_node *first_child, t_context *context)
+{
+	ft_dprintf(2, "21sh: warning: here-document delimited by end of file "
+		"(wanted `%s\')\n", first_child->token->value);
+	if (sh_env_update_ret_value_and_question(context->shell, SH_RET_ERROR))
+		return (FAILURE);
+	return (SUCCESS);
+}
+
 static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 		t_ast_node *node, t_context *context,
 			char *(*heredoc_func)(const char *))
@@ -52,20 +62,18 @@ static int		sh_traverse_io_here_interactive(t_redirection **redirection,
 			heredoc_func, &ret)))
 		return (ret);
 	if (ret == CTRL_D)
-	{
-		ft_dprintf(2, "21sh: warning: here-document delimited by end of file "
-			"(wanted `%s\')\n", first_child->token->value);
-		if (sh_env_update_ret_value_and_question(context->shell, SH_RET_ERROR))
-			ret = FAILURE;
-	}
+		ret = sh_traverse_io_here_interactive_ctrl_d(first_child, context);
 	if (ret != FAILURE && pipe(fds))
 		ret = sh_perror(SH_ERR1_PIPE, "sh_traverse_io_here_end");
 	(*redirection)->type = INPUT;
 	(*redirection)->redirected_fd = context->redirected_fd;
-	(*redirection)->fd = fds[0];
-	ft_putstr_fd(heredoc_res, fds[1]);
+	if (ret != FAILURE)
+	{
+		(*redirection)->fd = fds[0];
+		ft_putstr_fd(heredoc_res, fds[1]);
+		close(fds[1]);
+	}
 	free(heredoc_res);
-	close(fds[1]);
 	return (ret);
 }
 

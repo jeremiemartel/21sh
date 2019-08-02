@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 15:59:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:44:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static int		sh_add_pipe_redirections(t_ast_node *from, t_ast_node *to)
 		return (sh_perror(SH_ERR1_PIPE, "add_pipe_redirections"));
 	redir.type = OUTPUT;
 	redir.redirected_fd = 1;
+	redir.closed = 0;
 	redir.fd = fds[PIPE_IN];
 	if (sh_add_redirection(redir,
 		&from->metadata.command_metadata.redirections))
 		return (FAILURE);
+	redir.closed = 0;
 	redir.type = INPUT;
 	redir.redirected_fd = 0;
 	redir.fd = fds[PIPE_OUT];
@@ -58,7 +60,6 @@ static int		sh_process_pipe_redirections(t_ast_node *node)
 	t_ast_node	*to;
 	int			ret;
 
-	ret = 0;
 	ptr = (t_list *)node->children;
 	from = NULL;
 	while (ptr != NULL)
@@ -88,9 +89,6 @@ static int		sh_traverse_pipe_sequences_redirections(t_ast_node *node,
 	while (ptr != NULL)
 	{
 		from = (t_ast_node *)(ptr->content);
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : launching : %s\n"
-			EOC, t_phase_name(context->phase), from->symbol->debug);
 		simple_command_node = from->children->content;
 		context->current_command_node = simple_command_node;
 		if ((ret = g_grammar[from->symbol->id].traverse(from, context)))
@@ -105,24 +103,17 @@ int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 {
 	int		ret;
 
+	if (sh_verbose_traverse())
+		ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : start\n"EOC,
+		t_phase_name(context->phase));
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
-	{
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : start\n"EOC,
-			t_phase_name(context->phase));
 		ret = sh_traverse_pipe_sequences_redirections(node, context);
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : returned value : %s\n"EOC,
-			t_phase_name(context->phase), ret_to_str(ret));
-		return (ret);
-	}
 	else if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
-	{
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : start\n"EOC,
-			t_phase_name(context->phase));
-		return (sh_traverse_pipe_sequence_execute(node, context));
-	}
+		ret = sh_traverse_pipe_sequence_execute(node, context);
 	else
-		return (sh_traverse_tools_browse(node, context));
+		ret = sh_traverse_tools_browse(node, context);
+	if (sh_verbose_traverse())
+		ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : returned value : %s\n"EOC,
+		t_phase_name(context->phase), ret_to_str(ret));
+	return (ret);
 }

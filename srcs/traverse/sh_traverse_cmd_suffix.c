@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/19 09:07:41 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 19:15:23 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int		sh_process_traverse_cmd_suffix(t_ast_node *child, t_context *context
 				return (sh_perror(SH_ERR1_MALLOC,
 							"sh_traverse_cmd_suffix"));
 	}
-	else if ((ret = g_grammar[child->symbol->id].
+	else if (child && child->symbol && (ret = g_grammar[child->symbol->id].
 				traverse(child, context)))
 		return (ret);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:55:07 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/08 21:23:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 17:18:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_binary	*sh_new_binary(char *path, char *name)
 	}
 	if (!(res->name = ft_strdup(name)))
 	{
-		free(res);
 		free(res->path);
+		free(res);
 		return (NULL);
 	}
 	return (res);

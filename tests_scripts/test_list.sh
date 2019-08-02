@@ -35,4 +35,15 @@ launch "Lists of commands"
 	test_launch 'cat <&nofile || echo $?'
 	test_launch 'cat <&nofile && echo $?'
 
+	launch "pipes in lists"
+	test_launch "echo ls -la | pwd ; echo 1>&- 11111 && echo 2222222 "
+	test_launch "cat nofile | pwd ; echo 1>&- 11111 && echo 2222222 "
+	test_launch "echo ls -la | okalmtamer ; echo 1>&- 11111 && echo 2222222 "
+	test_launch "okalmasd | okaldasd ; echo 1>&- 11111 && echo 2222222 "
+	test_launch "echo ls -la | pwd ; echo 1>&- 11111 && echo 2222222 "
+	test_launch "echo ls -la | pwd ; echo 2>&- 1>&- 11111 && echo 2222222 "
+	test_launch "echo ls -la | gfda ; echo 11111 && echo 2222222 "
+	test_launch "directtamere | asda ; echo 11111 && echo 2222222 "
+	test_launch "directtamere | ls -a ; echo 11111 && echo 2222222 "
+
 finish

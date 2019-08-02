@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hash_table_new.c                                :+:      :+:    :+:   */
+/*   sh_clipboard_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/10 11:59:44 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:17:01 by jmartel          ###   ########.fr       */
+/*   Created: 2019/07/31 15:45:26 by ldedier           #+#    #+#             */
+/*   Updated: 2019/07/31 15:48:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_hash_table	*ft_hash_table_new(unsigned long size)
+char	*refined_str(char *str)
 {
-	t_hash_table *res;
+	int		i;
+	int		len;
+	char	*res;
 
-	if (!(res = malloc(sizeof(t_hash_table))))
+	len = ft_strlen(str);
+	if (!(res = (char *)malloc(len + 1)))
 		return (NULL);
-	if (!(res->data = (t_list **)malloc(sizeof(t_list *) * size)))
+	i = 0;
+	while (i < len)
 	{
-		free(res);
-		return (NULL);
+		if (ft_isascii(str[i]))
+			res[i] = str[i];
+		else
+			res[i] = '?';
+		i++;
 	}
-	res->size = size;
-	ft_bzero(res->data, sizeof(t_list *) * size);
+	res[i] = '\0';
 	return (res);
 }

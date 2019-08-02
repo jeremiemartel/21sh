@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:49:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 07:04:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/31 18:58:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_action	**sh_create_tables(t_lr_parser *parser)
 	{
 		if (!(res[i] = (t_action *)malloc(nb_symbols * sizeof(t_action))))
 		{
-			while (--i)
+			while (i--)
 				free(res[i]);
 			free(res);
 			return (NULL);

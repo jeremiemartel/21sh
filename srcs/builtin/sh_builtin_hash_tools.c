@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 19:23:54 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 23:30:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/31 10:29:03 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int			sh_builtin_hash_add_utility(t_context *context, char *utility)
 		return (SUCCESS);
 	finder = ft_hash_table_find(
 		context->shell->binaries, utility, ft_hash_str, compare_str_to_binary);
-	ret = SUCCESS;
 	if (!finder.found)
 	{
 		if ((ret = t_context_init(&new_context, context->shell)))
