@@ -90,8 +90,11 @@ static int 		quote_expansion(char **input, int *index, char c, t_context *contex
 		if (c == '"' && (*input)[*index] == '$')
 		{
 			if ((ret = sh_expansions_process(input, *input + *index, context, index)) != SUCCESS)
+			{
 				if (sh_env_update_ret_value_and_question(context->shell, ret))
 					return (FAILURE);
+				return (ret);
+			}
 		}
 		else if (c == '"' && (*input)[*index] == '\\')
 			backslash(*input, index, 1);
@@ -107,8 +110,11 @@ static int 		unquote_expansion(char **input, int *index, t_context *context)
 	int 	ret;
 
 	if ((ret = sh_expansions_process(input, *input + *index, context, index)) != SUCCESS)
+	{
 		if (sh_env_update_ret_value_and_question(context->shell, ret))
 			return (FAILURE);
+		return (ret);
+	}
 	return (SUCCESS);
 }
 
@@ -175,8 +181,10 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 			// input, *input + index, context, &index)))
 			// break ;
 	if (ret != SUCCESS)
+	{
 		if (sh_env_update_ret_value_and_question(context->shell, ret))
 			return (FAILURE);
+	}
 	return (ret);
 }
 
