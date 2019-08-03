@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/08/01 08:33:27 by ldedier          ###   ########.fr        #
+#    Updated: 2019/08/03 17:41:45 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,9 +89,9 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						heredoc_tools.c free_command_line.c \
 						sh_delete_command.c sh_process_shift_vertical.c \
 						sh_process_shift_horizontal.c update_prompt_keys.c \
-						sh_process_quoted.c sh_clipboard.c \
+						sh_process_quoted.c \
 						sh_get_cursor_position.c sh_command_line_tools.c \
-						sh_clipboard_tools.c update_prompt_cwd.c
+						update_prompt_cwd.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/01 18:21:17 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/03 16:20:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,13 @@ int		process_key_insert_printable_utf8(t_key_buffer *buffer,
 int		process_keys_insert(t_key_buffer *buffer,
 		t_shell *shell, t_command_line *command_line)
 {
-	if (buffer->buff[0] != 10 && buffer->buff[0] != 9
-			&& (buffer->buff[0] != 27 || (buffer->buff[1] != 91
-				&& buffer->buff[1] != 79)
-					|| (buffer->buff[2] < 65 || buffer->buff[2] > 68)))
+	if ((buffer->progress == 1 &&
+		(buffer->buff[0] != 10 && buffer->buff[0] != 9
+		 	&& buffer->buff[0] != 27))
+		|| (buffer->progress == 2 &&
+			(buffer->buff[1] != 91 && buffer->buff[1] != 79))
+			|| (buffer->progress == 3 &&
+				(buffer->buff[2] < 65 || buffer->buff[2] > 68)))
 	{
 		command_line->autocompletion.head = NULL;
 		command_line->autocompletion.active = 0;
