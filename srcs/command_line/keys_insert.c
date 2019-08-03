@@ -54,7 +54,7 @@ int		process_keys_ret(t_key_buffer *buffer, t_shell *shell,
 
 	if (buffer->buff[0] == 10)
 	{
-		ft_printf(RED"ENTER\n"EOC);
+	//	ft_printf(RED"ENTER\n"EOC);
 		if (process_enter(command_line) == 0)
 			return (SUCCESS);
 	}

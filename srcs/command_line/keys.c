@@ -31,9 +31,9 @@ int		process_escape_sequence(t_shell *shell,
 			t_command_line *command_line, t_key_buffer *buffer)
 {
 	command_line->searcher.active = 0;
-	if (buffer->progress == 1)
-		return (process_escape(shell, command_line));
-	else if ((buffer->buff[1] == 91 || buffer->buff[1] == 79) && buffer->buff[2] == 67)
+//	if (buffer->progress == 1)
+//		return (process_escape(shell, command_line));
+	if ((buffer->buff[1] == 91 || buffer->buff[1] == 79) && buffer->buff[2] == 67)
 		process_right(shell, command_line);
 	else if ((buffer->buff[1] == 91 || buffer->buff[1] == 79) && buffer->buff[2] == 68)
 		process_left(shell, command_line);
@@ -110,9 +110,10 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	buffer.last_char_input = -1;
 	while (1)
 	{
+//		ft_printf("READING ON 0\n");
 		if (read(0, &buffer.buff[buffer.progress++], 1) < 0)
 			return (sh_perror(SH_ERR1_READ, "get_keys"));
-		sh_print_buffer(buffer);
+//		sh_print_buffer(buffer);
 		process_keys(&buffer, shell, command_line);
 		if (command_line->mode == E_MODE_INSERT)
 		{
@@ -125,5 +126,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		}
 		else if (process_keys_others(&buffer, shell, command_line) != SUCCESS)
 			return (FAILURE);
+		if (buffer.progress >= READ_BUFF_SIZE)
+			flush_keys(&buffer);
 	}
 }
