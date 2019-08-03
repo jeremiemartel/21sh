@@ -73,13 +73,6 @@ int		update_prompt(t_shell *shell, t_command_line *command_line)
 int		update_prompt_from_quote(t_shell *shell, t_command_line *command_line,
 			char quote, int backslash)
 {
-	// if (quote == '\'')
-	// 	command_line->context = E_CONTEXT_QUOTE;
-	// else if (quote == '\"')
-	// 	command_line->context = E_CONTEXT_DQUOTE;
-	// else if (quote == '\\')
-	// 	command_line->context = E_CONTEXT_BACKSLASH;
-	// return (update_prompt(shell, command_line));
 	if (backslash == 0)
 	{
 		if (quote == '\'')

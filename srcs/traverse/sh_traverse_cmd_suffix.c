@@ -12,13 +12,14 @@
 
 #include "sh_21.h"
 
-static int		sh_process_traverse_cmd_suffix(t_ast_node *child, t_context *context)
+static int	sh_process_traverse_cmd_suffix(
+	t_ast_node *child, t_context *context)
 {
 	int ret;
 
 	if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
 	{
-		if (child && child->token /*&& child->token->expansion*/)
+		if (child && child->token)
 			if ((ret = sh_expansions(context, child)) != SUCCESS)
 				return (ret);
 	}
@@ -35,7 +36,7 @@ static int		sh_process_traverse_cmd_suffix(t_ast_node *child, t_context *context
 	return (SUCCESS);
 }
 
-int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context)
+int			sh_traverse_cmd_suffix(t_ast_node *node, t_context *context)
 {
 	t_ast_node	*child;
 	t_list		*ptr;

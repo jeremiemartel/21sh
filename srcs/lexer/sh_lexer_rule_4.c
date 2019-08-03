@@ -14,7 +14,8 @@
 
 static int		lexer_quoting_backslash(t_lexer *lexer)
 {
-	if (lexer->c == '\\' && lexer->input[lexer->tok_start + lexer->tok_len + 1] == '\0')
+	if (lexer->c == '\\'
+		&& lexer->input[lexer->tok_start + lexer->tok_len + 1] == '\0')
 		ft_strdelchar(lexer->input, lexer->tok_start + lexer->tok_len);
 	if (lexer->current_id == LEX_TOK_UNKNOWN)
 		lexer->current_id = LEX_TOK_WORD;
@@ -29,7 +30,7 @@ static int		lexer_quoting_backslash(t_lexer *lexer)
 static int		lexer_quoting_start_quote(t_lexer *lexer)
 {
 	lexer->quoted = lexer->c;
-		lexer->tok_len++;
+	lexer->tok_len++;
 	if (lexer->current_id == LEX_TOK_UNKNOWN)
 		lexer->current_id = LEX_TOK_WORD;
 	return (LEX_OK);

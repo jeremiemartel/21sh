@@ -74,7 +74,7 @@ static int	sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 **		<0 : Lenght of the valid expansion detecteda
 */
 
-int		sh_expansions_tilde_detect(char *start)
+int			sh_expansions_tilde_detect(char *start)
 {
 	int		i;
 
@@ -98,7 +98,7 @@ int		sh_expansions_tilde_detect(char *start)
 **		SUCCESS : successfully filled expansion
 */
 
-int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
+int			sh_expansions_tilde_fill(t_expansion *exp, char *start)
 {
 	int		i;
 
@@ -125,7 +125,7 @@ int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 **		SUCCESS : Successfullly filled exp->res
 */
 
-int		sh_expansions_tilde_process(t_context *context, t_expansion *exp)
+int			sh_expansions_tilde_process(t_context *context, t_expansion *exp)
 {
 	if (!exp->original[1] || ft_iswhite(exp->original[1]))
 		return (sh_expansions_tilde_1(context, exp));

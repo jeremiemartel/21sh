@@ -19,7 +19,7 @@ int			sh_traverse_cmd_name(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
 	{
 		child = (t_ast_node *)node->children->content;
-		if (child && child->token /*&& child->token->expansion*/)
+		if (child && child->token)
 			return (sh_expansions(context, child));
 		return (SUCCESS);
 	}
