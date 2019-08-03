@@ -84,9 +84,9 @@ check_ret_value()
 	sh_ret=$((ret1 & 0xFF))
 	bash_ret=$((ret2 & 0xFF))
 
-	if [ "$sh_ret" -eq 11 -o "$sh_ret" -eq 10 ] ; then 
-		echo -e "${red}SEGFAULT${eoc}"
-		return 1
+	if [ "$sh_ret" -gt 130 -a "$sh_ret" -lt 200 ] ; then 
+		echo -e "${red}SEGFAULT OR SIGNAL RECEIVED"
+		echo -e "${sh_ret}${eoc}"
 	fi
 
 	if [ -n "$test_returned_values" ] ; then

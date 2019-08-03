@@ -53,6 +53,11 @@ launch "Lexer"
 	test_launch_pipe ./tests_files/lexer_11
 	test_launch_pipe ./tests_files/lexer_12
 	test_launch_pipe ./tests_files/lexer_13
+	test_launch_pipe ./tests_files/lexer_14
+	test_launch_pipe ./tests_files/lexer_15
+	test_launch_pipe ./tests_files/lexer_16
+	test_launch_pipe ./tests_files/lexer_17
+	test_launch_pipe ./tests_files/lexer_18
 
 	echo "ls \\" > file ; echo "-a" >>file
 	test_launch_pipe file
