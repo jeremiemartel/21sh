@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 10:29:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/05 21:49:41 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,10 @@ static int 		sh_scan_expansions(char **input, int index, t_context *context)
 **	then perform it, and finally replace original value by result.
 **
 **	Returned Values:
-**		FAILURE : malloc error, see ${?} or ${:?}
-**		ERROR : bad expansion detected, see ${?} or ${:?}
+**		FAILURE : malloc error
+**		ERROR : bad expansion detected
 **		SUCCESS : expansion successfuly replaced in
+**		STOP_CMD_LINE : ${?} or ${?:} expansions
 */
 
 int			sh_expansions(t_context *context, t_ast_node *node)
