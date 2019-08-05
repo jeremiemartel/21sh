@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/05 21:49:41 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/05 22:37:25 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int 		quote_expansion(char **input, int *index, char c, t_context *contex
 {
 	int 	ret;
 
-	ft_strcpy(*input + *index, *input + *index + 1);
+	ft_strdelchar(*input + *index, *input + *index + 1);
 	while ((*input)[*index] != c)
 	{
 		if (c == '"' && (*input)[*index] == '$')
