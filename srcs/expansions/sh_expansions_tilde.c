@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:56:29 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/05 21:39:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/05 22:09:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	sh_expansions_tilde_1(t_context *context, t_expansion *exp)
 	char	*home;
 
 	if (!(home = sh_vars_get_value(context->env, NULL, "HOME")))
-		return (sh_perror(SH_ERR1_ENV_NOT_SET, "HOME"));
+		return (sh_perror_err(SH_ERR1_ENV_NOT_SET, "HOME"));
 	if (!(exp->res = (t_dy_str *)malloc(sizeof(t_dy_str))))
 		return (sh_perror(SH_ERR1_MALLOC, "sh_expansions_tilde_1 (1)"));
 	if (!(exp->res->str = ft_strrep_pattern_free(exp->original, home, "~", 0)))
