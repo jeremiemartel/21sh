@@ -148,14 +148,21 @@ int					is_utf8_len_4(unsigned char *buffer);
 int					is_printable_utf8(unsigned char *buffer, int nb_bytes);
 
 /*
-** heredoc_tools.c
+** update_prompt_cwd.c
 */
-int					refine_heredoc(char *str);
-int					heredoc_ret(
-	t_shell *shell, t_command_line *command_line, int ret);
-char				*heredoc_ret_str(
-	t_shell *shell, t_command_line *command_line, char *str);
-int					append_to_str(char **str, char *to_append);
+int					update_prompt_from_absolute_path(
+	char *cwd, char **new_prompt);
+int					update_prompt_cwd_bonus_tilde(
+	t_shell *shell, char **new_prompt, char *cwd, int *returned);
+int					update_prompt_cwd(t_shell *shell, char **new_prompt);
+
+/*
+** keys_ctrl.c
+*/
+int					process_ctrl_c(
+	t_shell *shell, t_command_line *command_line);
+int					process_ctrl_d(
+	t_shell *shell, t_command_line *command_line);
 
 /*
 ** sh_delete_command.c
@@ -215,9 +222,11 @@ int					sh_get_cursor_position(int *x, int *y);
 /*
 ** keys_insert.c
 */
-int					process_enter_no_autocompletion(
-	t_command_line *command_line);
 int					process_enter(t_command_line *command_line);
+int					process_process_keys_ret(
+	t_key_buffer *buffer,
+	t_shell *shell,
+	t_command_line *command_line);
 int					process_keys_ret(
 	t_key_buffer *buffer,
 	t_shell *shell,
@@ -232,22 +241,35 @@ int					process_keys_insert(
 	t_command_line *command_line);
 
 /*
-** keys.c
+** keys_debug.c
 */
 void				sh_print_buffer(t_key_buffer buffer);
+
+/*
+** keys_flush.c
+*/
+void				flush_keys(t_key_buffer *buffer);
+int					flush_keys_ret(t_key_buffer *buffer, int ret);
+int					should_flush_buffer(
+	t_key_buffer buffer, t_command_line *command_line);
+
+/*
+** keys.c
+*/
 int					process_escape_sequence(
 	t_shell *shell,
 	t_command_line *command_line,
 	t_key_buffer *buffer);
-void				process_shift(
+int					process_shift(
 	t_key_buffer *buffer, t_command_line *command_line);
 int					process_keys(
 	t_key_buffer *buffer,
 	t_shell *shell,
 	t_command_line *command_line);
-void				flush_keys(t_key_buffer *buffer);
-int					flush_keys_ret(t_key_buffer *buffer, int ret);
-int					should_flush_buffer(t_key_buffer buffer);
+int					process_get_keys(
+	t_key_buffer *buffer,
+	t_shell *shell,
+	t_command_line *command_line);
 int					get_keys(t_shell *shell, t_command_line *command_line);
 
 /*
@@ -324,11 +346,10 @@ int					process_v(
 	t_key_buffer *buffer);
 
 /*
-** selection.c
+** eof_percent.c
 */
-void				populate_min_max_selection(
-	t_command_line *command_line, int *min, int *max);
-void				render_command_visual(t_command_line *command_line);
+void				print_eof_delimiter(void);
+int					sh_add_eof(int interrupted);
 
 /*
 ** cursor_tools.c
@@ -342,14 +363,6 @@ int					process_clear(t_command_line *command_line);
 /*
 ** keys_others.c
 */
-int					process_keys_command(
-	t_key_buffer *buffer,
-	t_shell *shell,
-	t_command_line *command_line);
-int					process_keys_visual(
-	t_key_buffer *buffer,
-	t_shell *shell,
-	t_command_line *command_line);
 int					process_keys_others(
 	t_key_buffer *buffer,
 	t_shell *shell,
@@ -365,14 +378,6 @@ int					process_up(
 int					process_left(
 	t_shell *shell, t_command_line *command_line);
 int					process_right(
-	t_shell *shell, t_command_line *command_line);
-
-/*
-** keys_ctrl.c
-*/
-int					process_ctrl_c(
-	t_shell *shell, t_command_line *command_line);
-int					process_ctrl_d(
 	t_shell *shell, t_command_line *command_line);
 
 /*
@@ -396,19 +401,38 @@ int					delete_command_line_selection(
 	t_command_line *command_line);
 
 /*
+** keys_insert_tools.c
+*/
+int					process_enter_no_autocompletion(
+	t_command_line *command_line);
+void				cancel_autocompletion(
+	t_key_buffer *buffer, t_command_line *command_line);
+
+/*
 ** sh_process_shift_vertical.c
 */
 int					process_shift_up(t_command_line *command_line);
 int					process_shift_down(t_command_line *command_line);
 
 /*
-** update_prompt_cwd.c
+** utf8_tools.c
 */
-int					update_prompt_from_absolute_path(
-	char *cwd, char **new_prompt);
-int					update_prompt_cwd_bonus_tilde(
-	t_shell *shell, char **new_prompt, char *cwd, int *returned);
-int					update_prompt_cwd(t_shell *shell, char **new_prompt);
+int					ft_strlen_utf8(char *str);
+int					ft_strnlen_utf8(char *str, int n);
+int					get_left_w_char_index_dy_str(
+	t_dy_str *dy_str, int index);
+int					get_left_w_char_index(t_command_line *command_line);
+int					get_right_w_char_index(t_command_line *command_line);
+
+/*
+** heredoc_tools.c
+*/
+int					refine_heredoc(char *str);
+int					heredoc_ret(
+	t_shell *shell, t_command_line *command_line, int ret);
+char				*heredoc_ret_str(
+	t_shell *shell, t_command_line *command_line, char *str);
+int					append_to_str(char **str, char *to_append);
 
 /*
 ** update_prompt.c
@@ -429,20 +453,11 @@ int					process_historic_up(
 	t_shell *shell, t_command_line *command_line);
 
 /*
-** sh_command_line_tools.c
+** selection.c
 */
-void				print_eof_delimiter(void);
-int					sh_add_eof(int interrupted);
-
-/*
-** utf8_tools.c
-*/
-int					ft_strlen_utf8(char *str);
-int					ft_strnlen_utf8(char *str, int n);
-int					get_left_w_char_index_dy_str(
-	t_dy_str *dy_str, int index);
-int					get_left_w_char_index(t_command_line *command_line);
-int					get_right_w_char_index(t_command_line *command_line);
+void				populate_min_max_selection(
+	t_command_line *command_line, int *min, int *max);
+void				render_command_visual(t_command_line *command_line);
 
 /*
 ** edit_command.c

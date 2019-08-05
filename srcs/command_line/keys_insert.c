@@ -6,21 +6,11 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:17:03 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/03 16:20:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/05 15:10:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
-
-int		process_enter_no_autocompletion(t_command_line *command_line)
-{
-	command_line->autocompletion.active = 0;
-	command_line->searcher.active = 0;
-	render_command_line(command_line, 0, 0);
-	get_down_from_command(command_line);
-	command_line->dy_str->current_size = 0;
-	return (0);
-}
 
 int		process_enter(t_command_line *command_line)
 {
@@ -37,24 +27,13 @@ int		process_enter(t_command_line *command_line)
 	return (1);
 }
 
-/*
-** Plus jamais
-**
-**	else if (buffer->buff[0] == 16)
-**	{
-**		if ((ret = process_clipboard_shell(shell, command_line)))
-**			return (ret);
-**	}
-*/
-
-int		process_keys_ret(t_key_buffer *buffer, t_shell *shell,
-			t_command_line *command_line)
+int		process_process_keys_ret(t_key_buffer *buffer,
+			t_shell *shell, t_command_line *command_line)
 {
 	int ret;
 
 	if (buffer->buff[0] == 10)
 	{
-	//	ft_printf(RED"ENTER\n"EOC);
 		if (process_enter(command_line) == 0)
 			return (SUCCESS);
 	}
@@ -74,6 +53,17 @@ int		process_keys_ret(t_key_buffer *buffer, t_shell *shell,
 		ret = (process_ctrl_c(shell, command_line));
 		return (flush_keys_ret(buffer, ret));
 	}
+	return (KEEP_READ);
+}
+
+int		process_keys_ret(t_key_buffer *buffer, t_shell *shell,
+			t_command_line *command_line)
+{
+	int ret;
+
+	if ((ret = process_process_keys_ret(buffer, shell, command_line))
+		!= KEEP_READ)
+		return (ret);
 	else
 		return (KEEP_READ);
 	flush_keys(buffer);
@@ -81,7 +71,7 @@ int		process_keys_ret(t_key_buffer *buffer, t_shell *shell,
 }
 
 int		process_key_insert_printable_utf8(t_key_buffer *buffer,
-		t_shell *shell, t_command_line *command_line)
+			t_shell *shell, t_command_line *command_line)
 {
 	unsigned char c;
 
@@ -108,17 +98,7 @@ int		process_key_insert_printable_utf8(t_key_buffer *buffer,
 int		process_keys_insert(t_key_buffer *buffer,
 		t_shell *shell, t_command_line *command_line)
 {
-	if ((buffer->progress == 1 &&
-		(buffer->buff[0] != 10 && buffer->buff[0] != 9
-		 	&& buffer->buff[0] != 27))
-		|| (buffer->progress == 2 &&
-			(buffer->buff[1] != 91 && buffer->buff[1] != 79))
-			|| (buffer->progress == 3 &&
-				(buffer->buff[2] < 65 || buffer->buff[2] > 68)))
-	{
-		command_line->autocompletion.head = NULL;
-		command_line->autocompletion.active = 0;
-	}
+	cancel_autocompletion(buffer, command_line);
 	if (is_printable_utf8(buffer->buff, buffer->progress))
 	{
 		if (process_key_insert_printable_utf8(buffer,

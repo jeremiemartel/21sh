@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:31:34 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/03 13:33:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/05 15:37:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		reset_command_line(t_shell *shell, t_command_line *command_line)
 
 int		sh_get_command(t_shell *shell, t_command_line *command_line)
 {
-//	sh_add_eof(command_line->interrupted);
+	sh_add_eof(command_line->interrupted);
 	command_line->interrupted = 0;
 	if (reset_command_line(shell, command_line) == FAILURE)
 		return (FAILURE);

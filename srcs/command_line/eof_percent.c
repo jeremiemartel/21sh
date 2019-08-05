@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_command_line_tools.c                            :+:      :+:    :+:   */
+/*   eof_percent.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/19 09:50:22 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 15:45:00 by ldedier          ###   ########.fr       */
+/*   Created: 2019/08/05 15:25:49 by ldedier           #+#    #+#             */
+/*   Updated: 2019/08/05 15:42:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,22 @@ void	print_eof_delimiter(void)
 
 int		sh_add_eof(int interrupted)
 {
-	int x;
+	int		i;
+	char	*res;
 
-	if (!interrupted && 1)
+	if (!interrupted)
 	{
-		if (sh_get_cursor_position(&x, NULL) != SUCCESS)
-			return (FAILURE);
-		else if (x != 1)
+		print_eof_delimiter();
+		i = 0;
+		while (i < g_glob.winsize.ws_col - 1)
 		{
-			print_eof_delimiter();
-			ft_dprintf(1, "\n");
+			ft_dprintf(0, " ");
+			i++;
 		}
+		res = tgetstr("cr", NULL);
+		tputs(res, 1, putchar_int);
+		res = tgetstr("ce", NULL);
+		tputs(res, 1, putchar_int);
 	}
 	return (SUCCESS);
 }

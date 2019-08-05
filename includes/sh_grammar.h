@@ -65,11 +65,14 @@ t_grammar_holder	g_grammar[NB_SYMBOLS];
 */
 
 /*
-** debug.c
+** first_sets.c
 */
-void				sh_print_symbol(t_symbol *symbol);
-void				sh_print_token(t_token *token, t_cfg *cfg);
-void				sh_print_token_list(t_list *list, t_cfg *cfg);
+int					sh_add_to_first_sets_by_prod(
+	t_symbol *symbol, t_production *production, int *changes);
+int					sh_add_to_first_sets(t_symbol *symbol);
+int					sh_process_first_sets(t_cfg *cfg);
+void				sh_init_process_first_sets(t_symbol *symbol);
+int					sh_compute_first_sets(t_cfg *cfg);
 
 /*
 ** first_sets_tools.c
@@ -86,13 +89,10 @@ void				init_symbol(t_symbol *symbol, int index);
 int					init_context_free_grammar(t_cfg *cfg);
 
 /*
-** first_sets.c
+** debug.c
 */
-int					sh_add_to_first_sets_by_prod(
-	t_symbol *symbol, t_production *production, int *changes);
-int					sh_add_to_first_sets(t_symbol *symbol);
-int					sh_process_first_sets(t_cfg *cfg);
-void				sh_init_process_first_sets(t_symbol *symbol);
-int					sh_compute_first_sets(t_cfg *cfg);
+void				sh_print_symbol(t_symbol *symbol);
+void				sh_print_token(t_token *token, t_cfg *cfg);
+void				sh_print_token_list(t_list *list, t_cfg *cfg);
 
 #endif

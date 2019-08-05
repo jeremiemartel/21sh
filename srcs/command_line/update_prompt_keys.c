@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 02:49:01 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/27 15:54:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/05 14:17:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		process_escape(t_shell *shell, t_command_line *command_line)
 {
 	command_line->autocompletion.active = 0;
 	command_line->autocompletion.head = NULL;
+	command_line->searcher.active = 0;
 	command_line->mode = E_MODE_COMMAND;
 	if (update_prompt(shell, command_line))
 		return (FAILURE);
