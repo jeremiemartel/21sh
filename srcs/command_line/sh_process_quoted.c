@@ -40,14 +40,14 @@ int		sh_process_quoted(t_lexer *lexer)
 
 	old_context = g_glob.command_line.context;
 	if (update_prompt_from_quote(lexer->shell, &g_glob.command_line,
-			lexer->quoted) != SUCCESS)
+			lexer->quoted, lexer->backslash) != SUCCESS)
 		return (LEX_FAIL);
-	if (lexer->quoted == '\"' || lexer->quoted == '\'')
+	if (!lexer->backslash && (lexer->quoted == '\"' || lexer->quoted == '\''))
 	{
 		if (!(lexer->input = ft_strjoin_free(lexer->input, "\n", 1)))
 			return (LEX_FAIL);
 	}
-	else
+	else if (!lexer->backslash)
 		lexer->quoted = 0;
 	return (sh_process_process_quoted(old_context, lexer));
 }

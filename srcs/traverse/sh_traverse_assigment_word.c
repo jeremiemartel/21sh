@@ -19,7 +19,7 @@ int		sh_traverse_assigment_word(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
 	{
 		ret = SUCCESS;
-		if (node && node->token && node->token->expansion)
+		if (node && node->token /*&& node->token->expansion*/)
 			ret = sh_expansions(context, node);
 		if (!ret && node && node->token && node->token->value
 				&& ft_strnstr(node->token->value, "PATH=", 5))

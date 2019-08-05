@@ -56,7 +56,7 @@ int			sh_lexer_rule1(t_lexer *lexer)
 {
 	if (lexer->c == '\0')
 	{
-		if (lexer->quoted > 0)
+		if (lexer->quoted > 0 || lexer->backslash)
 		{
 			if (!isatty(0))
 				return (sh_lexer_rule1_process_quoted(lexer));

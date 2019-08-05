@@ -20,8 +20,10 @@ int		sh_process_command(t_shell *shell, char *command)
 	sh_verbose_update(shell);
 	ret = 0;
 	if (!ret && (ret = sh_lexer(command, &tokens, shell)) != SUCCESS)
+	{
 		if (sh_env_update_ret_value_and_question(shell, ret) == FAILURE)
 			ret = FAILURE;
+	}
 	if (!ret && (ret = sh_parser(tokens, shell)))
 		if (sh_env_update_ret_value_and_question(shell, ret) == FAILURE)
 			ret = FAILURE;
