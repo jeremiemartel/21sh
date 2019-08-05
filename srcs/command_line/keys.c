@@ -31,8 +31,6 @@ int		process_escape_sequence(t_shell *shell,
 			t_command_line *command_line, t_key_buffer *buffer)
 {
 	command_line->searcher.active = 0;
-//	if (buffer->progress == 1)
-//		return (process_escape(shell, command_line));
 	if ((buffer->buff[1] == 91 || buffer->buff[1] == 79) && buffer->buff[2] == 67)
 		process_right(shell, command_line);
 	else if ((buffer->buff[1] == 91 || buffer->buff[1] == 79) && buffer->buff[2] == 68)
@@ -75,6 +73,8 @@ void	process_shift(t_key_buffer *buffer, t_command_line *command_line)
 int		process_keys(t_key_buffer *buffer, t_shell *shell,
 			t_command_line *command_line)
 {
+	if (buffer->buff[0] == 0)
+		return (process_escape(shell, command_line));
 	if (buffer->buff[0] == 27)
 		return (process_escape_sequence(shell, command_line, buffer));
 	else if (buffer->buff[0] == 12)
@@ -93,9 +93,12 @@ int		process_keys(t_key_buffer *buffer, t_shell *shell,
 
 void	flush_keys(t_key_buffer *buffer)
 {
-	buffer->last_char_input = buffer->buff[0];
-	ft_bzero(buffer->buff, READ_BUFF_SIZE);
-	buffer->progress = 0;
+	if (buffer->progress)
+	{
+		buffer->last_char_input = buffer->buff[0];
+		ft_bzero(buffer->buff, READ_BUFF_SIZE);
+		buffer->progress = 0;
+	}
 }
 
 int		flush_keys_ret(t_key_buffer *buffer, int ret)
@@ -132,7 +135,7 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 	{
 		if (read(0, &buffer.buff[buffer.progress++], 1) < 0)
 			return (sh_perror(SH_ERR1_READ, "get_keys"));
-//		sh_print_buffer(buffer);
+		//sh_print_buffer(buffer);//PRINT BUFFER
 		process_keys(&buffer, shell, command_line);
 		if (command_line->mode == E_MODE_INSERT)
 		{
@@ -145,7 +148,11 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 		}
 		else if (process_keys_others(&buffer, shell, command_line) != SUCCESS)
 			return (FAILURE);
-		if (buffer.progress >= READ_BUFF_SIZE || should_flush_buffer(buffer))
+		if (buffer.progress >= READ_BUFF_SIZE
+			|| (buffer.progress && should_flush_buffer(buffer)))
+		{
+			ft_printf(RED"SHOULD FLUSH"EOC);
 			flush_keys(&buffer);
+		}
 	}
 }

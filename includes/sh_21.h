@@ -153,13 +153,10 @@ struct				s_shell
 */
 
 /*
-** free_all.c
+** init_term.c
 */
-void				sh_free_binary(t_binary *binary);
-void				sh_free_binary_lst(void *b, size_t dummy);
-void				free_file(t_file *file);
-void				free_file_dlst(void *f, size_t dummy);
-void				sh_free_all(t_shell *shell);
+int					sh_init_terminal_database(char **env);
+int					sh_init_terminal(t_shell *shell, char **env);
 
 /*
 ** index.c
@@ -183,20 +180,6 @@ char				**get_operations(void);
 int					sh_check_term(void);
 
 /*
-** shell_tools.c
-*/
-int					putchar_int(int i);
-int					sh_reset_shell(int ret);
-int					sh_set_shell_back(int ret);
-int					clear_all(void);
-
-/*
-** set_signals.c
-*/
-void				reset_signals(void);
-void				init_signals(void);
-
-/*
 ** init.c
 */
 char				*refine_historic_entry(char *entry);
@@ -206,6 +189,29 @@ int					sh_init_historic(t_historic *historic);
 int					sh_init_command_line(
 	t_shell *shell, t_command_line *command_line);
 int					sh_init_shell(t_shell *shell, char **env);
+
+/*
+** shell_tools.c
+*/
+int					putchar_int(int i);
+int					sh_reset_shell(int ret);
+int					sh_set_shell_back(int ret);
+int					clear_all(void);
+
+/*
+** free_all.c
+*/
+void				sh_free_binary(t_binary *binary);
+void				sh_free_binary_lst(void *b, size_t dummy);
+void				free_file(t_file *file);
+void				free_file_dlst(void *f, size_t dummy);
+void				sh_free_all(t_shell *shell);
+
+/*
+** set_signals.c
+*/
+void				reset_signals(void);
+void				init_signals(void);
 
 /*
 ** canonical_mode.c
@@ -220,21 +226,6 @@ int					get_file_in_dir(char *filename, char *dirname);
 int					get_path_from_absolute_path(char *str, char **path);
 int					get_path_and_file_from_str(
 	char *str, char **path, char **file);
-
-/*
-** signals.c
-*/
-void				transmit_sig_no_motion(int signal);
-void				transmit_sig_and_die(int signal);
-void				default_sig_bonus(int sgnl);
-void				default_sig(int sgnl);
-void				handle_resize(int signal);
-
-/*
-** init_term.c
-*/
-int					sh_init_terminal_database(char **env);
-int					sh_init_terminal(t_shell *shell, char **env);
 
 /*
 ** home.c
@@ -271,5 +262,14 @@ void				transmit_sig(int signal);
 void				transmit_sig_and_exit(int signal);
 void				handle_stp(int sgnl);
 void				handle_cont(int sgnl);
+
+/*
+** signals.c
+*/
+void				transmit_sig_no_motion(int signal);
+void				transmit_sig_and_die(int signal);
+void				default_sig_bonus(int sgnl);
+void				default_sig(int sgnl);
+void				handle_resize(int signal);
 
 #endif

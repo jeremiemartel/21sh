@@ -58,16 +58,11 @@ char	*heredoc_canonical_mode(
 	t_shell *shell, char *eof, char *(*heredoc_func)(const char *), int *ret);
 
 /*
-** sh_traverse_simple_command.c
+** sh_traverse_cmd_suffix.c
 */
-int		sh_process_traverse_simple_command_exec(
-	t_context *context, int *ret);
-int		sh_traverse_simple_command_exec(
-	t_ast_node *node, t_context *context);
-int		sh_traverse_simple_command_no_exec(
-	t_ast_node *node, t_context *context);
-int		sh_traverse_simple_command(t_ast_node *node, t_context *context);
-int		sh_traverse_sc_no_slash_cmd(t_context *context);
+int		sh_process_traverse_cmd_suffix(
+	t_ast_node *child, t_context *context);
+int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_io_file.c
@@ -82,11 +77,21 @@ int		sh_traverse_io_file(t_ast_node *node, t_context *context);
 int		sh_traverse_default(t_ast_node *node, t_context *context);
 
 /*
-** sh_traverse_cmd_suffix.c
+** sh_traverse_cmd_name.c
 */
-int		sh_process_traverse_cmd_suffix(
-	t_ast_node *child, t_context *context);
-int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context);
+int		sh_traverse_cmd_name(t_ast_node *node, t_context *context);
+
+/*
+** sh_traverse_simple_command.c
+*/
+int		sh_process_traverse_simple_command_exec(
+	t_context *context, int *ret);
+int		sh_traverse_simple_command_exec(
+	t_ast_node *node, t_context *context);
+int		sh_traverse_simple_command_no_exec(
+	t_ast_node *node, t_context *context);
+int		sh_traverse_simple_command(t_ast_node *node, t_context *context);
+int		sh_traverse_sc_no_slash_cmd(t_context *context);
 
 /*
 ** sh_traverse_assigment_word.c
@@ -94,21 +99,14 @@ int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context);
 int		sh_traverse_assigment_word(t_ast_node *node, t_context *context);
 
 /*
-** sh_traverse_simple_command_check_perm.c
+** sh_traverse_dgreat.c
 */
-int		sh_traverse_sc_check_perm_quiet(char *path);
-int		sh_traverse_sc_check_perm(
-	t_context *context, char *path, char *command_name);
+int		sh_traverse_dgreat(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_io_redirect.c
 */
 int		sh_traverse_io_redirect(t_ast_node *node, t_context *context);
-
-/*
-** sh_traverse_cmd_name.c
-*/
-int		sh_traverse_cmd_name(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_io_file_tools.c
@@ -132,9 +130,11 @@ int		sh_traverse_and_or_launch_phase(
 int		sh_traverse_and_or(t_ast_node *node, t_context *context);
 
 /*
-** sh_traverse_dgreat.c
+** sh_traverse_simple_command_check_perm.c
 */
-int		sh_traverse_dgreat(t_ast_node *node, t_context *context);
+int		sh_traverse_sc_check_perm_quiet(char *path);
+int		sh_traverse_sc_check_perm(
+	t_context *context, char *path, char *command_name);
 
 /*
 ** sh_traverse_pipe_sequence.c

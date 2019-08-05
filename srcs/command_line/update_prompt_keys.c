@@ -15,7 +15,7 @@
 int		update_prompt_cwd_home(char **new_prompt)
 {
 	if (!(*new_prompt = ft_strjoin_free(*new_prompt, "~", 1)))
-		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd (6)"));
+		return (sh_perror(SH_ERR1_MALLOC, "update_prompt_cwd_home"));
 	return (SUCCESS);
 }
 
@@ -30,21 +30,25 @@ int		process_escape(t_shell *shell, t_command_line *command_line)
 	return (SUCCESS);
 }
 
-int		process_i(t_shell *shell, t_command_line *command_line)
+int		process_i(t_shell *shell, t_command_line *command_line,
+			t_key_buffer *buffer)
 {
 	command_line->mode = E_MODE_INSERT;
 	if (update_prompt(shell, command_line))
 		return (FAILURE);
 	render_command_line(command_line, 0, 1);
+	flush_keys(buffer);
 	return (SUCCESS);
 }
 
-int		process_v(t_shell *shell, t_command_line *command_line)
+int		process_v(t_shell *shell, t_command_line *command_line,
+			t_key_buffer *buffer)
 {
 	command_line->mode = E_MODE_VISUAL;
 	command_line->pinned_index = command_line->current_index;
 	if (update_prompt(shell, command_line))
 		return (FAILURE);
 	render_command_line(command_line, 0, 1);
+	flush_keys(buffer);
 	return (SUCCESS);
 }

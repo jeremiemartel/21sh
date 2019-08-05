@@ -148,21 +148,14 @@ int					is_utf8_len_4(unsigned char *buffer);
 int					is_printable_utf8(unsigned char *buffer, int nb_bytes);
 
 /*
-** update_prompt_cwd.c
+** heredoc_tools.c
 */
-int					update_prompt_from_absolute_path(
-	char *cwd, char **new_prompt);
-int					update_prompt_cwd_bonus_tilde(
-	t_shell *shell, char **new_prompt, char *cwd, int *returned);
-int					update_prompt_cwd(t_shell *shell, char **new_prompt);
-
-/*
-** keys_ctrl.c
-*/
-int					process_ctrl_c(
-	t_shell *shell, t_command_line *command_line);
-int					process_ctrl_d(
-	t_shell *shell, t_command_line *command_line);
+int					refine_heredoc(char *str);
+int					heredoc_ret(
+	t_shell *shell, t_command_line *command_line, int ret);
+char				*heredoc_ret_str(
+	t_shell *shell, t_command_line *command_line, char *str);
+int					append_to_str(char **str, char *to_append);
 
 /*
 ** sh_delete_command.c
@@ -173,19 +166,6 @@ void				process_process_delete(t_command_line *command_line);
 void				process_delete(
 	t_command_line *command_line, t_shell *shell);
 void				process_suppr(t_command_line *command_line);
-
-/*
-** sh_clipboard.c
-*/
-int					process_clipboard_line_nl(
-	t_shell *shell, t_command_line *command_line, char *str);
-int					process_clipboard_line(
-	t_shell *shell, t_command_line *command_line, t_gnl_info *info);
-int					process_clipboard_from_fd(
-	t_shell *shell, int fd, t_command_line *command_line);
-int					process_clipboard_son(int fds[2], char *pbpaste_path);
-int					process_clipboard_shell(
-	t_shell *shell, t_command_line *command_line);
 
 /*
 ** render_research.c
@@ -267,6 +247,7 @@ int					process_keys(
 	t_command_line *command_line);
 void				flush_keys(t_key_buffer *buffer);
 int					flush_keys_ret(t_key_buffer *buffer, int ret);
+int					should_flush_buffer(t_key_buffer buffer);
 int					get_keys(t_shell *shell, t_command_line *command_line);
 
 /*
@@ -334,19 +315,20 @@ int					update_prompt_cwd_home(char **new_prompt);
 int					process_escape(
 	t_shell *shell, t_command_line *command_line);
 int					process_i(
-	t_shell *shell, t_command_line *command_line);
+	t_shell *shell,
+	t_command_line *command_line,
+	t_key_buffer *buffer);
 int					process_v(
-	t_shell *shell, t_command_line *command_line);
+	t_shell *shell,
+	t_command_line *command_line,
+	t_key_buffer *buffer);
 
 /*
-** utf8_tools.c
+** selection.c
 */
-int					ft_strlen_utf8(char *str);
-int					ft_strnlen_utf8(char *str, int n);
-int					get_left_w_char_index_dy_str(
-	t_dy_str *dy_str, int index);
-int					get_left_w_char_index(t_command_line *command_line);
-int					get_right_w_char_index(t_command_line *command_line);
+void				populate_min_max_selection(
+	t_command_line *command_line, int *min, int *max);
+void				render_command_visual(t_command_line *command_line);
 
 /*
 ** cursor_tools.c
@@ -386,9 +368,12 @@ int					process_right(
 	t_shell *shell, t_command_line *command_line);
 
 /*
-** sh_clipboard_tools.c
+** keys_ctrl.c
 */
-char				*refined_str(char *str);
+int					process_ctrl_c(
+	t_shell *shell, t_command_line *command_line);
+int					process_ctrl_d(
+	t_shell *shell, t_command_line *command_line);
 
 /*
 ** update_prompt_tools.c
@@ -417,14 +402,13 @@ int					process_shift_up(t_command_line *command_line);
 int					process_shift_down(t_command_line *command_line);
 
 /*
-** heredoc_tools.c
+** update_prompt_cwd.c
 */
-int					refine_heredoc(char *str);
-int					heredoc_ret(
-	t_shell *shell, t_command_line *command_line, int ret);
-char				*heredoc_ret_str(
-	t_shell *shell, t_command_line *command_line, char *str);
-int					append_to_str(char **str, char *to_append);
+int					update_prompt_from_absolute_path(
+	char *cwd, char **new_prompt);
+int					update_prompt_cwd_bonus_tilde(
+	t_shell *shell, char **new_prompt, char *cwd, int *returned);
+int					update_prompt_cwd(t_shell *shell, char **new_prompt);
 
 /*
 ** update_prompt.c
@@ -451,11 +435,14 @@ void				print_eof_delimiter(void);
 int					sh_add_eof(int interrupted);
 
 /*
-** selection.c
+** utf8_tools.c
 */
-void				populate_min_max_selection(
-	t_command_line *command_line, int *min, int *max);
-void				render_command_visual(t_command_line *command_line);
+int					ft_strlen_utf8(char *str);
+int					ft_strnlen_utf8(char *str, int n);
+int					get_left_w_char_index_dy_str(
+	t_dy_str *dy_str, int index);
+int					get_left_w_char_index(t_command_line *command_line);
+int					get_right_w_char_index(t_command_line *command_line);
 
 /*
 ** edit_command.c

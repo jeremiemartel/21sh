@@ -106,11 +106,6 @@ int					sh_lexer_rule2(t_lexer *lexer);
 int					sh_lexer_rule7(t_lexer *lexer);
 
 /*
-** sh_lexer_rule_tools.c
-*/
-int					sh_lexer_is_operator(int op);
-
-/*
 ** sh_lexer_rule_6.c
 */
 int					sh_lexer_rule6(t_lexer *lexer);
@@ -127,15 +122,20 @@ int					sh_lexer_rule8_assignment(t_lexer *lexer);
 int					sh_lexer_rule8(t_lexer *lexer);
 
 /*
-** sh_lexer_rule_1.c
+** sh_lexer_rule_tools.c
 */
-int					sh_lexer_rule1(t_lexer *lexer);
+int					sh_lexer_is_operator(int op);
 
 /*
 ** t_token_show.c
 */
 void				t_token_show(t_token *token);
 void				t_token_show_id(int i);
+
+/*
+** sh_lexer_rule_1.c
+*/
+int					sh_lexer_rule1(t_lexer *lexer);
 
 /*
 ** sh_lexer_rule_5.c

@@ -16,11 +16,15 @@ int		process_keys_command(t_key_buffer *buffer, t_shell *shell,
 			t_command_line *command_line)
 {
 	if (buffer->buff[0] == 'p')
-		return (paste_current_index(command_line, command_line->clipboard));
+	{
+		if (paste_current_index(command_line, command_line->clipboard) != SUCCESS)
+			return (FAILURE);
+		flush_keys(buffer);
+	}
 	else if (buffer->buff[0] == 'i')
-		return (process_i(shell, command_line));
+		return (process_i(shell, command_line, buffer));
 	else if (buffer->buff[0] == 'v')
-		return (process_v(shell, command_line));
+		return (process_v(shell, command_line, buffer));
 	else if (buffer->buff[0] == 'd' && buffer->last_char_input == 'd'
 		&& command_line->dy_str->current_size)
 	{
@@ -28,9 +32,15 @@ int		process_keys_command(t_key_buffer *buffer, t_shell *shell,
 			return (FAILURE);
 		flush_command_line(command_line);
 		render_command_line(command_line, -g_glob.cursor, 1);
+		flush_keys(buffer);
 	}
 	else if (buffer->buff[0] == 'y' && buffer->last_char_input == 'y')
-		return (command_line_copy_all(command_line));
+	{
+		if (command_line_copy_all(command_line) != SUCCESS)
+			return (FAILURE);
+		flush_keys(buffer);
+	}
+	flush_command_line(command_line);
 	return (SUCCESS);
 }
 
@@ -56,6 +66,8 @@ int		process_keys_visual(t_key_buffer *buffer, t_shell *shell,
 		render_command_line(command_line, 0, 1);
 		flush_keys(buffer);
 	}
+	else
+		flush_keys(buffer);
 	return (SUCCESS);
 }
 
