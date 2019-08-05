@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 17:43:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/05 22:50:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int			sh_env_update_question_mark(t_shell *shell)
 **	Update status and $? in one function.
 **
 **	Returned Values:
-**		ERROR : ret_value unset
 **		FAILURE : malloc error
 **		SUCCESS
 */
