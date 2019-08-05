@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 19:15:23 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/05 22:06:37 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context)
 	while (ptr != NULL)
 	{
 		child = (t_ast_node *)ptr->content;
-		if ((ret = sh_process_traverse_cmd_suffix(child, context) != SUCCESS))
+		if (((ret = sh_process_traverse_cmd_suffix(child, context)) != SUCCESS))
 			return (ret);
 		ptr = ptr->next;
 	}
