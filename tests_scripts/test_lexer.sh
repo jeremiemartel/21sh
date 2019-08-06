@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:41 by jmartel           #+#    #+#              #
-#    Updated: 2019/08/06 15:28:42 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/06 17:24:08 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,27 @@ launch "Lexer"
 
 	echo "ls \\" > file ; echo "-a" >>file
 	test_launch_pipe file
+
+	launch "Solo quotes"
+	test_launch '"'
+	test_launch "'"
+	test_launch '\'
+	echo -n \' > file
+	test_launch_pipe file
+	echo -n \" > file
+	test_launch_pipe file
+	echo -n \\ > file
+	test_launch_pipe file
+	
+	echo \\ > file ; for i in 1 2 3 4 ; do echo \\ >> file ; done ; echo -n ls >> file ; test_launch file
+	echo \" > file ; for i in 1 2 3 4 ; do echo \\ >> file ; done ; echo -n \"ls >> file ; test_launch file
+	echo \\ > file ; for i in 1 2 3 4 ; do echo ls >> file ; done ; echo -n \" >> file ; test_launch file
+	echo ls > file ; for i in 1 2 3 4 ; do echo " \\" >> file ; done ; echo -n -la >> file ; test_launch file
+	echo \\ > file ; for i in 1 2 3 4 ; do echo \\ >> file ; done ; echo -n ls >> file ; test_launch file
+	echo \\ > file ; for i in 1 2 3 4 ; do echo \\ >> file ; done ; echo -n ls >> file ; test_launch file
+	echo \\ > file ; for i in 1 2 3 4 ; do echo \\ >> file ; done ; echo -n ls >> file ; test_launch file
+	echo \\ > file ; for i in 1 2 3 4 ; do echo \\ >> file ; done ; echo -n ls >> file ; test_launch file
+	echo \\ > file ; for i in 1 2 3 4 ; do echo \\ >> file ; done ; echo -n ls >> file ; test_launch file
 
 	launch "Random"
 	test_launch '"var=pwe"'
