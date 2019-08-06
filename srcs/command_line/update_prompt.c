@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 13:58:11 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 15:59:04 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 11:26:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		update_prompt(t_shell *shell, t_command_line *command_line)
 {
 	char *new_prompt;
 
+	command_line->prev_prompt_len = ft_strlen_utf8(command_line->prompt);
 	ft_strdel(&command_line->prompt);
 	if (update_prompt_context(shell, command_line, &new_prompt))
 		return (FAILURE);

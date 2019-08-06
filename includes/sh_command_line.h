@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/06 12:58:03 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 19:38:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,18 @@ typedef struct		s_searcher
 	int				unsuccessful;
 }					t_searcher;
 
+/*
+** dy_str : content of the command_line
+** heredoc_eof : current eof of the heredoc
+** prompt : current prompt of the command_line
+** nb_chars : numbers of UTF8 characters in the dy_str
+** current_index : where to insert characters in the command line
+** mode : insert or heredoc
+** clipboard : what got yanked or deleted in visual mode
+** pinned_index: where the visual mode got initiated
+** interrupted : if the command got interrupted by a ctrl D or ctrl C
+** to_append_str : what to append to the string in the case of \\ in heredocs
+*/
 typedef struct		s_command_line
 {
 	t_auto_complete	autocompletion;
@@ -72,7 +84,7 @@ typedef struct		s_command_line
 	char			*clipboard;
 	int				pinned_index;
 	t_cl_context	context;
-	int				to_append;
+	int				prev_prompt_len;
 	char			*to_append_str;
 }					t_command_line;
 
@@ -354,6 +366,7 @@ int					sh_add_eof(int interrupted);
 /*
 ** cursor_tools.c
 */
+int					get_true_cursor_pos_prev_prompt(int cursor);
 int					get_true_cursor_pos(int cursor);
 int					get_down_from_command(t_command_line *command_line);
 void				replace_cursor_on_index(void);

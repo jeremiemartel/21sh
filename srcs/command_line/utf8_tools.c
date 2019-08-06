@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 13:37:08 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/09 16:05:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 11:27:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		ft_strlen_utf8(char *str)
 	int i;
 	int res;
 
+	if (!str)
+		return (-1);
 	i = 0;
 	res = 0;
 	while (str[i])

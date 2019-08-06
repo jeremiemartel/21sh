@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 19:14:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/29 16:34:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 11:23:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ int			process_heredoc_through_command(char **res, t_shell *shell,
 {
 	char	*tmp;
 	int		ret;
+	int		to_append;
 
-	command_line->to_append = 0;
+	to_append = 0;
 	if (!(tmp = heredoc_func(command_line->dy_str->str)))
 		return (heredoc_ret(shell, command_line, FAILURE));
-	if ((command_line->to_append = (refine_heredoc(tmp))) == 0)
+	if ((to_append = (refine_heredoc(tmp))) == 0)
 	{
 		if ((ret = process_heredoc_new_line(res, tmp, shell, command_line))
 			!= KEEP_READ)
