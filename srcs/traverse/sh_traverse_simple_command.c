@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 18:32:20 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 17:54:38 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,7 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 
 	if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
-		if (sh_verbose_traverse())
-		{
-			ft_dprintf(2, BLUE"%s : %s : start\n"EOC,
-				node->symbol->debug, t_phase_name(context->phase));
-		}
+		sh_traverse_tools_show_traverse_start(node, context);
 		context->redirections = &node->metadata.command_metadata.redirections;
 		if (context->current_pipe_sequence_node)
 			if (sh_env_update_question_mark(context->shell) == FAILURE)
@@ -97,10 +93,7 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 			ret = sh_traverse_simple_command_exec(node, context);
 		else
 			ret = sh_traverse_simple_command_no_exec(node, context);
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE
-			"SIMPLE_COMMAND : %s : returned value : %s\n"
-			EOC, t_phase_name(context->phase), ret_to_str(ret));
+		sh_traverse_tools_show_traverse_ret_value(node, context, ret);
 		return (ret);
 	}
 	return (sh_traverse_tools_browse(node, context));

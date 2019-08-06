@@ -84,8 +84,6 @@ int		sh_traverse_default(t_ast_node *node, t_context *context);
 /*
 ** sh_traverse_cmd_suffix.c
 */
-// int		sh_process_traverse_cmd_suffix(
-	// t_ast_node *child, t_context *context);
 int		sh_traverse_cmd_suffix(t_ast_node *node, t_context *context);
 
 /*

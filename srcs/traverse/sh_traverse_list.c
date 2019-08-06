@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 16:49:38 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:36:34 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 17:55:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ static int	sh_traverse_list_redir_exec(t_ast_node *node, t_context *context)
 			ptr = (ptr)->next;
 		context->phase = E_TRAVERSE_PHASE_EXPANSIONS;
 		ret = g_grammar[child->symbol->id].traverse(child, context);
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"LIST : %s : returned value : %s\n"EOC,
-			t_phase_name(context->phase), ret_to_str(ret));
+		sh_traverse_tools_show_traverse_ret_value(node, context, ret);
 		if (ret == FAILURE)
 			return (FAILURE);
 		else if (ret == STOP_CMD_LINE)
@@ -44,16 +42,12 @@ int			sh_traverse_list(t_ast_node *node, t_context *context)
 
 	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
 	{
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE
-			"LIST : %s : start\n"EOC, t_phase_name(context->phase));
+		sh_traverse_tools_show_traverse_start(node, context);
 		return (sh_traverse_tools_browse(node, context));
 	}
 	else
 	{
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"%s : %s : start\n"EOC,
-			node->symbol->debug, t_phase_name(context->phase));
+		sh_traverse_tools_show_traverse_start(node, context);
 		ret = sh_traverse_list_redir_exec(node, context);
 		return (ret);
 	}

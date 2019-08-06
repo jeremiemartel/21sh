@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 17:44:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 18:00:07 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,14 @@ int				sh_traverse_pipe_sequence(t_ast_node *node, t_context *context)
 {
 	int		ret;
 
-	if (sh_verbose_traverse())
-		ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : start\n"EOC,
-		t_phase_name(context->phase));
+	ret = SUCCESS;
+	sh_traverse_tools_show_traverse_start(node, context);
 	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 		ret = sh_traverse_pipe_sequences_redirections(node, context);
 	else if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 		ret = sh_traverse_pipe_sequence_execute(node, context);
 	else
 		ret = sh_traverse_tools_browse(node, context);
-	if (sh_verbose_traverse())
-		ft_dprintf(2, BLUE"PIPE_SEQUENCE : %s : returned value : %s\n"EOC,
-		t_phase_name(context->phase), ret_to_str(ret));
+	sh_traverse_tools_show_traverse_ret_value(node, context, ret);
 	return (ret);
 }
