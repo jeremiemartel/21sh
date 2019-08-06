@@ -23,6 +23,29 @@ void	t_token_update_id(int id, t_token *token)
 	token->index = sh_index(id);
 }
 
+t_token *sh_new_token(int id, char *value)
+{
+	t_token		*token;
+
+	if (!(token = malloc(sizeof(*token))))
+		return (NULL);
+	token->value = NULL;
+	if (value)
+	{
+		if (!(token->value = ft_strdup(value)))
+		{
+			free(token);
+			return (NULL);
+		}
+	}
+	token->id = id;
+	token->index = sh_index(id);
+	token->token_type = TYPE_STR;
+	token->quoted = 0;
+	token->expansion = 0;
+	return (token);
+}
+
 /*
 ** t_token_new:
 **	Malloc a new t_token struct, and initialize all fields.
@@ -30,28 +53,16 @@ void	t_token_update_id(int id, t_token *token)
 
 t_list	*t_token_new(int id, char *value)
 {
-	t_token		*token;
 	t_list		*link;
+	t_token		*token;
 
-	if (!(token = malloc(sizeof(*token))))
+	if (!(token = sh_new_token(id, value)))
 		return (NULL);
-	token->value = NULL;
-	if (value)
-		if (!(token->value = ft_strdup(value)))
-		{
-			free(token);
-			return (NULL);
-		}
 	if (!(link = ft_lstnew(token, sizeof(token))))
 	{
 		t_token_free(token);
 		return (NULL);
 	}
-	token->id = id;
-	token->index = sh_index(id);
-	token->token_type = TYPE_STR;
-	token->quoted = 0;
-	token->expansion = 0;
 	return (link);
 }
 
