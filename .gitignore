@@ -7,6 +7,11 @@ logs
 log
 sandbox
 
+/signal
+/signal.c
+/segfault
+/segfault.c
+
 tests_scripts/*.log
 tests_scripts/logs/*
 tests_scripts/tmp_log
