@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/20 09:46:23 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 13:10:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,21 @@ int			sh_expansions_parameter_equal(
 */
 
 static int	sh_expansions_parameter_quest_msg(
-	t_context *context, char *expansion, char *word)
+	char *format, t_context *context, char *expansion, char *word)
 {
 	char	*buf;
 
 	buf = ft_strpbrk(expansion, ":?");
 	*buf = 0;
-	sh_perror_err_fd(context->fd[FD_ERR], expansion, word);
+	if (word && *word)
+		sh_perror_fd(context->fd[FD_ERR], expansion, word);
+	else
+	{
+		if (ft_strchr(format, ':'))
+			sh_perror_fd(context->fd[FD_ERR], expansion, "parameter null or not set");
+		else
+			sh_perror_fd(context->fd[FD_ERR], expansion, "parameter not set");
+	}
 	if (!isatty(0))
 	{
 		context->shell->running = 0;
@@ -137,12 +145,12 @@ int			sh_expansions_parameter_quest(
 	param = sh_expansions_parameter_get_param(context, exp);
 	word = sh_expansions_parameter_get_word(exp, format);
 	if (!param)
-		return (sh_expansions_parameter_quest_msg(
+		return (sh_expansions_parameter_quest_msg(format,
 			context, exp->expansion, word));
 	else if (!*param)
 	{
 		if (ft_strchr(format, ':'))
-			return (sh_expansions_parameter_quest_msg(
+			return (sh_expansions_parameter_quest_msg(format,
 				context, exp->expansion, word));
 		else
 			exp->res = ft_dy_str_new_str("");
