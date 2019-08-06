@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:41 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/20 13:35:36 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/06 15:28:42 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,9 @@ launch "Lexer"
 	test_launch_pipe ./tests_files/lexer_16
 	test_launch_pipe ./tests_files/lexer_17
 	test_launch_pipe ./tests_files/lexer_18
+	test_launch_pipe ./tests_files/lexer_19
+	test_launch_pipe ./tests_files/lexer_20
+	test_launch_pipe ./tests_files/lexer_21
 
 	echo "ls \\" > file ; echo "-a" >>file
 	test_launch_pipe file
