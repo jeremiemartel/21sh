@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/08/01 08:33:27 by ldedier          ###   ########.fr        #
+#    Updated: 2019/08/05 15:26:10 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ TRAV_SRCS_NO_PREFIX =	sh_traverse.c \
 
 COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						cursor_motion.c edit_command.c is_printable_utf8.c \
-						get_command.c utf8_tools.c  \
+						get_command.c utf8_tools.c \
 						render_command_line.c arrows.c home_end.c \
 						command_line.c xy.c \
 						copy_paste_delete.c update_prompt.c update_prompt_tools.c\
@@ -89,9 +89,10 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						heredoc_tools.c free_command_line.c \
 						sh_delete_command.c sh_process_shift_vertical.c \
 						sh_process_shift_horizontal.c update_prompt_keys.c \
-						sh_process_quoted.c sh_clipboard.c \
-						sh_get_cursor_position.c sh_command_line_tools.c \
-						sh_clipboard_tools.c update_prompt_cwd.c
+						sh_process_quoted.c \
+						sh_get_cursor_position.c eof_percent.c \
+						update_prompt_cwd.c keys_insert_tools.c keys_flush.c \
+						keys_debug.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \

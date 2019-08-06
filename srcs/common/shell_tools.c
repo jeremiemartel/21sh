@@ -21,20 +21,14 @@ int		putchar_int(int i)
 int		sh_reset_shell(int ret)
 {
 	if (tcsetattr(0, TCSADRAIN, &g_glob.term_init) == -1)
-	{
-		ft_printf("olalalala set shell back\n");
 		return (ATTR_ERROR);
-	}
 	return (ret);
 }
 
 int		sh_set_shell_back(int ret)
 {
-	if (tcsetattr(0, TCSAFLUSH, &g_glob.term) == -1)
-	{
-		ft_printf("olalalala set shell back\n");
+	if (tcsetattr(0, TCSADRAIN, &g_glob.term) == -1)
 		return (ATTR_ERROR);
-	}
 	return (ret);
 }
 
