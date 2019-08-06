@@ -31,4 +31,17 @@ launch "exec"
 	test_launch 'echo "#!/bin/bash" >file' 'echo "echo lol" >> file' 'chmod 100 file' './file' 'chmod 777 file ; rm file'
 	test_launch 'echo "#!/bin/bash" >file' 'echo "echo lol" >> file' 'chmod 000 file' './file' 'chmod 777 file ; rm file'
 
+	launch "execve fail"
+	if [ ! -f "execve_fail" ] ; then echo -e ${RED}"CANNOT FIND EXECVE_FAIL BINARY"${EOC}
+	else
+		test_launch './execve_fail'
+		test_launch 'PATH=.:/usr/bin' 'execve_fail'
+		test_launch 'env ./execve_fail'
+		test_launch 'PATH=.:/usr/bin' 'env execve_fail'
+		test_launch './execve_fail | wc'
+		test_launch 'PATH=.:/usr/bin' 'execve_fail | wc'
+		test_launch 'env ./execve_fail | wc'
+		test_launch 'PATH=.:/usr/bin' 'env execve_fail | wc'
+
+	fi
 finish
