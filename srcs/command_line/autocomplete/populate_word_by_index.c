@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:04:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/22 23:07:04 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:18:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,26 @@ int		process_populate_empty_word(t_word *word)
 {
 	if (!(word->str = ft_strdup("")))
 		return (1);
-//	ft_printf("ADDRESS (NONE): %p (%s)\n", word->str, word->str);
 	word->len = 0;
-	word->utf8_len =  0;
+	word->utf8_len = 0;
 	word->index_byte_offset = 0;
 	word->index_char_offset = 0;
 	return (0);
 }
 
 int		process_populate_word_by_index(t_word *word,
-			int nb_words, int parseword, int index)
+			int nb_words, int parse_w, int index)
 {
-	word->word_index = (parseword ? nb_words : 0);
+	word->word_index = (parse_w ? nb_words : 0);
 	if (!word->word_index)
 		word->start_index = index;
 	word->prev_word_index = nb_words;
 	if (word->word_index)
 	{
 		word->len = get_word_len(word->to_compare, word->start_index);
-		if (!(word->str = ft_strndup(&word->to_compare[word->start_index], word->len)))
+		if (!(word->str = ft_strndup(&word->to_compare[word->start_index],
+			word->len)))
 			return (1);
-//		ft_printf("ADDRESS: %p (%s)\n", word->str, word->str);
 		word->utf8_len = ft_strlen_utf8(word->str);
 	}
 	else
@@ -68,29 +67,28 @@ void	increment_word(int i, int index, t_word *word, char *str)
 int		populate_word_by_index(char *s, int index, t_word *word)
 {
 	int nb_w;
-	int parseword;
+	int parse_w;
 	int i;
 
-	i = 0;
-	parseword = 0;
+	i = -1;
+	parse_w = 0;
 	nb_w = 0;
 	word->str = NULL;
 	word->to_compare = s;
-	while (s[i])
+	while (s[++i])
 	{
 		if (i == index)
-			return (process_populate_word_by_index(word, nb_w, parseword, index));
-		if (!ft_isseparator(s[i]) && !parseword)
+			return (process_populate_word_by_index(word, nb_w, parse_w, index));
+		if (!ft_isseparator(s[i]) && !parse_w)
 		{
 			increment_word(i, index, word, s);
-			parseword = 1;
+			parse_w = 1;
 			nb_w++;
 		}
-		if (ft_isseparator(s[i]) && parseword)
-			parseword = 0;
-		i++;
+		if (ft_isseparator(s[i]) && parse_w)
+			parse_w = 0;
 	}
 	if (i == index)
-		return (process_populate_word_by_index(word, nb_w, parseword, index));
+		return (process_populate_word_by_index(word, nb_w, parse_w, index));
 	return (0);
 }

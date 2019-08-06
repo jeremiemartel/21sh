@@ -5,15 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/28 17:59:26 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/24 10:58:05 by ldedier          ###   ########.fr       */
+/*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
+/*   Updated: 2019/07/31 17:45:53 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_21_H
 # define SH_21_H
 
-#include <stdio.h>
+# include <stdio.h>
 
 # include <stdarg.h>
 # include <termcap.h>
@@ -25,35 +25,46 @@
 # include <dirent.h>
 
 /*
+** wait(2)
+*/
+# include <sys/wait.h>
+
+/*
 ** read(2)
 */
 # include <fcntl.h>
 
 # include "libft.h"
-# include "perror.h"
+# include "sh_perror.h"
 # include "sh_tokens.h"
+# include "sh_parser.h"
+# include "sh_productions.h"
 # include "sh_grammar.h"
 # include "sh_autocompletion.h"
-# include "sh_parser.h"
 # include "sh_lexer.h"
 # include "sh_exec.h"
 # include "sh_builtin.h"
 # include "sh_traverse.h"
 # include "sh_traverse_tools.h"
 # include "sh_command_line.h"
-
+# include "sh_expansions.h"
 # include "sh_vars.h"
 
 # define SUCCESS		0
-# define FAILURE		1
-# define ATTR_ERROR		2
+# define ERROR			1
+# define FAILURE		2
+# define ATTR_ERROR		3
+# define STOP_CMD_LINE	4
 
-# define CTRL_D			3
-# define CTRL_C			4
+# define CTRL_D			5
+# define CTRL_C			6
 
-# define KEEP_READ		5
+# define KEEP_READ		7
 
 # define HISTORIC_FILE	".historic"
+
+# define MAX_LEN_HISTORIC_ENTRY	500000
+# define BINARIES_TABLE_SIZE	100
 
 /*
 ** Macros of fdin, fdout and fderr in context->fd
@@ -63,6 +74,7 @@
 # define FD_ERR		2
 
 # define CWD_LEN		1000
+# define NB_OPERATIONS	12
 
 /*
 ** Pipe input and output indexes in a int[2]
@@ -112,86 +124,152 @@
 # define UNDERLINE  "\x1b[4m"
 # define EOC        "\033[0m"
 
-typedef struct dirent	t_dirent;
+/*
+** Activate or not bonuses that require forbidden functions
+*/
 
-typedef struct		s_shell
+# define BONUS_HOME_AS_TILDE_PROMPT	1
+# define BONUS_REDIRECT_SIGNAL		1
+# define BONUS_DOLLAR_VARIABLE		1
+# define BONUS_TILDE_EXP			0
+
+typedef struct s_shell		t_shell;
+
+struct				s_shell
 {
 	t_lr_parser		parser;
 	t_historic		historic;
 	t_dy_tab		*env;
 	t_dy_tab		*vars;
-	t_list			*builtins;
-	char			*clipboard;
+	t_hash_table	*binaries;
 	char			running;
 	struct termios	term;
-}					t_shell;
+	int				ret_value_set;
+	int				ret_value;
+};
 
 /*
-** init.c
+********************************************************************************
 */
-int			sh_init_shell(t_shell *shell, char **env);
-int			sh_init_terminal(t_shell *shell, char **env);
-void		init_signals(void);
+
+/*
+** free_all.c
+*/
+void				sh_free_binary(t_binary *binary);
+void				sh_free_binary_lst(void *b, size_t dummy);
+void				free_file(t_file *file);
+void				free_file_dlst(void *f, size_t dummy);
+void				sh_free_all(t_shell *shell);
 
 /*
 ** index.c
 */
-int			sh_index(t_symbol_id id);
-int			is_key_of_entry(char *entry, char *key);
+int					sh_index_4(t_symbol_id id);
+int					sh_index_3(t_symbol_id id);
+int					sh_index_2(t_symbol_id id);
+int					sh_index(t_symbol_id id);
 
+/*
+** init_tabs.c
+*/
+int					sh_update_shell_lvl(t_shell *shell);
+int					sh_main_init_env(t_shell *shell, char **env);
+int					sh_main_init_vars(t_shell *shell);
+
+/*
+** check_term.c
+*/
+char				**get_operations(void);
+int					sh_check_term(void);
 
 /*
 ** shell_tools.c
 */
-int			sh_reset_shell(int ret);
-int			putchar_int(int i);
-void		move(int x, int y);
-int			clear_all(void);
+int					putchar_int(int i);
+int					sh_reset_shell(int ret);
+int					sh_set_shell_back(int ret);
+int					clear_all(void);
 
 /*
-** env.c
+** set_signals.c
 */
-int			is_key_of_entry(char *entry, char *key);
-char		*get_env_value(char **env, char *str);
-char		*get_env_entry(char **env, char *str);
-int			process_ms_env(t_dy_tab *env);
-
+void				reset_signals(void);
+void				init_signals(void);
 
 /*
-** set_env.c
+** init.c
 */
-int			sh_add_to_env(t_dy_tab *env, char *key, char *value);
-int			sh_add_to_command(t_command_line *command,
-				unsigned char buffer[READ_BUFF_SIZE], int nb_bytes);
-
-/*
-** sanitize_path.c
-*/
-char		*get_sanitized_path_from_old(char *old_pwd, char *path);
-
-int			sh_await_command(t_shell *shell);
-/*
-** free_all.c
-*/
-void		sh_free_all(t_shell *shell);
-void	free_file_dlst(void *f, size_t dummy);
-void	free_file(t_file *file);
-
-int			sh_process_command(t_shell *shell, char *command);
+char				*refine_historic_entry(char *entry);
+int					process_read_historic(
+	t_historic *historic, char *line);
+int					sh_init_historic(t_historic *historic);
+int					sh_init_command_line(
+	t_shell *shell, t_command_line *command_line);
+int					sh_init_shell(t_shell *shell, char **env);
 
 /*
 ** canonical_mode.c
 */
-int			sh_process_canonical_mode(t_shell *shell);
+int					sh_process_canonical_mode(t_shell *shell, char **env);
 
 /*
-** process_historic.c
+** tools.c
 */
-int			sh_append_to_historic(t_shell *shell, char *command);
+int					end_with_char(char *str, char c);
+int					get_file_in_dir(char *filename, char *dirname);
+int					get_path_from_absolute_path(char *str, char **path);
+int					get_path_and_file_from_str(
+	char *str, char **path, char **file);
+
+/*
+** signals.c
+*/
+void				transmit_sig_no_motion(int signal);
+void				transmit_sig_and_die(int signal);
+void				default_sig_bonus(int sgnl);
+void				default_sig(int sgnl);
+void				handle_resize(int signal);
+
+/*
+** init_term.c
+*/
+int					sh_init_terminal_database(char **env);
+int					sh_init_terminal(t_shell *shell, char **env);
 
 /*
 ** home.c
 */
-int			process_subst_home(t_shell *shell, char **str);
-char		*get_home_dup(t_shell *shell);
+char				*get_home_dup(t_shell *shell);
+int					process_subst_home(t_shell *shell, char **str);
+
+/*
+** non_canonical_mode.c
+*/
+int					sh_process_command(t_shell *shell, char *command);
+int					sh_process_received_command(
+	t_shell *shell, t_command_line *command_line);
+int					sh_await_command(t_shell *shell);
+int					sh_process_noncanonical_mode(t_shell *shell);
+
+/*
+** historic.c
+*/
+int					sh_append_to_historic(t_shell *shell, char *command);
+
+/*
+** hash_binaries.c
+*/
+t_binary			*sh_new_binary(char *path, char *name);
+int					compare_str_to_binary(void *str, void *binary);
+int					sh_update_hash_table(
+	t_shell *shell, char *path, char *name);
+
+/*
+** signal_tools.c
+*/
+void				transmit_sig(int signal);
+void				transmit_sig_and_exit(int signal);
+void				handle_stp(int sgnl);
+void				handle_cont(int sgnl);
+
 #endif

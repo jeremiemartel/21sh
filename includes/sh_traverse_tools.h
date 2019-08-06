@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:47:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/19 20:50:14 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/28 17:51:15 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,24 @@
 # define SH_TRAVERSE_TOOLS_H
 
 /*
-** sh_travers_tools_flush.c
+********************************************************************************
 */
-int			sh_traverse_tools_flush(t_context *context);
 
 /*
 ** sh_traverse_tools_browse.c
 */
-int			sh_traverse_tools_browse(t_ast_node *node, t_context *context);
-int	    	sh_traverse_tools_browse_one_child(t_ast_node *node, t_context *context);
+int		sh_traverse_tools_browse(t_ast_node *node, t_context *context);
 
 /*
 ** sh_traverse_tools_reset.c
 */
 void	sh_traverse_tools_reset_context(t_context *context);
-void	sh_traverse_tools_close_fd(t_context *context);
-void	sh_traverse_tools_reset_fd(t_context *context);
 void	sh_traverse_tools_reset_params(t_context *context);
 
 /*
-** sh_traverse_tools_context.c
+** sh_traverse_tools_debug.c
 */
-void		sh_traverse_update_father(t_ast_node *node, t_context *context);
-
+char	*t_phase_name(t_phase phase);
+char	*ret_to_str(int ret);
 
 #endif

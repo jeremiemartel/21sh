@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   populate_choices.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:03:42 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/20 16:45:26 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:55:39 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,17 @@ int		populate_choices_from_binaries(t_shell *shell, t_word *word)
 	char *path_str;
 
 	word->to_compare = word->str;
-	if ((path_str = get_env_value((char **)shell->env->tbl, "PATH")))
+	if ((path_str = sh_vars_get_value(shell->env, NULL, "PATH")))
 	{
 		if (add_choices_path(shell, word, path_str))
 			return (1);
+		if (add_choices_builtins(shell, word))
+			return (1);
 		return (0);
 	}
-	else
-		return (0);
+	else if (add_choices_builtins(shell, word))
+		return (1);
+	return (0);
 }
 
 int		populate_choices_from_folder(t_shell *shell, t_word *word)
@@ -62,13 +65,13 @@ int		populate_choices_from_folder(t_shell *shell, t_word *word)
 		free(file);
 		return (ft_free_turn(transformed_path, 1));
 	}
-	if (!ft_strncmp(path, "~/", 2) &&
-			process_subst_home(shell, &transformed_path))
+	if (!ft_strncmp(path, "~/", 2)
+			&& process_subst_home(shell, &transformed_path))
 		return (ft_free_turn_3(file, transformed_path, path, 1));
 	word->to_compare = file;
 	if (add_choices_from_dir(shell, word, transformed_path, path))
-		return (1);
-	return (ft_free_turn_3(file, transformed_path, path, 0));
+		return (ft_free_turn_3(file, transformed_path, path, FAILURE));
+	return (ft_free_turn_3(file, transformed_path, path, SUCCESS));
 }
 
 int		populate_choices_from_word(t_command_line *command_line,

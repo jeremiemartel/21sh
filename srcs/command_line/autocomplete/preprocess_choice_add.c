@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 12:04:17 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/22 15:54:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 00:20:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ int		str_cmp_len(char *str1, char *str2)
 	return (i);
 }
 
+void	process_dlst_iter(t_dlist **ptr, int *first)
+{
+	*first = 0;
+	*ptr = (*ptr)->next;
+}
+
 int		process_preprocess_choice_add(t_command_line *command_line,
 			char *entry, int *to_ret, t_dlist ***to_add)
 {
@@ -32,7 +38,8 @@ int		process_preprocess_choice_add(t_command_line *command_line,
 
 	ptr = command_line->autocompletion.choices;
 	first = 1;
-	while ((ptr != command_line->autocompletion.choices && ptr != NULL) || (first && ptr != NULL))
+	while ((ptr != command_line->autocompletion.choices && ptr != NULL)
+		|| (first && ptr != NULL))
 	{
 		file = ptr->content;
 		if (!(ret = ft_strcmp(file->fullname, entry)))
@@ -43,10 +50,10 @@ int		process_preprocess_choice_add(t_command_line *command_line,
 				*to_ret = 2;
 			*to_add = &(ptr->prev);
 		}
-		command_line->autocompletion.choices_common_len = ft_min(command_line->autocompletion.choices_common_len,
+		command_line->autocompletion.choices_common_len =
+			ft_min(command_line->autocompletion.choices_common_len,
 				str_cmp_len(entry, file->fullname));
-		ptr = ptr->next;
-		first = 0;
+		process_dlst_iter(&ptr, &first);
 	}
 	return (0);
 }

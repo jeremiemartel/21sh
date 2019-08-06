@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dy_str_new_str.c                               :+:      :+:    :+:   */
+/*   ft_dy_str_new_str.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/14 15:10:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/14 15:10:36 by ldedier          ###   ########.fr       */
+/*   Created: 2019/07/02 22:43:40 by jmartel           #+#    #+#             */
+/*   Updated: 2019/07/02 22:43:56 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_dy_str	*ft_dy_str_new_str(char *str)
 {
-	t_dy_str *res;
-	int len;
+	t_dy_str	*res;
+	int			len;
 
 	len = ft_strlen(str);
 	if (!(res = malloc(sizeof(*res))))

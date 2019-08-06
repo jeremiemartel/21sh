@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:02:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/28 11:02:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 07:06:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,7 @@ int		sh_init_prod_for_clause(t_cfg *cfg, t_symbol *symbol)
 		DO_GROUP))
 		return (1);
 	if (sh_add_prod(symbol, cfg, 7,
-		LEX_TOK_FOR,
-		NAME,
-		LINEBREAK,
-		IN,
-		WORDLIST,
-		SEQUENTIAL_SEP,
-		DO_GROUP))
+		LEX_TOK_FOR, NAME, LINEBREAK, IN, WORDLIST, SEQUENTIAL_SEP, DO_GROUP))
 		return (1);
 	return (0);
 }

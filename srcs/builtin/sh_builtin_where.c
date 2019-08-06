@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 15:09:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/13 11:32:17 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/06/29 15:58:06 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int		sh_where_is_ok(char *path, t_dirent *dirent)
 	return (1);
 }
 
-static int		sh_where_binaries_readdir(char *path, DIR *dir, t_context *context)
+static int		sh_where_binaries_readdir(char *path, DIR *dir,
+					t_context *context)
 {
 	t_dirent	*dirent;
 	char		*buf;
@@ -41,9 +42,9 @@ static int		sh_where_binaries_readdir(char *path, DIR *dir, t_context *context)
 				continue ;
 			if (!(buf = ft_strjoin_path(path, dirent->d_name)))
 			{
-				ft_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, buf);
+				sh_perror_fd(context->fd[FD_ERR], SH_ERR1_MALLOC, buf);
 				free(buf);
-				return (FAILURE);
+				return (ERROR);
 			}
 			ft_dprintf(context->fd[FD_OUT], "%s\n", buf);
 			free(buf);
@@ -57,10 +58,12 @@ static int		sh_where_binaries(t_context *context)
 	char	**split;
 	int		i;
 	DIR		*dir;
+	char	*path;
 
-	split = ft_strsplit(sh_vars_get_value(context->env, NULL, "PATH"), ':');
-	if (!(split))
-		return (FAILURE);
+	if (!(path = sh_vars_get_value(context->env, NULL, "PATH")))
+		return (SUCCESS);
+	if (!(split = ft_strsplit(path, ':')))
+		return (sh_perror(SH_ERR1_MALLOC, "sh_where_binaries (1)"));
 	i = 0;
 	while (split[i])
 	{
@@ -86,7 +89,8 @@ int				sh_builtin_where(t_context *context)
 	while (*context->params->tbl)
 	{
 		if (sh_builtin_find(context))
-			ft_printf("%s: %s built-in command\n",context->params->tbl[0] , SH_NAME);
+			ft_printf("%s: %s built-in command\n", context->params->tbl[0],
+					SH_NAME);
 		if (sh_where_binaries(context) == FAILURE)
 		{
 			context->params->tbl -= i;

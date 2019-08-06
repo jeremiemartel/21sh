@@ -6,21 +6,122 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 11:19:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/04/22 12:48:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/30 16:03:17 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_traverse_io_file(t_ast_node *node, t_context *context)
+static int	get_fd(char *filename)
 {
-	t_ast_node	*child;
+	int i;
+	int res;
 
-	child = (t_ast_node *)node->children->content;
-	if (g_grammar[child->symbol->id].traverse(node, context) == FAILURE)
-		return (FAILURE);
-	node->children = node->children->next;
+	i = 0;
+	res = 0;
+	while (filename[i])
+	{
+		if (!ft_isdigit(filename[i]))
+			return (-1);
+		res = res * 10 + filename[i] - '0';
+		i++;
+	}
+	return (res);
+}
+
+static int	sh_process_file_greatand(char *filename, t_context *context)
+{
+	int fd;
+
+	if (!ft_strcmp(filename, "-"))
+	{
+		if (sh_add_redirection(sh_new_redir(OUTPUT, context->redirected_fd, -1),
+		&context->current_command_node->metadata.command_metadata.redirections))
+			return (FAILURE);
+		return (SUCCESS);
+	}
+	else if ((fd = get_fd(filename)) >= 0)
+	{
+		return ((sh_process_fd_aggregation)(OUTPUT, context->redirected_fd, fd,
+			&context->current_command_node->
+				metadata.command_metadata));
+	}
+	if (fd == -1)
+		return (sh_process_file_output(filename, context, GREAT_OPT));
+	ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
+		SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
+	return (SUCCESS);
+}
+
+static int	sh_process_file_lessand(char *filename, t_context *context)
+{
+	int fd;
+
+	if (!ft_strcmp(filename, "-"))
+	{
+		if (sh_add_redirection(sh_new_redir(INPUT, context->redirected_fd, -1),
+			&context->current_command_node->
+				metadata.command_metadata.redirections))
+			return (FAILURE);
+		return (SUCCESS);
+	}
+	else if ((fd = get_fd(filename)) >= 0)
+		return (sh_process_fd_aggregation(INPUT, context->redirected_fd, fd,
+			&context->current_command_node->
+				metadata.command_metadata));
+	else
+	{
+		if (fd == -1)
+			return (sh_perror_err(filename, "ambiguous redirect"));
+		else
+		{
+			ft_dprintf(2, "%s%s: %s : %d%s\n", SH_ERR_COLOR,
+				SH_NAME, SH_ERR1_BAD_FD, fd, COLOR_END);
+		}
+		return (ERROR);
+	}
+}
+
+int			get_io_file_return(t_ast_node *redir_child,
+			char *filename, t_context *context)
+{
+	if (context->current_command_node->metadata.command_metadata.should_exec)
+	{
+		if (redir_child->symbol->id == sh_index(LEX_TOK_LESS))
+			return (sh_process_file_input(filename, context, O_RDONLY));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_DGREAT)
+				|| redir_child->symbol->id == sh_index(LEX_TOK_CLOBBER))
+			return (sh_process_file_output(filename, context, DGREAT_OPT));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_GREAT))
+			return (sh_process_file_output(filename, context, GREAT_OPT));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_GREATAND))
+			return (sh_process_file_greatand(filename, context));
+		else if (redir_child->symbol->id == sh_index(LEX_TOK_LESSAND))
+			return (sh_process_file_lessand(filename, context));
+		else
+			return (SUCCESS);
+	}
+	else
+		return (SUCCESS);
+}
+
+int			sh_traverse_io_file(t_ast_node *node, t_context *context)
+{
+	t_ast_node	*redir_child;
+	t_ast_node	*filename_child;
+	char		*filename;
+	int			ret;
+
+	if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
+	{
+		redir_child = node->children->content;
+		filename_child = node->children->next->content;
+		filename = ((t_ast_node *)
+			(filename_child->children->content))->token->value;
+		ret = get_io_file_return(redir_child, filename, context);
+		if (ret)
+			sh_env_update_ret_value(context->shell, ret);
+		return (ret);
+	}
 	return (sh_traverse_tools_browse(node, context));
-	(void)node;
-	(void)context;
 }

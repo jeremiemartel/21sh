@@ -1,4 +1,21 @@
+##Useless files
+my_supp.supp
+ok
+test
+file
+logs
+log
+sandbox
+
 tests_scripts/*.log
+tests_scripts/logs/*
+tests_scripts/tmp_log
+tests_scripts/my_supp.supp
+tests_scripts/buffer
+tests_scripts/res1.21sh
+tests_scripts/res1.bash
+tests_scripts/res2.21sh
+tests_scripts/res2.bash
 sh21
 21sh
 includes/libft.h

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 10:11:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/23 16:38:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/07/27 00:34:04 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 */
 # include <stdio.h>
 
+/*
+** get_next_line
+*/
+# define BUFF_SIZE	4096
+# define GNL_MAX_FD	2000
+
 typedef struct		s_list
 {
 	void			*content;
@@ -46,7 +52,7 @@ typedef struct		s_dystr
 	int				size;
 }					t_dystr;
 
-typedef struct      s_dy_str
+typedef struct		s_dy_str
 {
 	char			*str;
 	size_t			current_size;
@@ -68,27 +74,41 @@ typedef struct		s_dlist
 	struct s_dlist	*prev;
 }					t_dlist;
 
-typedef struct	s_gnl
+typedef struct		s_gnl
 {
-	int			fd;
-	int			size;
-	char		*rest;
-	char		*whole_buffer;
-}				t_gnl;
+	int				fd;
+	int				size;
+	char			*rest;
+	char			*whole_buffer;
+}					t_gnl;
 
-typedef enum	e_separator
+typedef enum		e_separator
 {
 	E_SEPARATOR_ZERO = '\0',
 	E_SEPARATOR_NL = '\n',
 	E_SEPARATOR_EOF = EOF
-}				t_separator;
+}					t_separator;
 
-typedef struct	s_gnl_info
+typedef struct		s_gnl_info
 {
 	t_separator	separator;
 	char		*line;
-}				t_gnl_info;
+}					t_gnl_info;
 
+typedef struct		s_hash_table
+{
+	unsigned long	size;
+	t_list			**data;
+}					t_hash_table;
+
+typedef struct		s_hash_finder
+{
+	t_list			*prev;
+	t_list			*current;
+	t_list			**list;
+	int				found;
+	void			*content;
+}					t_hash_finder;
 
 /*
 ********************************** atoi  **************************************
@@ -99,6 +119,7 @@ char				*ft_lltoa(long long l, int base);
 char				*ft_ulltoa(unsigned long long l, int base);
 char				*ft_ftoa(long double f, int prec);
 int					ft_atoi(const char *str);
+int					ft_patoi(char **str);
 long				ft_atol(const char *str);
 
 /*
@@ -115,6 +136,7 @@ void				ft_lstadd_last(t_list **start, t_list *new);
 void				ft_lstput_fd(t_list *start, int fd);
 int					ft_lstaddnew_ptr_last(t_list **list, void *content,
 						size_t size);
+int					ft_lstaddnew(t_list **list, void *content, size_t size);
 int					ft_lstaddnew_ptr(t_list **list, void *content, size_t size);
 int					ft_lstaddnew_last(t_list **lst, void *content, size_t size);
 t_list				*ft_lstnew_value(void const *content, size_t content_size);
@@ -133,7 +155,7 @@ long				ft_pow(long x, long y);
 float				ft_roundf(float x);
 long double			ft_roundl(long double x);
 size_t				ft_longlen(long nb);
-
+int					ft_onesign(int n);
 /*
 ********************************** mem  ***************************************
 */
@@ -194,11 +216,13 @@ int					ft_iswhite_only(char *str);
 int					ft_toupper_only(char *str);
 int					ft_tolower_only(char *str);
 
+int					ft_isspace(int c);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isseparator(int c);
+int					ft_isseparator_light(int c);
 int					ft_isprint(int c);
 int					ft_iswhite(char c);
 int					ft_toupper(int c);
@@ -226,7 +250,10 @@ char				*ft_strtolower(char *str);
 char				*ft_strjoin_free(const char *s1, const char *s2, int param);
 char				*ft_strinsert_free(char *s1, char *s2, int pos, int param);
 char				*ft_strjoin_path(char *s1, char *s2);
-char				*ft_strrep_free(char *s1, char *s2, char *pat, int param);
+char				*ft_strjoin_path_free(char *s1, char *s2, int opt);
+char				*ft_strrep_free(char *s1, char *s2, int start, int len);
+char				*ft_strrep_pattern_free(
+		char *s1, char *s2, char *pattern, int param);
 
 char				**ft_split_whitespaces(char *str);
 void				ft_strtab_free(char **tabl);
@@ -238,6 +265,8 @@ void				ft_strdelchar(char *str, int index);
 void				ft_strdelchars(char *str, int index, int len);
 
 char				*ft_strjoin_3(char const *s1, char const *s2,
+						char const *s3);
+char				*ft_strjoin_3_free(char const *s1, char const *s2,
 						char const *s3);
 char				*ft_strnrest(char *str, int n);
 int					ft_strichr_last(const char *s, int c);
@@ -269,7 +298,6 @@ int					ft_dlstlength(t_dlist *dlist);
 int					ft_dlstadd_sorted(t_dlist **dlst,
 						void *content, int (*sort)(void*, void *));
 
-
 /*
 ************************************ dystr  ***********************************
 */
@@ -279,7 +307,7 @@ t_dy_str			*ft_dy_str_new_ptr(char *ptr);
 int					ft_dy_str_add_index(t_dy_str *d_str, char c, size_t index);
 int					ft_dy_str_realloc(t_dy_str *d_str);
 int					ft_dy_str_suppr_index(t_dy_str *d_str, size_t index);
-void				ft_dy_str_free(t_dy_str *dy_str);
+void				ft_dy_str_free(t_dy_str **dy_str);
 int					ft_dy_str_cpy_str(t_dy_str *dy_str, char *str);
 int					ft_substitute_dy_str(t_dy_str *d_str, char *to_inject,
 						int index_to_inject, int len);
@@ -305,29 +333,53 @@ t_dy_tab			*ft_dy_tab_cpy_str(t_dy_tab *d_tab);
 ******************************** free_turn ***********************************
 */
 
-char	*ft_free_turn_str(char **to_del, char *res);
-char	*ft_free_turn_strs(char **to_del, char **to_del2, char *res);
-int		ft_free_turn_dy_str(t_dy_str *dy_str, int ret);
-int		ft_free_turn(void *to_free, int ret);
-int		ft_free_turn_2(void *to_free, void *to_free2, int ret);
-int		ft_free_turn_3(void *to_free, void *to_free2, void *to_free3, int ret);
+char				*ft_free_turn_str(char **to_del, char *res);
+char				*ft_free_turn_strs(
+						char **to_del, char **to_del2, char *res);
+int					ft_free_turn_dy_str(t_dy_str *dy_str, int ret);
+int					ft_free_turn(void *to_free, int ret);
+int					ft_del_turn(void **to_free, int ret);
+int					ft_del_turn_char(char **to_free, int ret);
+int					ft_free_turn_2(
+						void *to_free, void *to_free2, int ret);
+int					ft_free_turn_3(
+						void *to_free, void *to_free2, void *to_free3, int ret);
 
 /*
 ******************************** get_next_line  *******************************
 */
-# define BUFF_SIZE	4096
-# define GNL_MAX_FD	2000
 
-int			get_next_line(const int fd, char **line);
-int			get_next_line2(int const fd, t_gnl_info *info);
-int			ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del);
-t_gnl		*ft_get_gnl(int fd, t_list **gnls);
+int					get_next_line(const int fd, char **line);
+int					get_next_line2(int const fd, t_gnl_info *info, int bfsize);
+int					ft_may_free_node(int ret, t_list **gnls, t_gnl *to_del);
+t_gnl				*ft_get_gnl(int fd, t_list **gnls);
 
 /*
 ********************************** ft_printf  *********************************
 */
 int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
-char				*ft_asprintf(const char *format, ...);
+
+/*
+************************************ hash **************************************
+*/
+
+t_hash_table		*ft_hash_table_new(unsigned long size);
+int					ft_hash_table_add(t_hash_table *hash_table,
+						void *to_add, void *to_hash,
+							unsigned long (*hash_function)(void *));
+void				*ft_hash_table_get(t_hash_table *hash_table,
+						void *content, unsigned long (*hash_function)(void *),
+									int (*compare)(void *ptr1, void *ptr2));
+t_hash_finder		ft_hash_table_find(t_hash_table *hash_table,
+						void *content, unsigned long (*hash_function)(void *),
+									int (*compare)(void *ptr1, void *ptr2));
+int					ft_hash_cmp_str(void *str1, void *str2);
+unsigned long		ft_hash_str(void *ptr);
+void				ft_hash_table_del(t_hash_table *table,
+						void (*del_func)(void *, size_t));
+void				ft_hash_table_del_value(t_hash_table *table);
+void				ft_hash_table_del_ptr(t_hash_table *table);
+void				ft_hash_table_show_perf(t_hash_table *table);
 
 #endif

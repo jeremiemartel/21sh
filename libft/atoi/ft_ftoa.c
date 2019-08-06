@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 21:39:14 by jmartel           #+#    #+#             */
-/*   Updated: 2019/01/16 21:39:15 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:10:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static char		*ft_inf_nan(long double f)
 {
-	if (f == 1.0 / 0)
+	if (f == PINFINITY)
 		return (ft_strdup("inf"));
-	else if (f == -1.0 / 0)
+	else if (f == LINFINITY)
 		return (ft_strdup("-inf"));
 	else if (f != f)
 		return (ft_strdup("nan"));

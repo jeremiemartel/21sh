@@ -31,21 +31,21 @@ int		ft_strichr_gnl_separator(char *buffer, int buffer_len)
 ** the static node of get_next_line
 */
 
-int		ft_process_gnl2(int const fd, t_gnl_info *info, t_gnl *gnl)
+int		ft_process_gnl2(int const fd, t_gnl_info *info, t_gnl *gnl, int buffsze)
 {
 	int			ret;
 	int			nl_index;
 	int			readd;
 
 	readd = (ft_strcmp(info->line, "") == 0) ? 0 : 1;
-	while (((ret = read(fd, gnl->rest, BUFF_SIZE)) > 0
+	while (((ret = read(fd, gnl->rest, buffsze)) > 0
 			&& ((nl_index = ft_strichr_gnl_separator(gnl->rest, ret)) == -1)))
 	{
 		readd = 1;
 		gnl->rest[ret] = '\0';
 		if (!(info->line = ft_strjoin_free(info->line, gnl->rest, 1)))
 			return (-1);
-		ft_bzero(gnl->rest, BUFF_SIZE);
+		ft_bzero(gnl->rest, buffsze);
 	}
 	if (ret > 0)
 	{
@@ -88,7 +88,7 @@ int		get_already_read_buffer(t_gnl *gnl, t_gnl_info *info)
 ** read more with ft_process_gnl2 (may also free the node if it became useless)
 */
 
-int		get_next_line2(int const fd, t_gnl_info *info)
+int		get_next_line2(int const fd, t_gnl_info *info, int buffsize)
 {
 	static t_list	*gnls = NULL;
 	t_gnl			*gnl;
@@ -102,8 +102,8 @@ int		get_next_line2(int const fd, t_gnl_info *info)
 	else
 	{
 		gnl->rest = gnl->whole_buffer;
-		ft_bzero(gnl->rest, BUFF_SIZE);
-		ret = ft_process_gnl2(fd, info, gnl);
+		ft_bzero(gnl->rest, buffsize);
+		ret = ft_process_gnl2(fd, info, gnl, buffsize);
 		return (ft_may_free_node(ret, &gnls, gnl));
 	}
 }

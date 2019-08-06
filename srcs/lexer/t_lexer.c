@@ -6,45 +6,50 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:39:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/14 13:34:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/03 21:32:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-void	lexer_init(t_lexer *lexer, int tok_start)
+void	t_lexer_init(t_lexer *lexer, int tok_start)
 {
-	lexer->quoted = LEX_TOK_UNKNOWN;
+	lexer->quoted = 0;
+	lexer->expansion = 0;
 	lexer->tok_start = tok_start;
 	lexer->tok_len = 0;
 	lexer->current_id = LEX_TOK_UNKNOWN;
 	lexer->c = lexer->input[lexer->tok_start + lexer->tok_len];
 }
 
-int		lexer_add_token(t_lexer *lexer)
+int		t_lexer_add_token(t_lexer *lexer)
 {
-	t_list		*new;
+	t_list		*link;
 	t_token		*token;
 
-	if (lexer->tok_len == 0)// || lexer->current_id == LEX_TOK_UNKNOWN)
+	if (lexer->tok_len == 0 && lexer->current_id == LEX_TOK_UNKNOWN)
 	{
-		lexer_init(lexer, lexer->tok_start + lexer->tok_len);
+		t_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 		return (LEX_OK);
 	}
-	if (!(token = t_token_new(lexer->current_id, NULL)))
-		return (LEX_ERR);
-	if (!(new = ft_lstnew(token, sizeof(token))))
+	if (!(link = t_token_new(lexer->current_id, NULL)))
+		return (LEX_FAIL);
+	token = link->content;
+	ft_lstadd_last(&lexer->list, link);
+	token->value = ft_strndup(lexer->input + lexer->tok_start, lexer->tok_len);
+	if (!token->value)
 	{
 		free(token);
-		return (LEX_ERR);
+		free(link);
+		return (LEX_FAIL);
 	}
-	ft_lstadd_last(&lexer->list, new);
-	token->value = ft_strndup(lexer->input + lexer->tok_start, lexer->tok_len);
-	lexer_init(lexer, lexer->tok_start + lexer->tok_len);
+	token->quoted = ft_abs(lexer->quoted);
+	token->expansion = lexer->expansion;
+	t_lexer_init(lexer, lexer->tok_start + lexer->tok_len);
 	return (LEX_OK);
 }
 
-void	lexer_show(t_lexer *lexer)
+void	t_lexer_show(t_lexer *lexer)
 {
 	t_list	*head;
 
@@ -53,8 +58,8 @@ void	lexer_show(t_lexer *lexer)
 	{
 		t_token_show((t_token*)head->content);
 		if (head->next)
-			ft_putstr(" -> ");
+			ft_putstr_fd(" -> ", 2);
 		head = head->next;
 	}
-	ft_putstrn("");
+	ft_putstr_fd("\n", 2);
 }

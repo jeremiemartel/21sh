@@ -6,75 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 17:39:13 by ldedier           #+#    #+#             */
-/*   Updated: 2019/04/04 20:11:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 06:37:42 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_is_eligible_for_transition(t_state *state, t_item *item)
-{
-	t_list *ptr;
-	t_item *item_ptr;
-
-	ptr = state->items;
-	while (ptr != NULL)
-	{
-		item_ptr = (t_item *)ptr->content;
-		if (item->production == item_ptr->production &&
-				item->progress->next == item_ptr->progress)
-			return (1);
-		ptr = ptr->next;
-	}
-	return (0);
-}
-
-t_state *sh_get_state_by_symbol(t_item *item, t_lr_parser *parser)
-{
-	t_list *ptr;
-	t_state *state;
-
-	ptr = parser->states;
-	while (ptr != NULL)
-	{
-		state = (t_state *)ptr->content;
-		if (sh_is_eligible_for_transition(state, item))
-		{
-			return (state);
-		}
-		ptr = ptr->next;
-	}
-	return (NULL);
-}
-
-t_state	*sh_get_state_by_transition(t_state *state, t_symbol *symbol)
-{
-	t_list			*ptr;
-	t_transition	*transition;
-
-	ptr = state->transitions;
-	while (ptr != NULL)
-	{
-		transition = (t_transition *)ptr->content;
-		if (transition->symbol == symbol)
-			return (transition->state);
-		ptr = ptr->next;
-	}
-	return (NULL);
-}
-
-t_transition	*sh_new_transition(t_state *to, t_symbol *symbol)
-{
-	t_transition *res;
-
-	if (!(res = (t_transition *)malloc(sizeof(t_transition))))
-		return (NULL);
-	res->state = to;
-	res->symbol = symbol;
-	return (res);
-}
-
-int		sh_add_transition(t_state *from, t_state *to, t_symbol *symbol)
+int			sh_add_transition(t_state *from, t_state *to, t_symbol *symbol)
 {
 	t_transition *transition;
 
@@ -89,26 +27,7 @@ int		sh_add_transition(t_state *from, t_state *to, t_symbol *symbol)
 	return (0);
 }
 
-t_item	*sh_new_item_advance(t_item *item)
-{
-	t_item	*res;
-	int		i;
-
-	if (!(res = (t_item *)malloc(sizeof(t_item))))
-		return (NULL);
-	res->production = item->production;
-	res->progress = item->progress->next;
-	res->parsed = 0;
-	i = 0;
-	while (i < NB_TERMS)
-	{
-		res->lookaheads[i] = item->lookaheads[i];
-		i++;
-	}
-	return (res);
-}
-
-t_state *sh_new_parser_state_from_item(t_item *item, t_lr_parser *parser)
+t_state		*sh_new_parser_state_from_item(t_item *item, t_lr_parser *parser)
 {
 	t_state *res;
 	t_item	*new_item;
@@ -133,7 +52,7 @@ t_state *sh_new_parser_state_from_item(t_item *item, t_lr_parser *parser)
 	return (res);
 }
 
-int		sh_add_to_state_check(t_state *state, t_item *item, int *changes)
+int			sh_add_to_state_check(t_state *state, t_item *item, int *changes)
 {
 	t_item *new_item;
 
@@ -157,10 +76,9 @@ int		sh_add_to_state_check(t_state *state, t_item *item, int *changes)
 ** gets the state where the transition leads to for this item and creates the
 ** transition or both the state and the transition if necessary
 ** then add the convenient item as necessary in the given state
-**
 */
 
-int		sh_add_transition_item(t_item *item,
+int			sh_add_transition_item(t_item *item,
 			t_state *state, t_lr_parser *parser, int *changes)
 {
 	t_state *res;
@@ -176,7 +94,7 @@ int		sh_add_transition_item(t_item *item,
 	{
 		if (!(res = sh_get_state_by_symbol(item, parser)))
 		{
-			if (!(res = sh_new_parser_state_from_item(item, parser))) //ajouter dans tout les cas done
+			if (!(res = sh_new_parser_state_from_item(item, parser)))
 				return (1);
 		}
 		if (sh_add_transition(state, res, item->progress->content))
@@ -186,7 +104,7 @@ int		sh_add_transition_item(t_item *item,
 	}
 }
 
-int		sh_compute_transitions(t_state *state, t_lr_parser *parser)
+int			sh_compute_transitions(t_state *state, t_lr_parser *parser)
 {
 	t_list		*ptr;
 	t_item		*item;

@@ -5,30 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 19:34:56 by ldedier           #+#    #+#             */
-/*   Updated: 2019/05/12 15:09:42 by jmartel          ###   ########.fr       */
+/*   Created: 2019/07/19 11:14:49 by ldedier           #+#    #+#             */
+/*   Updated: 2019/07/31 19:33:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-/*
-** sh_check_execute:
-**	Check if the substituted command path is valid: it exists,
-**	it's not a directory, you can execute it
-*/
-
-int		sh_check_execute(char *full_path, char *command_name)
+void		sh_close_all_other_contexts(t_context *context, t_list *contexts)
 {
-	struct stat	st;
+	t_context	*current_context;
+	t_list		*ptr;
 
-	if (access(full_path, F_OK))
-		return (ft_perror(SH_ERR1_CMD_NOT_FOUND, command_name));
-	if (stat(full_path, &st) == -1)
-		return (FAILURE);
-	if (S_ISDIR(st.st_mode))	//Need to check if it's a normal file instead ??
-		return (ft_perror(SH_ERR1_CMD_NOT_FOUND, command_name));
-	else if (access(full_path, X_OK))
-		return (ft_perror(SH_ERR1_PERM_DENIED, command_name));
-	return (SUCCESS);
+	ptr = contexts;
+	while (ptr != NULL)
+	{
+		current_context = (t_context *)ptr->content;
+		if (current_context != context)
+			sh_process_execute_close_pipes(current_context);
+		ptr = ptr->next;
+	}
+}
+
+void		sh_execute_child_builtin(t_context *context, t_list *contexts)
+{
+	int ret;
+
+	sh_process_execute_dup_pipes(context);
+	reset_signals();
+	sh_close_all_other_contexts(context, contexts);
+	ret = context->builtin(context);
+	if (context->shell->ret_value_set)
+		ret = context->shell->ret_value;
+	sh_free_all(context->shell);
+	exit(ret);
+}
+
+void		sh_execute_child_binary(t_context *context, t_list *contexts)
+{
+	sh_process_execute_dup_pipes(context);
+	reset_signals();
+	sh_close_all_other_contexts(context, contexts);
+	execve(context->path, (char **)context->params->tbl,
+			(char **)context->env->tbl);
+	sh_process_execute_close_pipes(context);
+	if (sh_verbose_exec())
+		ft_dprintf(2, "Execve failed\n");
+	exit(FAILURE);
+}
+
+void		sh_execute_child(t_context *context, t_list *contexts)
+{
+	if (context->builtin)
+		sh_execute_child_builtin(context, contexts);
+	else
+		sh_execute_child_binary(context, contexts);
 }

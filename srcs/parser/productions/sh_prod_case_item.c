@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 11:02:58 by ldedier           #+#    #+#             */
-/*   Updated: 2019/03/28 11:02:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/06/07 07:06:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,11 @@ int		sh_init_prod_case_item(t_cfg *cfg, t_symbol *symbol)
 		LINEBREAK))
 		return (1);
 	if (sh_add_prod(symbol, cfg, 6,
-		LEX_TOK_OPN_PAR,
-		PATTERN,
-		LEX_TOK_CLS_PAR,
-		LINEBREAK,
-		LEX_TOK_DSEMI,
+		LEX_TOK_OPN_PAR, PATTERN, LEX_TOK_CLS_PAR, LINEBREAK, LEX_TOK_DSEMI,
 		LINEBREAK))
 		return (1);
 	if (sh_add_prod(symbol, cfg, 6,
-		LEX_TOK_OPN_PAR,
-		PATTERN,
-		LEX_TOK_CLS_PAR,
-		COMPOUND_LIST,
-		LEX_TOK_DSEMI,
+		LEX_TOK_OPN_PAR, PATTERN, LEX_TOK_CLS_PAR, COMPOUND_LIST, LEX_TOK_DSEMI,
 		LINEBREAK))
 		return (1);
 	return (0);

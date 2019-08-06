@@ -6,61 +6,71 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:16:38 by jmartel           #+#    #+#             */
-/*   Updated: 2019/05/21 18:33:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/07/22 23:30:50 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-int		sh_verbose_ast(void)
-{
-	if (g_glob.verbose & VERBOSE_AST)
-		return (1);
-	return (0);
-}
-int		sh_verbose_lexer(void)
-{
+/*
+** sh_verbose_update_check:
+**	Check for if var designed by str exists and is not empty. If true verbose
+**	mode is enabled for phase designed by param.
+**	Else it is unabled.
+*/
 
-	if (g_glob.verbose & VERBOSE_LEXER)
-		return (1);
-	return (0);
-}
-int		sh_verbose_exec(void)
-{
-	if (g_glob.verbose & VERBOSE_EXEC)
-		return (1);
-	return (0);
-}
-int		sh_verbose_pipe(void)
-{
-	if (g_glob.verbose & VERBOSE_PIPE)
-		return (1);
-	return (0);
-}
-
-int		sh_verbose_update(t_shell *shell)
+static void	sh_verbose_update_check(t_shell *shell, int param, char *str)
 {
 	char	*value;
 
-	if ((value = sh_vars_get_value(shell->env, shell->vars, "verbose_ast")) && *value)
-		g_glob.verbose += g_glob.verbose & VERBOSE_AST ? 0 : VERBOSE_AST;
+	if ((value = sh_vars_get_value(shell->env, shell->vars,
+		str)) && *value)
+		g_glob.verbose += g_glob.verbose & param ? 0 : param;
 	else
-		g_glob.verbose -= g_glob.verbose & VERBOSE_AST ? VERBOSE_AST : 0;
+		g_glob.verbose -= g_glob.verbose & param ? param : 0;
+}
 
-	if ((value = sh_vars_get_value(shell->env, shell->vars, "verbose_lexer")) && *value)
-		g_glob.verbose += g_glob.verbose & VERBOSE_LEXER ? 0 : VERBOSE_LEXER;
-	else
-		g_glob.verbose -= g_glob.verbose & VERBOSE_LEXER ? VERBOSE_LEXER : 0;
+/*
+** sh_verbose_update:
+**	Update the g_glob.verbose var detecting for special
+**	variables in shell->vars.
+*/
 
-	if ((value = sh_vars_get_value(shell->env, shell->vars, "verbose_exec")) && *value)
-		g_glob.verbose += g_glob.verbose & VERBOSE_EXEC ? 0 : VERBOSE_EXEC;
-	else
-		g_glob.verbose -= g_glob.verbose & VERBOSE_EXEC ? VERBOSE_EXEC : 0;
+void		sh_verbose_update(t_shell *shell)
+{
+	sh_verbose_update_check(shell, VERBOSE_AST, "verbose_ast");
+	sh_verbose_update_check(shell, VERBOSE_LEXER, "verbose_lexer");
+	sh_verbose_update_check(shell, VERBOSE_EXEC, "verbose_exec");
+	sh_verbose_update_check(shell, VERBOSE_BUILTIN, "verbose_builtin");
+	sh_verbose_update_check(shell, VERBOSE_EXPANSION, "verbose_expansion");
+	sh_verbose_update_check(shell, VERBOSE_PIPE, "verbose_pipe");
+	sh_verbose_update_check(shell, VERBOSE_TRAVERSE, "verbose_traverse");
+}
 
-	if ((value = sh_vars_get_value(shell->env, shell->vars, "verbose_pipe")) && *value)
-		g_glob.verbose += g_glob.verbose & VERBOSE_PIPE ? 0 : VERBOSE_PIPE;
-	else
-		g_glob.verbose -= g_glob.verbose & VERBOSE_PIPE ? VERBOSE_PIPE : 0;
+/*
+**	Check if verbose is active on in the given phase.
+**
+** Returned Values:
+**		True or False
+*/
 
-	return (SUCCESS);
+int			sh_verbose_traverse(void)
+{
+	if (g_glob.verbose & VERBOSE_TRAVERSE)
+		return (1);
+	return (0);
+}
+
+/*
+**	Check if verbose is active on in the given phase.
+**
+** Returned Values:
+**		True or False
+*/
+
+int			sh_verbose_builtin(void)
+{
+	if (g_glob.verbose & VERBOSE_BUILTIN)
+		return (1);
+	return (0);
 }
