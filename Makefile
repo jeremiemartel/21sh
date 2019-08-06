@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/08/05 15:26:10 by ldedier          ###   ########.fr        #
+#    Updated: 2019/08/06 11:30:54 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						sh_process_quoted.c \
 						sh_get_cursor_position.c eof_percent.c \
 						update_prompt_cwd.c keys_insert_tools.c keys_flush.c \
-						keys_debug.c
+						keys_debug.c screen_tools.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \

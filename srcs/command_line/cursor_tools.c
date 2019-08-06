@@ -6,11 +6,25 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:33:21 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 02:17:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 11:31:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
+
+int		get_true_cursor_pos_prev_prompt(int cursor)
+{
+	int ret;
+
+	if (g_glob.command_line.prev_prompt_len != -1)
+	{
+		ret = cursor + g_glob.command_line.prev_prompt_len;
+		g_glob.command_line.prev_prompt_len = -1;
+	}
+	else
+		ret = (cursor + ft_strlen_utf8(g_glob.command_line.prompt));
+	return (ret);
+}
 
 int		get_true_cursor_pos(int cursor)
 {
@@ -28,7 +42,8 @@ int		get_down_from_command(t_command_line *command_line)
 	ret = 0;
 	full_y = get_true_cursor_pos(command_line->nb_chars)
 		/ g_glob.winsize.ws_col;
-	cursor_y = get_true_cursor_pos(g_glob.cursor) / g_glob.winsize.ws_col;
+	cursor_y = get_true_cursor_pos(g_glob.cursor)
+		/ g_glob.winsize.ws_col;
 	str = tgetstr("do", NULL);
 	i = cursor_y;
 	while (i < full_y)
@@ -64,14 +79,4 @@ void	replace_cursor_after_render(void)
 {
 	go_up_to_prompt(g_glob.winsize.ws_col, g_glob.command_line.nb_chars);
 	replace_cursor_on_index();
-}
-
-int		process_clear(t_command_line *command_line)
-{
-	char *str;
-
-	str = tgetstr("cl", NULL);
-	tputs(str, 1, putchar_int);
-	render_command_line(command_line, 0, 0);
-	return (0);
 }
