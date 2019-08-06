@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/06 17:54:38 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 18:58:53 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int		sh_traverse_simple_command_exec(t_ast_node *node, t_context *context)
 		return (ret);
 	if (sh_verbose_traverse())
 		ft_dprintf(2,
-		BLUE"SIMPLE_COMMAND : %s : cmd name : %s\n"EOC,
-		t_phase_name(context->phase), context->params->tbl[0]);
+		BLUE"%-15s : %-12s : cmd name: %s\n"EOC,
+		node->symbol->debug, t_phase_name(context->phase), context->params->tbl[0]);
 	if (!context->params->tbl[0])
 		return (SUCCESS);
 	if (!ft_strchr(context->params->tbl[0], '/'))
