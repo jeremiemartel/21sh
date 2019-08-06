@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/06 18:34:27 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 19:09:46 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ static int			sh_expansions_process(
 	t_expansion	exp;
 	int			ret;
 
-	ret = sh_expansions_init(original, &exp);
+	if ((ret = sh_expansions_init(original, &exp)) == ERROR)
+	{
+		*index += ft_strlen(original);
+		return (SUCCESS);
+	}
 	if (sh_verbose_expansion())
 		t_expansion_show(&exp);
 	if (!ret)
@@ -128,9 +132,7 @@ static int 		sh_scan_expansions(char **input, int index, t_context *context)
 			return (ret);
 	}
 	else
-	{
 		backslash(*input, &index, 0);
-	}
 	return (sh_scan_expansions(input, index, context));
 }
 
@@ -157,12 +159,11 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 		return (SUCCESS);
 	index = 0;
 	input = &node->token->value;
-	if ((*input)[0] == '~'
-		&& (ret = sh_expansions_process_tilde(input, *input, context)) != SUCCESS)
-	{
-		return (ret);
-	}
-	ret = sh_scan_expansions(input, index, context);
+	ret = SUCCESS;
+	if ((*input)[0] == '~')
+		ret = sh_expansions_process_tilde(input, *input, context);
+	if (!ret)
+		ret = sh_scan_expansions(input, index, context);
 	if (ret == ERROR || ret == FAILURE)
 		sh_env_update_ret_value(context->shell, ret);
 	if (sh_env_update_question_mark(context->shell) == FAILURE)
