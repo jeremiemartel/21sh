@@ -6,6 +6,8 @@ file
 logs
 log
 sandbox
+/b
+/tests_scripts/b
 
 /signal
 /signal.c
