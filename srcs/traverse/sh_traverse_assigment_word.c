@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 12:11:44 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 19:06:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:28:32 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		sh_traverse_assigment_word(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
 	{
 		ret = SUCCESS;
-		if (node && node->token /*&& node->token->expansion*/)
+		if (node && node->token)
 			ret = sh_expansions(context, node);
 		if (!ret && node && node->token && node->token->value
 				&& ft_strnstr(node->token->value, "PATH=", 5))

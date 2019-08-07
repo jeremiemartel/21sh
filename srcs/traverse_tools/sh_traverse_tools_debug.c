@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/28 17:52:40 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/06 18:57:44 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:30:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	*ret_to_str(int ret)
 		return ("unknown returned value");
 }
 
-void	sh_traverse_tools_show_traverse_start(t_ast_node *node, t_context *context)
+void	sh_traverse_tools_show_traverse_start(
+	t_ast_node *node, t_context *context)
 {
 	if (sh_verbose_traverse())
 	{
@@ -56,7 +57,8 @@ void	sh_traverse_tools_show_traverse_start(t_ast_node *node, t_context *context)
 	}
 }
 
-void	sh_traverse_tools_show_traverse_ret_value(t_ast_node *node, t_context *context, int ret)
+void	sh_traverse_tools_show_traverse_ret_value(
+	t_ast_node *node, t_context *context, int ret)
 {
 	if (sh_verbose_traverse())
 	{

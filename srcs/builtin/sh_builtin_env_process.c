@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:31:43 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/06 19:36:31 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:40:35 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ static int	sh_builtin_env_process_no_slash
 			sh_perror(((char**)context->params->tbl)[0], SH_ERR1_EXECVE_FAIL);
 			return (SH_RET_NOT_EXECUTABLE);
 		}
-		else
-			return (sh_process_execute(context));
+		return (sh_process_execute(context));
 	}
 	sh_perror_err(SH_ERR1_CMD_NOT_FOUND, context->params->tbl[0]);
 	sh_env_update_ret_value(context->shell, SH_RET_CMD_NOT_FOUND);

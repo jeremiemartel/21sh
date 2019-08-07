@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:31:30 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/08 12:32:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:28:24 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			sh_traverse_cmd_name(t_ast_node *node, t_context *context)
 	if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
 	{
 		child = (t_ast_node *)node->children->content;
-		if (child && child->token /*&& child->token->expansion*/)
+		if (child && child->token)
 			return (sh_expansions(context, child));
 		return (SUCCESS);
 	}

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/07 08:20:12 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:35:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
 
 # define LEX_RULES_LEN	10
 
-# define LEX_OPERATORS_CHARS	"|&;<>()"
+# define LEX_OPERATORS_CHARS_LEN	8
+# define LEX_OPERATORS_CHARS		"|&;<>()\0"
 
 typedef struct s_shell		t_shell;
 

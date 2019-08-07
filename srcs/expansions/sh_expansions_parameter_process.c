@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 16:41:00 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/06 13:10:39 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:42:21 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ static int	sh_expansions_parameter_quest_msg(
 	else
 	{
 		if (ft_strchr(format, ':'))
-			sh_perror_fd(context->fd[FD_ERR], expansion, "parameter null or not set");
+			sh_perror_fd(context->fd[FD_ERR], expansion,
+			"parameter null or not set");
 		else
 			sh_perror_fd(context->fd[FD_ERR], expansion, "parameter not set");
 	}
@@ -133,7 +134,7 @@ static int	sh_expansions_parameter_quest_msg(
 **	return Value:
 **		SUCCESS : exp->res sucessfully filled
 **		ERROR : One of the previous condition happend
-**		FAILURE : malloc error, one of previos condition happend
+**		FAILURE : malloc error, one of previous condition happend
 */
 
 int			sh_expansions_parameter_quest(

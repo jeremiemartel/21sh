@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:56:29 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/05 22:09:13 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:39:21 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	sh_expansions_tilde_2(t_context *context, t_expansion *exp)
 **		<0 : Lenght of the valid expansion detecteda
 */
 
-int		sh_expansions_tilde_detect(char *start)
+int			sh_expansions_tilde_detect(char *start)
 {
 	int		i;
 
@@ -98,7 +98,7 @@ int		sh_expansions_tilde_detect(char *start)
 **		SUCCESS : successfully filled expansion
 */
 
-int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
+int			sh_expansions_tilde_fill(t_expansion *exp, char *start)
 {
 	int		i;
 
@@ -125,7 +125,7 @@ int		sh_expansions_tilde_fill(t_expansion *exp, char *start)
 **		SUCCESS : Successfullly filled exp->res
 */
 
-int		sh_expansions_tilde_process(t_context *context, t_expansion *exp)
+int			sh_expansions_tilde_process(t_context *context, t_expansion *exp)
 {
 	if (!exp->original[1] || ft_iswhite(exp->original[1]))
 		return (sh_expansions_tilde_1(context, exp));

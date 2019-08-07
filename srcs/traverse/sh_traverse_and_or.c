@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/06 17:58:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:37:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,9 @@ int				sh_traverse_and_or_launch_phase(
 		phase = E_TRAVERSE_PHASE_EXPANSIONS;
 		while (phase <= E_TRAVERSE_PHASE_EXECUTE)
 		{
-			sh_traverse_tools_show_traverse_start((t_ast_node*)ptr->content, context);
 			if ((ret = sh_traverse_and_or_process_phase(
 				context, &phase, prev_symbol, ptr)) == KEEP_READ)
 				continue ;
-			sh_traverse_tools_show_traverse_ret_value(node, context, ret);
 			return (ret);
 		}
 		if ((ptr = (ptr)->next))
@@ -113,13 +111,15 @@ int				sh_traverse_and_or_launch_phase(
 
 int				sh_traverse_and_or(t_ast_node *node, t_context *context)
 {
+	int		ret;
+
+	sh_traverse_tools_show_traverse_start(node, context);
 	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
-	{
-		sh_traverse_tools_show_traverse_start(node, context);
-		return (sh_traverse_tools_browse(node, context));
-	}
+		ret = sh_traverse_tools_browse(node, context);
 	else if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
-		return (sh_traverse_and_or_launch_phase(node, context));
+		ret = sh_traverse_and_or_launch_phase(node, context);
 	else
-		return (sh_traverse_tools_browse(node, context));
+		ret = sh_traverse_tools_browse(node, context);
+	sh_traverse_tools_show_traverse_ret_value(node, context, ret);
+	return (ret);
 }
