@@ -169,6 +169,13 @@ int					update_prompt_cwd_bonus_tilde(
 int					update_prompt_cwd(t_shell *shell, char **new_prompt);
 
 /*
+** get_char_len.c
+*/
+int					get_char_len2(
+	int index, int len, unsigned char *entry);
+int					get_char_len(int index, unsigned char *entry);
+
+/*
 ** keys_ctrl.c
 */
 int					process_ctrl_c(
@@ -421,6 +428,8 @@ int					delete_command_line_selection(
 ** keys_insert_tools.c
 */
 int					process_enter_no_autocompletion(
+	t_command_line *command_line);
+void				process_cancel_autocompletion(
 	t_command_line *command_line);
 void				cancel_autocompletion(
 	t_key_buffer *buffer, t_command_line *command_line);
