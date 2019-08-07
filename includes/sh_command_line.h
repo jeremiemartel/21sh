@@ -371,7 +371,6 @@ int					get_true_cursor_pos(int cursor);
 int					get_down_from_command(t_command_line *command_line);
 void				replace_cursor_on_index(void);
 void				replace_cursor_after_render(void);
-int					process_clear(t_command_line *command_line);
 
 /*
 ** keys_others.c
@@ -380,6 +379,11 @@ int					process_keys_others(
 	t_key_buffer *buffer,
 	t_shell *shell,
 	t_command_line *command_line);
+
+/*
+** screen_tools.c
+*/
+int					process_clear(t_command_line *command_line);
 
 /*
 ** arrows.c

@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/06 20:10:04 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/06 20:10:04 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 14:36:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-t_ast_node *sh_new_ast_node(t_symbol_id id, char *value)
+t_ast_node	*sh_new_ast_node(t_symbol_id id, char *value)
 {
 	t_ast_node	*res;
 	t_token		*token;
@@ -20,7 +20,7 @@ t_ast_node *sh_new_ast_node(t_symbol_id id, char *value)
 	token = NULL;
 	if (value)
 	{
-		if (!(token = sh_new_token(id, value)))
+		if (!(token = t_token_new(id, value)))
 			return (sh_perrorn(SH_ERR1_MALLOC, "new_ast_node (1)"));
 	}
 	if (!(res = malloc(sizeof(t_ast_node))))
@@ -44,7 +44,7 @@ t_ast_node *sh_new_ast_node(t_symbol_id id, char *value)
 ** in both cases returns the newly appended child or NULL on error
 */
 
-t_ast_node *sh_add_to_ast_node(t_ast_node *node, t_symbol_id id,
+t_ast_node	*sh_add_to_ast_node(t_ast_node *node, t_symbol_id id,
 				char *value)
 {
 	t_ast_node *new_node;
