@@ -2,8 +2,8 @@
 
 compare_results()
 {
-	old_log_file="./log/prev"
-	new_log_file="./log/new"
+	old_log_file="./.log/prev"
+	new_log_file="./.log/new"
 
 	new_ok=`grep -c OK $new_log_file`
 	old_ok=`grep -c OK $old_log_file`
@@ -23,6 +23,9 @@ compare_results()
 		read str
 		if [ "$str" = "y" ] ; then
 			mv $new_log_file $old_log_file
+			echo "Updated"
+		else
+			echo "Abort"
 		fi
 
 	else
@@ -35,8 +38,8 @@ compare_results()
 
 compare_return_value()
 {
-	old_log_file="./log/ret_prev"
-	new_log_file="./log/ret_new"
+	old_log_file="./.log/ret_prev"
+	new_log_file="./.log/ret_new"
 
 	if [ ! -e "$new_log_file" -o ! -e "$old_log_file" ] ; then
 		echo "Can't find log files"
@@ -60,6 +63,9 @@ compare_return_value()
 		read str
 		if [ "$str" = "y" ] ; then
 			mv $new_log_file $old_log_file
+			echo Updated
+		else
+			echo Abort
 		fi
 	else
 		echo "OK ($new_ko failed tests)"
@@ -71,9 +77,9 @@ compare_return_value()
 }
 
 if [ "$1" = "-r" ] ; then
-	./start.sh -r -q 1>./log/ret_new
+	./start.sh -r -q 1>./.log/ret_new
 	compare_return_value
 else
-	./start.sh -q > log/new
+	./start.sh -q > ./.log/new
 	compare_results
 fi
