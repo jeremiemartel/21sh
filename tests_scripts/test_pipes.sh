@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:47 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/20 15:52:38 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/07 15:29:56 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,23 +42,26 @@ launch "Pipes"
 		test_launch '2<<eof 1<<eof2 cat' 'olqsd' 'eof' 'tamer' 'eof2' 'ls'
 		test_launch '2<<eof 1<<eof2 cat | wc' 'olqsd' 'eof' 'tamer' 'eof2' 'ls'
 
-	if [ ! -f "fd.c" ] ; then echo "Can't find file fd.c" ; exit ; else gcc fd.c ; fi
-	
-	launch "duplicating fd"
-		test_launch "rm -f file" "./a.out 1 okalm > file ; cat file | wc ; rm file"
-		test_launch "rm -f file" "./a.out 3 okalm 3>file ; cat file" "rm file"
-		test_launch "rm -f file" "./a.out 5 string 3>f3 4>f4 5>f5" "echo 3 ; cat f3" "echo 4 ; cat f4" "echo 5 ; cat f5" "rm f3 f4 f5"
-		test_launch "rm -f file" "./a.out 2 stre 2>&- 2>file ; cat file" "ls ;;; ls"
-		test_launch "rm -f file" "./a.out 1 okalm 1>&- 1>&- 1>&2 1>&-"
-		test_launch "rm -f file" "./a.out 4 okalm 4>&- 4>&- 4>&1 4>&-"
-		test_launch "rm -f file" "./a.out 4 okalm 4>&1 4>&2 4>&3 3>file ; cat file ; rm file"
-		test_launch "rm -f file" "./a.out 4 okalm 4>&1 4>&2 3>file ; cat file ; rm file"
-
-		rm -f file ; rm a.out
+	if [ ! -f ".fd" ] ; then
+		echo "Can't find .fd executable" ;
+	else
+		launch "duplicating fd"
+			test_launch "rm -f file" "./a.out 1 okalm > file ; cat file | wc ; rm file"
+			test_launch "rm -f file" "./a.out 3 okalm 3>file ; cat file" "rm file"
+			test_launch "rm -f file" "./a.out 5 string 3>f3 4>f4 5>f5" "echo 3 ; cat f3" "echo 4 ; cat f4" "echo 5 ; cat f5" "rm f3 f4 f5"
+			test_launch "rm -f file" "./a.out 2 stre 2>&- 2>file ; cat file" "ls ;;; ls"
+			test_launch "rm -f file" "./a.out 1 okalm 1>&- 1>&- 1>&2 1>&-"
+			test_launch "rm -f file" "./a.out 4 okalm 4>&- 4>&- 4>&1 4>&-"
+			test_launch "rm -f file" "./a.out 4 okalm 4>&1 4>&2 4>&3 3>file ; cat file ; rm file"
+			test_launch "rm -f file" "./a.out 4 okalm 4>&1 4>&2 3>file ; cat file ; rm file"
+	fi
 
 	launch "asynchronous"
 		test_launch "sleep 0.1 | ls ; echo lol"
 		test_launch 'pwd ; cd ..  | echo | exit ; pwd'
 		test_launch 'true | exit'
 		test_launch 'yes | head -c1'
+
+	rm -f file
+
 finish

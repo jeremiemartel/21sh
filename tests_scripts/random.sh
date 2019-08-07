@@ -13,7 +13,7 @@
 ##			else, every files would be launched
 
 path=".."
-suppressions_file="my_supp.supp"
+suppressions_file=".my_supp.supp"
 exec="21sh"
 log_dir="logs" # watchout we rm -rf this
 
@@ -58,8 +58,6 @@ if [ ! -z $valgrind ] ; then
 	echo "OK !"
 fi
 
-res_file="../../test_random_input.sh"
-
 green="\\033[32m"
 yellow="\\033[33m"
 red="\\033[31m"
@@ -87,20 +85,23 @@ test_random_input ()
 	return 0
 }
 
+rm -f tests_launched
+
+mkdir -p random_sandbox/protection_dir/protection_dir/protection_dir/protection_dir/
+cd random_sandbox/protection_dir/protection_dir/protection_dir/protection_dir/
+
 #RANDOM_CHARS=" \"\'\\\`     qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()_+                       "
 # RANDOM_CHARS="\"\`\`\ [:blank:][:alnum:][:space:][:space:][:print:]\\\"\ "
 RANDOM_CHARS="<<>>&&\"\`\`\'\'\"\"    azetyuioplknqds1230987654)({}\$\$\$\#\@\#\#\\\\\\\\ck\$\"\ [:space:][:space:]"
 RANDOM_LEN=30
 
-rm -f tests_launched
-
 for i in {1..200} ; do
 	RANDOM_LEN=$i
 	for j in {1..100} ; do
 		random
-		cat file >> tests_launched
-		echo "" >> tests_launched
-		# if [ $? -eq 1 ] ; then echo "Refused command : " ; cat file ; echo "" ; continue ; fi
+		cat file >> ../../../../../tests_launched
+		echo "" >> ../../../../../tests_launched
+		test_random_input
 		if [ $? -eq 1 ] ; then continue ; fi
 		test_launch_pipe file
 	done
