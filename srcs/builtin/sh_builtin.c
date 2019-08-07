@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 19:04:16 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/15 16:45:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 15:44:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ t_builtin_container	*get_builtins(void)
 		{ "hash", sh_builtin_hash },
 		{ "unsetenv", sh_builtin_unsetenv },
 		{ "setenv", sh_builtin_setenv },
-		{ "env", sh_builtin_env }
+		{ "env", sh_builtin_env },
+		{ "🐑", sh_builtin_🐑 }
 	};
 
 	return (res);

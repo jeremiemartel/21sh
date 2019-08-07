@@ -6,14 +6,14 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 11:36:31 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/21 11:37:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 15:46:26 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_BUILTIN_H
 # define SH_BUILTIN_H
 
-# define NB_BUILTINS	11
+# define NB_BUILTINS	12
 
 # define CD_OPT_LOGIC	0x01
 # define CD_OPT_PHYSIC	0x02
@@ -59,14 +59,11 @@ t_builtin			sh_builtin_find(t_context *context);
 int					sh_builtin_cd(t_context *context);
 
 /*
-** sh_builtin_hash_tools.c
+** sh_builtin_env_process.c
 */
-int					sh_builtin_hash_add_utility(
-	t_context *context, char *utility);
-void				sh_builtin_hash_empty_table(t_shell *shell);
-void				sh_builtin_hash_show(t_shell *shell);
-void				sh_builtin_hash_update_stats(
-	t_hash_table *table, t_binary_stats *stats);
+int					sh_builtin_env_no_args(t_context *context);
+int					sh_builtin_env_process_command (
+	t_context *context, t_dy_tab *new_env);
 
 /*
 ** sh_builtin_cd_pre_rules.c
@@ -113,11 +110,9 @@ int					sh_builtin_setenv(t_context *context);
 int					sh_builtin_exit(t_context *context);
 
 /*
-** sh_builtin_env_process.c
+** sh_builtin_bonus.c
 */
-int					sh_builtin_env_no_args(t_context *context);
-int					sh_builtin_env_process_command (
-	t_context *context, t_dy_tab *new_env);
+int					sh_builtin_🐑(t_context *context);
 
 /*
 ** sh_builtin_cd_last_rules.c
@@ -138,9 +133,14 @@ int					sh_builtin_pwd(t_context *context);
 int					sh_builtin_hash(t_context *context);
 
 /*
-** sh_builtin_where.c
+** sh_builtin_hash_tools.c
 */
-int					sh_builtin_where(t_context *context);
+int					sh_builtin_hash_add_utility(
+	t_context *context, char *utility);
+void				sh_builtin_hash_empty_table(t_shell *shell);
+void				sh_builtin_hash_show(t_shell *shell);
+void				sh_builtin_hash_update_stats(
+	t_hash_table *table, t_binary_stats *stats);
 
 /*
 ** sh_builtin_verbose.c
@@ -152,6 +152,11 @@ int					sh_builtin_verbose(t_context *context);
 */
 void				sh_builtin_env_usage(int fdout);
 int					sh_builtin_env(t_context *context);
+
+/*
+** sh_builtin_where.c
+*/
+int					sh_builtin_where(t_context *context);
 
 /*
 ** sh_builtin_env_parser.c
