@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 13:10:40 by jmartel           #+#    #+#              #
-#    Updated: 2019/07/26 22:18:34 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/07 17:00:10 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ launch "Expansions"
 	test_launch 'var=Okalm' 'echo ${pwd:=ol}'
 	test_launch 'w=' 'echo $w'
 	test_launch '${}'
-	test_launch '${)' '$}'
+	test_launch '${)'
 	test_launch '$novar ls'
 	test_launch	'$pwd $pwd'
 

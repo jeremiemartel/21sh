@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:47 by jmartel           #+#    #+#              #
-#    Updated: 2019/08/07 15:29:56 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/07 18:05:59 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ launch "Pipes"
 			test_launch "rm -f file" "./a.out 1 okalm > file ; cat file | wc ; rm file"
 			test_launch "rm -f file" "./a.out 3 okalm 3>file ; cat file" "rm file"
 			test_launch "rm -f file" "./a.out 5 string 3>f3 4>f4 5>f5" "echo 3 ; cat f3" "echo 4 ; cat f4" "echo 5 ; cat f5" "rm f3 f4 f5"
-			test_launch "rm -f file" "./a.out 2 stre 2>&- 2>file ; cat file" "ls ;;; ls"
 			test_launch "rm -f file" "./a.out 1 okalm 1>&- 1>&- 1>&2 1>&-"
 			test_launch "rm -f file" "./a.out 4 okalm 4>&- 4>&- 4>&1 4>&-"
 			test_launch "rm -f file" "./a.out 4 okalm 4>&1 4>&2 4>&3 3>file ; cat file ; rm file"
