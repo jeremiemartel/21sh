@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:52:02 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/05 22:50:57 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 16:35:00 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	sh_env_update_ret_value_treat_sig(t_context *context, int sig)
 		sh_perror("Bus error", context->params->tbl[0]);
 	else if (sig == 11)
 		sh_perror("Segmentation fault", context->params->tbl[0]);
-	context->shell->ret_value = SH_RET_SIG_RECEIVED + sig;
+	sh_env_update_ret_value(context->shell, SH_RET_SIG_RECEIVED + sig);
 	return ;
 }
 
