@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:36:01 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/06 15:39:25 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 08:22:57 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ static int		lexer_quoting_simple_quote(t_lexer *lexer)
 {
 	if (lexer->c == '\'')
 	{
-		lexer->quoted = -lexer->quoted;
 		lexer->tok_len++;
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = LEX_TOK_WORD;
+		lexer->quoted = 0;
 	}
 	else
 		lexer->tok_len++;
@@ -60,10 +60,10 @@ static int		lexer_quoting_double_quote(t_lexer *lexer)
 		return (LEX_CONTINUE);
 	if (lexer->c == '"')
 	{
-		lexer->quoted = -lexer->quoted;
 		lexer->tok_len++;
 		if (lexer->current_id == LEX_TOK_UNKNOWN)
 			lexer->current_id = LEX_TOK_WORD;
+		lexer->quoted = 0;
 	}
 	else
 		lexer->tok_len++;
@@ -74,7 +74,7 @@ int				sh_lexer_rule4(t_lexer *lexer)
 {
 	if (lexer->quoted != '\'' && (lexer->c == '\\' || lexer->backslash))
 		return (lexer_quoting_backslash(lexer));
-	if (lexer->quoted <= 0 && (lexer->c == '\'' || lexer->c == '"'))
+	if (lexer->quoted == 0 && (lexer->c == '\'' || lexer->c == '"'))
 		return (lexer_quoting_start_quote(lexer));
 	if (lexer->quoted == '\'')
 		return (lexer_quoting_simple_quote(lexer));
