@@ -200,12 +200,6 @@ void				init_signals(void);
 /*
 ** init.c
 */
-char				*refine_historic_entry(char *entry);
-int					process_read_historic(
-	t_historic *historic, char *line);
-int					sh_init_historic(t_historic *historic);
-int					sh_init_command_line(
-	t_shell *shell, t_command_line *command_line);
 int					sh_init_shell(t_shell *shell, char **env);
 
 /*
