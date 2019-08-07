@@ -24,6 +24,10 @@ int		sh_process_process_quoted(int old_context, t_lexer *lexer)
 			g_glob.command_line.interrupted = 1;
 			return (LEX_ERR);
 		}
+		else if (ret == CTRL_D)
+		{
+			//here
+		}
 		else
 			return (LEX_FAIL);
 	}

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:11:45 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/22 11:30:13 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 12:54:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	sh_free_token(t_ast_node *node, t_token **token)
 		(*token)->value = NULL;
 		free(*token);
 		(*token) = NULL;
-		node->relative->token = NULL;
+		if (node->relative)
+			node->relative->token = NULL;
 	}
 }
 

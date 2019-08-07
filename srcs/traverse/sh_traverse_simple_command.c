@@ -103,7 +103,23 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 			EOC, t_phase_name(context->phase), ret_to_str(ret));
 		return (ret);
 	}
-	return (sh_traverse_tools_browse(node, context));
+	else
+	{
+		/* to remove when tried and aknowledged
+
+		if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
+		{
+			t_ast_node *new_node;
+	
+			if (!(new_node = sh_add_to_ast_node(node, CMD_SUFFIX, NULL)))
+				return (FAILURE);
+			if (!(sh_add_to_ast_node(new_node, LEX_TOK_WORD, "-lRa")))
+				return (FAILURE);
+			sh_print_ast(context->shell->parser.ast_root, 0);
+		}
+		*/
+		return (sh_traverse_tools_browse(node, context));
+	}
 }
 
 /*

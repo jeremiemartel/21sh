@@ -340,4 +340,9 @@ int					sh_process_compute_closure(
 int					sh_compute_closure(
 	t_state *state, t_lr_parser *parser);
 
+/*
+** ast_node_tools.c
+*/
+t_ast_node			*sh_add_to_ast_node(t_ast_node *node, t_symbol_id id,
+	char *value);
 #endif
