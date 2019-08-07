@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 17:45:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 15:29:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@
 
 # define HISTORIC_FILE	".historic"
 
-# define MAX_LEN_HISTORIC_ENTRY	500000
-# define BINARIES_TABLE_SIZE	100
+# define MAX_LEN_HISTORIC_ENTRY	5000
+# define MAX_YANK				2000
+# define BINARIES_TABLE_SIZE	200
 
 /*
 ** Macros of fdin, fdout and fderr in context->fd
