@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/08/03 14:54:36 by jdugoudr         ###   ########.fr        #
+#    Updated: 2019/08/06 16:26:22 by jdugoudr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -189,7 +189,10 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_setenv.c \
 						sh_builtin_unsetenv.c \
 						sh_builtin_env.c sh_builtin_env_process.c sh_builtin_env_parser.c\
-						sh_builtin_hash_tools.c
+						sh_builtin_hash_tools.c \
+						sh_builtin_test.c \
+						sh_builtin_test_unary.c \
+						sh_builtin_test_binary.c
 
 EXP_SRCS_NO_PREFIX =	sh_expansions.c \
 						sh_expansions_parameter.c \

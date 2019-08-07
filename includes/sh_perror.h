@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 14:39:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 16:59:19 by jdugoudr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 # define SH_ERR2_INVALID_OPT			"Invalid option"
 # define SH_ERR2_TOO_MANY_SYMLINK		"Too many levels of symbolic links"
+
+# define SH_BLT_UNAREXP			"unary operator expected"
+# define SH_BLT_BINAREXP		"binary operator expected"
+# define SH_BLT_NOTWELLFORM		"sorry your command are not well formatted"
+# define SH_BLT_INTEGER			"integer expression expected"
 
 /*
 ********************************************************************************

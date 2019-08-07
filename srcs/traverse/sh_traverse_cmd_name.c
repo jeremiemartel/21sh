@@ -26,8 +26,10 @@ int			sh_traverse_cmd_name(t_ast_node *node, t_context *context)
 	else if (context->phase == E_TRAVERSE_PHASE_EXECUTE)
 	{
 		child = (t_ast_node *)node->children->content;
-		if (!*child->token->value && child->token->expansion)
+		if (child == NULL)
 			return (SUCCESS);
+		// if (!*child->token->value && child->token->expansion)
+			// return (SUCCESS);
 		if (ft_dy_tab_add_str(context->params, child->token->value))
 			return (sh_perror(SH_ERR1_MALLOC, "sh_traverse_cmd_name"));
 		return (SUCCESS);

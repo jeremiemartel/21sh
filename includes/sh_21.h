@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 15:48:56 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 17:45:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 10:26:33 by jdugoudr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 # define FAILURE		2
 # define ATTR_ERROR		3
 # define STOP_CMD_LINE	4
+# define BLT_TEST_ERROR	5
 
 # define CTRL_D			5
 # define CTRL_C			6
