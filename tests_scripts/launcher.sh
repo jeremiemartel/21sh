@@ -23,6 +23,9 @@ compare_results()
 		read str
 		if [ "$str" = "y" ] ; then
 			mv $new_log_file $old_log_file
+			echo "Updated"
+		else
+			echo "Abort"
 		fi
 
 	else
@@ -60,6 +63,9 @@ compare_return_value()
 		read str
 		if [ "$str" = "y" ] ; then
 			mv $new_log_file $old_log_file
+			echo Updated
+		else
+			echo Abort
 		fi
 	else
 		echo "OK ($new_ko failed tests)"
