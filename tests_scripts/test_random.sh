@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:41 by jmartel           #+#    #+#              #
-#    Updated: 2019/08/07 15:57:50 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/07 16:42:06 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ launch "Shell"
 	if [ ! -e ".segfault" ] ; then
 		echo -e ${red}"Can't find .segfault executable"${eoc}
 	else
-		test_launch './.segfault'
-		test_launch './.segfault | wc'
-		test_launch 'ls | ./.segfault'
-		test_launch './.segfault && echo $?'
-		test_launch './.segfault || echo $?'
 		test_launch './.segfault ; echo $?'
-		test_launch './.segfault | wc && echo $?'
-		test_launch 'ls | ./.segfault && echo $?'
+		test_launch './.segfault | wc; echo $?'
+		test_launch 'ls | ./.segfault; echo $?'
+		test_launch './.segfault && echo $? ; echo $?'
+		test_launch './.segfault || echo $? ; echo $?'
+		test_launch './.segfault ; echo $? ; echo $?'
+		test_launch './.segfault | wc && echo $? ; echo $?'
+		test_launch 'ls | ./.segfault && echo $?; echo $?'
 	fi
 finish
