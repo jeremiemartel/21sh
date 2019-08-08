@@ -6,49 +6,27 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 10:59:30 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 10:29:28 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:55:02 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-/*
-** sh_expansions:
-**	Mother function of expansions process. Read the current token in context,
-**	and perform various expansions on it. It first detect its category,
-**	then perform it, and finally replace original value by result.
-**
-**	Returned Values:
-**		FAILURE : malloc error, see ${?} or ${:?}
-**		ERROR : bad expansion detected, see ${?} or ${:?}
-**		SUCCESS : expansion successfuly replaced in
-*/
-
-int			sh_expansions(t_context *context, t_ast_node *node)
+int			sh_expansions_replace(
+	t_expansion *expansion, char **input, int index)
 {
-	char	**input;
-	int		ret;
-	int		index;
-
-	if (!node || !node->token || !node->token->value)
-		return (SUCCESS);
-	input = &node->token->value;
-	if ((ret = sh_expansions_process_tilde(input, *input, context)) != SUCCESS)
+	*input = ft_strrep_free(
+		*input, expansion->res->str, index, ft_strlen(expansion->original));
+	if (!(*input))
+		return (FAILURE);
+	if (sh_verbose_expansion())
 	{
-		if (sh_env_update_ret_value_and_question(context->shell, ret)
-			== FAILURE)
-			return (FAILURE);
-		return (ret);
+		t_expansion_show_type(expansion);
+		ft_dprintf(2, " expansion : %s", L_BLUE);
+		ft_dprintf(2, "%s => %s\n", expansion->original, expansion->res->str);
+		ft_dprintf(2, "new input : %s%s\n", *input, EOC);
 	}
-	index = 0;
-	while (*(*input + index) && ft_strpbrk(*input + index, "$"))
-		if ((ret = sh_expansions_process(
-			input, *input + index, context, &index)))
-			break ;
-	if (ret != SUCCESS)
-		if (sh_env_update_ret_value_and_question(context->shell, ret))
-			return (FAILURE);
-	return (ret);
+	return (SUCCESS);
 }
 
 /*
@@ -62,7 +40,7 @@ int			sh_expansions(t_context *context, t_ast_node *node)
 **		SUCCESS : successfully filled expansion
 */
 
-static int	sh_expansions_init(char *original, t_expansion *exp)
+int			sh_expansions_init(char *original, t_expansion *exp)
 {
 	char	*start;
 
@@ -81,45 +59,37 @@ static int	sh_expansions_init(char *original, t_expansion *exp)
 		return (ERROR);
 }
 
-int			sh_expansions_process(
-	char **input, char *original, t_context *context, int *index)
-{
-	t_expansion	exp;
-	int			ret;
+/*
+** sh_expansions:
+**	Mother function of expansions process. Read the current token in context,
+**	and perform various expansions on it. It first detect its category,
+**	then perform it, and finally replace original value by result.
+**
+**	Returned Values:
+**		FAILURE : malloc error
+**		ERROR : bad expansion detected
+**		SUCCESS : expansion successfuly replaced in
+**		STOP_CMD_LINE : ${?} or ${?:} expansions
+*/
 
-	if (!ft_strchr(original, '$'))
+int			sh_expansions(t_context *context, t_ast_node *node)
+{
+	char	**input;
+	int		ret;
+	int		index;
+
+	if (!node || !node->token || !node->token->value)
 		return (SUCCESS);
-	*index = ft_strchr(original, '$') - *input;
-	ret = sh_expansions_init(original, &exp);
-	if (sh_verbose_expansion())
-		t_expansion_show(&exp);
+	index = 0;
+	input = &node->token->value;
+	ret = SUCCESS;
+	if ((*input)[0] == '~')
+		ret = sh_expansions_process_tilde(input, *input, context);
 	if (!ret)
-		ret = exp.process(context, &exp);
-	if (!ret)
-		ret = sh_expansions_replace(&exp, input, *index);
-	if (ret)
-	{
-		t_expansion_free_content(&exp);
-		return (ret);
-	}
-	*index += ft_strlen(exp.res->str);
-	t_expansion_free_content(&exp);
-	return (SUCCESS);
-}
-
-int			sh_expansions_replace(
-	t_expansion *expansion, char **input, int index)
-{
-	*input = ft_strrep_free(
-		*input, expansion->res->str, index, ft_strlen(expansion->original));
-	if (!(*input))
+		ret = sh_scan_expansions(input, index, context);
+	if (ret == ERROR || ret == FAILURE)
+		sh_env_update_ret_value(context->shell, ret);
+	if (sh_env_update_question_mark(context->shell) == FAILURE)
 		return (FAILURE);
-	if (sh_verbose_expansion())
-	{
-		t_expansion_show_type(expansion);
-		ft_dprintf(2, " expansion : %s", L_BLUE);
-		ft_dprintf(2, "%s => %s\n", expansion->original, expansion->res->str);
-		ft_dprintf(2, "new input : %s%s\n", *input, EOC);
-	}
-	return (SUCCESS);
+	return (ret);
 }

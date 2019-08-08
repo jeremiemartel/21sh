@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 17:20:10 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/06 10:39:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 19:38:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,13 @@ int					update_prompt_from_absolute_path(
 int					update_prompt_cwd_bonus_tilde(
 	t_shell *shell, char **new_prompt, char *cwd, int *returned);
 int					update_prompt_cwd(t_shell *shell, char **new_prompt);
+
+/*
+** get_char_len.c
+*/
+int					get_char_len2(
+	int index, int len, unsigned char *entry);
+int					get_char_len(int index, unsigned char *entry);
 
 /*
 ** keys_ctrl.c
@@ -422,6 +429,8 @@ int					delete_command_line_selection(
 */
 int					process_enter_no_autocompletion(
 	t_command_line *command_line);
+void				process_cancel_autocompletion(
+	t_command_line *command_line);
 void				cancel_autocompletion(
 	t_key_buffer *buffer, t_command_line *command_line);
 
@@ -459,7 +468,10 @@ int					update_prompt_context(
 int					update_prompt(
 	t_shell *shell, t_command_line *command_line);
 int					update_prompt_from_quote(
-	t_shell *shell, t_command_line *command_line, char quote);
+	t_shell *shell,
+	t_command_line *command_line,
+	char quote,
+	int backslash);
 
 /*
 ** sh_process_historic.c

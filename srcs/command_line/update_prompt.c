@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 13:58:11 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/06 11:26:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 15:07:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,16 @@ int		update_prompt(t_shell *shell, t_command_line *command_line)
 }
 
 int		update_prompt_from_quote(t_shell *shell, t_command_line *command_line,
-			char quote)
+			char quote, int backslash)
 {
-	if (quote == '\'')
-		command_line->context = E_CONTEXT_QUOTE;
-	else if (quote == '\"')
-		command_line->context = E_CONTEXT_DQUOTE;
-	else if (quote == '\\')
+	if (backslash == 0)
+	{
+		if (quote == '\'')
+			command_line->context = E_CONTEXT_QUOTE;
+		else if (quote == '\"')
+			command_line->context = E_CONTEXT_DQUOTE;
+	}
+	else
 		command_line->context = E_CONTEXT_BACKSLASH;
 	return (update_prompt(shell, command_line));
 }

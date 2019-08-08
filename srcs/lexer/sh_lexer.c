@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 16:11:41 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 17:20:48 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 13:20:55 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ int				sh_lexer(char *input, t_list **tokens, t_shell *shell)
 	t_lexer		lexer;
 	int			ret;
 
+	ft_bzero(&lexer, sizeof(t_lexer));
 	lexer.shell = shell;
 	if (!(lexer.input = ft_strdup(input)))
 		return (FAILURE);
 	t_lexer_init(&lexer, 0);
 	lexer.env = shell->env;
 	lexer.vars = shell->vars;
-	lexer.list = NULL;
 	ret = LEX_OK;
 	while (ret == LEX_OK)
 		ret = sh_lexer_run_rules(&lexer);

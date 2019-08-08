@@ -15,13 +15,15 @@ launch "Normal tests"
 	test_launch 'ls -a ~/'
 	test_launch 'ls ~' 'ls ~ '
 	test_launch 'echo ~'
+	test_launch 'echo ~' 'echo $?'
 	test_launch 'asd ~/'
 	test_launch 'echo ~asdqw/'
 	test_launch 'cd ~d/' 'ls' 'cd ~/' 'ls'
 	test_launch 'ls -a ~$easd'
 
 launch "Hard tests"
-	test_launch 'echo ~~~~~~~~'
+	test_launch 'echo ~~~~~~~~' 
+	test_launch 'echo ~~~~~~~~' 'echo $?'
 	test_launch 'echo ~~~~~~~~///////'
 	test_launch 'echo ~/~/~/~/~/~/~/~/'
 	test_launch 'echo /~'
@@ -29,13 +31,14 @@ launch "Hard tests"
 	test_launch 'echo weq~asd'
 	test_launch 'echo okalm~'
 	test_launch 'echo ~oadasd'
+	test_launch 'echo ~as\dasdas/'
+	test_launch 'echo ~as"dasd"as/'
 
 launch "Quote tests"
 	test_launch 'echo ~    /~ /~ "~"'
-	test_launch 'echo "~"\~'
+	test_launch 'echo "~"\~' 
+	test_launch 'echo "~"\~' 'echo $?'
 
 # launch "Deprecated"
 	# test_launch 'ls ~jmartel/'
-	# test_launch 'echo ~as\dasdas/'
-	# test_launch 'echo ~as"dasd"as/'
 finish

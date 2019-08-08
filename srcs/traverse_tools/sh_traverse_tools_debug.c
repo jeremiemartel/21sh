@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/28 17:52:40 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/29 00:45:24 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:30:28 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*t_phase_name(t_phase phase)
 	else if (phase == E_TRAVERSE_PHASE_REDIRECTIONS)
 		return ("redirections");
 	else if (phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
-		return ("interactive redirections");
+		return ("here docs");
 	return ("");
 }
 
@@ -45,4 +45,24 @@ char	*ret_to_str(int ret)
 		return ("KEEP_READ");
 	else
 		return ("unknown returned value");
+}
+
+void	sh_traverse_tools_show_traverse_start(
+	t_ast_node *node, t_context *context)
+{
+	if (sh_verbose_traverse())
+	{
+		ft_dprintf(2, BLUE"%-15s : %-12s : START\n"EOC,
+		node->symbol->debug, t_phase_name(context->phase));
+	}
+}
+
+void	sh_traverse_tools_show_traverse_ret_value(
+	t_ast_node *node, t_context *context, int ret)
+{
+	if (sh_verbose_traverse())
+	{
+		ft_dprintf(2, BLUE"%-15s : %-12s : returned value : %-13s\n"EOC,
+		node->symbol->debug, t_phase_name(context->phase), ret_to_str(ret));
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:25:15 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 19:03:11 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 16:11:45 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static int	sh_lexer_rule1_process_quoted_start(t_lexer *lexer, int reading)
 		if (!(lexer->input = ft_strjoin_free(lexer->input, "\n", 1)))
 			return (sh_perror(SH_ERR1_MALLOC, "sh_lexer_rule1_process_quoted"));
 	}
-	else
-		lexer->quoted = 0;
+	else if (lexer->backslash)
+		lexer->backslash = 0;
 	return (SUCCESS);
 }
 
@@ -46,7 +46,11 @@ static int	sh_lexer_rule1_process_quoted(t_lexer *lexer)
 	}
 	free(info.line);
 	if (gnl_ret == 0)
+	{
+		if (!lexer->input || !*(lexer->input))
+			return (LEX_END);
 		reading = 0;
+	}
 	else if (gnl_ret == -1)
 		return (sh_perror2("rule1", "lexer", "get_next_line2 error"));
 	return (LEX_OK);
@@ -56,7 +60,7 @@ int			sh_lexer_rule1(t_lexer *lexer)
 {
 	if (lexer->c == '\0')
 	{
-		if (lexer->quoted > 0)
+		if (lexer->quoted > 0 || lexer->backslash)
 		{
 			if (!isatty(0))
 				return (sh_lexer_rule1_process_quoted(lexer));

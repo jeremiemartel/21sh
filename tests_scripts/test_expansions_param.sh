@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:50 by jmartel           #+#    #+#              #
-#    Updated: 2019/06/20 16:03:39 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/06 13:12:07 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,8 +75,14 @@ launch "Parameter expansion"
 	test_launch 'echo ${qweqweqwe:?okalm} ; ls'
 	test_launch 'echo ${qweqweqwe?okalm} && ls'
 	test_launch 'echo ${qweqweqwe?okalm} || ls'
-	test_launch 'echo ${?}' 'ls'
-
+	test_launch 'ls okalm' 'echo ${?}' 'echo $?'
+	test_launch 'echo ${var?}'
+	test_launch 'echo ${var:?}'
+	test_launch 'echo ${var?:}'
+	test_launch 'echo ${var?ok}'
+	test_launch 'echo ${var:?ok}'
+	test_launch 'echo ${var?:ok}'
+	
 	test_launch 'echo ${:?}' 'ls'
 	test_launch 'echo ${sd?}' 'ls'
 	test_launch 'echo ${sd:?}' 'ls'

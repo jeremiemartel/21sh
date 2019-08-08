@@ -33,5 +33,9 @@ void	sh_traverse_tools_reset_params(t_context *context);
 */
 char	*t_phase_name(t_phase phase);
 char	*ret_to_str(int ret);
+void	sh_traverse_tools_show_traverse_start(
+	t_ast_node *node, t_context *context);
+void	sh_traverse_tools_show_traverse_ret_value(
+	t_ast_node *node, t_context *context, int ret);
 
 #endif

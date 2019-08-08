@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 11:14:49 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/31 19:33:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/06 19:36:13 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ void		sh_execute_child_binary(t_context *context, t_list *contexts)
 	sh_close_all_other_contexts(context, contexts);
 	execve(context->path, (char **)context->params->tbl,
 			(char **)context->env->tbl);
+	sh_perror(((char**)context->params->tbl)[0], SH_ERR1_EXECVE_FAIL);
 	sh_process_execute_close_pipes(context);
-	if (sh_verbose_exec())
-		ft_dprintf(2, "Execve failed\n");
-	exit(FAILURE);
+	exit(SH_RET_NOT_EXECUTABLE);
 }
 
 void		sh_execute_child(t_context *context, t_list *contexts)

@@ -6,6 +6,13 @@ file
 logs
 log
 sandbox
+/b
+/tests_scripts/b
+
+/signal
+/signal.c
+/segfault
+/segfault.c
 
 tests_scripts/*.log
 tests_scripts/logs/*

@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/08/07 14:50:36 by ldedier          ###   ########.fr        #
+#    Updated: 2019/08/08 10:02:57 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						sh_process_quoted.c \
 						sh_get_cursor_position.c eof_percent.c \
 						update_prompt_cwd.c keys_insert_tools.c keys_flush.c \
-						keys_debug.c screen_tools.c
+						keys_debug.c screen_tools.c get_char_len.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \
@@ -193,7 +193,7 @@ BUILT_SRCS_NO_PREFIX=	sh_builtin.c \
 						sh_builtin_env.c sh_builtin_env_process.c sh_builtin_env_parser.c\
 						sh_builtin_hash_tools.c
 
-EXP_SRCS_NO_PREFIX =	sh_expansions.c \
+EXP_SRCS_NO_PREFIX =	sh_expansions.c sh_expansions_scan.c\
 						sh_expansions_parameter.c \
 						sh_expansions_parameter_process.c \
 						sh_expansions_parameter_tools.c \

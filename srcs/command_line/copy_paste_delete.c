@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 13:56:25 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/11 11:06:05 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 15:23:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int		command_line_copy_all(t_command_line *command_line)
 {
 	if (command_line->clipboard != NULL)
 		free(command_line->clipboard);
-	if (!(command_line->clipboard = ft_strdup(command_line->dy_str->str)))
+	if (!(command_line->clipboard = ft_strndup(command_line->dy_str->str,
+		MAX_YANK)))
 		return (sh_perror(SH_ERR1_MALLOC, "command_line_copy_all"));
 	return (SUCCESS);
 }
@@ -31,7 +32,7 @@ int		copy_selection_to_clipboard(t_command_line *command_line)
 	n = ft_abs(command_line->current_index - command_line->pinned_index);
 	index = ft_min(command_line->current_index, command_line->pinned_index);
 	if (!(command_line->clipboard =
-			ft_strndup(&command_line->dy_str->str[index], n)))
+			ft_strndup(&command_line->dy_str->str[index], ft_min(n, MAX_YANK))))
 		return (sh_perror(SH_ERR1_MALLOC, "copy_selection_to_clipboard"));
 	return (SUCCESS);
 }

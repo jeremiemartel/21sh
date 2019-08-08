@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 11:29:18 by jmartel           #+#    #+#             */
-/*   Updated: 2019/08/07 14:50:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/08 10:02:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_token	*t_token_new(int id, char *value)
 	token->id = id;
 	token->index = sh_index(id);
 	token->token_type = TYPE_STR;
-	token->quoted = 0;
 	token->expansion = 0;
 	return (token);
 }

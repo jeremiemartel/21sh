@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 15:54:02 by ldedier           #+#    #+#             */
-/*   Updated: 2019/07/30 19:45:57 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:37:19 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,11 @@ static int		sh_traverse_and_or_process_phase(
 	t_ast_node	*child;
 
 	child = (t_ast_node*)ptr->content;
-	if (sh_verbose_traverse())
-		ft_dprintf(2, BLUE"AND_OR : %s : start\n"EOC, t_phase_name(*phase));
 	context->phase = *phase;
 	if (*phase == E_TRAVERSE_PHASE_EXECUTE)
 		ret = sh_traverse_and_or_call_sons_exec(child, &prev_symbol, context);
 	else
 		ret = sh_traverse_and_or_call_sons(child, context, *phase);
-	if (sh_verbose_traverse())
-		ft_dprintf(2, BLUE"AND_OR : %s : returned value : %s\n"EOC,
-		t_phase_name(*phase), ret_to_str(ret));
 	(*phase)++;
 	if (ret == KEEP_READ || ret == STOP_CMD_LINE || ret == FAILURE)
 		return (ret);
@@ -116,15 +111,15 @@ int				sh_traverse_and_or_launch_phase(
 
 int				sh_traverse_and_or(t_ast_node *node, t_context *context)
 {
+	int		ret;
+
+	sh_traverse_tools_show_traverse_start(node, context);
 	if (context->phase == E_TRAVERSE_PHASE_INTERACTIVE_REDIRECTIONS)
-	{
-		if (sh_verbose_traverse())
-			ft_dprintf(2, BLUE"%s : %s : start\n"EOC,
-			node->symbol->debug, t_phase_name(context->phase));
-		return (sh_traverse_tools_browse(node, context));
-	}
+		ret = sh_traverse_tools_browse(node, context);
 	else if (context->phase == E_TRAVERSE_PHASE_EXPANSIONS)
-		return (sh_traverse_and_or_launch_phase(node, context));
+		ret = sh_traverse_and_or_launch_phase(node, context);
 	else
-		return (sh_traverse_tools_browse(node, context));
+		ret = sh_traverse_tools_browse(node, context);
+	sh_traverse_tools_show_traverse_ret_value(node, context, ret);
+	return (ret);
 }

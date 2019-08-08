@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:25:01 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/02 22:42:00 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:36:42 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int		sh_lexer_rule2(t_lexer *lexer)
 {
-	static char	operators[] = "|&;<>()";
+	char	operators[LEX_OPERATORS_CHARS_LEN];
 
+	ft_strcpy(operators, LEX_OPERATORS_CHARS);
 	if (lexer->quoted > 0 || lexer->current_id == LEX_TOK_UNKNOWN)
 		return (LEX_CONTINUE);
 	if (!ft_strchr(operators, lexer->current_id & 0x00ff))

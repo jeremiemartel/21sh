@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 15:09:09 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/05 15:18:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 17:06:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ int		process_enter_no_autocompletion(t_command_line *command_line)
 	return (0);
 }
 
+void	process_cancel_autocompletion(t_command_line *command_line)
+{
+	command_line->autocompletion.head = NULL;
+	command_line->autocompletion.active = 0;
+}
+
 void	cancel_autocompletion(t_key_buffer *buffer,
 				t_command_line *command_line)
 {
@@ -33,7 +39,6 @@ void	cancel_autocompletion(t_key_buffer *buffer,
 				|| (buffer->progress == 3 &&
 					(buffer->buff[2] < 65 || buffer->buff[2] > 68)))
 	{
-		command_line->autocompletion.head = NULL;
-		command_line->autocompletion.active = 0;
+		process_cancel_autocompletion(command_line);
 	}
 }

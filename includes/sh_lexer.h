@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 11:08:27 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/03 20:20:45 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:35:23 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 
 # define LEX_RULES_LEN	10
 
+# define LEX_OPERATORS_CHARS_LEN	8
+# define LEX_OPERATORS_CHARS		"|&;<>()\0"
+
 typedef struct s_shell		t_shell;
 
 typedef struct		s_lexer
@@ -42,6 +45,7 @@ typedef struct		s_lexer
 	int				tok_len;
 	int				current_id;
 	char			quoted;
+	int				backslash;
 	char			expansion;
 	t_list			*list;
 	t_dy_tab		*env;
@@ -70,7 +74,6 @@ typedef struct		s_token
 	t_symbol_id		id;
 	int				index;
 	char			*value;
-	char			quoted;
 	char			expansion;
 }					t_token;
 

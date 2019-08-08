@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 14:16:12 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 14:39:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/06 19:37:58 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@
 # define SH_ERR1_TOO_MANY_ARGS	"Too many arguments"
 # define SH_ERR1_NOT_A_DIR		"Not a directory"
 # define SH_ERR1_BAD_FD			"Bad file descriptor"
-# define SH_ERR1_IS_DIR			"is a directory"
-# define SH_ERR1_UNEXPECTED_EOF	"unexpected EOF"
-# define SH_ERR1_PIPE			"pipe error"
-# define SH_ERR1_IOCTL			"ioctl error"
-# define SH_ERR1_READ			"read error"
-# define SH_ERR1_PBPASTE		"could not execute pbpaste"
+# define SH_ERR1_IS_DIR			"Is a directory"
+# define SH_ERR1_UNEXPECTED_EOF	"Unexpected EOF"
+# define SH_ERR1_PIPE			"Pipe error"
+# define SH_ERR1_IOCTL			"Ioctl error"
+# define SH_ERR1_READ			"Read error"
+# define SH_ERR1_EXECVE_FAIL	"Cannot execute binary file: Exec format error"
 
 # define SH_ERR2_NO_SUCH_FILE_OR_DIR	"No such file or directory"
 # define SH_ERR2_INVALID_OPT			"Invalid option"

@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:43:21 by jmartel           #+#    #+#             */
-/*   Updated: 2019/07/31 11:17:04 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/07 09:38:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static int	sh_lexer_rule6_detect_io_number(t_lexer *lexer)
 
 int			sh_lexer_rule6(t_lexer *lexer)
 {
-	static char		operators[] = "|&;<>()";
+	char		operators[LEX_OPERATORS_CHARS_LEN];
 
+	ft_strcpy(operators, LEX_OPERATORS_CHARS);
 	if (lexer->quoted > 0)
 		return (LEX_CONTINUE);
 	if (ft_strchr(operators, lexer->c))

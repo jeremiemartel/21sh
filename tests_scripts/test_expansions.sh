@@ -80,7 +80,7 @@ launch "Variables"
 	test_launch 'var====== ; echo $var'
 	test_launch 'var=\=\=\=\=\=\= ; echo $var'
 	test_launch 'var\=\=\=\=\=\=\= ; echo $var'
-	# test_launch '\v\a\r=\=\=\=\=\=\= ; echo $var'
+	test_launch '\v\a\r=\=\=\=\=\=\= ; echo $var'
 	test_launch '\v\a\r\=\=\=\=\=\=\= ; echo $var'
 	test_launch '\v\a\r\=\\\\\=\=\=\=\=\= ; echo $var'
 	test_launch 'false' 'var=okalm' 'echo $?'

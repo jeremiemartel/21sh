@@ -172,6 +172,10 @@ launch "env in pipes"
 	test_launch 'echo "echo tamer" > file' 'env bash file | env cat | wc' 'rm file'
 	test_launch 'ls | qsd | ls'
 
+launch "verbose"
+	test_launch 'verbose on' 'ls -A'
+	test_launch 'verbose on' 'ls | cat | pwd ; ls -a \' '| wc'
+
 #	launch "Deprecated"
 	# test_launch "PWD=" "OLDPWD=" "cd -" "cd -"
 	# test_launch "PWD=/ OLDPWD=/var cd - ; cd -"
