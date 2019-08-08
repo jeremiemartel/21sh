@@ -6,13 +6,13 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/08/07 09:54:37 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/08 10:48:54 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= 21sh
 
-CC		= gcc -g3 
+CC		= gcc
 
 OS		= $(shell uname -s)
 
