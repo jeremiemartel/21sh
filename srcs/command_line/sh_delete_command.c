@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 18:21:31 by ldedier           #+#    #+#             */
-/*   Updated: 2019/06/07 02:29:42 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 17:07:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,16 @@ void	process_process_delete(t_command_line *command_line)
 
 void	process_delete(t_command_line *command_line, t_shell *shell)
 {
+	process_cancel_autocompletion(command_line);
 	if (command_line->searcher.active)
 		process_delete_searcher(command_line, shell);
 	else
 	{
 		if (command_line->current_index == 0)
+		{
 			ring_bell();
+			render_command_line(command_line, 0, 1);
+		}
 		else
 			process_process_delete(command_line);
 	}
@@ -61,8 +65,12 @@ void	process_suppr(t_command_line *command_line)
 	int diff;
 	int i;
 
+	process_cancel_autocompletion(command_line);
 	if (command_line->current_index == (int)command_line->dy_str->current_size)
+	{
 		ring_bell();
+		render_command_line(command_line, 0, 1);
+	}
 	else
 	{
 		diff = get_right_w_char_index(command_line)

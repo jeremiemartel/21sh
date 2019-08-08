@@ -6,17 +6,18 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 13:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/06 10:41:18 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 18:41:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_21.h"
 
-char	*refine_historic_entry(char *entry)
+static char	*refine_historic_entry(char *entry)
 {
 	int		len;
 	char	*new;
 	int		i;
+	int		char_len;
 
 	i = 0;
 	len = ft_strlen(entry);
@@ -24,50 +25,61 @@ char	*refine_historic_entry(char *entry)
 		return (sh_perrorn(SH_ERR1_MALLOC, "refine_historic_entry"));
 	while (entry[i])
 	{
-		if (!ft_isascii(entry[i]) || !ft_isprint(entry[i]))
+		if ((char_len = get_char_len2(i, len, (unsigned char *)entry)) == -1)
 		{
 			new[i] = ' ';
+			i++;
 		}
 		else
-			new[i] = entry[i];
-		i++;
+		{
+			ft_strncpy(&new[i], &entry[i], char_len);
+			i += char_len;
+		}
 	}
 	return (new);
 }
 
-int		process_read_historic(t_historic *historic, char *line)
+static int	process_read_historic(t_historic *historic, t_gnl_info info)
 {
 	char *res;
 
-	if (!(res = refine_historic_entry(line)))
+	if (info.separator == E_SEPARATOR_NL || info.separator == E_SEPARATOR_EOF)
 	{
-		free(line);
-		return (FAILURE);
+		if (!(res = refine_historic_entry(info.line)))
+		{
+			free(info.line);
+			return (FAILURE);
+		}
+		free(info.line);
+		if (ft_add_to_dlist_ptr(&historic->commands, res, sizeof(res)))
+			return (sh_perror(SH_ERR1_MALLOC, "sh_init_historic"));
+		return (SUCCESS);
 	}
-	free(line);
-	if (ft_add_to_dlist_ptr(&historic->commands, res, sizeof(res)))
-		return (sh_perror(SH_ERR1_MALLOC, "sh_init_historic"));
-	return (SUCCESS);
+	else
+	{
+		free(info.line);
+		return (sh_perror(SH_ERR1_UNEXPECTED_EOF, "sh_init_historic (2)"));
+	}
 }
 
-int		sh_init_historic(t_historic *historic)
+static int	sh_init_historic(t_historic *historic)
 {
 	int			fd;
-	char		*line;
 	int			ret;
+	t_gnl_info	info;
 
 	historic->commands = NULL;
-	if ((fd = open(HISTORIC_FILE, O_CREAT | O_RDWR | O_NOFOLLOW,
-		S_IRWXU)) == -1)
-		return (sh_perror(SH_ERR1_HISTORIC, "sh_init_historic"));
-	while ((ret = get_next_line(fd, &line)) == 1)
+	if ((fd = open(PATH"/"HISTORIC_FILE, O_CREAT | O_RDWR
+		| O_NOFOLLOW, S_IRWXU)) == -1)
+		return (sh_perror(SH_ERR1_HISTORIC, "sh_init_historic (2)"));
+	while ((ret = get_next_line2(fd, &info, BUFF_SIZE)) == 1)
 	{
-		if (process_read_historic(historic, line) != SUCCESS)
+		if (process_read_historic(historic, info) != SUCCESS)
 			return (FAILURE);
 	}
 	if (ret == -1)
 		return (FAILURE);
-	free(line);
+	free(info.line);
 	historic->head_start.next = historic->commands;
 	historic->head_start.prev = NULL;
 	historic->head = &historic->head_start;
@@ -75,7 +87,7 @@ int		sh_init_historic(t_historic *historic)
 	return (SUCCESS);
 }
 
-int		sh_init_command_line(t_shell *shell, t_command_line *command_line)
+static int	sh_init_command_line(t_shell *shell, t_command_line *command_line)
 {
 	command_line->autocompletion.choices = NULL;
 	command_line->autocompletion.head = NULL;
@@ -101,7 +113,7 @@ int		sh_init_command_line(t_shell *shell, t_command_line *command_line)
 	return (SUCCESS);
 }
 
-int		sh_init_shell(t_shell *shell, char **env)
+int			sh_init_shell(t_shell *shell, char **env)
 {
 	struct termios s;
 
