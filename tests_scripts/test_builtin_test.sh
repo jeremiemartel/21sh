@@ -6,7 +6,7 @@
 #    By: jdugoudr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/07 17:02:22 by jdugoudr          #+#    #+#              #
-#    Updated: 2019/08/08 11:42:25 by jdugoudr         ###   ########.fr        #
+#    Updated: 2019/08/08 11:53:58 by jdugoudr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,6 +114,14 @@ launch "builtin test"
 	test_launch "test  8475348593 -ne 38473h43495 ; echo $?"
 	test_launch "test  8475348593 -ne 38473h43495 8374238 ; echo $?"
 	test_launch "test  8475348593 -ne 38473h43495.8374238 ; echo $?"
+
+	#random
+	test_launch	"test -p /dev/fd/0 ; echo $?"
+	test_launch	"test -S /dev/fd/0 ; echo $?"
+	test_launch	"test -s /dev/fd/0 ; echo $?"
+	test_launch	"test -g /dev/fd/0 ; echo $?"
+	test_launch	"test -g /dev/urandom ; echo $?"
+	test_launch	"test -s /dev/urandom ; echo $?"
 
 	#rm files
 	chmod 777 blt_test_files/a
