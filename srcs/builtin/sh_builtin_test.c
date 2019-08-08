@@ -6,7 +6,7 @@
 /*   By: jdugoudr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 10:07:10 by jdugoudr          #+#    #+#             */
-/*   Updated: 2019/08/07 15:26:49 by jdugoudr         ###   ########.fr       */
+/*   Updated: 2019/08/08 10:01:09 by jdugoudr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,29 @@ static int	four_params(char **params)
 
 int			sh_builtin_test(t_context *context)
 {
-	int		i;
-	char	**params;
+	int	i;
+	int	ret;
 
 	i = 0;
-	params = (char **)context->params->tbl;
-	while (params[i])
+	while (context->params->tbl[i])
 		i++;
 	i--;
 	if (i > 4)
 	{
 		ft_dprintf(2, "%s: test: %s\n", SH_NAME, SH_ERR1_TOO_MANY_ARGS);
-		return (BLT_TEST_ERROR);
+		ret = BLT_TEST_ERROR;
 	}
 	else if (i == 0)
 		return (1);
-	if (i == 1)
-		return (sh_builtin_test_unary(params + 1, 1));
+	else if (i == 1)
+		ret = sh_builtin_test_unary((char **)context->params->tbl + 1, 1);
 	else if (i == 2)
-		return (two_params(params + 1));
+		ret = two_params((char **)context->params->tbl + 1);
 	else if (i == 3)
-		return (three_params(params + 1));
+		ret = three_params((char **)context->params->tbl + 1);
 	else
-		return (four_params(params + 1));
+		ret = four_params((char **)context->params->tbl + 1);
+	if (ret > 1)
+		sh_env_update_ret_value(context->shell, 2);
+	return (ret);
 }
