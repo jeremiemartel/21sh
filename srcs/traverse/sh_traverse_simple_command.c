@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:34:52 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/07 09:38:35 by jmartel          ###   ########.fr       */
+/*   Updated: 2019/08/08 11:21:43 by jmartel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,23 @@ int		sh_traverse_simple_command(t_ast_node *node, t_context *context)
 		sh_traverse_tools_show_traverse_ret_value(node, context, ret);
 		return (ret);
 	}
-	return (sh_traverse_tools_browse(node, context));
+	else
+	{
+		/* to remove when tried and aknowledged
+
+		if (context->phase == E_TRAVERSE_PHASE_REDIRECTIONS)
+		{
+			t_ast_node *new_node;
+	
+			if (!(new_node = sh_add_to_ast_node(node, CMD_SUFFIX, NULL)))
+				return (FAILURE);
+			if (!(sh_add_to_ast_node(new_node, LEX_TOK_WORD, "-lRa")))
+				return (FAILURE);
+			sh_print_ast(context->shell->parser.ast_root, 0);
+		}
+		*/
+		return (sh_traverse_tools_browse(node, context));
+	}
 }
 
 /*
@@ -135,7 +151,8 @@ int		sh_traverse_sc_no_slash_cmd(t_context *context)
 		if (context->current_pipe_sequence_node)
 			context->current_pipe_sequence_node
 			->metadata.pipe_metadata.last_ret_value = SH_RET_CMD_NOT_FOUND;
-		sh_env_update_ret_value(context->shell, SH_RET_CMD_NOT_FOUND);
+		else
+			sh_env_update_ret_value(context->shell, SH_RET_CMD_NOT_FOUND);
 		return (ERROR);
 	}
 }

@@ -141,6 +141,13 @@ t_action			**sh_create_tables(t_lr_parser *parser);
 int					sh_compute_lr_tables(t_lr_parser *parser);
 
 /*
+** ast_node_tools.c
+*/
+t_ast_node			*sh_new_ast_node(t_symbol_id id, char *value);
+t_ast_node			*sh_add_to_ast_node(
+	t_ast_node *node, t_symbol_id id, char *value);
+
+/*
 ** fill_lr_tables.c
 */
 void				sh_fill_reduce(

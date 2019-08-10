@@ -13,9 +13,12 @@ sandbox
 /signal.c
 /segfault.c
 
-random/failed_commands*
-random/buffer
+#random directory:
+/random/.my_supp.supp
+/random/failed_commands*
+/random/buffer
 
+#tests_scripts directory :
 tests_scripts/*.log
 tests_scripts/logs/*
 tests_scripts/tmp_log

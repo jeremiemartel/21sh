@@ -130,6 +130,13 @@ int					sh_lexer_rule8_assignment(t_lexer *lexer);
 int					sh_lexer_rule8(t_lexer *lexer);
 
 /*
+** t_token_list.c
+*/
+t_list				*t_token_node_new(int id, char *value);
+void				t_token_free_list(t_list *head);
+void				sh_free_token_lst(void *t, size_t dummy);
+
+/*
 ** sh_lexer_rule_1.c
 */
 int					sh_lexer_rule1(t_lexer *lexer);
@@ -159,9 +166,7 @@ int					sh_lexer_rule4(t_lexer *lexer);
 ** t_token.c
 */
 void				t_token_update_id(int id, t_token *token);
-t_list				*t_token_new(int id, char *value);
+t_token				*t_token_new(int id, char *value);
 void				t_token_free(t_token *token);
-void				t_token_free_list(t_list *head);
-void				sh_free_token_lst(void *t, size_t dummy);
 
 #endif

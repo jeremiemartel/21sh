@@ -6,13 +6,13 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/11 23:08:04 by ldedier           #+#    #+#              #
-#    Updated: 2019/08/07 15:45:32 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/10 11:11:36 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= 21sh
 
-CC		= gcc -g3 
+CC		= gcc
 
 OS		= $(shell uname -s)
 
@@ -92,7 +92,7 @@ COMMANDLINE_SRCS_NO_PREFIX = keys.c \
 						sh_process_quoted.c \
 						sh_get_cursor_position.c eof_percent.c \
 						update_prompt_cwd.c keys_insert_tools.c keys_flush.c \
-						keys_debug.c screen_tools.c
+						keys_debug.c screen_tools.c get_char_len.c
 
 TRAVT_SRCS_NO_PREFIX	= sh_traverse_tools_browse.c \
 						sh_traverse_tools_reset.c \
@@ -114,7 +114,7 @@ PARSER_SRCS_NO_PREFIX =	parser.c \
 						transition_tools.c \
 						closure_tools.c free_node.c free_parser_tools.c \
 						fill_lr_tables.c shift.c compute_closure_tools.c \
-						reduce_pop.c
+						reduce_pop.c ast_node_tools.c
 
 LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rule_1.c \
@@ -129,6 +129,7 @@ LEXER_SRCS_NO_PREFIX =	sh_lexer.c \
 						sh_lexer_rule_10.c \
 						sh_lexer_rule_tools.c \
 						t_lexer.c t_token.c t_token_show.c \
+						t_token_list.c
 
 PROD_SRCS_NO_PREFIX =	sh_prod_and_or.c sh_prod_brace_group.c \
 						sh_prod_case_clause.c sh_prod_case_item.c \

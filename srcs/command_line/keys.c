@@ -6,7 +6,7 @@
 /*   By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/24 22:43:23 by ldedier           #+#    #+#             */
-/*   Updated: 2019/08/05 15:20:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2019/08/07 17:06:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		process_escape_sequence(t_shell *shell,
 		&& buffer->buff[2] == 68)
 		process_left(shell, command_line);
 	else if ((buffer->buff[1] == 91 || buffer->buff[1] == 79)
-		&& buffer->buff[2] == 51)
+		&& buffer->buff[2] == 51 && buffer->buff[3] == 126)
 		process_suppr(command_line);
 	else if ((buffer->buff[1] == 91 || buffer->buff[1] == 79)
 		&& buffer->buff[2] == 72)
@@ -115,6 +115,8 @@ int		get_keys(t_shell *shell, t_command_line *command_line)
 			return (res);
 		if (buffer.progress >= READ_BUFF_SIZE
 			|| (buffer.progress && should_flush_buffer(buffer, command_line)))
+		{
 			flush_keys(&buffer);
+		}
 	}
 }

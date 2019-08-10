@@ -6,7 +6,7 @@
 #    By: jmartel <jmartel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:00:47 by jmartel           #+#    #+#              #
-#    Updated: 2019/08/07 18:05:59 by jmartel          ###   ########.fr        #
+#    Updated: 2019/08/08 11:23:25 by jmartel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ launch "Pipes"
 		test_launch "ls | wc | wc"
 		test_launch "ls | wc | wc ; ls -a "
 		test_launch "echo mdr | wc | cat -e | wc"
+		test_launch "unknowncommand | exit | ls | wc | exit"
+		test_launch "ls | wc | unknowncommand | ls | false | true | exit"
+		test_launch "echo okal | cd .. ; pwd | true | unknowncommand | unknowncommand | exit"
 
 	launch "on Builtins"
 		test_launch 'pwd' 'cd ../../.. | echo lol | exit | echo lol' 'pwd'
